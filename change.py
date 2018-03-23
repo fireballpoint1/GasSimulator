@@ -1,3 +1,4 @@
+import string
 map_list=[('!','#'),
     ('\t','    '),
     ('.d0','.0'),
@@ -39,6 +40,7 @@ math_list=[
     ('dlog','math.log'),
     ('dexp','math.exp'),
     ]
+
 
 def file2list(fname, include_eol=False):
     ''' text file to list of string '''
@@ -85,7 +87,7 @@ def process_do(line):
         do j=1, M, 2 => for j in range(0, M, 2):
         do iq=ip+1, N => for iq in range(ip+1, N):
     '''
-    if line.startswith('#'):
+    if line.startswith('C'):
         return line
     if line.strip().startswith( 'do' ):
         if '#' in line:
@@ -115,8 +117,8 @@ def adjust_array(line, arr):
         arr = 'A'
         result = 'A[i,j] = A[m,A[k,l]]'
     '''
-    if line.startswith('#'):
-        return line
+    if line.startswith('C'):
+        return line.replace("C",'#',1)
     i = line.find(arr+'(')
     while i >= 0:
         j = line.find('(',i)
