@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: scipy_distutils
+Version: 0.3.3_34.586
+Summary: Changes to distutils needed for SciPy -- mostly Fortran support
+Home-page: http://www.scipy.org
+Author: Travis Oliphant, Eric Jones, and Pearu Peterson
+Author-email: scipy-dev@scipy.org
+License: SciPy License (BSD Style)
+Description: UNKNOWN
+Platform: UNKNOWN

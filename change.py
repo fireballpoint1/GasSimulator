@@ -1,3 +1,6 @@
+'''This is a Python 3 script '''
+# AUTHOR : Mayank Modi        #
+#          fireballpoint1     #
 import string
 map_list=[('!','#'),
     ('\t','    '),
@@ -180,6 +183,45 @@ def adjust_functions(content):
                         content[n] = line[:k+1] + ':' + line[k+1:]
                         break
     return content
+
+def adjust_ifs(content):
+    """ Adds ':' after ')' """    
+    for n,line in enumerate(content):
+        count = 0
+        if line.strip().startswith('IF'):
+            i = line.find('(')
+            if i >= 0:
+                count = 1
+                for k in range(i,len(line)):
+                    #print(k, line[k])
+                    if line[k] == '#':
+                        break
+                    if line[k] == ')':
+                        count = 0
+                        if k==len(line)-1 :
+                            content[n] = line[:k+1] + ':' + line[k+1:]
+                        elif line[k+1] != ':':
+                            content[n] = line[:k+1] + ':\n' + line[k+1:]
+                        break
+            else:
+                count = 0
+                i = line.find('#') 
+                if i >= 0:
+                    content[n] =  line[:i] + ':' + line[i:]
+                else:
+                    content[n] =  line + ':'
+        else:
+            if count > 0:
+                i = 0
+                for k in range(i,len(line)):
+                    if line[k] == '#':
+                        break
+                    if line[k] == ')':
+                        count = 0
+                        content[n] = line[:k+1] + ':' + line[k+1:]
+                        break
+    return content
+
 def list2file(fname, output):
     ''' list of string to text file '''
     with open(fname,'w', encoding="utf8") as out:
@@ -199,10 +241,11 @@ def f90_to_py(content,map_list,math_list,arrays):
     output = replace_all_do(output)
     output = adjust_all_arrays(output)
     output = adjust_functions(output)
+    output = adjust_ifs(output)
     return output
 
 fname='magboltz-11.3.f'
-foutname='magboltz.py'
+foutname='magboltz1.py'
 arrays=['A','D','V','B','Z']
 content = file2list(fname)
 output = f90_to_py(content,map_list,math_list,arrays)
