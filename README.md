@@ -1,5 +1,10 @@
 # GasSimulator 
 The aim of this repo is to build a tool and a semi-automated algorithm, to convert FORTRAN code to python<br>
+
+<h2> RECENT </h2><br>
+Added f2py interface example code in testing directory. Code file -> ftype .
+Terminal Screenshot -> Screenshot <br>
+
 magboltz.py is the lastest conversion <br>
 
 <b>Features of change.py currently :</b> <br>
@@ -12,4 +17,9 @@ magboltz.py is the lastest conversion <br>
 7.add : after function definition<br>
 8.remove datatype declarations<br>
 
+<h2> Installing F2Py</h2><br>
+cd testing/F2PY-2.45.241_1926<br>
+sudo python setup.py install<br>
+cd ../scipy_distutils-0.3.3_34.586<br>
+sudo python setup.py install<br>
 
