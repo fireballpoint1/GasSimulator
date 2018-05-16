@@ -1,0 +1,26 @@
+#+TITLE: Presentation 1
+#+AUTHOR: Mayank Modi
+#+DATE: [2018-04-16 Wed]
+#+SETUPFILE: ../org-templates/level-1.org
+#+TAGS: boilerplate(b)
+#+EXCLUDE_TAGS: boilerplate
+#+OPTIONS: ^:nil
+
+* Introduction 
+Hello everyone, I am Mayank Modi. I hail from India and currently studying at the International Institute of Information Technology, Hyderabad. I am student of computational natural science with a CS background
+
+* About Project
+This summer I will be working on Open-Source Simulations for Gas detector in python. 
+
+* Aim
+The aim of my project is to design a python codebasse for Magbolt-Zee and Degrad, which are originally written in FORTRAN.I am working on tranlating and writing optimized python implementation of their processes which can also extend to new functionalities easily. 
+
+* Approach
+My approach to acheiving the goals of the project relies on writing a transpiler to convert the FORTRAN codebase into a work-able python system, which I further plan to optimize and break into modules to enhance the extensibility of my python codebase. 
+
+* Thank Mentors
+My mentors for the project are Fernanda and Bashr who have been great help since the onset of the project. 
+
+* Wish Thanks to everyone 
+I'll conclude with this. Good luck everyone. 
+
