@@ -1,5 +1,5 @@
 * Presentation 2
-22.05.2018 <br>
+22.05.2018
 ** Accomplished directly via transpiler 
 + map arithematical operators from FORTRAN to corresponding in python
 + map logical operators from FORTRAN to corresponsing operators in python
@@ -12,13 +12,15 @@
 
 ** Accomplished manually 
 + GOTO statements 
-++ 99
-++ 999
-+ pseudo-code upto line 22,612
+  + 99
+  + 999
++ pseudo-code upto line 22,612 for degrad
 
 
 ** TO-DO next week
 + manage implicit declarations
 + map EQ,GT,LT comparisons 
-+ read all format options 
-+ map formatting
++ read all precision format options 
++ map precision format
++ complete pseudo code for degrad 
++ convert labels to functions
