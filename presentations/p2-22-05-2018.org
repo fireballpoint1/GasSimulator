@@ -1,0 +1,26 @@
+* Presentation 2
+22.05.2018
+** Accomplished directly via transpiler 
++ map arithematical operators from FORTRAN to corresponding in python
++ map logical operators from FORTRAN to corresponsing operators in python
++ retain comments as comments
++ map dabs,dsqrt,dlog,dexp,dacos functions correctly
++ replace FORTRAN do to Python for-loop
++ replace irrelevant conditions like endif
++ add : after function definition
++ remove datatype declarations 
+
+** Accomplished manually 
++ GOTO statements 
+  + 99
+  + 999
++ pseudo-code upto line 22,612 for degrad
+
+
+** TO-DO next week
++ manage implicit declarations
++ map EQ,GT,LT comparisons 
++ read all precision format options 
++ map precision format
++ complete pseudo code for degrad 
++ convert labels to functions
