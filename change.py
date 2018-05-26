@@ -92,12 +92,12 @@ def process_do(line):
     '''
     if line.startswith('C'):
         return line
-    if line.strip().startswith( 'do' ):
+    if line.strip().startswith( 'do' ) and line.strip().startswith('double')!=1:
         if '#' in line:
             do_var_lims,comment = line.split('#')
             comment = ' #'+''.join(comment)
         else:
-            do_var_lims,comment = line, ''
+            do_var_lims,comment = line,''
         do_var,lims = do_var_lims.split('=')
         for_var = do_var.replace('do','for') + ' in range('
         lims=lims.split(',')
@@ -228,7 +228,7 @@ def list2file(fname, output):
         for line in output:
             out.write(line+'\n')
 
-def f90_to_py(content,map_list,math_list,arrays):
+def f_to_py(content,map_list,math_list,arrays):
     ''' Fortran 90 to Python conversion 
         by string manipulations
         content - input list of f90 file content strings
@@ -244,10 +244,10 @@ def f90_to_py(content,map_list,math_list,arrays):
     output = adjust_ifs(output)
     return output
 
-fname='magboltz-11.3.f'
-foutname='magboltz1.py'
+fname='degrad-3.3.f'
+foutname='degrad.py'
 arrays=['A','D','V','B','Z']
 content = file2list(fname)
-output = f90_to_py(content,map_list,math_list,arrays)
+output = f_to_py(content,map_list,math_list,arrays)
 list2file(foutname, output)
 

@@ -22602,6 +22602,7 @@ C INITIAL ANGLES
        THETA=API/2.0  
       ELSE IF(NDVEC.EQ.2) THEN
        R3=drand48(RDUM)
+       PRINT * , RDUM
        PHI=TWOPI*R3
        R4=drand48(RDUM)
        THETA=DACOS(1.0D0-2.0D0*R4)  
