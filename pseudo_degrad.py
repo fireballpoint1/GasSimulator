@@ -159,18 +159,140 @@ def SETUP(LAST):
   for in range(1,10):
     TCFMAX[K]=float(0)
   # ZERO PLOT ARRAYS
-
-
-
-
+  for K in range(1,31):
+      NXPL2[K]=0
+      NYPL2[K]=0
+      NZPL2[K]=0
+      NXPL10[K]=0
+      NYPL10[K]=0
+      NZPL10[K]=0
+      NXPL40[K]=0
+      NYPL40[K]=0
+      NZPL40[K]=0
+      NXPL100[K]=0
+      NYPL100[K]=0
+      NZPL100[K]=0
+      NXPL400[K]=0
+      NYPL400[K]=0
+      NZPL400[K]=0
+      NXPL1000[K]=0
+      NYPL1000[K]=0
+      NZPL1000[K]=0
+      NXPL4000[K]=0
+      NYPL4000[K]=0
+      NZPL4000[K]=0
+      NXPL10000[K]=0
+      NYPL10000[K]=0
+      NZPL10000[K]=0
+      NXPL40000[K]=0
+      NYPL40000[K]=0
+      NZPL40000[K]=0
+      NXPL100000[K]=0
+      NYPL100000[K]=0
+      NZPL100000[K]=0
+      NRPL2[K]=0
+      NRPL10[K]=0
+      NRPL40[K]=0
+      NRPL100[K]=0
+      NRPL400[K]=0
+      NRPL1000[K]=0
+      NRPL4000[K]=0
+      NRPL10000[K]=0
+      NRPL40000[K]=0
+      NRPL100000[K]=0 #22678
+    for K in range(1,100):
+      NEPL1[K]=0
+      NEPL10[K]=0
+      NEPL100[K]=0
+    for K in range(1,1000):
+      MELEC[K]=0
+      MELEC3[K]=0
+      MELEC10[K]=0
+      MELEC30[K]=0
+      MELEC100[K]=0
+      MELEC300[K]=0 #22689
+# C ZERO ARRAYS
+    for KS in range(1,100000):
+      XAV[KS]=0.0
+      YAV[KS]=0.0
+      ZAV[KS]=0.0
+      TAV[KS]=0.0
+      XYAV[KS]=0.0
+      XYZAV[KS]=0.0
+      DX[KS]=0.0
+      DY[KS]=0.0
+      DZ[KS]=0.0
+      DT[KS]=0.0
+      DXY[KS]=0.0
+      DXYZ[KS]=0.0
+      FARX1[KS]=0.0
+      FARY1[KS]=0.0
+      FARZ1[KS]=0.0
+      FARXY1[KS]=0.0
+      RMAX1[KS]=0.0
+      TSUM[KS]=0.0
+      XNEG[KS]=0.0
+      YNEG[KS]=0.0
+      ZNEG[KS]=0.0
+      EDELTA[KS]=0.0
+      EDELTA2[KS]=0.0
+      NCL[KS]=0
+      NCLEXC[KS]=0 ##22716 #22915
+# ----------------------------------------------------  
+# IF NSEED = 0 : USE STANDARD SEED VALUE =54217137
+      if(NSEED != 0):
+        random.uniform(NSEED,0,0)                           
+#-----------------------------------------------      
+#
+      CORR=ABZERO*TORR/(ATMOS*(ABZERO+TEMPC)*100.00)                    #check precision
+      AKT=(ABZERO+TEMPC)*BOLTZ
+      AN1=FRAC[1]CORR*ALOSCH                                           
+      AN2=FRAC[2]CORR*ALOSCH                                           
+      AN3=FRAC[3]CORR*ALOSCH                                           
+      AN4=FRAC[4]CORR*ALOSCH
+      AN5=FRAC[5]CORR*ALOSCH
+      AN6=FRAC[6]CORR*ALOSCH                                           
+      AN=float(100.00*CORR*ALOSCH)
+      AN=100.00*CORR*ALOSCH                                            
+#     VAN1=FRAC(1)*CORR*CONST4*1.0D15                                   
+#     VAN2=FRAC(2)*CORR*CONST4*1.0D15                                   
+#     VAN3=FRAC(3)*CORR*CONST4*1.0D15                                   
+#     VAN4=FRAC(4)*CORR*CONST4*1.0D15
+#     VAN5=FRAC(5)*CORR*CONST4*1.0D15
+#     VAN6=FRAC(6)*CORR*CONST4*1.0D15                                   
+#     VAN=100.00*CORR*CONST4*1.0D15
+      VAN1=FRAC[1]*CORR*ALOSCH*VC                                   
+      VAN2=FRAC[2]*CORR*ALOSCH*VC                                   
+      VAN3=FRAC[3]*CORR*ALOSCH*VC                                  
+      VAN4=FRAC[4]*CORR*ALOSCH*VC
+      VAN5=FRAC[5]*CORR*ALOSCH*VC
+      VAN6=FRAC[6]*CORR*ALOSCH*VC                                  
+      VAN=float(100.00*CORR*ALOSCH*VC)    #22745 #22945
+# CALCULATE AND STORE ENERGY GRID FOR XRAYS BETAS OR PARTICLES
+         
+      if(EFINAL <= 20000.0):
+        ESTEP=float(EFINAL/float(NSTEP))
+        EHALF=float(ESTEP/2.00)
+        E[1]=EHALF
+        GAM[1]=(EMS+E[1])/EMS
+        BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))  #ifcontinues
+        for I in range(2,20000):                      #ifcontinues
+          AJ=float(I-1)
+          E(I)=EHALF+ESTEP*AJ
+          GAM(I)=(EMS+E(I))/EMS
+          BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+      else if(EFINAL > 20000.0 and EFINAL <= 140000.) :
+        ESTEP=1.0
+        EHALF=0.5
+        E[1]=EHALF
+        GAM[1]=(EMS+E(1))/EMS
+        BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))
+        for i in range(2,16000):
+          AJ=float(I-1)
+          E[I]=EHALF+ESTEP*AJ
+          GAM[I]=(EMS+E(I))/EMS
+          BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))   #22768 #22968  
     
-
-
-
-
-
-
-  
 
 
     

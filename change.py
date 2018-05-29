@@ -34,14 +34,20 @@ map_list=[('!','#'),
     ('integer','#integer'),
     ('real','#real'),
     ('allocate','#allocate'),
+    ('IF','if'),
     ]
-
+map_list_v2=[
+('IF','if'),
+('DFLOAT','float'),
+]
 
 math_list=[
     ('dabs','abs'),
     ('dsqrt','math.sqrt'),
     ('dlog','math.log'),
     ('dexp','math.exp'),
+    ('dacos','numpy.arccos'),
+    ('drand48','random.uniform'),
     ]
 
 
@@ -79,7 +85,7 @@ def replace_statements(content,map_list):
         result = [ireplace(p[0], p[1], l) for l in result]
     return result
 def replace_math_functions(content,math_list):
-    ''' replaice all math functions in content '''
+    ''' replace all math functions in content '''
     for p in math_list:
         content = [ireplace(p[0], p[1], l) for l in content]
     return content
@@ -238,16 +244,16 @@ def f_to_py(content,map_list,math_list,arrays):
     '''
     output = replace_statements(content,map_list)
     output = replace_math_functions(output,math_list)
-    output = replace_all_do(output)
-    output = adjust_all_arrays(output)
-    output = adjust_functions(output)
-    output = adjust_ifs(output)
+#    output = replace_all_do(output)
+#    output = adjust_all_arrays(output)
+#    output = adjust_functions(output)
+#    output = adjust_ifs(output)
     return output
 
-fname='degrad-3.3.f'
-foutname='degrad.py'
+fname='degrad.py'
+foutname='degrad1.py'
 arrays=['A','D','V','B','Z']
 content = file2list(fname)
-output = f_to_py(content,map_list,math_list,arrays)
+output = f_to_py(content,map_list_v2,math_list,arrays)
 list2file(foutname, output)
 
