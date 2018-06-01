@@ -18,10 +18,11 @@ magboltz.py is the lastest conversion <br>
 8.remove datatype declarations<br>
 
 ## Installing F2Py<br>
-cd testing/F2PY-2.45.241_1926<br>
-sudo python setup.py install<br>
-cd ../scipy_distutils-0.3.3_34.586<br>
-sudo python setup.py install<br>
+
+    cd testing/F2PY-2.45.241_1926<br>
+    sudo python setup.py install<br>
+    cd ../scipy_distutils-0.3.3_34.586<br>
+    sudo python setup.py install<br>
 
 ## Using input interface of degrad <br>
 ### Installation 
