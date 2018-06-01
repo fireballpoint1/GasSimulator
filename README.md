@@ -25,10 +25,10 @@ sudo python setup.py install<br>
 
 ## Using input interface of degrad <br>
 ### Installation 
-'''
+ 
     sudo pip3 install --user pyqt5  
     sudo apt-get install python3-pyqt5  
     sudo apt-get install pyqt5-dev-tools
     sudo apt-get install qttools5-dev-tools
-'''
+    
 
