@@ -32,4 +32,9 @@ magboltz.py is the lastest conversion <br>
     sudo apt-get install pyqt5-dev-tools
     sudo apt-get install qttools5-dev-tools
     
+### Tutorial PyQt5
+<ul>
+<li> 
+	<a href="http://zetcode.com/gui/pyqt5/firstprograms/"> http://zetcode.com/gui/pyqt5/firstprograms/</a>
 
+</ul>
