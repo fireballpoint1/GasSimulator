@@ -26,5 +26,5 @@ everytime ui file is changed.
 <li><em>degrad-3.3.f should be in the same directory as MAIN.py and main.ui </em>
 </ol>
 
-
+<img src="image.png">
     
