@@ -2382,7 +2382,7 @@ C ---------------------------------------------------------------------
       TCF(IE)=TCF(IE)+CF(IE,IL)
       IF(CF(IE,IL).LT.0.0D0) WRITE(6,776) CF(IE,IL),IE,IL,IARRY(IL),EIN
      /(IL),E(IE) 
-  776 FORMAT(' WARNING NEGATIVE COLLISION FREQUENCY =',D12.3,' IE =',I6,
+  776 FORMAT('MODI WARNING NEGATIVE COLLISION FREQUENCY =',D12.3,' IE =',I6,
      /' IL =',I3,' IARRY=',I5,' EIN=',D12.4,' ENERGY=',D12.4)         
  610  CONTINUE                                                          
       DO 620 IL=1,IPLAST                                                
@@ -22003,8 +22003,10 @@ C Z=55
 C
 C FIND NEAREST ENERGY IN ARRAY
       DO 1 J=1,24
+
       IF(EIN.GE.ET1(J).AND.EIN.LT.ET1(J+1)) THEN
        IPT=J
+
        IF(EIN.GT.((ET1(J)+ET1(J+1))*0.5)) IPT=J+1
        GO TO 2
       ENDIF
@@ -22602,7 +22604,8 @@ C INITIAL ANGLES
        THETA=API/2.0  
       ELSE IF(NDVEC.EQ.2) THEN
        R3=drand48(RDUM)
-       PRINT * , RDUM
+C  Self Added
+C       PRINT * , RDUM
        PHI=TWOPI*R3
        R4=drand48(RDUM)
        THETA=DACOS(1.0D0-2.0D0*R4)  
@@ -22802,8 +22805,9 @@ C   METRES PER PICOSECOND
       EOVB=EFIELD*1.D-9/BMAG
       RETURN
   999 WRITE(6,87) NGAS,(J,NGASN(J),FRAC(J),J=1,6) 
-   87 FORMAT(3(/),4X,' ERROR IN GAS INPUT : NGAS=',I5,6(/,2X,' N=',I3,' 
-     /NGAS=',I5,' FRAC=',F8.3))                                         
+  PRINT *,"i did these"
+   87 FORMAT(3(/),4X,' ERROR IN GAS INPUT : NGAS=',I5,' N=',I3,' 
+     NGAS=',I5,' FRAC=',F8.3))                                         
    99 LAST=1                                                            
       RETURN                                                            
       END                                                               
