@@ -38,3 +38,13 @@ magboltz.py is the lastest conversion <br>
 	<a href="http://zetcode.com/gui/pyqt5/firstprograms/"> http://zetcode.com/gui/pyqt5/firstprograms/</a>
 
 </ul>
+
+## Notes
+### WRITE FORMAT
+   A - text string<br>
+   D - double precision numbers, exponent notation<br>
+   E - real numbers, exponent notation<br>
+   F - real numbers, fixed point format<br>
+   I - integer<br>
+   X - horizontal skip (space)<br>
+   / - vertical skip (newline)<br>

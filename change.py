@@ -39,6 +39,8 @@ map_list=[('!','#'),
 map_list_v2=[
 ('IF','if'),
 ('DFLOAT','float'),
+('STOP','sys.exit()'),
+('RETURN','return'),
 ]
 
 math_list=[
@@ -48,6 +50,9 @@ math_list=[
     ('dexp','math.exp'),
     ('dacos','numpy.arccos'),
     ('drand48','random.uniform'),
+    ('dsin','numpy.sin'),
+    ('dcos','numpy.cos'),
+    ('dasin','numpy.arcsin'),
     ]
 
 
@@ -244,6 +249,7 @@ def f_to_py(content,map_list,math_list,arrays):
     '''
     output = replace_statements(content,map_list)
     output = replace_math_functions(output,math_list)
+    print("remember to check all float statements for square braces in degrad  ")
 #    output = replace_all_do(output)
 #    output = adjust_all_arrays(output)
 #    output = adjust_functions(output)

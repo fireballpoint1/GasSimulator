@@ -2366,6 +2366,7 @@ C
 C                                                                       
   600 CONTINUE                                                          
       IPLAST=NP  
+      IPLAST=513
 C ----------------------------------------------------------------      
 C   CAN INCREASE ARRAY SIZE UP TO 1740 IF MORE COMPLEX MIXTURES USED.
 C   1740 = 6 * 290 ( 6 = MAX NO OF GASES. 290 = MAX NO OF LEVELS )    
@@ -22602,6 +22603,7 @@ C INITIAL ANGLES
        THETA=API/2.0  
       ELSE IF(NDVEC.EQ.2) THEN
        R3=drand48(RDUM)
+C  Self Added
        PRINT * , RDUM
        PHI=TWOPI*R3
        R4=drand48(RDUM)
