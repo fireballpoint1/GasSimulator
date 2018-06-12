@@ -467,13 +467,13 @@ def MIXER:
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)                                         
 	CHARACTER*25 NAMEG,NAME1,NAME2,NAME3,NAME4,NAME5,NAME6
-	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC(6)              
+	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC[6]              
 	CHARACTER*50 DSCRPT,SCRP1(300),SCRP2(300),SCRP3(300),SCRP4(300),SCRP5(300),SCRP6(300)   
 	CHARACTER*50 DSCRPTN,SCRPN1(10),SCRPN2(10),SCRPN3(10),SCRPN4(10),SCRPN5(10),SCRPN6(10)                          
-	global NGASN(6) 
+	global NGASN[6] 
 	global QELM(20000),QSUM(20000),QION(6,20000),QIN1(250,20000),QIN2(250,20000),QIN3(250,20000),QIN4(250,20000),QIN5(250,20000),QIN6(250,20000),QSATT(20000)             
 	global E(20000),EROOT(20000),QTOT(20000),QREL(20000),QINEL(20000),QEL(20000)
-	global NIN1,NIN2,NIN3,NIN4,NIN5,NIN6,LION(6),LIN1(250),LIN2(250),LIN3(250),LIN4(250),LIN5(250),LIN6(250),ALION(6),ALIN1(250),ALIN2(250),ALIN3(250),ALIN4(250),ALIN5(250),ALIN6(250)
+	global NIN1,NIN2,NIN3,NIN4,NIN5,NIN6,LION[6],LIN1(250),LIN2(250),LIN3(250),LIN4(250),LIN5(250),LIN6(250),ALION[6],ALIN1(250),ALIN2(250),ALIN3(250),ALIN4(250),ALIN5(250),ALIN6(250)
 	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
 	global CONST1,CONST2,CONST3,CONST4,CONST5                  
 	global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX(10),TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                    
@@ -483,22 +483,22 @@ def MIXER:
 	global FCION(20000),FCATT(20000)
 	global NEGAS(512),LEGAS(512),IESHELL(512),IECASC            
 	global VAN1,VAN2,VAN3,VAN4,VAN5,VAN6,VAN
-	global DOUBLE(6,20000),CMINIXSC(6),CMINEXSC(6),ECLOSS(6),WPLN(6),ICOUNT,AVPFRAC(3,6)
+	global DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],WPLN[6],ICOUNT,AVPFRAC(3,6)
 	global NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),EG2(512),WKLM(512),EFL(512)
 	global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-	global NAMEG(6)
+	global NAMEG[6]
 	global NGEXC1,NGEXC2,NGEXC3,NGEXC4,NGEXC5,NGEXC6,IDG1,IDG2,IDG3,IDG4,IDG5,IDG6      
 	global DSCRPT(512),DSCRPTN(60)
 	global ESPLIT(512,20),IONMODEL(512)
 	global BET[20]00),GAM(20000),VC,EMS                        
 	Q1(6,20000),Q2(6,20000),Q3(6,20000),Q4(6,20000),Q5(6,20000),Q6(6,20000)
-	E1(6),E2(6),E3(6),E4(6),E5(6),E6(6),EI1(250),EI2(250),EI3(250),EI4(250),EI5(250),EI6(250)
-	QATT(6,20000),EION(6)         
+	E1[6],E2[6],E3[6],E4[6],E5[6],E6[6],EI1(250),EI2(250),EI3(250),EI4(250),EI5(250),EI6(250)
+	QATT(6,20000),EION[6]         
 	PEQEL1(6,20000),PEQEL2(6,20000),PEQEL3(6,20000),PEQEL4(6,20000),PEQEL5(6,20000),PEQEL6(6,20000)
 	PEQIN1(250,20000),PEQIN2(250,20000),PEQIN3(250,20000),  PEQIN4(250,20000),PEQIN5(250,20000),PEQIN6(250,20000)
 	PENFRA1(3,250),PENFRA2(3,250),PENFRA3(3,250),PENFRA4(3,250),PENFRA5(3,250),PENFRA6(3,250)
 	KIN1(250),KIN2(250),KIN3(250),KIN4(250),KIN5(250),KIN6(250)
-	KEL1(6),KEL2(6),KEL3(6),KEL4(6),KEL5(6),KEL6(6)
+	KEL1[6],KEL2[6],KEL3[6],KEL4[6],KEL5[6],KEL6[6]
 	EION1(30),EION2(30),EION3(30),EION4(30),EION5(30),EION6(30)
 	QION1(30,20000),QION2(30,20000),QION3(30,20000),QION4(30,20000),QION5(30,20000),QION6(30,20000)
 	PEQION1(30,20000),PEQION2(30,20000),PEQION3(30,20000),PEQION4(30,20000),PEQION5(30,20000),PEQION6(30,20000)
@@ -523,7 +523,7 @@ def MIXER:
 	#     def MIXER FILLS ARRAYS OF COLLISION FREQUENCY              
 	#     CAN HAVE A MIXTURE OF UP TO 6 GASES                               
 	#                                                                       
-	#     MOD: STORE COUNTING IONISATION X-SECTION IN ARRAY CMINIXSC(6)
+	#     MOD: STORE COUNTING IONISATION X-SECTION IN ARRAY CMINIXSC[6]
 	#          AT MINIMUM IONISING ENERGY                                 
 	#  ---------------------------------------------------------------------
 	#                                                             
@@ -803,14 +803,14 @@ def MIXER:
 		ANGCT[IE][NP]=1.00    
 		INDEX[NP]=0 
 		#   ELASTIC ANG  
-		if(KEL1(2):== 1) :
+		if(KEL1[2]:== 1) :
 			PSCT1=PEQEL1[2][IE]
 			CALL ANGCUT(PSCT1,ANGC,PSCT2)
 			ANGCT[IE][NP]=ANGC
 			PSCT[IE][NP]=PSCT2  
 			INDEX[NP]=1   
 		# endif 
-		if(KEL1(2)== 2) :
+		if(KEL1[2]== 2) :
 			PSCT[IE][NP]=PEQEL1[2][IE]
 			INDEX[NP]=2
 		# endif
@@ -818,14 +818,14 @@ def MIXER:
 		if(IE > 1):
 			pass
 		else:                              
-			RGAS1=1.00+E1(2)/2.00                                           
+			RGAS1=1.00+E1[2]/2.00                                           
 			RGAS[NP]=RGAS1                                                    
 			EIN[NP]=0.00                                                     
 			IPN[NP]=0 
 			L=1                                                      
 			IARRY[NP]=L 
 			IZBR[NP]=0
-			DSCRPT[NP]=SCRP1(2)  
+			DSCRPT[NP]=SCRP1[2]  
 			NAMEG[1]=NAME1
 			PENFRA[1][NP]=0.0
 			PENFRA[2][NP]=0.0
@@ -836,7 +836,7 @@ def MIXER:
 			CMINEXSC[1]=E1[4]*AN1                                        
 			CMINIXSC[1]=E1[5]*AN1
 			ECLOSS[1]=E1(3)
-			WPLN[1]=E1(6)
+			WPLN[1]=E1[6]
 		if(EFINAL < E1(3)):
 			GOTO30()  
 		if(NION1 > 1):
@@ -1080,7 +1080,7 @@ def MIXER:
 				ANGCT[IE][NP]=1.0
 				INDEX[NP]=0
 				#
-				if(KEL2(2)== 1) :
+				if(KEL2[2]== 1) :
 					PSCT1=PEQEL2[2][IE]
 					ANGCUT(PSCT1,ANGC,PSCT2)
 					ANGCT[IE][NP]=ANGC
@@ -2058,153 +2058,151 @@ def MIXER:
 				430 if(EFINAL < E5[4]):
 					GO TO 440                 
 				if(NATT5 > 1):
-					GO TO 591                    
-				NP=NP+1
-				IDG5=NP                                                           
-				CF[IE][NP]=Q5[4][IE]*VAN5*BET[IE]
-				FCATT[IE]=FCATT[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
+					pass
+				else:                    
+					NP=NP+1
+					IDG5=NP                                                           
+					CF[IE][NP]=Q5[4][IE]*VAN5*BET[IE]
+					FCATT[IE]=FCATT[IE]+CF[IE][NP]
+					PSCT[IE][NP]=0.5
+					ANGCT[IE][NP]=1.0
+					if(IE > 1):
+						GO TO 440
+					NEGAS[NP]=5
+					LEGAS[NP]=0
+					IESHELL[NP]=0
+					INDEX[NP]=0                                     
+					RGAS[NP]=RGAS5                                                    
+					EIN[NP]=0.00                                                     
+					IPN[NP]=-1             
+					L=23                                            
+					IARRY[NP]=L
+					IZBR[NP]=0
+					DSCRPT[NP]=SCRP5[3+NION5]
+					PENFRA[1][NP]=0.0  
+					PENFRA[2][NP]=0.0 
+					PENFRA[3][NP]=0.0        
 					GO TO 440
-				NEGAS[NP]=5
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				INDEX[NP]=0                                     
-				RGAS[NP]=RGAS5                                                    
-				EIN[NP]=0.00                                                     
-				IPN[NP]=-1             
-				L=23                                            
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP5(3+NION5)  
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0 
-				PENFRA[3][NP]=0.0        
-				GO TO 440
-				591 DO 592 JJ=1,NATT5
-				NP=NP+1
-				IDG5=NP
-				CF[IE][NP]=QATT5(JJ,IE)*VAN5*BET[IE]
-				FCATT[IE]=FCATT[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
-				GO TO 592
-				NEGAS[NP]=5
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				INDEX[NP]=0
-				RGAS[NP]=RGAS5
-				EIN[NP]=0.00
-				IPN[NP]=-1
-				L=23
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP5(2+NION5+JJ)
-				PENFRA[1][NP]=0.0
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0
-				592 CONTINUE                                  
-				440 if(NIN5 == 0) GO TO 460                                           
-				DO 450 J=1,NIN5 
-				NP=NP+1
-				IDG5=NP      
-				NEGAS[NP]=5
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                                     
-				CF[IE][NP]=QIN5[J][IE]*VAN5*BET[IE] 
-				# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-				if(IZBR5[J]:
-				!= 0 and LBRM == 0) CF[IE][NP]=0.0
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#
-				if(KIN5[J]:
-				== 1) :
-				PSCT1=PEQIN5[J][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1
-				# endif
-				if(KIN5[J]:
-				== 2) :
-				PSCT[IE][NP]=PEQIN5[J][IE]
-				INDEX[NP]=2
-				# endif  
-				#        
-				if(IE > 1):
-				GO TO 450
-				RGAS[NP]=RGAS5                                                    
-				EIN[NP]=EI5[J]/RGAS5
-				L=24
-				if(EI5[J]:
-				< 0.00) L=25                                          
-				IPN[NP]=0         
-				IARRY[NP]=L
-				IZBR[NP]=IZBR5[J]
-				DSCRPT[NP]=SCRP5(4+NION5+NATT5+J)
-				PENFRA[1][NP]=PENFRA5[1][J]
-				PENFRA[2][NP]=PENFRA5[2][J]*1.D-6/math.sqrt(3.00)
-				PENFRA[3][NP]=PENFRA5[3][J]
-				if(PENFRA[1][NP] > AVPFRAC(1,5):
-				) : 
-				AVPFRAC(1,5)=PENFRA[1][NP]
-				AVPFRAC(2,5)=PENFRA[2][NP]
-				AVPFRAC(3,5)=PENFRA[3][NP]
-				# endif
-				if(J == NIN5):
-				CMINEXSC[5]=CMINEXSC[5]*AVPFRAC(1,5)
-				450 CONTINUE             
+				for JJ in range(1,NATT5):
+					NP=NP+1
+					IDG5=NP
+					CF[IE][NP]=QATT5[JJ,IE]*VAN5*BET[IE]
+					FCATT[IE]=FCATT[IE]+CF[IE][NP]
+					PSCT[IE][NP]=0.5
+					ANGCT[IE][NP]=1.0
+					if(IE > 1):
+						pass
+					else:
+						NEGAS[NP]=5
+						LEGAS[NP]=0
+						IESHELL[NP]=0
+						INDEX[NP]=0
+						RGAS[NP]=RGAS5
+						EIN[NP]=0.00
+						IPN[NP]=-1
+						L=23
+						IARRY[NP]=L
+						IZBR[NP]=0
+						DSCRPT[NP]=SCRP5[2+NION5+JJ]
+						PENFRA[1][NP]=0.0
+						PENFRA[2][NP]=0.0
+						PENFRA[3][NP]=0.0
+				440 if(NIN5 == 0):
+					GO TO 460                                           
+				for J in range(1,NIN5 ):
+					NP=NP+1
+					IDG5=NP      
+					NEGAS[NP]=5
+					LEGAS[NP]=0
+					IESHELL[NP]=0                                                     
+					CF[IE][NP]=QIN5[J][IE]*VAN5*BET[IE] 
+					# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
+					if(IZBR5[J]!= 0 and LBRM == 0):
+						CF[IE][NP]=0.0
+					PSCT[IE][NP]=0.5
+					ANGCT[IE][NP]=1.0
+					INDEX[NP]=0
+					#
+					if(KIN5[J]== 1) :
+						PSCT1=PEQIN5[J][IE]
+						ANGCUT(PSCT1,ANGC,PSCT2)
+						ANGCT[IE][NP]=ANGC
+						PSCT[IE][NP]=PSCT2
+						INDEX[NP]=1
+					# endif
+					if(KIN5[J]== 2) :
+						PSCT[IE][NP]=PEQIN5[J][IE]
+						INDEX[NP]=2
+					# endif  
+					#        
+					if(IE > 1):
+						pass
+					else:
+						RGAS[NP]=RGAS5                                                    
+						EIN[NP]=EI5[J]/RGAS5
+						L=24
+						if(EI5[J]< 0.00):
+							L=25                                          
+						IPN[NP]=0         
+						IARRY[NP]=L
+						IZBR[NP]=IZBR5[J]
+						DSCRPT[NP]=SCRP5[4+NION5+NATT5+J]
+						PENFRA[1][NP]=PENFRA5[1][J]
+						PENFRA[2][NP]=PENFRA5[2][J]*1*(10**-6)/math.sqrt(3.00)
+						PENFRA[3][NP]=PENFRA5[3][J]
+						if(PENFRA[1][NP] > AVPFRAC[1][5]) : 
+							AVPFRAC[1][5]=PENFRA[1][NP]
+							AVPFRAC[2][5]=PENFRA[2][NP]
+							AVPFRAC[3][5]=PENFRA[3][NP]
+						# endif
+						if(J == NIN5):
+							CMINEXSC[5]=CMINEXSC[5]*AVPFRAC[1][5]  #2108
 				#                                           
-				460 if(NGAS == 5) GO TO 600  
+				460 if(NGAS == 5):
+					GO TO 600  #yet to be 
 				NP=NP+1
 				IDG6=NP      
 				NEGAS[NP]=6
 				LEGAS[NP]=0
 				IESHELL[NP]=0                                                     
-				CF[IE][NP]=Q6(2,IE)*VAN6*BET[IE]
+				CF[IE][NP]=Q6[2][IE]*VAN6*BET[IE]
 				PSCT[IE][NP]=0.5
 				ANGCT[IE][NP]=1.0
 				INDEX[NP]=0 
 				#
-				if(KEL6(2):
-				== 1) :
-				PSCT1=PEQEL6(2,IE)
+				if(KEL6[2]== 1) :
+				PSCT1=PEQEL6[2][IE]
 				ANGCUT(PSCT1,ANGC,PSCT2)
 				ANGCT[IE][NP]=ANGC
 				PSCT[IE][NP]=PSCT2
 				INDEX[NP]=1
 				# endif
-				if(KEL6(2):
-				== 2) :
-				PSCT[IE][NP]=PEQEL6(2,IE)
-				INDEX[NP]=2
+				if(KEL6[2]== 2) :
+					PSCT[IE][NP]=PEQEL6[2][IE]
+					INDEX[NP]=2
 				# endif
 				#  
 				if(IE > 1):
-				GO TO 462                                    
-				RGAS6=1.00+E6(2)/2.00                                           
+					GO TO 462                                    
+				RGAS6=1.00+E6[2]/2.00                                           
 				RGAS[NP]=RGAS6                                                    
 				EIN[NP]=0.00                                                     
 				IPN[NP]=0
 				L=26                                                          
 				IARRY[NP]=L
 				IZBR[NP]=0  
-				DSCRPT[NP]=SCRP6(2) 
-				NAMEG(6)=NAME6  
+				DSCRPT[NP]=SCRP6[2] 
+				NAMEG[6]=NAME6  
 				PENFRA[1][NP]=0.0
 				PENFRA[2][NP]=0.0
 				PENFRA[3][NP]=0.0
-				AVPFRAC(1,6)=0.0
-				AVPFRAC(2,6)=0.0
-				AVPFRAC(3,6)=0.0
-				CMINEXSC(6)=E6[4]*AN6                                       
-				CMINIXSC(6)=E6[5]*AN6
-				ECLOSS(6)=E6[3]
-				WPLN(6)=E6(6)
+				AVPFRAC[1][6]=0.0
+				AVPFRAC[2][6]=0.0
+				AVPFRAC[3][6]=0.0
+				CMINEXSC[6]=E6[4]*AN6                                       
+				CMINIXSC[6]=E6[5]*AN6
+				ECLOSS[6]=E6[3]
+				WPLN[6]=E6[6]
 				462 if(EFINAL < E6[3]) GO TO 530      
 				if(NION6 > 1):
 				GO TO 470                               
@@ -2714,7 +2712,7 @@ def GASMIX(NGS,Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
 	QATT=[[0 for x in range(9)] for y in range(20001)]
 	QNULL=[[0 for x in range(11)] for y in range(20001)]
 	SCLN=[0 for x in range(11)]
-	ESPLIT=[[0 for x in range(6)] for y in range(21)]
+	ESPLIT=[[0 for x in range[6]] for y in range(21)]
 	# 
 	GO TO (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80) NGS
 
@@ -3316,11 +3314,11 @@ def DENSITY:
 	#IMPLICIT #real*8 (A-H,O-Z)
 	#IMPLICIT #integer*8 (I-N)
 	global DEN=[0 for x in range(20000)]
-	global CAN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC=[0 for x in range(6)]
+	global CAN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC=[0 for x in range[6]]
 	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-	global NGASN=[0 for x in range(6)]
+	global NGASN=[0 for x in range[6]]
 	global BET=[0 for x in range(2000)],GAM=[0 for x in range(20000)],VC,EMS
-	AND=[0 for x in range(6)],EIAV=[0 for x in range(80)],X00=[0 for x in range(80)]
+	AND=[0 for x in range[6]],EIAV=[0 for x in range(80)],X00=[0 for x in range(80)]
 	X11=[0 for x in range(80)],AKS=[0 for x in range(80)],AAA=[0 for x in range(80)]
 	JELEC=[0 for x in range(80)]
 	# DENSITY EFFECT CONSTANTS
@@ -3426,13 +3424,13 @@ def SETUP(LAST):
 	global ECHARG,EMASS,AMU,PIR2
 	global KGAS,LGAS,DETEFF,EXCWGHT
 	global NDVEC,CONST1,CONST2,CONST3,CONST4,CONST5                  
-	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC=[0 for x in range(6)]               
-	global NGASN=[0 for x in range(6)]                                 
+	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC=[0 for x in range[6]]               
+	global NGASN=[0 for x in range[6]]                                 
 	global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX=[0 for x in range(10)],TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE
 	global DRXINIT,DRYINIT,DRZINIT
 	global EOVB,WB,BTHETA,BMAG 
-	global DOUBLE=[[0 for x in range(6)] for y in range(20000)],AVPFRAC(3,6)
-	global CMINIXSC=[0 for x in range(6)],CMINEXSC=[0 for x in range(6)],ECLOSS=[0 for x in range(6)],WPLN=[0 for x in range(6)],ICOUNT
+	global DOUBLE=[[0 for x in range[6]] for y in range(20000)],AVPFRAC(3,6)
+	global CMINIXSC=[0 for x in range[6]],CMINEXSC=[0 for x in range[6]],ECLOSS=[0 for x in range[6]],WPLN=[0 for x in range[6]],ICOUNT
 	global OVAN1,VAN2,VAN3,VAN4,VAN5,VAN6,VAN
 	global =[0 for x in range(30)],NETOT,NPRIME,TMAX1,TIME=[0 for x in range(300)],NNULL,NITOT,ICOLN=[0 for x i range(512)],ICOLNN=[0 for x in range(60)],NREAL,NEXCTOT
 	global MSUM=[0 for x in range(10000)],MCOMP=[0 for x in range(10000)],MRAYL=[0 for x in range(10000)],MPAIR=[0 for x in range(10000)],MPHOT=[0 for x in range(10000)],MVAC=[0 for x in range(10000)]
@@ -3442,7 +3440,7 @@ def SETUP(LAST):
 	global NXPL10=[0 for x in range(31)],NYPL10=[0 for x in range(31)],NZPL10=[0 for x in range(31)],NXPL40=[0 for x in range(31)],NYPL40=[0 for x in range(31)],NZPL40=[0 for x in range(31)],NXPL100=[0 for x in range(31)],NYPL100=[0 for x in range(31)],NZPL100=[0 for x in range(31)],NXPL400=[0 for x in range(31)],NYPL400=[0 for x in range(31)],NZPL400=[0 for x in range(31)],NXPL1000=[0 for x in range(31)],NYPL1000=[0 for x in range(31)],NZPL1000=[0 for x in range(31)],NXPL2=[0 for x in range(31)],NYPL2=[0 for x in range(31)],NZPL2=[0 for x in range(31)],NXPL4000=[0 for x in range(31)],NYPL4000=[0 for x in range(31)],NZPL4000=[0 for x in range(31)],NXPL10000=[0 for x in range(31)],NYPL10000=[0 for x in range(31)],NZPL10000=[0 for x in range(31)],NXPL40000=[0 for x in range(31)],NYPL40000=[0 for x in range(31)],NZPL40000=[0 for x in range(31)],NXPL100000=[0 for x in range(31)],NYPL100000=[0 for x in range(31)],NZPL100000=[0 for x in range(31)],NRPL2=[0 for x in range(31)],NRPL10=[0 for x in range(31)],NRPL40=[0 for x in range(31)],NRPL100=[0 for x in range(31)],NRPL400=[0 for x in range(31)],NRPL1000=[0 for x in range(31)],NRPL4000=[0 for x in range(31)],NRPL10000=[0 for x in range(31)],NRPL40000=[0 for x in range(31)],NRPL100000=[0 for x in range(31)]
 	global NEPL1=[0 for x in range(100)],NEPL10=[0 for x in range(100)],NEPL100=[0 for x in range(100)],MELEC=[0 for x in range(1000)],MELEC3=[0 for x in range(1000)],MELEC10=[0 for x in range(1000)],MELEC30=[0 for x in range(1000)],MELEC100=[0 for x in range(1000)],MELEC300=[0 for x in range(1000)]
 	global EBRGAM=[0 for x in range(10)],BRnumpy.cosX=[0 for x in range(10)],BRnumpy.cosY=[0 for x in range(10)],BRnumpy.cosZ=[0 for x in range(10)],BRX=[0 for x in range(10)],BRY=[0 for x in range(10)],BRZ=[0 for x in range(10)],BRT=[0 for x in range(10)]
-	global EBRTOT=[0 for x in range(6)],NBREM=[0 for x in range(6)]
+	global EBRTOT=[0 for x in range[6]],NBREM=[0 for x in range[6]]
 	global XAV=[0 for x in range(100000)],YAV=[0 for x in range(100000)],ZAV=[0 for x in range(100000)],TAV=[0 for x in range(100000)],XYAV=[0 for x in range(100000)],XYZAV=[0 for x in range(100000)]
 	global DX=[0 for x in range(100000)],DY=[0 for x in range(100000)],DZ=[0 for x in range(100000)]
 	global DT=[0 for x in range(100000)],DXY=[0 for x in range(100000)],DXYZ=[0 for x in range(100000)],NCL=[0 for x in range(100000)],FARX1=[0 for x in range(100000)],FARY1=[0 for x in range(100000)],FARZ1=[0 for x in range(100000)],FARXY1=[0 for x in range(100000)],RMAX1=[0 for x in range(100000)],TSUM=[0 for x in range(100000)],XNEG=[0 for x in range(100000)], YNEG=[0 for x in range(100000)],ZNEG=[0 for x in range(100000)],EDELTA[100000],EDELTA2=[0 for x in range(100000)],NCLEXC=[0 for x in range(100000)]
@@ -3710,11 +3708,11 @@ def SETUP(LAST):
 	AN=float(100.00*CORR*ALOSCH)
 	AN=100.00*CORR*ALOSCH                                            
 	#     VAN1=FRAC[1]*CORR*CONST4*1.0D15                                   
-	#     VAN2=FRAC(2)*CORR*CONST4*1.0D15                                   
+	#     VAN2=FRAC[2]*CORR*CONST4*1.0D15                                   
 	#     VAN3=FRAC(3)*CORR*CONST4*1.0D15                                   
 	#     VAN4=FRAC[4]*CORR*CONST4*1.0D15
 	#     VAN5=FRAC[5]*CORR*CONST4*1.0D15
-	#     VAN6=FRAC(6)*CORR*CONST4*1.0D15                                   
+	#     VAN6=FRAC[6]*CORR*CONST4*1.0D15                                   
 	#     VAN=100.00*CORR*CONST4*1.0D15
 	VAN1=FRAC[1]*CORR*ALOSCH*VC                                   
 	VAN2=FRAC[2]*CORR*ALOSCH*VC                                   
@@ -3822,19 +3820,19 @@ def OUTPUT:
 	global EBRGAM=[0 for x in range(10)]
 	global BRnumpy.cosX=[0 for x in range(10)]
 	global BRnumpy.cosY=[0 for x in range(10)],BRnumpy.cosZ=[0 for x in range(10)],BRX=[0 for x in range(10)]
-	global BRY=[0 for x in range(10)],BRZ=[0 for x in range(10)],BRT=[0 for x in range(10)],EBRTOT=[0 for x in range(6)],NBREM=[0 for x in range(6)]
+	global BRY=[0 for x in range(10)],BRZ=[0 for x in range(10)],BRT=[0 for x in range(10)],EBRTOT=[0 for x in range[6]],NBREM=[0 for x in range[6]]
 	global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
 	global AVRAYL,AVCOMP,AVPAIR,AVPHOTO 
 	global CMPDST=[0 for x in range(10)],RYLDST=[0 for x in range(10)]
 	global NJHIGH,ABSXRAY
-	global NAMEG=[0 for x in range(6)]
+	global NAMEG=[0 for x in range[6]]
 	global DSCRPT=[0 for x in range=[0 for x in range(512)]],DSCRPTN=[0 for x in range(60)]
 	BIN100000=[0 for x in range(31)]
 	BIN2=[0 for x in range(31)],BIN4000=[0 for x in range(31)],BIN10000=[0 for x in range(31)],BIN40000=[0 for x in range(31)]
 	BIN10=[0 for x in range(31)],BIN40=[0 for x in range(31)],BIN100=[0 for x in range(31)],BIN400=[0 for x in range(31)],BIN1000=[0 for x in range(31)]
 	DSCRPT=DSCRPTN=""  #50 character
 	NAMEG="" #25
-	FREQEL=[0 for x in range(6)],FREQSP=[0 for x in range(6)],FREINE=[0 for x in range(6)],FREATT=[0 for x in range(6)],FREION=[0 for x in range(6)]     
+	FREQEL=[0 for x in range[6]],FREQSP=[0 for x in range[6]],FREINE=[0 for x in range[6]],FREATT=[0 for x in range[6]],FREION=[0 for x in range[6]]     
 	                                                     
 	print('-----------------------------------------------------------------------------')
 	print('-----------------------------------------------------------------------------')
@@ -4131,8 +4129,8 @@ def OUTPUT:
 	GO TO 143
 	1427 WRITE(6,1428) (K,MELEC300[K], K=1,1000)
 	1428 print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 300',/,1000(I5,I10,/))
-	143 NINEL=ICOLL(2)+ICOLL(3)+ICOLL[4]+ICOLL[5]+ICOLL(7)+ICOLL(8)+ICOLL(9)+ICOLL(10)+ICOLL(12)+ICOLL(13)+ICOLL(14)+ICOLL(15)+ICOLL(17)+ICOLL(18)+ICOLL(19)+ICOLL(20)+ICOLL(22)+ICOLL(23)+ICOLL(24)+ICOLL(25)+ICOLL(27)+ICOLL(28)+ICOLL(29)+ICOLL(30)                          
-	NELA=ICOLL[1]+ICOLL(6)+ICOLL(11)+ICOLL(16)+ICOLL(21)+ICOLL(26)
+	143 NINEL=ICOLL[2]+ICOLL(3)+ICOLL[4]+ICOLL[5]+ICOLL(7)+ICOLL(8)+ICOLL(9)+ICOLL(10)+ICOLL(12)+ICOLL(13)+ICOLL(14)+ICOLL(15)+ICOLL(17)+ICOLL(18)+ICOLL(19)+ICOLL(20)+ICOLL(22)+ICOLL(23)+ICOLL(24)+ICOLL(25)+ICOLL(27)+ICOLL(28)+ICOLL(29)+ICOLL(30)                          
+	NELA=ICOLL[1]+ICOLL[6]+ICOLL(11)+ICOLL(16)+ICOLL(21)+ICOLL(26)
 	ANDELTA=float(NDELTA) 
 	ERRNDEL=math.sqrt(ANDELTA)/ANDELTA
 	FRTOND=float(NREAL)/ANDELTA         
@@ -4904,7 +4902,7 @@ ASIGN=-ASIGN
       COMMON/GENB4/IONF4(10),ESTF4(10,12),X4(10,12),Y4(10,12),Z4(10,12),DRX4(10,12),DRY4(10,12),DRZ4(10,12)
       COMMON/GENB5/IONF5(10),ESTF5(10,5),X5(10,5),Y5(10,5),Z5(10,5),DRX5(10,5),DRY5(10,5),DRZ5(10,5)
       COMMON/INTHRMB1/NPTPE,ET(10,50),XT(10,50),YT(10,50),ZT(10,50),DRX(10,50),DRY(10,50),DRZ[10,50],NJFLR(10,50),IEVENTL(10) 
-      COMMON/PPSTRB/NPTP,EPPST(2),XPP(2),YPP(2),ZPP(2),DRXPP(2),DRYPP(2),DRZPP(2)
+      COMMON/PPSTRB/NPTP,EPPST[2],XPP[2],YPP[2],ZPP[2],DRXPP[2],DRYPP[2],DRZPP[2]
       DIMENSION ESTOT(10) 
       NPTPE=MVAC1
       DO 1 I=1,10
@@ -5032,7 +5030,7 @@ ASIGN=-ASIGN
       DO 30 K=1,MVAC1
       EDUM=EDUM+ESTOT[K]
    30 CONTINUE
-      EDUM=EDUM+EPPST[1]+EPPST(2)
+      EDUM=EDUM+EPPST[1]+EPPST[2]
       ENSUM=EDUM
       if(EDUM > (EFINAL+0.1):
 ) :
@@ -5067,7 +5065,7 @@ ASIGN=-ASIGN
       COMMON/GENB5/IONF5(10),ESTF5(10,5),X51(10,5),Y51(10,5),Z51(10,5),DRX51(10,5),DRY51(10,5),DRZ51(10,5)
       COMMON/COUTE/ECMP(10),ECDRX(10),ECDRY(10),ECDRZ[10],XCPOS(10),YCPOS(10),ZCPOS(10),KCGAS(10),LCGAS(10),ICSHELL(10)
       COMMON/COUTTB/TT(10),TTP
-      COMMON/PPSTRB/NPTP,EPPST(2),XPP(2),YPP(2),ZPP(2),DRXPP(2),DRYPP(2),DRZPP(2)
+      COMMON/PPSTRB/NPTP,EPPST[2],XPP[2],YPP[2],ZPP[2],DRXPP[2],DRYPP[2],DRZPP[2]
 #----------------------------------------------------------------------
 # BREMSSTRAHLUNG CASCADE TREE:
 #   SET OR ZERO SOME VARIABLES 
@@ -5102,7 +5100,7 @@ ASIGN=-ASIGN
 #
 # ZERO SOME ARRAYS
       EPPST[1]=0.00
-      EPPST(2)=0.00
+      EPPST[2]=0.00
       DO 11 K=1,10
       DO 1 J=1,28
       EPHOTON(K,J)=0.0
@@ -5271,34 +5269,34 @@ c RANDOMISE ANGLE PHI
       NPTP=NPAIR
 # STORE ELECTRON AND POSITRON ENERGY POSITION AND ANGLES
       EPPST[1]=E1
-      EPPST(2)=E2
+      EPPST[2]=E2
       if(NVAC == 0):
  :
 # FIRST INTERACTION IS PAIR PRODUCTION
        XPP[1]=X
        YPP[1]=Y
        ZPP[1]=Z
-       XPP(2)=X
-       YPP(2)=Y
-       ZPP(2)=Z
+       XPP[2]=X
+       YPP[2]=Y
+       ZPP[2]=Z
        TTP=TSUM
        GO TO 40       
       # endif
       XPP[1]=X+DIST*DRXS
       YPP[1]=Y+DIST*DRYS
       ZPP[1]=Z+DIST*DRZS
-      XPP(2)=XPP[1]
-      YPP(2)=YPP[1]
-      ZPP(2)=ZPP[1]
+      XPP[2]=XPP[1]
+      YPP[2]=YPP[1]
+      ZPP[2]=ZPP[1]
       TTP=TSUM+DIST/VV
    40 CALL DRCOS(DRXS,DRYS,DRZS,THET1,PHI1,DRXX,DRYY,DRZZ)
       DRXPP[1]=DRXX
       DRYPP[1]=DRYY
       DRZPP[1]=DRZZ
       CALL DRCOS(DRXS,DRYS,DRZS,THET2,PHI2,DRXX,DRYY,DRZZ)
-      DRXPP(2)=DRXX
-      DRYPP(2)=DRYY
-      DRZPP(2)=DRZZ
+      DRXPP[2]=DRXX
+      DRYPP[2]=DRYY
+      DRZPP[2]=DRZZ
       GO TO 200
 # PHOTOELECTRIC ABSORPTION
 #  STORE ENERGY ISHELL KGAS
@@ -8543,7 +8541,7 @@ c initial vacancy
       COMMON/GENE4/IONF4(10),ESTF4(10,12),X4(10,12),Y4(10,12),Z4(10,12),DRX4(10,12),DRY4(10,12),DRZ4(10,12),T04(10,12)
       COMMON/GENE5/IONF5(10),ESTF5(10,5),X5(10,5),Y5(10,5),Z5(10,5),DRX5(10,5),DRY5(10,5),DRZ5(10,5),T05(10,5)   
       COMMON/INTHRMB2/NPTPE,ET(10,50),XT(10,50),YT(10,50),ZT(10,50),TT(10,50),DRX(10,50),DRY(10,50),DRZ[10,50],NJFLR(10,50),IEVENTL(10) 
-      COMMON/PPSTRB/NPTP,EPPST(2),XPP(2),YPP(2),ZPP(2),DRXPP(2),DRYPP(2),DRZPP(2)
+      COMMON/PPSTRB/NPTP,EPPST[2],XPP[2],YPP[2],ZPP[2],DRXPP[2],DRYPP[2],DRZPP[2]
       DIMENSION ESTOT(10) 
       NPTPE=1
       IVAC=1
@@ -8770,13 +8768,13 @@ c initial vacancy
       COMMON/STTS/XST(150000),YST(150000),ZST(150000),TST(150000),TTIME(150000),NFGF(150000),NFGPP(150000),NFGBR(150000),NELEC,NEGION,EST1,EST2
       COMMON/STEXC/XSTEXC(150000),YSTEXC(150000),ZSTEXC(150000),TSTEXC(150000),NSTEXC
       COMMON/STEXCNUL/XSTN(150000),YSTN(150000),ZSTN(150000),TSTN(150000),IDNUL(150000),NEXCNUL
-      COMMON/IONC/DOUBLE(6,20000),CMINIXSC(6),CMINEXSC(6),ECLOSS(6),WPLN(6),ICOUNT,AVPFRAC(3,6) 
+      COMMON/IONC/DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],WPLN[6],ICOUNT,AVPFRAC(3,6) 
       COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),EG2(512),WKLM(512),DSTFL(512)
       COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
       COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO
       COMMON/CASRS/ECAS(400),XCAS(400),YCAS(400),ZCAS(400),DRXS(400),DRYS(400),DRZS(400),TT1(400),NFLGF(400),NFLGPP(400),IEVNTL
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT(6),NBREM(6)
+      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT[6],NBREM[6]
       COMMON/CASRSB/ECASB[400],XCASB[400],YCASB[400],ZCASB[400],DRXB[400],DRYB[400],DRZB[400],TTB1(400),NFLGFB[400],NFLGPPB[400],IEVNTLB
       COMMON/CASRSE/ECASE(400),XCASE(400),YCASE(400),ZCASE(400),DRXCE(400),DRYCE(400),DRZCE(400),TCASE(400),NFLGFE(400),NFLGPPE(400),IEVENTE
       COMMON/ECASC/NEGAS(512),LEGAS(512),IESHELL(512),IECASC
@@ -9577,13 +9575,13 @@ c     if(NELEC == 1 and NCLUS == 0) GO TO 210
       COMMON/STTS/XST(150000),YST(150000),ZST(150000),TST(150000),TTIME(150000),NFGF(150000),NFGPP(150000),NFGBR(150000),NELEC,NEGION,EST1,EST2 
       COMMON/STEXC/XSTEXC(150000),YSTEXC(150000),ZSTEXC(150000),TSTEXC(150000),NSTEXC
       COMMON/STEXCNUL/XSTN(150000),YSTN(150000),ZSTN(150000),TSTN(150000),IDNUL(150000),NEXCNUL
-      COMMON/IONC/DOUBLE(6,20000),CMINIXSC(6),CMINEXSC(6),ECLOSS(6),WPLN(6),ICOUNT,AVPFRAC(3,6)
+      COMMON/IONC/DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],WPLN[6],ICOUNT,AVPFRAC(3,6)
       COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),EG2(512),WKLM(512),DSTFL(512)
       COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512) 
       COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO
       COMMON/CASRS/ECAS(400),XCAS(400),YCAS(400),ZCAS(400),DRXS(400),DRYS(400),DRZS(400),TT1(400),NFLGF(400),NFLGPP(400),IEVNTL
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT(6),NBREM(6)
+      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT[6],NBREM[6]
       COMMON/CASRSB/ECASB[400],XCASB[400],YCASB[400],ZCASB[400],DRXB[400],DRYB[400],DRZB[400],TTB1(400),NFLGFB[400],NFLGPPB[400],IEVNTLB
       COMMON/CASRSE/ECASE(400),XCASE(400),YCASE(400),ZCASE(400),DRXCE(400),DRYCE(400),DRZCE(400),TCASE(400),NFLGFE(400),NFLGPPE(400),IEVENTE
       COMMON/ECASC/NEGAS(512),LEGAS(512),IESHELL(512),IECASC
@@ -10428,13 +10426,13 @@ GO TO 333
       COMMON/STTS/XST(150000),YST(150000),ZST(150000),TST(150000),TTIME(150000),NFGF(150000),NFGPP(150000),NFGBR(150000),NELEC,NEGION,EST1,EST2
       COMMON/STEXC/XSTEXC(150000),YSTEXC(150000),ZSTEXC(150000),TSTEXC(150000),NSTEXC
       COMMON/STEXCNUL/XSTN(150000),YSTN(150000),ZSTN(150000),TSTN(150000),IDNUL(150000),NEXCNUL
-      COMMON/IONC/DOUBLE(6,20000),CMINIXSC(6),CMINEXSC(6),ECLOSS(6),WPLN(6),ICOUNT,AVPFRAC(3,6)
+      COMMON/IONC/DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],WPLN[6],ICOUNT,AVPFRAC(3,6)
       COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),EG2(512),WKLM(512),DSTFL(512)
       COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512) 
       COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO 
       COMMON/CASRS/ECAS(400),XCAS(400),YCAS(400),ZCAS(400),DRXS(400),DRYS(400),DRZS(400),TT1(400),NFLGF(400),NFLGPP(400),IEVNTL
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT(6),NBREM(6)
+      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT[6],NBREM[6]
       COMMON/CASRSB/ECASB[400],XCASB[400],YCASB[400],ZCASB[400],DRXB[400],DRYB[400],DRZB[400],TTB1(400),NFLGFB[400],NFLGPPB[400],IEVNTLB
       COMMON/CASRSE/ECASE(400),XCASE(400),YCASE(400),ZCASE(400),DRXCE(400),DRYCE(400),DRZCE(400),TCASE(400),NFLGFE(400),NFLGPPE(400),IEVENTE
       COMMON/ECASC/NEGAS(512),LEGAS(512),IESHELL(512),IECASC
@@ -11252,13 +11250,13 @@ GO TO 333
       COMMON/STTS/XST(150000),YST(150000),ZST(150000),TST(150000),TTIME(150000),NFGF(150000),NFGPP(150000),NFGBR(150000),NELEC,NEGION,EST1,EST2
       COMMON/STEXC/XSTEXC(150000),YSTEXC(150000),ZSTEXC(150000),TSTEXC(150000),NSTEXC
       COMMON/STEXCNUL/XSTN(150000),YSTN(150000),ZSTN(150000),TSTN(150000),IDNUL(150000),NEXCNUL
-      COMMON/IONC/DOUBLE(6,20000),CMINIXSC(6),CMINEXSC(6),ECLOSS(6),WPLN(6),ICOUNT,AVPFRAC(3,6)
+      COMMON/IONC/DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],WPLN[6],ICOUNT,AVPFRAC(3,6)
       COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),EG2(512),WKLM(512),DSTFL(512)
       COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512) 
       COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO
       COMMON/CASRS/ECAS(400),XCAS(400),YCAS(400),ZCAS(400),DRXS(400),DRYS(400),DRZS(400),TT1(400),NFLGF(400),NFLGPP(400),IEVNTL     
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT(6),NBREM(6) 
+      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT[6],NBREM[6] 
       COMMON/CASRSB/ECASB[400],XCASB[400],YCASB[400],ZCASB[400],DRXB[400],DRYB[400],DRZB[400],TTB1(400),NFLGFB[400],NFLGPPB[400],IEVNTLB
       COMMON/CASRSE/ECASE(400),XCASE(400),YCASE(400),ZCASE(400),DRXCE(400),DRYCE(400),DRZCE(400),TCASE(400),NFLGFE(400),NFLGPPE(400),IEVENTE     
       COMMON/ECASC/NEGAS(512),LEGAS(512),IESHELL(512),IECASC
@@ -13401,7 +13399,7 @@ GO TO 333
       def CASRESB:
       IMPLICIT #real*8 (A-H,O-Z)
       IMPLICIT #integer*8 (I-N)
-      COMMON/PPSTRB/NPTP,EPPST(2),XPP(2),YPP(2),ZPP(2),DRXPP(2),DRYPP(2),DRZPP(2)
+      COMMON/PPSTRB/NPTP,EPPST[2],XPP[2],YPP[2],ZPP[2],DRXPP[2],DRYPP[2],DRZPP[2]
       COMMON/INTHRMB1/NPTPE,ET(10,50),XT(10,50),YT(10,50),ZT(10,50),DRXX(10,50),DRYY(10,50),DRZZ[10,50],NJFLR(10,50),IEVENTL(10)
       COMMON/COUTTB/TT(10),TTP
       COMMON/CASRSB/E(400),X(400),Y(400),Z[400],DRX(400),DRY(400),DRZ[400],T(400),NFLGF(400),NFLGPP(400),IEVENT
@@ -13852,14 +13850,14 @@ GO TO 333
       def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
       IMPLICIT #real*8 (A-H,O-Z)
       IMPLICIT #integer*8 (I-N)
-      COMMON/RATIO/AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC(6)  
+      COMMON/RATIO/AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC[6]  
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
       COMMON/ABBS/ABSXRAY             
       COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
       COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),RAD[6,3,17,17],PRSHBT(6,3,17),IZ[6,3],INIOCC(6,3,17),ISHLMX(6,3),AMZ[6,3]
       COMMON/MIXPE/XPE(6,3,17,60),YPE(6,3,17,60)
       COMMON/MIXCN/XEN(6,3,54),YRY(6,3,54),YCP(6,3,54),YPP(6,3,54)
-      DIMENSION XSEC(306),XSECC(18),XSECR(18),XSECP(18),ANGAS(6),ABSL(306),ABSLC(18),ABSLR(18),ABSLP(18),XSUM(360)
+      DIMENSION XSEC(306),XSECC(18),XSECR(18),XSECP(18),ANGAS[6],ABSL(306),ABSLC(18),ABSLR(18),ABSLP(18),XSUM(360)
 #******************************************************************
 # FOR PHOTON ENERGY EPH CALCULATES INTERACTION DISTANCE WITH
 #  GAS IDENTITY,KGAS . IF MOLECULAR GAS ALSO IDENTIFIES THE 
@@ -13870,11 +13868,11 @@ GO TO 333
 # KGAS , LGAS AND SETS COMPTON RAYLEIGH OR PAIR PRODUCTION FLAGS.
 #****************************************************************** 
       ANGAS[1]=AN1
-      ANGAS(2)=AN2
+      ANGAS[2]=AN2
       ANGAS(3)=AN3
       ANGAS[4]=AN4
       ANGAS[5]=AN5
-      ANGAS(6)=AN6
+      ANGAS[6]=AN6
       LCFLG=0
       LRFLG=0
       LPFLG=0
@@ -16814,12 +16812,12 @@ return
       COMMON/INPT2/KGAS,LGAS,DETEFF,EXCWGHT
       COMMON/INPT1/NDVEC
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG 
-      COMMON/RATIO/AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC(6)              
+      COMMON/RATIO/AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC[6]              
       COMMON/SETP/TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX(10),TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                      
       COMMON/BFLD/EOVB,WB,BTHETA,BMAG  
-      COMMON/IONC/DOUBLE(6,20000),CMINIXSC(6),CMINEXSC(6),ECLOSS(6),WPLN(6),ICOUNT,AVPFRAC(3,6)
+      COMMON/IONC/DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],WPLN[6],ICOUNT,AVPFRAC(3,6)
       COMMON/LARGE/CF(20000,512),EIN(512),TCF(20000),IARRY(512),    RGAS(512),IPN(512),WPL(512),IZBR(512),IPLAST,PENFRA[3,512]   
-      COMMON/NAMES/NAMEG(6)  
+      COMMON/NAMES/NAMEG[6]  
       COMMON/KSEED/NSEED 
       COMMON/ECASC/NEGAS(512),LEGAS(512),IESHELL(512),IECASC  
       CHARACTER*25 NAMEG                                  
@@ -16958,7 +16956,7 @@ return
       COMMON/MIXPE/XPE(6,3,17,60),YPE(6,3,17,60)
       COMMON/MIXCN/XCP(6,3,54),YRY(6,3,54),YCP(6,3,54),YPP(6,3,54)
       COMMON/COMPTIN/FRMFR(6,3,45),FRMFC(6,3,45)
-      COMMON/GASN/NGASN(6)
+      COMMON/GASN/NGASN[6]
       DIMENSION PRSH1(3,17,17),PRSH2(3,17,17),PRSH3(3,17,17),PRSH4(3,17,17),PRSH5(3,17,17),PRSH6(3,17,17)
       DIMENSION PRSHBT1(3,17),PRSHBT2(3,17),PRSHBT3(3,17),PRSHBT4(3,17),PRSHBT5(3,17),PRSHBT6(3,17)
       DIMENSION ESH1(3,17),ESH2(3,17),ESH3(3,17),ESH4(3,17),ESH5(3,17),ESH6(3,17)
@@ -16993,7 +16991,7 @@ return
       CALL GASMIXC(NGASN[1],PRSH1,PRSHBT1,ESH1,AUG1,RAD1,XP1,YP1,XC1,YR1,YC1,YPP1,FFAR1,FFAC1,IZ1,AMZ1,INIOCC1)
       if(NGAS == 1):
  GO TO 10
-      CALL GASMIXC(NGASN(2),PRSH2,PRSHBT2,ESH2,AUG2,RAD2,XP2,YP2,XC2,YR2,YC2,YPP2,FFAR2,FFAC2,IZ2,AMZ2,INIOCC2)
+      CALL GASMIXC(NGASN[2],PRSH2,PRSHBT2,ESH2,AUG2,RAD2,XP2,YP2,XC2,YR2,YC2,YPP2,FFAR2,FFAC2,IZ2,AMZ2,INIOCC2)
       if(NGAS == 2):
  GO TO 10
       CALL GASMIXC(NGASN(3),PRSH3,PRSHBT3,ESH3,AUG3,RAD3,XP3,YP3,XC3,YR3,YC3,YPP3,FFAR3,FFAC3,IZ3,AMZ3,INIOCC3)
@@ -17005,7 +17003,7 @@ return
       CALL GASMIXC(NGASN[5],PRSH5,PRSHBT5,ESH5,AUG5,RAD5,XP5,YP5,XC5,YR5,YC5,YPP5,FFAR5,FFAC5,IZ5,AMZ5,INIOCC5)
       if(NGAS == 5):
  GO TO 10
-      CALL GASMIXC(NGASN(6),PRSH6,PRSHBT6,ESH6,AUG6,RAD6,XP6,YP6,XC6,YR6,YC6,YPP6,FFAR6,FFAC6,IZ6,AMZ6,INIOCC6)
+      CALL GASMIXC(NGASN[6],PRSH6,PRSHBT6,ESH6,AUG6,RAD6,XP6,YP6,XC6,YR6,YC6,YPP6,FFAR6,FFAC6,IZ6,AMZ6,INIOCC6)
       if(NGAS == 6):
  GO TO 10
    10 CONTINUE
@@ -21746,11 +21744,11 @@ return
       COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30) 
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
       DIMENSION XEN(163),YELM(163),YELT(163),YEPS(163),XVBV4(11),YVBV4(11),XVBV1(11),YVBV1(11),XVBV3(11),YVBV3(11),XVIB5(12),YVIB5(12),XVIB6(12),YVIB6(12),XTR1(12),YTR1(12),XTR2(11),YTR2(11),XTR3(11),YTR3(11),XC'%.3f' % 7),YC'%.3f' % 7),XC'%.3f' % 1),YC'%.3f' % 1),XCF1(28),YCF1(28),XCF32(25),YCF32(25),XCF0(27),YCF0(27),XC0F(27),YC0F(27),XCF22(25),YCF22(25),XCF(22),YCF(22),XCFF(24),YCFF(24),XCF2F(25),YCF2F(25),XCF3F(26),YCF3F(26),XATT(11),YATT(11),XKSHC(81),YKSHC(81),XKSHF(79),YKSHF(79),IOFFN(46),IOFFION(12)
       DIMENSION Z6T(25),Z9T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
@@ -21948,18 +21946,18 @@ c
       NKSHF=79
 #                                                          
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(88.0043*AMU)                                      
+      E[2]=2.0*EMASS/(88.0043*AMU)                                      
       E(3)=15.90
       E[4]=0.0
       E[5]=0.0                    
-      E(6)=0.0
+      E[6]=0.0
 #
       EION[1]=15.7
-      EION(2)=21.47
+      EION[2]=21.47
       EION(3)=29.14
       EION[4]=34.5
       EION[5]=34.77
-      EION(6)=36.0
+      EION[6]=36.0
       EION(7)=40.0
       EION(8)=41.0
       EION(9)=43.0
@@ -22028,11 +22026,11 @@ c
   776 CONTINUE
 #
       EIN[1]=-0.0539
-      EIN(2)=0.0539
+      EIN[2]=0.0539
       EIN(3)=-0.0783                                                    
       EIN[4]=0.0783 
       EIN[5]=-0.1126                                                    
-      EIN(6)=0.1126
+      EIN[6]=0.1126
       EIN(7)=-0.1588
       EIN(8)=0.1588                                                     
       EIN(9)=0.3176                                                     
@@ -22107,15 +22105,15 @@ c
     8 CONTINUE 
 #*********************************************************************** 
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC  ANISOTROPIC            CF4              '
+      SCRPT[2]=' ELASTIC  ANISOTROPIC            CF4              '
       if(NANISO == 0):
  :
-       SCRPT(2)=' ELASTIC  ISOTROPIC             CF4              '
+       SCRPT[2]=' ELASTIC  ISOTROPIC             CF4              '
       # endif
       SCRPT(3)=' ION  CF3 +                      ELOSS=   15.70   '
       SCRPT[4]=' ION  CF2 +                      ELOSS=   21.47   '
       SCRPT[5]=' ION  CF +                       ELOSS=   29.14   '
-      SCRPT(6)=' ION  F +                        ELOSS=   34.5    '
+      SCRPT[6]=' ION  F +                        ELOSS=   34.5    '
       SCRPT(7)=' ION  C +                        ELOSS=   34.77   '
       SCRPT(8)=' DOUBLE ION    CF3 + , F +       ELOSS=   36.0    '
       SCRPT(9)=' DOUBLE ION    CF2 + , F +       ELOSS=   40.0    '
@@ -22265,7 +22263,7 @@ c
       PEQION(2,I)=0.5
       if(NANISO == 2):
  PEQION(2,I)=0.0                             
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 50
       if(EN > XCF2(NCF2):
 ) GO TO 48                                
@@ -22281,9 +22279,9 @@ c
 # USE BORN BETHE X-SECTION ABOVE XCF2(NCF2) EV
    48 QION(2,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0534
    49 CONTINUE
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 50
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))     
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))     
 #  ION = CF +
    50 QION(3,I)=0.0
       PEQION(3,I)=0.5
@@ -22361,7 +22359,7 @@ c
       PEQION(6,I)=0.5
       if(NANISO == 2):
  PEQION(6,I)=0.0                             
-      if(EN <= EION(6):
+      if(EN <= EION[6]:
 ) GO TO 70 
       if(EN > XCF3F(NCF3F):
 ) GO TO 68                               
@@ -22377,9 +22375,9 @@ c
 # USE BORN BETHE X-SECTION ABOVE XCF3F(NCF3F) EV
    68 QION(6,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0058
    69 CONTINUE
-      if(EN <= (2.0*EION(6):
+      if(EN <= (2.0*EION[6]:
 )) GO TO 70
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))     
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))     
 #  DOUBLE IONS  CF2 +  AND F +
    70 QION(7,I)=0.0
       PEQION(7,I)=0.5
@@ -22574,9 +22572,9 @@ c
 # VIBRATION V2 ISOTROPIC BELOW 100EV
       QIN(2,I)=0.0
       PEQIN(2,I)=0.5                                                   
-      if(EN <= EIN(2):
+      if(EN <= EIN[2]:
 ) GO TO 400                                        
-      EFAC=math.sqrt(1.0-(EIN(2)/EN))
+      EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN(2,I)=0.007*math.log((1.0+EFAC)/(1.0-EFAC))/EN    
       QIN(2,I)=QIN(2,I)*APOPGS*1.D-16
       if(EN > 100.0):
@@ -22666,7 +22664,7 @@ c
 #  VIBRATION V1  ISOTROPIC BELOW 100EV
       QIN(6,I)=0.0        
       PEQIN(6,I)=0.5                          
-      if(EN <= EIN(6):
+      if(EN <= EIN[6]:
 ) GO TO 600   
       if(EN > XVBV1(NVBV1):
 ) GO TO 574                                
@@ -22681,7 +22679,7 @@ c
       GO TO 575
   574 QIN(6,I)=YVBV1(NVBV1)*(XVBV1(NVBV1)/EN)**3
   575 CONTINUE
-      EFAC=math.sqrt(1.0-(EIN(6)/EN))
+      EFAC=math.sqrt(1.0-(EIN[6]/EN))
       QIN(6,I)=QIN(6,I)+0.0224*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN(6,I)=QIN(6,I)*APOPGS*1.D-16
       if(EN > 100.0):
@@ -23282,10 +23280,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
       DIMENSION XEN(117),YSEC(117),YEL(117),XEPS(217),YEPS(217),XENI(75),YENI(75),YENC(75),YEN1(75),XEN2(47),YEN2(47),XEN3(36),YEN3(36),XKSH(89),YKSH(89),XL1S(101),YL1S(101),XL2S(104),YL2S(104),XL3S(104),YL3S(104),X1S5(71),Y1S5(71),YEPS1(71),X1S4(79),Y1S4(79),YEPS2(79),X1S3(70),Y1S3(70),YEPS3(70),X1S2(70),Y1S2(70),YEPS4(70),X2P10(54),Y2P10(54),YEP2P10(54),X2P9(17),Y2P9(17),YEP2P9(17),X2P8(15),Y2P8(15),YEP2P8(15),X2P7(17),Y2P7(17),YEP2P7(17),X2P6(16),Y2P6(16),YEP2P6(16),X2P5(17),Y2P5(17),YEP2P5(17),X2P4(17),Y2P4(17),YEP2P4(17),X2P3(17),Y2P3(17),YEP2P3(17),X2P2(16),Y2P2(16),YEP2P2(16),X2P1(17),Y2P1(17),YEP2P1(17),X3D6(19),Y3D6(19),YEP3D6(19),X3D5(26),Y3D5(26),YEP3D5(26),X3D4P(20),Y3D4P(20),YEP3D4P(20),X3D4(23),Y3D4(23),YEP3D4(23),X3D3(20),Y3D3(20),YEP3D3(20),X3D1PP(19),Y3D1PP(19),YEP3D1PP(19),X3D1P(16),Y3D1P(16),YEP3D1P(16),X3S1PPPP(21),Y3S1PPPP(21),YEP3S1PPPP(21),X3S1PPP(16),Y3S1PPP(16),YEP3S1PPP(16),X3S1PP(21),Y3S1PP(21),YEP3S1PP(21),X2S5(19),Y2S5(19),YEP2S5(19),X2S3(19),Y2S3(19),YEP2S3(19),IOFFN(44),IOFFION(30)
       DIMENSION Z18T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)                          
@@ -23556,44 +23554,44 @@ c
       N2S3=19
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(39.948*AMU)                                       
+      E[2]=2.0*EMASS/(39.948*AMU)                                       
       E(3)=15.75961
 # EXCITATION X-SECTION AT 1.5MEV                                        
       E[4]=0.18D-18
 # IONISING X-SECTION AT 1.5MEV             
       E[5]=0.9204D-18   
 # OPAL BEATY FOR MINIMUM IONISING PARTICLE                              
-      E(6)=15.0
+      E[6]=15.0
 # OPAL BEATY AT LOW ENERGY
       EOBY[1]=9.5  
-      EOBY(2)=18.0    
+      EOBY[2]=18.0    
       EOBY(3)=34.0    
 # OPAL BEATY SPLITTING FOR SHELLS
       EOBY[4]=110.      
       EOBY[5]=110.0       
-      EOBY(6)=150.0     
+      EOBY[6]=150.0     
       EOBY(7)=1800.0        
 #
       EION[1]=15.75961
-      EION(2)=43.38928
+      EION[2]=43.38928
       EION(3)=84.124
       EION[4]=248.4
       EION[5]=250.6
-      EION(6)=326.3
+      EION[6]=326.3
       EION(7)=3205.9
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       LEGAS(3)=0
       LEGAS[4]=1
       LEGAS[5]=1
-      LEGAS(6)=1
+      LEGAS[6]=1
       LEGAS(7)=1
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
       ISHELL(3)=0
       ISHELL[4]=4
       ISHELL[5]=3
-      ISHELL(6)=2
+      ISHELL[6]=2
       ISHELL(7)=1
 # FLUORESCENCE AND AUGER DATA
       NC0[1]=0
@@ -23604,14 +23602,14 @@ c
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=1
-      EC0(2)=6.0 
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=1
+      EC0[2]=6.0 
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
       NC0(3)=2
       EC0(3)=12.0
       WKLM(3)=0.0
@@ -23636,14 +23634,14 @@ c
       EG1[5]=202.2
       NG2[5]=1
       EG2[5]=5.0
-      NC0(6)=3
-      EC0(6)=240.8
-      WKLM(6)=0.00147
-      EFL(6)=310.
-      NG1(6)=2
-      EG1(6)=240.8
-      NG2(6)=1
-      EG2(6)=5.0
+      NC0[6]=3
+      EC0[6]=240.8
+      WKLM[6]=0.00147
+      EFL[6]=310.
+      NG1[6]=2
+      EG1[6]=240.8
+      NG2[6]=1
+      EG2[6]=5.0
       NC0(7)=4
       EC0(7)=3071.
       WKLM(7)=0.12
@@ -23664,11 +23662,11 @@ c
   776 CONTINUE
 #
       EIN[1]=11.548
-      EIN(2)=11.624
+      EIN[2]=11.624
       EIN(3)=11.723
       EIN[4]=11.828
       EIN[5]=12.907
-      EIN(6)=13.076
+      EIN[6]=13.076
       EIN(7)=13.095
       EIN(8)=13.153
       EIN(9)=13.172
@@ -23737,15 +23735,15 @@ c
     5 CONTINUE
 #
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC ANISOTROPIC       ARGON                  '
+      SCRPT[2]=' ELASTIC ANISOTROPIC       ARGON                  '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC ISOTROPIC         ARGON                  '
+      SCRPT[2]=' ELASTIC ISOTROPIC         ARGON                  '
       # endif
       SCRPT(3)=' IONISATION CHARGE STATE =1      ELOSS=   15.75961'
       SCRPT[4]=' IONISATION CHARGE STATE =2      ELOSS=   43.38928'
       SCRPT[5]=' IONISATION CHARGE STATE =3      ELOSS=   84.124  '
-      SCRPT(6)=' IONISATION L3 SHELL             ELOSS=  248.4    '
+      SCRPT[6]=' IONISATION L3 SHELL             ELOSS=  248.4    '
       SCRPT(7)=' IONISATION L2 SHELL             ELOSS=  250.6    '
       SCRPT(8)=' IONISATION L1 SHELL             ELOSS=  326.3    '
       SCRPT(9)=' IONISATION K  SHELL             ELOSS= 3205.9    '
@@ -23910,7 +23908,7 @@ c
       PEQION(2,I)=0.50 
       if(NANISO == 2):
  PEQION(2,I)=0.00                            
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 3223  
       if(EN > XEN2(NION2):
 ) GO TO 3221                                 
@@ -23934,9 +23932,9 @@ c
 # ENERGIES ABOVE 2 * IONISATION ENERGY
 # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
 # IONISATION ENERGY
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 3223
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 #
 # IONISATION FOR CHARGE =3
  3223 QION(3,I)=0.0
@@ -24007,7 +24005,7 @@ c
       PEQION(6,I)=0.5
       if(NANISO == 2):
  PEQION(6,I)=0.0
-      if(EN <= EION(6):
+      if(EN <= EION[6]:
 ) GO TO 226
       DO 2251 J=2,NL1S
       if(EN <= XL1S[J]:
@@ -24017,7 +24015,7 @@ c
  2252 A=(YL1S[J]-YL1S(J-1))/(XL1S[J]-XL1S(J-1))
       B=(XL1S(J-1)*YL1S[J]-XL1S[J]*YL1S(J-1))/(XL1S(J-1)-XL1S[J])
       QION(6,I)=(A*EN+B)*1.D-16
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 # CALCULATE K  SHELL IONISATION
   226 QION(7,I)=0.00
       PEQION(7,I)=0.5
@@ -24099,7 +24097,7 @@ c
  3112 if(EN <= (2.0*EIN[1])) GO TO 312
       PEQIN(1,I)=PEQEL(2,(I-IOFFN[1]))
 # 1S4 F=0.0580
-  312 if(EN <= EIN(2)) GO TO 413
+  312 if(EN <= EIN[2]) GO TO 413
       if(EN > X1S4(N1S4):
 ) GO TO 3141
       DO 313 J=2,N1S4                                                   
@@ -24111,9 +24109,9 @@ c
       B=(X1S4(J-1)*Y1S4[J]-X1S4[J]*Y1S4(J-1))/(X1S4(J-1)-X1S4[J])      
       QIN(2,I)=(A*EN+B)*1.0D-18
       GO TO 3142
- 3141 QIN(2,I)=0.0580/(EIN(2)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(2)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E(3)+EIN(2))
- 3142 if(EN <= (2.0*EIN(2))) GO TO 315
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+ 3141 QIN(2,I)=0.0580/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E(3)+EIN[2])
+ 3142 if(EN <= (2.0*EIN[2])) GO TO 315
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 # 1S3
   315 if(EN <= EIN(3)) GO TO 413
       if(EN > X1S3(N1S3):
@@ -24168,7 +24166,7 @@ c
  3232 if(EN <= (2.0*EIN[5])) GO TO 324
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 # 2P9
-  324 if(EN <= EIN(6)) GO TO 413
+  324 if(EN <= EIN[6]) GO TO 413
       if(EN > X2P9(N2P9):
 ) GO TO 3261
       DO 325 J=2,N2P9
@@ -24182,8 +24180,8 @@ c
       GO TO 3262
 # IF ENERGY GT X2P9(N2P9) EV SCALE BY 1/E**2
  3261 QIN(6,I)=Y2P9(N2P9)*(X2P9(N2P9)/EN)**2*1.0D-18*PSCALE
- 3262 if(EN <= (2.0*EIN(6))) GO TO 327
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+ 3262 if(EN <= (2.0*EIN[6])) GO TO 327
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 # 2P8
   327 if(EN <= EIN(7)) GO TO 413
       if(EN > X2P8(N2P8):
@@ -24717,11 +24715,11 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)    
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)  
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
-      DIMENSION XEN(144),YEM(144),YEL(144),YEPS(144),XION(90),YION(90),YINC(90),X23S(139),Y23S(139),X21S(128),Y21S(128),X23P(128),Y23P(128),X21P(125),Y21P(125),X33S(106),Y33S(106),X31S(87),Y31S(87),X33P(91),Y33P(91),X33D[108],Y33D[108],X31D[94],Y31D[94],X31P(114),Y31P(114),X43S(59),Y43S(59),X41S(55),Y41S(55),X43P(76),Y43P(76),X43D[65],Y43D[65],X41D[53],Y41D[53],X43F(40),Y43F(40),X41F(57),Y41F(57),X41P(96),Y41P(96),IOFFN(49),IOFFION(2)  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
+      DIMENSION XEN(144),YEM(144),YEL(144),YEPS(144),XION(90),YION(90),YINC(90),X23S(139),Y23S(139),X21S(128),Y21S(128),X23P(128),Y23P(128),X21P(125),Y21P(125),X33S(106),Y33S(106),X31S(87),Y31S(87),X33P(91),Y33P(91),X33D[108],Y33D[108],X31D[94],Y31D[94],X31P(114),Y31P(114),X43S(59),Y43S(59),X41S(55),Y41S(55),X43P(76),Y43P(76),X43D[65],Y43D[65],X41D[53],Y41D[53],X43F(40),Y43F(40),X41F(57),Y41F(57),X41P(96),Y41P(96),IOFFN(49),IOFFION[2]  
       DIMENSION Z2T(25),EBRM(25) 
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME  
@@ -24884,24 +24882,24 @@ c
       N41F=57
       N41P=96
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(4.00260*AMU)                                      
+      E[2]=2.0*EMASS/(4.00260*AMU)                                      
       E(3)=24.58739
 # ENTER EXCITATION X-SECTION AT 1.4MEV                                   
       E[4]=0.5841D-19
 # ENTER IONISING X-SECTION AT 1.4MEV                            
       E[5]=0.1271D-18
 # ENTER EOBY FOR MINIMUM IONISING PARTICLE         
-      E(6)=10.5
+      E[6]=10.5
 # IONISATION ENERGIES
       EION[1]=24.58739
-      EION(2)=79.00515
+      EION[2]=79.00515
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
 # EOBY AT LOW ENERGY
       EOBY[1]=12.0       
-      EOBY(2)=65.0       
+      EOBY[2]=65.0       
 # FLUORESCENCE DATA
       NC0[1]=0
       EC0[1]=0.0
@@ -24911,14 +24909,14 @@ c
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=1
-      EC0(2)=10.0
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=1
+      EC0[2]=10.0
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
 #
       DO 776 J=1,NION
       DO 777 I=1,20000
@@ -24931,11 +24929,11 @@ c
   776 CONTINUE
 #
       EIN[1]=19.81961                                                   
-      EIN(2)=20.61577
+      EIN[2]=20.61577
       EIN(3)=20.96409
       EIN[4]=21.21802
       EIN[5]=22.71847
-      EIN(6)=22.92032
+      EIN[6]=22.92032
       EIN(7)=23.00707
       EIN(8)=23.07365
       EIN(9)=23.07407
@@ -25016,15 +25014,15 @@ c
   651 CONTINUE
     5 CONTINUE
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC  ANISOTROPIC            HELIUM 4         '
+      SCRPT[2]=' ELASTIC  ANISOTROPIC            HELIUM 4         '
       if(NANISO == 0):
  :
-       SCRPT(2)=' ELASTIC   ISOTROPIC            HELIUM 4         '
+       SCRPT[2]=' ELASTIC   ISOTROPIC            HELIUM 4         '
       # endif
       SCRPT(3)=' IONISATION CHARGE STATE=1         ELOSS= 24.58739'
       SCRPT[4]=' IONISATION CHARGE STATE=2         ELOSS= 79.00515'
       SCRPT[5]=' ATTACHMENT                                       '
-      SCRPT(6)='                                                  ' 
+      SCRPT[6]='                                                  ' 
       SCRPT(7)='                                                  '
       SCRPT(8)=' EXC  23S J=1    METASTABLE        ELOSS= 19.81961'
       SCRPT(9)=' EXC  21S J=0    METASTABLE        ELOSS= 20.61577'
@@ -25170,9 +25168,9 @@ c
 # USE BORN-BETHE X-SECTION ABOVE XION(NIOND) EV
   241 Q(5,I)=CONST*(AM2*(AX1-DEN[I]/2.0)+C*AX2)
   242 CONTINUE  
-      if(EN <= (2.00*EION(2):
+      if(EN <= (2.00*EION[2]:
 )) GO TO 250
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
   250 Q(6,I)=0.00
 # CALCULATE CHARGE STATE 1 AND 2 FROM COUNT AND GROSS
       QTEMP1=2.00*Q(5,I)-QION(1,I)
@@ -25211,7 +25209,7 @@ c
       PEQIN(1,I)=PEQEL(2,(I-IOFFN[1])) 
 #
 # 2 1S                                                                  
-  320 if(EN <= EIN(2)) GO TO 2000
+  320 if(EN <= EIN[2]) GO TO 2000
       if(EN > X21S(N21S):
 ) GO TO 341                         
       DO 330 J=2,N21S                                                   
@@ -25225,8 +25223,8 @@ c
       GO TO 342
 # IF ENERGY GT X21S(N21S) EV SCALE BY 1/E
   341 QIN(2,I)=Y21S(N21S)*(X21S(N21S)/EN)*1.D-18   
-  342 if(EN <= (2.0*EIN(2))) GO TO 350
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+  342 if(EN <= (2.0*EIN[2])) GO TO 350
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 #
 # 2 3P
   350 if(EN <= EIN(3)) GO TO 2000
@@ -25283,7 +25281,7 @@ c
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 #
 # 3 1S
-  440 if(EN <= EIN(6)) GO TO 2000
+  440 if(EN <= EIN[6]) GO TO 2000
       if(EN > X31S(N31S):
 ) GO TO 461
       DO 450 J=2,N31S
@@ -25297,8 +25295,8 @@ c
       GO TO 462
 # IF ENERGY GT X31S(N31S) EV SCALE BY 1/E   
   461 QIN(6,I)=Y31S(N31S)*(X31S(N31S)/EN)*1.D-18   
-  462 if(EN <= (2.0*EIN(6))) GO TO 470
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+  462 if(EN <= (2.0*EIN[6])) GO TO 470
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 #
 # 3 3P
   470 if(EN <= EIN(7)) GO TO 2000
@@ -26188,11 +26186,11 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)    
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
-      DIMENSION XEN(144),YEM(144),YEL(144),YEPS(144),XION(90),YION(90),YINC(90),X23S(139),Y23S(139),X21S(128),Y21S(128),X23P(128),Y23P(128),X21P(125),Y21P(125),X33S(106),Y33S(106),X31S(87),Y31S(87),X33P(91),Y33P(91),X33D[108],Y33D[108],X31D[94],Y31D[94],X31P(114),Y31P(114),X43S(59),Y43S(59),X41S(55),Y41S(55),X43P(76),Y43P(76),X43D[65],Y43D[65],X41D[53],Y41D[53],X43F(40),Y43F(40),X41F(57),Y41F(57),X41P(96),Y41P(96),IOFFN(49),IOFFION(2)   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
+      DIMENSION XEN(144),YEM(144),YEL(144),YEPS(144),XION(90),YION(90),YINC(90),X23S(139),Y23S(139),X21S(128),Y21S(128),X23P(128),Y23P(128),X21P(125),Y21P(125),X33S(106),Y33S(106),X31S(87),Y31S(87),X33P(91),Y33P(91),X33D[108],Y33D[108],X31D[94],Y31D[94],X31P(114),Y31P(114),X43S(59),Y43S(59),X41S(55),Y41S(55),X43P(76),Y43P(76),X43D[65],Y43D[65],X41D[53],Y41D[53],X43F(40),Y43F(40),X41F(57),Y41F(57),X41P(96),Y41P(96),IOFFN(49),IOFFION[2]   
       DIMENSION Z2T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME  
@@ -26355,24 +26353,24 @@ c
       N41F=57
       N41P=96
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(3.01600*AMU)                                      
+      E[2]=2.0*EMASS/(3.01600*AMU)                                      
       E(3)=24.58739
 # ENTER EXCITATION X-SECTION AT 1.4MEV                                   
       E[4]=0.5841D-19
 # ENTER IONISING X-SECTION AT 1.4MEV                            
       E[5]=0.1271D-18
 # ENTER EOBY FOR MINIMUM IONISING PARTICLE         
-      E(6)=10.5
+      E[6]=10.5
 # EOBY AT LOW ENERGY
       EOBY[1]=12.0    
-      EOBY(2)=65.0    
+      EOBY[2]=65.0    
 # IONISATION ENERGIES 
       EION[1]=24.58739
-      EION(2)=79.00515
+      EION[2]=79.00515
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
 # AUGER AND FLUORESCENCE DATA
       NC0[1]=0
       EC0[1]=0.0
@@ -26382,14 +26380,14 @@ c
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=1
-      EC0(2)=10.0
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=1
+      EC0[2]=10.0
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
 #
       DO 776 J=1,NION
       DO 777 I=1,20000
@@ -26402,11 +26400,11 @@ c
   776 CONTINUE
 #
       EIN[1]=19.81961                                                   
-      EIN(2)=20.61577
+      EIN[2]=20.61577
       EIN(3)=20.96409
       EIN[4]=21.21802
       EIN[5]=22.71847
-      EIN(6)=22.92032
+      EIN[6]=22.92032
       EIN(7)=23.00707
       EIN(8)=23.07365
       EIN(9)=23.07407
@@ -26487,15 +26485,15 @@ c
   651 CONTINUE
     5 CONTINUE
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC  ANISOTROPIC        HELIUM 3             '
+      SCRPT[2]=' ELASTIC  ANISOTROPIC        HELIUM 3             '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC   ISOTROPIC         HELIUM 3             '
+      SCRPT[2]=' ELASTIC   ISOTROPIC         HELIUM 3             '
       # endif
       SCRPT(3)=' IONISATION CHARGE STATE=1         ELOSS= 24.58739'
       SCRPT[4]=' IONISATION CHARGE STATE=2         ELOSS= 79.00515'
       SCRPT[5]=' ATTACHMENT                                       '
-      SCRPT(6)='                                                  ' 
+      SCRPT[6]='                                                  ' 
       SCRPT(7)='                                                  '
       SCRPT(8)=' EXC  23S J=1    METASTABLE        ELOSS= 19.81961'
       SCRPT(9)=' EXC  21S J=0    METASTABLE        ELOSS= 20.61577'
@@ -26641,9 +26639,9 @@ c
 # USE BORN-BETHE X-SECTION ABOVE XION(NIOND) EV
   241 Q(5,I)=CONST*(AM2*(AX1-DEN[I]/2.0)+C*AX2)
   242 CONTINUE  
-      if(EN <= (2.00*EION(2):
+      if(EN <= (2.00*EION[2]:
 )) GO TO 250
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
   250 Q(6,I)=0.00                                                      
 #
       QTEMP1=2.0*Q(5,I)-QION(1,I)
@@ -26682,7 +26680,7 @@ c
       PEQIN(1,I)=PEQEL(2,(I-IOFFN[1])) 
 #
 # 2 1S                                                                  
-  320 if(EN <= EIN(2)) GO TO 2000
+  320 if(EN <= EIN[2]) GO TO 2000
       if(EN > X21S(N21S):
 ) GO TO 341                         
       DO 330 J=2,N21S                                                   
@@ -26696,8 +26694,8 @@ c
       GO TO 342
 # IF ENERGY GT X21S(N21S) EV SCALE BY 1/E
   341 QIN(2,I)=Y21S(N21S)*(X21S(N21S)/EN)*1.D-18   
-  342 if(EN <= (2.0*EIN(2))) GO TO 350
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+  342 if(EN <= (2.0*EIN[2])) GO TO 350
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 #
 # 2 3P
   350 if(EN <= EIN(3)) GO TO 2000
@@ -26754,7 +26752,7 @@ c
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 #
 # 3 1S
-  440 if(EN <= EIN(6)) GO TO 2000
+  440 if(EN <= EIN[6]) GO TO 2000
       if(EN > X31S(N31S):
 ) GO TO 461
       DO 450 J=2,N31S
@@ -26768,8 +26766,8 @@ c
       GO TO 462
 # IF ENERGY GT X31S(N31S) EV SCALE BY 1/E   
   461 QIN(6,I)=Y31S(N31S)*(X31S(N31S)/EN)*1.D-18   
-  462 if(EN <= (2.0*EIN(6))) GO TO 470
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+  462 if(EN <= (2.0*EIN[6])) GO TO 470
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 #
 # 3 3P
   470 if(EN <= EIN(7)) GO TO 2000
@@ -27659,10 +27657,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)  
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)     
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
       DIMENSION XEN(125),YXSEC(125),XEL(120),YEL(120),XEPS(196),YEPS(196),XION(74),YION(74),YINC(74),YIN1(74),XIN2(49),YIN2(49),XIN3(41),YIN3(41),XKSH(99),YKSH(99),X1S5(111),Y1S5(111),X1S4(137),Y1S4(137),X1S3(117),Y1S3(117),X1S2(119),Y1S2(119),X2P10(73),Y2P10(73),X2P9(70),Y2P9(70),X2P8(72),Y2P8(72),X2P7(65),Y2P7(65),X2P6(59),Y2P6(59),X2P5(63),Y2P5(63),X2P4(66),Y2P4(66),X2P3(62),Y2P3(62),X2P2(62),Y2P2(62),X2P1(59),Y2P1(59),X2S5(19),Y2S5(19),X2S3(19),Y2S3(19),X3D6(12),Y3D6(12),X3D4P(12),Y3D4P(12),X3D4(12),Y3D4(12),X3D3(12),Y3D3(12),X3D1PP(12),Y3D1PP(12),X3D1P(12),Y3D1P(12),X3S1PPPP(12),Y3S1PPPP(12),X3S1PPP(12),Y3S1PPP(12),X3S1PP(12),Y3S1PP(12),X3P106(16),Y3P106(16),X3P52(16),Y3P52(16),X3P1(16),Y3P1(16),IOFFN(45),IOFFION(10)
       DIMENSION Z10T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
@@ -27914,31 +27912,31 @@ c
       N3P1=16
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(20.1797*AMU)                                     
+      E[2]=2.0*EMASS/(20.1797*AMU)                                     
       E(3)=21.56454
 # EXCITATION X=SECTION AT 1.3MEV                                    
       E[4]=0.492D-19
 # ENTER IONISING X-SECTION AT 1.3MEV         
       E[5]=0.415D-18
 # ENTER EOBY FOR MINIMUM IONISING PARTICLE          
-      E(6)=19.5
+      E[6]=19.5
 # OPAL BEATY AT LOW ENERGY
       EOBY[1]=17.4      
-      EOBY(2)=36.0     
+      EOBY[2]=36.0     
       EOBY(3)=73.0     
 # OPAL BEATY SPLITTING FOR K SHELL
       EOBY[4]=500.0       
 #
       EION[1]=21.56454
-      EION(2)=62.5275
+      EION[2]=62.5275
       EION(3)=125.9508
       EION[4]=870.2
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       LEGAS(3)=0
       LEGAS[4]=1
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
       ISHELL(3)=0
       ISHELL[4]=1
 # AUGER AND FLUORESCENCE DATA
@@ -27950,14 +27948,14 @@ c
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=1 
-      EC0(2)=5.0
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=1 
+      EC0[2]=5.0
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
       NC0(3)=2
       EC0(3)=10.0
       WKLM(3)=0.0
@@ -27986,11 +27984,11 @@ c
   776 CONTINUE
 #
       EIN[1]=16.61907
-      EIN(2)=16.67083
+      EIN[2]=16.67083
       EIN(3)=16.71538
       EIN[4]=16.84805
       EIN[5]=18.38162
-      EIN(6)=18.55511
+      EIN[6]=18.55511
       EIN(7)=18.57583
       EIN(8)=18.61270
       EIN(9)=18.63679
@@ -28065,15 +28063,15 @@ c
   651 CONTINUE
     5 CONTINUE
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC    ANISOTROPIC         NEON              '     
+      SCRPT[2]=' ELASTIC    ANISOTROPIC         NEON              '     
       if(NANISO == 0):
  :
-       SCRPT(2)=' ELASTIC   ISOTROPIC           NEON              '     
+       SCRPT[2]=' ELASTIC   ISOTROPIC           NEON              '     
       # endif
       SCRPT(3)=' IONISATION CHARGE STATE=1         ELOSS= 21.56454'
       SCRPT[4]=' IONISATION CHARGE STATE=2         ELOSS= 62.5275 '
       SCRPT[5]=' IONISATION CHARGE STATE=3         ELOSS=125.9508 '
-      SCRPT(6)=' IONISATION   NEON   K-SHELL       ELOSS=870.2    '
+      SCRPT[6]=' IONISATION   NEON   K-SHELL       ELOSS=870.2    '
       SCRPT(7)=' ATTACHMENT                                       ' 
       SCRPT(8)='                                                  '
       SCRPT(9)='                                                  '
@@ -28250,7 +28248,7 @@ c
       PEQION(2,I)=0.50   
       if(NANISO == 2):
  PEQION(2,I)=0.00                                
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 149 
       if(EN > XIN2(NION2):
 ) GO TO 141 
@@ -28272,9 +28270,9 @@ c
 # ENERGIES ABOVE 2 * IONISATION ENERGY
 # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFF SET BY
 # THE IONISATION ENERGY
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 149
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 #
 # IONISATION FOR CHARGE STATE =3
   149 QION(3,I)=0.00    
@@ -28390,7 +28388,7 @@ c
       PEQIN(1,I)=PEQEL(2,(I-IOFFN[1]))
 #
 # 1S4 RESONANCE LEVEL  F=0.0118
-  320 if(EN <= EIN(2)) GO TO 2000  
+  320 if(EN <= EIN[2]) GO TO 2000  
       if(EN > X1S4(N1S4):
 ) GO TO 341                                   
       DO 330 J=2,N1S4                                                 
@@ -28403,10 +28401,10 @@ c
       QIN(2,I)=(A*EN+B)*1.0D-18
       GO TO 342
 # IF ENERGY GT X1S4(N1S4) EV USE BEF SCALING
-  341 QIN(2,I)=0.0118/(EIN(2)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(2)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(2)+E(3))   
+  341 QIN(2,I)=0.0118/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[2]+E(3))   
       QIN(2,I)=abs(QIN(2,I))
-  342 if(EN <= (2.0*EIN(2))) GO TO 350 
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))                         
+  342 if(EN <= (2.0*EIN[2])) GO TO 350 
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))                         
 # 1S3 METASTABLE LEVEL
   350 if(EN <= EIN(3)) GO TO 2000 
       if(EN > X1S3(N1S3):
@@ -28460,7 +28458,7 @@ c
   432 if(EN <= (2.0*EIN[5])) GO TO 440
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))                          
 # 2P9
-  440 if(EN <= EIN(6)) GO TO 2000  
+  440 if(EN <= EIN[6]) GO TO 2000  
       if(EN > X2P9(N2P9):
 ) GO TO 461                           
       DO 450 J=2,N2P9                                                  
@@ -28474,8 +28472,8 @@ c
       GO TO 462
 # IF ENERGY GT X2P9(N2P9) EV  SCALE BY 1/E**2
   461 QIN(6,I)=Y2P9(N2P9)*(X2P9(N2P9)/EN)**2*1.D-18       
-  462 if(EN <= (2.0*EIN(6))) GO TO 470
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))                               
+  462 if(EN <= (2.0*EIN[6])) GO TO 470
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))                               
 # 2P8
   470 if(EN <= EIN(7)) GO TO 2000 
       if(EN > X2P8(N2P8):
@@ -29011,10 +29009,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
       DIMENSION XEN(162),YXSEC(162),XEL(151),YEL(151),XEPS(186),YEPS(186),XION(65),YION(65),YINC(65),YIN1(65),XIN2(41),YIN2(41),XIN3(35),YIN3(35),XIN4(32),YIN4(32),XKSH(74),YKSH(74),XL1S(83),YL1S(83),XL2S(82),YL2S(82),XL3S(84),YL3S(84),XM1S(91),YM1S(91),XM2S(98),YM2S(98),XM3S(99),YM3S(99),XM4S(105),YM4S(105),XM5S(106),YM5S(106),XEXC1(105),YEXC1(105),XEXC2(86),YEXC2(86),X1S5(169),Y1S5(169),YP1S5(169),X1S4(130),Y1S4(130),YP1S4(130),X1S3(168),Y1S3(168),YP1S3(168),X1S2(150),Y1S2(150),YP1S2(150),X2P10(142),Y2P10(142),YP2P10(142),X2P9(117),Y2P9(117),YP2P9(117),X2P8(120),Y2P8(120),YP2P8(120),X2P7(111),Y2P7(111),YP2P7(111),X2P6(100),Y2P6(100),YP2P6(100),X2P5(102),Y2P5(102),YP2P5(102),X3D6(69),Y3D6(69),YP3D6(69),X3D5(75),Y3D5(75),YP3D5(75),X2P4(64),Y2P4(64),YP2P4(64),X3D3(74),Y3D3(74),YP3D3(74),X3D4P(73),Y3D4P(73),YP3D4P(73),X2P3(73),Y2P3(73),YP2P3(73),X2P2(75),Y2P2(75),YP2P2(75),X3D4(59),Y3D4(59),YP3D4(59),X2P1(51),Y2P1(51),YP2P1(51),X3D1PP(48),Y3D1PP(48),YP3D1PP(48),X3D1P(41),Y3D1P(41),YP3D1P(41),X2S5(44),Y2S5(44),YP2S5(44),X3P10(20),Y3P10(20),YP3P10(20),X3P9(20),Y3P9(20),YP3P9(20),X3P8(20),Y3P8(20),YP3P8(20),X3S1PP(20),Y3S1PP(20),YP3S1PP(20),X3P7(20),Y3P7(20),YP3P7(20),X3P6(20),Y3P6(20),YP3P6(20),X3S1PPPP(20),Y3S1PPPP(20),YP3S1PPPP(20),X3S1PPP(20),Y3S1PPP(20),YP3S1PPP(20),X3P5(20),Y3P5(20),YP3P5(20),X4D6(20),Y4D6(20),YP4D6(20),X4D4P(20),Y4D4P(20),YP4D4P(20),X4D4(19),Y4D4(19),YP4D4(19),X4D3(19),Y4D3(19),YP4D3(19),X2S3(19),Y2S3(19),YP2S3(19),X4D1PP(19),Y4D1PP(19),YP4D1PP(19),X4D1P(19),Y4D1P(19),YP4D1P(19),X3S5(19),Y3S5(19),YP3S5(19),X4FS(19),Y4FS(19),YP4FS(19),IOFFN(51),IOFFION(11)   
       DIMENSION Z36T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)
@@ -29456,22 +29454,22 @@ c
       N4FS=19
 #
       E[1]=0.0                                                      
-      E(2)=2.0*EMASS/(83.798*AMU)                                     
+      E[2]=2.0*EMASS/(83.798*AMU)                                     
       E(3)=13.9996  
 # EXCITATION X-SECTION AT 1.4MEV                   
       E[4]=0.296D-18
 #  IONISING X-SECTION AT 1.4MEV                                 
       E[5]=0.1217D-17
 # EOBY AT MINIMUM IONISING                          
-      E(6)=23.0
+      E[6]=23.0
 # EOBY AT LOW ENERGY
       EOBY[1]=10.0
-      EOBY(2)=30.0
+      EOBY[2]=30.0
       EOBY(3)=60.0
       EOBY[4]=100.
 # EOBY FOR SHELLS
       EOBY[5]=175.0
-      EOBY(6)=180.0
+      EOBY[6]=180.0
       EOBY(7)=250.0
       EOBY(8)=1678.4
       EOBY(9)=1730.9
@@ -29486,14 +29484,14 @@ c
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=1
-      EC0(2)=5.0
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=1
+      EC0[2]=5.0
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
       NC0(3)=2
       EC0(3)=10.0
       WKLM(3)=0.0
@@ -29518,14 +29516,14 @@ c
       EG1[5]=0.0
       NG2[5]=0
       EG2[5]=0.0
-      NC0(6)=2
-      EC0(6)=186.8
-      WKLM(6)=0.0
-      EFL(6)=0.0
-      NG1(6)=0
-      EG1(6)=0.0
-      NG2(6)=0
-      EG2(6)=0.0
+      NC0[6]=2
+      EC0[6]=186.8
+      WKLM[6]=0.0
+      EFL[6]=0.0
+      NG1[6]=0
+      EG1[6]=0.0
+      NG2[6]=0
+      EG2[6]=0.0
       NC0(7)=4
       EC0(7)=200.9
       WKLM(7)=0.0
@@ -29568,33 +29566,33 @@ c
       EG2(11)=1555.
 #
       EION[1]=13.99960
-      EION(2)=38.35944
+      EION[2]=38.35944
       EION(3)=74.029
       EION[4]=124.88
       EION[5]=214.4
-      EION(6)=222.2
+      EION[6]=222.2
       EION(7)=292.8
       EION(8)=1678.4
       EION(9)=1730.9
       EION(10)=1921.0
       EION(11)=14327.26
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       LEGAS(3)=0
       LEGAS[4]=0
       LEGAS[5]=1
-      LEGAS(6)=1
+      LEGAS[6]=1
       LEGAS(7)=1
       LEGAS(8)=1
       LEGAS(9)=1
       LEGAS(10)=1
       LEGAS(11)=1
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
       ISHELL(3)=0
       ISHELL[4]=0
       ISHELL[5]=7
-      ISHELL(6)=6
+      ISHELL[6]=6
       ISHELL(7)=5
       ISHELL(8)=4
       ISHELL(9)=3
@@ -29612,11 +29610,11 @@ c
   776 CONTINUE
 #                                   
       EIN[1]=9.9152
-      EIN(2)=10.0324
+      EIN[2]=10.0324
       EIN(3)=10.5624
       EIN[4]=10.6436
       EIN[5]=11.3035
-      EIN(6)=11.4430
+      EIN[6]=11.4430
       EIN(7)=11.4447
       EIN(8)=11.5261
       EIN(9)=11.5458
@@ -29691,15 +29689,15 @@ c
   651 CONTINUE
     5 CONTINUE
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC ANISOTROPIC        KRYPTON               '
+      SCRPT[2]=' ELASTIC ANISOTROPIC        KRYPTON               '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC ISOTROPIC          KRYPTON               '
+      SCRPT[2]=' ELASTIC ISOTROPIC          KRYPTON               '
       # endif
       SCRPT(3)=' IONISATION CHARGE STATE=1      ELOSS=    13.99960'
       SCRPT[4]=' IONISATION CHARGE STATE=2      ELOSS=    38.35944'
       SCRPT[5]=' IONISATION CHARGE STATE=3      ELOSS=    74.029  '
-      SCRPT(6)=' IONISATION CHARGE STATE=4      ELOSS=   124.88   '
+      SCRPT[6]=' IONISATION CHARGE STATE=4      ELOSS=   124.88   '
       SCRPT(7)=' IONISATION    M3 SHELL         ELOSS=   214.4    '
       SCRPT(8)=' IONISATION    M2 SHELL         ELOSS=   222.2    '
       SCRPT(9)=' IONISATION    M1 SHELL         ELOSS=   292.8    '
@@ -29862,7 +29860,7 @@ c
       PEQION(2,I)=0.50
       if(NANISO == 2):
  PEQION(2,I)=0.00
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 2253
       if(EN > XIN2(NION2):
 ) GO TO 1251
@@ -29880,9 +29878,9 @@ c
       X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
       QION(2,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0613
  1252 CONTINUE
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 2253
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # IONISATION FOR CHARGE =3
  2253 QION(3,I)=0.00
       PEQION(3,I)=0.50
@@ -29957,7 +29955,7 @@ c
       PEQION(6,I)=0.50
       if(NANISO == 2):
  PEQION(6,I)=0.00
-      if(EN <= EION(6):
+      if(EN <= EION[6]:
 ) GO TO 2262
       DO 2260 J=2,NM2S
       if(EN <= XM2S[J]:
@@ -29967,7 +29965,7 @@ c
  2261 A=(YM2S[J]-YM2S(J-1))/(XM2S[J]-XM2S(J-1))
       B=(XM2S(J-1)*YM2S[J]-XM2S[J]*YM2S(J-1))/(XM2S(J-1)-XM2S[J])
       QION(6,I)=(A*EN+B)*1.D-16
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 # M1 SHELL IONISATION
  2262 QION(7,I)=0.00
       PEQION(7,I)=0.50
@@ -30114,7 +30112,7 @@ c
   353 if(EN <= (2.0*EIN[1])) GO TO 354
       PEQIN(1,I)=PEQEL(2,(I-IOFFN[1]))
 # 1S4                                                 F=0.203
-  354 if(EN <= EIN(2)) GO TO 899
+  354 if(EN <= EIN[2]) GO TO 899
       if(EN > X1S4(N1S4):
 ) GO TO 357
       DO 355 J=2,N1S4
@@ -30126,9 +30124,9 @@ c
       B=(X1S4(J-1)*Y1S4[J]-X1S4[J]*Y1S4(J-1))/(X1S4(J-1)-X1S4[J]) 
       QIN(2,I)=(A*EN+B)*1.0D-18*AN1S
       GO TO 358
-  357 QIN(2,I)=0.203/(EIN(2)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(2)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(2)+E(3))
-  358 if(EN <= (2.0*EIN(2))) GO TO 359
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+  357 QIN(2,I)=0.203/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[2]+E(3))
+  358 if(EN <= (2.0*EIN[2])) GO TO 359
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 # 1S3
   359 if(EN <= EIN(3)) GO TO 899
       if(EN > X1S3(N1S3):
@@ -30180,7 +30178,7 @@ c
   373 if(EN <= (2.0*EIN[5])) GO TO 374
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 # 2P9
-  374 if(EN <= EIN(6)) GO TO 899
+  374 if(EN <= EIN[6]) GO TO 899
       if(EN > X2P9(N2P9):
 ) GO TO 377                                
       DO 375 J=2,N2P9                                                  
@@ -30194,8 +30192,8 @@ c
       GO TO 378
 # SCALED X-SECTION ABOVE X2P9(N2P9) EV BY 1/E**3
   377 QIN(6,I)=Y2P9(N2P9)*(X2P9(N2P9)/EN)**3*1.0D-18*AN2P
-  378 if(EN <= (2.0*EIN(6))) GO TO 379
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+  378 if(EN <= (2.0*EIN[6])) GO TO 379
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 # 2P8
   379 if(EN <= EIN(7)) GO TO 899
       if(EN > X2P8(N2P8):
@@ -30913,8 +30911,8 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)         
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]         
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)   
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
       DIMENSION XEN(182),YMOM(182),XEL(153),YEL(153),XEPS(182),YEPS(182)
@@ -31253,22 +31251,22 @@ c
       N2P1=15  
 #                                                         
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(131.30*AMU)                                       
+      E[2]=2.0*EMASS/(131.30*AMU)                                       
       E(3)=12.129843
 # EXCITATION X-SECTION AT 1.3 MEV                                      
       E[4]=0.511D-18
 # IONISING X-SECTION AT 1.3 MEV      
       E[5]=0.1782D-17      
 # EOBY FOR MINIMUM IONISING PARTICLE
-      E(6)=23.7
+      E[6]=23.7
 # EOBY AT LOW ENERGY
       EOBY[1]=8.7
-      EOBY(2)=20.0 
+      EOBY[2]=20.0 
       EOBY(3)=38.0
 # EOBY FOR SHELLS
       EOBY[4]=400.             
       EOBY[5]=410.             
-      EOBY(6)=750.0  
+      EOBY[6]=750.0  
       EOBY(7)=800.0 
       EOBY(8)=920.0 
       EOBY(9)=3850.
@@ -31277,11 +31275,11 @@ c
       EOBY(12)=34561.
 # 
       EION[1]=12.129843
-      EION(2)=33.105
+      EION[2]=33.105
       EION(3)=64.155
       EION[4]=676.4 
       EION[5]=689.0 
-      EION(6)=940.6 
+      EION[6]=940.6 
       EION(7)=1002.1
       EION(8)=1148.7
       EION(9)=4786. 
@@ -31289,11 +31287,11 @@ c
       EION(11)=5453. 
       EION(12)=34561.
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       LEGAS(3)=0
       LEGAS[4]=1
       LEGAS[5]=1
-      LEGAS(6)=1
+      LEGAS[6]=1
       LEGAS(7)=1
       LEGAS(8)=1
       LEGAS(9)=1
@@ -31301,11 +31299,11 @@ c
       LEGAS(11)=1
       LEGAS(12)=1
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
       ISHELL(3)=0
       ISHELL[4]=9
       ISHELL[5]=8
-      ISHELL(6)=7
+      ISHELL[6]=7
       ISHELL(7)=6
       ISHELL(8)=5
       ISHELL(9)=4
@@ -31321,14 +31319,14 @@ c
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=1
-      EC0(2)=5.0
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=1
+      EC0[2]=5.0
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
       NC0(3)=2
       EC0(3)=10.0
       WKLM(3)=0.0
@@ -31353,14 +31351,14 @@ c
       EG1[5]=0.0
       NG2[5]=0
       EG2[5]=0.0
-      NC0(6)=7
-      EC0(6)=782.2
-      WKLM(6)=0.0
-      EFL(6)=0.0
-      NG1(6)=0
-      EG1(6)=0.0
-      NG2(6)=0
-      EG2(6)=0.0
+      NC0[6]=7
+      EC0[6]=782.2
+      WKLM[6]=0.0
+      EFL[6]=0.0
+      NG1[6]=0
+      EG1[6]=0.0
+      NG2[6]=0
+      EG2[6]=0.0
       NC0(7)=7
       EC0(7)=839.7
       WKLM(7)=0.0
@@ -31421,11 +31419,11 @@ c
   776 CONTINUE  
 #                               
       EIN[1]=8.3153 
-      EIN(2)=8.4365
+      EIN[2]=8.4365
       EIN(3)=9.4472
       EIN[4]=9.5697
       EIN[5]=9.5802
-      EIN(6)=9.6856
+      EIN[6]=9.6856
       EIN(7)=9.7207
       EIN(8)=9.7893
       EIN(9)=9.8211
@@ -31500,15 +31498,15 @@ c
     5 CONTINUE
 #  
       SCRPT[1]='                                                  '
-      SCRPT(2)='ELASTIC ANISOTROPIC      XENON                    '
+      SCRPT[2]='ELASTIC ANISOTROPIC      XENON                    '
       if(NANISO == 0):
  :
-      SCRPT(2)='ELASTIC ISOTROPIC        XENON                    '
+      SCRPT[2]='ELASTIC ISOTROPIC        XENON                    '
       # endif
       SCRPT(3)='IONISATION CHARGE STATE=1       ELOSS=    12.12984'
       SCRPT[4]='IONISATION CHARGE STATE=2       ELOSS=    33.105  '
       SCRPT[5]='IONISATION CHARGE STATE=3+4+5+6 ELOSS=    64.155  '
-      SCRPT(6)='IONISATION  M5-SHELL            ELOSS=   676.4    '
+      SCRPT[6]='IONISATION  M5-SHELL            ELOSS=   676.4    '
       SCRPT(7)='IONISATION  M4-SHELL            ELOSS=   689.0    '
       SCRPT(8)='IONISATION  M3-SHELL            ELOSS=   940.6    '
       SCRPT(9)='IONISATION  M2-SHELL            ELOSS=  1002.1    '
@@ -31582,7 +31580,7 @@ c
        BETA=math.sqrt(1.00-1.00/GAMMA2)
        BETA2=BETA*BETA
       # endif                                                     
-      if(EN <= XEN(2):
+      if(EN <= XEN[2]:
 ) : 
        QELA=122.D-16  
        QMOM=122.D-16      
@@ -31668,7 +31666,7 @@ c
       PEQION(2,I)=0.50
       if(NANISO == 2):
  PEQION(2,I)=0.00                            
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 3350    
       if(EN > XIN2(NION2):
 ) GO TO 3221                                 
@@ -31690,9 +31688,9 @@ c
 # ENERGIES ABOVE 2 * IONISATION ENERGY  
 # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFF SET BY
 # IONISATION ENERGY
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 3250
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # IONISATION CHARGE STATE =3                          
  3250 QION(3,I)=0.0
       PEQION(3,I)=0.50
@@ -31807,7 +31805,7 @@ c
       PEQION(6,I)=0.50
       if(NANISO == 2):
  PEQION(6,I)=0.00                            
-      if(EN <= EION(6):
+      if(EN <= EION[6]:
 ) GO TO 2239
       DO 2237 J=2,NIONM3
       if(EN <= XM3S[J]:
@@ -31817,7 +31815,7 @@ c
  2238 A=(YM3S[J]-YM3S(J-1))/(XM3S[J]-XM3S(J-1))
       B=(XM3S(J-1)*YM3S[J]-XM3S[J]*YM3S(J-1))/(XM3S(J-1)-XM3S[J])
       QION(6,I)=(A*EN+B)*1.D-16
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 # M2-SHELL IONISATION
  2239 QION(7,I)=0.00
       PEQION(7,I)=0.50
@@ -31979,7 +31977,7 @@ c
  3111 if(EN <= (2.0*EIN[1])) GO TO 312
       PEQIN(1,I)=PEQEL(2,(I-IOFFN[1]))       
 # 1S4 F=0.260                   
-  312 if(EN <= EIN(2)) GO TO 413                    
+  312 if(EN <= EIN[2]) GO TO 413                    
       if(EN > X1S4(N1S4):
 ) GO TO 3141                    
       DO 313 J=2,N1S4                                                  
@@ -31991,9 +31989,9 @@ c
       B=(X1S4(J-1)*Y1S4[J]-X1S4[J]*Y1S4(J-1))/(X1S4(J-1)-X1S4[J]) 
       QIN(2,I)=(A*EN+B)*1.0D-18
       GO TO 3142
- 3141 QIN(2,I)=0.260/(EIN(2)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(2)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(2)+E(3))
- 3142 if(EN <= (2.0*EIN(2))) GO TO 315
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))   
+ 3141 QIN(2,I)=0.260/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[2]+E(3))
+ 3142 if(EN <= (2.0*EIN[2])) GO TO 315
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))   
 # 1S3                                  
   315 if(EN <= EIN(3)) GO TO 413  
       if(EN > X1S3(N1S3):
@@ -32046,7 +32044,7 @@ c
  3231 if(EN <= (2.0*EIN[5])) GO TO 324
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 # 2P9    
-  324 if(EN <= EIN(6)) GO TO 413                        
+  324 if(EN <= EIN[6]) GO TO 413                        
       if(EN > X2P9(N2P9):
 ) GO TO 3260                
       DO 325 J=2,N2P9                                                 
@@ -32059,8 +32057,8 @@ c
       QIN(6,I)=(A*EN+B)*1.0D-18      
       GO TO 3261
  3260 QIN(6,I)=Y2P9(N2P9)*(X2P9(N2P9)/EN)*1.0D-18
- 3261 if(EN <= (2.0*EIN(6))) GO TO 327
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+ 3261 if(EN <= (2.0*EIN[6])) GO TO 327
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 # 2P8    
   327 if(EN <= EIN(7)) GO TO 413                 
       if(EN > X2P8(N2P8):
@@ -32550,7 +32548,7 @@ c
       if(EN <= 1000.):
  GO TO 413
       DO 500 J=2,NBREM
-      if(EN <= EBRM(2):
+      if(EN <= EBRM[2]:
 ) GO TO 510
   500 CONTINUE
       J=NBREM
@@ -32590,11 +32588,11 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
-      DIMENSION XEN(153),YELM(153),YELT(153),YEPS(153),XATT(6),YATT(6), XVBV4(26),YVBV4(26),XVBV2(29),YVBV2(29),XVBV1(30),YVBV1(30),XVBV3(25),YVBV3(25),XVBH1(14),YVBH1(14),XVBH2(14),YVBH2(14),XION(70),YION(70),YINC(70),XINF(70),YINF(70),XINF1(68),YINF1(68),XINF2(66),YINF2(66),XINF3(53),YINF3(53),XINF4(51),YINF4(51),XINF5(50),YINF5(50),XIN'%.4f' %8),YIN'%.4f' %8),XINPP(49),YINPP(49),XDET(9),YDET(9),XTR1(12),YTR1(12),XTR2(11),YTR2(11),XTR3(11),YTR3(11),XCHD[32],YCHD[32],XCHB[35],YCHB[35],XHAL(34),YHAL(34),XHBE(34),YHBE(34),XKSH(83),YKSH(83),IOFFN(34),IOFFION(10)
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
+      DIMENSION XEN(153),YELM(153),YELT(153),YEPS(153),XATT[6],YATT[6], XVBV4(26),YVBV4(26),XVBV2(29),YVBV2(29),XVBV1(30),YVBV1(30),XVBV3(25),YVBV3(25),XVBH1(14),YVBH1(14),XVBH2(14),YVBH2(14),XION(70),YION(70),YINC(70),XINF(70),YINF(70),XINF1(68),YINF1(68),XINF2(66),YINF2(66),XINF3(53),YINF3(53),XINF4(51),YINF4(51),XINF5(50),YINF5(50),XIN'%.4f' %8),YIN'%.4f' %8),XINPP(49),YINPP(49),XDET(9),YDET(9),XTR1(12),YTR1(12),XTR2(11),YTR2(11),XTR3(11),YTR3(11),XCHD[32],YCHD[32],XCHB[35],YCHB[35],XHAL(34),YHAL(34),XHBE(34),YHBE(34),XKSH(83),YKSH(83),IOFFN(34),IOFFION(10)
       DIMENSION Z1T(25),Z6T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
@@ -32785,8 +32783,8 @@ c
       KIN(7)=0
       KIN(8)=0
 # V4 AND V3 VIBRATIONS ANISOTROPIC ( CAPITELLI-LONGO)
-      KIN(2)=1
-      KIN(6)=1
+      KIN[2]=1
+      KIN[6]=1
 # ANGULAR DISTRIBUTION FOR DISSOCIATIVE EXCITATION IS OKHRIMOVSKYY TYPE 
       DO 2 J=9,NIN
     2 KIN[J]=2
@@ -32829,29 +32827,29 @@ c
       DEGV3=3.0
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(16.0426*AMU)                                      
+      E[2]=2.0*EMASS/(16.0426*AMU)                                      
       E(3)=12.65                      
       E[4]=0.0                                      
       E[5]=0.0                                            
-      E(6)=0.0 
+      E[6]=0.0 
 # 
       EION[1]=12.65
-      EION(2)=14.25
+      EION[2]=14.25
       EION(3)=15.2
       EION[4]=22.2
       EION[5]=23.5
-      EION(6)=25.2
+      EION[6]=25.2
       EION(7)=27.0
       EION(8)=27.9
       EION(9)=285.0
 # OPAL BEATY 
       SCLOBY=0.475      
       EOBY[1]=EION[1]*SCLOBY
-      EOBY(2)=EION(2)*SCLOBY
+      EOBY[2]=EION[2]*SCLOBY
       EOBY(3)=EION(3)*SCLOBY
       EOBY[4]=EION[4]*SCLOBY
       EOBY[5]=EION[5]*SCLOBY
-      EOBY(6)=EION(6)*SCLOBY
+      EOBY[6]=EION[6]*SCLOBY
       EOBY(7)=EION(7)*SCLOBY
       EOBY(8)=EION(8)*SCLOBY
       EOBY(9)=EION(9)*0.63
@@ -32894,11 +32892,11 @@ c
   776 CONTINUE
 #
       EIN[1]=-0.1625135 
-      EIN(2)=0.1625135
+      EIN[2]=0.1625135
       EIN(3)=-0.1901087
       EIN[4]=0.1901087
       EIN[5]=0.3615974 
-      EIN(6)=0.3743690
+      EIN[6]=0.3743690
       EIN(7)=0.544
       EIN(8)=0.736
       EIN(9)=7.50  
@@ -32956,15 +32954,15 @@ c
 #***********************************************************************
 #
     6 SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC   ANISOTROPIC      METHANE               '
+      SCRPT[2]=' ELASTIC   ANISOTROPIC      METHANE               '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC     ISOTROPIC      METHANE               '
+      SCRPT[2]=' ELASTIC     ISOTROPIC      METHANE               '
       # endif
       SCRPT(3)=' IONISATION   CH4 +                ELOSS= 12.65   '
       SCRPT[4]=' IONISATION   CH3 +                ELOSS= 14.25   '
       SCRPT[5]=' IONISATION   CH2 +                ELOSS= 15.2    '
-      SCRPT(6)=' IONISATION   H   +                ELOSS= 22.2    '
+      SCRPT[6]=' IONISATION   H   +                ELOSS= 22.2    '
       SCRPT(7)=' IONISATION   CH  +                ELOSS= 23.5    '
       SCRPT(8)=' IONISATION   C   +                ELOSS= 25.2    '
       SCRPT(9)=' IONISATION     2(+)               ELOSS= 27.0    '
@@ -33030,7 +33028,7 @@ c
       BETA=math.sqrt(1.00-1.00/GAMMA2)
       BETA2=BETA*BETA
 # USE LOG INTERPOLATION FOR ELASTIC      
-      if(EN <= XEN(2):
+      if(EN <= XEN[2]:
 ) : 
        QELA=26.7D-16
        QMOM=26.7D-16
@@ -33104,7 +33102,7 @@ c
       PEQION(2,I)=0.5   
       if(NANISO == 2):
  PEQION(2,I)=0.0                                   
-      if(EN < EION(2):
+      if(EN < EION[2]:
 ) GO TO 120   
       if(EN > XINF1(NIONF1):
 ) GO TO 113                               
@@ -33120,9 +33118,9 @@ c
 # USE BORN BETHE X-SECTION ABOVE XINF1(NIONF1) EV
   113 QION(2,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.3716
   114 CONTINUE        
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 120
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # IONISATION TO CH2 +                                                     
   120 QION(3,I)=0.0             
       PEQION(3,I)=0.5   
@@ -33200,7 +33198,7 @@ c
       PEQION(6,I)=0.5   
       if(NANISO == 2):
  PEQION(6,I)=0.0                                   
-      if(EN < EION(6):
+      if(EN < EION[6]:
 ) GO TO 160   
       if(EN > XINF5(NIONF5):
 ) GO TO 153                               
@@ -33216,9 +33214,9 @@ c
 # USE BORN BETHE X-SECTION ABOVE XINF5(NIONF5) EV
   153 QION(6,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00798
   154 CONTINUE        
-      if(EN <= (2.0*EION(6):
+      if(EN <= (2.0*EION[6]:
 )) GO TO 160
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 # IONISATION TO DOUBLY POSITIVE CHARGED FINAL STATES             
   160 QION(7,I)=0.0             
       PEQION(7,I)=0.5   
@@ -33336,18 +33334,18 @@ c
       PEQIN(1,I)=0.50
       if(EN <= 0.0):
  GO TO 350    
-      if((EN+EIN(2):
+      if((EN+EIN[2]:
 ) > XVBV4(NVIBV4)) GO TO 325                        
       DO 310 J=2,NVIBV4                                                 
-      if((EN+EIN(2):
+      if((EN+EIN[2]:
 ) <= XVBV4[J]) GO TO 320                             
   310 CONTINUE                                                          
       J=NVIBV4                                                          
   320 A=(YVBV4[J]-YVBV4(J-1))/(XVBV4[J]-XVBV4(J-1))                     
       B=(XVBV4(J-1)*YVBV4[J]-XVBV4[J]*YVBV4(J-1))/(XVBV4(J-1)-XVBV4[J])
-      QIN(1,I)=(EN+EIN(2))*(A*(EN+EIN(2))+B)/EN
+      QIN(1,I)=(EN+EIN[2])*(A*(EN+EIN[2])+B)/EN
       GO TO 326
-  325 QIN(1,I)=YVBV4(NVIBV4)*(XVBV4(NVIBV4)/(EN+EIN(2)))**2
+  325 QIN(1,I)=YVBV4(NVIBV4)*(XVBV4(NVIBV4)/(EN+EIN[2]))**2
   326 EFAC=math.sqrt(1.0-(EIN[1]/EN))
       QIN(1,I)=QIN(1,I)+0.076*math.log((EFAC+1.0)/(EFAC-1.0))/EN  
       QIN(1,I)=QIN(1,I)*APOPV4*1.D-16 
@@ -33356,7 +33354,7 @@ c
 # V4   ANISOTROPIC                                                    
       QIN(2,I)=0.0   
        PEQIN(2,I)=0.50                                              
-      if(EN <= EIN(2):
+      if(EN <= EIN[2]:
 ) GO TO 400 
       if(EN > XVBV4(NVIBV4):
 ) GO TO 375                         
@@ -33370,9 +33368,9 @@ c
       QIN(2,I)=A*EN+B
       GO TO 376
   375 QIN(2,I)=YVBV4(NVIBV4)*(XVBV4(NVIBV4)/EN)**2 
-  376 EFAC=math.sqrt(1.0-(EIN(2)/EN))
+  376 EFAC=math.sqrt(1.0-(EIN[2]/EN))
       ADIP=0.076*math.log((1.0+EFAC)/(1.0-EFAC))/EN     
-      ELF=EN-EIN(2)
+      ELF=EN-EIN[2]
       FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
       BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
 # RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART =RAT
@@ -33439,7 +33437,7 @@ c
   550 QIN(6,I)=0.0    
       PEQIN(6,I)=0.50                
 #     PEQIN(6,I)=0.00                                  
-      if(EN <= EIN(6):
+      if(EN <= EIN[6]:
 ) GO TO 600     
       if(EN > XVBV3(NVIBV3):
 ) GO TO 575                               
@@ -33453,9 +33451,9 @@ c
       QIN(6,I)=A*EN+B
       GO TO 576
   575 QIN(6,I)=YVBV3(NVIBV3)*(XVBV3(NVIBV3)/EN)**2
-  576 EFAC=math.sqrt(1.0-(EIN(6)/EN))
+  576 EFAC=math.sqrt(1.0-(EIN[6]/EN))
       ADIP=0.076*math.log((1.0+EFAC)/(1.0-EFAC))/EN
-      ELF=EN-EIN(6)
+      ELF=EN-EIN[6]
       FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
       BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
 # RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART =RAT
@@ -33929,10 +33927,10 @@ c 768 print(' EN=',F9.2,' QIONSUM=','%.3f' %)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       DIMENSION XEN(164),YMT(164),YEL(164),YEPS(164),XATT1(11),YATT1(11),XATT2(9),YATT2(9),XVIB1(29),YVIB1(29),XVIB2(28),YVIB2(28),XVIB3(28),YVIB3(28),XVIB4(46),YVIB4(46),XVIB5(16),YVIB5(16),XTR1(12),YTR1(12),XTR2(11),YTR2(11),XTR3(11),YTR3(11),IOFFN(250)
       DIMENSION XNUL1(25),YNUL1(25),XNUL2(13),YNUL2(13),XNUL3(14),YNUL3(14)
       DIMENSION XION1(31),YION1(31),XION2(31),YION2(31),XION3(31),YION3(31),XION4(30),YION4(30),XION5(29),YION5(29),XION6(29),YION6(29),XION7(26),YION7(26),XION8(26),YION8(26),XION9(25),YION9(25),XION10(24),YION10(24),XION11(24),YION11(24),XION12(24),YION12(24),XION13(23),YION13(23),XION14(21),YION14(21),XION15(21),YION15(21),XION16(83),YION16(83),XION(50),YIONG(50),YIONC(50),IOFFION(16)
@@ -34136,23 +34134,23 @@ c     NANISO=0
       NUL3=14
 # SCALING OF NULL CROSS-SECTIONS
       SCLN[1]=1.0 
-      SCLN(2)=1.0  
+      SCLN[2]=1.0  
       SCLN(3)=1.0      
 #
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(30.06964*AMU)                                     
+      E[2]=2.0*EMASS/(30.06964*AMU)                                     
       E(3)=11.52                                                        
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0
+      E[6]=0.0
 #
       EION[1]=11.52
-      EION(2)=12.05
+      EION[2]=12.05
       EION(3)=12.65
       EION[4]=13.65
       EION[5]=14.8
-      EION(6)=14.8
+      EION[6]=14.8
       EION(7)=20.5
       EION(8)=21.5
       EION(9)=25.8
@@ -34172,8 +34170,8 @@ c     NANISO=0
    33 CONTINUE
       EOBY(NION)=EION(NION)*0.63
 #
-      ESPLIT(1,1)=0.99*EION(2)
-      ESPLIT(1,2)=0.76*EION(2) 
+      ESPLIT(1,1)=0.99*EION[2]
+      ESPLIT(1,2)=0.76*EION[2] 
 #
       DO 44 JK=1,15
       LEGAS(JK)=0
@@ -34213,11 +34211,11 @@ c     NANISO=0
   776 CONTINUE
 #
       EIN[1]=-0.0358
-      EIN(2)=0.0358 
+      EIN[2]=0.0358 
       EIN(3)=-0.117                                                     
       EIN[4]=0.117
       EIN[5]=-0.148                      
-      EIN(6)=0.148 
+      EIN[6]=0.148 
       EIN(7)=-0.182                                                     
       EIN(8)=0.182
       EIN(9)=0.366                                                      
@@ -34298,15 +34296,15 @@ c     NANISO=0
 #********************************************************************* 
 #
     6 SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC   ANISOTROPIC   ETHANE 2016              '
+      SCRPT[2]=' ELASTIC   ANISOTROPIC   ETHANE 2016              '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC     ISOTROPIC   ETHANE 2016              '
+      SCRPT[2]=' ELASTIC     ISOTROPIC   ETHANE 2016              '
       # endif
       SCRPT(3)=' IONISATION     C2H6+               ELOSS= 11.52  '
       SCRPT[4]=' IONISATION     C2H4+               ELOSS= 12.05  ' 
       SCRPT[5]=' IONISATION     C2H5+               ELOSS= 12.65  '
-      SCRPT(6)=' IONISATION     CH3+                ELOSS= 13.65  ' 
+      SCRPT[6]=' IONISATION     CH3+                ELOSS= 13.65  ' 
       SCRPT(7)=' IONISATION     C2H3+               ELOSS= 14.8   '
       SCRPT(8)=' IONISATION     C2H2+               ELOSS= 14.8   ' 
       SCRPT(9)=' IONISATION     H+                  ELOSS= 20.5   '
@@ -34382,7 +34380,7 @@ c     NANISO=0
       SCRPT(79)=' BREMSSTRAHLUNG FROM HYDROGEN ATOM                '
 # NULL COLLISIONS
       SCRPTN[1]=' C2H6:DISSOCIATION : WINTERS CHEM.PHYS 36(1979)353'
-      SCRPTN(2)=' C2H6: LIGHT EMISSION: Halpha                     '
+      SCRPTN[2]=' C2H6: LIGHT EMISSION: Halpha                     '
       SCRPTN(3)=' C2H6: LIGHT EMISSION: CH2(A2DELTA - X2PI)        '
 #
 # CALC LEVEL POPULATIONS
@@ -34508,7 +34506,7 @@ c     NANISO=0
 )) GO TO 110
       PEQION(1,I)=PEQEL(2,(I-IOFFION[1]))
 # C2H4+ 
-  110 if(EN <= EION(2)) GO TO 120         
+  110 if(EN <= EION[2]) GO TO 120         
       if(EN > XION2(NION2):
 ) GO TO 113
       DO 111 J=2,NION2                                                  
@@ -34528,9 +34526,9 @@ c     NANISO=0
 # USE BORN BETHE ABOVE XION(NIOND) EV
   116 QION(2,I)=QBB*0.4481
   117 CONTINUE
-      if(EN < (2.0*EION(2):
+      if(EN < (2.0*EION[2]:
 )) GO TO 120
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # C2H5+ 
   120 if(EN <= EION(3)) GO TO 130         
       if(EN > XION3(NION3):
@@ -34604,7 +34602,7 @@ c     NANISO=0
 )) GO TO 150
       PEQION(5,I)=PEQEL(2,(I-IOFFION[5]))
 # C2H2+ 
-  150 if(EN <= EION(6)) GO TO 160         
+  150 if(EN <= EION[6]) GO TO 160         
       if(EN > XION6(NION6):
 ) GO TO 153
       DO 151 J=2,NION6                                                  
@@ -34624,9 +34622,9 @@ c     NANISO=0
 # USE BORN BETHE ABOVE XION(NIOND) EV
   156 QION(6,I)=QBB*0.0700 
   157 CONTINUE
-      if(EN < (2.0*EION(6):
+      if(EN < (2.0*EION[6]:
 )) GO TO 160
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 # H+ 
   160 if(EN <= EION(7)) GO TO 170         
       if(EN > XION7(NION7):
@@ -34914,12 +34912,12 @@ c     NANISO=0
  PEQIN(1,I)=PEQEL(2,(I-IOFFN[1]))
 #
 # VIBRATION-TORSION                      ANISOTROPIC ABOVE 10 EV
-  350 if(EN <= EIN(2)) GO TO 351
-      EFAC=math.sqrt(1.0-(EIN(2)/EN))
+  350 if(EN <= EIN[2]) GO TO 351
+      EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN(2,I)=0.0045*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN(2,I)=QIN(2,I)*1.0/(1.0+APOP1)*1.D-16
       if(EN > 10.0):
- PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+ PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 #
 # SUPERELASTIC VIB1                     ANISOTROPIC ABOVE 10 EV
   351 if(EN <= 0.0) GO TO 356
@@ -34957,23 +34955,23 @@ c     NANISO=0
  PEQIN(4,I)=PEQEL(2,(I-IOFFN[4]))  
 # SUPERELASTIC VIB2                       ANISOTROPIC ABOVE 10 EV
   361 if(EN <= 0.0) GO TO 366
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) > XVIB2(NVIB2)) GO TO 364
       DO 362 J=2,NVIB2
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) <= XVIB2[J]) GO TO 363  
   362 CONTINUE
       J=NVIB2
   363 A=(YVIB2[J]-YVIB2(J-1))/(XVIB2[J]-XVIB2(J-1))                     
       B=(XVIB2(J-1)*YVIB2[J]-XVIB2[J]*YVIB2(J-1))/(XVIB2(J-1)-XVIB2[J])
-      QIN(5,I)=(EN+EIN(6))*(A*(EN+EIN(6))+B)/EN
+      QIN(5,I)=(EN+EIN[6])*(A*(EN+EIN[6])+B)/EN
       GO TO 365
-  364 QIN(5,I)=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN(6)))**2
+  364 QIN(5,I)=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN[6]))**2
   365 QIN(5,I)=QIN(5,I)*APOP3/(1.0+APOP3)*1.D-16
       if(EN > 10.0):
  PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 # VIB2                                  ANISOTROPIC ABOVE 10 EV
-  366 if(EN <= EIN(6)) GO TO 371
+  366 if(EN <= EIN[6]) GO TO 371
       if(EN > XVIB2(NVIB2):
 ) GO TO 369                                 
       DO 367 J=2,NVIB2                                                  
@@ -34988,7 +34986,7 @@ c     NANISO=0
   369 QIN(6,I)=YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)**2
   370 QIN(6,I)=QIN(6,I)/(1.0+APOP3)*1.D-16
       if(EN > 10.0):
- PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))       
+ PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))       
 # SUPERELASTIC VIB3                       ANISOTROPIC ABOVE 10 EV
   371 if(EN <= 0.0) GO TO 376
       if((EN+EIN(8):
@@ -35505,10 +35503,10 @@ c WINTERS  CHEM.PHYS. 36(1979)353
       J=NUL2
   807 A=(YNUL2[J]-YNUL2(J-1))/(XNUL2[J]-XNUL2(J-1))
       B=(XNUL2(J-1)*YNUL2[J]-XNUL2[J]*YNUL2(J-1))/(XNUL2(J-1)-XNUL2[J])
-      QNULL(2,I)=(A*EN+B)*1.D-16*SCLN(2)
+      QNULL(2,I)=(A*EN+B)*1.D-16*SCLN[2]
       GO TO 810
 # SCALE BY 1/E ABOVE XNUL2(NUL2)) EV
-  808 QNULL(2,I)=YNUL2(NUL2)*(XNUL2(NUL2)/EN)*1.D-16*SCLN(2)  
+  808 QNULL(2,I)=YNUL2(NUL2)*(XNUL2(NUL2)/EN)*1.D-16*SCLN[2]  
 #  
 # LIGHT EMISSION FROM CH2(A2DELTA - X2PI)
 #  MOHLMANN AND DE HEER  CHEM.PHYS.19(1979)233 
@@ -35567,10 +35565,10 @@ c    /'%.3f' %)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)       
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
 #
       DIMENSION XEN(166),YMT(166),YEL(166),YEPS(166),XION(45),YIONG(45),YIONC(45),XION1(45),YION1(45),XION2(45),YION2(45),XION3(45),YION3(45),XION4(45),YION4(45),XION5(45),YION5(45),XION6(44),YION6(44),XION7(44),YION7(44),XION8(44),YION8(44),XION9(44),YION9(44),XION10(44),YION10(44),XION11(43),YION11(43),XION12(41),YION12(41),XION13(41),YION13(41),XION14(40),YION14(40),XION15(39),YION15(39),XION16(39),YION16(39),XION17(39),YION17(39),XION18(38),YION18(38),XION19(39),YION19(39),XION20(38),YION20(38),XION21(36),YION21(36),XION22(36),YION22(36),XION23(36),YION23(36),XION24(83),YION24(83),XATT1(9),YATT1(9),XATT2(9),YATT2(9),  XVIB1(25),YVIB1(25),XVIB2(24),YVIB2(24),XVIB3(25),YVIB3(25),      XVIB4(17),YVIB4(17),XTR1(14),YTR1(14),XTR2(11),YTR2(11),XTR3(11),YTR3(11),XTR4(11),YTR4(11),IOFFION(24),IOFFN(250)
       DIMENSION XNUL1(14),YNUL1(14),XNUL2(14),YNUL2(14)
@@ -35805,21 +35803,21 @@ c    /'%.3f' %)
       NUL2=14      
 # SCALING OF NULL CROSS-SECTION
       SCLN[1]=1.0
-      SCLN(2)=1.0
+      SCLN[2]=1.0
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(44.09652*AMU)                                     
+      E[2]=2.0*EMASS/(44.09652*AMU)                                     
       E(3)=11.05                                                      
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0
+      E[6]=0.0
 #
       EION[1]=11.11
-      EION(2)=11.55
+      EION[2]=11.55
       EION(3)=11.75
       EION[4]=11.75
       EION[5]=11.91
-      EION(6)=13.48
+      EION[6]=13.48
       EION(7)=13.65
       EION(8)=13.79
       EION(9)=14.1
@@ -35845,8 +35843,8 @@ c    /'%.3f' %)
    33 CONTINUE
       EOBY(NION)=EOBY(NION)*0.63
 #
-      ESPLIT(1,1)=0.80*EION(2)
-      ESPLIT(1,2)=0.58*EION(2)
+      ESPLIT(1,1)=0.80*EION[2]
+      ESPLIT(1,2)=0.58*EION[2]
 #
       DO 44 JK=1,23
        LEGAS(JK)=0
@@ -35888,11 +35886,11 @@ c    /'%.3f' %)
   776 CONTINUE      
 #
       EIN[1]=-0.036
-      EIN(2)=0.036
+      EIN[2]=0.036
       EIN(3)=-0.108                                            
       EIN[4]=0.108    
       EIN[5]=-0.173                                                  
-      EIN(6)=0.173                                                      
+      EIN[6]=0.173                                                      
       EIN(7)=0.363
       EIN(8)=0.519
       EIN(9)=6.60                                                      
@@ -35983,15 +35981,15 @@ c    /'%.3f' %)
 #
 
     6 SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC      ANISOTROPIC   PROPANE 2017          '
+      SCRPT[2]=' ELASTIC      ANISOTROPIC   PROPANE 2017          '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC        ISOTROPIC   PROPANE 2017          '
+      SCRPT[2]=' ELASTIC        ISOTROPIC   PROPANE 2017          '
       # endif
       SCRPT(3)=' IONISATION    C3H8+               ELOSS=11.11    '
       SCRPT[4]=' IONISATION    C3H7+               ELOSS=11.55    '
       SCRPT[5]=' IONISATION    C3H6+               ELOSS=11.75    '
-      SCRPT(6)=' IONISATION    C2H4+               ELOSS=11.75    '
+      SCRPT[6]=' IONISATION    C2H4+               ELOSS=11.75    '
       SCRPT(7)=' IONISATION    C2H5+               ELOSS=11.91    '
       SCRPT(8)=' IONISATION    C3H5+               ELOSS=13.48    '
       SCRPT(9)=' IONISATION    CH3+                ELOSS=13.65    '
@@ -36084,7 +36082,7 @@ c    /'%.3f' %)
       SCRPT(96)=' BREMSSTRAHLUNG FROM HYDROGEN ATOM                '
 # NULL COLLISIONS
       SCRPTN[1]=' C3H8: LIGHT EMISSION : Halpha                    '
-      SCRPTN(2)=' C3H8: LIGHT EMISSION : CH2(A2DELTA-X2PI)         '
+      SCRPTN[2]=' C3H8: LIGHT EMISSION : CH2(A2DELTA-X2PI)         '
 #
 # CALC LEVEL POPULATIONS
       APOP1=math.exp(EIN[1]/AKT)
@@ -36215,7 +36213,7 @@ c    /'%.3f' %)
 )) GO TO 65
       PEQION(1,I)=PEQEL(2,(I-IOFFION[1]))
 # C3H7+ 
-   65 if(EN <= EION(2)) GO TO 70         
+   65 if(EN <= EION[2]) GO TO 70         
       if(EN > XION2(NION2):
 ) GO TO 68
       DO 66 J=2,NION2                                                  
@@ -36230,9 +36228,9 @@ c    /'%.3f' %)
 # USE BORN BETHE ABOVE XION2(NION2) EV
    68 QION(2,I)=QIONC*0.073774
    69 CONTINUE
-      if(EN < (2.0*EION(2):
+      if(EN < (2.0*EION[2]:
 )) GO TO 70
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # C3H6+ 
    70 if(EN <= EION(3)) GO TO 75         
       if(EN > XION3(NION3):
@@ -36291,7 +36289,7 @@ c    /'%.3f' %)
 )) GO TO 85
       PEQION(5,I)=PEQEL(2,(I-IOFFION[5]))
 # C3H5+ 
-   85 if(EN <= EION(6)) GO TO 90         
+   85 if(EN <= EION[6]) GO TO 90         
       if(EN > XION6(NION6):
 ) GO TO 88
       DO 86 J=2,NION6                                                  
@@ -36306,9 +36304,9 @@ c    /'%.3f' %)
 # USE BORN BETHE ABOVE XION6(NION6) EV
    88 QION(6,I)=QIONC*0.040867 
    89 CONTINUE
-      if(EN < (2.0*EION(6):
+      if(EN < (2.0*EION[6]:
 )) GO TO 90
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 # CH3+
    90 if(EN <= EION(7)) GO TO 95         
       if(EN > XION7(NION7):
@@ -36703,12 +36701,12 @@ c    /'%.3f' %)
       if(EN > 10.0):
  PEQIN(1,I)=PEQEL(2,(I-IOFFN[1]))
 #   VIBRATION TORSION                      ANISOTROPIC ABOVE 10EV
-  302 if(EN <= EIN(2)) GO TO 303
-      EFAC=math.sqrt(1.0-(EIN(2)/EN))
+  302 if(EN <= EIN[2]) GO TO 303
+      EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN(2,I)=0.00536*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN(2,I)=QIN(2,I)*1.0/(1.0+APOP1)*1.D-16    
       if(EN > 10.0):
- PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+ PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 #
 # VIBRATION SUPERELASTIC                   ANISOTROPIC ABOVE 10EV
   303 if(EN <= 0.0) GO TO 316
@@ -36748,24 +36746,24 @@ c    /'%.3f' %)
 #               
 #  SUPERELASTIC VIBRATION                  ANISOTROPIC ABOVE 10EV                          
   321 if(EN <= 0.0) GO TO 326   
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) > XVIB2(NVIB2)) GO TO 324                         
       DO 322 J=2,NVIB2
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) <= XVIB2[J]) GO TO 323                             
   322 CONTINUE                                                          
       J=NVIB2                                                           
   323 A=(YVIB2[J]-YVIB2(J-1))/(XVIB2[J]-XVIB2(J-1))                     
       B=(XVIB2(J-1)*YVIB2[J]-XVIB2[J]*YVIB2(J-1))/(XVIB2(J-1)-XVIB2[J]) 
-      QIN(5,I)=(EN+EIN(6))*(A*(EN+EIN(6))+B)/EN
+      QIN(5,I)=(EN+EIN[6])*(A*(EN+EIN[6])+B)/EN
       GO TO 325
-  324 QIN(5,I)=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN(6)))**2
+  324 QIN(5,I)=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN[6]))**2
   325 QIN(5,I)=QIN(5,I)*APOP3/(1.0+APOP3)*1.D-16           
       if(EN > 10.0):
  PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))                 
 #                                                       
 #  VIBRATION                              ANISOTROPIC ABOVE 10EV                          
-  326 if(EN <= EIN(6)) GO TO 331  
+  326 if(EN <= EIN[6]) GO TO 331  
       if(EN > XVIB2(NVIB2):
 ) GO TO 329                                  
       DO 327 J=2,NVIB2                                                  
@@ -36780,7 +36778,7 @@ c    /'%.3f' %)
   329 QIN(6,I)=YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)**2
   330 QIN(6,I)=QIN(6,I)/(1.0+APOP3)*1.D-16          
       if(EN > 10.0):
- PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))             
+ PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))             
 #                                                          
 # VIBRATION INELASTIC                 
   331 if(EN <= EIN(7)) GO TO 341 
@@ -37373,10 +37371,10 @@ c    /'%.3f' %)
       J=NUL2
   807 A=(YNUL2[J]-YNUL2(J-1))/(XNUL2[J]-XNUL2(J-1))
       B=(XNUL2(J-1)*YNUL2[J]-XNUL2[J]*YNUL2(J-1))/(XNUL2(J-1)-XNUL2[J])
-      QNULL(2,I)=(A*EN+B)*1.D-16*SCLN(2)
+      QNULL(2,I)=(A*EN+B)*1.D-16*SCLN[2]
       GO TO 810
 # SCALE BY 1/E ABOVE XNUL2(NUL2)) EV
-  808 QNULL(2,I)=YNUL2(NUL2)*(XNUL2(NUL2)/EN)*1.D-16*SCLN(2)  
+  808 QNULL(2,I)=YNUL2(NUL2)*(XNUL2(NUL2)/EN)*1.D-16*SCLN[2]  
 #  
   810 CONTINUE
 #
@@ -37432,10 +37430,10 @@ c    /'%.3f' %)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)    
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]    
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)     
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       DIMENSION XEN(157),YELM(157),YELT(157),YEPS(157),XION(42),YION(42),YINC(42),XATT(10),YATT(10),XKSH(83),YKSH(83),  XVIB1(30),YVIB1(30),XVIB2(24),YVIB2(24),XVIB3(24),YVIB3(24),      XVIB4(29),YVIB4(29),XVIB5(15),YVIB5(15),XEXC1(16),YEXC1(16),XEXC2(16),YEXC2(16),IOFFN(24),IOFFION(10)
       DIMENSION Z6T(25),Z1T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
@@ -37573,29 +37571,29 @@ c    /'%.3f' %)
       NKSH=83
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(58.1234*AMU)                                      
+      E[2]=2.0*EMASS/(58.1234*AMU)                                      
       E(3)=10.67    
 # EXCITATION X-SECTION AT 1.2 MEV          
       E[4]=0.0145D-16
 # IONISATION X-SECTION AT 1.2 MEV                               
       E[5]=0.0374D-16
 # OPAL BEATY IONISATION ENERGY SPLITTING AT 1.2 MEV                 
-      E(6)=7.00 
+      E[6]=7.00 
 # OPAL BEATY IONISATION  AT LOW ENERGY
       EOBY[1]=6.8  
 # OPAL BEATY FOR DISSOCIATION AND K-SHELL
-      EOBY(2)=6.8  
+      EOBY[2]=6.8  
       EOBY(3)=180.0
 
 #  
       EION[1]=10.67
-      EION(2)=17.0
+      EION[2]=17.0
       EION(3)=285.0
       LEGAS[1]=0
-      LEGAS(2)=0
+      LEGAS[2]=0
       LEGAS(3)=1
       ISHELL[1]=0
-      ISHELL(2)=0
+      ISHELL[2]=0
       ISHELL(3)=1
 # FLUORESCENCE DATA
       NC0[1]=0
@@ -37606,14 +37604,14 @@ c    /'%.3f' %)
       EG1[1]=0.0
       NG2[1]=0
       EG2[1]=0.0
-      NC0(2)=0
-      EC0(2)=0.0
-      WKLM(2)=0.0
-      EFL(2)=0.0
-      NG1(2)=0
-      EG1(2)=0.0
-      NG2(2)=0
-      EG2(2)=0.0
+      NC0[2]=0
+      EC0[2]=0.0
+      WKLM[2]=0.0
+      EFL[2]=0.0
+      NG1[2]=0
+      EG1[2]=0.0
+      NG2[2]=0
+      EG2[2]=0.0
       NC0(3)=2
       EC0(3)=253.
       WKLM(3)=0.0026
@@ -37624,11 +37622,11 @@ c    /'%.3f' %)
       EG2(3)=5.0
 #
       EIN[1]=-0.032                                            
-      EIN(2)=0.032 
+      EIN[2]=0.032 
       EIN(3)=-0.108
       EIN[4]=0.108  
       EIN[5]=-0.173                                                    
-      EIN(6)=0.173
+      EIN[6]=0.173
       EIN(7)=-0.363                                                    
       EIN(8)=0.363
       EIN(9)=0.519
@@ -37694,15 +37692,15 @@ c    /'%.3f' %)
     8 CONTINUE
 #***********************************************************************
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC  ANISOTROPIC      ISOBUTANE              '
+      SCRPT[2]=' ELASTIC  ANISOTROPIC      ISOBUTANE              '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC  ISOTROPIC        ISOBUTANE              '
+      SCRPT[2]=' ELASTIC  ISOTROPIC        ISOBUTANE              '
       # endif
       SCRPT(3)=' IONISATION                       ELOSS=  10.67   '
       SCRPT[4]=' IONISATION-EXCITATION (BREAKUP)  ELOSS=  17.0    '
       SCRPT[5]=' IONISATION  K-SHELL              ELOSS= 285.0    '
-      SCRPT(6)=' ATTACHMENT                                       '
+      SCRPT[6]=' ATTACHMENT                                       '
       SCRPT(7)='                                                  '
       SCRPT(8)='                                                  '
       SCRPT(9)=' TORSION                          ELOSS=  -0.032  '
@@ -37843,16 +37841,16 @@ c    /'%.3f' %)
       PEQION(2,I)=0.50
       if(NANISO == 2):
  PEQIN(2,I)=0.0
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 160
-      QION(2,I)=12.00/(EION(2)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EION(2)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EION(2)+E(3))
+      QION(2,I)=12.00/(EION[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EION[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EION[2]+E(3))
       if(QION(2,I):
  < 0.0) QION(2,I)=0.0
 # FIND IONISATION ONLY
       QION(1,I)=QION(1,I)-QION(2,I)
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 160
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # K-SHELL IONISATION
   160 QION(3,I)=0.0
       PEQION(3,I)=0.5
@@ -37918,15 +37916,15 @@ c    /'%.3f' %)
       PEQIN(2,I)=0.5  
       if(NANISO == 2):
  PEQIN(2,I)=0.0                               
-      if(EN <= EIN(2):
+      if(EN <= EIN[2]:
 ) GO TO 400   
-      EFAC=math.sqrt(1.0-(EIN(2)/EN))
+      EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN(2,I)=0.009*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN(2,I)=APOPGST*QIN(2,I)*1.D-16
-      if(EN < (5.0*abs(EIN(2):
+      if(EN < (5.0*abs(EIN[2]:
 ))) GO TO 400
       if(NANISO == 2):
- PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))
+ PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))
 # SUPERELASTIC VIB B# end MODES
   400 QIN(3,I)=0.0
       PEQIN(3,I)=0.5
@@ -37979,16 +37977,16 @@ c    /'%.3f' %)
  PEQIN(5,I)=0.0
       if(EN == 0.0):
  GO TO 550
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) > XVIB3(NVIB3)) GO TO 525
       DO 510  J=2,NVIB3
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) <= XVIB3[J]) GO TO 520 
   510 CONTINUE
       J=NVIB3
   520 A=(YVIB3[J]-YVIB3(J-1))/(XVIB3[J]-XVIB3(J-1))                     
       B=(XVIB3(J-1)*YVIB3[J]-XVIB3[J]*YVIB3(J-1))/(XVIB3(J-1)-XVIB3[J]) 
-      QIN(5,I)=APOPV3*(EN+EIN(6))*(A*(EN+EIN(6))+B)*1.D-16/EN  
+      QIN(5,I)=APOPV3*(EN+EIN[6])*(A*(EN+EIN[6])+B)*1.D-16/EN  
       GO TO 526
   525 QIN(5,I)=APOPV3*YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)*1.D-16
   526 if(EN < (3.0*abs(EIN[5]))) GO TO 550
@@ -38000,7 +37998,7 @@ c    /'%.3f' %)
       PEQIN(6,I)=0.5
       if(NANISO == 2):
  PEQIN(6,I)=0.0                             
-      if(EN <= EIN(6):
+      if(EN <= EIN[6]:
 ) GO TO 600                           
       if(EN > XVIB3(NVIB3):
 ) GO TO 575             
@@ -38014,9 +38012,9 @@ c    /'%.3f' %)
       QIN(6,I)=APOPGS*(A*EN+B)*1.D-16 
       GO TO 576 
   575 QIN(6,I)=APOPGS*YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)*1.D-16  
-  576 if(EN < (3.0*abs(EIN(6)))) GO TO 600
+  576 if(EN < (3.0*abs(EIN[6]))) GO TO 600
       if(NANISO == 2):
- PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+ PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 # SUPERELASTIC VIB STRETCH MODES
   600 CONTINUE 
       QIN(7,I)=0.0
@@ -38324,10 +38322,10 @@ c     WRITE(6,992) EN,QION(1,I),QION(2,I),QION(3,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250],PJ(220) 
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250],PJ(220) 
       DIMENSION XEN(158),YMOM(158),YEL(158),YVBMOM(158),YVBEL(158),YEPS(158),XION1(63),YION1(63),XION2(66),YION2(66),XION3(66),YION3(66),XION4(41),YION4(41),XION5(41),YION5(41),XION6(40),YION6(40),XION7(37),YION7(37),XION8(30),YION8(30),XION9(27),YION9(27),XATT(68),YATT(68),XV2(17),YV2(17),X2V2(19),Y2V2(19),XV1(26),YV1(26),X3V2(11),Y3V2(11),XV3(11),YV3(11),XVPD3(14),YVPD3(14),XV130(12),YV130(12),XVPD4(14),YVPD4(14),XVPD5(11),YVPD5(11),XVPD6(11),YVPD6(11),XVPD7(11),YVPD7(11),XVPD8(11),YVPD8(11),XVPD9(11),YVPD9(11),XVPDH(9),YVPDH(9),      XTRP1(11),YTRP1(11),XTRP2(11),YTRP2(11),XKSHC(83),YKSHC(83),XKSHO(81),YKSHO(81),IOFFN(144),IOFFION(11)
       DIMENSION Z6T(25),Z8T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)                                
@@ -38559,18 +38557,18 @@ c     NANISO=0
       NKSHO=81 
 #                                                     
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(44.0095*AMU)                                      
+      E[2]=2.0*EMASS/(44.0095*AMU)                                      
       E(3)=13.776                          
       E[4]=0.0                   
       E[5]=0.0 
-      E(6)=0.0 
+      E[6]=0.0 
 #     
       EION[1]=13.776
-      EION(2)=17.314
+      EION[2]=17.314
       EION(3)=18.077
       EION[4]=19.07
       EION[5]=19.47
-      EION(6)=27.82
+      EION[6]=27.82
       EION(7)=37.4
       EION(8)=72.0
       EION(9)=74.0
@@ -38820,15 +38818,15 @@ c     NANISO=0
 # 866 print(' RENORMALISED GS POPULATION=', '%.4f' %,' AEXT20=',F12.10)  
 #------------------------------------------------------            
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC  ANISOTROPIC          CO2                '
+      SCRPT[2]=' ELASTIC  ANISOTROPIC          CO2                '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC    ISOTROPIC          CO2                '  
+      SCRPT[2]=' ELASTIC    ISOTROPIC          CO2                '  
       # endif
       SCRPT(3)=' IONISATION        CO2+           ELOSS=  13.776  '
       SCRPT[4]=' IONISATION-EXC    CO2+(A2PIu)    ELOSS=  17.314  '
       SCRPT[5]=' IONISATION-EXC    CO2+(B2SIG+u)  ELOSS=  18.077  '
-      SCRPT(6)=' DISSOCIATIVE ION  O+             ELOSS=  19.07   '
+      SCRPT[6]=' DISSOCIATIVE ION  O+             ELOSS=  19.07   '
       SCRPT(7)=' DISSOCIATIVE ION  CO+            ELOSS=  19.47   '
       SCRPT(8)=' DISSOCIATIVE ION  C+             ELOSS=  27.82   '
       SCRPT(9)=' DISSOCIATIVE ION  CO2++          ELOSS=  37.4    '
@@ -39099,7 +39097,7 @@ c     NANISO=0
       PEQION(2,I)=0.5  
       if(NANISO == 2):
  PEQION(2,I)=0.0                                   
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 1030
       if(EN > XION2(NION2):
 ) GO TO 1028             
@@ -39114,8 +39112,8 @@ c     NANISO=0
       GO TO 1029
 # USE BORN-BETHE X-SECTION ABOVE XION2(NION2) EV
  1028 QION(2,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.67716*0.385
- 1029 if(EN <= (2.0*EION(2))) GO TO 1030
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+ 1029 if(EN <= (2.0*EION[2])) GO TO 1030
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 #  IONISATION CO2+(B2SIGMA+u)
  1030 QION(3,I)=0.0 
       PEQION(3,I)=0.5  
@@ -39187,7 +39185,7 @@ c     NANISO=0
       PEQION(6,I)=0.5  
       if(NANISO == 2):
  PEQION(6,I)=0.0                                   
-      if(EN <= EION(6):
+      if(EN <= EION[6]:
 ) GO TO 1050
       if(EN > XION6(NION6):
 ) GO TO 1048             
@@ -39202,8 +39200,8 @@ c     NANISO=0
       GO TO 1049
 # USE BORN-BETHE X-SECTION ABOVE XION6(NION6) EV
  1048 QION(6,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.07452
- 1049 if(EN <= (2.0*EION(6))) GO TO 1050
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))
+ 1049 if(EN <= (2.0*EION[6])) GO TO 1050
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))
 #   IONISATION CO2++ 
  1050 QION(7,I)=0.0 
       PEQION(7,I)=0.5  
@@ -40911,10 +40909,10 @@ c     NANISO=0
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -40931,17 +40929,17 @@ c     NANISO=0
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -40961,10 +40959,10 @@ c     NANISO=0
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)        
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250] 
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250] 
       DIMENSION ELEV[100],AJL(100),PJ(100) 
       DIMENSION SALPHA[105],EROT(105),AJIN(210),IMAP(210)   
       DIMENSION XEL(159),YEL(159),XMT(156),YMT(156),XEPS(156),YEPS(156),XVIB1(17),YVIB1(17),XVIB2(18),YVIB2(18),XVIB3(12),YVIB3(12),XION(55),YIONC(55),YIONG(55),XION1(31),YION1(31),XION2(28),YION2(28),XION3(28),YION3(28),XION4(26),YION4(26),XION5(25),YION5(25),XION6(23),YION6(23),XION7(21),YION7(21),XION8(17),YION8(17),XKSH(81),YKSH(81),XATT1(38),YATT1(38),XATT2(30),YATT2(30),XATT3(28),YATT3(28),XTRP1(11),YTRP1(11),XTRP2(10),YTRP2(10),XTRP3(10),YTRP3(10),XTRP4(9),YTRP4(9),XNUL1(12),YNUL1(12),XNUL2(33),YNUL2(33),XNUL3(20),YNUL3(20),XNUL4(18),YNUL4(18),IOFFN(250),IOFFION(9),XSECDUM(210)
@@ -41171,23 +41169,23 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       NUL4=18
 # SCALING OF NULL COLLISIONS
       SCLN[1]=1.0
-      SCLN(2)=1.0
+      SCLN[2]=1.0
       SCLN(3)=1.0
       SCLN[4]=1.0
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(18.01528*AMU)                                     
+      E[2]=2.0*EMASS/(18.01528*AMU)                                     
       E(3)=12.617                                                      
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0
+      E[6]=0.0
 # 
       EION[1]=12.617
-      EION(2)=18.1
+      EION[2]=18.1
       EION(3)=18.72
       EION[4]=21.0
       EION[5]=23.0
-      EION(6)=35.4
+      EION[6]=35.4
       EION(7)=45.0
       EION(8)=70.0
       EION(9)=532.0
@@ -41276,8 +41274,8 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       EG2(JK)=0.0
     9 CONTINUE
 # DOUBLE CHARGED STATES
-      NC0(6)=1
-      EC0(6)=6.0
+      NC0[6]=1
+      EC0[6]=6.0
       NC0(7)=1
       EC0(7)=6.0
       NC0(8)=1
@@ -41337,11 +41335,11 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
 #**********************************************************************
 #
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC ANISOTROPIC     H2O                      '
+      SCRPT[2]=' ELASTIC ANISOTROPIC     H2O                      '
       SCRPT(3)=' IONISATION   H2O+                  ELOSS= 12.617 '
       SCRPT[4]=' DISSOC ION    OH+                  ELOSS= 18.1   '
       SCRPT[5]=' DISSOC ION     H+                  ELOSS= 18.72  '
-      SCRPT(6)=' DISSOC ION     O+                  ELOSS= 21.0   '
+      SCRPT[6]=' DISSOC ION     O+                  ELOSS= 21.0   '
       SCRPT(7)=' DISSOC ION    H2+                  ELOSS= 23.0   '
       SCRPT(8)=' DISSOC ION     H+ + OH+            ELOSS= 35.4   '
       SCRPT(9)=' DISSOC ION     H+ + O+             ELOSS= 45.0   '
@@ -41604,7 +41602,7 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       SCRPT(266)=' BREMSSTRAHLUNG FROM HYDROGEN ATOMS               '
 #  NULL COLLISIONS
       SCRPTN[1]=' H2O: OH(X)  GROUND STATE DISSOCIATION            '
-      SCRPTN(2)=' H2O: OH(A-X) 306-350 NM EMISSION                 '
+      SCRPTN[2]=' H2O: OH(A-X) 306-350 NM EMISSION                 '
       SCRPTN(3)=' H2O: H ALPHA 3-2 (BALMER)  656.3 NM. EMISSION    '
       SCRPTN[4]=' H2O: H ALPHA 2-1 (LYMAN)   121.6 NM. EMISSION    '
 # CALC POPULATION OF LOW ENERGY VIBRATIONAL STATE
@@ -42854,10 +42852,10 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       J=NUL2
   807 A=(YNUL2[J]-YNUL2(J-1))/(XNUL2[J]-XNUL2(J-1))
       B=(XNUL2(J-1)*YNUL2[J]-XNUL2[J]*YNUL2(J-1))/(XNUL2(J-1)-XNUL2[J])
-      QNULL(2,I)=(A*EN+B)*1.D-16*SCLN(2)
+      QNULL(2,I)=(A*EN+B)*1.D-16*SCLN[2]
       GO TO 810
 # SCALE BY 1/E ABOVE XNUL2(NUL2) EV
-  808 QNULL(2,I)=YNUL2(NUL2)*(XNUL2(NUL2)/EN)*1.D-16*SCLN(2)
+  808 QNULL(2,I)=YNUL2(NUL2)*(XNUL2(NUL2)/EN)*1.D-16*SCLN[2]
 #  LIGHT EMISSION FROM H(3-2)  MOHLMANN AND DEHEER CHEM.PHYS.19(1979)233 
   810 QNULL(3,I)=0.0
       if(EN <= XNUL3[1]:
@@ -42955,10 +42953,10 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30) 
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       DIMENSION XELA[153],YELA[153],YMOM(153),YEPS(153),XROT13(63),YROT13(63),XROT35(55),YROT35(55),XROT57(55),YROT57(55),XROT79(50),YROT79(50),XROT911(48),YROT911(48),XROT1113(46),YROT1113(46),XROT1315(45),YROT1315(45),XROT1517(44),YROT1517(44),XROT1719(43),YROT1719(43),XROT1921(41),YROT1921(41),XROT2123(40),YROT2123(40),XROT2325(39),YROT2325(39),XROT2527(38),YROT2527(38),XROT2729(37),YROT2729(37),XROT2931(36),YROT2931(36),XROT3133(34),YROT3133(34),XROT3335(33),YROT3335(33),XROT3537(32),YROT3537(32),XROT3739(32),YROT3739(32),XROT3941(31),YROT3941(31),XROT4143(31),YROT4143(31),XROT4345(30),YROT4345(30),XROT4547(30),YROT4547(30),XROT4749(29),YROT4749(29),XVIB[60],YVIB1(60),YVIB2(60),YVIB3(60),YVIB4(60),YVIB5(60),YVIB6(60),YVIB7(60),YVIB8(60),YVIB9(60),YVIB10(60),YVIB11(60),YVIB12(60),YVIB13(60),YVIB14(60),YVIB15(60),YVIB16(60),YVIB17(60),YVIB18(60),YVIB19(60),YVIB20(60),YVIB21(60),X3ATT(32),Y3ATT(32),XATT(31),YATT(31),XEXC1(40),YEXC1(40),XEXC2(31),YEXC2(31),XEXC3(16),YEXC3(16),    XEXC4(15),YEXC4(15),XEXC5(14),YEXC5(14),XEXC6(14),YEXC6(14),      XEXC7(14),YEXC7(14),XEXC8(15),YEXC8(15),XEXC9(14),YEXC9(14),XROT(48),YROT(48),XIONC(85),YIONC(85),XION1(85),YION1(85),XION2(70),YION2(70),XION3(50),YION3(50),XION4(47),YION4(47),XION5(44),YION5(44),XKSH(81),YKSH(81),IOFFN(150),IOFFION(8),PJ(50)
       DIMENSION Z8T(25),EBRM(25)                          
       CHARACTER*50 SCRPT(300),SCRPTN(10)                          
@@ -43283,18 +43281,18 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       NKSH=81
 #                                                        
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(31.9988*AMU)                                      
+      E[2]=2.0*EMASS/(31.9988*AMU)                                      
       E(3)=12.071                                                       
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
 #
       EION[1]=12.071
-      EION(2)=16.104
+      EION[2]=16.104
       EION(3)=18.171
       EION[4]=20.701
       EION[5]=38.46
-      EION(6)=68.0
+      EION[6]=68.0
       EION(7)=90.0
       EION(8)=532.0
 #
@@ -43418,8 +43416,8 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
 # DOUBLE CHARGED STATES
       NC0[5]=1
       EC0[5]=6.0
-      NC0(6)=1
-      EC0(6)=6.0
+      NC0[6]=1
+      EC0[6]=6.0
 # TRIPLE CHARGED STATES
       NC0(7)=2
       EC0(7)=6.0
@@ -43479,14 +43477,14 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       SCRPT[1]='                                                  '
       if(NANISO == 0):
  :
-       SCRPT(2)=' ELASTIC  ISOTROPIC      OXYGEN                   '
+       SCRPT[2]=' ELASTIC  ISOTROPIC      OXYGEN                   '
       else:
-       SCRPT(2)=' ELASTIC ANISOTROPIC     OXYGEN                   '
+       SCRPT[2]=' ELASTIC ANISOTROPIC     OXYGEN                   '
       # endif
       SCRPT(3)=' IONISATION  O2+ X2PI              ELOSS= 12.072  '
       SCRPT[4]=' IONISATION  O2+ A4PI              ELOSS= 16.104  '
       SCRPT[5]=' IONISATION  O2+ B4SIGMA           ELOSS= 18.171  '
-      SCRPT(6)=' DISSOC ION  O+  + O               ELOSS= 20.701  '
+      SCRPT[6]=' DISSOC ION  O+  + O               ELOSS= 20.701  '
       SCRPT(7)=' DISSOC ION  O+  + O+              ELOSS= 38.46   '
       SCRPT(8)=' DISSOC ION  O++ + O               ELOSS= 68.0    '
       SCRPT(9)=' DISSOC ION  O++ + O+              ELOSS= 90.0    '
@@ -43714,10 +43712,10 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
       QION(1,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.6475*0.558
 # IONISATION TO O2+ A4PI
-   54 if(EN <= EION(2)) GO TO 58
+   54 if(EN <= EION[2]) GO TO 58
       if(EN > XION1(NION1):
 ) GO TO 57
-      EOFF=EN-(EION(2)-EION[1])
+      EOFF=EN-(EION[2]-EION[1])
       DO 55 J=1,NION1
       if(EOFF <= XION1[J]:
 ) GO TO 56
@@ -43783,7 +43781,7 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
    69 QION(5,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0446
 #
 # DISSOCIATIVE DOUBLE IONISATION TO O++ + O 
-   70 if(EN <= EION(6)) GO TO 74  
+   70 if(EN <= EION[6]) GO TO 74  
       if(EN > XION4(NION4):
 ) GO TO 73                                   
       DO 71 J=2,NION4                                                  
@@ -45717,10 +45715,10 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)         
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]         
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250],PJ(220) 
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250],PJ(220) 
       DIMENSION XELA[216],YELA[216],YMOM(216),YEPS(216),XROT(70),YROT(70),XVB1(87),YVB1(87),XVB2(69),YVB2(69),XVB3(70),YVB3(70),XVB4(50),YVB4(50),XVB5(40),YVB5(40),XVB6(41),YVB6(41),XVB7(42),YVB7(42),XVB8(40),YVB8(40),XVB9(35),YVB9(35),XVB10(35),YVB10(35),XVB11(35),YVB11(35),XVB12(33),YVB12(33),XVB13(31),YVB13(31),XVB14(28),YVB14(28),XVB15(32),YVB15(32),XTRP1(23),YTRP1(23),YTP1M(23),XTRP2(23),YTRP2(23),YTP2M(23),XTRP3(21),YTRP3(21),YTP3M(21),XTRP4(22),YTRP4(22),YTP4M(22),XTRP5(23),YTRP5(23),YTP5M(23),XTRP6(21),YTRP6(21),YTP6M(21),XTRP7(21),YTRP7(21),YTP7M(21),XTRP8(21),YTRP8(21),YTP8M(21),XTRP9(20),YTRP9(20),YTP9M(20),XTRP10(20),YTRP10(20),YTP10M(20),XTRP11(19),YTRP11(19),YTP11M(19),XTRP12(22),YTRP12(22),YTP12M(22),XTRP13(10),YTRP13(10),YTP13M(10),XTRP14(10),YTRP14(10),YTP14M(10),XSNG1(19),YSNG1(19),YSG1M(19),XSNG2(17),YSNG2(17),YSG2M(17),XSNG3(17),YSNG3(17),YSG3M(17),XSNG4(19),YSNG4(19),YSG4M(19),XSNG5(17),YSNG5(17),YSG5M(17),XSNG6(16),YSNG6(16),YSG6M(16),XSNG7(12),YSNG7(12),YSG7M(12),XSNG8(8),YSNG8(8),YSG8M(8),XSNG9(16),YSNG9(16),YSG9M(16),XSNG10(8),YSNG10(8),YSG10M(8),XSNG11(8),YSNG11(8),YSG11M(8),XSNG12(8),YSNG12(8),YSG12M(8),XSNG13(8),YSNG13(8),YSG13M(8),XSNG14(8),YSNG14(8),YSG14M(8),XSNG15(8),YSNG15(8),YSG15M(8),XKSH(89),YKSH(89),XION(87),YION(87),XION1(87),YION1(87),XION2(63),YION2(63),XION3(48),YION3(48),XION4(54),YION4(54),IOFFN(127),IOFFION(12)
       DIMENSION Z7T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)       
@@ -46108,18 +46106,18 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       NKSH=89
 #                                                         
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(27.7940*AMU)                                      
+      E[2]=2.0*EMASS/(27.7940*AMU)                                      
       E(3)=15.581                                  
       E[4]=0.0                                   
       E[5]=0.0                   
-      E(6)=0.0
+      E[6]=0.0
 #
       EION[1]=15.581
-      EION(2)=15.855
+      EION[2]=15.855
       EION(3)=16.699
       EION[4]=16.935
       EION[5]=17.171
-      EION(6)=18.751
+      EION[6]=18.751
       EION(7)=23.591
       EION(8)=24.294
       EION(9)=24.4  
@@ -46279,14 +46277,14 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       SCRPT[1]='                                                  '
       if(NANISO == 0):
  :
-       SCRPT(2)=' ELASTIC  ISOTROPIC           NITROGEN           '
+       SCRPT[2]=' ELASTIC  ISOTROPIC           NITROGEN           '
       else:                  
-       SCRPT(2)=' ELASTIC ANISOTROPIC          NITROGEN           '
+       SCRPT[2]=' ELASTIC ANISOTROPIC          NITROGEN           '
       # endif
       SCRPT(3)=' IONISATION N2+ X2SIGMA VIB=0     ELOSS=  15.581  '
       SCRPT[4]=' IONISATION N2+ X2SIGMA VIB>0     ELOSS=  15.855  '
       SCRPT[5]=' IONISATION N2+ A2PI    VIB=0     ELOSS=  16.699  '
-      SCRPT(6)=' IONISATION N2+ A2PI    VIB=1     ELOSS=  16.935  '
+      SCRPT[6]=' IONISATION N2+ A2PI    VIB=1     ELOSS=  16.935  '
       SCRPT(7)=' IONISATION N2+ A2PI    VIB>1     ELOSS=  17.171  '
       SCRPT(8)=' IONISATION N2+ B2SIGMA           ELOSS=  18.751  '
       SCRPT(9)=' IONISATION N2+ C2SIGMA           ELOSS=  23.591  '
@@ -46503,7 +46501,7 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       QN2PTOT=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.7973                  
 #
   411 QION(1,I)=QN2PTOT
-      if(EN > EION(2):
+      if(EN > EION[2]:
  and EN <= EION(3)) :
        QION(2,I)=QN2PTOT*0.2
        QION(1,I)=QN2PTOT*0.8
@@ -46516,13 +46514,13 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
        QION(3,I)=QN2PTOT*0.1530
        QION(2,I)=QN2PTOT*0.1235
        QION(1,I)=QN2PTOT*0.4939
-      else if(EN > EION[5] and EN <= EION(6)) :
+      else if(EN > EION[5] and EN <= EION[6]) :
        QION(5,I)=QN2PTOT*0.2765
        QION(4,I)=QN2PTOT*0.1659
        QION(3,I)=QN2PTOT*0.1106
        QION(2,I)=QN2PTOT*0.0894
        QION(1,I)=QN2PTOT*0.3576
-      else if(EN > EION(6) and EN <= EION(7)) :
+      else if(EN > EION[6] and EN <= EION(7)) :
        QION(6,I)=QN2PTOT*0.1299
        QION(5,I)=QN2PTOT*0.2408
        QION(4,I)=QN2PTOT*0.1445
@@ -48028,10 +48026,10 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -48048,17 +48046,17 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -48078,10 +48076,10 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -48098,17 +48096,17 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -48128,10 +48126,10 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -48148,17 +48146,17 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -48178,10 +48176,10 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -48198,17 +48196,17 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -48228,11 +48226,11 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
-      DIMENSION XELM(172),YELM(172),YELT(172),YEPS(172),XROT0(53),YROT0(53),XROT1(43),YROT1(43),XROT2(28),YROT2(28),XROT3(28),YROT3(28),XVIB1(43),YVIB1(43),XVIB2(42),YVIB2(42),XVIB3(13),YVIB3(13),XVIB4(12),YVIB4(12),XB3S1(3),YB3S1(3),XB3S2(6),YB3S2(6),XB3S3[5],YB3S3[5],XB3S4(8),YB3S4(8),XC3PI[5],YC3PI[5],XA3SG[5],YA3SG[5],XE3SG[5],YE3SG[5],XEFSG(34),YEFSG(34),XATT(18),YATT(18),XION(92),YION(92),XIOND[61],YIOND[61],IOFFN(107),IOFFION(2),PJ(7),ERLVL(7),BEF(10)
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
+      DIMENSION XELM(172),YELM(172),YELT(172),YEPS(172),XROT0(53),YROT0(53),XROT1(43),YROT1(43),XROT2(28),YROT2(28),XROT3(28),YROT3(28),XVIB1(43),YVIB1(43),XVIB2(42),YVIB2(42),XVIB3(13),YVIB3(13),XVIB4(12),YVIB4(12),XB3S1(3),YB3S1(3),XB3S2[6],YB3S2[6],XB3S3[5],YB3S3[5],XB3S4(8),YB3S4(8),XC3PI[5],YC3PI[5],XA3SG[5],YA3SG[5],XE3SG[5],YE3SG[5],XEFSG(34),YEFSG(34),XATT(18),YATT(18),XION(92),YION(92),XIOND[61],YIOND[61],IOFFN(107),IOFFION[2],PJ(7),ERLVL(7),BEF(10)
       DIMENSION DISLY(37),DISWR(14),DISD1P(16),DISB1S(9)
       DIMENSION Z1T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)                                
@@ -48446,22 +48444,22 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       NATT1=18    
 #                                                       
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(2.015650*AMU)   
+      E[2]=2.0*EMASS/(2.015650*AMU)   
 # IONISATION ENERGY FOR PARA =15.42580155 EV
 # IONISATION ENERGY FOR ORTHO=15.41833111 EV
 # USE ORTHO ENERGY FOR ROOM TEMPERATURE GAS
       E(3)=15.418 
       EION[1]=E(3)
 # DISSOCIATIVE IONISATION THRESHOLD
-      EION(2)=18.076
+      EION[2]=18.076
 #                                                     
       E[4]=0.0                                     
       E[5]=0.0                              
-      E(6)=0.0 
+      E[6]=0.0 
 # OPAL BEATY FOR LOW ENERGY
       ESCOBY=0.5
       EOBY[1]=EION[1]*ESCOBY
-      EOBY(2)=EION(2)*ESCOBY
+      EOBY[2]=EION[2]*ESCOBY
 #     EOBY[1]=6.5 
 # FLUORESENCE DATA
       DO 24 J=1,2
@@ -48488,11 +48486,11 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
    49 CONTINUE
 #
       EIN[1]=-.043928
-      EIN(2)=-.072741
+      EIN[2]=-.072741
       EIN(3)=-.10085
       EIN[4]=-.12797
       EIN[5]=0.043928                                                   
-      EIN(6)=0.072741                                                  
+      EIN[6]=0.072741                                                  
       EIN(7)=0.10085                                                    
       EIN(8)=0.12797                                                 
       EIN(9)=0.515916                                                   
@@ -48614,7 +48612,7 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       EIN(108)=0.0
 # BEF SCALING :  BINDING ENERGIES
       BEF[1]=E(3)
-      BEF(2)=E(3)
+      BEF[2]=E(3)
       BEF(3)=E(3)
       BEF[4]=E(3)
       BEF[5]=E(3)
@@ -48636,12 +48634,12 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
 #  PARA - ORTHO ENERGY DIFFERENCE ( J=0 - J=1 ROT LEVEL) = 0.01469049 EV
 #  REF :ASTROPHYS J.  282(1984)L85
       ERLVL[1]=0.01469049
-      ERLVL(2)=EIN[5]
-      ERLVL(3)=0.01469049+EIN(6)
+      ERLVL[2]=EIN[5]
+      ERLVL(3)=0.01469049+EIN[6]
       ERLVL[4]=EIN[5]+EIN(7)
-      ERLVL[5]=0.01469049+EIN(6)+EIN(8)
-      ERLVL(6)=EIN[5]+EIN(7)+0.15381
-      ERLVL(7)=0.01469049+EIN(6)+EIN(8)+0.1794
+      ERLVL[5]=0.01469049+EIN[6]+EIN(8)
+      ERLVL[6]=EIN[5]+EIN(7)+0.15381
+      ERLVL(7)=0.01469049+EIN[6]+EIN(8)+0.1794
 #**********************************************************************
 # ENTER PENNING TRANSFER FRACTION FOR EACH LEVEL
 # USE TRANSFER FRACTION IN RANGE BETWEEN 0.0 AND 0.2 FOR MOST MIXTURES
@@ -48682,11 +48680,11 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
     8 SUM=SUM+PJ[K]        
       FROT0=1.0/SUM                                                     
       FROT1=PJ[1]/SUM                                                   
-      FROT2=PJ(2)/SUM                                                   
+      FROT2=PJ[2]/SUM                                                   
       FROT3=PJ(3)/SUM                                                   
       FROT4=PJ[4]/SUM                                                   
       FROT5=PJ[5]/SUM 
-      FROT6=PJ(6)/SUM
+      FROT6=PJ[6]/SUM
       FROT7=PJ(7)/SUM 
 #     WRITE(6,88) FROT0,FROT1,FROT2,FROT3,FROT4,FROT5,FROT6,FROT7
 #  88 print(3X,' FROT0=',F9.6,' FROT1=',F9.6,' FROT2=',F9.6,' FROT3=',
@@ -48694,15 +48692,15 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
 #-----------------------------------------------------------------------        
 #
       SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC  ANISOTROPIC        HYDROGEN             '
+      SCRPT[2]=' ELASTIC  ANISOTROPIC        HYDROGEN             '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC    ISOTROPIC        HYDROGEN             '
+      SCRPT[2]=' ELASTIC    ISOTROPIC        HYDROGEN             '
       # endif
       SCRPT(3)=' IONISATION                       ELOSS= 15.418   '
       SCRPT[4]=' DISSOCIATIVE IONISATION          ELOSS= 18.076   '
       SCRPT[5]=' ATTACHMENT                                       '
-      SCRPT(6)='                                                  '
+      SCRPT[6]='                                                  '
       SCRPT(7)='                                                  '
       SCRPT(8)=' ROTATION   2-0                   ELOSS= -0.043928'
       SCRPT(9)=' ROTATION   3-1                   ELOSS= -0.072741'
@@ -48887,7 +48885,7 @@ c*****************************
       PEQION(2,I)=0.50
       if(NANISO == 2):
  PEQION(2,I)=0.00
-      if(EN < EION(2):
+      if(EN < EION[2]:
 ) GO TO 150
       if(EN > (XIOND[NIOND]):
 ) GO TO 141
@@ -48905,9 +48903,9 @@ c*****************************
       X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
       QION(2,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.05481 
   142 CONTINUE
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 150
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # CALCULATE NON-DISSOCIATIVE IONISATION
   150  if(QION(1,I) == 0.0) GO TO 200
        QION(1,I)=QION(1,I)-QION(2,I)
@@ -48920,9 +48918,9 @@ c*****************************
       if(EN < (EATTTH-ERLVL(7):
 )) GO TO 300
       Q(4,I)=AMPATT*5.00*FROT7*math.exp(-(EN-EATTTH+ERLVL(7))/EATTWD)
-      if(EN < (EATTTH-ERLVL(6):
+      if(EN < (EATTTH-ERLVL[6]:
 )) GO TO 300
-      Q(4,I)=Q(4,I)+AMPATT*3.96*FROT6*math.exp(-(EN-EATTTH+ERLVL(6))/EATTWD)
+      Q(4,I)=Q(4,I)+AMPATT*3.96*FROT6*math.exp(-(EN-EATTTH+ERLVL[6])/EATTWD)
       if(EN < (EATTTH-ERLVL[5]:
 )) GO TO 300
       Q(4,I)=Q(4,I)+AMPATT*3.15*FROT5*math.exp(-(EN-EATTTH+ERLVL[5])/EATTWD)
@@ -48932,9 +48930,9 @@ c*****************************
       if(EN < (EATTTH-ERLVL(3):
 )) GO TO 300
       Q(4,I)=Q(4,I)+AMPATT*1.99*FROT3*math.exp(-(EN-EATTTH+ERLVL(3))/EATTWD)
-      if(EN < (EATTTH-ERLVL(2):
+      if(EN < (EATTTH-ERLVL[2]:
 )) GO TO 300
-      Q(4,I)=Q(4,I)+AMPATT*1.58*FROT2*math.exp(-(EN-EATTTH+ERLVL(2))/EATTWD)
+      Q(4,I)=Q(4,I)+AMPATT*1.58*FROT2*math.exp(-(EN-EATTTH+ERLVL[2])/EATTWD)
       if(EN < (EATTTH-ERLVL[1]:
 )) GO TO 300
       Q(4,I)=Q(4,I)+AMPATT*1.26*FROT1*math.exp(-(EN-EATTTH+ERLVL[1])/EATTWD)
@@ -48989,13 +48987,13 @@ c*****************************
       if(EN > XROT1(NROT1):
 ) GO TO 1200
       DO 1110 J=2,NROT1
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) <= XROT1[J]) GO TO 1120
  1110 CONTINUE
       J=NROT1
  1120 A=(YROT1[J]-YROT1(J-1))/(XROT1[J]-XROT1(J-1))                     
       B=(XROT1(J-1)*YROT1[J]-XROT1[J]*YROT1(J-1))/(XROT1(J-1)-XROT1[J]) 
-      QIN(2,I)=FROT3*(3.0/7.0)*(EN+EIN(6))*(A*(EN+EIN(6))+B)*1.D-16/EN 
+      QIN(2,I)=FROT3*(3.0/7.0)*(EN+EIN[6])*(A*(EN+EIN[6])+B)*1.D-16/EN 
 #                    SUPERELASTIC 4-2
  1200 if(EN <= 0.0) GO TO 1250
       if(EN > XROT2(NROT2):
@@ -49037,7 +49035,7 @@ c*****************************
  2330 if(EN <= (2.0*EIN[5])) GO TO 1400
       PEQIN(5,I)=PEQEL(2,(I-IOFFN[5]))
 #                        ROTATION 1-3                                   
- 1400 if(EN <= EIN(6)) GO TO 1401
+ 1400 if(EN <= EIN[6]) GO TO 1401
       if(EN > XROT1(NROT1):
 ) GO TO 1331                     
       DO 1311 J=2,NROT1                                                 
@@ -49050,8 +49048,8 @@ c*****************************
       QIN(6,I)=(A*EN+B)*1.D-16*FROT1           
       GO TO 2331
  1331 QIN(6,I)=YROT1(NROT1)*1.D-16*FROT1*XROT1(NROT1)/EN         
- 2331 if(EN <= (2.0*EIN(6))) GO TO 1401
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+ 2331 if(EN <= (2.0*EIN[6])) GO TO 1401
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 #                      ROTATION 2-4 + 4-6 + 6-8
 # USED SCALED 2-4 XSECTION FOR 4-6 AND 6-8 
 c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8                              
@@ -49524,7 +49522,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(53,I)=PEQEL(2,(I-IOFFN(53)))
 # V=0  C1 PI    
   369 if(EN <= EIN(54)) GO TO 370
-      QIN(54,I)=.0476000/(EIN(54)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(54)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(54)+BEF(2))
+      QIN(54,I)=.0476000/(EIN(54)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(54)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(54)+BEF[2])
       if(QIN(54,I):
  < 0.0) QIN(54,I)=0.0
       if(EN <= (2.0*EIN(54):
@@ -49532,7 +49530,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(54,I)=PEQEL(2,(I-IOFFN(54)))
 # V=1  C1 PI    
   370 if(EN <= EIN(55)) GO TO 371
-      QIN(55,I)=.0728400/(EIN(55)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(55)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(55)+BEF(2))
+      QIN(55,I)=.0728400/(EIN(55)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(55)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(55)+BEF[2])
       if(QIN(55,I):
  < 0.0) QIN(55,I)=0.0
       if(EN <= (2.0*EIN(55):
@@ -49540,7 +49538,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(55,I)=PEQEL(2,(I-IOFFN(55)))
 # V=2  C1 PI    
   371 if(EN <= EIN(56)) GO TO 372
-      QIN(56,I)=.0698200/(EIN(56)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(56)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(56)+BEF(2))
+      QIN(56,I)=.0698200/(EIN(56)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(56)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(56)+BEF[2])
       if(QIN(56,I):
  < 0.0) QIN(56,I)=0.0
       if(EN <= (2.0*EIN(56):
@@ -49548,7 +49546,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(56,I)=PEQEL(2,(I-IOFFN(56)))
 # V=3  C1 PI    
   372 if(EN <= EIN(57)) GO TO 373
-      QIN(57,I)=.0547200/(EIN(57)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(57)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(57)+BEF(2))
+      QIN(57,I)=.0547200/(EIN(57)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(57)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(57)+BEF[2])
       if(QIN(57,I):
  < 0.0) QIN(57,I)=0.0
       if(EN <= (2.0*EIN(57):
@@ -49556,7 +49554,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(57,I)=PEQEL(2,(I-IOFFN(57)))
 # V=4  C1 PI    
   373 if(EN <= EIN(58)) GO TO 374
-      QIN(58,I)=.0387400/(EIN(58)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(58)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(58)+BEF(2))
+      QIN(58,I)=.0387400/(EIN(58)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(58)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(58)+BEF[2])
       if(QIN(58,I):
  < 0.0) QIN(58,I)=0.0
       if(EN <= (2.0*EIN(58):
@@ -49564,7 +49562,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(58,I)=PEQEL(2,(I-IOFFN(58)))
 # V=5  C1 PI    
   374 if(EN <= EIN(59)) GO TO 375
-      QIN(59,I)=.0259800/(EIN(59)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(59)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(59)+BEF(2))
+      QIN(59,I)=.0259800/(EIN(59)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(59)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(59)+BEF[2])
       if(QIN(59,I):
  < 0.0) QIN(59,I)=0.0
       if(EN <= (2.0*EIN(59):
@@ -49572,7 +49570,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(59,I)=PEQEL(2,(I-IOFFN(59)))
 # V=6  C1 PI    
   375 if(EN <= EIN(60)) GO TO 376
-      QIN(60,I)=.0170000/(EIN(60)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(60)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(60)+BEF(2))
+      QIN(60,I)=.0170000/(EIN(60)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(60)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(60)+BEF[2])
       if(QIN(60,I):
  < 0.0) QIN(60,I)=0.0
       if(EN <= (2.0*EIN(60):
@@ -49580,7 +49578,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(60,I)=PEQEL(2,(I-IOFFN(60)))
 # V=7  C1 PI    
   376 if(EN <= EIN(61)) GO TO 377
-      QIN(61,I)=.0109900/(EIN(61)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(61)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(61)+BEF(2))
+      QIN(61,I)=.0109900/(EIN(61)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(61)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(61)+BEF[2])
       if(QIN(61,I):
  < 0.0) QIN(61,I)=0.0
       if(EN <= (2.0*EIN(61):
@@ -49588,7 +49586,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(61,I)=PEQEL(2,(I-IOFFN(61)))
 # V=8  C1 PI    
   377 if(EN <= EIN(62)) GO TO 378
-      QIN(62,I)=.0070980/(EIN(62)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(62)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(62)+BEF(2))
+      QIN(62,I)=.0070980/(EIN(62)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(62)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(62)+BEF[2])
       if(QIN(62,I):
  < 0.0) QIN(62,I)=0.0
       if(EN <= (2.0*EIN(62):
@@ -49596,7 +49594,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(62,I)=PEQEL(2,(I-IOFFN(62)))
 # V=9  C1 PI    
   378 if(EN <= EIN(63)) GO TO 379
-      QIN(63,I)=.0045920/(EIN(63)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(63)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(63)+BEF(2))
+      QIN(63,I)=.0045920/(EIN(63)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(63)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(63)+BEF[2])
       if(QIN(63,I):
  < 0.0) QIN(63,I)=0.0
       if(EN <= (2.0*EIN(63):
@@ -49604,7 +49602,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(63,I)=PEQEL(2,(I-IOFFN(63)))
 # V=10 C1 PI    
   379 if(EN <= EIN(64)) GO TO 380
-      QIN(64,I)=.0029760/(EIN(64)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(64)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(64)+BEF(2))
+      QIN(64,I)=.0029760/(EIN(64)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(64)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(64)+BEF[2])
       if(QIN(64,I):
  < 0.0) QIN(64,I)=0.0
       if(EN <= (2.0*EIN(64):
@@ -49612,7 +49610,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(64,I)=PEQEL(2,(I-IOFFN(64)))
 # V=11 C1 PI    
   380 if(EN <= EIN(65)) GO TO 381
-      QIN(65,I)=.0019090/(EIN(65)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(65)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(65)+BEF(2))
+      QIN(65,I)=.0019090/(EIN(65)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(65)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(65)+BEF[2])
       if(QIN(65,I):
  < 0.0) QIN(65,I)=0.0
       if(EN <= (2.0*EIN(65):
@@ -49620,7 +49618,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(65,I)=PEQEL(2,(I-IOFFN(65)))
 # V=12 C1 PI    
   381 if(EN <= EIN(66)) GO TO 382
-      QIN(66,I)=.0011710/(EIN(66)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(66)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(66)+BEF(2))
+      QIN(66,I)=.0011710/(EIN(66)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(66)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(66)+BEF[2])
       if(QIN(66,I):
  < 0.0) QIN(66,I)=0.0
       if(EN <= (2.0*EIN(66):
@@ -49628,7 +49626,7 @@ c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8
       PEQIN(66,I)=PEQEL(2,(I-IOFFN(66)))
 # V=13 C1 PI    
   382 if(EN <= EIN(67)) GO TO 383
-      QIN(67,I)=.0005590/(EIN(67)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(67)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(67)+BEF(2))
+      QIN(67,I)=.0005590/(EIN(67)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(67)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(67)+BEF[2])
       if(QIN(67,I):
  < 0.0) QIN(67,I)=0.0
       if(EN <= (2.0*EIN(67):
@@ -50111,10 +50109,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50131,17 +50129,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50161,10 +50159,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50181,17 +50179,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50211,10 +50209,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50231,17 +50229,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50261,10 +50259,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50281,17 +50279,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50311,10 +50309,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50331,17 +50329,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50361,10 +50359,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50381,17 +50379,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50411,10 +50409,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50431,17 +50429,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50461,10 +50459,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -50481,17 +50479,17 @@ c     QIONT=QION(1,I)+QION(2,I)
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -50511,10 +50509,10 @@ c     QIONT=QION(1,I)+QION(2,I)
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]  
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
       DIMENSION XEN(159),YELM(159),YELT(159),YEPS(159),XATT(113),YAT1(113),YAT2(113),YAT3(113),YAT4(113),YAT5(113),YAT6(113),YAT7(113), XION(55),YION(55),YIN1(55),YIN2(55),YIN3(55),YIN4(55),YIN5(55),YIN6(55),YIN7(55),XL3SH(100),YL3SH(100),XL2SH(100),YL2SH(100),XL1SH(100),YL1SH(100),XKSHS(80),YKSHS(80),XKSHF(79),YKSHF(79),XV1V1(13),YV1V1(13),XV2V1(12),YV2V1(12),XV3V1(7),YV3V1(7),
      ,XV4V1(7),YV4V1(7),XV5V1[5],YV5V1[5],XVBV3(17),YVBV3(17),XTR1(12),YTR1(12),  XTR2(11),YTR2(11),XTR3(11),YTR3(11),IOFFN(35),IOFFION(12)
       DIMENSION Z9T(25),Z16T(25),EBRM(25)
@@ -50683,8 +50681,8 @@ c     QIONT=QION(1,I)+QION(2,I)
       KIN(10)=2
 # V4 AND V3 VIBRATIONS ANISOTROPIC ( CAPITELLI-LONGO)
 # NB SET TO 2 IN DEGRAD
-      KIN(2)=1
-      KIN(6)=1
+      KIN[2]=1
+      KIN[6]=1
 # 
 # ANGULAR DISTRIBUTION FOR DISSOCIATIVE EXCITATION IS OKHRIMOVSKYY TYPE 
       DO 2 J=11,NIN
@@ -50718,18 +50716,18 @@ c     QIONT=QION(1,I)+QION(2,I)
       DEGV3=3.0
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(146.0554192*AMU)                                
+      E[2]=2.0*EMASS/(146.0554192*AMU)                                
       E(3)=15.67                             
       E[4]=0.0                                              
       E[5]=0.0                           
-      E(6)=0.0 
+      E[6]=0.0 
 # 
       EION[1]=E(3)  
-      EION(2)=18.5
+      EION[2]=18.5
       EION(3)=18.8
       EION[4]=27.0
       EION[5]=31.0
-      EION(6)=37.0
+      EION[6]=37.0
       EION(7)=46.5
       EION(8)=164.16
       EION(9)=165.36
@@ -50738,11 +50736,11 @@ c     QIONT=QION(1,I)+QION(2,I)
       EION(12)=685.4         
 # OPAL BEATY
       EOBY[1]=EION[1]*0.8
-      EOBY(2)=EION(2)*0.8
+      EOBY[2]=EION[2]*0.8
       EOBY(3)=EION(3)*0.8
       EOBY[4]=EION[4]*0.8
       EOBY[5]=EION[5]*0.8
-      EOBY(6)=EION(6)*0.8
+      EOBY[6]=EION[6]*0.8
       EOBY(7)=EION(7)*0.8
       EOBY(8)=EION(8)*1.0
       EOBY(9)=EION(9)*1.0
@@ -50841,11 +50839,11 @@ c     QIONT=QION(1,I)+QION(2,I)
   776 CONTINUE
 #
       EIN[1]=-0.076253
-      EIN(2)=0.076253
+      EIN[2]=0.076253
       EIN(3)=-0.096032  
       EIN[4]=0.096032 
       EIN[5]=-0.11754  
-      EIN(6)=0.11754  
+      EIN[6]=0.11754  
       EIN(7)=0.192064  
       EIN(8)=0.288096 
       EIN(9)=0.384128
@@ -50904,15 +50902,15 @@ c     QIONT=QION(1,I)+QION(2,I)
 #***********************************************************************
 #
     6 SCRPT[1]='                                                  '
-      SCRPT(2)=' ELASTIC   ANISOTROPIC      SF6                   '
+      SCRPT[2]=' ELASTIC   ANISOTROPIC      SF6                   '
       if(NANISO == 0):
  :
-      SCRPT(2)=' ELASTIC     ISOTROPIC      SF6                   '
+      SCRPT[2]=' ELASTIC     ISOTROPIC      SF6                   '
       # endif
       SCRPT(3)=' IONISATION  SF5 +                 ELOSS=   15.67 '
       SCRPT[4]=' IONISATION  SF4 +                 ELOSS=   18.5  '
       SCRPT[5]=' IONISATION  SF3 +                 ELOSS=   18.8  '
-      SCRPT(6)=' IONISATION  SF2 +                 ELOSS=   27.0  '
+      SCRPT[6]=' IONISATION  SF2 +                 ELOSS=   27.0  '
       SCRPT(7)=' IONISATION  SF  +                 ELOSS=   31.0  '
       SCRPT(8)=' IONISATION  SUM OF: S + AND F +   ELOSS=   37.0  '
       SCRPT(9)=' IONISATION  SUM OF (SF3 SF2 SF)2+ ELOSS=   46.5  '
@@ -50984,7 +50982,7 @@ c     QIONT=QION(1,I)+QION(2,I)
       BETA=math.sqrt(1.00-1.00/GAMMA2)
       BETA2=BETA*BETA
 # USE LOG INTERPOLATION FOR ELASTIC      
-      if(EN <= XEN(2):
+      if(EN <= XEN[2]:
 ) : 
        QELA=1434.D-16
        QMOM=1434.D-16
@@ -51059,7 +51057,7 @@ c     QIONT=QION(1,I)+QION(2,I)
       PEQION(2,I)=0.5   
       if(NANISO == 2):
  PEQION(2,I)=0.0                                   
-      if(EN < EION(2):
+      if(EN < EION[2]:
 ) GO TO 54   
       if(EN > XION(NIOND):
 ) GO TO 52                                   
@@ -51076,9 +51074,9 @@ c     QIONT=QION(1,I)+QION(2,I)
    52 QION(2,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0416
    53 CONTINUE  
 #        
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 54
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # IONISATION SF3 +
    54 QION(3,I)=0.0             
       PEQION(3,I)=0.5   
@@ -51159,7 +51157,7 @@ c     QIONT=QION(1,I)+QION(2,I)
       PEQION(6,I)=0.5   
       if(NANISO == 2):
  PEQION(6,I)=0.0                                   
-      if(EN < EION(6):
+      if(EN < EION[6]:
 ) GO TO 94   
       if(EN > XION(NIOND):
 ) GO TO 92                                   
@@ -51178,9 +51176,9 @@ c     QIONT=QION(1,I)+QION(2,I)
 # USE BORN BETHE X-SECTION ABOVE XION(NIOND) EV
    92 QION(6,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.1466
    93 CONTINUE
-      if(EN < (2.0*EION(6):
+      if(EN < (2.0*EION[6]:
 )) GO TO 94
-      PEQION(6,I)=PEQEL(2,(I-IOFFION(6)))  
+      PEQION(6,I)=PEQEL(2,(I-IOFFION[6]))  
 # IONISATION SUM OF SF3,SF2 AND SF  ALL DOUBLE CHARGED
    94 QION(7,I)=0.0             
       PEQION(7,I)=0.5   
@@ -51382,22 +51380,22 @@ c     QIONT=QION(1,I)+QION(2,I)
 # V4 ANISOTROPIC
   350 QIN(2,I)=0.0
       PEQIN(2,I)=0.50
-      if(KIN(2):
+      if(KIN[2]:
  == 2) PEQIN(2,I)=0.0
-      if(EN <= EIN(2):
+      if(EN <= EIN[2]:
 ) GO TO 400
 #  DIPOLE 
-      EFAC=math.sqrt(1.0-(EIN(2)/EN))  
-      ELF=EN-EIN(2)
+      EFAC=math.sqrt(1.0-(EIN[2]/EN))  
+      ELF=EN-EIN[2]
       FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
       BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
       QIN(2,I)=V4DCONST*math.log((1.0+EFAC)/(1.0-EFAC))/EN 
       QIN(2,I)=QIN(2,I)*APOPGS*1.D-16
       XMT=(1.5-FWD/(FWD+BCK))*Q(2,I)
-      if(KIN(2):
+      if(KIN[2]:
  == 1) PEQIN(2,I)=0.5+(QIN(2,I)-XMT)/QIN(2,I)
-      if(KIN(2):
- == 2) PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))    
+      if(KIN[2]:
+ == 2) PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))    
 # 1V1 SUPERELASTIC 
  400  QIN(3,I)=0.0
       PEQIN(3,I)=0.50
@@ -51450,16 +51448,16 @@ c     QIONT=QION(1,I)+QION(2,I)
  == 2) PEQIN(5,I)=0.0
       if(EN <= 0.0):
  GO TO 550
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) > XVBV3(N1V3)) GO TO 530
       DO 510 J=2,N1V3
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) <= XVBV3[J]) GO TO 520
   510 CONTINUE
       J=N1V3
   520 A=(YVBV3[J]-YVBV3(J-1))/(XVBV3[J]-XVBV3(J-1))                     
       B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J])
-      QIN(5,I)=(EN+EIN(6))*(A*(EN+EIN(6))+B)/EN
+      QIN(5,I)=(EN+EIN[6])*(A*(EN+EIN[6])+B)/EN
   530 EFAC=math.sqrt(1.0-(EIN[5]/EN))
 # ADD DIPOLE 
       QIN(5,I)=QIN(5,I)+V3DCONST*math.log((EFAC+1.0)/(EFAC-1.0))/EN
@@ -51469,9 +51467,9 @@ c     QIONT=QION(1,I)+QION(2,I)
 # V3 ANISOTROPIC
   550 QIN(6,I)=0.0
       PEQIN(6,I)=0.50
-      if(KIN(6):
+      if(KIN[6]:
  == 2) PEQIN(6,I)=0.0
-      if(EN <= EIN(6):
+      if(EN <= EIN[6]:
 ) GO TO 600
       if(EN > XVBV3(N1V3):
 ) GO TO 580
@@ -51484,18 +51482,18 @@ c     QIONT=QION(1,I)+QION(2,I)
       B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J]) 
       QIN(6,I)=(A*EN+B)
 # ADD DIPOLE PART
-  580 EFAC=math.sqrt(1.0-(EIN(6)/EN))   
+  580 EFAC=math.sqrt(1.0-(EIN[6]/EN))   
       ADIP=V3DCONST*math.log((1.0+EFAC)/(1.0-EFAC))/EN     
-      ELF=EN-EIN(6)
+      ELF=EN-EIN[6]
       FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
       BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
 # RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART =RAT
       XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN(6,I))*APOPGS*1.D-16         
       QIN(6,I)=(QIN(6,I)+ADIP)*APOPGS*1.D-16 
-      if(KIN(6):
+      if(KIN[6]:
  == 1) PEQIN(6,I)=0.5+(QIN(6,I)-XMT)/QIN(6,I)    
-      if(KIN(6):
- == 2) PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))
+      if(KIN[6]:
+ == 2) PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))
 c
 # 2V1                                                         
   600 QIN(7,I)=0.0
@@ -51956,10 +51954,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -51976,17 +51974,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52006,10 +52004,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52026,17 +52024,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52056,10 +52054,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52076,17 +52074,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52106,10 +52104,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52126,17 +52124,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52156,10 +52154,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52176,17 +52174,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52206,10 +52204,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52226,17 +52224,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52256,10 +52254,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52276,17 +52274,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52306,10 +52304,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52326,17 +52324,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52356,10 +52354,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52376,17 +52374,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52406,10 +52404,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52426,17 +52424,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52456,10 +52454,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52476,17 +52474,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52506,10 +52504,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52526,17 +52524,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52556,10 +52554,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -52576,17 +52574,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -52606,10 +52604,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6)  
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)       
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       DIMENSION XEN(130),YELM(130),YELT(130),YEPS(130),XION(42),YION(42),YINC(42),XATT(10),YATT(10),XKSHC(83),YKSHC(83),XKSHN(89),YKSHN(89),XTORS(32),YTORS(32),XVIB1(25),YVIB1(25),XVIB2(24),YVIB2(24),XVIB3(28),YVIB3(28),XVHAR(15),YVHAR(15),XTRP1(12),YTRP1(12),XTRP2(11),YTRP2(11),XTRP3(11),YTRP3(11),IOFFN(37),IOFFION(12)
       DIMENSION Z6T(25),Z7T(25),Z1T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
@@ -52733,24 +52731,24 @@ c
     3 KIN[J]=NANISO
 #
       E[1]=0.0                                                          
-      E(2)=2.0*EMASS/(59.11026*AMU)                                     
+      E[2]=2.0*EMASS/(59.11026*AMU)                                     
       E(3)=8.40                                                        
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0
+      E[6]=0.0
 #
       EION[1]=8.40
-      EION(2)=285.0
+      EION[2]=285.0
       EION(3)=401.6
 #
       EOBY[1]=EION[1]*0.85
-      EOBY(2)=210.0
+      EOBY[2]=210.0
       EOBY(3)=260.0 
 #  
       LEGAS[1]=0
       ISHELL[1]=0
-      LEGAS(2)=1
-      ISHELL(2)=1
+      LEGAS[2]=1
+      ISHELL[2]=1
       LEGAS(3)=2
       ISHELL(3)=1
       NC0[1]=0
@@ -52762,14 +52760,14 @@ c
       NG2[1]=0
       EG2[1]=0.0
 # K SHELL DATA INCLUDING FLUORESCENCE 
-      NC0(2)=2
-      EC0(2)=253.0
-      WKLM(2)=0.0026
-      EFL(2)=273.0
-      NG1(2)=1
-      EG1(2)=253.0
-      NG2(2)=1
-      EG2(2)=5.0
+      NC0[2]=2
+      EC0[2]=253.0
+      WKLM[2]=0.0026
+      EFL[2]=273.0
+      NG1[2]=1
+      EG1[2]=253.0
+      NG2[2]=1
+      EG2[2]=5.0
       NC0(3)=2
       EC0(3)=358.6
       WKLM(3)=0.0044
@@ -52790,11 +52788,11 @@ c
   141 CONTINUE
 #       
       EIN[1]=-0.025
-      EIN(2)=0.025
+      EIN[2]=0.025
       EIN(3)=-0.0334
       EIN[4]=0.0334
       EIN[5]=-0.103
-      EIN(6)=0.103
+      EIN[6]=0.103
       EIN(7)=0.179  
       EIN(8)=0.366                                                      
       EIN(9)=0.480
@@ -52853,11 +52851,11 @@ c
     5 PENFRA[L,K]=0.0
 # **************************************************************
       SCRPT[1]='                                                   '
-      SCRPT(2)=' ELASTIC  N-(CH3)3 TRIMETHYL AMINE                 '
+      SCRPT[2]=' ELASTIC  N-(CH3)3 TRIMETHYL AMINE                 '
       SCRPT(3)=' IONISATION                         ELOSS=   8.40  '
       SCRPT[4]=' IONISATION   CARBON K-SHELL        ELOSS= 285.0   '
       SCRPT[5]=' IONISATION NITROGEN K-SHELL        ELOSS= 401.6   '
-      SCRPT(6)=' ATTACHMENT                                        '
+      SCRPT[6]=' ATTACHMENT                                        '
       SCRPT(7)='                                                   '
       SCRPT(8)='                                                   '
       SCRPT(9)=' ROTATION                           ELOSS= -0.025  '
@@ -52916,9 +52914,9 @@ c
 #
       Q(2,I)=0.0
 # USE LOG INTERPOLATION BECAUSE OF RAPID CHANGE IN X-SEC
-      if(EN <= XEN(2):
+      if(EN <= XEN[2]:
 ) :
-       Q(2,I)=YELM(2)*1.D-16
+       Q(2,I)=YELM[2]*1.D-16
        GO TO 30
       # endif
       DO 10 J=2,NDATA                                                   
@@ -52985,7 +52983,7 @@ c
       PEQION(2,I)=0.5
       if(NANISO == 2):
  PEQION(2,I)=0.0
-      if(EN <= EION(2):
+      if(EN <= EION[2]:
 ) GO TO 38
       DO 36 J=2,NKSHC
       if(EN <= XKSHC[J]:
@@ -52996,9 +52994,9 @@ c
       B=(XKSHC(J-1)*YKSHC[J]-XKSHC[J]*YKSHC(J-1))/(XKSHC(J-1)-XKSHC[J])
 # 3 CARBONS PER MOLECULE
       QION(2,I)=3.0*(A*EN+B)*1.D-16
-      if(EN <= (2.0*EION(2):
+      if(EN <= (2.0*EION[2]:
 )) GO TO 38
-      PEQION(2,I)=PEQEL(2,(I-IOFFION(2)))
+      PEQION(2,I)=PEQEL(2,(I-IOFFION[2]))
 # NITROGEN K-SHELL IONISATION
    38 QION(3,I)=0.0
       PEQION(3,I)=0.5
@@ -53040,14 +53038,14 @@ c
 #  ROT1     
   100 QIN(2,I)=0.0 
       PEQIN(2,I)=0.0                                                  
-      if(EN <= EIN(2):
+      if(EN <= EIN[2]:
 ) GO TO 150 
-      EFAC=math.sqrt(1.0-(EIN(2)/EN))                                       
+      EFAC=math.sqrt(1.0-(EIN[2]/EN))                                       
       QIN(2,I)=0.27*math.log((1.0+EFAC)/(1.0-EFAC))/EN 
       QIN(2,I)=QIN(2,I)/(1.0+APOP1)*1.D-16       
-      if(EN <= (20.0*EIN(2):
+      if(EN <= (20.0*EIN[2]:
 )) GO TO 150
-      PEQIN(2,I)=PEQEL(2,(I-IOFFN(2)))                         
+      PEQIN(2,I)=PEQEL(2,(I-IOFFN[2]))                         
 # 
 #  SUPERELASTIC TORSION
 #
@@ -53099,16 +53097,16 @@ c
       PEQIN(5,I)=0.0
       if(EN <= 0.0):
  GO TO 300    
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) > XVIB1(NVIB1)) GO TO 275                     
       DO 260 J=2,NVIB1                                                  
-      if((EN+EIN(6):
+      if((EN+EIN[6]:
 ) <= XVIB1[J]) GO TO 270                        
   260 CONTINUE                                                          
       J=NVIB1                                                           
   270 A=(YVIB1[J]-YVIB1(J-1))/(XVIB1[J]-XVIB1(J-1))                     
       B=(XVIB1(J-1)*YVIB1[J]-XVIB1[J]*YVIB1(J-1))/(XVIB1(J-1)-XVIB1[J]) 
-      QIN(5,I)=(EN+EIN(6))*(A*(EN+EIN(6))+B)/EN             
+      QIN(5,I)=(EN+EIN[6])*(A*(EN+EIN[6])+B)/EN             
       QIN(5,I)=QIN(5,I)*APOP3/(1.0+APOP3)*1.D-16                 
       GO TO 276
 # SCALED BY 1/E ABOVE XVIB1(NVIB1) EV
@@ -53119,7 +53117,7 @@ c
 # INELASTIC VIB1                                                           
   300 QIN(6,I)=0.0 
       PEQIN(6,I)=0.0                                                  
-      if(EN <= EIN(6):
+      if(EN <= EIN[6]:
 ) GO TO 350 
       if(EN > XVIB1(NVIB1):
 ) GO TO 325 
@@ -53136,8 +53134,8 @@ c
 # SCALED BY 1/E ABOVE XVIB1(NVIB1) EV
   325 QIN(6,I)=YVIB1(NVIB1)*XVIB1(NVIB1)/EN               
       QIN(6,I)=QIN(6,I)/(1.0+APOP3)*1.D-16           
-  326 if(EN <= (10.0*EIN(6))) GO TO 350
-      PEQIN(6,I)=PEQEL(2,(I-IOFFN(6)))        
+  326 if(EN <= (10.0*EIN[6])) GO TO 350
+      PEQIN(6,I)=PEQEL(2,(I-IOFFN[6]))        
 # INELASTIC VIB2                                                      
   350 QIN(7,I)=0.0 
       PEQIN(7,I)=0.0                                                  
@@ -53628,10 +53626,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53648,17 +53646,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53678,10 +53676,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53698,17 +53696,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53728,10 +53726,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53748,17 +53746,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53778,10 +53776,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53798,17 +53796,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53828,10 +53826,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53848,17 +53846,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53878,10 +53876,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53898,17 +53896,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53928,10 +53926,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53948,17 +53946,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -53978,10 +53976,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -53998,17 +53996,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54028,10 +54026,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54048,17 +54046,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54078,10 +54076,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54098,17 +54096,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54128,10 +54126,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54148,17 +54146,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54178,10 +54176,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54198,17 +54196,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54228,10 +54226,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54248,17 +54246,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54278,10 +54276,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54298,17 +54296,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54328,10 +54326,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54348,17 +54346,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54378,10 +54376,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54398,17 +54396,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54428,10 +54426,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54448,17 +54446,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54478,10 +54476,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54498,17 +54496,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54528,10 +54526,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54548,17 +54546,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54578,10 +54576,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54598,17 +54596,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54628,10 +54626,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54648,17 +54646,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54678,10 +54676,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54698,17 +54696,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54728,10 +54726,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54748,17 +54746,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54778,10 +54776,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54798,17 +54796,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54828,10 +54826,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54848,17 +54846,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54878,10 +54876,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54898,17 +54896,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54928,10 +54926,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54948,17 +54946,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -54978,10 +54976,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -54998,17 +54996,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55028,10 +55026,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55048,17 +55046,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55078,10 +55076,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55098,17 +55096,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55128,10 +55126,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55148,17 +55146,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55178,10 +55176,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55198,17 +55196,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55228,10 +55226,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55248,17 +55246,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55278,10 +55276,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55298,17 +55296,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55328,10 +55326,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55348,17 +55346,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
@@ -55378,10 +55376,10 @@ c
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000) 
       COMMON/DENS/DEN(20000) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL(6) 
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EOBY(30)       
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30)
-      DIMENSION Q(6,20000),QIN(250,20000),E(6),EIN(250),PENFRA[3,250]   
+      DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
       NAME=' DUMMY         '     
@@ -55398,17 +55396,17 @@ c
       DO 2 J=1,NIN
     2 KIN[J]=0           
       E[1]=0.0                                                          
-      E(2)=0.0                                                          
+      E[2]=0.0                                                          
       E(3)=0.0                                                          
       E[4]=0.0                                                          
       E[5]=0.0                                                          
-      E(6)=0.0 
+      E[6]=0.0 
       SCRPT[1]='                              '
-      SCRPT(2)=' ELASTIC       DUMMY          '
+      SCRPT[2]=' ELASTIC       DUMMY          '
       SCRPT(3)=' IONISATION    ELOSS=         '
       SCRPT[4]=' ATTACHMENT                   '
       SCRPT[5]='                              '
-      SCRPT(6)='                              '
+      SCRPT[6]='                              '
       EN=-ESTEP/2.0                                      
       DO 900 I=1,NSTEP                                               
       EN=EN+ESTEP                                                       
