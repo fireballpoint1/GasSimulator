@@ -530,12 +530,6 @@
      </item>
     </layout>
    </widget>
-   <zorder>formLayoutWidget</zorder>
-   <zorder>formLayoutWidget</zorder>
-   <zorder>verticalLayoutWidget</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>gridLayoutWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -543,7 +537,7 @@
      <x>0</x>
      <y>0</y>
      <width>889</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

@@ -90,6 +90,7 @@ class Window(QtWidgets.QMainWindow):
 
 if __name__=='__main__':
 	import sys
+	print("started")
 	app=QtWidgets.QApplication(sys.argv)
 	window=Window()
 	window.show()

@@ -35,6 +35,7 @@ map_list=[('!','#'),
     ('real','#real'),
     ('allocate','#allocate'),
     ('IF','if'),
+    ('FORMAT','print')
     ]
 map_list_v2=[
 ('IF','if'),
@@ -53,6 +54,7 @@ math_list=[
     ('dsin','numpy.sin'),
     ('dcos','numpy.cos'),
     ('dasin','numpy.arcsin'),
+    ('dint','int'),
     ]
 
 
