@@ -2,6 +2,8 @@
 The aim of this repo is to build a tool and a semi-automated algorithm, to convert FORTRAN code to python<br>
 
 ## RECENT <br>
+broken into rough modules:<br>
+Structure : degrad1.py+cgasn.py+gasn.py
 Added f2py interface example code in testing directory. Code file -> ftype .
 Terminal Screenshot -> Screenshot <br>
 
