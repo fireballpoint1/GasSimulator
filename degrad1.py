@@ -2171,11 +2171,11 @@ def MIXER:
 				INDEX[NP]=0 
 				#
 				if(KEL6[2]== 1) :
-				PSCT1=PEQEL6[2][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1
+					PSCT1=PEQEL6[2][IE]
+					ANGCUT(PSCT1,ANGC,PSCT2)
+					ANGCT[IE][NP]=ANGC
+					PSCT[IE][NP]=PSCT2
+					INDEX[NP]=1
 				# endif
 				if(KEL6[2]== 2) :
 					PSCT[IE][NP]=PEQEL6[2][IE]
@@ -2210,13 +2210,12 @@ def MIXER:
 				IDG6=NP 
 				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
 				if(ICOUNT == 1):
-				:
-				CF[IE][NP]=Q6[5][IE]*VAN6*BET[IE]
-				FCION[IE]=FCION[IE]+CF[IE][NP]
-				DOUBLE(6,IE)=Q6[3][IE]/Q6[5][IE]-1.00
+					CF[IE][NP]=Q6[5][IE]*VAN6*BET[IE]
+					FCION[IE]=FCION[IE]+CF[IE][NP]
+					DOUBLE[6][IE]=Q6[3][IE]/Q6[5][IE]-1.00
 				else:                                                         
-				CF[IE][NP]=Q6[3][IE]*VAN6*BET[IE]
-				FCION[IE]=FCION[IE]+CF[IE][NP]
+					CF[IE][NP]=Q6[3][IE]*VAN6*BET[IE]
+					FCION[IE]=FCION[IE]+CF[IE][NP]
 				# endif
 				NEGAS[NP]=6
 				LEGAS[NP]=0
@@ -2226,33 +2225,28 @@ def MIXER:
 				INDEX[NP]=0
 				#
 				if(ICOUNT == 1):
-				:
-				if(KEL6[5]:
-				== 1) :
-				PSCT1=PEQEL6[5][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1      
+					if(KEL6[5]== 1) :
+						PSCT1=PEQEL6[5][IE]
+						ANGCUT(PSCT1,ANGC,PSCT2)
+						ANGCT[IE][NP]=ANGC
+						PSCT[IE][NP]=PSCT2
+						INDEX[NP]=1      
 				# endif
-				if(KEL6[5]:
-				== 2) :
-				PSCT[IE][NP]=PEQEL6[5][IE]
-				INDEX[NP]=2
+					if(KEL6[5]== 2) :
+						PSCT[IE][NP]=PEQEL6[5][IE]
+						INDEX[NP]=2
 				# endif
 				else:
-				if(KEL6[3]:
-				== 1) :
-				PSCT1=PEQEL6[3][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1      
-				# endif
-				if(KEL6[3]:
-				== 2) :
-				PSCT[IE][NP]=PEQEL6[3][IE]
-				INDEX[NP]=2
+					if(KEL6[3]== 1) :
+						PSCT1=PEQEL6[3][IE]
+						ANGCUT(PSCT1,ANGC,PSCT2)
+						ANGCT[IE][NP]=ANGC
+						PSCT[IE][NP]=PSCT2
+						INDEX[NP]=1      
+					# endif
+					if(KEL6[3]== 2) :
+						PSCT[IE][NP]=PEQEL6[3][IE]
+						INDEX[NP]=2
 				# endif
 				# endif
 				#
@@ -2266,7 +2260,7 @@ def MIXER:
 				WKLM[NP]=WK6[1]
 				EFL[NP]=EFL6[1]
 				if(IE > 1):
-				GO TO 530                                     
+					GO TO 530                                     
 				RGAS[NP]=RGAS6                                                    
 				EIN[NP]=E6[3]/RGAS6 
 				IPN[NP]=1             
@@ -2278,158 +2272,164 @@ def MIXER:
 				PENFRA[2][NP]=0.0
 				PENFRA[3][NP]=0.0    
 				GO TO 530  
-				470 DO 480 KION=1,NION6    
-				NP=NP+1
-				IDG6=NP  
-				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-				CF[IE][NP]=QION6[KION][IE]*VAN6*BET[IE]
-				FCION[IE]=FCION[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				NEGAS[NP]=6
-				LEGAS[NP]=LEGAS6[KION]
-				IESHELL[NP]=IESHEL6[KION]
-				#
-				if(KEL6[3]== 1) :
-				PSCT1=PEQION6[KION][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1      
-				# endif
-				if(KEL6[3]== 2):
-				PSCT[IE,NP]=PEQION6[KION,IE]
-				INDEX[NP]=2
-				# endif
-				#
-				WPL[NP]=EB6[KION]
-				NC0[NP]=NC06[KION]
-				EC0[NP]=EC06[KION]
-				NG1[NP]=NG16[KION]
-				EG1[NP]=EG16[KION]
-				NG2[NP]=NG26[KION]
-				EG2[NP]=EG26[KION]
-				WKLM[NP]=WK6[KION]
-				EFL[NP]=EFL6[KION]
-				if(IE > 1):
-				GO TO 480                                     
-				RGAS[NP]=RGAS6                                                    
-				EIN[NP]=EION6[KION]/RGAS6 
-				IPN[NP]=1             
-				L=27                                             
-				IARRY[NP]=L
-				IZBR[NP]=0  
-				DSCRPT[NP]=SCRP6(2+KION)
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0    
-				IONMODEL[NP]=IONMODL6
-				DO 479 K=1,20
-				479 ESPLIT[NP][K]=ESPLIT6(IONMODL6,K) 
-				480 CONTINUE                                 
-				530 if(EFINAL < E6[4]) GO TO 540                  
-				if(NATT6 > 1):
-				GO TO 590                   
-				NP=NP+1
-				IDG6=NP                                                           
-				CF[IE][NP]=Q6[4][IE]*VAN6*BET[IE] 
-				FCATT[IE]=FCATT[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
-				GO TO 540 
-				NEGAS[NP]=6
-				LEGAS[NP]=0
-				IESHELL[NP]=0       
-				INDEX[NP]=0                            
-				RGAS[NP]=RGAS6                                                    
-				EIN[NP]=0.00                                                     
-				IPN[NP]=-1
-				L=28                                                          
-				IARRY[NP]=L
-				IZBR[NP]=0  
-				DSCRPT[NP]=SCRP6(3+NION6) 
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0        
-				GO TO 540
-				590 DO 602 JJ=1,NATT6
-				NP=NP+1
-				IDG6=NP
-				CF[IE][NP]=QATT6(JJ,IE)*VAN6*BET[IE]
-				FCATT[IE]=FCATT[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
-				GO TO 602
-				NEGAS[NP]=6
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				INDEX[NP]=0
-				RGAS[NP]=RGAS6
-				EIN[NP]=0.00
-				IPN[NP]=-1
-				L=28
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP6(2+NION6+JJ)
-				PENFRA[1][NP]=0.0
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0
-				IONMODEL[NP]=IONMODL6
-				DO 601 K=1,20
-				601 ESPLIT[NP][K]=ESPLIT6(IONMODL6,K)  
-				602 CONTINUE                                    
-				540 if(NIN6 == 0) GO TO 560                                           
-				DO 550 J=1,NIN6 
-				NP=NP+1
-				IDG6=NP      
-				NEGAS[NP]=6
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                                     
-				CF[IE][NP]=QIN6[J][IE]*VAN6*BET[IE]
-				# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-				if(IZBR6[J]:
-				!= 0 and LBRM == 0) CF[IE][NP]=0.0
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0 
-				#
-				if(KIN6[J]== 1) :
-				PSCT1=PEQIN6[J][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1
-				# endif
-				if(KIN6[J]== 2) :
-				PSCT[IE][NP]=PEQIN6[J][IE]
-				INDEX[NP]=2
-				# endif
-				#
-				if(IE > 1):
-				GO TO 550          
-				RGAS[NP]=RGAS6                                                    
-				EIN[NP]=EI6[J]/RGAS6
-				L=29
-				if(EI6[J]< 0.00):
-					L=30                                          
-				IPN[NP]=0         
-				IARRY[NP]=L
-				IZBR[NP]=IZBR6[J]  
-				DSCRPT[NP]=SCRP6(4+NION6+NATT6+J)
-				PENFRA[1][NP]=PENFRA6[1,J]
-				PENFRA[2][NP]=PENFRA6[2,J]*1.D-6/math.sqrt(3.00)
-				PENFRA[3][NP]=PENFRA6[3,J]
-				if(PENFRA[1][NP] > AVPFRAC(1,6):
-				AVPFRAC[1,6]=PENFRA[1][NP]
-				AVPFRAC[2,6]=PENFRA[2][NP]
-				AVPFRAC[3,6]=PENFRA[3][NP]
-				# endif
-				if(J == NIN6):
-					CMINEXSC[6]=CMINEXSC[6]*AVPFRAC[1,6]  #2363
-				550 CONTINUE                                                     
+				470 for KION in range(1,NION6):
+					NP=NP+1
+					IDG6=NP  
+					# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
+					CF[IE][NP]=QION6[KION][IE]*VAN6*BET[IE]
+					FCION[IE]=FCION[IE]+CF[IE][NP]
+					PSCT[IE][NP]=0.5
+					ANGCT[IE][NP]=1.0
+					INDEX[NP]=0
+					NEGAS[NP]=6
+					LEGAS[NP]=LEGAS6[KION]
+					IESHELL[NP]=IESHEL6[KION]
+					#
+					if(KEL6[3]== 1) :
+						PSCT1=PEQION6[KION][IE]
+						ANGCUT(PSCT1,ANGC,PSCT2)
+						ANGCT[IE][NP]=ANGC
+						PSCT[IE][NP]=PSCT2
+						INDEX[NP]=1      
+					# endif
+					if(KEL6[3]== 2):
+						PSCT[IE,NP]=PEQION6[KION,IE]
+						INDEX[NP]=2
+					# endif
+					#
+					WPL[NP]=EB6[KION]
+					NC0[NP]=NC06[KION]
+					EC0[NP]=EC06[KION]
+					NG1[NP]=NG16[KION]
+					EG1[NP]=EG16[KION]
+					NG2[NP]=NG26[KION]
+					EG2[NP]=EG26[KION]
+					WKLM[NP]=WK6[KION]
+					EFL[NP]=EFL6[KION]
+					if(IE > 1):
+						pass
+					else:                                     
+						RGAS[NP]=RGAS6                                                    
+						EIN[NP]=EION6[KION]/RGAS6 
+						IPN[NP]=1             
+						L=27                                             
+						IARRY[NP]=L
+						IZBR[NP]=0  
+						DSCRPT[NP]=SCRP6(2+KION)
+						PENFRA[1][NP]=0.0  
+						PENFRA[2][NP]=0.0
+						PENFRA[3][NP]=0.0    
+						IONMODEL[NP]=IONMODL6
+						for K in range(1,20):
+							ESPLIT[NP][K]=ESPLIT6[IONMODL6][K] 
+				530 if(EFINAL < E6[4]):
+					GO TO 540                  
+				else:
+					if(NATT6 > 1):
+						590 for JJ in range(1,NATT6):
+						NP=NP+1
+						IDG6=NP
+						CF[IE][NP]=QATT6[JJ][IE]*VAN6*BET[IE]
+						FCATT[IE]=FCATT[IE]+CF[IE][NP]
+						PSCT[IE][NP]=0.5
+						ANGCT[IE][NP]=1.0
+						if(IE > 1):
+							pass
+						else:    # did a swap here 
+
+							NEGAS[NP]=6
+							LEGAS[NP]=0
+							IESHELL[NP]=0
+							INDEX[NP]=0
+							RGAS[NP]=RGAS6
+							EIN[NP]=0.00
+							IPN[NP]=-1
+							L=28
+							IARRY[NP]=L
+							IZBR[NP]=0
+							DSCRPT[NP]=SCRP6[2+NION6+JJ]
+							PENFRA[1][NP]=0.0
+							PENFRA[2][NP]=0.0
+							PENFRA[3][NP]=0.0
+							IONMODEL[NP]=IONMODL6
+							for K in range(1,20):
+								ESPLIT[NP][K]=ESPLIT6[IONMODL6,K]
+					else:                   
+						NP=NP+1
+						IDG6=NP                                                           
+						CF[IE][NP]=Q6[4][IE]*VAN6*BET[IE] 
+						FCATT[IE]=FCATT[IE]+CF[IE][NP]
+						PSCT[IE][NP]=0.5
+						ANGCT[IE][NP]=1.0
+						if(IE > 1):
+							pass 
+						else:
+							NEGAS[NP]=6
+							LEGAS[NP]=0
+							IESHELL[NP]=0       
+							INDEX[NP]=0                            
+							RGAS[NP]=RGAS6                                                    
+							EIN[NP]=0.00                                                     
+							IPN[NP]=-1
+							L=28                                                          
+							IARRY[NP]=L
+							IZBR[NP]=0  
+							DSCRPT[NP]=SCRP6[3+NION6]
+							PENFRA[1][NP]=0.0  
+							PENFRA[2][NP]=0.0
+							PENFRA[3][NP]=0.0        
+					
+				if(NIN6 == 0):
+					pass          
+				else:                                 
+					for J in range(1,NIN6):
+						NP=NP+1
+						IDG6=NP      
+						NEGAS[NP]=6
+						LEGAS[NP]=0
+						IESHELL[NP]=0                                                     
+						CF[IE][NP]=QIN6[J][IE]*VAN6*BET[IE]
+						# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
+						if(IZBR6[J]!= 0 and LBRM == 0):
+							CF[IE][NP]=0.0
+						PSCT[IE][NP]=0.5
+						ANGCT[IE][NP]=1.0
+						INDEX[NP]=0 
+						#
+						if(KIN6[J]== 1) :
+							PSCT1=PEQIN6[J][IE]
+							ANGCUT(PSCT1,ANGC,PSCT2)
+							ANGCT[IE][NP]=ANGC
+							PSCT[IE][NP]=PSCT2
+							INDEX[NP]=1
+						# endif
+						if(KIN6[J]== 2) :
+							PSCT[IE][NP]=PEQIN6[J][IE]
+							INDEX[NP]=2
+						# endif
+						#
+						if(IE > 1):
+							pass          
+						else:
+							RGAS[NP]=RGAS6                                                    
+							EIN[NP]=EI6[J]/RGAS6
+							L=29
+							if(EI6[J]< 0.00):
+								L=30                                          
+								IPN[NP]=0         
+								IARRY[NP]=L
+								IZBR[NP]=IZBR6[J]  
+								DSCRPT[NP]=SCRP6[4+NION6+NATT6+J]
+								PENFRA[1][NP]=PENFRA6[1,J]
+								PENFRA[2][NP]=PENFRA6[2,J]*1*(10**-6)/math.sqrt(3.00)
+								PENFRA[3][NP]=PENFRA6[3,J]
+								if(PENFRA[1][NP] > AVPFRAC[1][6]):
+									AVPFRAC[1,6]=PENFRA[1][NP]
+									AVPFRAC[2,6]=PENFRA[2][NP]
+									AVPFRAC[3,6]=PENFRA[3][NP]
+							# endif
+							if(J == NIN6):
+								CMINEXSC[6]=CMINEXSC[6]*AVPFRAC[1,6]  #2363
 				560 CONTINUE     
 				#                                                                       
 				600 CONTINUE                                                          
@@ -2456,13 +2456,13 @@ def MIXER:
 				  if(TCF[IE]== 0.00):
 				  	CF[IE][IL]=0.00  #2390
 				  else:                                    
-				  	CF[IE][IL)=CF[IE][IL]/TCF[IE]                                                                                          
+				  	CF[IE][IL]=CF[IE][IL]/TCF[IE]                                                                                          
 					  620 CONTINUE                                                          
 				for IL in range(2,IPLAST):
 					CF[IE][IL]=CF[IE][IL]+CF[IE][IL-1]                                   
 					                   
 				# FIX ROUNDING ERRORS AT HIGHEST VALUE
-				CF[IE,IPLAST]=1.00
+				CF[IE][IPLAST]=1.00
 				#
 				#     FCATT[IE]=FCATT[IE]*EROOT[IE]
 				#     FCION[IE]=FCION[IE]*EROOT[IE]                                     
@@ -2473,55 +2473,49 @@ def MIXER:
 				# CALCULATION OF NULL COLLISION FREQUENCIES
 				NP=0
 				NPLAST=0
-				if((NUL1+NUL2+NUL3+NUL4+NUL5+NUL6):
-				== 0) GO TO 699
+				if((NUL1+NUL2+NUL3+NUL4+NUL5+NUL6)== 0):
+					GO TO 699
 				if(NUL1 > 0):
-				:
-				DO 631 J=1,NUL1
-				NP=NP+1
-				SCLENUL[NP]=SCLN1[J]
-				DSCRPTN[NP]=SCRPN1[J]
-				631  CFN[IE][NP]=QNUL1[J][IE]*VAN1*SCLENUL[NP]*BET[IE]
+					for J in range(1,NUL1):
+						NP=NP+1
+						SCLENUL[NP]=SCLN1[J]
+						DSCRPTN[NP]=SCRPN1[J]
+						CFN[IE][NP]=QNUL1[J][IE]*VAN1*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL2 > 0):
-				:
-				DO 632 J=1,NUL2
-				NP=NP+1
-				SCLENUL[NP]=SCLN2[J]
-				DSCRPTN[NP]=SCRPN2[J]
-				632  CFN[IE][NP]=QNUL2[J][IE]*VAN2*SCLENUL[NP]*BET[IE]
+					for J in range(1,NUL2):
+					NP=NP+1
+					SCLENUL[NP]=SCLN2[J]
+					DSCRPTN[NP]=SCRPN2[J]
+					CFN[IE][NP]=QNUL2[J][IE]*VAN2*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL3 > 0):
-				:
-				DO 633 J=1,NUL3
-				NP=NP+1
-				SCLENUL[NP]=SCLN3[J]
-				DSCRPTN[NP]=SCRPN3[J]
-				633  CFN[IE][NP]=QNUL3[J][IE]*VAN3*SCLENUL[NP]*BET[IE]
+					for J in range(1,NUL3):
+						NP=NP+1
+						SCLENUL[NP]=SCLN3[J]
+						DSCRPTN[NP]=SCRPN3[J]
+						CFN[IE][NP]=QNUL3[J][IE]*VAN3*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL4 > 0):
-				:
-				DO 634 J=1,NUL4
-				NP=NP+1
-				SCLENUL[NP]=SCLN4[J]
-				DSCRPTN[NP]=SCRPN4[J]
-				634  CFN[IE][NP]=QNUL4[J][IE]*VAN4*SCLENUL[NP]*BET[IE]
+					for J in range(1,NUL4):
+						NP=NP+1
+						SCLENUL[NP]=SCLN4[J]
+						DSCRPTN[NP]=SCRPN4[J]
+						CFN[IE][NP]=QNUL4[J][IE]*VAN4*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL5 > 0):
-				:
-				DO 635 J=1,NUL5
-				NP=NP+1
-				SCLENUL[NP]=SCLN5[J]
-				DSCRPTN[NP]=SCRPN5[J]
-				635  CFN[IE][NP]=QNUL5[J][IE]*VAN5*SCLENUL[NP]*BET[IE]
+					DO 635 J=1,NUL5
+					NP=NP+1
+					SCLENUL[NP]=SCLN5[J]
+					DSCRPTN[NP]=SCRPN5[J]
+					635  CFN[IE][NP]=QNUL5[J][IE]*VAN5*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL6 > 0):
-				:
-				DO 636 J=1,NUL6
-				NP=NP+1
-				SCLENUL[NP]=SCLN6[J]
-				DSCRPTN[NP]=SCRPN6[J]
-				636  CFN[IE][NP]=QNUL6[J][IE]*VAN6*SCLENUL[NP]*BET[IE]
+					Dfor J in range(1,NUL6):
+						NP=NP+1
+						SCLENUL[NP]=SCLN6[J]
+						DSCRPTN[NP]=SCRPN6[J]
+						CFN[IE][NP]=QNUL6[J][IE]*VAN6*SCLENUL[NP]*BET[IE]
 				# endif
 				NPLAST=NP
 				# SUM NULL COLLISIONS
@@ -2536,142 +2530,142 @@ def MIXER:
 				  	CFN[IE][IL]=0.00
 				  else:
 				  	CFN[IE][IL]=CFN[IE][IL]/TCFN[IE]
-				TCFN[IE]=TCFN[IE]*1.0D-10 #2467
+				TCFN[IE]=TCFN[IE]*1.0*(10**-10) #2467
 				if(NPLAST == 1):
 				  	GO TO 699
-				  else:
-				  for IL in range(2,NPLAST):
-				      CFN[IE][IL]=CFN[IE][IL]+CFN(IE,IL-1)
+				else:
+					for IL in range(2,NPLAST):
+					    CFN[IE][IL]=CFN[IE][IL]+CFN[IE][IL-1]
 				# FIX ROUNDING ERRORS AT HIGHEST VALUE
-					  CFN(IE,NPLAST)=1.00 
+					  CFN[IE][NPLAST]=1.00 
 				#700
-		#     WRITE(6,841) (INDEX[J],J, J=1,IPLAST)
-		# 841 print(2X,' INDEX=',I3,' J=',I3)                   
-		#  SET ANISOTROPIC FLAG if ANISOTROPIC SCATTERING DATA IS DETECTED
-		KELSUM=0 #2479
-		#########                  RESET INDENTATION                ###########################
-		for J in range(1,6):
-		KELSUM=KELSUM+KEL1[J]+KEL2[J]+KEL3[J]+KEL4[J]+KEL5[J]+KEL6[J]
-		for J in range(1,250):
-		KELSUM=KELSUM+KIN1[J]+KIN2[J]+KIN3[J]+KIN4[J]+KIN5[J]+KIN6[J]
-		if(KELSUM > 0):
-			NISO=1  
-		#     if(NISO == 1) WRITE(6,7765) NISO
-		#7765 print(3X,' ANISOTROPIC SCATTERING DETECTED NISO=',I5)         
-		# -------------------------------------------------------------------   
-		#   CALCULATE NULL COLLISION FREQUENCY                                  
-		# -------------------------------------------------------------------   
-		BP=EFIELD*EFIELD*CONST1           #2490                               
-		F2=EFIELD*CONST3                                                  
-		ELOW=TMAX*(TMAX*BP-F2*math.sqrt(0.50*EFINAL))/ESTEP-1.00            
-		ELOW=DMIN1(ELOW,SMALL)                                            
-		EHI=TMAX*(TMAX*BP+F2*math.sqrt(0.50*EFINAL))/ESTEP+1.00
-		if(EHI > 20000.0):
-			EHI=20000.0
-		JONE=1
-		JLARGE=20000  
-		for I in range(1,10):
-		JLOW=20000-2000*(11-I)+1+int(ELOW)                               
-		JHI=20000-2000*(10-I)+int(EHI)
-		JLOW=DMAX0(JLOW,JONE)                                         
-		JHI=DMIN0(JHI,JLARGE)
-		for J in range(JLOW,JHI):
-			if(TCF[J]>= TCFMAX[I]):
-				TCFMAX[I]=TCF[J]                          
-		#---------------------------------------------------------------------
-		# FIND MAXIMUM COLLISION FREQUENCY
-		#     TLIM=TCFMAX[1]
-		#     DO 835 I=1,10
-		# 835 if(TLIM < TCFMAX[I]) TLIM=TCFMAX[I]
-		#     TCFMAX1=TLIM  
-		TLIM=0.0
-		for I in range(1,20000):
-		if(TLIM < TCF[I]) TLIM=TCF[I]
-		TCFMAX1=TLIM                                                    
-		# -------------------------------------------------------------------   
-		#   CROSS SECTION DATA FOR INTEGRALS IN  OUTPUT               
-		# --------------------------------------------------------------------- 
-		for I in range[1][NSTEP]:      #900                                         
-		QTOT[I]=AN1*Q1[1][I]+AN2*Q2[1][I]+AN3*Q3[1][I]+AN4*Q4[1][I]+AN5*Q5[1][I]+AN6*Q6[1][I]     
-		QEL[I]=AN1*Q1[2][I]+AN2*Q2[2][I]+AN3*Q3[2][I]+AN4*Q4[2][I]+AN5*Q5[2][I]+AN6*Q6[2][I]             
-		#                                                                       
-		QION[1][I]=Q1[3][I]*AN1   
-		if(NION1 > 1):
-		    for KION in range[1][NION1]: #811
-				QION[1][I]=QION1[KION][I]*AN1
-		# endif                                           
-		QION[2][I]=Q2[3][I]*AN2                                             
-			if(NION2 > 1):
-		    for KION in range(1,NION2): #812
-				QION[2][I]=QION2[KION][I]*AN2
-		# endif                                           
-		QION(3,I)=Q3[3][I]*AN3                                             
-		if(NION3 > 1):
-		    for KION in range(1,NION3):
-				QION[3][I]=QION3[KION][I]*AN3
-		# endif                                           
-		QION(4,I)=Q4(3,I)*AN4
-		if(NION4 > 1):
-			for KION in range(1,NION4):
-				QION[4][I]=QION4[KION][I]*AN4
-		# endif                                           
-		QION[5][I]=Q5[3][I]*AN5
-		if(NION5 > 1):
-		    for KION in range(1,NION5):
-				QION(5,I)=QION5(KION,I)*AN5
-		# endif                                           
-		QION[6][I]=Q6[3][I]*AN6                                             
-		if(NION6 > 1):
-		    for KION in range[1][NION6]:
-				QION[6][I]=QION6[KION][I]*AN6
-		# endif                                           
-		QATT[1][I]=Q1[4][I]*AN1                                             
-		QATT[2][I]=Q2[4][I]*AN2                                             
-		QATT[3][I]=Q3[4][I]*AN3                                             
-		QATT[4][I]=Q4[4][I]*AN4
-		QATT[5][I]=Q5[4][I]*AN5
-		QATT[6][I]=Q6[4][I]*AN6                                             
-		#                                                                       
-		QREL[I]=0.00                                                     
-		QSATT[I]=0.00                                                   
-		QSUM[I]=0.00                                                     
-		for J in range(1,NGAS):
-			QSUM[I]=QSUM[I]+QION[J][I]+QATT[J][I]                               
-			QSATT[I]=QSATT[I]+QATT[J][I]                                       
-			QREL[I]=QREL[I]+QION[J][I]-QATT[J][I]                               
-		#                                                                       
-		if(NIN1 == 0):
-			pass
-		else:
-			for J in range(1,NIN1):
-				QSUM[I]=QSUM[I]+QIN1[J][I]*AN1                                     
-		if(NIN2 == 0):
-			pass                                           
-		else:
-			for J in range(1,NIN2):
-				QSUM[I]=QSUM[I]+QIN2[J][I]*AN2                                     
-		if(NIN3 == 0):
-			pass                                           
-		else
-			for J in range(1,NIN3):
-				QSUM[I]=QSUM[I]+QIN3[J][I]*AN3                                     
-		if(NIN4 == 0):
-			pass                                           
+			#     WRITE(6,841) (INDEX[J],J, J=1,IPLAST)
+			# 841 print(2X,' INDEX=',I3,' J=',I3)                   
+			#  SET ANISOTROPIC FLAG if ANISOTROPIC SCATTERING DATA IS DETECTED
+			KELSUM=0 #2479
+			#########                  RESET INDENTATION                ###########################
+			for J in range(1,6):
+				KELSUM=KELSUM+KEL1[J]+KEL2[J]+KEL3[J]+KEL4[J]+KEL5[J]+KEL6[J]
+			for J in range(1,250):
+				KELSUM=KELSUM+KIN1[J]+KIN2[J]+KIN3[J]+KIN4[J]+KIN5[J]+KIN6[J]
+			if(KELSUM > 0):
+				NISO=1  
+			#     if(NISO == 1) WRITE(6,7765) NISO
+			#7765 print(3X,' ANISOTROPIC SCATTERING DETECTED NISO=',I5)         
+			# -------------------------------------------------------------------   
+			#   CALCULATE NULL COLLISION FREQUENCY                                  
+			# -------------------------------------------------------------------   
+			BP=EFIELD*EFIELD*CONST1           #2490                               
+			F2=EFIELD*CONST3                                                  
+			ELOW=TMAX*(TMAX*BP-F2*math.sqrt(0.50*EFINAL))/ESTEP-1.00            
+			ELOW=DMIN1[ELOW][SMALL]                                            
+			EHI=TMAX*(TMAX*BP+F2*math.sqrt(0.50*EFINAL))/ESTEP+1.00
+			if(EHI > 20000.0):
+				EHI=20000.0
+			JONE=1
+			JLARGE=20000  
+			for I in range(1,10):
+					JLOW=20000-2000*(11-I)+1+int(ELOW)                               
+					JHI=20000-2000*(10-I)+int(EHI)
+					JLOW=DMAX0[JLOW][JONE]
+					JHI=DMIN0[JHI][JLARGE]
+			for J in range(JLOW,JHI):
+				if(TCF[J]>= TCFMAX[I]):
+					TCFMAX[I]=TCF[J]                          
+			#---------------------------------------------------------------------
+			# FIND MAXIMUM COLLISION FREQUENCY
+			#     TLIM=TCFMAX[1]
+			#     DO 835 I=1,10
+			# 835 if(TLIM < TCFMAX[I]) TLIM=TCFMAX[I]
+			#     TCFMAX1=TLIM  
+			TLIM=0.0
+			for I in range(1,20000):
+				if(TLIM < TCF[I]) TLIM=TCF[I]
+					TCFMAX1=TLIM                                                    
+			# -------------------------------------------------------------------   
+			#   CROSS SECTION DATA FOR INTEGRALS IN  OUTPUT               
+			# --------------------------------------------------------------------- 
+			for I in range(1,NSTEP):      #900                                         
+				QTOT[I]=AN1*Q1[1][I]+AN2*Q2[1][I]+AN3*Q3[1][I]+AN4*Q4[1][I]+AN5*Q5[1][I]+AN6*Q6[1][I]     
+				QEL[I]=AN1*Q1[2][I]+AN2*Q2[2][I]+AN3*Q3[2][I]+AN4*Q4[2][I]+AN5*Q5[2][I]+AN6*Q6[2][I]             
+			#                                                                       
+			QION[1][I]=Q1[3][I]*AN1   
+			if(NION1 > 1):
+			    for KION in range(1,NION1): #811
+					QION[1][I]=QION1[KION][I]*AN1
+			# endif                                           
+			QION[2][I]=Q2[3][I]*AN2                                             
+				if(NION2 > 1):
+			    for KION in range(1,NION2): #812
+					QION[2][I]=QION2[KION][I]*AN2
+			# endif                                           
+			QION[3][I]=Q3[3][I]*AN3                                             
+			if(NION3 > 1):
+			    for KION in range(1,NION3):
+					QION[3][I]=QION3[KION][I]*AN3
+			# endif                                           
+			QION[4][I]=Q4[3][I]*AN4
+			if(NION4 > 1):
+				for KION in range(1,NION4):
+					QION[4][I]=QION4[KION][I]*AN4
+			# endif                                           
+			QION[5][I]=Q5[3][I]*AN5
+			if(NION5 > 1):
+			    for KION in range(1,NION5):
+					QION[5][I]=QION5[KION][I]*AN5
+			# endif                                           
+			QION[6][I]=Q6[3][I]*AN6                                             
+			if(NION6 > 1):
+			    for KION in range[1][NION6]:
+					QION[6][I]=QION6[KION][I]*AN6
+			# endif                                           
+			QATT[1][I]=Q1[4][I]*AN1                                             
+			QATT[2][I]=Q2[4][I]*AN2                                             
+			QATT[3][I]=Q3[4][I]*AN3                                             
+			QATT[4][I]=Q4[4][I]*AN4
+			QATT[5][I]=Q5[4][I]*AN5
+			QATT[6][I]=Q6[4][I]*AN6                                             
+			#                                                                       
+			QREL[I]=0.00                                                     
+			QSATT[I]=0.00                                                   
+			QSUM[I]=0.00                                                     
+			for J in range(1,NGAS):
+				QSUM[I]=QSUM[I]+QION[J][I]+QATT[J][I]                               
+				QSATT[I]=QSATT[I]+QATT[J][I]                                       
+				QREL[I]=QREL[I]+QION[J][I]-QATT[J][I]                               
+			#                                                                       
+			if(NIN1 == 0):
+				pass
 			else:
-				for J in range(1,NIN4):
-				QSUM[I]=QSUM[I]+QIN4[J][I]*AN4                                     
-		if(NIN5 == 0):
-			pass 
-		else:
-			for J in range(1,NIN5):
-					QSUM[I]=QSUM[I]+QIN5[J][I]*AN5
-		if(NIN6 == 0):
-			pass
-		else:
-		    for J in range(1,NIN6):
-				QSUM[I]=QSUM[I]+QIN6[J][I]*AN6                                     
-		##                                                                       
-		return                                                            
+				for J in range(1,NIN1):
+					QSUM[I]=QSUM[I]+QIN1[J][I]*AN1                                     
+			if(NIN2 == 0):
+				pass                                           
+			else:
+				for J in range(1,NIN2):
+					QSUM[I]=QSUM[I]+QIN2[J][I]*AN2                                     
+			if(NIN3 == 0):
+				pass                                           
+			else
+				for J in range(1,NIN3):
+					QSUM[I]=QSUM[I]+QIN3[J][I]*AN3                                     
+			if(NIN4 == 0):
+				pass                                           
+				else:
+					for J in range(1,NIN4):
+					QSUM[I]=QSUM[I]+QIN4[J][I]*AN4                                     
+			if(NIN5 == 0):
+				pass 
+			else:
+				for J in range(1,NIN5):
+						QSUM[I]=QSUM[I]+QIN5[J][I]*AN5
+			if(NIN6 == 0):
+				pass
+			else:
+			    for J in range(1,NIN6):
+					QSUM[I]=QSUM[I]+QIN6[J][I]*AN6                                     
+			##                                                                       
+			return                                                            
 		# end 
 
 ##COMMENT: end subroutine
@@ -2714,250 +2708,250 @@ def GASMIX(NGS,Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
 	SCLN=[0 for x in range(11)]
 	ESPLIT=[[0 for x in range[6]] for y in range(21)]
 	# 
-	GO TO (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80) NGS
+	#GO TO (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80) NGS
 
-if(NGS==1):
-	GAS1(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-	return    
-if(NGS==2):
-	GAS2(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-	return    
-if(NGS==3):
-	GAS3(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-	return    
-if(NGS==4):
-	GAS4(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-	return    
-if (NGS==5):
- GAS5(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==6):
- GAS6(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==7):
- GAS7(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==8):
- GAS8(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==9):
- GAS9(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==10):
- GAS10(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==11):
- GAS11(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==12):
- GAS12(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==13):
- GAS13(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==14):
- GAS14(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==15):
- GAS15(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==16):
- GAS16(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==17):
- GAS17(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==18):
- GAS18(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==19):
- GAS19(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==20):
- GAS20(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==21):
- GAS21(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==22):
- GAS22(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==23):
- GAS23(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==24):
- GAS24(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==25):
- GAS25(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==26):
- GAS26(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==27):
- GAS27(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==28):
- GAS28(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==29):
- GAS29(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KQION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==30):
- GAS30(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==31):
- GAS31(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==32):
- GAS32(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==33):
- GAS33(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==34):
- GAS34(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==35):
- GAS35(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==36):
- GAS36(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==37):
- GAS37(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==38):
- GAS38(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==39):
- GAS39(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==40):
- GAS40(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==41):
- GAS41(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==42):
- GAS42(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==43):
- GAS43(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==44):
- GAS44(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==45):
- GAS45(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==46):
- GAS46(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==47):
- GAS47(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==48):
- GAS48(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==49):
- GAS49(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==50):
- GAS50(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==51):
- GAS51(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==52):
- GAS52(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==53):
- GAS53(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==54):
- GAS54(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==55):
- GAS55(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==56):
- GAS56(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==57):
- GAS57(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==58):
- GAS58(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==59):
- GAS59(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==60):
- GAS60(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==61):
- GAS61(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==62):
- GAS62(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==63):
- GAS63(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==64):
- GAS64(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==65):
- GAS65(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==66):
- GAS66(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==67):
- GAS67(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==68):
- GAS68(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==69):
- GAS69(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==70):
- GAS70(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==71):
- GAS71(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==72):
- GAS72(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==73):
- GAS73(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==74):
- GAS74(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==75):
- GAS75(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==76):
- GAS76(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==77):
- GAS77(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==78):
- GAS78(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==79):
- GAS79(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
-if (NGS==80):
- GAS80(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
-  return   
+	if(NGS==1):
+		GAS1(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return    
+	if(NGS==2):
+		GAS2(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return    
+	if(NGS==3):
+		GAS3(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return    
+	if(NGS==4):
+		GAS4(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return    
+	if (NGS==5):
+		GAS5(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==6):
+		GAS6(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==7):
+		GAS7(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==8):
+		GAS8(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==9):
+		GAS9(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==10):
+		GAS10(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==11):
+		GAS11(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==12):
+		GAS12(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==13):
+		GAS13(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==14):
+		GAS14(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==15):
+		GAS15(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==16):
+		GAS16(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==17):
+		GAS17(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==18):
+		GAS18(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==19):
+		GAS19(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==20):
+		GAS20(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==21):
+		GAS21(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==22):
+		GAS22(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==23):
+		GAS23(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==24):
+		GAS24(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==25):
+		GAS25(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==26):
+		GAS26(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==27):
+		GAS27(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==28):
+		GAS28(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==29):
+		GAS29(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KQION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==30):
+		GAS30(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==31):
+		GAS31(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==32):
+		GAS32(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==33):
+		GAS33(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==34):
+		GAS34(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==35):
+		GAS35(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==36):
+		GAS36(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==37):
+		GAS37(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==38):
+		GAS38(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==39):
+		GAS39(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==40):
+		GAS40(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==41):
+		GAS41(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==42):
+		GAS42(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==43):
+		GAS43(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==44):
+		GAS44(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==45):
+		GAS45(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==46):
+		GAS46(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==47):
+		GAS47(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==48):
+		GAS48(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==49):
+		GAS49(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==50):
+		GAS50(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==51):
+		GAS51(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==52):
+		GAS52(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==53):
+		GAS53(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==54):
+		GAS54(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==55):
+		GAS55(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==56):
+		GAS56(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==57):
+		GAS57(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==58):
+		GAS58(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==59):
+		GAS59(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==60):
+		GAS60(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==61):
+		GAS61(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==62):
+		GAS62(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==63):
+		GAS63(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==64):
+		GAS64(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==65):
+		GAS65(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==66):
+		GAS66(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==67):
+		GAS67(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==68):
+		GAS68(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==69):
+		GAS69(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==70):
+		GAS70(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==71):
+		GAS71(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==72):
+		GAS72(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==73):
+		GAS73(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==74):
+		GAS74(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==75):
+		GAS75(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==76):
+		GAS76(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==77):
+		GAS77(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==78):
+		GAS78(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==79):
+		GAS79(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
+	if (NGS==80):
+		GAS80(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+	  return   
       # end 
-def BREMS(IZ,EIN,numpy.cosX,numpy.cosY,numpy.cosZ,EOUT,ECOSX,ECOSY,ECOSZ,EGAMMA,GCOSX,GCOSY,GCOSZ)
+def BREMS(IZ,EIN,DCOSX,DCOSY,DCOSZ,EOUT,ECOSX,ECOSY,ECOSZ,EGAMMA,GCOSX,GCOSY,GCOSZ)
 	#MPLICIT #real*8(A-H,O-Z)
 	#IMPLICIT #integer*8(I-N)
 	# def CALCULATES BREMSSTRAHLUNG SCATTERING FOR GAS ATOMIC NO =IZ
@@ -2983,7 +2977,7 @@ def BREMS(IZ,EIN,numpy.cosX,numpy.cosY,numpy.cosZ,EOUT,ECOSX,ECOSY,ECOSZ,EGAMMA,
 	# USE CONSERVED TRANSVERSE MOMENTUM APPROX FOR ELECTRON SCATTERING ANGLE
 	THETA=EANG
 	PHI=2.0*API-PHI
-	DRCOS(numpy.cosX,numpy.cosY,numpy.cosZ,THETA,PHI,ECOSX,ECOSY,ECOSZ)
+	DRCOS(DCOSX,DCOSY,DCOSZ,THETA,PHI,GCOSX,GCOSY,GCOSZ)
 	return 
 	# end
 def BRENERGY(IZ,EIN,EOUT):
@@ -3063,8 +3057,8 @@ def BRENERGY(IZ,EIN,EOUT):
 	# FIND NEAREST ENERGY IN ARRAY
 	flag=0
 	for J in range(1,24):
-	  if(EIN >= ET1[J]and EIN < ET1(J+1)) :
-	  	IPT=J
+		if(EIN >= ET1[J]and EIN < ET1(J+1)) :
+		  	IPT=J
 	  	if(EIN > ((ET1[J]+ET1(J+1))*0.5)):
 	    	IPT=J+1
 	    flag=1						###PSEUDO- if 
@@ -3147,7 +3141,7 @@ def BRENERGY(IZ,EIN,EOUT):
 			EOUT=EIN*(float[J]+0.5)/200.0
 			return
 		# endif 
-	print(' SAMPLING ERROR IN def BRENERGY def sys.exit()PED')
+	print(' SAMPLING ERROR IN SUBROUTINE BRENERGY PROGRAM STOPPED')
 	sys.exit()
 	return
       # end
@@ -3164,7 +3158,7 @@ def BREMSANGLE(EIN,EGAMMA,Z,ANGL,EANGL):
 	#  ATOMIC NUMBER OF ATOM = Z
 	# CALCULATES ELECTRON ANGLE EANGL WITH APPROXIMATION OF CONSERVED
 	# TRANSVERSE MOMENTUM
-	HBAR=1.054571726D-34
+	HBAR=1.054571726*(10**-34)
 	API=numpy.arccos(-1.00)
 	ANG[19]=API
 	NSTEP=180
@@ -3175,12 +3169,12 @@ def BREMSANGLE(EIN,EGAMMA,Z,ANGL,EANGL):
 		# CALL def
 		BREMSK(EIN,EGAMMA,THETA,Z,XSEC1,EANGL)
 #      WRITE(6,77) EIN,EGAMMA,THETA,EANGL
-#  77  print(' EIN=',D12.4,' EGAMMA=',D12.4,' THETA=',D12.4,' EANGL=',D12.4)
+#  77  print(' EIN=','%.4f' % ,' EGAMMA=','%.4f' % ,' THETA=','%.4f' % ,' EANGL=','%.4f' % )
 		XSEC[K]=XSEC1
 # LOAD LOG ARRAY
 		XSECL[K]=math.log(XSEC[K])
 #      WRITE(6,200) (XSEC[K], K=1,19)
-#  200 print(' XSEC FOR 10 DEGREE SCATTERING STEPS =',/,10D12.4,/9D12.4)
+#  200 print(' XSEC FOR 10 DEGREE SCATTERING STEPS =',/,10'%.4f' % ,/9'%.4f' % )
 # CALCULATE NORMALISED INTEGRAL FOR SAMPLING
 # USE LOG INTERPOLATION AND SAMPLE AT 1 DEGREE
 		ARR[1]=XSEC[1]*numpy.sin(ANG[1])
@@ -3216,7 +3210,7 @@ def BREMSANGLE(EIN,EGAMMA,Z,ANGL,EANGL):
 		RN=random.uniform()
 		ASCLE=API/180.0
 		for J in range(2,180):
-			if(RN > ARR[J]and RN <= ARR(J+1)) :
+			if(RN > ARR[J]and RN <= ARR[J+1]) :
 				ANGL=float[J]*ASCLE
 		# endif
 		return
@@ -3306,30 +3300,31 @@ def BREMSK(ein,egamma,Theta_i,Z,XSEC,Theta_fp):
 #
 	XSEC=xint[1]+xint[2]+xint[3]+xint[4]+xint[5]+xint[6]+xint[7]+xint[8]
 #     write(6,88) (xint[I],i=1,8)
-# 88  print(' xintegral=',/,4(D14.4,X),/,4(D14.4,X))
+# 88  print(' xintegral=',/,4('%.4f' % ,X),/,4('%.4f' % ,X))
 	Theta_fp=numpy.arcsin((hbar*phot_freq/Vc*sint)/p_f)
 	return
       # end
 def DENSITY:
 	#IMPLICIT #real*8 (A-H,O-Z)
 	#IMPLICIT #integer*8 (I-N)
-	global DEN=[0 for x in range(20000)]
-	global CAN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC=[0 for x in range[6]]
+	global DEN #=[0 for x in range(20000)]
+	global CAN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC #=[0 for x in range(6)]
 	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-	global NGASN=[0 for x in range[6]]
-	global BET=[0 for x in range(2000)],GAM=[0 for x in range(20000)],VC,EMS
+	global NGASN #=[0 for x in range[6]]
+	global BET#=[0 for x in range(2000)],GAM=[0 for x in range(20000)]
+	global VC,EMS
 	AND=[0 for x in range[6]],EIAV=[0 for x in range(80)],X00=[0 for x in range(80)]
 	X11=[0 for x in range(80)],AKS=[0 for x in range(80)],AAA=[0 for x in range(80)]
 	JELEC=[0 for x in range(80)]
 	# DENSITY EFFECT CONSTANTS
 	# EIAV ENERGY IN EV
 	# JELEC NUMBER OF ELECTRONS PER ATOM OR MOLECULE
-	DATA EIAV/115.0,188.0,41.8,41.8,137.0,352.0,482.0,41.7,45.4,47.1,48.3,85.0,0.0,71.6,95.0,82.0,0.0,0.0,0.0,0.0,19.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,128.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,48.3,36*0.0/
-	DATA JELEC/42,18,2,2,10,36,54,10,18,26,34,22,0,10,16,14,0,0,0,0,2,0,0,0,0,0,0,0,0,70,0,0,0,0,0,0,0,0,0,0,0,0,0,34,36*0/
-	DATA X00/1.70,1.7635,2.2017,2.2017,2.0735,1.7158,1.5630,1.6263,1.5090,1.4339,1.3788,1.6294,0.0,1.7952,1.7541,1.7378,0.0,0.0,0.0,0.0,1.8639,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3788,36*0.0/
-	DATA X11/4.00,4.4855,3.6122,3.6122,4.6421,5.0748,4.7371,3.9716,3.8726,3.8011,3.7524,4.1825,0.0,4.3437,4.3213,4.1323,0.0,0.0,0.0,0.0,3.2718,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.7524,36*0.0/
-	DATA AKS/3.00,2.9618,5.8347,5.8347,3.5771,3.4051,2.7414,3.6257,3.6095,3.5920,3.4884,3.3227,0.0,3.5901,3.2913,3.2125,0.0,0.0,0.0,0.0,5.7273,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.4884,36*0.0/
-	DATA AAA/.18551,.19714,.13443,.13443,.08064,.07446,.23314,.09253,0.09627,0.09916,.10852,.11768,0.0,.08101,.11778,.15349,0.0,0.0,0.0,0.0,.14092,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.177484,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.10852,36*0.0/
+	DATA EIAV=[115.0,188.0,41.8,41.8,137.0,352.0,482.0,41.7,45.4,47.1,48.3,85.0,0.0,71.6,95.0,82.0,0.0,0.0,0.0,0.0,19.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,128.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,48.3,36*0.0]
+	DATA JELEC=[42,18,2,2,10,36,54,10,18,26,34,22,0,10,16,14,0,0,0,0,2,0,0,0,0,0,0,0,0,70,0,0,0,0,0,0,0,0,0,0,0,0,0,34,36*0]
+	DATA X00=[1.70,1.7635,2.2017,2.2017,2.0735,1.7158,1.5630,1.6263,1.5090,1.4339,1.3788,1.6294,0.0,1.7952,1.7541,1.7378,0.0,0.0,0.0,0.0,1.8639,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3788,36*0.0]
+	DATA X11=[4.00,4.4855,3.6122,3.6122,4.6421,5.0748,4.7371,3.9716,3.8726,3.8011,3.7524,4.1825,0.0,4.3437,4.3213,4.1323,0.0,0.0,0.0,0.0,3.2718,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.7524,36*0.0]
+	DATA AKS=[3.00,2.9618,5.8347,5.8347,3.5771,3.4051,2.7414,3.6257,3.6095,3.5920,3.4884,3.3227,0.0,3.5901,3.2913,3.2125,0.0,0.0,0.0,0.0,5.7273,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.4884,36*0.0]
+	DATA AAA=[.18551,.19714,.13443,.13443,.08064,.07446,.23314,.09253,0.09627,0.09916,.10852,.11768,0.0,.08101,.11778,.15349,0.0,0.0,0.0,0.0,.14092,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.177484,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.10852,36*0.0]
 	#
 	API=numpy.arccos(-1.00)                                                 
 	EMS=510998.9280
@@ -3349,9 +3344,9 @@ def DENSITY:
 	SUM1=0.0
 	SUMDNOM=0.0
 	for L1 in range(1,NGAS):
-		SUM1=SUM1+FRAC[L1]*float(JELEC(NGASN[L1]))*math.log(EIAV[NGASN[L1]]) 
-		SUMDNOM=SUMDNOM+FRAC[L1]*float(JELEC(NGASN[L1]))
-		HSUM=HSUM+AND[L1]*float(JELEC(NGASN[L1]))
+		SUM1=SUM1+FRAC[L1]*float(JELEC[NGASN[L1]])*math.log(EIAV[NGASN[L1]]) 
+		SUMDNOM=SUMDNOM+FRAC[L1]*float(JELEC[NGASN[L1]])
+		HSUM=HSUM+AND[L1]*float(JELEC(NGASN[L1]))  #22385
 	EIBAR=math.exp(SUM1/SUMDNOM)
 # PLASMA ENERGY
 	HWP1=math.sqrt(4.0*API*HSUM*RE**3)*ALPH*EMS
@@ -3424,28 +3419,132 @@ def SETUP(LAST):
 	global ECHARG,EMASS,AMU,PIR2
 	global KGAS,LGAS,DETEFF,EXCWGHT
 	global NDVEC,CONST1,CONST2,CONST3,CONST4,CONST5                  
-	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC=[0 for x in range[6]]               
-	global NGASN=[0 for x in range[6]]                                 
-	global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX=[0 for x in range(10)],TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE
+	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC #=[0 for x in range[6]]               
+	global NGASN #=[0 for x in range[6]]                                 
+	global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX #=[0 for x in range(10)]
+	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE
 	global DRXINIT,DRYINIT,DRZINIT
 	global EOVB,WB,BTHETA,BMAG 
-	global DOUBLE=[[0 for x in range[6]] for y in range(20000)],AVPFRAC(3,6)
-	global CMINIXSC=[0 for x in range[6]],CMINEXSC=[0 for x in range[6]],ECLOSS=[0 for x in range[6]],WPLN=[0 for x in range[6]],ICOUNT
+	global DOUBLE #=[[0 for x in range[6]] for y in range(20000)]
+	global AVPFRAC #=[[0 for x in range(3)] for y in range(6)]
+	global CMINIXSC #=[0 for x in range[6]]
+	global CMINEXSC #=[0 for x in range[6]]
+	global ECLOSS #=[0 for x in range[6]]
+	global WPLN #=[0 for x in range[6]]
+	global ICOUNT
 	global OVAN1,VAN2,VAN3,VAN4,VAN5,VAN6,VAN
-	global =[0 for x in range(30)],NETOT,NPRIME,TMAX1,TIME=[0 for x in range(300)],NNULL,NITOT,ICOLN=[0 for x i range(512)],ICOLNN=[0 for x in range(60)],NREAL,NEXCTOT
-	global MSUM=[0 for x in range(10000)],MCOMP=[0 for x in range(10000)],MRAYL=[0 for x in range(10000)],MPAIR=[0 for x in range(10000)],MPHOT=[0 for x in range(10000)],MVAC=[0 for x in range(10000)]
-	global BET=[0 for x in range(2000)],GAM=[0 for x in range(20000)],VC,EMS 
+	global ICOLL#=[0 for x in range(30)]
+	global NETOT,NPRIME,TMAX1
+	global TIME #=[0 for x in range(300)]
+	global NNULL,NITOT
+	global ICOLN #=[0 for x i range(512)]
+	global ICOLNN#=[0 for x in range(60)]
+	global NREAL,NEXCTOT
+	global MSUM#=[0 for x in range(10000)]
+	global MCOMP#=[0 for x in range(10000)]
+	global MRAYL#=[0 for x in range(10000)]
+	global MPAIR#=[0 for x in range(10000)]
+	global MPHOT#=[0 for x in range(10000)]
+	global MVAC#=[0 for x in range(10000)]
+	global BET#=[0 for x in range(2000)]
+	global GAM#=[0 for x in range(20000)]
+	global VC,EMS 
 	global ICMP,ICFLG,IRAY,IRFLG,IPAP,IPFLG,IBRM,IBFLG,LPEFLG 
-	global E=[0 for x in range(20000)],EROOT=[0 for x in range(20000)],QTOT=[0 for x in range(20000)],QREL=[0 for x in range(20000)],QINEL=[0 for x in range(20000)],QEL=[0 for x in range(20000)]
-	global NXPL10=[0 for x in range(31)],NYPL10=[0 for x in range(31)],NZPL10=[0 for x in range(31)],NXPL40=[0 for x in range(31)],NYPL40=[0 for x in range(31)],NZPL40=[0 for x in range(31)],NXPL100=[0 for x in range(31)],NYPL100=[0 for x in range(31)],NZPL100=[0 for x in range(31)],NXPL400=[0 for x in range(31)],NYPL400=[0 for x in range(31)],NZPL400=[0 for x in range(31)],NXPL1000=[0 for x in range(31)],NYPL1000=[0 for x in range(31)],NZPL1000=[0 for x in range(31)],NXPL2=[0 for x in range(31)],NYPL2=[0 for x in range(31)],NZPL2=[0 for x in range(31)],NXPL4000=[0 for x in range(31)],NYPL4000=[0 for x in range(31)],NZPL4000=[0 for x in range(31)],NXPL10000=[0 for x in range(31)],NYPL10000=[0 for x in range(31)],NZPL10000=[0 for x in range(31)],NXPL40000=[0 for x in range(31)],NYPL40000=[0 for x in range(31)],NZPL40000=[0 for x in range(31)],NXPL100000=[0 for x in range(31)],NYPL100000=[0 for x in range(31)],NZPL100000=[0 for x in range(31)],NRPL2=[0 for x in range(31)],NRPL10=[0 for x in range(31)],NRPL40=[0 for x in range(31)],NRPL100=[0 for x in range(31)],NRPL400=[0 for x in range(31)],NRPL1000=[0 for x in range(31)],NRPL4000=[0 for x in range(31)],NRPL10000=[0 for x in range(31)],NRPL40000=[0 for x in range(31)],NRPL100000=[0 for x in range(31)]
-	global NEPL1=[0 for x in range(100)],NEPL10=[0 for x in range(100)],NEPL100=[0 for x in range(100)],MELEC=[0 for x in range(1000)],MELEC3=[0 for x in range(1000)],MELEC10=[0 for x in range(1000)],MELEC30=[0 for x in range(1000)],MELEC100=[0 for x in range(1000)],MELEC300=[0 for x in range(1000)]
-	global EBRGAM=[0 for x in range(10)],BRnumpy.cosX=[0 for x in range(10)],BRnumpy.cosY=[0 for x in range(10)],BRnumpy.cosZ=[0 for x in range(10)],BRX=[0 for x in range(10)],BRY=[0 for x in range(10)],BRZ=[0 for x in range(10)],BRT=[0 for x in range(10)]
-	global EBRTOT=[0 for x in range[6]],NBREM=[0 for x in range[6]]
-	global XAV=[0 for x in range(100000)],YAV=[0 for x in range(100000)],ZAV=[0 for x in range(100000)],TAV=[0 for x in range(100000)],XYAV=[0 for x in range(100000)],XYZAV=[0 for x in range(100000)]
-	global DX=[0 for x in range(100000)],DY=[0 for x in range(100000)],DZ=[0 for x in range(100000)]
-	global DT=[0 for x in range(100000)],DXY=[0 for x in range(100000)],DXYZ=[0 for x in range(100000)],NCL=[0 for x in range(100000)],FARX1=[0 for x in range(100000)],FARY1=[0 for x in range(100000)],FARZ1=[0 for x in range(100000)],FARXY1=[0 for x in range(100000)],RMAX1=[0 for x in range(100000)],TSUM=[0 for x in range(100000)],XNEG=[0 for x in range(100000)], YNEG=[0 for x in range(100000)],ZNEG=[0 for x in range(100000)],EDELTA[100000],EDELTA2=[0 for x in range(100000)],NCLEXC=[0 for x in range(100000)]
+	global E #=[0 for x in range(20000)]
+	global EROOT #=[0 for x in range(20000)]
+	global QTOT #=[0 for x in range(20000)]
+	global QREL #=[0 for x in range(20000)]
+	global QINEL #=[0 for x in range(20000)]
+	global QEL #=[0 for x in range(20000)]
+	global NXPL10#=[0 for x in range(31)]
+	global NYPL10#=[0 for x in range(31)]
+	global NZPL10#=[0 for x in range(31)]
+	global NXPL40#=[0 for x in range(31)]
+	global NYPL40#=[0 for x in range(31)]
+	global NZPL40#=[0 for x in range(31)]
+	global NXPL100#=[0 for x in range(31)]
+	global NYPL100#=[0 for x in range(31)]
+	global NZPL100#=[0 for x in range(31)]
+	global NXPL400#=[0 for x in range(31)]
+	global NYPL400#=[0 for x in range(31)]
+	global NZPL400#=[0 for x in range(31)]
+	global NXPL1000#=[0 for x in range(31)]
+	global NYPL1000#=[0 for x in range(31)]
+	global NZPL1000#=[0 for x in range(31)]
+	global NXPL2#=[0 for x in range(31)]
+	global NYPL2#=[0 for x in range(31)]
+	global NZPL2#=[0 for x in range(31)]
+	global NXPL4000#=[0 for x in range(31)]
+	global NYPL4000#=[0 for x in range(31)]
+	global NZPL4000#=[0 for x in range(31)]
+	global NXPL10000#=[0 for x in range(31)]
+	global NYPL10000#=[0 for x in range(31)]
+	global NZPL10000#=[0 for x in range(31)]
+	global NXPL40000#=[0 for x in range(31)]
+	global NYPL40000#=[0 for x in range(31)]
+	global NZPL40000#=[0 for x in range(31)]
+	global NXPL100000#=[0 for x in range(31)]
+	global NYPL100000#=[0 for x in range(31)]
+	global NZPL100000#=[0 for x in range(31)]
+	global NRPL2#=[0 for x in range(31)]
+	global NRPL10#=[0 for x in range(31)]
+	global NRPL40#=[0 for x in range(31)]
+	global NRPL100#=[0 for x in range(31)]
+	global NRPL400#=[0 for x in range(31)]
+	global NRPL1000#=[0 for x in range(31)]
+	global NRPL4000#=[0 for x in range(31)]
+	global NRPL10000#=[0 for x in range(31)]
+	global NRPL40000#=[0 for x in range(31)]
+	global NRPL100000#=[0 for x in range(31)]
+	global NEPL1#=[0 for x in range(100)]
+	global NEPL10#=[0 for x in range(100)]
+	global NEPL100#=[0 for x in range(100)]
+	global MELEC#=[0 for x in range(1000)]
+	global MELEC3#=[0 for x in range(1000)]
+	global MELEC10#=[0 for x in range(1000)]
+	global MELEC30#=[0 for x in range(1000)]
+	global MELEC100#=[0 for x in range(1000)]
+	global MELEC300#=[0 for x in range(1000)]
+	global EBRGAM#=[0 for x in range(10)]
+	global BRDCOSX# =[0 for x in range(10)]
+	global BRDCOSY# =[0 for x in range(10)]
+	global BRDCOSZ# =[0 for x in range(10)]
+	global BRX#=[0 for x in range(10)]
+	global BRY#=[0 for x in range(10)]
+	global BRZ#=[0 for x in range(10)]
+	global BRT#=[0 for x in range(10)]
+	global EBRTOT#=[0 for x in range[6]]
+	global NBREM#=[0 for x in range[6]]
+	global XAV#=[0 for x in range(100000)]
+	global YAV#=[0 for x in range(100000)]
+	global ZAV#=[0 for x in range(100000)]
+	global TAV#=[0 for x in range(100000)]
+	global XYAV#=[0 for x in range(100000)]
+	global XYZAV#=[0 for x in range(100000)]
+	global DX#=[0 for x in range(100000)]
+	global DY#=[0 for x in range(100000)] 
+	global DZ#=[0 for x in range(100000)]
+	global DT#=[0 for x in range(100000)]
+	global DXY#=[0 for x in range(100000)]
+	global DXYZ#=[0 for x in range(100000)]
+	global NCL#=[0 for x in range(100000)]
+	global FARX1#=[0 for x in range(100000)]
+	global FARY1#=[0 for x in range(100000)]
+	global FARZ1#=[0 for x in range(100000)]
+	global FARXY1#=[0 for x in range(100000)]
+	global RMAX1#=[0 for x in range(100000)]
+	global TSUM#=[0 for x in range(100000)]
+	global XNEG#=[0 for x in range(100000)]
+	global  YNEG#=[0 for x in range(100000)]
+	global ZNEG#=[0 for x in range(100000)]
+	global EDELTA#[100000]
+	global EDELTA2#=[0 for x in range(100000)]
+	global NCLEXC#=[0 for x in range(100000)]
 	global NSEED
-	global NEGAS=[0 for x in range(512)],LEGAS=[0 for x in range(512)],IESHELL=[0 for x in range(512)],IECASC
+	global NEGAS#=[0 for x in range(512)]
+	global LEGAS#=[0 for x in range(512)]
+	global IESHELL#=[0 for x in range(512)]
+	global IECASC
 	#                                                                       
 	#   NEW UPDATE OF CONSTANTS 2010
 	#
@@ -3548,7 +3647,7 @@ def SETUP(LAST):
 	#     WRITE(6,656) IWRITE
 	# 656 print(' IWRITE=',I3)  
 	if(IWRITE != 0):
-		OPEN(UNIT=50,FILE='DEGRAD.OUT')  #yet to figure out
+		OPEN(UNIT=50,FILE='DEGRAD.OUT')  #yet to be
 	# CALCULATE EFINAL FOR DELTAS OR XRAYS 
 	# INCREASED EFINAL CAUSED BY ELECTRIC FIELD 
 	EBIG=0.05*ESTART/1000. 
@@ -3558,13 +3657,13 @@ def SETUP(LAST):
 	#   CHECK INPUT
 	TOTFRAC=0.00
 	if(NGAS == 0 or NGAS > 6):
-			GO TO 999
+			GOTO999()
 	for J in range(1,NGAS):
 		if(NGASN[J]== 0 or FRAC[J] == 0.00):
-			GO TO 999
+			GOTO999()
 		TOTFRAC=TOTFRAC+FRAC[J]
-	if(abs(TOTFRAC-100.00)> 1.D-6):
-		GO TO 999
+	if(abs(TOTFRAC-100.00)> 1*(10**-6)):
+		GOTO999()
 	LAST=0
 	TMAX=100.00  
 	NOUT=10  
@@ -3793,40 +3892,98 @@ def OUTPUT:
 	#IMPLICIT #integer*8 (I-N) 
 	global KGAS,LGAS,DETEFF,EXCWGHT                             
 	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-	global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX=[0 for x in range(10)]
+	global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX#=[0 for x in range(10)]
 	global TCFMAX1,RSTART,EFIELD,ECUT,ETHRM,NDELTA,IMIP,IWRITE        
 	global EOVB,WB,BTHETA,BMAG    
-	global CF=[[0 for x in range(20000)] for y in range(512)]
-	global EIN=[0 for x in range(512)]
-	global TCF=[0 for x in range(20000)]
-	global IARRY=[0 for x in range(512)]
-	global RGAS=[0 for x in range(512)],IPN=[0 for x in range(512)]
-	global WPL=[0 for x in range(512)],IZBR=[0 for x in range(512)]
+	global CF#=[[0 for x in range(20000)] for y in range(512)]
+	global EIN#=[0 for x in range(512)]
+	global TCF#=[0 for x in range(20000)]
+	global IARRY#=[0 for x in range(512)]
+	global RGAS#=[0 for x in range(512)]
+	global IPN#=[0 for x in range(512)]
+	global WPL#=[0 for x in range(512)]
+	global IZBR#=[0 for x in range(512)]
 	global LAST,NPLAST
-	global PENFRA=[[0 for x in range(3)] for y in range(512)]
-	global CFN=[[0 for x in range(20000)] for y in range(60)]
-	global TCFN=[0 for x in range(20000)]
-	global SCLENUL=[0 for x in range(60)]
-	global ICOLL=[0 for x in range(30)]
+	global PENFRA#=[[0 for x in range(3)] for y in range(512)]
+	global CFN#=[[0 for x in range(20000)] for y in range(60)]
+	global TCFN#=[0 for x in range(20000)]
+	global SCLENUL#=[0 for x in range(60)]
+	global ICOLL#=[0 for x in range(30)]
 	global NETOT,NPRIME,TMAX1,NNULL,NITOT
-	global TIME=[0 for x in range(300)]
-	global ICOLN=[0 for x in range(512)],ICOLNN=[0 for x in range(60)],NREAL,NEXCTOT
+	global TIME#=[0 for x in range(300)]
+	global ICOLN#[0 for x in range(512)]
+	global ICOLNN#=[0 for x in range(60)]
+	global NREAL,NEXCTOT
 	global AFAN1,AFAN2,AFAN3,AFAN4,ASKEW,AKURT,AFAN1EXC,AFAN2EXC,AFAN3EXC,AFAN4EXC,ASKEWEXC,AKURTEXC,AFAN1TOT,AFAN2TOT,AFAN3TOT,AFAN4TOT,ASKEWTOT,AKURTTOT,AFAN1TOF,AFAN2TOF,AFAN3TOF,AFAN4TOF,ASKEWTOF,AKURTTOF
 	global AFAN1E,AFAN2E,AFAN3E,AFAN4E,ASKEWE,AKURTE,AFAN1EXCE,AFAN2EXCE,AFAN3EXCE,AFAN4EXCE,ASKEWEXCE,AKURTEXCE,AFAN1TOTE,AFAN2TOTE,AFAN3TOTE,AFAN4TOTE,ASKEWTOTE,AKURTTOTE,AFAN1TOFE,AFAN2TOFE,AFAN3TOFE,AFAN4TOFE,ASKEWTOFE,AKURTTOFE,NFE
 	global XBAR,YBAR,ZBAR,TBAR,XYBAR,XYZBAR,DXBAR,DYBAR,DZBAR,DTBAR,DXYBAR,DXYZBAR,XMAX,YMAX,ZMAX,XYMAX,RMAX,SUMTT,XNEG1,YNEG1,ZNEG1,FARXBAR,FARYBAR,FARZBAR,FARXYBAR,RMAXBAR,EBAR,EBAR2       
-	global NXPL10=[0 for x in range(31)],NYPL10=[0 for x in range(31)],NZPL10=[0 for x in range(31)],NXPL40=[0 for x in range(31)],NYPL40=[0 for x in range(31)],NZPL40=[0 for x in range(31)],NXPL100=[0 for x in range(31)],NYPL100=[0 for x in range(31)],NZPL100=[0 for x in range(31)],NXPL400=[0 for x in range(31)],NYPL400=[0 for x in range(31)],NZPL400=[0 for x in range(31)],NXPL1000=[0 for x in range(31)],NYPL1000=[0 for x in range(31)],NZPL1000=[0 for x in range(31)],NXPL2=[0 for x in range(31)],NYPL2=[0 for x in range(31)],NZPL2=[0 for x in range(31)],NXPL4000=[0 for x in range(31)],NYPL4000=[0 for x in range(31)],NZPL4000=[0 for x in range(31)],NXPL10000=[0 for x in range(31)],NYPL10000=[0 for x in range(31)],NZPL10000=[0 for x in range(31)],NXPL40000=[0 for x in range(31)],NYPL40000=[0 for x in range(31)],NZPL40000=[0 for x in range(31)],NXPL100000=[0 for x in range(31)],NYPL100000=[0 for x in range(31)],NZPL100000=[0 for x in range(31)],NRPL2=[0 for x in range(31)],NRPL10=[0 for x in range(31)],NRPL40=[0 for x in range(31)],NRPL100=[0 for x in range(31)],NRPL400=[0 for x in range(31)],NRPL1000=[0 for x in range(31)],NRPL4000=[0 for x in range(31)],NRPL10000=[0 for x in range(31)],NRPL40000=[0 for x in range(31)],NRPL100000=[0 for x in range(31)],NEPL1(100),NEPL10(100),NEPL100(100),MELEC(1000),MELEC3(1000),MELEC10(1000),MELEC30(1000),MELEC100(1000),MELEC300(1000)
+	global NXPL10#=[0 for x in range(31)]
+	global NYPL10#=[0 for x in range(31)]
+	global NZPL10#=[0 for x in range(31)]
+	global NXPL40#=[0 for x in range(31)]
+	global NYPL40#=[0 for x in range(31)]
+	global NZPL40#=[0 for x in range(31)]
+	global NXPL100#=[0 for x in range(31)]
+	global NYPL100#=[0 for x in range(31)]
+	global NZPL100#=[0 for x in range(31)]
+	global NXPL400#=[0 for x in range(31)]
+	global NYPL400#=[0 for x in range(31)]
+	global NZPL400#=[0 for x in range(31)]
+	global NXPL1000#=[0 for x in range(31)]
+	global NYPL1000#=[0 for x in range(31)]
+	global NZPL1000#=[0 for x in range(31)]
+	global NXPL2#=[0 for x in range(31)]
+	global NYPL2#=[0 for x in range(31)]
+	global NZPL2#=[0 for x in range(31)]
+	global NXPL4000#=[0 for x in range(31)]
+	global NYPL4000#=[0 for x in range(31)]
+	global NZPL4000#=[0 for x in range(31)]
+	global NXPL10000#=[0 for x in range(31)]
+	global NYPL10000#=[0 for x in range(31)]
+	global NZPL10000#=[0 for x in range(31)]
+	global NXPL40000#=[0 for x in range(31)]
+	global NYPL40000#=[0 for x in range(31)]
+	global NZPL40000#=[0 for x in range(31)]
+	global NXPL100000#=[0 for x in range(31)]
+	global NYPL100000#=[0 for x in range(31)]
+	global NZPL100000#=[0 for x in range(31)]
+	global NRPL2#=[0 for x in range(31)]
+	global NRPL10#=[0 for x in range(31)]
+	global NRPL40#=[0 for x in range(31)]
+	global NRPL100#=[0 for x in range(31)]
+	global NRPL400#=[0 for x in range(31)]
+	global NRPL1000#=[0 for x in range(31)]
+	global NRPL4000#=[0 for x in range(31)]
+	global NRPL10000#=[0 for x in range(31)]
+	global NRPL40000#=[0 for x in range(31)]
+	global NRPL100000#=[0 for x in range(31)]
+	global NEPL1#(100)
+	global NEPL10#(100)
+	global NEPL100#(100)
+	global MELEC#(1000)
+	global MELEC3#(1000)
+	global MELEC10#(1000)
+	global MELEC30#(1000)
+	global MELEC100#(1000)
+	global MELEC300#(1000)
 	global ANPRELA,ANPRATT,ANPREXC,ANPRION,ANPREXCI,ANPRBRM
 	global ELOSS,ELOSEX,ELOSION,ESUM,BETAGAM,TCFHIGH,VELC,EMAXDEL,ELOSIONC,CUTIONFRC,ELOSEXI,ELOSBREM,NREJECT
-	global EBRGAM=[0 for x in range(10)]
-	global BRnumpy.cosX=[0 for x in range(10)]
-	global BRnumpy.cosY=[0 for x in range(10)],BRnumpy.cosZ=[0 for x in range(10)],BRX=[0 for x in range(10)]
-	global BRY=[0 for x in range(10)],BRZ=[0 for x in range(10)],BRT=[0 for x in range(10)],EBRTOT=[0 for x in range[6]],NBREM=[0 for x in range[6]]
+	global EBRGAM#=[0 for x in range(10)]
+	global BRDCOSX#=[0 for x in range(10)]
+	global BRDCOSY#=[0 for x in range(10)]
+	global BRDCOSZ#=[0 for x in range(10)]
+	global BRX#=[0 for x in range(10)]
+	global BRY#=[0 for x in range(10)]
+	global BRZ#=[0 for x in range(10)]
+	global BRT#=[0 for x in range(10)],EBRTOT=[0 for x in range[6]],NBREM=[0 for x in range[6]]
 	global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
 	global AVRAYL,AVCOMP,AVPAIR,AVPHOTO 
-	global CMPDST=[0 for x in range(10)],RYLDST=[0 for x in range(10)]
+	global CMPDST#=[0 for x in range(10)]
+	global RYLDST#=[0 for x in range(10)]
 	global NJHIGH,ABSXRAY
-	global NAMEG=[0 for x in range[6]]
-	global DSCRPT=[0 for x in range=[0 for x in range(512)]],DSCRPTN=[0 for x in range(60)]
+	global NAMEG#=[0 for x in range[6]]
+	global DSCRPT#=[0 for x in range=[0 for x in range(512)]]
+	global DSCRPTN#=[0 for x in range(60)]
 	BIN100000=[0 for x in range(31)]
 	BIN2=[0 for x in range(31)],BIN4000=[0 for x in range(31)],BIN10000=[0 for x in range(31)],BIN40000=[0 for x in range(31)]
 	BIN10=[0 for x in range(31)],BIN40=[0 for x in range(31)],BIN100=[0 for x in range(31)],BIN400=[0 for x in range(31)],BIN1000=[0 for x in range(31)]
@@ -4034,15 +4191,13 @@ def OUTPUT:
 	if(NRPL100(16) < NRPL100(31)):
 		pass
 	else:
-		WRITE(6,127) 
-		127 print(' DISTRIBUTION IN X,Y,Z AND R FOR 100 MICRON BINS','\n','   POSITION        X         Y         Z         R','\n')
+			print(' DISTRIBUTION IN X,Y,Z AND R FOR 100 MICRON BINS','\n','   POSITION        X         Y         Z         R','\n')
 		for K in range(1,31):
 			print('%.1f' %BIN100[K],NXPL100[K],NYPL100[K],NZPL100[K],NRPL100[K])
 		print('-----------------------------------------------------------------------------')
 	if(NRPL400(16) < NRPL400(31)):
 		pass
 	else:
-		WRITE(6,128) 
 		128 print(' DISTRIBUTION IN X,Y,Z AND R FOR 400 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
 		for K in range(1,31):
 			print('%.1f' %BIN400[K],NXPL400[K],NYPL400[K],NZPL400[K],NRPL400[K])
@@ -4050,164 +4205,158 @@ def OUTPUT:
 	if(NRPL1000(16) < NRPL1000(31)):
 		pass
 	else:
-		WRITE(6,129) 
-		129 print(' DISTRIBUTION IN X,Y,Z AND R FOR 1000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
+		print(' DISTRIBUTION IN X,Y,Z AND R FOR 1000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
 		for K in range(1,31):
 			print('%.1f' %BIN1000[K],NXPL1000[K],NYPL1000[K],NZPL1000[K],NRPL1000[K])
 		print('-----------------------------------------------------------------------------')
 	if(NRPL4000(16) < NRPL4000(31)):
 		pass
 	else:
-		WRITE(6,130)
-		130 print(' DISTRIBUTION IN X,Y,Z AND R FOR 4000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
+		print(' DISTRIBUTION IN X,Y,Z AND R FOR 4000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
 		for K in range(1,31):
 			print('%.1f' %BIN4000[K],NXPL4000[K],NYPL4000[K],NZPL4000[K],NRPL4000[K])
 		print('-----------------------------------------------------------------------------')
 	if(NRPL10000(16) < NRPL10000(31)):
 		pass
 	else:
-		WRITE(6,131)
-		131 print(' DISTRIBUTION IN X,Y,Z AND R FOR 10000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')  
+		print(' DISTRIBUTION IN X,Y,Z AND R FOR 10000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')  
 		for K in range(1,31):
 			print('%.1f' %BIN10000[K],NXPL10000[K],NYPL10000[K],NZPL10000[K], NRPL10000[K]) 
 		print('-----------------------------------------------------------------------------') 
 	if(NRPL40000(20) == 0 and NRPL40000(21) == 0):
 		pass
 	else:
-		WRITE(6,132) 
-		132 print(' DISTRIBUTION IN X,Y,Z AND R FOR 40000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
+		print(' DISTRIBUTION IN X,Y,Z AND R FOR 40000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
 		for K in range(1,31):
 			print('%.1f' %BIN40000[K],NXPL40000[K],NYPL40000[K],NZPL40000[K],NRPL40000[K])
 		print('-----------------------------------------------------------------------------') 
 	if(NRPL100000(20) == 0 and NRPL100000(21) == 0):
 		pass
 	else:
-		WRITE(6,133) 
-		133 print(' DISTRIBUTION IN X,Y,Z AND R FOR 100000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
+		print(' DISTRIBUTION IN X,Y,Z AND R FOR 100000 MICRON BINS','\n','   POSITION         X         Y         Z         R','\n')
 		for K in range(1,31):
 			print('%.1f' %BIN100000[K],NXPL100000[K],NYPL100000[K],NZPL100000[K],NRPL100000[K])
 	print('-----------------------------------------------------------------------------')
-	CONTINUE
 	if(IMIP != 1):
-	GO TO 137
-	WRITE(6,134) (K,NEPL1[K], K=1,100)
-	134 print(' DISTRIBUTION IN ELECTRON ENERGY IN   1 EV BINS',/,100(I5,I10,/))
-	WRITE(6,135) (K,NEPL10[K], K=1,100)
-	135 print(' DISTRIBUTION IN ELECTRON ENERGY IN  10 EV BINS',/,100(I5,I10,/))
-	WRITE(6,136) (K,NEPL100[K], K=1,100)
-	136 print(' DISTRIBUTION IN ELECTRON ENERGY IN 100 EV BINS',/,100(I5,I10,/))
+		pass
+	else:
+		for K in range(1,100):
+			print(' DISTRIBUTION IN ELECTRON ENERGY IN   1 EV BINS \n'K,NEPL1[K],'\n')
+		for K in range(1,100):
+			print(' DISTRIBUTION IN ELECTRON ENERGY IN  10 EV BINS\n',K,NEPL10[K],'\n')
+		for K in range(1,100):
+			print(' DISTRIBUTION IN ELECTRON ENERGY IN 100 EV BINS\n',K,NEPL100[K],'\n')
 	137 NHIGH=NDELTA/10
-	if(MELEC(1000):
-	> NHIGH) GO TO 141
-	WRITE(6,138) (K,MELEC[K], K=1,1000)
-	138 print(' DISTRIBUTION IN CLUSTER SIZE IN UNIT BINS',/,1000(I5,I10,/))
-	#     
-	if(IMIP == 1):
-	:
-	NOVFL=0 
-	DO 139 K=21,1000
-	139  NOVFL=NOVFL+MELEC[K]
-	WRITE(6,140) NOVFL
-	140  print(' NO OF CLUSTERS GT 20 =',I6)
-	# endif
-	GO TO 143
-	141 if(MELEC3(1000) > 0) GO TO 1421  
-	WRITE(6,142) (K,MELEC3[K], K=1,1000)
-	142 print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 3',/,1000(I5,I10,/))
-	GO TO 143
-	1421 if(MELEC10(1000) > 0) GO TO 1423
-	WRITE(6,1422) (K,MELEC10[K], K=1,1000)
-	1422 print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 10',/,1000(I5,I10,/))
-	GO TO 143
-	1423 if(MELEC30(1000) > 0) GO TO 1425
-	WRITE(6,1424) (K,MELEC30[K], K=1,1000)
-	1424 print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 30',/,1000(I5,I10,/))
-	GO TO 143
-	1425 if(MELEC100(1000) > 0) GO TO 1427
-	WRITE(6,1426) (K,MELEC100[K], K=1,1000)
-	1426 print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 100',/,1000(I5,I10,/))
-	GO TO 143
-	1427 WRITE(6,1428) (K,MELEC300[K], K=1,1000)
-	1428 print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 300',/,1000(I5,I10,/))
-	143 NINEL=ICOLL[2]+ICOLL(3)+ICOLL[4]+ICOLL[5]+ICOLL(7)+ICOLL(8)+ICOLL(9)+ICOLL(10)+ICOLL(12)+ICOLL(13)+ICOLL(14)+ICOLL(15)+ICOLL(17)+ICOLL(18)+ICOLL(19)+ICOLL(20)+ICOLL(22)+ICOLL(23)+ICOLL(24)+ICOLL(25)+ICOLL(27)+ICOLL(28)+ICOLL(29)+ICOLL(30)                          
-	NELA=ICOLL[1]+ICOLL[6]+ICOLL(11)+ICOLL(16)+ICOLL(21)+ICOLL(26)
-	ANDELTA=float(NDELTA) 
-	ERRNDEL=math.sqrt(ANDELTA)/ANDELTA
-	FRTOND=float(NREAL)/ANDELTA         
-	FRINOND=float(NINEL)/ANDELTA          
-	FRELOND=float(NELA)/ANDELTA       
-	WRITE(6,221) FRTOND,FRINOND,FRELOND                               
-	221 print(/,7X,'NUMBER OF COLLISIONS PER DELTA =',F10.2,/,2X,'NUMBER OF INELASTIC COLL. PER DELTA =',F10.2,/,4X,'NUMBER OF ELASTIC COLL. PER DELTA =',F10.2)                           
-	#     print('-----------------------------------------------------------------------------')                                                       
-	#     ILAST=int(TMAX1)+1                                                
-	#     if(ILAST > 300) ILAST=300                                        
-	#     WRITE(6,1010) (TIME[I],I=1,ILAST)                                 
-	#1010 print(/,6X,'DISTRIBUTION OF COLLISION TIMES IN 1 PECOSECOND BINS'
-	#    /,2(/),30(1X,10E10.3/))                                       
-	print('-----------------------------------------------------------------------------')                                                       
-	DO 1020 I=1,NGAS         
-	FREQEL[I]=float(ICOLL((5*I)-4))/ANDELTA                          
-	FREQSP[I]=float(ICOLL(5*I))/ANDELTA                              
-	FREINE[I]=float(ICOLL((5*I)-1))/ANDELTA                          
-	FREATT[I]=float(ICOLL((5*I)-2))/ANDELTA
-	FREION[I]=float(ICOLL((5*I)-3))/ANDELTA
-	1020 CONTINUE
-	WRITE(6,1050) (NAMEG[I],FREQEL[I],FREQSP[I],FREINE[I],FREATT[I],FREION[I],I=1,NGAS)  
-	1050 print(/,5X,'COLLISIONS PER DELTA SORTED ACCORDING TO GAS AND TYPE OF COLLISION',2(/),3X,'GASES USED',16X,'ELASTIC    SUPERELAS   INELASTIC  ATTACHMENT  IONISATION',2(/),6(1X,A25,1X,5(F10.2,2X),/)) 
-	print('-----------------------------------------------------------------------------')      
-	WRITE(6,1060)            
-	1060 print(/,2X,'NUMBER OF COLLISIONS PER EVENT FOR EACH GAS :',/,/) 
-	DO 1100 J=1,NGAS   
-	WRITE(6,1065) NAMEG[J]   
-	1065 print(/,3X,A25,/,'----------------------------',/)
-	DO 1090 K=1,LAST
-	if(IARRY[K]:
-	<= (5*J) and IARRY[K] > (5*(J-1))) :
-	ACLL=float(ICOLN[K])
-	FRELV=ACLL/ANDELTA
-	if(ICOLN[K]:
-	== 0) :
-	ERRFR=0.0
+	if(MELEC[1000]> NHIGH):
+		pass
 	else:
-	ERRFR=100.0*math.sqrt(ACLL)/ACLL
-	# endif  
-	WRITE(6,1070) DSCRPT[K],FRELV,ERRFR
-	1070 print(3X,A50,3X,'%.4f' %,' +-',F10.5,' %')
-	# endif
-	1090 CONTINUE
-	if(LBRM == 0 or IMIP == 1):
-	GO TO 1100
-	if(NBREM[J]:
-	== 0) :
-	EBRCOL=0.0
+		for K in range(1,1000):
+			print(' DISTRIBUTION IN CLUSTER SIZE IN UNIT BINS\n',K,MELEC[K],'\n')
+		#     
+		if(IMIP == 1):
+			NOVFL=0 
+			for K in range(21,1000):
+				NOVFL=NOVFL+MELEC[K]
+			print(' NO OF CLUSTERS GT 20 =',NOVFL)
+		# endif
+		GOTO143()
+	if(MELEC3[1000] > 0):
+		pass  
 	else:
-	EBRCOL=EBRTOT[J]/float(NBREM[J])
-	# endif
-	WRITE(6,1091) EBRCOL
-	1091 print(/,5X,' AVERAGE BREMSSTRAHLUNG EMISSION ENERGY =',D12.4,' EV.',/)
-	EBREVE=EBRTOT[J]/ANDELTA
-	if(LBRM == 1):
-	WRITE(6,1103) EBREVE
-	1103 print(5X,' AVERAGE BREMSSTRAHLUNG ENERGY LOSS PER EVENT    =',D12.4,' EV.',/)
-	1100 CONTINUE
-	print('-----------------------------------------------------------------------------')
-	if(NPLAST == 0):
-	return
-	WRITE(6,335) 
-	335 print(/,2X,'NULL COLLISION PER EVENT FOR GAS MIXTURE',/,'  NB. OUTPUT CORRECTED FOR SCALING OF X-SECTIONS.',/,'------------------------------------------------')
-	DO 1191 JJ=1,NPLAST
-	ACLL=float(ICOLNN(JJ))
-	FRELV=ACLL/ANDELTA
-	if(FRELV == 0.0):
-	:
-	ERRFR=0.0
+		for K in range(1,31):
+			print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 3\n',K,MELEC3[K],'\n')
+		GO TO 143
+	if(MELEC10[1000] > 0):
+		pass
 	else:
-	ERRFR=100.0*math.sqrt(ACLL)/ACLL
-	# endif
-	1191 WRITE(6,1171) DSCRPTN(JJ),FRELV,ERRFR,JJ 
-	1171 print(3X,A50,3X,'%.4f' %,' +-',F10.5,' %',5X,'ID=',I3)
-	return                                                            
-      # end
+		for K in range(1,1000):
+			print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 10\n',K,MELEC10[K],'\n')
+		GOTO143()
+	if(MELEC30[1000] > 0):
+		pass
+	else:
+		for K in range(1,1000):
+			print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 30\n',K,MELEC30[K],'\n')
+		GOTO143()
+	if(MELEC100[1000] > 0):
+		pass
+	else:
+		for K in range(1,1000):
+			print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 100\n',K,MELEC100[K],'\n')
+		GOTO143()
+	for K in range(1,1000):
+		print(' DISTRIBUTION IN CLUSTER SIZE IN BINS OF 300\n',K,MELEC100[K],'\n')
+
+	def GOTO143():
+		NINEL=ICOLL[2]+ICOLL(3)+ICOLL[4]+ICOLL[5]+ICOLL(7)+ICOLL(8)+ICOLL(9)+ICOLL(10)+ICOLL(12)+ICOLL(13)+ICOLL(14)+ICOLL(15)+ICOLL(17)+ICOLL(18)+ICOLL(19)+ICOLL(20)+ICOLL(22)+ICOLL(23)+ICOLL(24)+ICOLL(25)+ICOLL(27)+ICOLL(28)+ICOLL(29)+ICOLL(30)                          
+		NELA=ICOLL[1]+ICOLL[6]+ICOLL(11)+ICOLL(16)+ICOLL(21)+ICOLL(26)
+		ANDELTA=float(NDELTA) 
+		ERRNDEL=math.sqrt(ANDELTA)/ANDELTA
+		FRTOND=float(NREAL)/ANDELTA         
+		FRINOND=float(NINEL)/ANDELTA          
+		FRELOND=float(NELA)/ANDELTA       
+		print('\n      NUMBER OF COLLISIONS PER DELTA =','%.2f' % FRTOND,'\n  NUMBER OF INELASTIC COLL. PER DELTA =','%.2f' % FRINOND,'\n    NUMBER OF ELASTIC COLL. PER DELTA =','%.2f' % FRELOND )                      
+		#     print('-----------------------------------------------------------------------------')                                                       
+		#     ILAST=int(TMAX1)+1                                                
+		#     if(ILAST > 300) ILAST=300                                        
+		#     WRITE(6,1010) (TIME[I],I=1,ILAST)                                 
+		#1010 print(/,6X,'DISTRIBUTION OF COLLISION TIMES IN 1 PECOSECOND BINS'
+		#    /,2(/),30(1X,10E10.3/))                                       
+		print('-----------------------------------------------------------------------------')                                                       
+		for I in range(1,NGAS):
+			FREQEL[I]=float(ICOLL((5*I)-4))/ANDELTA                          
+			FREQSP[I]=float(ICOLL(5*I))/ANDELTA                              
+			FREINE[I]=float(ICOLL((5*I)-1))/ANDELTA                          
+			FREATT[I]=float(ICOLL((5*I)-2))/ANDELTA
+			FREION[I]=float(ICOLL((5*I)-3))/ANDELTA
+		for I in range(1,NGAS):
+			print('\n     COLLISIONS PER DELTA SORTED ACCORDING TO GAS AND TYPE OF COLLISION\n\n','  GASES USED','               ELASTIC    SUPERELAS   INELASTIC  ATTACHMENT  IONISATION\n\n',NAMEG[I],FREQEL[I],FREQSP[I],FREINE[I],FREATT[I],FREION[I],'\n') 
+		print('-----------------------------------------------------------------------------')      
+		print('\n  NUMBER OF COLLISIONS PER EVENT FOR EACH GAS :\n\n') 
+		for J in range(1,NGAS):
+			print('\n   ',NAMEG[J],'\n','----------------------------','\n')
+			for K in range(1,LAST):
+			if(IARRY[K]<= (5*J) and IARRY[K] > (5*(J-1))) :
+				ACLL=float(ICOLN[K])
+				FRELV=ACLL/ANDELTA
+				if(ICOLN[K]== 0) :
+					ERRFR=0.0
+				else:
+					ERRFR=100.0*math.sqrt(ACLL)/ACLL
+				# endif  
+				print('   ',DSCRPT[K],'   ','%.4f' % FRELV,' +-','%.5f' % ERRFR,' %')
+			# endif
+			if(LBRM == 0 or IMIP == 1):
+				pass
+			else:
+				if(NBREM[J]== 0) :
+					EBRCOL=0.0
+				else:
+					EBRCOL=EBRTOT[J]/float(NBREM[J])
+				# endif
+				print('\n      AVERAGE BREMSSTRAHLUNG EMISSION ENERGY =','%.4f' % EBRCOL,' EV.',/)
+				EBREVE=EBRTOT[J]/ANDELTA
+				if(LBRM == 1):
+					print('      AVERAGE BREMSSTRAHLUNG ENERGY LOSS PER EVENT    =','%.4f' % EBREVE,' EV.\n')
+			1100 CONTINUE
+		print('-----------------------------------------------------------------------------')
+		if(NPLAST == 0):
+			return
+		WRITE(6,335) 
+		335 print('\n  NULL COLLISION PER EVENT FOR GAS MIXTURE\n','  NB. OUTPUT CORRECTED FOR SCALING OF X-SECTIONS.\n','------------------------------------------------')
+		DO 1191 JJ=1,NPLAST
+		ACLL=float(ICOLNN(JJ))
+		FRELV=ACLL/ANDELTA
+		if(FRELV == 0.0):
+		:
+		ERRFR=0.0
+		else:
+		ERRFR=100.0*math.sqrt(ACLL)/ACLL
+		# endif
+		1191 WRITE(6,1171) DSCRPTN(JJ),FRELV,ERRFR,JJ 
+		1171 print(3X,A50,3X,'%.4f' %,' +-',F10.5,' %',5X,'ID=',I3)
+		return                                                            
+	      # end
 def MIPCALC:
       IMPLICIT #real*8 (A-H,O-Z)
       IMPLICIT #integer*8 (I-N)                                         
@@ -4216,7 +4365,7 @@ def MIPCALC:
       COMMON/SET2/DRXINIT,DRYINIT,DRZINIT
       COMMON/LARGE/CF(20000,512),EIN(512),TCF(20000),IARRY(512),RGAS(512),IPN(512),WPL(512),IZBR(512),IPLAST,PENFRA[3,512]
       COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO
-      COMMON/RLTVY/BET[20]00),GAM(20000),VC,EMS
+      COMMON/RLTVY/BET[2000],GAM(20000),VC,EMS
       COMMON/MIPCLC/ANPRELA,ANPRATT,ANPREXC,ANPRION,ANPREXCI,ANPRBRM
       COMMON/DEDX/ELOSS,ELOSEX,ELOSION,ESUM,BETAGAM,TCFHIGH,VELC,EMAXDEL,ELOSIONC,CUTIONFRC,ELOSEXI,ELOSBREM,NREJECT
       COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
@@ -4280,14 +4429,14 @@ def MIPCALC:
         E=ESTART
         ESUMBR=0.0
         WRITE(6,997) E
-  997   print(' ENERGY=',D12.4)
+  997   print(' ENERGY=','%.4f' % )
         DO 111 K=1,10000
        CALL BREMS(IATOMNO,E,DCX2,DCY2,DCZ2,EOUT,EDCX,EDCY,EDCZ,EGAMMA,GDCX,GDCY,GDCZ)
         ESUMBR=ESUMBR+EGAMMA
   111   CONTINUE
         ELBRM=ESUMBR/10000.0
         WRITE(6,998) ELBRM
-  998   print(' ELBRM=',D12.4)
+  998   print(' ELBRM=','%.4f' % )
         ANPRBRM=ANPRBRM+CFT/VEL
         ELOSBREM=ELOSBREM+CFT*ELBRM/VEL
        # endif
@@ -4915,9 +5064,9 @@ ASIGN=-ASIGN
 #    /IONF5(KK)
 #  68 print(' IONSUM 0-5=',6I4)
 #     WRITE(6,69) (ESTOR(KK,KKK),KKK=1,28)
-#  69 print(' ESTOR=',4(7D12.4,/))
+#  69 print(' ESTOR=',4(7'%.4f' % ,/))
 #     WRITE(6,70) (ESTF1(KK,KKK),KKK=1,28)
-#  70 print(' ESTF1=',4(7D12.4,/))
+#  70 print(' ESTF1=',4(7'%.4f' % ,/))
 #  67 CONTINUE
 #     # endIF
 #      
@@ -5241,7 +5390,7 @@ c RANDOMISE ANGLE PHI
 #  CALCULATE ENERGY LOSS IN RAYLEIGH SCATTERING
       CALL RAYLOS(KGAS,LGAS,ENERGY,THETAR,ELRAY)
 #     IF(IDBG == 1) WRITE(6,776) ENERGY,ELRAY
-# 776 print(' AFTER RAYLOS ENERGY=',D12.4,' ELRAY=',D12.4)
+# 776 print(' AFTER RAYLOS ENERGY=','%.4f' % ,' ELRAY=','%.4f' % )
 # UPDATE X-RAY STARTING ENERGY POSITION AND ANGLES
       ENERGY=ENERGY-ELRAY
       X=X+DIST*DRXS
@@ -5336,11 +5485,11 @@ c RANDOMISE ANGLE PHI
 #  54 print(' NVAC=',I3)
 #     DO 56 M1=1,NVAC
 #     WRITE(6,55) M1, (ESTORE(M1,K1),K1=1,28)
-#  55 print(' M1=',I3,/,' ESTORE(M1,K)=',4(7D12.4,/))
+#  55 print(' M1=',I3,/,' ESTORE(M1,K)=',4(7'%.4f' % ,/))
 #  56 CONTINUE
 #     DO 58 M1=1,NVAC
 #     WRITE(6,57) (EPHOTON(M1,K1),K1=1,28)
-#  57 print(' EPHOTON=',4(7D12.4,/))
+#  57 print(' EPHOTON=',4(7'%.4f' % ,/))
 #  58 CONTINUE 
 #     # endIF
       DO 900 K=1,NVAC
@@ -5399,14 +5548,14 @@ c RANDOMISE ANGLE PHI
 #     IF(IDBG == 1) :
 #     DO 67 M1=1,NVAC
 #     WRITE(6,66) EDUM,M1,(ESTORE(M1,KK),KK=1,28)
-#  66 print(' IN CONTROLB EDUM=',D12.4,' M1=',I3,/,' ESTORE(M1,K)=',
-#    /4(7D12.4,/))
+#  66 print(' IN CONTROLB EDUM=','%.4f' % ,' M1=',I3,/,' ESTORE(M1,K)=',
+#    /4(7'%.4f' % ,/))
 #  67 CONTINUE
 #     WRITE(6,68) (IFLSUM(KK),KK=1,10)
 #  68 print(' IFLSUM=',10I4)
 #     DO 70 M1=1,NVAC
 #     WRITE(6,69) (EPHOTON(M1,KK),KK=1,28)
-#  69 print(' EPHOTON=',4(7D12.4,/))
+#  69 print(' EPHOTON=',4(7'%.4f' % ,/))
 #  70 CONTINUE   
 #C    # endIF
 # STORE EVENT 
@@ -5433,7 +5582,7 @@ c RANDOMISE ANGLE PHI
        CALL ABSO(ISECOND,EPH,ISHELL1,KGAS1,LGAS1,DIST1)
 #      IF(IDBG == 1) :
 #      WRITE(6,72) EPH,ISHELL1
-#  72  print('IN CONTROLB EPH=',D12.4,' ISHELL1=',I4)
+#  72  print('IN CONTROLB EPH=','%.4f' % ,' ISHELL1=',I4)
 #      # endIF
 # LOW ENERGY PHOTON
        if(ISHELL1 == -1):
@@ -5446,7 +5595,7 @@ c RANDOMISE ANGLE PHI
 # CALCULATE CASCADE IN GAS 
 #      IF(IDBG == 1) :
 #      WRITE(6,445) L1,ISHELL1,EPH
-# 445  print(' CALLING CALCB1 L1=',I3,' ISHELL1=',I3,' EPH=',D12.4)
+# 445  print(' CALLING CALCB1 L1=',I3,' ISHELL1=',I3,' EPH=','%.4f' % )
 #      # endIF
        CALL CALCB1(NVAC,KGAS1,LGAS1,EPH,ISHELL1,L1)
 # STORE EVENT
@@ -5569,9 +5718,9 @@ c RANDOMISE ANGLE PHI
 #     IF(IDBG == 1) :
 #     DO 666 KKK=1,NVAC
 #     WRITE(6,777) (ESTORE(KKK,K),K=1,28)
-# 777 print(' ESTORE=',4(7D12.4,/))
+# 777 print(' ESTORE=',4(7'%.4f' % ,/))
 #     WRITE(6,778) (ESTOR1(KKK,K),K=1,28)
-# 778 print(' ESTOR1=',4(7D12.4,/))
+# 778 print(' ESTOR1=',4(7'%.4f' % ,/))
 #     WRITE(6,779) IONSUM(KKK),IONSUM1(KKK),IONSUM2(KKK),IONSUM3(KKK),
 #    /IONSUM4(KKK),IONSUM5(KKK)
 # 779 print(' IONSUM 0-5=',6I4)
@@ -6869,8 +7018,8 @@ c RANDOMISE ANGLE PHI
 # LOAD INTO COMMON/CASRSE/
       CALL CASRESE
 #     WRITE(6,77) J11,KGAS,LGAS,X0,Y0,Z0,T0,EINIT,ISHELL
-# 77  print(' J11=',I6,' KGAS=',I3,' LGAS=',I3,' X0=',D12.4,' Y0=',
-#    /D12.4,' Z0=',D12.4,' T0=',D12.4,/,' EINIT=',D12.4,' ISHELL=',I3) 
+# 77  print(' J11=',I6,' KGAS=',I3,' LGAS=',I3,' X0=','%.4f' % ,' Y0=',
+#    /'%.4f' % ,' Z0=','%.4f' % ,' T0=','%.4f' % ,/,' EINIT=','%.4f' % ,' ISHELL=',I3) 
       return
       # end
       def CASRESE:
@@ -6900,7 +7049,7 @@ c RANDOMISE ANGLE PHI
     1 CONTINUE
       IEVENT=K
 c     WRITE(6,98) ESM
-# 98  print(' ESM=',D12.4)
+# 98  print(' ESM=','%.4f' % )
       if(K > 400):
  :
        WRITE(6,99) K
@@ -6941,7 +7090,7 @@ c
 # 
 # CALCULATE CASCADE EVENT
 c     WRITE(6,991) NVAC,KGAS,LGAS,EINIT,ISHELL
-# 991 print(' NVAC=',I3,' KGAS=',I3,' LGAS=',I3,' EINIT=',D12.4,' 
+# 991 print(' NVAC=',I3,' KGAS=',I3,' LGAS=',I3,' EINIT=','%.4f' % ,' 
 #    /ISHELL=',I3)
       CALL CALCE(NVAC,KGAS,LGAS,EINIT,ISHELL)
 # STORE EVENT 
@@ -9095,7 +9244,7 @@ c initial vacancy
       S1=1.00+GAM2*(RGAS[I]-1.00)                                    
       EI=EIN[I]
 #     WRITE(6,8890) EIN[I],I
-#8890 print(' EIN=',D12.4,' I=',I3)
+#8890 print(' EIN=','%.4f' % ,' I=',I3)
       if(E < EI):
  :
       EI=E-0.00010
@@ -9206,7 +9355,7 @@ GO TO 333
 # STORE POSSIBLE SHELL EMISSIONS AUGER OR FLUORESCENCE 
   333 if(EISTR > 30.0) :
 #      WRITE(6,8891) EISTR
-#8891  print(' EISTR=',D12.4)
+#8891  print(' EISTR=','%.4f' % )
 # TEST IF FLUORESCENCE EMISSION
        ifLTST=0:
        if(WKLM[I]:
@@ -9898,7 +10047,7 @@ c     if(NELEC == 1 and NCLUS == 0) GO TO 210
        NBREM(KNGS)=NBREM(KNGS)+1
        EBRTOT(KNGS)=EBRTOT(KNGS)+EGAMMA
 #      WRITE(6,668) EGAMMA,J11   
-# 668 print(' BREM EGAMMA=',D12.4,' EVENT NO=',I5)
+# 668 print(' BREM EGAMMA=','%.4f' % ,' EVENT NO=',I5)
 # GET  NEW DRCOS DRCOSY DRCOSX AND ENERGY OF ELECTRON
        E1=EOUT
        DCX1=EDCX
@@ -10360,7 +10509,7 @@ GO TO 333
       NETOT=NETOT+1
 #     WRITE(6,777) XST(K1),YST(K1),ZST(K1),TST(K1),NFGF(K1),NFGPP(K1),
 #    /NFGBR(K1),NELEC,NETOT,K1
-# 777 print(' XST=',D12.4,' YST=',D12.4,' ZST=',D12.4,' TST=',D12.4,/,
+# 777 print(' XST=','%.4f' % ,' YST=','%.4f' % ,' ZST=','%.4f' % ,' TST=','%.4f' % ,/,
 #    /' NFGF=',I4,' NFGPP=',I4,' NFGBR=',I4,' NELEC=',I4,' NETOT=',I4,
 #    /' K1=',I4)
   335 if(K1 == 150000) GO TO 889
@@ -10384,8 +10533,8 @@ GO TO 333
       DCY1=DCY(NELEC)
       DCZ1=DCZ[NELEC] 
 #     IF(NELEC > 94) WRITE(6,766) X,Y,Z,ST,E1,DCX1,DCY1,DCZ1,NELEC
-# 766 print(' X=',D12.4,' Y=',D12.4,' Z=',D12.4,' T=',D12.4,/,' E=',
-#    /D12.4,' DCX=',D12.4,' DCY=',D12.4,' DCZ=',D12.4,' NELEC=',I6,/)
+# 766 print(' X=','%.4f' % ,' Y=','%.4f' % ,' Z=','%.4f' % ,' T=','%.4f' % ,/,' E=',
+#    /'%.4f' % ,' DCX=','%.4f' % ,' DCY=','%.4f' % ,' DCZ=','%.4f' % ,' NELEC=',I6,/)
 # STORE ALREADY THERMALISED ELECTRONS
       if(E1 < ETHRM):
  GO TO 191 
@@ -10725,7 +10874,7 @@ GO TO 333
        NBREM(KNGS)=NBREM(KNGS)+1
        EBRTOT(KNGS)=EBRTOT(KNGS)+EGAMMA
 #      WRITE(6,668) EGAMMA,J11   
-# 668 print(' BREM EGAMMA=',D12.4,' EVENT NO=',I5)
+# 668 print(' BREM EGAMMA=','%.4f' % ,' EVENT NO=',I5)
 # GET  NEW DRCOS DRCOSY DRCOSX AND ENERGY OF ELECTRON
        E1=EOUT
        DCX1=EDCX
@@ -11571,7 +11720,7 @@ GO TO 333
        NBREM(KNGS)=NBREM(KNGS)+1
        EBRTOT(KNGS)=EBRTOT(KNGS)+EGAMMA
 #      WRITE(6,668) EGAMMA,J11   
-# 668 print(' BREM EGAMMA=',D12.4,' EVENT NO=',I5)
+# 668 print(' BREM EGAMMA=','%.4f' % ,' EVENT NO=',I5)
 # GET  NEW DRCOS DRCOSY DRCOSX AND ENERGY OF ELECTRON
        E1=EOUT
        DCX1=EDCX
@@ -13783,7 +13932,7 @@ GO TO 333
  return  
       DO 40 I=1,28
       WRITE(6,88) I,AIONFRQ[I],I,AifLFRQ[I]
-   88 print(' FREQ FOR',I3,' CHARGE IONS =',D12.4,' FREQUENCY FOR',I3,' PHOTONS=',D12.4)
+   88 print(' FREQ FOR',I3,' CHARGE IONS =','%.4f' % ,' FREQUENCY FOR',I3,' PHOTONS=','%.4f' % )
    40 CONTINUE
       WRITE(6,89) EAV,EPHAV,AIONAV
    89 print(2(/),' AVERAGE ELECTRON ENERGY (GENERATION 0) =',D12.6,/,' AVERAGE PHOTON ENERGY (GENERATION 0) =',D12.6,/,' AVERAGE IONIC CHARGE (GENERATION 0) =','%.3f' %,/,/)
@@ -13791,11 +13940,11 @@ GO TO 333
    90 print(' ION FREQENCIES FOR IST SECOND THIRD AND FOURTH GENERATION PHOTON ABSORPTION')
       DO 50 I=1,28
       WRITE(6,91) I,AIGEN1F[I],AIGEN2F[I],AIGEN3F[I],AIGEN4F[I],AIGEN5F(I)
-   91 print(' FREQ FOR',I3,' IST GEN IONS=',D12.4,' 2ND GEN=','%.3f' %,' 3RD GEN=','%.3f' %,' 4TH GEN=','%.3f' %,' 5TH GEN=','%.3f' %) 
+   91 print(' FREQ FOR',I3,' IST GEN IONS=','%.4f' % ,' 2ND GEN=','%.3f' %,' 3RD GEN=','%.3f' %,' 4TH GEN=','%.3f' %,' 5TH GEN=','%.3f' %) 
    50 CONTINUE
       DO 60 I=1,50
       WRITE(6,92) I,AITOT[I],AITOTS[I]
-   92 print(' TOTAL FREQ FOR',I3,' ELECTRONS=',D12.4,' NORMALISED INTEGRAL PROB=',D12.4) 
+   92 print(' TOTAL FREQ FOR',I3,' ELECTRONS=','%.4f' % ,' NORMALISED INTEGRAL PROB=','%.4f' % ) 
    60 CONTINUE  
       WRITE(6,93) IONG0,IONG1,IONG2,IONG3,IONG4,IONG5,IONGSUM,AITOTAV,ETOTAV
    93 print(' MAX IONS GEN 0 =',I2,/,' MAX IONS GEN 1 =',I2,/,' MAX IONS GEN 2 =',I2,/,' MAX IONS GEN 3 =',I2,/,' MAX IONS GEN 4 =',I2,/,' MAX IONS GEN 5 =',I2,/,' MAX NO. OF ELECTRONS AFTER PHOTON ABSORPTION =',I2,/,' AVERAGE NO. OF ELECTRONS =','%.3f' %,/,' AVERAGE TOTAL ELECTRON ENERGY =',D12.6,/,/) 
@@ -14535,7 +14684,7 @@ c RANDOMISE ANGLE PHI
       CALL CVAC(KGAS,LGAS,EELEC,KSHELL,KBAD)
 # REJECT EVENT WITHOUT SUFFICIENT ENERGY TO IONISE SHELLS
 #     IF(KBAD == 1) WRITE(6,445) EELEC,I 
-# 445 print(' COMPTON ELECTRON ENERGY =',D12.4,' TOO LOW IN ENERGY. EVE
+# 445 print(' COMPTON ELECTRON ENERGY =','%.4f' % ,' TOO LOW IN ENERGY. EVE
 #    /NT NO=',I5)  
       if(KBAD == 1):
  GO TO 123
@@ -21749,7 +21898,7 @@ return
       DIMENSION NC0(30),EC0(30),WKLM(30),EFL(30),NG1(30),EG1(30),NG2(30),EG2(30),IZBR(250),LEGAS(30),ISHELL(30) 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20)
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
-      DIMENSION XEN(163),YELM(163),YELT(163),YEPS(163),XVBV4(11),YVBV4(11),XVBV1(11),YVBV1(11),XVBV3(11),YVBV3(11),XVIB5(12),YVIB5(12),XVIB6(12),YVIB6(12),XTR1(12),YTR1(12),XTR2(11),YTR2(11),XTR3(11),YTR3(11),XC'%.3f' % 7),YC'%.3f' % 7),XC'%.3f' % 1),YC'%.3f' % 1),XCF1(28),YCF1(28),XCF32(25),YCF32(25),XCF0(27),YCF0(27),XC0F(27),YC0F(27),XCF22(25),YCF22(25),XCF(22),YCF(22),XCFF(24),YCFF(24),XCF2F(25),YCF2F(25),XCF3F(26),YCF3F(26),XATT(11),YATT(11),XKSHC(81),YKSHC(81),XKSHF(79),YKSHF(79),IOFFN(46),IOFFION(12)
+      DIMENSION XEN(163),YELM(163),YELT(163),YEPS(163),XVBV4(11),YVBV4(11),XVBV1(11),YVBV1(11),XVBV3(11),YVBV3(11),XVIB5(12),YVIB5(12),XVIB6(12),YVIB6(12),XTR1(12),YTR1(12),XTR2(11),YTR2(11),XTR3(11),YTR3(11),XC'%.3f' % 7),YC'%.3f' % 7),XC'%.3f' % 1),YC'%.3f' % 1),XCF1(28),YCF1(28),XCF32(25),YCF32(25),XCF0(27),YCF0(27),XC0F(27),YC0F(27),XC'%.2f' % 5),YC'%.2f' % 5),XCF(22),YCF(22),XCFF(24),YCFF(24),XCF2F(25),YCF2F(25),XCF3F(26),YCF3F(26),XATT(11),YATT(11),XKSHC(81),YKSHC(81),XKSHF(79),YKSHF(79),IOFFN(46),IOFFION(12)
       DIMENSION Z6T(25),Z9T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10) 
       CHARACTER*25 NAME                                                 
@@ -21897,7 +22046,7 @@ return
       NCF32=25
       NCF0=27
       NC0F=27
-      NCF22=25
+      NC'%.2f' % 5
       NCF=22
       NCFF=24
       NCF2F=25
@@ -23254,10 +23403,10 @@ c
       Q(1,I)=Q(2,I)+Q(4,I)+VSUM+DISTOT
 #     WRITE(6,444) EN,Q(1,I),Q(2,I),VSUM,QSNGLSUM,QTRIPSUM,QIONSUM,
 #    /QIONG,DISTOT
-# 444 print(' EN=',D12.6,' TOT=',D12.4,' ELAS=',D12.4,' VIB SUM=',
-#    /D12.4,/,' NEUTRAL DIP. DISS=',D12.4,' TRIPLET DISS=',D12.4,/,
-#    /' COUNT IONISATION=',D12.4,/' GROSS IONISATION=',D12.4,/,
-#    /' DISTOT=',D12.4)
+# 444 print(' EN=',D12.6,' TOT=','%.4f' % ,' ELAS=','%.4f' % ,' VIB SUM=',
+#    /'%.4f' % ,/,' NEUTRAL DIP. DISS=','%.4f' % ,' TRIPLET DISS=','%.4f' % ,/,
+#    /' COUNT IONISATION=','%.4f' % ,/' GROSS IONISATION=','%.4f' % ,/,
+#    /' DISTOT=','%.4f' % )
  9000 CONTINUE                                                          
 #  SAVE COMPUTE TIME 
       if(EFINAL > 1000.):
@@ -26163,7 +26312,7 @@ c
 #    /11.3,' 101P=','%.3f' %,' 111P=','%.3f' %,' 121P=','%.3f' %,' HIP=','%.3f' %)
 #     WRITE(6,987) EN,QMET,QDIP,QSNG,QTRP,QINEL,Q(1,I)
 # 987 print(' EN=',D12.5,' QMET=','%.3f' %,' QDIP=','%.3f' %,' QSNG=','%.3f' %,
-#    /'QTRP=','%.3f' %,' QINL=',D11.4,' QTOT=',D11.4) 
+#    /'QTRP=','%.3f' %,' QINL=','%.4f' % ,' QTOT=','%.4f' % ) 
  9000 CONTINUE                                                          
 #  SAVE COMPUTE TIME                                                    
       DO 9001 K=1,NIN
@@ -27634,7 +27783,7 @@ c
 #    /11.3,' 101P=','%.3f' %,' 111P=','%.3f' %,' 121P=','%.3f' %,' HIP=','%.3f' %)
 #     WRITE(6,987) EN,QMET,QDIP,QSNG,QTRP,QINEL,Q(1,I)
 # 987 print(' EN=',D12.5,' QMET=','%.3f' %,' QDIP=','%.3f' %,' QSNG=','%.3f' %,
-#    /'QTRP=','%.3f' %,' QINL=',D11.4,' QTOT=',D11.4) 
+#    /'QTRP=','%.3f' %,' QINL=','%.4f' % ,' QTOT=','%.4f' % ) 
  9000 CONTINUE                                                          
 #  SAVE COMPUTE TIME                                                    
       DO 9001 K=1,NIN
@@ -28985,8 +29134,8 @@ c
       Q(1,I)=QELA+QION(1,I)+QION(2,I)+QION(3,I)+QION(4,I)+QINEL+QIN(46,I)
 # WRITE TOTAL, COUNTING IONISATION, INELASTIC AND ELASTIC X-SECTIONS
 #     WRITE(6,8001) EN,Q(1,I),Q(5,I),QINEL,QELA
-#8001 print(3X,' EN=',D12.4,' QTOT=',D12.4,' QION=',D12.4,' QINEL=',
-#    /D12.4,' QELA=',D12.4)
+#8001 print(3X,' EN=','%.4f' % ,' QTOT=','%.4f' % ,' QION=','%.4f' % ,' QINEL=',
+#    /'%.4f' % ,' QELA=','%.4f' % )
  9000 CONTINUE
 #  SAVE COMPUTING TIME
       DO 9001 K=1,NIN
@@ -32563,7 +32712,7 @@ c
       Q(1,I)=QELA+QION(1,I)+QION(2,I)+QION(3,I)+QION(4,I)+QION(5,I)+QION(6,I)+QION(7,I)+QION(8,I)+QION(9,I)+QION(10,I)+QION(11,I)+QION(12,I)+QEXC+QIN(51,I)
 #
 #     WRITE(6,997) EN,Q(1,I),QEXC,Q(5,I),QELA
-# 997 print(' EN =',D12.4,' QTOT =','%.3f' %,' QEXC =','%.3f' %,' QION =',D12
+# 997 print(' EN =','%.4f' % ,' QTOT =','%.3f' %,' QEXC =','%.3f' %,' QION =',D12
 #    /.3,' QELA = ','%.3f' %)  
 #
   900 CONTINUE       
@@ -33879,11 +34028,11 @@ c
 #     WRITE(6,882) QIN(21,I),QIN(22,I),QIN(23,I),QIN(24,I),QIN(25,I)
 #     WRITE(6,882) QIN(26,I),QIN(27,I),QIN(28,I),QIN(29,I),QIN(30,I)
 #     WRITE(6,882) QIN(31,I),QIN(32,I),QIN(33,I),QIN(34,I),QIN(35,I)
-# 882 print(' QIN ',5D12.4)
+# 882 print(' QIN ',5'%.4f' % )
 #     WRITE(6,883) Q(2,I),Q(3,I),Q(4,I),Q(5,I)
-# 883 print(' Q 2 3 4 5',4D12.4)
+# 883 print(' Q 2 3 4 5',4'%.4f' % )
 #     WRITE(6,884) QION(1,I),QION(2,I),QION(3,I)
-# 884 print('QION 1 2 3 ',3D12.4)
+# 884 print('QION 1 2 3 ',3'%.4f' % )
 #
       QSUP=QIN(1,I)+QIN(3,I)
       QVIB=QIN(2,I)+QIN(4,I)+QIN(5,I)+QIN(6,I)+QIN(7,I)+QIN(8,I)
@@ -37400,10 +37549,10 @@ c    /'%.3f' %)
       SUMDIPOLE=SUMEXC-SUMTRIPLET
 #
 #     WRITE(6,887) EN,QIN(1,I),QIN(2,I)
-# 887 print(' EN = ',D12.4,' TORS SUP = ',D12.4,' TORSION = ',D12.4)
+# 887 print(' EN = ','%.4f' % ,' TORS SUP = ','%.4f' % ,' TORSION = ','%.4f' % )
 #     WRITE(6,888) EN,QMT,SUMVIB,SUMEXC,SUMION,SUMATT,SUMNONEL,SUMTOTM,
 #    /SUMTRIPLET,SUMDIPOLE
-# 888 print(' EN=',D12.4,' QMT =','%.3f' %,' SUMVIB=','%.3f' %,' SUMEXC =',
+# 888 print(' EN=','%.4f' % ,' QMT =','%.3f' %,' SUMVIB=','%.3f' %,' SUMEXC =',
 #    /'%.3f' %,' SUMION =','%.3f' %,' SUMATT =','%.3f' %,' SUMNONEL =','%.3f' %,
 #    /' SUMTOTM =','%.3f' %,/,' SUMTRIPLET =','%.3f' %,' SUMDIPOLE =','%.3f' %) 
 #
@@ -38296,10 +38445,10 @@ c    /'%.3f' %)
 #    /QIN(5,I)+QIN(6,I)+QIN(7,I)+QIN(8,I)+QIN(9,I)+QEXCTOT+
 #    /QIN(25,I)+QIN(26,I)
 #     WRITE(6,991) EN,QTRP,QSNG,QTOTEXC
-# 991 print(' EN=',D12.4,' QTRP=',D12.4,' QSNG=',D12.4,' QEXCTOT=',
-#    /D12.4)
+# 991 print(' EN=','%.4f' % ,' QTRP=','%.4f' % ,' QSNG=','%.4f' % ,' QEXCTOT=',
+#    /'%.4f' % )
 c     WRITE(6,992) EN,QION(1,I),QION(2,I),QION(3,I)
-# 992 print(' EN=',D12.4,' ION1=',D12.4,' ION2=',D12.4,' ION3=',D12.4)
+# 992 print(' EN=','%.4f' % ,' ION1=','%.4f' % ,' ION2=','%.4f' % ,' ION3=','%.4f' % )
  1000 CONTINUE                                                          
 #  SAVE COMPUTE TIME
       DO 997 K=14,NIN
@@ -40885,8 +41034,8 @@ c     NANISO=0
 # Q(1,I) TOTAL USED FOR INprintION ONLY          
       Q(1,I)=QELA+Q(4,I)+SUMV+SUME+SUMTRP+SUMION    
 #     WRITE(6,991) EN,SUME,SUMTRP,SUMEXC,SUMION,Q(1,I)  
-# 991 print(' EN=',D12.4,' SUMDIPOLE=',D12.4,' SUM TRIPLT=',D12.4,
-#    //,'    SUMEXC=',D12.4,' SUMION=',D12.4,' TOT=',D12.4)  
+# 991 print(' EN=','%.4f' % ,' SUMDIPOLE=','%.4f' % ,' SUM TRIPLT=','%.4f' % ,
+#    //,'    SUMEXC=','%.4f' % ,' SUMION=','%.4f' % ,' TOT=','%.4f' % )  
  9000 CONTINUE                                                          
 #                                                                       
 #     SAVE ON COMPUTING TIME                                            
@@ -41911,7 +42060,7 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       if(EPOINT > ENRTS(NRTANG):
 ) :
        WRITE(6,922) EPOINT,ENRTS(NRTANG),EN
-  922  print(' ENERGY ERROR IN ROT SUPER ANG CALC  EPOINT=',D12.4,' ENRTS=',D12.4,' EN=',D12.4)
+  922  print(' ENERGY ERROR IN ROT SUPER ANG CALC  EPOINT=','%.4f' % ,' ENRTS=','%.4f' % ,' EN=','%.4f' % )
       # endif
       DO 131 M=1,NRTANG
       if(EPOINT <= ENRTS(M):
@@ -41948,7 +42097,7 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
       if(EPOINT > ENROT(NRTANG):
 ) :
        WRITE(6,923) EPOINT,ENROT(NRTANG),EN
-  923  print(' ENERGY ERROR IN ROT ANG CALC  EPOINT=',D12.4,' ENROT=',D12.4,' EN=',D12.4)
+  923  print(' ENERGY ERROR IN ROT ANG CALC  EPOINT=','%.4f' % ,' ENROT=','%.4f' % ,' EN=','%.4f' % )
       # endif
       DO 141 M=1,NRTANG
       if(EPOINT <= ENROT(M):
@@ -41981,10 +42130,10 @@ c ABOVE 2000EV USE ELASTIC + ROTATION2000.0001,2500.,3000.,3500.,4000.,4500.,500
 #     QTSEL=QSUPTT+QTOTTT
 # 161 CONTINUE
 #     WRITE(6,944) EN,QSUPTT,QSUPMT,QTOTTT,QTOTMT,QTSEL,QTSMT
-# 944 print(' CROSS SECTION ROTATIONAL SUMS AT ENERGY =',D12.4,/,
-#    /' TOTAL SUPER =',D12.4,'  MT SUPER =',D12.4,/,' TOTAL ROTAT =',
-#    /D12.4,'  MT ROTAT =',D12.4,/,' TOT ROT=',D12.4,' TOT ROT MT=',
-#    /D12.4)
+# 944 print(' CROSS SECTION ROTATIONAL SUMS AT ENERGY =','%.4f' % ,/,
+#    /' TOTAL SUPER =','%.4f' % ,'  MT SUPER =','%.4f' % ,/,' TOTAL ROTAT =',
+#    /'%.4f' % ,'  MT ROTAT =','%.4f' % ,/,' TOT ROT=','%.4f' % ,' TOT ROT MT=',
+#    /'%.4f' % )
 # 
 # VIBRATION B# end V2 SUPERELASTIC (DIPOLE 1/E FALL OFF ABOVE ENERGY OF
 # XVIB1(NVIB1) EV ) 
@@ -45664,7 +45813,7 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       DO 1508 JK=1,48
  1508 SUMROT=SUMROT+QIN(JK,I)
 #     WRITE(6,8747) SUMROT,I,EN
-#8747 print(' SUMROT=',D12.4,' I=',I5,' EN=',D12.4)
+#8747 print(' SUMROT=','%.4f' % ,' I=',I5,' EN=','%.4f' % )
 # SUMVIB
       SUMVIB=0.0
       DO 1506 JK=49,54 
@@ -45687,12 +45836,12 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
       SUMEXC=SUMEXC+Q(4,I)
       Q(1,I)=Q(2,I)+SUMION+SUMEXC
 #     WRITE(6,889) EN,Q(2,I),SUMEXC,SUMION,Q(1,I),Q(4,I),I 
-# 889 print(' EN=',D12.4,' ELAS=',D12.4,' EXC=',D12.4,' ION=',D12.4,
-#    /' TOT=',D12.4,' Q4    =',D12.4,' I=',I5)
+# 889 print(' EN=','%.4f' % ,' ELAS=','%.4f' % ,' EXC=','%.4f' % ,' ION=','%.4f' % ,
+#    /' TOT=','%.4f' % ,' Q4    =','%.4f' % ,' I=',I5)
 #     SUMINEL=SUMION+SUMEXC
 #     WRITE(6,890) EN,SUMION,SUMEXC,SUMINEL
-# 890 print(' EN=',D12.4,' SUMION=',D12.4,' SUMEXC=',D12.4,' SUMINEL=',
-#    /D12.4)
+# 890 print(' EN=','%.4f' % ,' SUMION=','%.4f' % ,' SUMEXC=','%.4f' % ,' SUMINEL=',
+#    /'%.4f' % )
  9900 CONTINUE                                                          
 #  SAVE COMPUTE TIME 
       DO 2000 K=1,148
@@ -47992,17 +48141,17 @@ c NB 1/E ALREADY USED SO ONLY 1/E EXTRA
 #8769 print(' EN=','%.3f' % ,' SUMR=','%.3f' % ,' SUMV=','%.3f' % ,' SUMEX=','%.3f' % ,' SU
 #    /MEX1=','%.3f' % ,' SUMVEX=','%.3f' % ,' TOT=','%.3f' % )
 #     WRITE(6,8770) EN,QION(1,I),QION(2,I),Q(5,I)
-#8770 print(' EN=',D12.4,' QION1=',D12.4,' QION2=',D12.4,' Q5=',D12.4)
+#8770 print(' EN=','%.4f' % ,' QION1=','%.4f' % ,' QION2=','%.4f' % ,' Q5=','%.4f' % )
 # PRINT IONISATION DATA
 #     SUMN2P=QION(1,I)+QION(2,I)+QION(3,I)+QION(4,I)+QION(5,I)+QION(6,I)
 #    /+QION(7,I)
 #     SUMNP=QION(8,I)+QION(9,I)+QION(10,I)
 #     SUMITOT=SUMNP+SUMN2P+QION(11,I)+QION(12,I)
 #     WRITE(6,8771) EN,SUMN2P,SUMNP,QION(11,I),QION(12,I),SUMITOT
-#8771 print(' EN=',D12.4,' N2+ =',D12.4,' N++ =',D12.4,' N+,N+=',D12.4,
-#    /' KSHELL=',D12.4,' TOT=',D12.4) 
+#8771 print(' EN=','%.4f' % ,' N2+ =','%.4f' % ,' N++ =','%.4f' % ,' N+,N+=','%.4f' % ,
+#    /' KSHELL=','%.4f' % ,' TOT=','%.4f' % ) 
 #     WRITE(6,8772) EN,( QION[J][I],J=1,12)
-#8772 print(' EN=',D12.4,/,2X,6(D12.4,2X),/,2X,(6D12.4,2X))
+#8772 print(' EN=','%.4f' % ,/,2X,6('%.4f' % ,2X),/,2X,(6'%.4f' % ,2X))
   900 CONTINUE         
 #     STOP                                                 
 # SAVE COMPUTE TIME                                                     
@@ -50083,12 +50232,12 @@ c     QIONT=QION(1,I)+QION(2,I)
 #     WRITE(6,991) EN,Q(2,I),Q(4,I),QIONT,Q(1,I),XLYMAN,XWERNER,
 #    /DISLYMAN,DISWERNER,TRIPL,QB1SIG,QD1PI,DISB1SIG,DISD1PI,QHIGH,
 #    /QIN(105,I),QIN(106,I),DISEFL,DISTOT,QIN(107,I)      
-# 991 print(' EN=',D12.4,' ELAS=',D12.4,' ATT =',D12.4,'IONS=',D12.4,'
-#    / TOT=',D12.4,/,' XLYMAN=',D12.4,' XWERNER =',D12.4,' DISLYMAN=',
-#    /D12.4,' DISWERNER=',D12.4,' DISTRIP=',D12.4,/,'QB1SIG= ',D12.4,
-#    /'QD1PI= ',D12.4,' DISB1SIG=',D12.4,' DISD1PI=',D12.4,/,
-#    /' QHIGH=',D12.4,/,' QIN105=',D12.4,' QIN106=',D12.4,' DISEFL=',
-#    /D12.4,' DISTOT=',D12.4,/,' DOUBLEEXC=',D12.4)
+# 991 print(' EN=','%.4f' % ,' ELAS=','%.4f' % ,' ATT =','%.4f' % ,'IONS=','%.4f' % ,'
+#    / TOT=','%.4f' % ,/,' XLYMAN=','%.4f' % ,' XWERNER =','%.4f' % ,' DISLYMAN=',
+#    /'%.4f' % ,' DISWERNER=','%.4f' % ,' DISTRIP=','%.4f' % ,/,'QB1SIG= ','%.4f' % ,
+#    /'QD1PI= ','%.4f' % ,' DISB1SIG=','%.4f' % ,' DISD1PI=','%.4f' % ,/,
+#    /' QHIGH=','%.4f' % ,/,' QIN105=','%.4f' % ,' QIN106=','%.4f' % ,' DISEFL=',
+#    /'%.4f' % ,' DISTOT=','%.4f' % ,/,' DOUBLEEXC=','%.4f' % )
   900 CONTINUE                                                          
 #  SAVE COMPUTE TIME
       NIN=12
@@ -51908,11 +52057,11 @@ c
 #     WRITE(6,882) QIN(21,I),QIN(22,I),QIN(23,I),QIN(24,I),QIN(25,I)
 #     WRITE(6,882) QIN(26,I),QIN(27,I),QIN(28,I),QIN(29,I),QIN(30,I)
 #     WRITE(6,882) QIN(31,I),QIN(32,I),QIN(33,I),QIN(34,I),QIN(35,I)
-# 882 print(' QIN ',5D12.4)
+# 882 print(' QIN ',5'%.4f' % )
 #     WRITE(6,883) Q(2,I),Q(3,I),Q(4,I),Q(5,I)
-# 883 print(' Q 2 3 4 5',4D12.4)
+# 883 print(' Q 2 3 4 5',4'%.4f' % )
 #     WRITE(6,884) QION(1,I),QION(2,I),QION(3,I)
-# 884 print('QION 1 2 3 ',3D12.4)
+# 884 print('QION 1 2 3 ',3'%.4f' % )
 #
       QSUP=QIN(1,I)+QIN(3,I)+QIN(5,I)
       QVIB=QIN(2,I)+QIN(4,I)+QIN(6,I)+QIN(7,I)+QIN(8,I)+QIN(9,I)+QIN(10,I)
@@ -53598,9 +53747,9 @@ c
       Q(1,I)=Q(2,I)+SUMION+Q(4,I)+SNGSUM+TRPSUM+VSUM+RSUM
 #     WRITE(6,911) EG[I],Q(1,I),Q(2,I),RSUM,VSUM,SUMION,SNGSUM,TRPSUM,
 #    /SUMBREM
-# 911 print(' EN =',D12.4,' QTOT=',D12.4,/,' QEL=',D12.4,
-#    /' RSUM =',D12.4,' VSUM=',D12.4,/,' QION=',D12.4,' SNGLT=',D12.4,
-#    /' TRPLT=',D12.4,/,' BREM =',D12.4,/)
+# 911 print(' EN =','%.4f' % ,' QTOT=','%.4f' % ,/,' QEL=','%.4f' % ,
+#    /' RSUM =','%.4f' % ,' VSUM=','%.4f' % ,/,' QION=','%.4f' % ,' SNGLT=','%.4f' % ,
+#    /' TRPLT=','%.4f' % ,/,' BREM =','%.4f' % ,/)
   900 CONTINUE                                                          
 #  SAVE COMPUTE TIME
       DO 1010 K=1,NIN
