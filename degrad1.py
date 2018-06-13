@@ -8529,8 +8529,7 @@ c initial vacancy
       ESTOT[K]=ESTOT[K]+ESTOR(K,M)
       NJFLR(K,M)=0
     6 CONTINUE
-      if(IONF1[K]:
- == 0) GO TO 17
+      if(IONF1[K]== 0) GO TO 17
       DO 7 M=1,IONF1[K]
       M1=M+IONSM[K]
       ET(K,M1)=ESTF1(K,M)   
