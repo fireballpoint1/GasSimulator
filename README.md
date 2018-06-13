@@ -3,7 +3,7 @@ The aim of this repo is to build a tool and a semi-automated algorithm, to conve
 
 ## RECENT <br>
 broken into rough modules:<br>
-Structure : degrad1.py+cgasn.py+gasn.py
+Structure : degrad1.py+csstfNe.pycalcn.py+cgasn.py+gasn.py<br>
 Added f2py interface example code in testing directory. Code file -> ftype .
 Terminal Screenshot -> Screenshot <br>
 
