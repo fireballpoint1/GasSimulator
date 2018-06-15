@@ -7482,62 +7482,7 @@ sys.exit()
 # endif
 return 
 # end  
-def SPLIT1(I,E,EI,ESEC):
-	IMPLICIT #real*8 (A-H,O-Z)
-	IMPLICIT #integer*8 (I-N)
-	COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
-	# MODIFIED OPAL BEATY WITH ENERGY DEP# endANT SPLITTING def
-	# MODEL ASSUMES CONSTANT SPLITTING def BETWEEN EI AND 10 KEV
-	# : LOGARTHMIC CHANGE WITH ENERGY UP TO A CONSTANT VALUE AT
-	# MINIMUM IONISING ,1 MEV , AND ABOVE 
-	WPLLOW=ESPLIT(I,1)
-	WPLHIGH=ESPLIT(I,2)
-	if(E <= 1.D4):
-	:
-	WPL=WPLLOW
-	GO TO 1
-	else if(E >= 1.D6) :
-	WPL=WPLHIGH
-	GO TO 1
-	else:
-	#  LOG INTERPOLATE AT ENERGY E 
-	A=(WPLHIGH-WPLLOW)*0.21714724095
-	B=-(9.21034037198*WPLHIGH-13.815510558*WPLLOW)*0.21714724095
-	WPL=A*math.log(E)+B
-	# endif
-	1 R1=DRAND48(RDUM)
-	ESEC=WPL*TAN(R1*ATAN((E-EI)/(2.0*WPL))) 
-	ESEC=WPL*(ESEC/WPL)**0.9524
-	return
-	# end 
-def SPLIT2(I,E,EI,ESEC):
-	IMPLICIT #real*8 (A-H,O-Z)
-	IMPLICIT #integer*8 (I-N)
-	COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
-	# POSSIBLE ENERGY SPLITTING def
-	return
-	# end 
-def SPLIT3(I,E,EI,ESEC):
-	IMPLICIT #real*8 (A-H,O-Z)
-	IMPLICIT #integer*8 (I-N)
-	COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
-	# POSSIBLE ENERGY SPLITTING def
-	return
-	# end 
-def SPLIT4(I,E,EI,ESEC):
-	IMPLICIT #real*8 (A-H,O-Z)
-	IMPLICIT #integer*8 (I-N)
-	COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
-	# POSSIBLE ENERGY SPLITTING def
-	return
-	# end 
-def SPLIT5(I,E,EI,ESEC):
-	IMPLICIT #real*8 (A-H,O-Z)
-	IMPLICIT #integer*8 (I-N)
-	COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
-	# POSSIBLE ENERGY SPLITTING def
-	return
-      # end 
+################################## SPLITN  ###################################
 def MONTEFE():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)                                         
@@ -12500,7 +12445,7 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 	#****************************************************************** 
 	ANGAS[1]=AN1
 	ANGAS[2]=AN2
-	ANGAS(3)=AN3
+	ANGAS[3]=AN3
 	ANGAS[4]=AN4
 	ANGAS[5]=AN5
 	ANGAS[6]=AN6
@@ -12511,53 +12456,47 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 	# CALCULATE PE X-SECTION FOR EACH GAS AND FIND ABS LENGTH 
 	EPHLG=math.log(EPH)
 	IPT=0
-	DO 1 I=1,NGAS
-	DO 1 J1=1,3
-	DO 1 J=1,17
-	IPT=IPT+1
-	XSEC(IPT)=0.0
-	ABSL(IPT)=0.0
-	if(J > ISHLMX(I,J1):
-	) GO TO 1
-	if(EPHLG < XPE(I,J1,J,1):
-	) GO TO 1
-	DO 11 K=2,60 
-	if(EPHLG <= XPE(I,J1,J,K):
-	) :
-	A=(YPE(I,J1,J,K)-YPE(I,J1,J,K-1))/(XPE(I,J1,J,K)-XPE(I,J1,J,K-1))
-	B=(XPE(I,J1,J,K-1)*YPE(I,J1,J,K)-XPE(I,J1,J,K)*YPE(I,J1,J,K-1))/(XPE(I,J1,J,K-1)-XPE(I,J1,J,K))
-	XSEC(IPT)=math.exp(A*EPHLG+B)
-	ABSL(IPT)=XSEC(IPT)*ANGAS[I]
-	GO TO 1
-	# endif
-	11 CONTINUE
-	1 CONTINUE
+	for I in range(1,NGAS):
+		for J1 in range(1,3):
+			for J in range(1,17):
+				IPT=IPT+1
+				XSEC(IPT)=0.0
+				ABSL(IPT)=0.0
+				if(J > ISHLMX(I,J1)) GO TO 1
+				if(EPHLG < XPE(I,J1,J,1)):
+					GO TO 1
+				for K in range(2,60):
+					if(EPHLG <= XPE(I,J1,J,K)) :
+						A=(YPE(I,J1,J,K)-YPE(I,J1,J,K-1))/(XPE(I,J1,J,K)-XPE(I,J1,J,K-1))
+						B=(XPE(I,J1,J,K-1)*YPE(I,J1,J,K)-XPE(I,J1,J,K)*YPE(I,J1,J,K-1))/(XPE(I,J1,J,K-1)-XPE(I,J1,J,K))
+						XSEC(IPT)=math.exp(A*EPHLG+B)
+						ABSL(IPT)=XSEC(IPT)*ANGAS[I]
+						break
+					# endif
 	# CALCULATE COMPTON X-SECTION FOR EACH GAS AND FIND ABS LENGTH
 	IPT=0
-	DO 30 I=1,NGAS
-	DO 30 J1=1,3   
-	IPT=IPT+1
-	XSECC(IPT)=0.0
-	ABSLC(IPT)=0.0
-	# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
-	if(JF == 3 or JF == 2):
-	GO TO 30
-	# ONLY USE PE X-SECTION
-	if(LCMP != 1):
-	GO TO 30
-	if(EPHLG < XEN(I,J1,1):
-	) GO TO 30
-	DO 29 K=2,54
-	if(EPHLG <= XEN(I,J1,K):
-	) :
-	A=(YCP(I,J1,K)-YCP(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
-	B=(XEN(I,J1,K-1)*YCP(I,J1,K)-XEN(I,J1,K)*YCP(I,J1,K-1))/(XEN(I,J1,K-1)-XEN(I,J1,K))
-	XSECC(IPT)=math.exp(A*EPHLG+B)
-	ABSLC(IPT)=XSECC(IPT)*ANGAS[I]
-	GO TO 30 
-	# endif
-	29 CONTINUE
-	30 CONTINUE
+	for I in range(1,NGAS):
+		for J1 in range(1,3):
+			IPT=IPT+1
+			XSECC(IPT)=0.0
+			ABSLC(IPT)=0.0
+			# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+			if(JF == 3 or JF == 2):
+				GO TO 30
+			# ONLY USE PE X-SECTION
+			if(LCMP != 1):
+				GO TO 30
+			if(EPHLG < XEN(I,J1,1)):
+				GO TO 30
+			for K in range(2,54):
+				if(EPHLG <= XEN(I,J1,K)) :
+				A=(YCP(I,J1,K)-YCP(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
+				B=(XEN(I,J1,K-1)*YCP(I,J1,K)-XEN(I,J1,K)*YCP(I,J1,K-1))/(XEN(I,J1,K-1)-XEN(I,J1,K))
+				XSECC(IPT)=math.exp(A*EPHLG+B)
+				ABSLC(IPT)=XSECC(IPT)*ANGAS[I]
+				GO TO 30 
+				# endif
+			30 CONTINUE
 	# CALCULATE RAYLEIGH X-SECTION FOR EACH GAS AND FIND ABS LENGTH
 	IPT=0
 	DO 40 I=1,NGAS
@@ -12567,331 +12506,303 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 	ABSLR(IPT)=0.0
 	# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
 	if(JF == 3 or JF == 2):
-	GO TO 40
+		GO TO 40
 	if(LRAY != 1):
-	GO TO 40
-	if(EPHLG < XEN(I,J1,1):
-	) GO TO 40
-	DO 39 K=2,54
-	if(EPHLG <= XEN(I,J1,K):
-	) :
-	A=(YRY(I,J1,K)-YRY(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
-	B=(XEN(I,J1,K-1)*YRY(I,J1,K)-XEN(I,J1,K)*YRY(I,J1,K-1))/(XEN(I,J1,K-1)-XEN(I,J1,K))
-	XSECR(IPT)=math.exp(A*EPHLG+B)
-	ABSLR(IPT)=XSECR(IPT)*ANGAS[I]
-	GO TO 40
-	# endif
-	39 CONTINUE
+		GO TO 40
+	if(EPHLG < XEN(I,J1,1)):
+		GO TO 40
+	for K in range(2,54):
+		if(EPHLG <= XEN(I,J1,K)) :
+			A=(YRY(I,J1,K)-YRY(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
+			B=(XEN(I,J1,K-1)*YRY(I,J1,K)-XEN(I,J1,K)*YRY(I,J1,K-1))/(XEN(I,J1,K-1)-XEN(I,J1,K))
+			XSECR(IPT)=math.exp(A*EPHLG+B)
+			ABSLR(IPT)=XSECR(IPT)*ANGAS[I]
+			GO TO 40
+		# endif
 	40 CONTINUE   
 	# CALCULATE PAIR PRODUCTION X-SECTION FOR EACH GAS AND FIND ABS LENGTH 
 	IPT=0
-	DO 50 I=1,NGAS
-	DO 50 J1=1,3
-	IPT=IPT+1
-	XSECP(IPT)=0.0
-	ABSLP(IPT)=0.0
-	# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
-	if(JF == 3 or JF == 2):
-	GO TO 50
-	if(LPAP != 1):
-	GO TO 50
-	if(EPHLG < XEN(I,J1,1):
-	) GO TO 50
-	DO 49 K=2,54
-	if(EPHLG <= XEN(I,J1,K):
-	) :
-	A=(YPP(I,J1,K)-YPP(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
-	B=(XEN(I,J1,K-1)*YPP(I,J1,K)-XEN(I,J1,K)*YPP(I,J1,K-1))/(XEN(I,J1,K-1)-XEN(I,J1,K))
-	XSECP(IPT)=math.exp(A*EPHLG+B)
-	ABSLP(IPT)=XSECP(IPT)*ANGAS[I]
-	GO TO 50
-	# endif
-	49 CONTINUE
-	50 CONTINUE   
+	for I in range(1,NGAS):
+		for J1 in range(1,3):
+			IPT=IPT+1
+			XSECP(IPT)=0.0
+			ABSLP(IPT)=0.0
+			# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+			if(JF == 3 or JF == 2):
+			GO TO 50
+			if(LPAP != 1):
+			GO TO 50
+			if(EPHLG < XEN(I,J1,1)):
+				GO TO 50
+			for K in range(2,54):
+				if(EPHLG <= XEN(I,J1,K)) :
+					A=(YPP(I,J1,K)-YPP(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
+					B=(XEN(I,J1,K-1)*YPP(I,J1,K)-XEN(I,J1,K)*YPP(I,J1,K-1))/(XEN(I,J1,K-1)-XEN(I,J1,K))
+					XSECP(IPT)=math.exp(A*EPHLG+B)
+					ABSLP(IPT)=XSECP(IPT)*ANGAS[I]
+					GO TO 50
+				# endif
+				49 CONTINUE
+			50 CONTINUE   
 	# FORM CUMULATIVE SUMS 
-	ifIN=NGAS*17*3:
-	DO 2 J=2,ifIN
-	XSEC[J]=XSEC[J]+XSEC(J-1)
-	ABSL[J]=ABSL[J]+ABSL(J-1)
-	2 CONTINUE 
-	ifINR=NGAS*3:
-	DO 110 J=2,ifINR
-	XSECC[J]=XSECC[J]+XSECC(J-1)
-	ABSLC[J]=ABSLC[J]+ABSLC(J-1)
-	XSECR[J]=XSECR[J]+XSECR(J-1)
-	ABSLR[J]=ABSLR[J]+ABSLR(J-1)
-	XSECP[J]=XSECP[J]+XSECP(J-1)
-	ABSLP[J]=ABSLP[J]+ABSLP(J-1)
-	110 CONTINUE 
+	IFIN=NGAS*17*3:
+	for J in range(2,IFIN):
+		XSEC[J]=XSEC[J]+XSEC(J-1)
+		ABSL[J]=ABSL[J]+ABSL(J-1)
+	IFINR=NGAS*3:
+	for J in range(2,IFINR):
+		XSECC[J]=XSECC[J]+XSECC(J-1)
+		ABSLC[J]=ABSLC[J]+ABSLC(J-1)
+		XSECR[J]=XSECR[J]+XSECR(J-1)
+		ABSLR[J]=ABSLR[J]+ABSLR(J-1)
+		XSECP[J]=XSECP[J]+XSECP(J-1)
+		ABSLP[J]=ABSLP[J]+ABSLP(J-1)
 	# TOTAL X-SECTION
-	XSECT=XSEC(ifIN)+XSECC(ifINR)+XSECR(ifINR)+XSECP(ifINR)
+	XSECT=XSEC(IFIN)+XSECC(IFINR)+XSECR(IFINR)+XSECP(IFINR)
 	# TOTAL ABS LENGTH
-	ABSTOT=ABSL(ifIN)+ABSLR(ifINR)+ABSLC(ifINR)+ABSLP(ifINR)
+	ABSTOT=ABSL(IFIN)+ABSLR(IFINR)+ABSLC(IFINR)+ABSLP(IFINR)
 	# CALCULATE ABSORPTION DISTANCE IN METRES AND RETURN
 	if(JF == 3):
-	:
-	DIST=1.0/(ABSTOT*100.0)
-	return
+		DIST=1.0/(ABSTOT*100.0)
+		return
 	# endif
 	# CALCULATE ABSORPTION DISTANCE IN MICRONS
 	if(JF == -1):
-	: 
 	if(ABSTOT > 0.0):
-	ABSXRAY=1.0D4/ABSTOT
+		ABSXRAY=1.0D4/ABSTOT
 	if(ABSTOT == 0.0):
-	ABSXRAY=1.0D15
-	return
+		ABSXRAY=1.0D15
+		return
 	# endif
 	if(ABSTOT == 0.0):
-	:
-	# PHOTON TOO LOW ENERGY TO IONISE SET ISHELL=-1
-	ISHELL=-1
-	return
+		# PHOTON TOO LOW ENERGY TO IONISE SET ISHELL=-1
+		ISHELL=-1
+		return
 	# endif
 	# NORMALISE TO 1 
-	DO 3 J=1,ifIN
-	XSEC[J]=XSEC[J]/XSECT
-	3 CONTINUE
-	DO 120 J=1,ifINR
-	XSECC[J]=XSECC[J]/XSECT
-	XSECR[J]=XSECR[J]/XSECT
-	XSECP[J]=XSECP[J]/XSECT
-	120 CONTINUE
+	for J in range(1,IFIN):
+		XSEC[J]=XSEC[J]/XSECT
+	for J in range(1,IFINR):
+		XSECC[J]=XSECC[J]/XSECT
+		XSECR[J]=XSECR[J]/XSECT
+		XSECP[J]=XSECP[J]/XSECT
 	# FORM SUM X-SECTION FOR SAMPLING ARRAY 
 	# P.E.
-	DO 130 J=1,ifIN
-	XSUM[J]=XSEC[J]
-	130 CONTINUE
-	I# end=ifIN
+	for J in range(1,IFIN):
+		XSUM[J]=XSEC[J]
+	IEND=IFIN
 	if(LCMP != 1):
-	GO TO 145 
+		GO TO 145 
 	# COMPTON
-	ISTART=ifIN+1
-	I# end=ifIN+IFINR
-	DO 140 J=ISTART,I# end
-	XSUM[J]=XSUM(ISTART-1)+XSECC(J-ISTART+1) 
-	140 CONTINUE
-	145 if(LRAY != 1) GO TO 155
+	ISTART=IFIN+1
+	IEND=IFIN+IFINR
+	for J in range(ISTART,IEND):
+		XSUM[J]=XSUM(ISTART-1)+XSECC(J-ISTART+1) 
+	145 if(LRAY != 1):
+		GO TO 155
 	# RAYLEIGH
 	if(LCMP == 0):
-	: 
-	ISTART=ifIN+1
-	I# end=ifIN+IFINR
+		ISTART=IFIN+1
+		IEND=IFIN+IFINR
 	else if(LCMP == 1) :
-	ISTART=ifIN+ifINR+1
-	I# end=ifIN+IFINR+IFINR
+		ISTART=IFIN+IFINR+1
+		IEND=IFIN+IFINR+IFINR
 	# endif
-	DO 150 J=ISTART,I# end
-	XSUM[J]=XSUM(ISTART-1)+XSECR(J-ISTART+1)
-	150 CONTINUE
+	for J in range(ISTART,IEND):
+		XSUM[J]=XSUM(ISTART-1)+XSECR(J-ISTART+1)
 	155 if(LPAP != 1) GO TO 165
 	# PAIR PRODUCTION
 	if(LCMP == 0 and LRAY == 0):
-	:
-	ISTART=ifIN+1
-	I# end=ifIN+IFINR
+		ISTART=IFIN+1
+		IEND=IFIN+IFINR
 	else if(LCMP == 0 and LRAY == 1) :
-	ISTART=ifIN+ifINR+1
-	I# end=ifIN+IFINR+IFINR
+		ISTART=IFIN+IFINR+1
+		IEND=IFIN+IFINR+IFINR
 	else if(LCMP == 1 and LRAY == 0) :
-	ISTART=ifIN+ifINR+1
-	I# end=ifIN+IFINR+IFINR
+		ISTART=IFIN+IFINR+1
+		IEND=IFIN+IFINR+IFINR
 	else if(LCMP == 1 and LRAY == 1) :
-	ISTART=ifIN+ifINR+ifINR+1
-	I# end=ISTART+ifINR+IFINR+IFINR
+		ISTART=IFIN+IFINR+IFINR+1
+		IEND=ISTART+IFINR+IFINR+IFINR
 	else: 
-	WRITE(6,998)
-	998  print(' ERROR IN def ABSO FLAG NOT CORRECT')
-	sys.exit()
+		print(' ERROR IN def ABSO FLAG NOT CORRECT')
+		sys.exit()
 	# endif
-	DO 160 J=ISTART,I# end
-	XSUM[J]=XSUM(ISTART-1)+XSECP(J-ISTART+1)
-	160 CONTINUE
+	for J in range(ISTART,IEND):
+		XSUM[J]=XSUM(ISTART-1)+XSECP(J-ISTART+1)
 	165 CONTINUE 
 	# FIND GAS AND SHELL
 	R1=DRAND48(RDUM)
-	DO 4 J=1,I# end
-	if(XSUM[J]:
-	< R1) GO TO 4
+	DO 4 J=1,IEND
+	if(XSUM[J]< R1):
+		GO TO 4
 	ID=J
 	GO TO 5
 	4 CONTINUE
 	# LOCATE GAS AND SHELL
 	5 IPET=NGAS*3*17
 	if(ID > IPET):
-	GO TO 22
+		GO TO 22
 	# PHOTO ELECTRIC
 	LPEFLG=1
 	if(ID <= 51):
-	:
-	KGAS=1
-	if(ID <= 17):
-	:
-	LGAS=1
-	ISHELL=ID
-	else if(ID <= 34) :
-	LGAS=2
-	ISHELL=ID-17
-	else:
-	LGAS=3
-	ISHELL=ID-34
-	# endif
-	GO TO 12
+		KGAS=1
+		if(ID <= 17):
+			LGAS=1
+			ISHELL=ID
+		else if(ID <= 34) :
+			LGAS=2
+			ISHELL=ID-17
+		else:
+			LGAS=3
+			ISHELL=ID-34
+		# endif
+		GO TO 12
 	else if(ID <= 102) :
-	KGAS=2
-	if(ID <= 68):
-	:
-	LGAS=1
-	ISHELL=ID-51
-	else if(ID <= 85) :
-	LGAS=2
-	ISHELL=ID-68
-	else:
-	LGAS=3
-	ISHELL=ID-85
-	# endif
-	GO TO 12
+		KGAS=2
+		if(ID <= 68):
+			LGAS=1
+			ISHELL=ID-51
+		else if(ID <= 85) :
+			LGAS=2
+			ISHELL=ID-68
+		else:
+			LGAS=3
+			ISHELL=ID-85
+		# endif
+		GO TO 12
 	else if(ID <= 153) :
-	KGAS=3
-	if(ID <= 119):
-	:
-	LGAS=1
-	ISHELL=ID-102
-	else if(ID <= 136) :
-	LGAS=2
-	ISHELL=ID-119
-	else:
-	LGAS=3
-	ISHELL=ID-136
-	# endif
-	GO TO 12
+		KGAS=3
+		if(ID <= 119):
+			LGAS=1
+			ISHELL=ID-102
+		else if(ID <= 136) :
+			LGAS=2
+			ISHELL=ID-119
+		else:
+			LGAS=3
+			ISHELL=ID-136
+		# endif
+		GO TO 12
 	else if(ID <= 204) :
-	KGAS=4
-	if(ID <= 170):
-	:
-	LGAS=1
-	ISHELL=ID-153
-	else if(ID <= 187) :
-	LGAS=2
-	ISHELL=ID-170
-	else:
-	LGAS=3
-	ISHELL=ID-187
-	# endif
-	GO TO 12
+		KGAS=4
+		if(ID <= 170):
+			LGAS=1
+			ISHELL=ID-153
+		else if(ID <= 187) :
+			LGAS=2
+			ISHELL=ID-170
+		else:
+			LGAS=3
+			ISHELL=ID-187
+		# endif
+		GO TO 12
 	else if(ID <= 255) :
-	KGAS=5
-	if(ID <= 221):
-	:
-	LGAS=1
-	ISHELL=ID-204
-	else if(ID <= 238) :
-	LGAS=2
-	ISHELL=ID-221
-	else:
-	LGAS=3
-	ISHELL=ID-238
-	# endif
-	GO TO 12
+		KGAS=5
+		if(ID <= 221):
+			LGAS=1
+			ISHELL=ID-204
+		else if(ID <= 238) :
+			LGAS=2
+			ISHELL=ID-221
+		else:
+			LGAS=3
+			ISHELL=ID-238
+		# endif
+		GO TO 12
 	else: 
-	KGAS=6
-	if(ID <= 272):
-	:
-	LGAS=1
-	ISHELL=ID-255
-	else if(ID <= 289) :
-	LGAS=2
-	ISHELL=ID-272
-	else:
-	LGAS=3
-	ISHELL=ID-289
-	# endif
+		KGAS=6
+		if(ID <= 272):
+			LGAS=1
+			ISHELL=ID-255
+		else if(ID <= 289) :
+			LGAS=2
+			ISHELL=ID-272
+		else:
+			LGAS=3
+			ISHELL=ID-289
+		# endif
 	# endif
 	12 CONTINUE
 	GO TO 200
 	# COMPTON RAYLEIGH OR PAIR PRODUCTION
 	22 ISHELL=0
-	if(ID <= (IPET+ifINR):
-	) :
-	# COMPTON RAYLEIGH OR PAIR PRODUCTION.   SET :  FLAG KGAS LGAS
-	if(LCMP == 1):
-	LCFLG=1
-	if(LCMP == 0 and LRAY == 1):
-	LRFLG=1
-	if(LCMP == 0 and LRAY == 0):
-	LPFLG=1
-	if(ID <= IPET+3):
-	:
-	KGAS=1
-	LGAS=ID-IPET
-	else if(ID <= IPET+6) :
-	KGAS=2
-	LGAS=ID-IPET-3
-	else if(ID <= IPET+9) : 
-	KGAS=3
-	LGAS=ID-IPET-6 
-	else if(ID <= IPET+12) :
-	KGAS=4
-	LGAS=ID-IPET-9
-	else if(ID <= IPET+15) :
-	KGAS=5
-	LGAS=ID-IPET-12
-	else:
-	KGAS=6
-	LGAS=ID-IPET-15
+	if(ID <= (IPET+IFINR)) :
+		# COMPTON RAYLEIGH OR PAIR PRODUCTION.   SET :  FLAG KGAS LGAS
+		if(LCMP == 1):
+			LCFLG=1
+		if(LCMP == 0 and LRAY == 1):
+			LRFLG=1
+		if(LCMP == 0 and LRAY == 0):
+			LPFLG=1
+		if(ID <= IPET+3):
+			KGAS=1
+			LGAS=ID-IPET
+		else if(ID <= IPET+6) :
+			KGAS=2
+			LGAS=ID-IPET-3
+		else if(ID <= IPET+9) : 
+			KGAS=3
+			LGAS=ID-IPET-6 
+		else if(ID <= IPET+12) :
+			KGAS=4
+			LGAS=ID-IPET-9
+		else if(ID <= IPET+15) :
+			KGAS=5
+			LGAS=ID-IPET-12
+		else:
+			KGAS=6
+			LGAS=ID-IPET-15
 	# endif
-	else if (ID <= IPET+2*ifINR) :
-	if(LRAY == 1):
-	LRFLG=1
-	if(LRAY == 0 and LPAP == 1):
-	LPFLG=1
-	if(ID <= IPET+ifINR+3):
-	:
-	KGAS=1
-	LGAS=ID-IPET-ifINR
-	else if(ID <= IPET+ifINR+6) :
-	KGAS=2
-	LGAS=ID-IPET-ifINR-3
-	else if(ID <= IPET+ifINR+9) : 
-	KGAS=3
-	LGAS=ID-IPET-ifINR-6
-	else if(ID <= IPET+ifINR+12) :
-	KGAS=4
-	LGAS=ID-IPET-ifINR-9
-	else if(ID <= IPET+ifINR+15) :
-	KGAS=5
-	LGAS=ID-IPET-ifINR-12
-	else:
-	KGAS=6
-	LGAS=ID-IPET-ifINR-15
-	# endif
+	else if (ID <= IPET+2*IFINR) :
+		if(LRAY == 1):
+			LRFLG=1
+		if(LRAY == 0 and LPAP == 1):
+			LPFLG=1
+		if(ID <= IPET+IFINR+3):
+			KGAS=1
+			LGAS=ID-IPET-IFINR
+		else if(ID <= IPET+IFINR+6) :
+			KGAS=2
+			LGAS=ID-IPET-IFINR-3
+		else if(ID <= IPET+IFINR+9) : 
+			KGAS=3
+			LGAS=ID-IPET-IFINR-6
+		else if(ID <= IPET+IFINR+12) :
+			KGAS=4
+			LGAS=ID-IPET-IFINR-9
+		else if(ID <= IPET+IFINR+15) :
+			KGAS=5
+			LGAS=ID-IPET-IFINR-12
+		else:
+			KGAS=6
+			LGAS=ID-IPET-IFINR-15
+		# endif
 	else: 
-	LPFLG=1
-	if(ID <= IPET+3*ifINR):
-	:
-	KGAS=1
-	LGAS=ID-IPET-ifINR-ifINR
-	else if(ID <= IPET+ifINR+ifINR+6) :
-	KGAS=2
-	LGAS=ID-IPET-ifINR-ifINR-3
-	else if(ID <= IPET+ifINR+ifINR+9) : 
-	KGAS=3
-	LGAS=ID-IPET-ifINR-ifINR-6
-	else if(ID <= IPET+ifINR+ifINR+12) :
-	KGAS=4
-	LGAS=ID-IPET-ifINR-ifINR-9
-	else if(ID <= IPET+ifINR+ifINR+15) :
-	KGAS=5
-	LGAS=ID-IPET-ifINR-ifINR-12
-	else:
-	KGAS=6
-	LGAS=ID-IPET-ifINR-ifINR-15
-	# endif
+		LPFLG=1
+		if(ID <= IPET+3*IFINR):
+			KGAS=1
+			LGAS=ID-IPET-IFINR-IFINR
+		else if(ID <= IPET+IFINR+IFINR+6) :
+			KGAS=2
+			LGAS=ID-IPET-IFINR-IFINR-3
+		else if(ID <= IPET+IFINR+IFINR+9) : 
+			KGAS=3
+			LGAS=ID-IPET-IFINR-IFINR-6
+		else if(ID <= IPET+IFINR+IFINR+12) :
+			KGAS=4
+			LGAS=ID-IPET-IFINR-IFINR-9
+		else if(ID <= IPET+IFINR+IFINR+15) :
+			KGAS=5
+			LGAS=ID-IPET-IFINR-IFINR-12
+		else:
+			KGAS=6
+			LGAS=ID-IPET-IFINR-IFINR-15
+		# endif
 	# endif
 	if(ID > (IPET+54)) :
-	WRITE(6,999) ID
-	999 print(' IDENTifIER IN def ABSO IS GT LIMIT ID=',I5,/,'    def STOPPED:')
-	sys.exit()
+		print(' IDENTifIER IN def ABSO IS GT LIMIT ID=',ID,'\n    def STOPPED:')
+		sys.exit()
 	# endif
 	200 CONTINUE
 	# CALCULATE ABSORPTION DISTANCE PER EVENT IN METRES
@@ -12907,7 +12818,7 @@ def DRCOS(DRX,DRY,DRZ,THETA,PHI,DRXX,DRYY,DRZZ):
 	SP=numpy.sin(PHI)
 	CP=numpy.cos(PHI)
 	if(abs(DRZ)== 1.00):
-		GO TO 1
+		pass
 	else:
 		FAC=math.sqrt((1.00-CT*CT)/(1.00-DRZ*DRZ))
 		DRXX=DRX*CT+FAC*(DRX*DRZ*CP-DRY*SP)

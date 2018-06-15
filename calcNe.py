@@ -600,7 +600,7 @@ def CALC4E(NVAC,KGAS,LGAS,ELECEN,ISHELL,L1):
 		BPE=BB[ISHELL]
 		ANGGEN(APE,BPE,THET)
 		if(THET < 0.0):
-		THET=THET+API
+			THET=THET+API
 		R3=DRAND48(RDUM)
 		PHI=TWOPI*R3
 		DRCOS(DRX0[NVAC][L1],DRY0[NVAC][L1],DRZ0[NVAC][L1],THET,PHI,DRXX,DRYY,DRZZ)
@@ -608,146 +608,146 @@ def CALC4E(NVAC,KGAS,LGAS,ELECEN,ISHELL,L1):
 		DRYE[NVAC][IONSUM[NVAC]]=DRYY
 		DRZE[NVAC][IONSUM[NVAC]]=DRZZ
 		# LOOP AROUND CASCADE
-		4 CONTINUE
-		# CHECK FOR ELECTRON SHAKEOFF
-		IDUM=1
-		if(INIT > 1):
-		ELECN=ESTORE[NVAC][IONSUM[NVAC]]
-		INSUM=IONSUM[NVAC]
-		SHAKE(ISHELL,ELECN,KGAS,LGAS,ESHK,IDUM,INSUM,JVAC)
-		#  CALCULATE ENERGY OF ELECTRON
-		if(JVAC == 0):
-			GO TO 2
-		#  ELECTRON + SHAKEOFF
-		ELECN=ELECN-ESHK-ELEV[JVAC,IZ[KGAS][LGAS]]
-		ESTORE[NVAC][IONSUM[NVAC]]=ELECN
-		IONSUM[NVAC]=IONSUM[NVAC]+1
-		# MAXIMUM ION CHARGE STATE =28
-		if(IONSUM[NVAC]> 28) :
-		WRITE(6,99) IONSUM[NVAC]
-		99  print(' 4TH GEN ION CHARGE LIMITED TO 28 IONSUM=',IONSUM[NVAC]) 
-		sys.exit()
-		# endif
-		ESTORE[NVAC][IONSUM[NVAC]]=ESHK
-		ELEFT=ELEFT-ESHK-ELEV[JVAC,IZ[KGAS][LGAS]]
-		if(ELEFT < 0.0):
-			GOTO100()
-		# RANDOM EMISSION ANGLE
-		R3=DRAND48(RDUM)
-		THET=numpy.arccos(1.0-2.0*R3)
-		R4=DRAND48(RDUM)
-		PHI=TWOPI*R4
-		DRXE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.cos(PHI)
-		DRYE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.sin(PHI)
-		DRZE[NVAC][IONSUM[NVAC]]=numpy.cos(THET)
-		2 UPDATE(KGAS,LGAS,ISHELL)
-		INIT=2
-		# CHOOSE FLUORESCENCE OR AUGER TRANSITION
-		TSUM=0.0
-		for I in range(1,17):
-			TSUM=TSUM+RADR[KGAS][LGAS][ISHELL][I]
-			for J in range(1,17):
-				TSUM=TSUM+AUGR[KGAS][LGAS][ISHELL][I][J]
-		# NO MORE TRANSITIONS POSSIBLE
-		if(TSUM == 0.0):
-			return  
-		# NORMALISE TO 1.0
-		for I in range(1,17):
-			RADR[KGAS][LGAS][ISHELL][I]=RADR[KGAS][LGAS][ISHELL][I]/TSUM
-			for J in range(1,17):
-				AUGR[KGAS][LGAS][ISHELL][I][J]=AUGR[KGAS][LGAS][ISHELL][I][J]/TSUM
-		# CREATE CUMULATIVE SUM ARRAY
-		TEMP[1]=RADR[KGAS][LGAS][ISHELL][1]
-		for I in range(2,17):
-			TEMP[I]=RADR[KGAS][LGAS][ISHELL][I]+TEMP[I-1]
-		TEMP1[1]=AUGR[KGAS][LGAS][ISHELL][1][1]
-		for I in range(2,17):
-			TEMP1[I]=AUGR[KGAS][LGAS][ISHELL][I][1]+TEMP1[I-1]
-		for J in range(1,16):
-			for I in range(1,17):
-				TEMP1[I+(J*17)]=AUGR[KGAS][LGAS][ISHELL][I][J+1]+TEMP1[I+(J*17)-1]
-		# FIND FLUORESCENCE OR AUGER TRANSITION
-		R1=DRAND48(RDUM)
-		for I in range(1,17):
-			if(R1 < TEMP[I]) :
-			# STORE PHOTON ENERGY AND UPDATE NOCC
-			IFLSUM[NVAC]=IFLSUM[NVAC]+1
-			EPHOTON[NVAC][IFLSUM[NVAC]]=ELEV[ISHELL][IZ[KGAS][LGAS]]-ELEV[I,IZ[KGAS][LGAS]]
-			ELEFT=ELEFT-abs(EPHOTON[NVAC][IFLSUM[NVAC]])
+		def GOTO4():
+			# CHECK FOR ELECTRON SHAKEOFF
+			IDUM=1
+			if(INIT > 1):
+			ELECN=ESTORE[NVAC][IONSUM[NVAC]]
+			INSUM=IONSUM[NVAC]
+			SHAKE(ISHELL,ELECN,KGAS,LGAS,ESHK,IDUM,INSUM,JVAC)
+			#  CALCULATE ENERGY OF ELECTRON
+			if(JVAC == 0):
+				GO TO 2
+			#  ELECTRON + SHAKEOFF
+			ELECN=ELECN-ESHK-ELEV[JVAC,IZ[KGAS][LGAS]]
+			ESTORE[NVAC][IONSUM[NVAC]]=ELECN
+			IONSUM[NVAC]=IONSUM[NVAC]+1
+			# MAXIMUM ION CHARGE STATE =28
+			if(IONSUM[NVAC]> 28) :
+				print(' 4TH GEN ION CHARGE LIMITED TO 28 IONSUM=',IONSUM[NVAC]) 
+				sys.exit()
+			# endif
+			ESTORE[NVAC][IONSUM[NVAC]]=ESHK
+			ELEFT=ELEFT-ESHK-ELEV[JVAC,IZ[KGAS][LGAS]]
 			if(ELEFT < 0.0):
 				GOTO100()
-			# RANDOM EMISSION DIRECTION
+			# RANDOM EMISSION ANGLE
 			R3=DRAND48(RDUM)
 			THET=numpy.arccos(1.0-2.0*R3)
 			R4=DRAND48(RDUM)
 			PHI=TWOPI*R4
-			DRX[NVAC][IFLSUM[NVAC]]=numpy.sin(THET)*numpy.cos(PHI)
-			DRY[NVAC][IFLSUM[NVAC]]=numpy.sin(THET)*numpy.sin(PHI)
-			DRZ[NVAC][IFLSUM[NVAC]]=numpy.cos(THET)
-			NOCC[KGAS][LGAS][ISHELL]=NOCC[KGAS][LGAS][ISHELL]+1
-			NOCC[KGAS][LGAS][I]=NOCC[KGAS][LGAS][I]-1
-			# FIND LOWEST VACANCY
-			VACANCY(KGAS,LGAS,ISHELL,ILAST)
-			if(ILAST == 1):
-				# NO MORE TRANSITIONS POSSIBLE
-				return    
-			# endif
-			GO TO 2  
-			# endif 
-		counter1=1
-		counter2=1
-		while (counter1):
-			counter1=0
-			R2=R1-TEMP[17]
-			for J in range(1,17):
-				if(counter1):
-					break
+			DRXE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.cos(PHI)
+			DRYE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.sin(PHI)
+			DRZE[NVAC][IONSUM[NVAC]]=numpy.cos(THET)
+			def GOTO2():
+				UPDATE(KGAS,LGAS,ISHELL)
+				INIT=2
+				# CHOOSE FLUORESCENCE OR AUGER TRANSITION
+				TSUM=0.0
 				for I in range(1,17):
-					if(R2 < TEMP1[I+((J-1)*17)]) :
-					# AUGER OR COSTER KRONIG  
-					# STORE EJECTED ELECTRON AND UPDATE NOCC
-					ETEMP=ELEV[ISHELL][IZ[KGAS][LGAS]]-(ELEV[I,IZ[KGAS][LGAS]]+ELEV[I,IZ[KGAS][LGAS]+1])*0.5-(ELEV[J,IZ[KGAS][LGAS]]+ELEV[J,IZ[KGAS][LGAS]+1])*0.5
-					
-					if(ETEMP < 0.0):
-						# DO NOT ALLOW NEGATIVE ENERGY TRANSITIONS
-						while(counter2):
-							counter2=0
-							R1=DRAND48(RDUM)
-							if(R1 < TEMP[17]):
-								counter2=1
-						counter1=1
-						break
-					# endif
-					IONSUM[NVAC]=IONSUM[NVAC]+1
-					if(IONSUM[NVAC]> 28) :
-						WRITE(6,99) IONSUM[NVAC]
-						sys.exit()
-					# endif
-					ESTORE[NVAC][IONSUM[NVAC]]=ETEMP
-					ELEFT=ELEFT-abs(ETEMP)
-					if(ELEFT < 0.0):
-						GOTO100()
-					# RANDOM EMISSION DIRECTION
-					R3=DRAND48(RDUM)
-					THET=numpy.arccos(1.0-2.0*R3)
-					R4=DRAND48(RDUM)
-					PHI=TWOPI*R4
-					DRXE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.cos(PHI)
-					DRYE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.sin(PHI)
-					DRZE[NVAC][IONSUM[NVAC]]=numpy.cos(THET)
-					NOCC[KGAS][LGAS][ISHELL]=NOCC[KGAS][LGAS][ISHELL]+1
-					NOCC[KGAS][LGAS][I]=NOCC[KGAS][LGAS][I]-1
-					NOCC[KGAS][LGAS][J]=NOCC[KGAS][LGAS][J]-1
-					# FIND LOWEST VACANCY
-					VACANCY(KGAS,LGAS,ISHELL,ILAST)
-					if(ILAST == 1):
-						# NO MORE TRANSITIONS POSSIBLE
-						return
+					TSUM=TSUM+RADR[KGAS][LGAS][ISHELL][I]
+					for J in range(1,17):
+						TSUM=TSUM+AUGR[KGAS][LGAS][ISHELL][I][J]
+				# NO MORE TRANSITIONS POSSIBLE
+				if(TSUM == 0.0):
+					return  
+				# NORMALISE TO 1.0
+				for I in range(1,17):
+					RADR[KGAS][LGAS][ISHELL][I]=RADR[KGAS][LGAS][ISHELL][I]/TSUM
+					for J in range(1,17):
+						AUGR[KGAS][LGAS][ISHELL][I][J]=AUGR[KGAS][LGAS][ISHELL][I][J]/TSUM
+				# CREATE CUMULATIVE SUM ARRAY
+				TEMP[1]=RADR[KGAS][LGAS][ISHELL][1]
+				for I in range(2,17):
+					TEMP[I]=RADR[KGAS][LGAS][ISHELL][I]+TEMP[I-1]
+				TEMP1[1]=AUGR[KGAS][LGAS][ISHELL][1][1]
+				for I in range(2,17):
+					TEMP1[I]=AUGR[KGAS][LGAS][ISHELL][I][1]+TEMP1[I-1]
+				for J in range(1,16):
+					for I in range(1,17):
+						TEMP1[I+(J*17)]=AUGR[KGAS][LGAS][ISHELL][I][J+1]+TEMP1[I+(J*17)-1]
+				# FIND FLUORESCENCE OR AUGER TRANSITION
+				R1=DRAND48(RDUM)
+				for I in range(1,17):
+					if(R1 < TEMP[I]) :
+						# STORE PHOTON ENERGY AND UPDATE NOCC
+						IFLSUM[NVAC]=IFLSUM[NVAC]+1
+						EPHOTON[NVAC][IFLSUM[NVAC]]=ELEV[ISHELL][IZ[KGAS][LGAS]]-ELEV[I,IZ[KGAS][LGAS]]
+						ELEFT=ELEFT-abs(EPHOTON[NVAC][IFLSUM[NVAC]])
+						if(ELEFT < 0.0):
+							GOTO100()
+						# RANDOM EMISSION DIRECTION
+						R3=DRAND48(RDUM)
+						THET=numpy.arccos(1.0-2.0*R3)
+						R4=DRAND48(RDUM)
+						PHI=TWOPI*R4
+						DRX[NVAC][IFLSUM[NVAC]]=numpy.sin(THET)*numpy.cos(PHI)
+						DRY[NVAC][IFLSUM[NVAC]]=numpy.sin(THET)*numpy.sin(PHI)
+						DRZ[NVAC][IFLSUM[NVAC]]=numpy.cos(THET)
+						NOCC[KGAS][LGAS][ISHELL]=NOCC[KGAS][LGAS][ISHELL]+1
+						NOCC[KGAS][LGAS][I]=NOCC[KGAS][LGAS][I]-1
+						# FIND LOWEST VACANCY
+						VACANCY(KGAS,LGAS,ISHELL,ILAST)
+						if(ILAST == 1):
+							# NO MORE TRANSITIONS POSSIBLE
+							return    
 						# endif
-					GO TO 4 
-					# endif
-		print(' ERROR IN CASCADE 4') 
-		sys.exit() 
+						GOTO2()
+				# endif 
+			counter1=1
+			counter2=1
+			while (counter1):
+				counter1=0
+				R2=R1-TEMP[17]
+				for J in range(1,17):
+					if(counter1):
+						break
+					for I in range(1,17):
+						if(R2 < TEMP1[I+((J-1)*17)]) :
+							# AUGER OR COSTER KRONIG  
+							# STORE EJECTED ELECTRON AND UPDATE NOCC
+							ETEMP=ELEV[ISHELL][IZ[KGAS][LGAS]]-(ELEV[I,IZ[KGAS][LGAS]]+ELEV[I,IZ[KGAS][LGAS]+1])*0.5-(ELEV[J,IZ[KGAS][LGAS]]+ELEV[J,IZ[KGAS][LGAS]+1])*0.5
+							
+							if(ETEMP < 0.0):
+								# DO NOT ALLOW NEGATIVE ENERGY TRANSITIONS
+								while(counter2):
+									counter2=0
+									R1=DRAND48(RDUM)
+									if(R1 < TEMP[17]):
+										counter2=1
+								counter1=1
+								break
+							# endif
+							IONSUM[NVAC]=IONSUM[NVAC]+1
+							if(IONSUM[NVAC]> 28) :
+								WRITE(6,99) IONSUM[NVAC]
+								sys.exit()
+							# endif
+							ESTORE[NVAC][IONSUM[NVAC]]=ETEMP
+							ELEFT=ELEFT-abs(ETEMP)
+							if(ELEFT < 0.0):
+								GOTO100()
+							# RANDOM EMISSION DIRECTION
+							R3=DRAND48(RDUM)
+							THET=numpy.arccos(1.0-2.0*R3)
+							R4=DRAND48(RDUM)
+							PHI=TWOPI*R4
+							DRXE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.cos(PHI)
+							DRYE[NVAC][IONSUM[NVAC]]=numpy.sin(THET)*numpy.sin(PHI)
+							DRZE[NVAC][IONSUM[NVAC]]=numpy.cos(THET)
+							NOCC[KGAS][LGAS][ISHELL]=NOCC[KGAS][LGAS][ISHELL]+1
+							NOCC[KGAS][LGAS][I]=NOCC[KGAS][LGAS][I]-1
+							NOCC[KGAS][LGAS][J]=NOCC[KGAS][LGAS][J]-1
+							# FIND LOWEST VACANCY
+							VACANCY(KGAS,LGAS,ISHELL,ILAST)
+							if(ILAST == 1):
+								# NO MORE TRANSITIONS POSSIBLE
+								return
+								# endif
+							GO TO 4 
+							# endif
+			print(' ERROR IN CASCADE 4') 
+			sys.exit() 
 	# end
 def CALC5E(NVAC,KGAS,LGAS,ELECEN,ISHELL,L1):
 	# IMPLICIT #real*8(A-H,O-Z)
