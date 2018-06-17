@@ -1,4 +1,33 @@
 # Degrad Pseudo Code
+## DEGRADE
+* SETUP(LAST)
+* If LAST==1 then STOP 
+* DENSITY()
+* CASCDAT()
+* MIXERC()
+* MIXER()
+* FLDIST()
+* If MIP simulation MIPCALC() 
+* If MIP Simulation or electron beam simulation, then skip cascade calculation 
+	* else :
+		* CONTROL0(NEVENT,ESTART,ICON)
+		* Calculate and output averages from shells
+* If Magnetic Field == 0 then MONTEFA()
+* If non-zero Magnetic Field then 
+	* if Magnetic Field and Electric Field parallel or anti-parallel then MONTEFA()
+	* else if Magnetic Field and Electric Field perpendicular then MONTEFB()
+	* Any other angle between Magnetic Field and Electric Field then MONTEFC()
+* STATS2()
+* OUPUT()
+* DEGRADE()
+* STOP()
+
+## MIXER 
+* The function fills arrays of collision frequency
+* Store counting ionisation X-Section in array CMINIXSC[6] at minimum ionising energy
+* Initialisations 
+*  
+
 
 ## CSSTFN (N:1-5 )
 * Stores event data for N-th generation fluorescence
@@ -31,4 +60,13 @@
 
 ## SPLITN (N:1-5)
 * SPLIT1 find a legitimate WPL and hence ESEC
+
+## CALCBN (N:1-5)
+* Calculate Cascade in KGAS and LGAS
+* 
+*
+*
+* same as CALCNE
+
+
 
