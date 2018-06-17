@@ -26,7 +26,10 @@
 * The function fills arrays of collision frequency
 * Store counting ionisation X-Section in array CMINIXSC[6] at minimum ionising energy
 * Initialisations 
-*  
+* Calculate and store energy grid(X-Ray,Beta or Particles)
+* If EFINAL <=20000
+* If EFINAL in range(20000,140000)
+* Else
 
 
 ## CSSTFN (N:1-5 )

@@ -763,7 +763,7 @@ def MIXER():
 			AJ=float(I-1)
 			E[I]=EHALF+ESTEP*AJ
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 			EROOT[I]=math.sqrt(E[I])
 		EROOT[1]=math.sqrt(EHALF)
 		ESTEP1=(EFINAL-16000.0)/float(4000)
@@ -771,7 +771,7 @@ def MIXER():
 			AJ=float(I-16000)
 			E[I]=16000.0+AJ*ESTEP1
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 			EROOT[I]=math.sqrt(E[I])
 	else:
 		ESTEP=1.0
@@ -783,7 +783,7 @@ def MIXER():
 			AJ=float(I-1)
 			E[I]=EHALF+ESTEP*AJ
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 			EROOT[I]=math.sqrt(E[I])
 		EROOT[1]=math.sqrt(EHALF)
 		ESTEP1=20.0
@@ -791,14 +791,14 @@ def MIXER():
 			AJ=float(I-12000)
 			E[I]=12000.0+AJ*ESTEP1
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 			EROOT[I]=math.sqrt(E[I])
 		ESTEP2=(EFINAL-92000.0)/float(4000)
 		for I in range(16001,20000):
 			AJ=float(I-16000)
 			E[I]=92000.0+AJ*ESTEP2
 			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
+			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
 			EROOT[I]=math.sqrt(E[I])
 	# endif
 	#
