@@ -591,7 +591,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
                   if(EN > XCF3[NCF3]):
                         pass  
                   else:
-                        flag42=1                              
+                        flag42=1
+                        flag44=1                              
                         for J in range(2,NCF3):
                               if(EN <= XCF3[J]):
                                     flag42=0
@@ -601,312 +602,376 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
                         A=(YCF3[J]-YCF3[J-1])/(XCF3[J]-XCF3[J-1])                         
                         B=(XCF3[J-1]*YCF3[J]-XCF3[J]*YCF3[J-1])/(XCF3[J-1]-XCF3[J])       
                         QION[1][I]=(A*EN+B)*1.*10**-16
-                        GO TO 44
+                        flag44=0
                         # USE BORN BETHE X-SECTION ABOVE XCF3(NCF3) EV
-                  43 X2=1.00/BETA2
-                  X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
-                  QION[1][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.7344
+                  if(flag44):
+                        X2=1.00/BETA2
+                        X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
+                        QION[1][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.7344
                   # 44 CONTINUE
                   if(EN <= (2.0*EION[1])):
                         pass
                   else:
                         PEQION[1][I]=PEQEL[2][(I-IOFFION[1])]     
                   #  ION = CF2 +
-            45 QION[2][I]=0.0
+            QION[2][I]=0.0
             PEQION[2][I]=0.5
             if(NANISO == 2):
                   PEQION[2][I]=0.0                             
             if(EN <= EION[2]):
-                  GO TO 50
-            if(EN > XCF2[NCF2]):
-                  GO TO 48                                
-            for J in range(2,NCF2):
-                  if(EN <= XCF2[J]):
-                        GO TO 47                                       
-            J=NCF2                                                           
-            47 A=(YCF2[J]-YCF2[J-1])/(XCF2[J]-XCF2[J-1])                         
-            B=(XCF2[J-1]*YCF2[J]-XCF2[J]*YCF2[J-1])/(XCF2[J-1]-XCF2[J])       
-            QION[2][I]=(A*EN+B)*1.E-16
-            GO TO 49
-            # USE BORN BETHE X-SECTION ABOVE XCF2[NCF2] EV
-            48 QION[2][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0534
-            49 CONTINUE
-            if(EN <= (2.0*EION[2])):
-                  GO TO 50
-            PEQION[2][I]=PEQEL[2][(I-IOFFION[2])]
-            #  ION = CF +
-            50 QION[3][I]=0.0
+                  pass
+            else:
+                  flag47=1      
+                  flag49=1
+                  if(EN > XCF2[NCF2]):
+                        pass
+                  else:
+                        
+                        for J in range(2,NCF2):
+                              if(EN <= XCF2[J]):
+                                    flag47=0                                       
+                        if(flag47):
+                              J=NCF2                                                           
+                        A=(YCF2[J]-YCF2[J-1])/(XCF2[J]-XCF2[J-1])                         
+                        B=(XCF2[J-1]*YCF2[J]-XCF2[J]*YCF2[J-1])/(XCF2[J-1]-XCF2[J])       
+                        QION[2][I]=(A*EN+B)*1.E-16
+                        flag49=0
+                        # USE BORN BETHE X-SECTION ABOVE XCF2[NCF2] EV
+                  if(flag49):
+                        QION[2][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0534
+                  #49 CONTINUE
+                  if(EN <= (2.0*EION[2])):
+                        pass
+                  else:
+                        PEQION[2][I]=PEQEL[2][(I-IOFFION[2])]
+                        #  ION = CF +
+            QION[3][I]=0.0
             PEQION[3][I]=0.5
             if(NANISO == 2):
-            PEQION[3][I]=0.0                             
-            if(EN <= EION[3]:
-            ) GO TO 55
-            if(EN > XCF1(NCF1):
-            ) GO TO 53                                
-            DO 51 J=2,NCF1                                                  
-            if(EN <= XCF1[J]:
-            ) GO TO 52                                       
-            51 CONTINUE                                                          
-            J=NCF1                                                           
-            52 A=(YCF1[J]-YCF1(J-1))/(XCF1[J]-XCF1(J-1))                         
-            B=(XCF1(J-1)*YCF1[J]-XCF1[J]*YCF1(J-1))/(XCF1(J-1)-XCF1[J])       
-            QION[3][I]=(A*EN+B)*1.D-16
-            GO TO 54
-            # USE BORN BETHE X-SECTION ABOVE XCF1(NCF1) EV
-            53 QION[3][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0386
-            54 CONTINUE
-            if(EN <= (2.0*EION[3]:
-            )) GO TO 55
-            PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))     
-            #  ION = F +
-            55 QION[4][I]=0.0
+                  PEQION[3][I]=0.0                             
+            if(EN <= EION[3]):
+                  pass
+            else:
+                  flag52=1
+                  flag54=1
+                  if(EN > XCF1(NCF1)):
+                        pass                                
+                  else:
+                        for J in range(2,NCF1):
+                              if(EN <= XCF1[J]):
+                                    flag52=0
+                        if(flag52):
+                              J=NCF1                                                           
+                        A=(YCF1[J]-YCF1[J-1])/(XCF1[J]-XCF1[J-1])                         
+                        B=(XCF1[J-1]*YCF1[J]-XCF1[J]*YCF1[J-1])/(XCF1[J-1]-XCF1[J])       
+                        QION[3][I]=(A*EN+B)*1.*10**-16
+                        flag54=0
+                        # USE BORN BETHE X-SECTION ABOVE XCF1(NCF1) EV
+                  if(flag54):
+                        QION[3][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0386
+                  if(EN <= (2.0*EION[3])):
+                        pass
+                  else:
+                        PEQION[3][I]=PEQEL[2][(I-IOFFION[3])]
+                        #  ION = F +
+            QION[4][I]=0.0
             PEQION[4][I]=0.5
             if(NANISO == 2):
-            PEQION[4][I]=0.0                             
-            if(EN <= EION[4]:
-            ) GO TO 60
-            if(EN > XC0F(NC0F):
-            ) GO TO 58                                
-            DO 56 J=2,NC0F                                                  
-            if(EN <= XC0F[J]:
-            ) GO TO 57                                       
-            56 CONTINUE                                                          
-            J=NC0F                                                           
-            57 A=(YC0F[J]-YC0F(J-1))/(XC0F[J]-XC0F(J-1))                         
-            B=(XC0F(J-1)*YC0F[J]-XC0F[J]*YC0F(J-1))/(XC0F(J-1)-XC0F[J])       
-            QION[4][I]=(A*EN+B)*1.D-16
-            GO TO 59
-            # USE BORN BETHE X-SECTION ABOVE XC0F(NC0F) EV
-            58 QION[4][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0799
-            59 CONTINUE
-            if(EN <= (2.0*EION[4]:
-            )) GO TO 60
-            PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))     
-            #  ION = C +
-            60 QION[5][I]=0.0
+                  PEQION[4][I]=0.0                             
+            if(EN <= EION[4]):
+                  pass
+            else:
+                  flag57=1
+                  flag59=1
+                  if(EN > XC0F[NC0F]):
+                        pass                                
+                  else:
+                        for J in range(2,NC0F):
+                              if(EN <= XC0F[J]):
+                                    flag57=0
+                        if(flag57):                                       
+                              J=NC0F                                                           
+                        A=(YC0F[J]-YC0F[J-1])/(XC0F[J]-XC0F[J-1])                         
+                        B=(XC0F[J-1]*YC0F[J]-XC0F[J]*YC0F[J-1])/(XC0F[J-1]-XC0F[J])       
+                        QION[4][I]=(A*EN+B)*1.*10**-16
+                        flag59=0
+                        # USE BORN BETHE X-SECTION ABOVE XC0F[NC0F] EV
+                  if(flag59):
+                        QION[4][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0799
+                  if(EN <= (2.0*EION[4])):
+                        pass
+                  else:
+                        PEQION[4][I]=PEQEL[2][(I-IOFFION[4])]
+                  #  ION = C +
+            QION[5][I]=0.0
             PEQION[5][I]=0.5
             if(NANISO == 2):
-            PEQION[5][I]=0.0                             
-            if(EN <= EION[5]:
-            ) GO TO 65
-            if(EN > XCF0(NCF0):
-            ) GO TO 63                                
-            DO 61 J=2,NCF0                                                  
-            if(EN <= XCF0[J]:
-            ) GO TO 62                                       
-            61 CONTINUE                                                          
-            J=NCF0                                                           
-            62 A=(YCF0[J]-YCF0(J-1))/(XCF0[J]-XCF0(J-1))                         
-            B=(XCF0(J-1)*YCF0[J]-XCF0[J]*YCF0(J-1))/(XCF0(J-1)-XCF0[J])       
-            QION[5][I]=(A*EN+B)*1.D-16
-            GO TO 64
-            # USE BORN BETHE X-SECTION ABOVE XCF0(NCF0) EV
-            63 QION[5][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0422
-            64 CONTINUE
-            if(EN <= (2.0*EION[5]:
-            )) GO TO 65
-            PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))     
-            #  DOUBLE IONS  CF3 +  AND F +
-            65 QION[6][I]=0.0
+                  PEQION[5][I]=0.0                             
+            if(EN <= EION[5]):
+                  pass
+            else:
+                  flag62=1
+                  flag64=1
+                  if(EN > XCF0[NCF0]):
+                        pass                                
+                  else:
+                        for J in range(2,NCF0):
+                              if(EN <= XCF0[J]):
+                                    flag62=0
+                        if(flag62):
+                              J=NCF0                                                           
+                        A=(YCF0[J]-YCF0[J-1])/(XCF0[J]-XCF0[J-1])                         
+                        B=(XCF0[J-1]*YCF0[J]-XCF0[J]*YCF0[J-1])/(XCF0[J-1]-XCF0[J])       
+                        QION[5][I]=(A*EN+B)*1.D-16
+                        flag64
+                        # USE BORN BETHE X-SECTION ABOVE XCF0[NCF0] EV
+                  if(flag64):
+                        QION[5][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0422
+                  if(EN <= (2.0*EION[5])):
+                        pass
+                  else:
+                        PEQION[5][I]=PEQEL[2][(I-IOFFION[5])]
+                        #  DOUBLE IONS  CF3 +  AND F +
+            QION[6][I]=0.0
             PEQION[6][I]=0.5
             if(NANISO == 2):
-            PEQION[6][I]=0.0                             
-            if(EN <= EION[6]:
-            ) GO TO 70 
-            if(EN > XCF3F(NCF3F):
-            ) GO TO 68                               
-            DO 66 J=2,NCF3F                                                
-            if(EN <= XCF3F[J]:
-            ) GO TO 67                                    
-            66 CONTINUE                                                          
-            J=NCF3F                                                        
-            67 A=(YCF3F[J]-YCF3F(J-1))/(XCF3F[J]-XCF3F(J-1))                     
-            B=(XCF3F(J-1)*YCF3F[J]-XCF3F[J]*YCF3F(J-1))/(XCF3F(J-1)-XCF3F[J])
-            QION[6][I]=(A*EN+B)*1.D-16
-            GO TO 69
-            # USE BORN BETHE X-SECTION ABOVE XCF3F(NCF3F) EV
-            68 QION[6][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0058
-            69 CONTINUE
-            if(EN <= (2.0*EION[6]:
-            )) GO TO 70
-            PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))     
-            #  DOUBLE IONS  CF2 +  AND F +
-            70 QION[7][I]=0.0
+                  PEQION[6][I]=0.0                             
+            if(EN <= EION[6]):
+                  pass
+            else:
+                  flag67=1
+                  flag69=1
+                  if(EN > XCF3F[NCF3F]):
+                        pass                               
+                  else:
+                        for J in range(2,NCF3F):
+                              if(EN <= XCF3F[J]):
+                                    flag67=0
+                        if(flag67):
+                              J=NCF3F                                                        
+                        A=(YCF3F[J]-YCF3F[J-1])/(XCF3F[J]-XCF3F[J-1])                     
+                        B=(XCF3F[J-1]*YCF3F[J]-XCF3F[J]*YCF3F[J-1])/(XCF3F[J-1]-XCF3F[J])
+                        QION[6][I]=(A*EN+B)*1.*10**-16
+                        flag69
+                        # USE BORN BETHE X-SECTION ABOVE XCF3F[NCF3F] EV
+                  if(flag69):
+                        QION[6][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0058
+                  if(EN <= (2.0*EION[6])):
+                        pass
+                  else:
+                        PEQION[6][I]=PEQEL[2][(I-IOFFION[6])]
+                  #  DOUBLE IONS  CF2 +  AND F +
+            QION[7][I]=0.0
             PEQION[7][I]=0.5
             if(NANISO == 2):
-            PEQION[7][I]=0.0                             
-            if(EN <= EION[7]:
-            ) GO TO 75 
-            if(EN > XCF2F(NCF2F):
-            ) GO TO 73                               
-            DO 71 J=2,NCF2F                                                
-            if(EN <= XCF2F[J]:
-            ) GO TO 72                                    
-            71 CONTINUE                                                          
-            J=NCF2F                                                        
-            72 A=(YCF2F[J]-YCF2F(J-1))/(XCF2F[J]-XCF2F(J-1))                     
-            B=(XCF2F(J-1)*YCF2F[J]-XCF2F[J]*YCF2F(J-1))/(XCF2F(J-1)-XCF2F[J])
-            QION[7][I]=(A*EN+B)*1.D-16
-            GO TO 74
-            # USE BORN BETHE X-SECTION ABOVE XCF2F(NCF2F) EV
-            73 QION[7][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0073
-            74 CONTINUE
-            if(EN <= (2.0*EION[7]:
-            )) GO TO 75
-            PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))     
-            #  DOUBLE CHARGED ION  CF3 ++
-            75 QION[8][I]=0.0
+                  PEQION[7][I]=0.0                             
+            if(EN <= EION[7]):
+                  pass
+            else:
+                  flag72=1
+                  flag74=1
+                  if(EN > XCF2F[NCF2F]):
+                        pass
+                  else:
+                        for J in range(2,NCF2F):
+                        if(EN <= XCF2F[J]):
+                              flag72=0
+                        if(flag72):
+                              J=NCF2F                                                        
+                        A=(YCF2F[J]-YCF2F[J-1])/(XCF2F[J]-XCF2F[J-1])                     
+                        B=(XCF2F[J-1]*YCF2F[J]-XCF2F[J]*YCF2F[J-1])/(XCF2F[J-1]-XCF2F[J])
+                        QION[7][I]=(A*EN+B)*1.*10**-16
+                        flag74=0
+                        # USE BORN BETHE X-SECTION ABOVE XCF2F[NCF2F] EV
+                  if(flag74):
+                        QION[7][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0073
+                  if(EN <= (2.0*EION[7])):
+                        pass
+                  else:
+                        PEQION[7][I]=PEQEL[2][(I-IOFFION[7])]
+                        #  DOUBLE CHARGED ION  CF3 ++
+            QION[8][I]=0.0
             PEQION[8][I]=0.5
             if(NANISO == 2):
-            PEQION[8][I]=0.0                             
-            if(EN <= EION[8]:
-            ) GO TO 80 
-            if(EN > XCF32(NCF32):
-            ) GO TO 78                               
-            DO 76 J=2,NCF32                                                
-            if(EN <= XCF32[J]:
-            ) GO TO 77                                    
-            76 CONTINUE                                                          
-            J=NCF32                                                        
-            77 A=(YCF32[J]-YCF32(J-1))/(XCF32[J]-XCF32(J-1))                     
-            B=(XCF32(J-1)*YCF32[J]-XCF32[J]*YCF32(J-1))/(XCF32(J-1)-XCF32[J])
-            QION[8][I]=(A*EN+B)*1.D-16
-            GO TO 79
-            # USE BORN BETHE X-SECTION ABOVE XCF32(NCF32) EV
-            78 QION[8][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0031
-            79 CONTINUE
-            if(EN <= (2.0*EION[8]:
-            )) GO TO 80
-            PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))     
-            #  DOUBLE CHARGED ION  CF2 ++
-            #
-            #  ADD INTO CF3 ++
-            #                            
-            80 if(EN <= XCF22[1]) GO TO 85 
-            if(EN > XCF22(NCF22):
-            ) GO TO 83                               
-            DO 81 J=2,NCF22                                                
-            if(EN <= XCF22[J]:
-            ) GO TO 82                                    
-            81 CONTINUE                                                          
-            J=NCF22                                                        
-            82 A=(YCF22[J]-YCF22(J-1))/(XCF22[J]-XCF22(J-1))                     
-            B=(XCF22(J-1)*YCF22[J]-XCF22[J]*YCF22(J-1))/(XCF22(J-1)-XCF22[J])
-            QION[8][I]=QION[8][I]+(A*EN+B)*1.D-16
-            GO TO 85
-            # USE BORN BETHE X-SECTION ABOVE XCF22(NCF22) EV
-            83 QION[8][I]=QION[8][I]+CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0077  
-            #  DOUBLE IONS    CF +  AND F +
-            85 QION[9][I]=0.0
+                  PEQION[8][I]=0.0                             
+            if(EN <= EION[8]):
+                  pass
+            else:
+                  flag77=1
+                  flag79=1
+                  if(EN > XCF32[NCF32]):
+                        pass
+                  else:
+                        for J in range(2,NCF32):
+                              if(EN <= XCF32[J]):
+                                    flag77=0
+                        if(flag77):
+                              J=NCF32                                                        
+                        A=(YCF32[J]-YCF32[J-1])/(XCF32[J]-XCF32[J-1])                     
+                        B=(XCF32[J-1]*YCF32[J]-XCF32[J]*YCF32[J-1])/(XCF32[J-1]-XCF32[J])
+                        QION[8][I]=(A*EN+B)*1.D-16
+                        flag79=0
+                        # USE BORN BETHE X-SECTION ABOVE XCF32[NCF32] EV
+                  if(flag79):
+                        QION[8][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0031
+                  if(EN <= (2.0*EION[8])):
+                        pass
+                  else:
+                        PEQION[8][I]=PEQEL[2][(I-IOFFION[8])]
+                  #  DOUBLE CHARGED ION  CF2 ++
+                  #
+                  #  ADD INTO CF3 ++
+                  #                            
+            if(EN <= XCF22[1]):
+                  pass
+            else: 
+                  flag82=1
+                  flag85=1
+                  if(EN > XCF22[NCF22]):
+                        pass
+                  else:
+                        for J in range(2,NCF22):
+                              if(EN <= XCF22[J]):
+                                    flag82=0
+                        if(flag82):
+                              J=NCF22                                                        
+                        A=(YCF22[J]-YCF22[J-1])/(XCF22[J]-XCF22[J-1])                     
+                        B=(XCF22[J-1]*YCF22[J]-XCF22[J]*YCF22[J-1])/(XCF22[J-1]-XCF22[J])
+                        QION[8][I]=QION[8][I]+(A*EN+B)*1.E-16
+                        flag85=0
+                        # USE BORN BETHE X-SECTION ABOVE XCF22[NCF22] EV
+                  if(flag85):
+                        QION[8][I]=QION[8][I]+CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0077  
+                        #  DOUBLE IONS    CF +  AND F +
+            QION[9][I]=0.0
             PEQION[9][I]=0.5
             if(NANISO == 2):
-            PEQION[9][I]=0.0                             
-            if(EN <= EION[9]:
-            ) GO TO 90 
-            if(EN > XCFF(NCFF):
-            ) GO TO 88                               
-            DO 86 J=2,NCFF                                                
-            if(EN <= XCFF[J]:
-            ) GO TO 87                                    
-            86 CONTINUE                                                          
-            J=NCFF                                                       
-            87 A=(YCFF[J]-YCFF(J-1))/(XCFF[J]-XCFF(J-1))                     
-            B=(XCFF(J-1)*YCFF[J]-XCFF[J]*YCFF(J-1))/(XCFF(J-1)-XCFF[J])
-            QION[9][I]=(A*EN+B)*1.D-16
-            GO TO 89
-            # USE BORN BETHE X-SECTION ABOVE XCFF(NCFF) EV
-            88 QION[9][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0189
-            89 CONTINUE
-            if(EN <= (2.0*EION[9]:
-            )) GO TO 90
-            PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))     
-            #  DOUBLE IONS    C +  AND F +
-            90 QION(10,I)=0.0
-            PEQION(10,I)=0.5
+                  PEQION[9][I]=0.0                             
+            if(EN <= EION[9]):
+                  GO TO 90 
+            else:
+                  flag87=1
+                  flag89=1
+                  if(EN > XCFF[NCFF]):
+                        GO TO 88                               
+                  else:
+                        for J in range(2,NCFF):
+                              if(EN <= XCFF[J]):
+                                    flag87                                    
+                        if(flag87):
+                              J=NCFF                                                       
+                        A=(YCFF[J]-YCFF[J-1])/(XCFF[J]-XCFF[J-1])                     
+                        B=(XCFF[J-1]*YCFF[J]-XCFF[J]*YCFF[J-1])/(XCFF[J-1]-XCFF[J])
+                        QION[9][I]=(A*EN+B)*1.*10**-16
+                        flag89=0
+                        # USE BORN BETHE X-SECTION ABOVE XCFF[NCFF] EV
+                  if(flag89):
+                        QION[9][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0189
+                  if(EN <= (2.0*EION[9])):
+                        pass
+                  else:
+                        PEQION[9][I]=PEQEL[2][(I-IOFFION[9])]
+                  #  DOUBLE IONS    C +  AND F +
+            QION[10][I]=0.0
+            PEQION[10][I]=0.5
             if(NANISO == 2):
-            PEQION(10,I)=0.0                             
-            if(EN <= EION[10]:
-            ) GO TO 95 
-            if(EN > XCF(NCF):
-            ) GO TO 93                               
-            DO 91 J=2,NCF                                                
-            if(EN <= XCF[J]:
-            ) GO TO 92                                    
-            91 CONTINUE                                                          
-            J=NCF                                                       
-            92 A=(YCF[J]-YCF(J-1))/(XCF[J]-XCF(J-1))                     
-            B=(XCF(J-1)*YCF[J]-XCF[J]*YCF(J-1))/(XCF(J-1)-XCF[J])
-            QION(10,I)=(A*EN+B)*1.D-16
-            GO TO 94
-            # USE BORN BETHE X-SECTION ABOVE XCF(NCF) EV
-            93 QION(10,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0087
-            94 CONTINUE
-            if(EN <= (2.0*EION[10]:
-            )) GO TO 95
-            PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))     
-            # CARBON K-SHELL IONISATION
-            95 QION(11,I)=0.0
-            PEQION(11,I)=0.5
+                  PEQION[10][I]=0.0                             
+            if(EN <= EION[10]):
+                  pass
+            else:
+                  flag92=1
+                  flag94=1
+                  if(EN > XCF[NCF]):
+                        pass
+                  else:
+                        for J in range(2,NCF):
+                              if(EN <= XCF[J]):
+                                    flag92=0                                    
+                        if(flag92):
+                              J=NCF                                                       
+                        A=(YCF[J]-YCF[J-1])/(XCF[J]-XCF[J-1])                     
+                        B=(XCF[J-1]*YCF[J]-XCF[J]*YCF[J-1])/(XCF[J-1]-XCF[J])
+                        QION[10][I]=(A*EN+B)*1.D-16
+                        flag94=0
+                        # USE BORN BETHE X-SECTION ABOVE XCF[NCF] EV
+                  if(flag94):
+                        QION[10][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0087
+                  if(EN <= (2.0*EION[10])):
+                        pass
+                  else:
+                        PEQION[10][I]=PEQEL[2][(I-IOFFION[10])]
+                  # CARBON K-SHELL IONISATION
+            QION[11][I]=0.0
+            PEQION[11][I]=0.5
             if(NANISO == 2):
-            PEQION(11,I)=0.0                             
-            if(EN <= EION[11]:
-            ) GO TO 135
-            DO 130 J=2,NKSHC                                                  
-            if(EN <= XKSHC[J]:
-            ) GO TO 131                                      
-            130 CONTINUE                                                          
-            J=NKSHC                                                           
-            131 A=(YKSHC[J]-YKSHC(J-1))/(XKSHC[J]-XKSHC(J-1))                  
-            B=(XKSHC(J-1)*YKSHC[J]-XKSHC[J]*YKSHC(J-1))/(XKSHC(J-1)-XKSHC[J])
-            QION(11,I)=(A*EN+B)*1.D-16
-            if(EN <= (2.0*EION[11]:
-            )) GO TO 135
-            PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))  
-            # FLUORINE K-SHELL IONISATION                          
-            135 QION(12,I)=0.0
-            PEQION(12,I)=0.5
+                  PEQION[11][I]=0.0                             
+            if(EN <= EION[11]):
+                  pass
+            else:
+                  flag131=1
+                  for J in range(2,NKSHC):
+                        if(EN <= XKSHC[J]):
+                              flag131=0
+                  if(flag131):                                                  
+                        J=NKSHC                                                           
+                  A=(YKSHC[J]-YKSHC[J-1])/(XKSHC[J]-XKSHC[J-1])                  
+                  B=(XKSHC[J-1]*YKSHC[J]-XKSHC[J]*YKSHC[J-1])/(XKSHC[J-1]-XKSHC[J])
+                  QION[11][I]=(A*EN+B)*1.E-16
+                  if(EN <= (2.0*EION[11])):
+                        pass
+                  else:
+                        PEQION[11][I]=PEQEL[2][(I-IOFFION[11])]
+                        # FLUORINE K-SHELL IONISATION                          
+            QION[12][I]=0.0
+            PEQION[12][I]=0.5
             if(NANISO == 2):
-            PEQION(12,I)=0.0                             
-            if(EN <= EION[12]:
-            ) GO TO 145
-            DO 140 J=2,NKSHF                                                  
-            if(EN <= XKSHF[J]:
-            ) GO TO 141                                      
-            140 CONTINUE                                                          
-            J=NKSHF                                                           
-            141 A=(YKSHF[J]-YKSHF(J-1))/(XKSHF[J]-XKSHF(J-1))                  
-            B=(XKSHF(J-1)*YKSHF[J]-XKSHF[J]*YKSHF(J-1))/(XKSHF(J-1)-XKSHF[J])
-            # FACTOR OF 4 FROM NUMBER OF FLUORINE ATOMS IN MOLECULE
-            QION(12,I)=4.0*(A*EN+B)*1.D-16
-            if(EN <= (2.0*EION[12]:
-            )) GO TO 145
-            PEQION(12,I)=PEQEL(2,(I-IOFFION[12]))
-            #    
-            # ATTACHMENT                                   
-            145 Q[4][I]=0.0                                                        
-            if(EN <= XATT[1]:
-            ) GO TO 250                                       
-            if(EN > XATT(NATT1):
-            ) GO TO 250                                   
-            DO 210 J=2,NATT1                                                  
-            if(EN <= XATT[J]:
-            ) GO TO 220                                       
-            210 CONTINUE                                                          
-            J=NATT1                                                           
-            220 A=(YATT[J]-YATT(J-1))/(XATT[J]-XATT(J-1))                         
-            B=(XATT(J-1)*YATT[J]-XATT[J]*YATT(J-1))/(XATT(J-1)-XATT[J])       
-            Q[4][I]=(A*EN+B)*1.D-16  
-            #                                           
-            250 Q[5][I]=0.0                                                        
+                  PEQION[12][I]=0.0                             
+            if(EN <= EION[12]):
+                  pass
+            else:
+                  flag141=1
+                  flag145=1
+                  for J in range(2,NKSHF):
+                        if(EN <= XKSHF[J]):
+                              flag141=0
+                  if(flag141):
+                        J=NKSHF                                                           
+                  A=(YKSHF[J]-YKSHF[J-1])/(XKSHF[J]-XKSHF[J-1])                  
+                  B=(XKSHF[J-1]*YKSHF[J]-XKSHF[J]*YKSHF[J-1])/(XKSHF[J-1]-XKSHF[J])
+                  # FACTOR OF 4 FROM NUMBER OF FLUORINE ATOMS IN MOLECULE
+                  QION[12][I]=4.0*(A*EN+B)*1.E-16
+                  if(EN <= (2.0*EION[12])):
+                        pass
+                  else:
+                        PEQION[12][I]=PEQEL[2][(I-IOFFION[12])]
+                  #    
+                  # ATTACHMENT                                   
+            Q[4][I]=0.0                                                        
+            if(EN <= XATT[1]):
+                  pass
+            else:
+                  flag220=1
+                  if(EN > XATT[NATT1]):
+                        pass
+                  else:
+                        for J in range(2,NATT1):
+                              if(EN <= XATT[J]):
+                                    flag220=0                                       
+                        if(flag220):
+                              J=NATT1                                                           
+                        A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])                         
+                        B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
+                        Q[4][I]=(A*EN+B)*1.E-16  
+                        #                                           
+            Q[5][I]=0.0                                                        
             Q[6][I]=0.0
             # SCALE FACTOR FOR VIBRATIONAL DIPOLE V3 ABOVE 0.4EV
             VDSC=1.0
             if(EN > 0.4):
-            :
-            EPR=EN
+                  EPR=EN
             if(EN > 5.0):
-            EPR=5.0
-            VDSC=(14.4-EPR)/14.0
+                  EPR=5.0
+                  VDSC=(14.4-EPR)/14.0
             # endif 
             #           
             # SUPERELASTIC OF VIBRATION V2 ISOTROPIC  BELOW 100EV                             
@@ -914,80 +979,84 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
             QIN[1][I]=0.0 
             PEQIN[1][I]=0.5
             if(EN <= 0.0):
-            GO TO 350
-            EFAC=math.sqrt(1.0-(EIN[1]/EN))
-            QIN[1][I]=0.007*math.log((EFAC+1.0)/(EFAC-1.0))/EN
-            QIN[1][I]=QIN[1][I]*APOPV2*1.D-16/DEGV2
-            if(EN > 100.0):
-            PEQIN[1][I]=PQ1
-            350 CONTINUE
+                  pass
+            else:
+                  EFAC=math.sqrt(1.0-(EIN[1]/EN))
+                  QIN[1][I]=0.007*math.log((EFAC+1.0)/(EFAC-1.0))/EN
+                  QIN[1][I]=QIN[1][I]*APOPV2*1.D-16/DEGV2
+                  if(EN > 100.0):
+                        PEQIN[1][I]=PQ1
             # VIBRATION V2 ISOTROPIC BELOW 100EV
             QIN[2][I]=0.0
             PEQIN[2][I]=0.5                                                   
-            if(EN <= EIN[2]:
-            ) GO TO 400                                        
-            EFAC=math.sqrt(1.0-(EIN[2]/EN))
-            QIN[2][I]=0.007*math.log((1.0+EFAC)/(1.0-EFAC))/EN    
-            QIN[2][I]=QIN[2][I]*APOPGS*1.D-16
-            if(EN > 100.0):
-            PEQIN[2][I]=PQ1
-            400 CONTINUE                                                          
+            if(EN <= EIN[2]):
+                  pass
+            else:
+                  EFAC=math.sqrt(1.0-(EIN[2]/EN))
+                  QIN[2][I]=0.007*math.log((1.0+EFAC)/(1.0-EFAC))/EN    
+                  QIN[2][I]=QIN[2][I]*APOPGS*1.E-16
+                  if(EN > 100.0):
+                        PEQIN[2][I]=PQ1
             #           
             # SUPERELASTIC OF VIBRATION V4 ISOTROPIC BELOW 100EV                              
             #
             QIN[3][I]=0.0
             PEQIN[3][I]=0.5
             if(EN <= 0.0):
-            GO TO 450
-            if((EN-EIN[3]:
-            ) > XVBV4(NVBV4)) GO TO 424
-            DO 410 J=2,NVBV4
-            if((EN-EIN[3]:
-            ) <= XVBV4[J]) GO TO 420
-            410 CONTINUE
-            J=NVBV4
-            420 A=(YVBV4[J]-YVBV4(J-1))/(XVBV4[J]-XVBV4(J-1))
-            B=(XVBV4(J-1)*YVBV4[J]-XVBV4[J]*YVBV4(J-1))/(XVBV4(J-1)-XVBV4[J])
-            QIN[3][I]=(EN-EIN[3])*(A*(EN-EIN[3])+B)/EN
-            GO TO 425
-            424 QIN[3][I]=YVBV4(NVBV4)*(XVBV4(NVBV4)/(EN*(EN-EIN[3]))**2)
-            425 CONTINUE
-            EFAC=math.sqrt(1.0-(EIN[3]/EN))
-            QIN[3][I]=QIN[3][I]+0.0500*math.log((EFAC+1.0)/(EFAC-1.0))/EN
-            QIN[3][I]=QIN[3][I]*APOPV4*1.D-16/DEGV4
-            if(EN > 100.0):
-            PEQIN[3][I]=PQ1
-            450 CONTINUE
+                  GO TO 450
+            else:
+                  flag420=1
+                  flag425=1
+                  if((EN-EIN[3]) > X):
+                        pass
+                  else:
+                        pass J in range(2,NVBV4):
+                              if((EN-EIN[3]) <= XVBV4[J]):
+                                    flag420=0
+                        if(flag420):
+                              J=NVBV4
+                        A=(YVBV4[J]-YVBV4[J-1])/(XVBV4[J]-XVBV4[J-1])
+                        B=(XVBV4[J-1]*YVBV4[J]-XVBV4[J]*YVBV4[J-1])/(XVBV4[J-1]-XVBV4[J])
+                        QIN[3][I]=(EN-EIN[3])*(A*(EN-EIN[3])+B)/EN
+                        flag425=0
+                  if(flag425):
+                        QIN[3][I]=YVBV4[NVBV4]*(XVBV4[NVBV4]/(EN*(EN-EIN[3]))**2)
+                  EFAC=math.sqrt(1.0-(EIN[3]/EN))
+                  QIN[3][I]=QIN[3][I]+0.0500*math.log((EFAC+1.0)/(EFAC-1.0))/EN
+                  QIN[3][I]=QIN[3][I]*APOPV4*1.E-16/DEGV4
+                  if(EN > 100.0):
+                        PEQIN[3][I]=PQ1
             # VIBRATION V4 ANISOTROPIC
             QIN[4][I]=0.0
             PEQIN[4][I]=0.5                                                   
-            if(EN <= EIN[4]:
-            ) GO TO 500
-            if(EN > XVBV4(NVBV4):
-            ) GO TO 474                                
-            DO 460 J=2,NVBV4                                                 
-            if(EN <= XVBV4[J]:
-            ) GO TO 470                                      
-            460 CONTINUE                                                          
-            J=NVBV4                                                          
-            470 A=(YVBV4[J]-YVBV4(J-1))/(XVBV4[J]-XVBV4(J-1))                     
-            B=(XVBV4(J-1)*YVBV4[J]-XVBV4[J]*YVBV4(J-1))/(XVBV4(J-1)-XVBV4[J])
-            QIN[4][I]=A*EN+B
-            GO TO 475
-            474 QIN[4][I]=YVBV4(NVBV4)*(XVBV4(NVBV4)/EN)**3
-            475 CONTINUE 
-            EFAC=math.sqrt(1.0-(EIN[4]/EN))
-            ADIP=0.0500*math.log((1.0+EFAC)/(1.0-EFAC))/EN    
-            ELF=EN-EIN[4]
-            FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
-            BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
-            # RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART = RAT
-            XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[4][I])*APOPGS*1.D-16
-            QIN[4][I]=(QIN[4][I]+ADIP)*APOPGS*1.D-16
-            if(EN <= 100.0):
-            PEQIN[4][I]=0.5+(QIN[4][I]-XMT)/QIN[4][I]
-            if(EN > 100.0):
-            PEQIN[4][I]=PQ1
+            if(EN <= EIN[4]):
+                  GO TO 500
+            else:
+                  if(EN > XVBV4[NVBV4]):
+                        pass
+                  else
+                        for J in range(2,NVBV4):
+                              if(EN <= XVBV4[J]):
+                                    GO TO 470                                      
+                        J=NVBV4                                                          
+                        470 A=(YVBV4[J]-YVBV4[J-1])/(XVBV4[J]-XVBV4[J-1])                     
+                        B=(XVBV4[J-1]*YVBV4[J]-XVBV4[J]*YVBV4[J-1])/(XVBV4[J-1]-XVBV4[J])
+                        QIN[4][I]=A*EN+B
+                        GO TO 475
+                  474 QIN[4][I]=YVBV4[NVBV4]*(XVBV4[NVBV4]/EN)**3
+                  475 CONTINUE 
+                  EFAC=math.sqrt(1.0-(EIN[4]/EN))
+                  ADIP=0.0500*math.log((1.0+EFAC)/(1.0-EFAC))/EN    
+                  ELF=EN-EIN[4]
+                  FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
+                  BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
+                  # RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART = RAT
+                  XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[4][I])*APOPGS*1.D-16
+                  QIN[4][I]=(QIN[4][I]+ADIP)*APOPGS*1.D-16
+                  if(EN <= 100.0):
+                  PEQIN[4][I]=0.5+(QIN[4][I]-XMT)/QIN[4][I]
+                  if(EN > 100.0):
+                  PEQIN[4][I]=PQ1
             500 CONTINUE                                                          
             # SUPERELASTIC OF VIBRATION V1 ISOTROPIC BELOW 100EV
             QIN[5][I]=0.0
@@ -8367,10 +8436,10 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       QION[9][I]=(A*EN+B)*1.D-16
       PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
 # L1 SHELL IONISATION
- 2271 QION(10,I)=0.00
-      PEQION(10,I)=0.50
+ 2271 QION[10][I]=0.00
+      PEQION[10][I]=0.50
       if(NANISO == 2):
- PEQION(10,I)=0.00
+ PEQION[10][I]=0.00
       if(EN <= EION[10]:
 ) GO TO 2274
       DO 2272 J=2,NL1S
@@ -8380,13 +8449,13 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NL1S
  2273 A=(YL1S[J]-YL1S(J-1))/(XL1S[J]-XL1S(J-1))
       B=(XL1S(J-1)*YL1S[J]-XL1S[J]*YL1S(J-1))/(XL1S(J-1)-XL1S[J])
-      QION(10,I)=(A*EN+B)*1.D-16
-      PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))
+      QION[10][I]=(A*EN+B)*1.D-16
+      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
 #  K SHELL IONISATION
- 2274 QION(11,I)=0.00
-      PEQION(11,I)=0.50
+ 2274 QION[11][I]=0.00
+      PEQION[11][I]=0.50
       if(NANISO == 2):
- PEQION(11,I)=0.00
+ PEQION[11][I]=0.00
       if(EN <= EION[11]:
 ) GO TO 2277
       DO 2275 J=2,NKSH
@@ -8396,8 +8465,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NKSH
  2276 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J])
-      QION(11,I)=(A*EN+B)*1.D-16
-      PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))
+      QION[11][I]=(A*EN+B)*1.D-16
+      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
 #  ATTACHMENT                                                    
  2277 Q[4][I]=0.0
 # COUNTING IONISATION                                         
@@ -8423,7 +8492,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   242 CONTINUE                                                       
 # CORRECTION TO SHARGE STATE 1 2 3 AND 4 X-SECTION FOR K L AND M SHELLS
 # GIVES TOTAL IONISATION EQUAL TO OSCILLATOR SUM
-      QTEMP=QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION(10,I)+QION(11,I)
+      QTEMP=QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]
       if(Q[5][I]:
  == 0.0) :
        QCORR=1.0
@@ -9237,7 +9306,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       DO 701 JK=25,51
   701 Q4SUM=Q4SUM+QIN(JK,I)
       QINEL=Q1SUM+Q2SUM+Q3SUM+Q4SUM
-      Q[1][I]=QELA+QINEL+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION(10,I)+QION(11,I)+QIN(52,I)
+      Q[1][I]=QELA+QINEL+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QIN(52,I)
 #     WRITE(6,8976) EN,Q1SUM,Q2SUM,Q3SUM,Q4SUM,QINEL
 #8976 print(' EN=',F9.1,' Q1=','%.3f' %,' Q2=','%.3f' %,' Q3=','%.3f' %,' Q4=',
 #    /'%.3f' %,' QSUM=','%.3f' %)       
@@ -10217,10 +10286,10 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       QION[9][I]=(A*EN+B)*1.D-16
       PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
 # L2-SHELL IONISATION
- 2248 QION(10,I)=0.00
-      PEQION(10,I)=0.50
+ 2248 QION[10][I]=0.00
+      PEQION[10][I]=0.50
       if(NANISO == 2):
- PEQION(10,I)=0.00                            
+ PEQION[10][I]=0.00                            
       if(EN <= EION[10]:
 ) GO TO 2251
       DO 2249 J=2,NIONL2
@@ -10230,13 +10299,13 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NIONL2
  2250 A=(YL2S[J]-YL2S(J-1))/(XL2S[J]-XL2S(J-1))
       B=(XL2S(J-1)*YL2S[J]-XL2S[J]*YL2S(J-1))/(XL2S(J-1)-XL2S[J])
-      QION(10,I)=(A*EN+B)*1.D-16
-      PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))
+      QION[10][I]=(A*EN+B)*1.D-16
+      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
 # L1-SHELL IONISATION
- 2251 QION(11,I)=0.00
-      PEQION(11,I)=0.50
+ 2251 QION[11][I]=0.00
+      PEQION[11][I]=0.50
       if(NANISO == 2):
- PEQION(11,I)=0.00                            
+ PEQION[11][I]=0.00                            
       if(EN <= EION[11]:
 ) GO TO 2254
       DO 2252 J=2,NIONL1
@@ -10246,13 +10315,13 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NIONL1
  2253 A=(YL1S[J]-YL1S(J-1))/(XL1S[J]-XL1S(J-1))
       B=(XL1S(J-1)*YL1S[J]-XL1S[J]*YL1S(J-1))/(XL1S(J-1)-XL1S[J])
-      QION(11,I)=(A*EN+B)*1.D-16
-      PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))
+      QION[11][I]=(A*EN+B)*1.D-16
+      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
 #  K-SHELL IONISATION
- 2254 QION(12,I)=0.00
-      PEQION(12,I)=0.50
+ 2254 QION[12][I]=0.00
+      PEQION[12][I]=0.50
       if(NANISO == 2):
- PEQION(12,I)=0.00                            
+ PEQION[12][I]=0.00                            
       if(EN <= EION[12]:
 ) GO TO 2257
       DO 2255 J=2,NIONK 
@@ -10262,8 +10331,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NIONK 
  2256 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J])
-      QION(12,I)=(A*EN+B)*1.D-16
-      PEQION(12,I)=PEQEL(2,(I-IOFFION[12]))
+      QION[12][I]=(A*EN+B)*1.D-16
+      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
  2257 CONTINUE
 # ATTACHMENT
       Q[4][I]=0.0
@@ -10290,7 +10359,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   242 CONTINUE   
 # CORRECTION TO CHARGE STATE 1 2 3+4+5+6 X-SECTION FOR K L AND M SHELLS
 # CORRECTION GIVES TOTAL IONISATION EQUAL TO OSCILLATOR SUM
-      QTEMP=QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION(10,I)+QION(11,I)+QION(12,I)
+      QTEMP=QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QION[12][I]
       if(Q[5][I]:
  == 0.0) :
        QCORR=1.0
@@ -10912,7 +10981,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   413 QEXC=0.0
       DO 414 NLEV=1,NIN
   414 QEXC=QEXC+QIN(NLEV,I) 
-      Q[1][I]=QELA+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION(10,I)+QION(11,I)+QION(12,I)+QEXC+QIN(51,I)
+      Q[1][I]=QELA+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QION[12][I]+QEXC+QIN(51,I)
 #
 #     WRITE(6,997) EN,Q[1][I],QEXC,Q[5][I],QELA
 # 997 print(' EN =','%.4f' % ,' QTOT =','%.3f' %,' QEXC =','%.3f' %,' QION =',D12
@@ -11649,15 +11718,15 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   200 Q[4][I]=0.0                                                        
       if(EN < XATT[1]:
 ) GO TO 250                                       
-      if(EN > XATT(NATT1):
+      if(EN > XATT[NATT1]:
 ) GO TO 250                                   
       DO 210 J=2,NATT1                                                  
       if(EN <= XATT[J]:
 ) GO TO 220                                       
   210 CONTINUE                                                          
       J=NATT1                                                          
-  220 A=(YATT[J]-YATT(J-1))/(XATT[J]-XATT(J-1))                         
-      B=(XATT(J-1)*YATT[J]-XATT[J]*YATT(J-1))/(XATT(J-1)-XATT[J])       
+  220 A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])                         
+      B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
       Q[4][I]=(A*EN+B)*1.D-16 
 # COUNTING IONISATION                                           
   250 Q[5][I]=0.0     
@@ -11693,8 +11762,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) <= XVBV4[J]) GO TO 320                             
   310 CONTINUE                                                          
       J=NVIBV4                                                          
-  320 A=(YVBV4[J]-YVBV4(J-1))/(XVBV4[J]-XVBV4(J-1))                     
-      B=(XVBV4(J-1)*YVBV4[J]-XVBV4[J]*YVBV4(J-1))/(XVBV4(J-1)-XVBV4[J])
+  320 A=(YVBV4[J]-YVBV4[J-1])/(XVBV4[J]-XVBV4[J-1])                     
+      B=(XVBV4[J-1]*YVBV4[J]-XVBV4[J]*YVBV4[J-1])/(XVBV4[J-1]-XVBV4[J])
       QIN[1][I]=(EN+EIN[2])*(A*(EN+EIN[2])+B)/EN
       GO TO 326
   325 QIN[1][I]=YVBV4(NVIBV4)*(XVBV4(NVIBV4)/(EN+EIN[2]))**2
@@ -11715,8 +11784,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 370                                      
   360 CONTINUE                                                          
       J=NVIBV4                                                         
-  370 A=(YVBV4[J]-YVBV4(J-1))/(XVBV4[J]-XVBV4(J-1))                     
-      B=(XVBV4(J-1)*YVBV4[J]-XVBV4[J]*YVBV4(J-1))/(XVBV4(J-1)-XVBV4[J])
+  370 A=(YVBV4[J]-YVBV4[J-1])/(XVBV4[J]-XVBV4[J-1])                     
+      B=(XVBV4[J-1]*YVBV4[J]-XVBV4[J]*YVBV4[J-1])/(XVBV4[J-1]-XVBV4[J])
       QIN[2][I]=A*EN+B
       GO TO 376
   375 QIN[2][I]=YVBV4(NVIBV4)*(XVBV4(NVIBV4)/EN)**2 
@@ -13060,19 +13129,19 @@ c     NANISO=0
       J=NION10                                                          
   192 A=(YION10[J]-YION10(J-1))/(XION10[J]-XION10(J-1))                
       B=(XION10(J-1)*YION10[J]-XION10[J]*YION10(J-1))/(XION10(J-1)-XION10[J]) 
-      QION(10,I)=(A*EN+B)*1.D-16               
+      QION[10][I]=(A*EN+B)*1.D-16               
       GO TO 197 
   193 if(EN > XION(NIOND)) GO TO 196
 # USE FRACTION OF COUNTING IONISATION ABOVE 600 EV
 # FRACTION OF QCOUNT
-      QION(10,I)=QCOUNT*0.0062
+      QION[10][I]=QCOUNT*0.0062
       GO TO 197
 # USE BORN BETHE ABOVE XION(NIOND) EV
-  196 QION(10,I)=QBB*0.0062    
+  196 QION[10][I]=QBB*0.0062    
   197 CONTINUE
       if(EN < (2.0*EION[10]:
 )) GO TO 200
-      PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
 # C2H6++
   200 if(EN <= EION[11]) GO TO 210         
       if(EN > XION11(NION11):
@@ -13084,19 +13153,19 @@ c     NANISO=0
       J=NION11                                                          
   202 A=(YION11[J]-YION11(J-1))/(XION11[J]-XION11(J-1))                
       B=(XION11(J-1)*YION11[J]-XION11[J]*YION11(J-1))/(XION11(J-1)-XION11[J]) 
-      QION(11,I)=(A*EN+B)*1.D-16               
+      QION[11][I]=(A*EN+B)*1.D-16               
       GO TO 207 
   203 if(EN > XION(NIOND)) GO TO 206
 # USE FRACTION OF COUNTING IONISATION ABOVE 600 EV
 # FRACTION OF QCOUNT
-      QION(11,I)=QCOUNT*0.0745
+      QION[11][I]=QCOUNT*0.0745
       GO TO 207
 # USE BORN BETHE ABOVE XION(NIOND) EV
-  206 QION(11,I)=QBB*0.0745  
+  206 QION[11][I]=QBB*0.0745  
   207 CONTINUE
       if(EN < (2.0*EION[11]:
 )) GO TO 210
-      PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
 # H3+
   210 if(EN <= EION[12]) GO TO 220         
       if(EN > XION12(NION12):
@@ -13108,19 +13177,19 @@ c     NANISO=0
       J=NION12                                                          
   212 A=(YION12[J]-YION12(J-1))/(XION12[J]-XION12(J-1))                
       B=(XION12(J-1)*YION12[J]-XION12[J]*YION12(J-1))/(XION12(J-1)-XION12[J]) 
-      QION(12,I)=(A*EN+B)*1.D-16               
+      QION[12][I]=(A*EN+B)*1.D-16               
       GO TO 217 
   213 if(EN > XION(NIOND)) GO TO 216
 # USE FRACTION OF COUNTING IONISATION ABOVE 600 EV
 # FRACTION OF QCOUNT
-      QION(12,I)=QCOUNT*0.0000055
+      QION[12][I]=QCOUNT*0.0000055
       GO TO 217
 # USE BORN BETHE ABOVE XION(NIOND) EV
-  216 QION(12,I)=QBB*0.0000055   
+  216 QION[12][I]=QBB*0.0000055   
   217 CONTINUE
       if(EN < (2.0*EION[12]:
 )) GO TO 220
-      PEQION(12,I)=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
 # CH+
   220 if(EN <= EION[13]) GO TO 230         
       if(EN > XION13(NION13):
@@ -13132,19 +13201,19 @@ c     NANISO=0
       J=NION13                                                          
   222 A=(YION13[J]-YION13(J-1))/(XION13[J]-XION13(J-1))                
       B=(XION13(J-1)*YION13[J]-XION13[J]*YION13(J-1))/(XION13(J-1)-XION13[J]) 
-      QION(13,I)=(A*EN+B)*1.D-16               
+      QION[13][I]=(A*EN+B)*1.D-16               
       GO TO 227 
   223 if(EN > XION(NIOND)) GO TO 226
 # USE FRACTION OF COUNTING IONISATION ABOVE 600 EV
 # FRACTION OF QCOUNT
-      QION(13,I)=QCOUNT*0.00037
+      QION[13][I]=QCOUNT*0.00037
       GO TO 227
 # USE BORN BETHE ABOVE XION(NIOND) EV
-  226 QION(13,I)=QBB*0.00037
+  226 QION[13][I]=QBB*0.00037
   227 CONTINUE
       if(EN < (2.0*EION[13]:
 )) GO TO 230
-      PEQION(13,I)=PEQEL(2,(I-IOFFION[13]))
+      PEQION[13][I]=PEQEL(2,(I-IOFFION[13]))
 # C2+
   230 if(EN <= EION[14]) GO TO 240         
       if(EN > XION14(NION14):
@@ -13156,19 +13225,19 @@ c     NANISO=0
       J=NION14                                                          
   232 A=(YION14[J]-YION14(J-1))/(XION14[J]-XION14(J-1))                
       B=(XION14(J-1)*YION14[J]-XION14[J]*YION14(J-1))/(XION14(J-1)-XION14[J]) 
-      QION(14,I)=(A*EN+B)*1.D-16               
+      QION[14][I]=(A*EN+B)*1.D-16               
       GO TO 237 
   233 if(EN > XION(NIOND)) GO TO 236
 # USE FRACTION OF COUNTING IONISATION ABOVE 600 EV
 # FRACTION OF QCOUNT
-      QION(14,I)=QCOUNT*0.000022
+      QION[14][I]=QCOUNT*0.000022
       GO TO 237
 # USE BORN BETHE ABOVE XION(NIOND) EV
-  236 QION(14,I)=QBB*0.000022
+  236 QION[14][I]=QBB*0.000022
   237 CONTINUE
       if(EN < (2.0*EION[14]:
 )) GO TO 240
-      PEQION(14,I)=PEQEL(2,(I-IOFFION[14]))
+      PEQION[14][I]=PEQEL(2,(I-IOFFION[14]))
 # C+ 
   240 if(EN <= EION[15]) GO TO 250         
       if(EN > XION15(NION15):
@@ -13180,19 +13249,19 @@ c     NANISO=0
       J=NION15                                                          
   242 A=(YION15[J]-YION15(J-1))/(XION15[J]-XION15(J-1))                
       B=(XION15(J-1)*YION15[J]-XION15[J]*YION15(J-1))/(XION15(J-1)-XION15[J]) 
-      QION(15,I)=(A*EN+B)*1.D-16               
+      QION[15][I]=(A*EN+B)*1.D-16               
       GO TO 247 
   243 if(EN > XION(NIOND)) GO TO 246
 # USE FRACTION OF COUNTING IONISATION ABOVE 600 EV
 # FRACTION OF QCOUNT
-      QION(15,I)=QCOUNT*0.00011 
+      QION[15][I]=QCOUNT*0.00011 
       GO TO 247
 # USE BORN BETHE ABOVE XION(NIOND) EV
-  246 QION(15,I)=QBB*0.00011 
+  246 QION[15][I]=QBB*0.00011 
   247 CONTINUE
       if(EN < (2.0*EION[15]:
 )) GO TO 250
-      PEQION(15,I)=PEQEL(2,(I-IOFFION[15]))
+      PEQION[15][I]=PEQEL(2,(I-IOFFION[15]))
 # CARBON K-SHELL 
   250 if(EN <= EION[16]) GO TO 260         
       DO 251 J=2,NION16                                                 
@@ -13202,17 +13271,17 @@ c     NANISO=0
       J=NION16                                                          
   252 A=(YION16[J]-YION16(J-1))/(XION16[J]-XION16(J-1))                
       B=(XION16(J-1)*YION16[J]-XION16[J]*YION16(J-1))/(XION16(J-1)-XION16[J]) 
-      QION(16,I)=(A*EN+B)*1.D-16               
+      QION[16][I]=(A*EN+B)*1.D-16               
       if(EN < (2.0*EION[16]:
 )) GO TO 255
-      PEQION(16,I)=PEQEL(2,(I-IOFFION[16]))
+      PEQION[16][I]=PEQEL(2,(I-IOFFION[16]))
 # CORRECTION TO INISATION FOR SPLIT OFF KSHELL
   255 QSUM=0.00
       DO 256 L=1,15
   256 QSUM=QSUM+QION(L,I)
       if(QSUM == 0.0):
  GO TO 260
-      FAC=(QSUM-QION(16,I))/QSUM
+      FAC=(QSUM-QION[16][I])/QSUM
       DO 257 L=1,15
   257 QION(L,I)=QION(L,I)*FAC
 # 
@@ -14727,14 +14796,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION10                                                          
       107 A=(YION10[J]-YION10(J-1))/(XION10[J]-XION10(J-1))                
       B=(XION10(J-1)*YION10[J]-XION10[J]*YION10(J-1))/(XION10(J-1)-XION10[J]) 
-      QION(10,I)=(A*EN+B)*1.D-16               
+      QION[10][I]=(A*EN+B)*1.D-16               
       GO TO 109
       # USE BORN BETHE ABOVE XION10(NION10) EV
-      108 QION(10,I)=QIONC*0.112253    
+      108 QION[10][I]=QIONC*0.112253    
       109 CONTINUE
       if(EN < (2.0*EION[10]:
       )) GO TO 110
-      PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
       # C3H3+
       110 if(EN <= EION[11]) GO TO 115         
       if(EN > XION11(NION11):
@@ -14746,14 +14815,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION11                                                          
       112 A=(YION11[J]-YION11(J-1))/(XION11[J]-XION11(J-1))                
       B=(XION11(J-1)*YION11[J]-XION11[J]*YION11(J-1))/(XION11(J-1)-XION11[J]) 
-      QION(11,I)=(A*EN+B)*1.D-16               
+      QION[11][I]=(A*EN+B)*1.D-16               
       GO TO 114
       # USE BORN BETHE ABOVE XION11(NION11) EV
-      113 QION(11,I)=QIONC*0.049359
+      113 QION[11][I]=QIONC*0.049359
       114 CONTINUE
       if(EN < (2.0*EION[11]:
       )) GO TO 115
-      PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
       # H+
       115 if(EN <= EION[12]) GO TO 120         
       if(EN > XION12(NION12):
@@ -14765,14 +14834,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION12                                                          
       117 A=(YION12[J]-YION12(J-1))/(XION12[J]-XION12(J-1))                
       B=(XION12(J-1)*YION12[J]-XION12[J]*YION12(J-1))/(XION12(J-1)-XION12[J]) 
-      QION(12,I)=(A*EN+B)*1.D-16               
+      QION[12][I]=(A*EN+B)*1.D-16               
       GO TO 119
       # USE BORN BETHE ABOVE XION12(NION12) EV
-      118 QION(12,I)=QIONC*0.001884
+      118 QION[12][I]=QIONC*0.001884
       119 CONTINUE
       if(EN < (2.0*EION[12]:
       )) GO TO 120
-      PEQION(12,I)=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
       # H2+  AND H3+
       120 if(EN <= EION[13]) GO TO 125         
       if(EN > XION13(NION13):
@@ -14784,14 +14853,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION13                                                          
       122 A=(YION13[J]-YION13(J-1))/(XION13[J]-XION13(J-1))                
       B=(XION13(J-1)*YION13[J]-XION13[J]*YION13(J-1))/(XION13(J-1)-XION13[J]) 
-      QION(13,I)=(A*EN+B)*1.D-16               
+      QION[13][I]=(A*EN+B)*1.D-16               
       GO TO 124
       # USE BORN BETHE ABOVE XION13(NION13) EV
-      123 QION(13,I)=QIONC*0.001015
+      123 QION[13][I]=QIONC*0.001015
       124 CONTINUE
       if(EN < (2.0*EION[13]:
       )) GO TO 125
-      PEQION(13,I)=PEQEL(2,(I-IOFFION[13]))
+      PEQION[13][I]=PEQEL(2,(I-IOFFION[13]))
       # CH2+
       125 if(EN <= EION[14]) GO TO 130         
       if(EN > XION14(NION14):
@@ -14803,14 +14872,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION14                                                          
       127 A=(YION14[J]-YION14(J-1))/(XION14[J]-XION14(J-1))                
       B=(XION14(J-1)*YION14[J]-XION14[J]*YION14(J-1))/(XION14(J-1)-XION14[J]) 
-      QION(14,I)=(A*EN+B)*1.D-16               
+      QION[14][I]=(A*EN+B)*1.D-16               
       GO TO 129
       # USE BORN BETHE ABOVE XION14(NION14) EV
-      128 QION(14,I)=QIONC*0.006342
+      128 QION[14][I]=QIONC*0.006342
       129 CONTINUE
       if(EN < (2.0*EION[14]:
       )) GO TO 130
-      PEQION(14,I)=PEQEL(2,(I-IOFFION[14]))
+      PEQION[14][I]=PEQEL(2,(I-IOFFION[14]))
       # C3H2+
       130 if(EN <= EION[15]) GO TO 135         
       if(EN > XION15(NION15):
@@ -14822,14 +14891,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION15                                                          
       132 A=(YION15[J]-YION15(J-1))/(XION15[J]-XION15(J-1))                
       B=(XION15(J-1)*YION15[J]-XION15[J]*YION15(J-1))/(XION15(J-1)-XION15[J]) 
-      QION(15,I)=(A*EN+B)*1.D-16               
+      QION[15][I]=(A*EN+B)*1.D-16               
       GO TO 134
       # USE BORN BETHE ABOVE XION15(NION15) EV
-      133 QION(15,I)=QIONC*0.013401
+      133 QION[15][I]=QIONC*0.013401
       134 CONTINUE
       if(EN < (2.0*EION[15]:
       )) GO TO 135
-      PEQION(15,I)=PEQEL(2,(I-IOFFION[15]))
+      PEQION[15][I]=PEQEL(2,(I-IOFFION[15]))
       # C3H+
       135 if(EN <= EION[16]) GO TO 140         
       if(EN > XION16(NION16):
@@ -14841,14 +14910,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION16                                                          
       137 A=(YION16[J]-YION16(J-1))/(XION16[J]-XION16(J-1))                
       B=(XION16(J-1)*YION16[J]-XION16[J]*YION16(J-1))/(XION16(J-1)-XION16[J]) 
-      QION(16,I)=(A*EN+B)*1.D-16               
+      QION[16][I]=(A*EN+B)*1.D-16               
       GO TO 139
       # USE BORN BETHE ABOVE XION16(NION16) EV
-      138 QION(16,I)=QIONC*0.008240
+      138 QION[16][I]=QIONC*0.008240
       139 CONTINUE
       if(EN < (2.0*EION[16]:
       )) GO TO 140
-      PEQION(16,I)=PEQEL(2,(I-IOFFION[16]))
+      PEQION[16][I]=PEQEL(2,(I-IOFFION[16]))
       # C2H+
       140 if(EN <= EION[17]) GO TO 145         
       if(EN > XION17(NION17):
@@ -14860,14 +14929,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION17                                                          
       142 A=(YION17[J]-YION17(J-1))/(XION17[J]-XION17(J-1))                
       B=(XION17(J-1)*YION17[J]-XION17[J]*YION17(J-1))/(XION17(J-1)-XION17[J]) 
-      QION(17,I)=(A*EN+B)*1.D-16               
+      QION[17][I]=(A*EN+B)*1.D-16               
       GO TO 144
       # USE BORN BETHE ABOVE XION17(NION17) EV
-      143 QION(17,I)=QIONC*0.002004
+      143 QION[17][I]=QIONC*0.002004
       144 CONTINUE
       if(EN < (2.0*EION[17]:
       )) GO TO 145
-      PEQION(17,I)=PEQEL(2,(I-IOFFION[17]))
+      PEQION[17][I]=PEQEL(2,(I-IOFFION[17]))
       # ++ DOUBLE CHARGED STABLE IONS
       145 if(EN <= EION[18]) GO TO 150         
       if(EN > XION18(NION18):
@@ -14879,14 +14948,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION18                                                          
       147 A=(YION18[J]-YION18(J-1))/(XION18[J]-XION18(J-1))                
       B=(XION18(J-1)*YION18[J]-XION18[J]*YION18(J-1))/(XION18(J-1)-XION18[J]) 
-      QION(18,I)=(A*EN+B)*1.D-16               
+      QION[18][I]=(A*EN+B)*1.D-16               
       GO TO 149
       # USE BORN BETHE ABOVE XION18(NION18) EV
-      148 QION(18,I)=QIONC*0.004085
+      148 QION[18][I]=QIONC*0.004085
       149 CONTINUE
       if(EN < (2.0*EION[18]:
       )) GO TO 150
-      PEQION(18,I)=PEQEL(2,(I-IOFFION[18]))
+      PEQION[18][I]=PEQEL(2,(I-IOFFION[18]))
       # ++ DOUBLE CHARGED UNSTABLE IONS (DISSOCIATIVE)
       150 if(EN <= EION[19]) GO TO 155         
       if(EN > XION19(NION19):
@@ -14898,14 +14967,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION19                                                         
       152 A=(YION19[J]-YION19(J-1))/(XION19[J]-XION19(J-1))                
       B=(XION19(J-1)*YION19[J]-XION19[J]*YION19(J-1))/(XION19(J-1)-XION19[J]) 
-      QION(19,I)=(A*EN+B)*1.D-16               
+      QION[19][I]=(A*EN+B)*1.D-16               
       GO TO 154
       # USE BORN BETHE ABOVE XION19(NION19) EV
-      153 QION(19,I)=QIONC*0.118714
+      153 QION[19][I]=QIONC*0.118714
       154 CONTINUE
       if(EN < (2.0*EION[19]:
       )) GO TO 155
-      PEQION(19,I)=PEQEL(2,(I-IOFFION[19]))
+      PEQION[19][I]=PEQEL(2,(I-IOFFION[19]))
       # CH+
       155 if(EN <= EION[20]) GO TO 160         
       if(EN > XION20(NION20):
@@ -14917,14 +14986,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION20                                                         
       157 A=(YION20[J]-YION20(J-1))/(XION20[J]-XION20(J-1))                
       B=(XION20(J-1)*YION20[J]-XION20[J]*YION20(J-1))/(XION20(J-1)-XION20[J]) 
-      QION(20,I)=(A*EN+B)*1.D-16               
+      QION[20][I]=(A*EN+B)*1.D-16               
       GO TO 159
       # USE BORN BETHE ABOVE XION20(NION20) EV
-      158 QION(20,I)=QIONC*0.002070
+      158 QION[20][I]=QIONC*0.002070
       159 CONTINUE
       if(EN < (2.0*EION[20]:
       )) GO TO 160
-      PEQION(20,I)=PEQEL(2,(I-IOFFION[20]))
+      PEQION[20][I]=PEQEL(2,(I-IOFFION[20]))
       # C+ 
       160 if(EN <= EION[21]) GO TO 165         
       if(EN > XION21(NION21):
@@ -14936,14 +15005,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION21                                                         
       162 A=(YION21[J]-YION21(J-1))/(XION21[J]-XION21(J-1))                
       B=(XION21(J-1)*YION21[J]-XION21[J]*YION21(J-1))/(XION21(J-1)-XION21[J]) 
-      QION(21,I)=(A*EN+B)*1.D-16               
+      QION[21][I]=(A*EN+B)*1.D-16               
       GO TO 164
       # USE BORN BETHE ABOVE XION21(NION21) EV
-      163 QION(21,I)=QIONC*0.000837
+      163 QION[21][I]=QIONC*0.000837
       164 CONTINUE
       if(EN < (2.0*EION[21]:
       )) GO TO 165
-      PEQION(21,I)=PEQEL(2,(I-IOFFION[21]))
+      PEQION[21][I]=PEQEL(2,(I-IOFFION[21]))
       # C2+
       165 if(EN <= EION[22]) GO TO 170         
       if(EN > XION22(NION22):
@@ -14955,14 +15024,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION22                                                         
       167 A=(YION22[J]-YION22(J-1))/(XION22[J]-XION22(J-1))                
       B=(XION22(J-1)*YION22[J]-XION22[J]*YION22(J-1))/(XION22(J-1)-XION22[J]) 
-      QION(22,I)=(A*EN+B)*1.D-16               
+      QION[22][I]=(A*EN+B)*1.D-16               
       GO TO 169
       # USE BORN BETHE ABOVE XION22(NION22) EV
-      168 QION(22,I)=QIONC*0.000057
+      168 QION[22][I]=QIONC*0.000057
       169 CONTINUE
       if(EN < (2.0*EION[22]:
       )) GO TO 170
-      PEQION(22,I)=PEQEL(2,(I-IOFFION[22]))
+      PEQION[22][I]=PEQEL(2,(I-IOFFION[22]))
       # C3+
       170 if(EN <= EION[23]) GO TO 175         
       if(EN > XION23(NION23):
@@ -14974,14 +15043,14 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NION23                                                         
       172 A=(YION23[J]-YION23(J-1))/(XION23[J]-XION23(J-1))                
       B=(XION23(J-1)*YION23[J]-XION23[J]*YION23(J-1))/(XION23(J-1)-XION23[J]) 
-      QION(23,I)=(A*EN+B)*1.D-16               
+      QION[23][I]=(A*EN+B)*1.D-16               
       GO TO 174
       # USE BORN BETHE ABOVE XION23(NION23) EV
-      173 QION(23,I)=QIONC*0.001034
+      173 QION[23][I]=QIONC*0.001034
       174 CONTINUE
       if(EN < (2.0*EION[23]:
       )) GO TO 175
-      PEQION(23,I)=PEQEL(2,(I-IOFFION[23]))
+      PEQION[23][I]=PEQEL(2,(I-IOFFION[23]))
       # CARBON K-SHELL 
       175 if(EN <= EION[24]) GO TO 180         
       DO 176 J=2,NION24                                                 
@@ -14992,17 +15061,17 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       177 A=(YION24[J]-YION24(J-1))/(XION24[J]-XION24(J-1))                
       B=(XION24(J-1)*YION24[J]-XION24[J]*YION24(J-1))/(XION24(J-1)-XION24[J]) 
       # FACTOR 3 FOR 3 CARBON ATOMS
-      QION(24,I)=3.0*(A*EN+B)*1.D-16               
+      QION[24][I]=3.0*(A*EN+B)*1.D-16               
       if(EN < (2.0*EION[24]:
       )) GO TO 180
-      PEQION(24,I)=PEQEL(2,(I-IOFFION[24]))
+      PEQION[24][I]=PEQEL(2,(I-IOFFION[24]))
       # CORRECTION TO TOTAL I0NISATION DUE TO SPLIT OFF KSHELL
       180 QSUM=0.00
       DO 181 L=1,23
       181 QSUM=QSUM+QION(L,I)
       if(QSUM == 0.0):
       GO TO 200
-      FAC=(QSUM-QION(24,I))/QSUM
+      FAC=(QSUM-QION[24][I])/QSUM
       DO 182 L=1,23
       182 QION(L,I)=QION(L,I)*FAC 
       #
@@ -17621,10 +17690,10 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       1064 if(EN <= (2.0*EION[9])) GO TO 25
       PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
       # CARBON K-SHELL IONISATION
-      25 QION(10,I)=0.0 
-      PEQION(10,I)=0.5  
+      25 QION[10][I]=0.0 
+      PEQION[10][I]=0.5  
       if(NANISO == 2):
-      PEQION(10,I)=0.0                                  
+      PEQION[10][I]=0.0                                  
       if(EN <= EION[10]:
       ) GO TO 28
       DO 26 J=2,NKSHC                                                  
@@ -17632,17 +17701,17 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       ) GO TO 27                                    
       26 CONTINUE                                                          
       J=NKSHC                                                           
-      27 A=(YKSHC[J]-YKSHC(J-1))/(XKSHC[J]-XKSHC(J-1))                    
-      B=(XKSHC(J-1)*YKSHC[J]-XKSHC[J]*YKSHC(J-1))/(XKSHC(J-1)-XKSHC[J])
-      QION(10,I)=1.0D-16*(A*EN+B) 
+      27 A=(YKSHC[J]-YKSHC[J-1])/(XKSHC[J]-XKSHC[J-1])                    
+      B=(XKSHC[J-1]*YKSHC[J]-XKSHC[J]*YKSHC[J-1])/(XKSHC[J-1]-XKSHC[J])
+      QION[10][I]=1.0D-16*(A*EN+B) 
       if(EN <= (2.0*EION[10]:
       )) GO TO 28
-      PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
       # OXYGEN K-SHELL IONISATION
-      28 QION(11,I)=0.0 
-      PEQION(11,I)=0.5  
+      28 QION[11][I]=0.0 
+      PEQION[11][I]=0.5  
       if(NANISO == 2):
-      PEQION(11,I)=0.0                                  
+      PEQION[11][I]=0.0                                  
       if(EN <= EION[11]:
       ) GO TO 301
       DO 29 J=2,NKSHO                                                  
@@ -17653,10 +17722,10 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       30 A=(YKSHO[J]-YKSHO(J-1))/(XKSHO[J]-XKSHO(J-1))                    
       B=(XKSHO(J-1)*YKSHO[J]-XKSHO[J]*YKSHO(J-1))/(XKSHO(J-1)-XKSHO[J])
       # SCALING FACTOR 2 FOR NUMBER OF OXYGENS PER MOLECULE
-      QION(11,I)=2.0D-16*(A*EN+B) 
+      QION[11][I]=2.0D-16*(A*EN+B) 
       if(EN <= (2.0*EION[11]:
       )) GO TO 301
-      PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
       #
       # FIX CO2+ X-SECTION FOR SPLIT INTO CO2+ EXCITED STATES
       301 QION[1][I]=QION[1][I]-QION[2][I]-QION[3][I]
@@ -17664,18 +17733,18 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       Q[4][I]=0.0                                                        
       if(EN <= XATT[1]:
       ) GO TO 40
-      if(EN > XATT(NATT1):
+      if(EN > XATT[NATT1]:
       ) GO TO 33                                 
       DO 31  J=2,NATT1                                                  
       if(EN <= XATT[J]:
       ) GO TO 32                                        
       31 CONTINUE                                                          
       J=NATT1                                                          
-      32 A=(YATT[J]-YATT(J-1))/(XATT[J]-XATT(J-1))                         
-      B=(XATT(J-1)*YATT[J]-XATT[J]*YATT(J-1))/(XATT(J-1)-XATT[J])       
+      32 A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])                         
+      B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
       Q[4][I]=1.0D-16*(A*EN+B)
       GO TO 40
-      33 Q[4][I]=YATT(NATT1)*(XATT(NATT1)/EN)**3*1.D-16
+      33 Q[4][I]=YATT[NATT1]*(XATT[NATT1]/EN)**3*1.D-16
       #
       40 Q[5][I]=0.0                                                     
       Q[6][I]=0.0   
@@ -22189,19 +22258,19 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       # OFFSET FOR ENERGY SCALE
       if(EN < XATT[1]:
       ) GO TO 250                                
-      if(EN > XATT(NATT1):
+      if(EN > XATT[NATT1]:
       ) GO TO 230                             
       DO 210 J=2,NATT1                                                 
       if(EN <= XATT[J]:
       ) GO TO 220                                
       210 CONTINUE                                                          
       J=NATT1                                                          
-      220 A=(YATT[J]-YATT(J-1))/(XATT[J]-XATT(J-1))          
-      B=(XATT(J-1)*YATT[J]-XATT[J]*YATT(J-1))/(XATT(J-1)-XATT[J])       
+      220 A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])          
+      B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
       SINGLE=(A*EN+B)*1.D-16                    
       GO TO 250
-      # SCALE BY 1/E**3 ABOVE XATT(NATT1)
-      230 SINGLE=YATT(NATT1)*(XATT(NATT1)/EN)**3*1.D-16    
+      # SCALE BY 1/E**3 ABOVE XATT[NATT1]
+      230 SINGLE=YATT[NATT1]*(XATT[NATT1]/EN)**3*1.D-16    
       #
       #  
       #  THREE BODY ATTACHMENT    
@@ -22224,8 +22293,8 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       ) GO TO 270                                      
       260 CONTINUE                                                          
       J=N3ATT                                                           
-      270 A=(Y3ATT[J]-Y3ATT(J-1))/(X3ATT[J]-X3ATT(J-1))
-      B=(X3ATT(J-1)*Y3ATT[J]-X3ATT[J]*Y3ATT(J-1))/(X3ATT(J-1)-X3ATT[J])
+      270 A=(Y3ATT[J]-Y3ATT[J-1])/(X3ATT[J]-X3ATT[J-1])
+      B=(X3ATT[J-1]*Y3ATT[J]-X3ATT[J]*Y3ATT[J-1])/(X3ATT[J-1]-X3ATT[J])
       THREEB=FAC*(A*EN+B)*1.D-16*T3B  
       300 Q[4][I]=SINGLE+THREEB     
       Q[5][I]=0.0                                                        
@@ -24921,17 +24990,17 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(EN >= 110.):
       QION[9][I]=QION[8][I]*0.1439
       if(EN < 120.):
-      QION(10,I)=((EN-EION[10])/(120.-EION[10]))*0.037*1.D-16
+      QION[10][I]=((EN-EION[10])/(120.-EION[10]))*0.037*1.D-16
       if(EN > 120.):
-      QION(10,I)=QION[8][I]*0.0560
-      QION[8][I]=QION[8][I]-QION[9][I]-QION(10,I)
+      QION[10][I]=QION[8][I]*0.0560
+      QION[8][I]=QION[8][I]-QION[9][I]-QION[10][I]
       # endif
       # endif
       #
       if(EN > EION[11]:
       ) :
       #  SUM OF DOUBLE IONISATION CHANNELS: N+,N+  AND N++,N
-      QION(11,I)=0.0   
+      QION[11][I]=0.0   
       if(EN > XION3(NION3):
       ) GO TO 418                                 
       DO 416 J=2,NION3                                                
@@ -24941,14 +25010,14 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NION3                                                         
       417  A=(YION3[J]-YION3(J-1))/(XION3[J]-XION3(J-1))                   
       B=(XION3(J-1)*YION3[J]-XION3[J]*YION3(J-1))/(XION3(J-1)-XION3[J])
-      QION(11,I)=(A*EN+B)*1.D-16                   
+      QION[11][I]=(A*EN+B)*1.D-16                   
       GO TO 419
       # USE BORN BETHE X-SECTION ABOVE  XION3(NION3) EV 
-      418  QION(11,I)=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0338               
+      418  QION[11][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0338               
       419  CONTINUE 
       #*************************************************
       # CORRECTION TO STRAUB N+ FOR  (N+,N+) CHANNEL
-      QION[8][I]=QION[8][I]-QION(11,I)
+      QION[8][I]=QION[8][I]-QION[11][I]
       #***************************************************
       # endif
       if(EN > 65.0):
@@ -24962,10 +25031,10 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NION4                                                         
       421  A=(YION4[J]-YION4(J-1))/(XION4[J]-XION4(J-1))                   
       B=(XION4(J-1)*YION4[J]-XION4[J]*YION4(J-1))/(XION4(J-1)-XION4[J])
-      QION(11,I)=QION(11,I)+(A*EN+B)*1.D-16                   
+      QION[11][I]=QION[11][I]+(A*EN+B)*1.D-16                   
       GO TO 423
       # USE BORN BETHE X-SECTION ABOVE  XION4(NION4) EV 
-      422  QION(11,I)=QION(11,I)+CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0057   
+      422  QION[11][I]=QION[11][I]+CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.0057   
       423  CONTINUE 
       # endif 
       # K-SHELL IONISATION 
@@ -24979,7 +25048,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       433 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))                         
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J]) 
       # SCALING FACTOR OF 2 FOR NUMBER OF ATOMS IN MOLECULE      
-      QION(12,I)=2.0*(A*EN+B)*1.D-16                   
+      QION[12][I]=2.0*(A*EN+B)*1.D-16                   
       #
       434 DO 435 J=1,12
       if(EN <= (2.0*EION[J]:
@@ -24988,7 +25057,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       435 CONTINUE
       #  
       # CORRECTION TO IONISATION FOR AUGER EMISSION
-      QION[1][I]=QION[1][I]-AUGK*QION(12,I)
+      QION[1][I]=QION[1][I]-AUGK*QION[12][I]
       #
       Q[4][I]=0.0  
       Q[5][I]=0.0
@@ -26348,9 +26417,9 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       # PRINT IONISATION DATA
       #     SUMN2P=QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]
       #    /+QION[7][I]
-      #     SUMNP=QION[8][I]+QION[9][I]+QION(10,I)
-      #     SUMITOT=SUMNP+SUMN2P+QION(11,I)+QION(12,I)
-      #     WRITE(6,8771) EN,SUMN2P,SUMNP,QION(11,I),QION(12,I),SUMITOT
+      #     SUMNP=QION[8][I]+QION[9][I]+QION[10][I]
+      #     SUMITOT=SUMNP+SUMN2P+QION[11][I]+QION[12][I]
+      #     WRITE(6,8771) EN,SUMN2P,SUMNP,QION[11][I],QION[12][I],SUMITOT
       #8771 print(' EN=','%.4f' % ,' N2+ =','%.4f' % ,' N++ =','%.4f' % ,' N+,N+=','%.4f' % ,
       #    /' KSHELL=','%.4f' % ,' TOT=','%.4f' % ) 
       #     WRITE(6,8772) EN,( QION[J][I],J=1,12)
@@ -27294,15 +27363,15 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN < XATT[1]:
       ) GO TO 300
       # ATTACHMENT TO 2 SIGMAg   
-      if(EN > XATT(NATT1):
+      if(EN > XATT[NATT1]:
       ) GO TO 250                                  
       DO 210 J=2,NATT1                                                 
       if(EN <= XATT[J]:
       ) GO TO 220  
       210 CONTINUE                                                          
       J=NATT1                                                           
-      220 A=(YATT[J]-YATT(J-1))/(XATT[J]-XATT(J-1))                         
-      B=(XATT(J-1)*YATT[J]-XATT[J]*YATT(J-1))/(XATT(J-1)-XATT[J])       
+      220 A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])                         
+      B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
       Q[4][I]=Q[4][I]+(A*EN+B)*1.D-16                 
       # HIGH ENERGY ATTACHMENT TO 2 SIGMAg
       # 250 CONTINUE  
@@ -29592,10 +29661,10 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 )) GO TO 124
       PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
 # CALCULATE SULFUR L1 SHELL IONISATION  
-  124 QION(10,I)=0.0
-      PEQION(10,I)=0.5
+  124 QION[10][I]=0.0
+      PEQION[10][I]=0.5
       if(NANISO == 2):
- PEQION(10,I)=0.0
+ PEQION[10][I]=0.0
       if(EN < EION[10]:
 ) GO TO 134
       DO 130 J=2,NIONL1
@@ -29605,15 +29674,15 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NIONL1
   131 A=(YL1SH[J]-YL1SH(J-1))/(XL1SH[J]-XL1SH(J-1))
       B=(XL1SH(J-1)*YL1SH[J]-XL1SH[J]*YL1SH(J-1))/(XL1SH(J-1)-XL1SH[J])
-      QION(10,I)=(A*EN+B)*1.D-16
+      QION[10][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[10]:
 )) GO TO 134
-      PEQION(10,I)=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
 # CALCULATE SULFUR K SHELL IONISATION  
-  134 QION(11,I)=0.0
-      PEQION(11,I)=0.5
+  134 QION[11][I]=0.0
+      PEQION[11][I]=0.5
       if(NANISO == 2):
- PEQION(11,I)=0.0
+ PEQION[11][I]=0.0
       if(EN < EION[11]:
 ) GO TO 144
       DO 140 J=2,NKSHS
@@ -29623,15 +29692,15 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NKSHS
   141 A=(YKSHS[J]-YKSHS(J-1))/(XKSHS[J]-XKSHS(J-1))
       B=(XKSHS(J-1)*YKSHS[J]-XKSHS[J]*YKSHS(J-1))/(XKSHS(J-1)-XKSHS[J])
-      QION(11,I)=(A*EN+B)*1.D-16
+      QION[11][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[11]:
 )) GO TO 144
-      PEQION(11,I)=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
 # CALCULATE FLUORINE K-SHELL IONISATION
-  144 QION(12,I)=0.00
-      PEQION(12,I)=0.5   
+  144 QION[12][I]=0.00
+      PEQION[12][I]=0.5   
       if(NANISO == 2):
- PEQION(12,I)=0.0                                  
+ PEQION[12][I]=0.0                                  
       if(EN <= EION[12]:
 ) GO TO 154     
       DO 150 J=2,NKSHF                                                  
@@ -29639,14 +29708,14 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 ) GO TO 151                                      
   150 CONTINUE                                                          
       J=NKSHF                                                   
-  151 A=(YKSHF[J]-YKSHF(J-1))/(XKSHF[J]-XKSHF(J-1))                     
-      B=(XKSHF(J-1)*YKSHF[J]-XKSHF[J]*YKSHF(J-1))/(XKSHF(J-1)-XKSHF[J])
-      QION(12,I)=(A*EN+B)*1.D-16  
+  151 A=(YKSHF[J]-YKSHF[J-1])/(XKSHF[J]-XKSHF[J-1])                     
+      B=(XKSHF[J-1]*YKSHF[J]-XKSHF[J]*YKSHF[J-1])/(XKSHF[J-1]-XKSHF[J])
+      QION[12][I]=(A*EN+B)*1.D-16  
       if(EN <= (2.0*EION[12]:
 )) GO TO 154
-      PEQION(12,I)=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
 # CORECTION TO IONISATION DUE TO SPLIT INTO K AND L SHELLS
-  154 SSUM=QION[8][I]+QION[9][I]+QION(10,I)+QION(11,I)+QION(12,I)
+  154 SSUM=QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QION[12][I]
       if(SSUM <= 0.0):
  GO TO 200
       TOT=QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]
@@ -29659,7 +29728,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
   200 Q[4][I]=0.0                                                        
       if(EN <= 0.0):
  GO TO 250                                       
-      if(EN >= XATT(NATT1):
+      if(EN >= XATT[NATT1]:
 ) GO TO 250                                   
       DO 210 J=2,NATT1                                                 
       if(EN <= XATT[J]:
@@ -29667,9 +29736,9 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
   210 CONTINUE                                                          
       J=NATT1  
   220 XNJ=math.log(XATT[J])
-      XNJ1=math.log(XATT(J-1))
+      XNJ1=math.log(XATT[J-1])
       XNL=XATT[J]
-      XNL1=XATT(J-1)
+      XNL1=XATT[J-1]
 # LOG
       if(YAT1[J]:
  == 0.0 or YAT1(J-1) == 0.0) :
@@ -31341,8 +31410,8 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       ) GO TO 37
       36 CONTINUE
       J=NKSHC
-      37 A=(YKSHC[J]-YKSHC(J-1))/(XKSHC[J]-XKSHC(J-1))
-      B=(XKSHC(J-1)*YKSHC[J]-XKSHC[J]*YKSHC(J-1))/(XKSHC(J-1)-XKSHC[J])
+      37 A=(YKSHC[J]-YKSHC[J-1])/(XKSHC[J]-XKSHC[J-1])
+      B=(XKSHC[J-1]*YKSHC[J]-XKSHC[J]*YKSHC[J-1])/(XKSHC[J-1]-XKSHC[J])
       # 3 CARBONS PER MOLECULE
       QION[2][I]=3.0*(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[2]:
