@@ -722,7 +722,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
                               J=NCF0                                                           
                         A=(YCF0[J]-YCF0[J-1])/(XCF0[J]-XCF0[J-1])                         
                         B=(XCF0[J-1]*YCF0[J]-XCF0[J]*YCF0[J-1])/(XCF0[J-1]-XCF0[J])       
-                        QION[5][I]=(A*EN+B)*1.D-16
+                        QION[5][I]=(A*EN+B)*1.E-16
                         flag64
                         # USE BORN BETHE X-SECTION ABOVE XCF0[NCF0] EV
                   if(flag64):
@@ -774,8 +774,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
                         pass
                   else:
                         for J in range(2,NCF2F):
-                        if(EN <= XCF2F[J]):
-                              flag72=0
+                              if(EN <= XCF2F[J]):
+                                    flag72=0
                         if(flag72):
                               J=NCF2F                                                        
                         A=(YCF2F[J]-YCF2F[J-1])/(XCF2F[J]-XCF2F[J-1])                     
@@ -809,7 +809,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
                               J=NCF32                                                        
                         A=(YCF32[J]-YCF32[J-1])/(XCF32[J]-XCF32[J-1])                     
                         B=(XCF32[J-1]*YCF32[J]-XCF32[J]*YCF32[J-1])/(XCF32[J-1]-XCF32[J])
-                        QION[8][I]=(A*EN+B)*1.D-16
+                        QION[8][I]=(A*EN+B)*1.E-16
                         flag79=0
                         # USE BORN BETHE X-SECTION ABOVE XCF32[NCF32] EV
                   if(flag79):
@@ -848,12 +848,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
             if(NANISO == 2):
                   PEQION[9][I]=0.0                             
             if(EN <= EION[9]):
-                  GO TO 90 
+                  pass 
             else:
                   flag87=1
                   flag89=1
                   if(EN > XCFF[NCFF]):
-                        GO TO 88                               
+                        pass
                   else:
                         for J in range(2,NCFF):
                               if(EN <= XCFF[J]):
@@ -891,7 +891,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
                               J=NCF                                                       
                         A=(YCF[J]-YCF[J-1])/(XCF[J]-XCF[J-1])                     
                         B=(XCF[J-1]*YCF[J]-XCF[J]*YCF[J-1])/(XCF[J-1]-XCF[J])
-                        QION[10][I]=(A*EN+B)*1.D-16
+                        QION[10][I]=(A*EN+B)*1.E-16
                         flag94=0
                         # USE BORN BETHE X-SECTION ABOVE XCF[NCF] EV
                   if(flag94):
@@ -983,7 +983,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
             else:
                   EFAC=math.sqrt(1.0-(EIN[1]/EN))
                   QIN[1][I]=0.007*math.log((EFAC+1.0)/(EFAC-1.0))/EN
-                  QIN[1][I]=QIN[1][I]*APOPV2*1.D-16/DEGV2
+                  QIN[1][I]=QIN[1][I]*APOPV2*1.E-16/DEGV2
                   if(EN > 100.0):
                         PEQIN[1][I]=PQ1
             # VIBRATION V2 ISOTROPIC BELOW 100EV
@@ -1003,14 +1003,14 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
             QIN[3][I]=0.0
             PEQIN[3][I]=0.5
             if(EN <= 0.0):
-                  GO TO 450
+                  pass
             else:
                   flag420=1
                   flag425=1
                   if((EN-EIN[3]) > X):
                         pass
                   else:
-                        pass J in range(2,NVBV4):
+                        for J in range(2,NVBV4):
                               if((EN-EIN[3]) <= XVBV4[J]):
                                     flag420=0
                         if(flag420):
@@ -1030,645 +1030,752 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
             QIN[4][I]=0.0
             PEQIN[4][I]=0.5                                                   
             if(EN <= EIN[4]):
-                  GO TO 500
+                  pass
             else:
+                  flag470=1
+                  flag475=1
                   if(EN > XVBV4[NVBV4]):
                         pass
-                  else
+                  else:
                         for J in range(2,NVBV4):
                               if(EN <= XVBV4[J]):
-                                    GO TO 470                                      
-                        J=NVBV4                                                          
-                        470 A=(YVBV4[J]-YVBV4[J-1])/(XVBV4[J]-XVBV4[J-1])                     
+                                    flag470=0                                      
+                        if(flag470):
+                              J=NVBV4                                                          
+                        A=(YVBV4[J]-YVBV4[J-1])/(XVBV4[J]-XVBV4[J-1])                     
                         B=(XVBV4[J-1]*YVBV4[J]-XVBV4[J]*YVBV4[J-1])/(XVBV4[J-1]-XVBV4[J])
                         QIN[4][I]=A*EN+B
-                        GO TO 475
-                  474 QIN[4][I]=YVBV4[NVBV4]*(XVBV4[NVBV4]/EN)**3
-                  475 CONTINUE 
+                        flag475=0
+                  if(flag475):
+                        QIN[4][I]=YVBV4[NVBV4]*(XVBV4[NVBV4]/EN)**3
                   EFAC=math.sqrt(1.0-(EIN[4]/EN))
                   ADIP=0.0500*math.log((1.0+EFAC)/(1.0-EFAC))/EN    
                   ELF=EN-EIN[4]
                   FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
                   BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
                   # RATIO OF MT TO TOTAL X-SECT FOR RESONANCE PART = RAT
-                  XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[4][I])*APOPGS*1.D-16
-                  QIN[4][I]=(QIN[4][I]+ADIP)*APOPGS*1.D-16
+                  XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[4][I])*APOPGS*1.E-16
+                  QIN[4][I]=(QIN[4][I]+ADIP)*APOPGS*1.E-16
                   if(EN <= 100.0):
-                  PEQIN[4][I]=0.5+(QIN[4][I]-XMT)/QIN[4][I]
+                        PEQIN[4][I]=0.5+(QIN[4][I]-XMT)/QIN[4][I]
                   if(EN > 100.0):
-                  PEQIN[4][I]=PQ1
-            500 CONTINUE                                                          
+                        PEQIN[4][I]=PQ1
             # SUPERELASTIC OF VIBRATION V1 ISOTROPIC BELOW 100EV
             QIN[5][I]=0.0
             PEQIN[5][I]=0.5                                                  
             if(EN <= 0.0):
-            GO TO 550
-            if((EN-EIN[5]:
-            ) > XVBV1(NVBV1)) GO TO 524                         
-            DO 510 J=2,NVBV1                                                 
-            if((EN-EIN[5]:
-            ) <= XVBV1[J]) GO TO 520                             
-            510 CONTINUE                                                          
-            J=NVBV1                                                          
-            520 A=(YVBV1[J]-YVBV1(J-1))/(XVBV1[J]-XVBV1(J-1))                     
-            B=(XVBV1(J-1)*YVBV1[J]-XVBV1[J]*YVBV1(J-1))/(XVBV1(J-1)-XVBV1[J])
-            QIN[5][I]=(EN-EIN[5])*(A*(EN-EIN[5])+B)/EN
-            GO TO 525
-            524 QIN[5][I]=YVBV1(NVBV1)*(XVBV1(NVBV1)/(EN*(EN-EIN[5]))**2)
-            525 CONTINUE 
-            EFAC=math.sqrt(1.0-(EIN[5]/EN))
-            QIN[5][I]=QIN[5][I]+0.0224*math.log((EFAC+1.0)/(EFAC-1.0))/EN
-            QIN[5][I]=QIN[5][I]*APOPV1*1.D-16/DEGV1  
-            if(EN > 100.0):
-            PEQIN[5][I]=PQ1
-            550 CONTINUE                                                          
+                  pass
+            else:
+                  flag520=1
+                  flag525=1
+                  if((EN-EIN[5]) > XVBV1[NVBV1]):
+                        pass
+                  else:
+                        for J in range(2,NVBV1):
+                              if((EN-EIN[5]) <= XVBV1[J]):
+                                    flag520                             
+                        if(flag520):
+                              J=NVBV1                                                          
+                        A=(YVBV1[J]-YVBV1[J-1])/(XVBV1[J]-XVBV1[J-1])                     
+                        B=(XVBV1[J-1]*YVBV1[J]-XVBV1[J]*YVBV1[J-1])/(XVBV1[J-1]-XVBV1[J])
+                        QIN[5][I]=(EN-EIN[5])*(A*(EN-EIN[5])+B)/EN
+                        flag525=0
+                  if(flag525):
+                        QIN[5][I]=YVBV1[NVBV1]*(XVBV1[NVBV1]/(EN*(EN-EIN[5]))**2)
+                  EFAC=math.sqrt(1.0-(EIN[5]/EN))
+                  QIN[5][I]=QIN[5][I]+0.0224*math.log((EFAC+1.0)/(EFAC-1.0))/EN
+                  QIN[5][I]=QIN[5][I]*APOPV1*1.E-16/DEGV1  
+                  if(EN > 100.0):
+                        PEQIN[5][I]=PQ1
             #  VIBRATION V1  ISOTROPIC BELOW 100EV
             QIN[6][I]=0.0        
             PEQIN[6][I]=0.5                          
-            if(EN <= EIN[6]:
-            ) GO TO 600   
-            if(EN > XVBV1(NVBV1):
-            ) GO TO 574                                
-            DO 560 J=2,NVBV1                                                 
-            if(EN <= XVBV1[J]:
-            ) GO TO 570                                      
-            560 CONTINUE                                                          
-            J=NVBV1                                                          
-            570 A=(YVBV1[J]-YVBV1(J-1))/(XVBV1[J]-XVBV1(J-1))                     
-            B=(XVBV1(J-1)*YVBV1[J]-XVBV1[J]*YVBV1(J-1))/(XVBV1(J-1)-XVBV1[J]) 
-            QIN[6][I]=A*EN+B
-            GO TO 575
-            574 QIN[6][I]=YVBV1(NVBV1)*(XVBV1(NVBV1)/EN)**3
-            575 CONTINUE
-            EFAC=math.sqrt(1.0-(EIN[6]/EN))
-            QIN[6][I]=QIN[6][I]+0.0224*math.log((1.0+EFAC)/(1.0-EFAC))/EN
-            QIN[6][I]=QIN[6][I]*APOPGS*1.D-16
-            if(EN > 100.0):
-            PEQIN[6][I]=PQ1
-            600 CONTINUE
+            if(EN <= EIN[6]):
+                  pass
+            else:   
+                  flag570=1
+                  flag575=1
+                  if(EN > XVBV1[NVBV1]):
+                        pass
+                  else:                                
+                        for J in range(2,NVBV1):
+                              if(EN <= XVBV1[J]):
+                                    flag570=0                                      
+                        if(flag570):
+                              J=NVBV1                                                          
+                        A=(YVBV1[J]-YVBV1[J-1])/(XVBV1[J]-XVBV1[J-1])                     
+                        B=(XVBV1[J-1]*YVBV1[J]-XVBV1[J]*YVBV1[J-1])/(XVBV1[J-1]-XVBV1[J]) 
+                        QIN[6][I]=A*EN+B
+                        flag575=0
+                  if(flag575):
+                        QIN[6][I]=YVBV1[NVBV1]*(XVBV1[NVBV1]/EN)**3
+                  EFAC=math.sqrt(1.0-(EIN[6]/EN))
+                  QIN[6][I]=QIN[6][I]+0.0224*math.log((1.0+EFAC)/(1.0-EFAC))/EN
+                  QIN[6][I]=QIN[6][I]*APOPGS*1.E-16
+                  if(EN > 100.0):
+                        PEQIN[6][I]=PQ1
             # SUPERELASTIC OF VIBRATION V3 ISOTROPIC BELOW 100EV
             QIN[7][I]=0.0
             PEQIN[7][I]=0.5
             if(EN <= 0.0):
-            GO TO 650        
-            if((EN-EIN[7]:
-            ) > XVBV3(NVBV3)) GO TO 624                        
-            DO 610 J=2,NVBV3                                                 
-            if((EN-EIN[7]:
-            ) <= XVBV3[J]) GO TO 620                             
-            610 CONTINUE                                                          
-            J=NVBV3                                                          
-            620 A=(YVBV3[J]-YVBV3(J-1))/(XVBV3[J]-XVBV3(J-1))                     
-            B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J]) 
-            QIN[7][I]=(EN-EIN[7])*(A*(EN-EIN[7])+B)/EN
-            GO TO 625
-            624 QIN[7][I]=YVBV3(NVBV3)*(XVBV3(NVBV3)/(EN*(EN-EIN[7]))**2)
-            625 CONTINUE
-            EFAC=math.sqrt(1.0-(EIN[7]/EN))
-            QIN[7][I]=QIN[7][I]+VDSC*1.610*math.log((EFAC+1.0)/(EFAC-1.0))/EN
-            QIN[7][I]=QIN[7][I]*APOPV3*1.D-16/DEGV3
-            if(EN > 100.0):
-            PEQIN[7][I]=PQ1
-            650 CONTINUE                    
+                  pass
+            else:
+                  flag620=1
+                  flag625=1
+                  if((EN-EIN[7]) > XVBV3[NVBV3]):
+                        pass
+                  else:
+                        for J in range(2,NVBV3):
+                              if((EN-EIN[7]) <= XVBV3[J]):
+                                    flag620=0                             
+                        if(flag620):
+                              J=NVBV3                                                          
+                        A=(YVBV3[J]-YVBV3[J-1])/(XVBV3[J]-XVBV3[J-1])                     
+                        B=(XVBV3[J-1]*YVBV3[J]-XVBV3[J]*YVBV3[J-1])/(XVBV3[J-1]-XVBV3[J]) 
+                        QIN[7][I]=(EN-EIN[7])*(A*(EN-EIN[7])+B)/EN
+                        flag625=0
+                  if(flag625):
+                        QIN[7][I]=YVBV3[NVBV3]*(XVBV3[NVBV3]/(EN*(EN-EIN[7]))**2)
+                  EFAC=math.sqrt(1.0-(EIN[7]/EN))
+                  QIN[7][I]=QIN[7][I]+VDSC*1.610*math.log((EFAC+1.0)/(EFAC-1.0))/EN
+                  QIN[7][I]=QIN[7][I]*APOPV3*1.E-16/DEGV3
+                  if(EN > 100.0):
+                        PEQIN[7][I]=PQ1
             # VIBRATION V3 ANISOTROPIC
             QIN[8][I]=0.0
             PEQIN[8][I]=0.5
-            if(EN <= EIN[8]:
-            ) GO TO 700   
-            if(EN > XVBV3(NVBV3):
-            ) GO TO 674                                 
-            DO 660 J=2,NVBV3                                              
-            if(EN <= XVBV3[J]:
-            ) GO TO 670                                      
-            660 CONTINUE                                                          
-            J=NVBV3                                                          
-            670 A=(YVBV3[J]-YVBV3(J-1))/(XVBV3[J]-XVBV3(J-1))                     
-            B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J]) 
-            QIN[8][I]=A*EN+B
-            GO TO 675
-            674 QIN[8][I]=YVBV3(NVBV3)*(XVBV3(NVBV3)/EN)**3
-            675 CONTINUE
-            EFAC=math.sqrt(1.0-(EIN[8]/EN))
-            ADIP=VDSC*1.610*math.log((1.0+EFAC)/(1.0-EFAC))/EN
-            ELF=EN-EIN[8]
-            FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
-            BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
-            #   ASSUME RATIO MOM T./ TOT X-SECT FOR RESONANCE PART = RAT 
-            XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[8][I])*APOPGS*1.D-16
-            QIN[8][I]=(QIN[8][I]+ADIP)*APOPGS*1.D-16
-            if(EN <= 100.0):
-            PEQIN[8][I]=0.5+(QIN[8][I]-XMT)/QIN[8][I]
-            if(EN > 100.0):
-            PEQIN[8][I]=PQ1
-            700 CONTINUE                    
+            if(EN <= EIN[8]):
+                  pass
+            else:
+                  flag670=1
+                  flag675=1
+                  if(EN > XVBV3[NVBV3]):
+                        pass
+                  else:
+                        for J in range(2,NVBV3):
+                              if(EN <= XVBV3[J]):
+                                    flag670=0                                      
+                        if(flag670):
+                              J=NVBV3                                                          
+                        A=(YVBV3[J]-YVBV3[J-1])/(XVBV3[J]-XVBV3[J-1])                     
+                        B=(XVBV3[J-1]*YVBV3[J]-XVBV3[J]*YVBV3[J-1])/(XVBV3[J-1]-XVBV3[J]) 
+                        QIN[8][I]=A*EN+B
+                        flag675=0
+                  if(flag675):
+                        QIN[8][I]=YVBV3[NVBV3]*(XVBV3[NVBV3]/EN)**3
+                  EFAC=math.sqrt(1.0-(EIN[8]/EN))
+                  ADIP=VDSC*1.610*math.log((1.0+EFAC)/(1.0-EFAC))/EN
+                  ELF=EN-EIN[8]
+                  FWD=math.log((EN+ELF)/(EN+ELF-2.0*math.sqrt(EN*ELF)))
+                  BCK=math.log((EN+ELF+2.0*math.sqrt(EN*ELF))/(EN+ELF))
+                  #   ASSUME RATIO MOM T./ TOT X-SECT FOR RESONANCE PART = RAT 
+                  XMT=((1.5-FWD/(FWD+BCK))*ADIP+RAT*QIN[8][I])*APOPGS*1.E-16
+                  QIN[8][I]=(QIN[8][I]+ADIP)*APOPGS*1.E-16
+                  if(EN <= 100.0):
+                        PEQIN[8][I]=0.5+(QIN[8][I]-XMT)/QIN[8][I]
+                  if(EN > 100.0):
+                        PEQIN[8][I]=PQ1
             # VIBRATION HARMONIC 2V3
             QIN[9][I]=0.0
             PEQIN[9][I]=0.5
-            if(EN <= EIN[9]:
-            ) GO TO 800 
-            if(EN > XVIB5(NVIB5):
-            ) GO TO 724                             
-            DO 710 J=2,NVIB5                                                  
-            if(EN <= XVIB5[J]:
-            ) GO TO 720                                      
-            710 CONTINUE                                                          
-            J=NVIB5                                                           
-            720 A=(YVIB5[J]-YVIB5(J-1))/(XVIB5[J]-XVIB5(J-1))                     
-            B=(XVIB5(J-1)*YVIB5[J]-XVIB5[J]*YVIB5(J-1))/(XVIB5(J-1)-XVIB5[J]) 
-            QIN[9][I]=(A*EN+B)
-            GO TO 725
-            724 QIN[9][I]=YVIB5(NVIB5)*(XVIB5(NVIB5)/EN)
-            725 CONTINUE
-            QIN[9][I]=QIN[9][I]*APOPGS*1.D-16
-            if(EN <= 100.0):
-            PEQIN[9][I]=0.5+(1.0-RAT)
-            if(EN > 100.0):
-            PEQIN[9][I]=PQ1                 
-            800 CONTINUE                                                          
+            if(EN <= EIN[9]):
+                  pass
+            else:
+                  flag720=1
+                  flag725=1
+                  if(EN > XVIB5[NVIB5]):
+                        pass
+                  else:
+                        for J in range(2,NVIB5):
+                              if(EN <= XVIB5[J]):
+                                    flag720=0                                      
+                        if(flag720):
+                              J=NVIB5                                                           
+                        A=(YVIB5[J]-YVIB5[J-1])/(XVIB5[J]-XVIB5[J-1])                     
+                        B=(XVIB5[J-1]*YVIB5[J]-XVIB5[J]*YVIB5[J-1])/(XVIB5[J-1]-XVIB5[J]) 
+                        QIN[9][I]=(A*EN+B)
+                        flag725=0
+                  if(flag725):
+                        QIN[9][I]=YVIB5[NVIB5]*(XVIB5[NVIB5]/EN)
+                  QIN[9][I]=QIN[9][I]*APOPGS*1.E-16
+                  if(EN <= 100.0):
+                        PEQIN[9][I]=0.5+(1.0-RAT)
+                  if(EN > 100.0):
+                        PEQIN[9][I]=PQ1                 
             # VIBRATION HARMONIC 3V3 
-            QIN(10,I)=0.0
-            PEQIN(10,I)=0.5                                                 
-            if(EN <= EIN[10]:
-            ) GO TO 900            
-            if(EN > XVIB6(NVIB6):
-            ) GO TO 824 
-            DO 810 J=2,NVIB6                                                  
-            if(EN <= XVIB6[J]:
-            ) GO TO 820                                      
-            810 CONTINUE                                                          
-            J=NVIB6                                                           
-            820 A=(YVIB6[J]-YVIB6(J-1))/(XVIB6[J]-XVIB6(J-1))                     
-            B=(XVIB6(J-1)*YVIB6[J]-XVIB6[J]*YVIB6(J-1))/(XVIB6(J-1)-XVIB6[J]) 
-            QIN(10,I)=(A*EN+B)
-            GO TO 825
-            824 QIN(10,I)=YVIB6(NVIB6)*(XVIB6(NVIB6)/EN)
-            825 CONTINUE
-            QIN(10,I)=QIN(10,I)*APOPGS*1.D-16
-            if(EN <= 100.0):
-            PEQIN(10,I)=0.5+(1.0-RAT)
-            if(EN > 100.0):
-            PEQIN(10,I)=PQ1                      
-            900 CONTINUE                                                          
+            QIN[10][I]=0.0
+            PEQIN[10][I]=0.5                                                 
+            if(EN <= EIN[10]):
+                  pass
+            else:
+                  flag820=1
+                  flag825=1
+                  if(EN > XVIB6[NVIB6]):
+                        pass
+                  else:
+                        for J in range(2,NVIB6):
+                              if(EN <= XVIB6[J]):
+                                    flag820=0                                      
+                        if(flag820):
+                              J=NVIB6                                                           
+                        A=(YVIB6[J]-YVIB6[J-1])/(XVIB6[J]-XVIB6[J-1])                     
+                        B=(XVIB6[J-1]*YVIB6[J]-XVIB6[J]*YVIB6[J-1])/(XVIB6[J-1]-XVIB6[J]) 
+                        QIN[10][I]=(A*EN+B)
+                        flag825=0
+                  if(flag825):
+                        QIN[10][I]=YVIB6[NVIB6]*(XVIB6[NVIB6]/EN)
+                  QIN[10][I]=QIN[10][I]*APOPGS*1.E-16
+                  if(EN <= 100.0):
+                        PEQIN[10][I]=0.5+(1.0-RAT)
+                  if(EN > 100.0):
+                        PEQIN[10][I]=PQ1                      
             #                                                                       
             # TRIPLET NEUTRAL DISSOCIATION ELOSS=11.5 EV
-            QIN(11,I)=0.0  
-            PEQIN(11,I)=0.0                       
-            if(EN <= EIN[11]:
-            ) GO TO 903                
-            if(EN > XTR1(NTR1):
-            ) GO TO 9025                      
-            DO 901 J=2,NTR1                                                 
-            if(EN <= XTR1[J]:
-            ) GO TO 902                                       
-            901 CONTINUE                                                          
-            J=NTR1                                                           
-            902 A=(YTR1[J]-YTR1(J-1))/(XTR1[J]-XTR1(J-1))                         
-            B=(XTR1(J-1)*YTR1[J]-XTR1[J]*YTR1(J-1))/(XTR1(J-1)-XTR1[J])       
-            QIN(11,I)=(A*EN+B)*1.D-16
-            GO TO 9026
-            9025 QIN(11,I)=YTR1(NTR1)*(XTR1(NTR1)/EN)**2*1.D-16
-            9026 if(EN <= (3.0*EIN[11])) GO TO 903
-            PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))                              
-            # SINGLET NEUTRAL DISSOCIATION  ELOSS=11.63 EV     F=0.0001893
-            903 QIN(12,I)=0.0
-            PEQIN(12,I)=0.0
-            if(EN <= EIN[12]:
-            ) GO TO 904
-            QIN(12,I)=.0001893/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.0107
-            if(QIN(12,I):
-            < 0.0) QIN(12,I)=0.0       
-            if(EN <= (3.0*EIN[12]:
-            )) GO TO 904
-            PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=11.88 EV     F=0.001085
-            904 QIN(13,I)=0.0
-            PEQIN(13,I)=0.0
-            if(EN <= EIN[13]:
-            ) GO TO 905
-            QIN(13,I)=0.001085/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.0105
-            if(QIN(13,I):
-            < 0.0) QIN(13,I)=0.0       
-            if(EN <= (3.0*EIN[13]:
-            )) GO TO 905
-            PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.13 EV     F=0.004807
-            905 QIN(14,I)=0.0
-            PEQIN(14,I)=0.0
-            if(EN <= EIN[14]:
-            ) GO TO 906
-            QIN(14,I)=0.004807/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])*1.0103
-            if(QIN(14,I):
-            < 0.0) QIN(14,I)=0.0       
-            if(EN <= (3.0*EIN[14]:
-            )) GO TO 906
-            PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.38 EV     F=0.008819
-            906 QIN(15,I)=0.0
-            PEQIN(15,I)=0.0
-            if(EN <= EIN[15]:
-            ) GO TO 907
-            QIN(15,I)=0.008819/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])*1.0101
-            if(QIN(15,I):
-            < 0.0) QIN(15,I)=0.0       
-            if(EN <= (3.0*EIN[15]:
-            )) GO TO 907
-            PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
-            # TRIPLET NEUTRAL DISSOCIATION ELOSS=12.5 EV
-            907 QIN(16,I)=0.0  
-            PEQIN(16,I)=0.0                       
-            if(EN <= EIN[16]:
-            ) GO TO 910                
-            if(EN > XTR2(NTR2):
-            ) GO TO 9095                      
-            DO 908 J=2,NTR2                                                   
-            if(EN <= XTR2[J]:
-            ) GO TO 909                                       
-            908 CONTINUE                                                          
-            J=NTR2                                                            
-            909 A=(YTR2[J]-YTR2(J-1))/(XTR2[J]-XTR2(J-1))                         
-            B=(XTR2(J-1)*YTR2[J]-XTR2[J]*YTR2(J-1))/(XTR2(J-1)-XTR2[J])       
-            QIN(16,I)=(A*EN+B)*1.D-16
-            GO TO 9096
-            9095 QIN(16,I)=YTR2(NTR2)*(XTR2(NTR2)/EN)**2*1.D-16
-            9096 if(EN <= (3.0*EIN[16])) GO TO 910
-            PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))                              
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.63 EV     F=0.008918
-            910 QIN(17,I)=0.0
-            PEQIN(17,I)=0.0
-            if(EN <= EIN[17]:
-            ) GO TO 911
-            QIN(17,I)=0.008918/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.0099
-            if(QIN(17,I):
-            < 0.0) QIN(17,I)=0.0       
-            if(EN <= (3.0*EIN[17]:
-            )) GO TO 911
-            PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.88 EV     F=0.008420
-            911 QIN(18,I)=0.0
-            PEQIN(18,I)=0.0
-            if(EN <= EIN[18]:
-            ) GO TO 912
-            QIN(18,I)=0.008420/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.0097
-            if(QIN(18,I):
-            < 0.0) QIN(18,I)=0.0       
-            if(EN <= (3.0*EIN[18]:
-            )) GO TO 912
-            PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.13 EV     F=0.02531 
-            912 QIN(19,I)=0.0
-            PEQIN(19,I)=0.0
-            if(EN <= EIN[19]:
-            ) GO TO 913
-            QIN(19,I)=0.02531/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.0095
-            if(QIN(19,I):
-            < 0.0) QIN(19,I)=0.0       
-            if(EN <= (3.0*EIN[19]:
-            )) GO TO 913
-            PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.38 EV     F=0.09553 
-            913 QIN(20,I)=0.0
-            PEQIN(20,I)=0.0
-            if(EN <= EIN[20]:
-            ) GO TO 914
-            QIN(20,I)=0.09553/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])*1.0093
-            if(QIN(20,I):
-            < 0.0) QIN(20,I)=0.0       
-            if(EN <= (3.0*EIN[20]:
-            )) GO TO 914
-            PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.63 EV     F=0.11193 
-            914 QIN(21,I)=0.0
-            PEQIN(21,I)=0.0
-            if(EN <= EIN[21]:
-            ) GO TO 915
-            QIN(21,I)=0.11193/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.0092
-            if(QIN(21,I):
-            < 0.0) QIN(21,I)=0.0       
-            if(EN <= (3.0*EIN[21]:
-            )) GO TO 915
-            PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.88 EV     F=0.10103 
-            915 QIN(22,I)=0.0
-            PEQIN(22,I)=0.0
-            if(EN <= EIN[22]:
-            ) GO TO 916
-            QIN(22,I)=0.10103/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])*1.0090
-            if(QIN(22,I):
-            < 0.0) QIN(22,I)=0.0       
-            if(EN <= (3.0*EIN[22]:
-            )) GO TO 916
-            PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
-            # TRIPLET NEUTRAL DISSOCIATION ELOSS=14.0 EV
-            916 QIN(23,I)=0.0  
-            PEQIN(23,I)=0.0                       
-            if(EN <= EIN[23]:
-            ) GO TO 919                
-            if(EN > XTR3(NTR3):
-            ) GO TO 9185                      
-            DO 917 J=2,NTR3                                                   
-            if(EN <= XTR3[J]:
-            ) GO TO 918                                       
-            917 CONTINUE                                                          
-            J=NTR3                                                            
-            918 A=(YTR3[J]-YTR3(J-1))/(XTR3[J]-XTR3(J-1))                         
-            B=(XTR3(J-1)*YTR3[J]-XTR3[J]*YTR3(J-1))/(XTR3(J-1)-XTR3[J])       
-            QIN(23,I)=(A*EN+B)*1.D-16
-            GO TO 9186
-            9185 QIN(23,I)=YTR3(NTR3)*(XTR3(NTR3)/EN)**2*1.D-16
-            9186 if(EN <= (3.0*EIN[23])) GO TO 919
-            PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))                              
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.13 EV     F=0.06902 
-            919 QIN(24,I)=0.0
-            PEQIN(24,I)=0.0
-            if(EN <= EIN[24]:
-            ) GO TO 920
-            QIN(24,I)=0.06902/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])*1.0088
-            if(QIN(24,I):
-            < 0.0) QIN(24,I)=0.0       
-            if(EN <= (3.0*EIN[24]:
-            )) GO TO 920
-            PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.38 EV     F=0.03968 
-            920 QIN(25,I)=0.0
-            PEQIN(25,I)=0.0
-            if(EN <= EIN[25]:
-            ) GO TO 921
-            QIN(25,I)=0.03968/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.0087
-            if(QIN(25,I):
-            < 0.0) QIN(25,I)=0.0       
-            if(EN <= (3.0*EIN[25]:
-            )) GO TO 921
-            PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.63 EV     F=0.02584 
-            921 QIN(26,I)=0.0
-            PEQIN(26,I)=0.0
-            if(EN <= EIN[26]:
-            ) GO TO 922
-            QIN(26,I)=0.02584/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.0085
-            if(QIN(26,I):
-            < 0.0) QIN(26,I)=0.0       
-            if(EN <= (3.0*EIN[26]:
-            )) GO TO 922
-            PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.88 EV     F=0.02071 
-            922 QIN(27,I)=0.0
-            PEQIN(27,I)=0.0
-            if(EN <= EIN[27]:
-            ) GO TO 923
-            QIN(27,I)=0.02071/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.0084
-            if(QIN(27,I):
-            < 0.0) QIN(27,I)=0.0       
-            if(EN <= (3.0*EIN[27]:
-            )) GO TO 923
-            PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.13 EV     F=0.03122 
-            923 QIN(28,I)=0.0
-            PEQIN(28,I)=0.0
-            if(EN <= EIN[28]:
-            ) GO TO 924
-            QIN(28,I)=0.03122/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.0083
-            if(QIN(28,I):
-            < 0.0) QIN(28,I)=0.0       
-            if(EN <= (3.0*EIN[28]:
-            )) GO TO 924
-            PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.38 EV     F=0.05580 
-            924 QIN(29,I)=0.0
-            PEQIN(29,I)=0.0
-            if(EN <= EIN[29]:
-            ) GO TO 925
-            QIN(29,I)=0.05580/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.0081
-            if(QIN(29,I):
-            < 0.0) QIN(29,I)=0.0       
-            if(EN <= (3.0*EIN[29]:
-            )) GO TO 925
-            PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.63 EV     F=0.10187 
-            925 QIN(30,I)=0.0
-            PEQIN(30,I)=0.0
-            if(EN <= EIN[30]:
-            ) GO TO 926
-            QIN(30,I)=0.10187/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])*1.0080
-            if(QIN(30,I):
-            < 0.0) QIN(30,I)=0.0       
-            if(EN <= (3.0*EIN[30]:
-            )) GO TO 926
-            PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.88 EV     F=0.09427 
-            926 QIN(31,I)=0.0
-            PEQIN(31,I)=0.0
-            if(EN <= EIN[31]:
-            ) GO TO 927
-            QIN(31,I)=0.09427/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])*1.0079
-            if(QIN(31,I):
-            < 0.0) QIN(31,I)=0.0       
-            if(EN <= (3.0*EIN[31]:
-            )) GO TO 927
-            PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.13 EV     F=0.05853 
-            927 QIN(32,I)=0.0
-            PEQIN(32,I)=0.0
-            if(EN <= EIN[32]:
-            ) GO TO 928
-            QIN(32,I)=0.05853/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])*1.0077
-            if(QIN(32,I):
-            < 0.0) QIN(32,I)=0.0       
-            if(EN <= (3.0*EIN[32]:
-            )) GO TO 928
-            PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.38 EV     F=0.06002 
-            928 QIN(33,I)=0.0
-            PEQIN(33,I)=0.0
-            if(EN <= EIN[33]:
-            ) GO TO 929
-            QIN(33,I)=0.06002/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.0076
-            if(QIN(33,I):
-            < 0.0) QIN(33,I)=0.0       
-            if(EN <= (3.0*EIN[33]:
-            )) GO TO 929
-            PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.63 EV     F=0.05647 
-            929 QIN(34,I)=0.0
-            PEQIN(34,I)=0.0
-            if(EN <= EIN[34]:
-            ) GO TO 930
-            QIN(34,I)=0.05647/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.0075
-            if(QIN(34,I):
-            < 0.0) QIN(34,I)=0.0       
-            if(EN <= (3.0*EIN[34]:
-            )) GO TO 930
-            PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.88 EV     F=0.04885 
-            930 QIN(35,I)=0.0
-            PEQIN(35,I)=0.0
-            if(EN <= EIN[35]:
-            ) GO TO 931
-            QIN(35,I)=0.04885/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])*1.0074
-            if(QIN(35,I):
-            < 0.0) QIN(35,I)=0.0       
-            if(EN <= (3.0*EIN[35]:
-            )) GO TO 931
-            PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.13 EV     F=0.04036 
-            931 QIN(36,I)=0.0
-            PEQIN(36,I)=0.0
-            if(EN <= EIN[36]:
-            ) GO TO 932
-            QIN(36,I)=0.04036/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])*1.0073
-            if(QIN(36,I):
-            < 0.0) QIN(36,I)=0.0       
-            if(EN <= (3.0*EIN[36]:
-            )) GO TO 932
-            PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.38 EV     F=0.03298 
-            932 QIN(37,I)=0.0
-            PEQIN(37,I)=0.0
-            if(EN <= EIN[37]:
-            ) GO TO 933
-            QIN(37,I)=0.03298/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])*1.0072
-            if(QIN(37,I):
-            < 0.0) QIN(37,I)=0.0       
-            if(EN <= (3.0*EIN[37]:
-            )) GO TO 933
-            PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.63 EV     F=0.02593 
-            933 QIN(38,I)=0.0
-            PEQIN(38,I)=0.0
-            if(EN <= EIN[38]:
-            ) GO TO 934
-            QIN(38,I)=0.02593/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])*1.0071
-            if(QIN(38,I):
-            < 0.0) QIN(38,I)=0.0       
-            if(EN <= (3.0*EIN[38]:
-            )) GO TO 934
-            PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.88 EV     F=0.01802 
-            934 QIN(39,I)=0.0
-            PEQIN(39,I)=0.0
-            if(EN <= EIN[39]:
-            ) GO TO 935
-            QIN(39,I)=0.01802/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])*1.0070
-            if(QIN(39,I):
-            < 0.0) QIN(39,I)=0.0       
-            if(EN <= (3.0*EIN[39]:
-            )) GO TO 935
-            PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.13 EV     F=0.01287 
-            935 QIN(40,I)=0.0
-            PEQIN(40,I)=0.0
-            if(EN <= EIN[40]:
-            ) GO TO 936
-            QIN(40,I)=0.01287/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])*1.0069
-            if(QIN(40,I):
-            < 0.0) QIN(40,I)=0.0       
-            if(EN <= (3.0*EIN[40]:
-            )) GO TO 936
-            PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.38 EV     F=0.00830 
-            936 QIN(41,I)=0.0
-            PEQIN(41,I)=0.0
-            if(EN <= EIN[41]:
-            ) GO TO 937
-            QIN(41,I)=0.00830/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])*1.0068
-            if(QIN(41,I):
-            < 0.0) QIN(41,I)=0.0       
-            if(EN <= (3.0*EIN[41]:
-            )) GO TO 937
-            PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.63 EV     F=0.00698 
-            937 QIN(42,I)=0.0
-            PEQIN(42,I)=0.0
-            if(EN <= EIN[42]:
-            ) GO TO 938
-            QIN(42,I)=0.00698/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])*1.0067
-            if(QIN(42,I):
-            < 0.0) QIN(42,I)=0.0       
-            if(EN <= (3.0*EIN[42]:
-            )) GO TO 938
-            PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.88 EV     F=0.00581 
-            938 QIN(43,I)=0.0
-            PEQIN(43,I)=0.0
-            if(EN <= EIN[43]:
-            ) GO TO 939
-            QIN(43,I)=0.00581/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])*1.0066
-            if(QIN(43,I):
-            < 0.0) QIN(43,I)=0.0       
-            if(EN <= (3.0*EIN[43]:
-            )) GO TO 939
-            PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=19.13 EV     F=0.00502 
-            939 QIN(44,I)=0.0
-            PEQIN(44,I)=0.0
-            if(EN <= EIN[44]:
-            ) GO TO 940
-            QIN(44,I)=0.00502/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])*1.0065
-            if(QIN(44,I):
-            < 0.0) QIN(44,I)=0.0       
-            if(EN <= (3.0*EIN[44]:
-            )) GO TO 940
-            PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=19.38 EV     F=0.00398 
-            940 QIN(45,I)=0.0
-            PEQIN(45,I)=0.0
-            if(EN <= EIN[45]:
-            ) GO TO 941
-            QIN(45,I)=0.00398/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])*1.0064
-            if(QIN(45,I):
-            < 0.0) QIN(45,I)=0.0       
-            if(EN <= (3.0*EIN[45]:
-            )) GO TO 941
-            PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
-            # SINGLET NEUTRAL DISSOCIATION   ELOSS=19.63 EV     F=0.00189 
-            941 QIN(46,I)=0.0
-            PEQIN(46,I)=0.0
-            if(EN <= EIN[46]:
-            ) GO TO 942
-            QIN(46,I)=0.00198/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])*1.0064
-            if(QIN(46,I):
-            < 0.0) QIN(46,I)=0.0       
-            if(EN <= (3.0*EIN[46]:
-            )) GO TO 942
-            PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
-            942 CONTINUE
+            QIN[11][I]=0.0  
+            PEQIN[11][I]=0.0                       
+            if(EN <= EIN[11]):
+                  pass                
+            else:
+                  flag902=1
+                  flag9026=1
+                  if(EN > XTR1[NTR1]):
+                        pass
+                  else:
+                        for J in range(2,NTR1):                                                 
+                              if(EN <= XTR1[J]):
+                                    flag902=0                                       
+                        if(flag902):
+                              J=NTR1                                                           
+                        A=(YTR1[J]-YTR1[J-1])/(XTR1[J]-XTR1[J-1])                         
+                        B=(XTR1[J-1]*YTR1[J]-XTR1[J]*YTR1[J-1])/(XTR1[J-1]-XTR1[J])       
+                        QIN[11][I]=(A*EN+B)*1.E-16
+                        flag9026=0
+                  if(flag9026):
+                        QIN[11][I]=YTR1[NTR1]*(XTR1[NTR1]/EN)**2*1.E-16
+                  if(EN <= (3.0*EIN[11])):
+                        pass
+                  else:
+                        PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]                              
+                  # SINGLET NEUTRAL DISSOCIATION  ELOSS=11.63 EV     F=0.0001893
+            QIN[12][I]=0.0
+            PEQIN[12][I]=0.0
+            if(EN <= EIN[12]):
+                  pass
+            else:
+                  QIN[12][I]=.0001893/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.0107
+                  if(QIN[12][I]< 0.0):
+                        QIN[12][I]=0.0       
+                  if(EN <= (3.0*EIN[12])):
+                        pass
+                  else:
+                        PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
+                  # SINGLET NEUTRAL DISSOCIATION   ELOSS=11.88 EV     F=0.001085
+            QIN[13][I]=0.0
+            PEQIN[13][I]=0.0
+            if(EN <= EIN[13]):
+                  pass
+            else:
+                  QIN[13][I]=0.001085/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.0105
+                  if(QIN[13][I]< 0.0):
+                        QIN[13][I]=0.0       
+                  if(EN <= (3.0*EIN[13])):
+                        pass
+                  else:
+                        PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.13 EV     F=0.004807
+            QIN[14][I]=0.0
+            PEQIN[14][I]=0.0
+            if(EN <= EIN[14]):
+                  pass
+            else:
+                  QIN[14][I]=0.004807/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])*1.0103
+                  if(QIN[14][I]< 0.0):
+                        QIN[14][I]=0.0       
+                  if(EN <= (3.0*EIN[14])):
+                        pass
+                  else:
+                        PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.38 EV     F=0.008819
+            QIN[15][I]=0.0
+            PEQIN[15][I]=0.0
+            if(EN <= EIN[15]):
+                  pass
+            else:
+                  QIN[15][I]=0.008819/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])*1.0101
+                  if(QIN[15][I]< 0.0):
+                        QIN[15][I]=0.0       
+                  if(EN <= (3.0*EIN[15])):
+                        pass
+                  else:
+                        PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
+                        # TRIPLET NEUTRAL DISSOCIATION ELOSS=12.5 EV
+            QIN[16][I]=0.0  
+            PEQIN[16][I]=0.0                       
+            if(EN <= EIN[16]):
+                  pass
+            else:
+                  flag909=1
+                  flag9096=1
+                  if(EN > XTR2[NTR2]):
+                        pass
+                  else:
+                        for J in range(2,NTR2):
+                              if(EN <= XTR2[J]):
+                                    flag909=0                                       
+                        if(flag909):
+                              J=NTR2                                                            
+                        A=(YTR2[J]-YTR2[J-1])/(XTR2[J]-XTR2[J-1])                         
+                        B=(XTR2[J-1]*YTR2[J]-XTR2[J]*YTR2[J-1])/(XTR2[J-1]-XTR2[J])       
+                        QIN[16][I]=(A*EN+B)*1.E-16
+                        flag9096=0
+                  if(flag9096):
+                        QIN[16][I]=YTR2[NTR2]*(XTR2[NTR2]/EN)**2*1.E-16
+                  if(EN <= (3.0*EIN[16])):
+                        pass
+                  else:
+                        PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]                              
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.63 EV     F=0.008918
+            QIN[17][I]=0.0
+            PEQIN[17][I]=0.0
+            if(EN <= EIN[17]):
+                  pass
+            else:
+                  QIN[17][I]=0.008918/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.0099
+                  if(QIN[17][I]< 0.0):
+                        QIN[17][I]=0.0       
+                  if(EN <= (3.0*EIN[17])):
+                        pass
+                  else:
+                        PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=12.88 EV     F=0.008420
+            QIN[18][I]=0.0
+            PEQIN[18][I]=0.0
+            if(EN <= EIN[18]):
+                  pass
+            else:
+                  QIN[18][I]=0.008420/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.0097
+                  if(QIN[18][I]< 0.0):
+                        QIN[18][I]=0.0       
+                  if(EN <= (3.0*EIN[18])):
+                        pass
+                  else:
+                        PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.13 EV     F=0.02531 
+            QIN[19][I]=0.0
+            PEQIN[19][I]=0.0
+            if(EN <= EIN[19]):
+                  pass
+            else:
+                  QIN[19][I]=0.02531/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.0095
+                  if(QIN[19][I]< 0.0):
+                        QIN[19][I]=0.0       
+                  if(EN <= (3.0*EIN[19])):
+                        pass
+                  else:
+                        PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.38 EV     F=0.09553 
+            QIN[20][I]=0.0
+            PEQIN[20][I]=0.0
+            if(EN <= EIN[20]):
+                  pass
+            else:
+                  QIN[20][I]=0.09553/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])*1.0093
+                  if(QIN[20][I]< 0.0):
+                        QIN[20][I]=0.0       
+                  if(EN <= (3.0*EIN[20])):
+                        pass
+                  else:
+                        PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.63 EV     F=0.11193 
+            QIN[21][I]=0.0
+            PEQIN[21][I]=0.0
+            if(EN <= EIN[21]):
+                  pass
+            else:
+                  QIN[21][I]=0.11193/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.0092
+                  if(QIN[21][I]< 0.0):
+                        QIN[21][I]=0.0       
+                  if(EN <= (3.0*EIN[21])):
+                        pass
+                  else:
+                        PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=13.88 EV     F=0.10103 
+            QIN[22][I]=0.0
+            PEQIN[22][I]=0.0
+            if(EN <= EIN[22]):
+                  pass
+            else:
+                  QIN[22][I]=0.10103/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])*1.0090
+                  if(QIN[22][I]< 0.0):
+                        QIN[22][I]=0.0       
+                  if(EN <= (3.0*EIN[22])):
+                        pass
+                  else:
+                        PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
+                        # TRIPLET NEUTRAL DISSOCIATION ELOSS=14.0 EV
+            QIN[23][I]=0.0  
+            PEQIN[23][I]=0.0                       
+            if(EN <= EIN[23]):
+                  pass
+            else:
+                  flag918=1
+                  flag9186=1
+                  if(EN > XTR3[NTR3]):
+                        pass
+                  else:
+                        for J in range(2,NTR3):
+                              if(EN <= XTR3[J]):
+                                    flag918=0                                       
+                        if(flag918):
+                              J=NTR3                                                            
+                        A=(YTR3[J]-YTR3[J-1])/(XTR3[J]-XTR3[J-1])                         
+                        B=(XTR3[J-1]*YTR3[J]-XTR3[J]*YTR3[J-1])/(XTR3[J-1]-XTR3[J])       
+                        QIN[23][I]=(A*EN+B)*1.E-16
+                        flag9186=0
+                  if(flag9186):
+                        QIN[23][I]=YTR3[NTR3]*(XTR3[NTR3]/EN)**2*1.E-16
+                  if(EN <= (3.0*EIN[23])):
+                        pass
+                  else:
+                        PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]                              
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.13 EV     F=0.06902 
+            QIN[24][I]=0.0
+            PEQIN[24][I]=0.0
+            if(EN <= EIN[24]):
+                  pass
+            else:
+                  QIN[24][I]=0.06902/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])*1.0088
+                  if(QIN[24][I]< 0.0):
+                        QIN[24][I]=0.0       
+                  if(EN <= (3.0*EIN[24])):
+                        pass
+                  else:
+                        PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.38 EV     F=0.03968 
+            QIN[25][I]=0.0
+            PEQIN[25][I]=0.0
+            if(EN <= EIN[25]):
+                  pass
+            else:
+                  QIN[25][I]=0.03968/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.0087
+                  if(QIN[25][I]< 0.0):
+                        QIN[25][I]=0.0       
+                  if(EN <= (3.0*EIN[25])):
+                        pass
+                  else:
+                        PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
+                  # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.63 EV     F=0.02584 
+            QIN[26][I]=0.0
+            PEQIN[26][I]=0.0
+            if(EN <= EIN[26]):
+                  pass
+            else:
+                  QIN[26][I]=0.02584/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.0085
+                  if(QIN[26][I]< 0.0):
+                        QIN[26][I]=0.0       
+                  if(EN <= (3.0*EIN[26])):
+                        pass
+                  else:
+                        PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=14.88 EV     F=0.02071 
+            QIN[27][I]=0.0
+            PEQIN[27][I]=0.0
+            if(EN <= EIN[27]):
+                  pass
+            else:
+                  QIN[27][I]=0.02071/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.0084
+                  if(QIN[27][I]< 0.0):
+                        QIN[27][I]=0.0       
+                  if(EN <= (3.0*EIN[27])):
+                        pass
+                  else:
+                        PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.13 EV     F=0.03122 
+            QIN[28][I]=0.0
+            PEQIN[28][I]=0.0
+            if(EN <= EIN[28]):
+                  pass
+            else:
+                  QIN[28][I]=0.03122/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.0083
+                  if(QIN[28][I]< 0.0):
+                        QIN[28][I]=0.0       
+                  if(EN <= (3.0*EIN[28])):
+                        pass
+                  else:
+                        PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.38 EV     F=0.05580 
+            QIN[29][I]=0.0
+            PEQIN[29][I]=0.0
+            if(EN <= EIN[29]):
+                  pass
+            else:
+                  QIN[29][I]=0.05580/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.0081
+                  if(QIN[29][I]< 0.0):
+                        QIN[29][I]=0.0       
+                  if(EN <= (3.0*EIN[29])):
+                        pass
+                  else:
+                        PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.63 EV     F=0.10187 
+            QIN[30][I]=0.0
+            PEQIN[30][I]=0.0
+            if(EN <= EIN[30]):
+                  pass
+            else:
+                  QIN[30][I]=0.10187/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])*1.0080
+                  if(QIN[30][I]< 0.0):
+                        QIN[30][I]=0.0       
+                  if(EN <= (3.0*EIN[30])):
+                        pass
+                  else:
+                        PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=15.88 EV     F=0.09427 
+            QIN[31][I]=0.0
+            PEQIN[31][I]=0.0
+            if(EN <= EIN[31]):
+                  pass
+            else:
+                  QIN[31][I]=0.09427/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])*1.0079
+                  if(QIN[31][I]< 0.0):
+                        QIN[31][I]=0.0       
+                  if(EN <= (3.0*EIN[31])):
+                        pass
+                  else:
+                        PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.13 EV     F=0.05853 
+            QIN[32][I]=0.0
+            PEQIN[32][I]=0.0
+            if(EN <= EIN[32]):
+                  pass
+            else:
+                  QIN[32][I]=0.05853/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])*1.0077
+                  if(QIN[32][I]< 0.0):
+                        QIN[32][I]=0.0       
+                  if(EN <= (3.0*EIN[32])):
+                        pass
+                  else:
+                        PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.38 EV     F=0.06002 
+            QIN[33][I]=0.0
+            PEQIN[33][I]=0.0
+            if(EN <= EIN[33]):
+                  pass
+            else:
+                  QIN[33][I]=0.06002/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.0076
+                  if(QIN[33][I]< 0.0):
+                        QIN[33][I]=0.0       
+                  if(EN <= (3.0*EIN[33])):
+                        pass
+                  else:
+                        PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.63 EV     F=0.05647 
+            QIN[34][I]=0.0
+            PEQIN[34][I]=0.0
+            if(EN <= EIN[34]):
+                  pass
+            else:
+                  QIN[34][I]=0.05647/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.0075
+                  if(QIN[34][I]< 0.0):
+                        QIN[34][I]=0.0       
+                  if(EN <= (3.0*EIN[34])):
+                        pass
+                  else:
+                        PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=16.88 EV     F=0.04885 
+            QIN[35][I]=0.0
+            PEQIN[35][I]=0.0
+            if(EN <= EIN[35]):
+                  pass
+            else:
+                  QIN[35][I]=0.04885/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])*1.0074
+                  if(QIN[35][I]< 0.0):
+                        QIN[35][I]=0.0       
+                  if(EN <= (3.0*EIN[35])):
+                        pass
+                  else:
+                        PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.13 EV     F=0.04036 
+            QIN[36][I]=0.0
+            PEQIN[36][I]=0.0
+            if(EN <= EIN[36]):
+                  pass
+            else:
+                  QIN[36][I]=0.04036/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])*1.0073
+                  if(QIN[36][I]< 0.0):
+                        QIN[36][I]=0.0       
+                  if(EN <= (3.0*EIN[36])):
+                        pass
+                  else:
+                        PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.38 EV     F=0.03298 
+            QIN[37][I]=0.0
+            PEQIN[37][I]=0.0
+            if(EN <= EIN[37]):
+                  pass
+            else:
+                  QIN[37][I]=0.03298/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])*1.0072
+                  if(QIN[37][I]< 0.0):
+                        QIN[37][I]=0.0       
+                  if(EN <= (3.0*EIN[37])):
+                        pass
+                  else:
+                        PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.63 EV     F=0.02593 
+            QIN[38][I]=0.0
+            PEQIN[38][I]=0.0
+            if(EN <= EIN[38]):
+                  pass
+            else:
+                  QIN[38][I]=0.02593/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])*1.0071
+                  if(QIN[38][I]< 0.0):
+                        QIN[38][I]=0.0       
+                  if(EN <= (3.0*EIN[38])):
+                        pass
+                  else:
+                        PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=17.88 EV     F=0.01802 
+            QIN[39][I]=0.0
+            PEQIN[39][I]=0.0
+            if(EN <= EIN[39]):
+                  pass
+            else:
+                  QIN[39][I]=0.01802/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])*1.0070
+                  if(QIN[39][I]< 0.0):
+                        QIN[39][I]=0.0       
+                  if(EN <= (3.0*EIN[39])):
+                        pass
+                  else:
+                        PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.13 EV     F=0.01287 
+            QIN[40][I]=0.0
+            PEQIN[40][I]=0.0
+            if(EN <= EIN[40]):
+                  pass
+            else:
+                  QIN[40][I]=0.01287/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])*1.0069
+                  if(QIN[40][I]< 0.0):
+                        QIN[40][I]=0.0       
+                  if(EN <= (3.0*EIN[40])):
+                        pass
+                  else:
+                        PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.38 EV     F=0.00830 
+            QIN[41][I]=0.0
+            PEQIN[41][I]=0.0
+            if(EN <= EIN[41]):
+                  pass
+            else:
+                  QIN[41][I]=0.00830/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])*1.0068
+                  if(QIN[41][I]< 0.0):
+                        QIN[41][I]=0.0       
+                  if(EN <= (3.0*EIN[41])):
+                        pass
+                  else:
+                        PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.63 EV     F=0.00698 
+            QIN[42][I]=0.0
+            PEQIN[42][I]=0.0
+            if(EN <= EIN[42]):
+                  pass
+            else:
+                  QIN[42][I]=0.00698/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])*1.0067
+                  if(QIN[42][I]< 0.0):
+                        QIN[42][I]=0.0       
+                  if(EN <= (3.0*EIN[42])):
+                        pass
+                  else:
+                        PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=18.88 EV     F=0.00581 
+            QIN[43][I]=0.0
+            PEQIN[43][I]=0.0
+            if(EN <= EIN[43]):
+                  pass
+            else:
+                  QIN[43][I]=0.00581/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])*1.0066
+                  if(QIN[43][I]< 0.0):
+                        QIN[43][I]=0.0       
+                  if(EN <= (3.0*EIN[43])):
+                        pass
+                  else:
+                        PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=19.13 EV     F=0.00502 
+            QIN[44][I]=0.0
+            PEQIN[44][I]=0.0
+            if(EN <= EIN[44]):
+                  pass
+            else:
+                  QIN[44][I]=0.00502/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])*1.0065
+                  if(QIN[44][I]< 0.0):
+                        QIN[44][I]=0.0       
+                  if(EN <= (3.0*EIN[44])):
+                        pass
+                  else:
+                        PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=19.38 EV     F=0.00398 
+            QIN[45][I]=0.0
+            PEQIN[45][I]=0.0
+            if(EN <= EIN[45]):
+                  pass
+            else:
+                  QIN[45][I]=0.00398/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])*1.0064
+                  if(QIN[45][I]< 0.0):
+                        QIN[45][I]=0.0       
+                  if(EN <= (3.0*EIN[45])):
+                        pass
+                  else:
+                        PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
+                        # SINGLET NEUTRAL DISSOCIATION   ELOSS=19.63 EV     F=0.00189 
+            QIN[46][I]=0.0
+            PEQIN[46][I]=0.0
+            if(EN <= EIN[46]):
+                  pass
+            else:
+                  QIN[46][I]=0.00198/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])*1.0064
+                  if(QIN[46][I]< 0.0):
+                        QIN[46][I]=0.0       
+                  if(EN <= (3.0*EIN[46])):
+                        pass
+                  else:
+                        PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
             # LOAD BREMSSTRAHLUNG X-SECTIONS
-            QIN(47,I)=0.0
-            QIN(48,I)=0.0
+            QIN[47][I]=0.0
+            QIN[48][I]=0.0
             if(EN <= 1000.):
-            GO TO 1000 
-            DO 952 J=2,NBREM 
-            if(EN <= EBRM[J]:
-            ) GO TO 953
-            952 CONTINUE
-            J=NBREM
-            953 A=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-            B=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-            A1=(math.log(Z9T[J])-math.log(Z9T(J-1)))/(EBRM[J]-EBRM(J-1))
-            B1=(math.log(Z9T[J])*EBRM(J-1)-math.log(Z9T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-            QIN(47,I)=math.exp(A*EN+B)*1.D-24
-            QIN(48,I)=math.exp(A1*EN+B1)*4.D-24 
-            1000 CONTINUE                                              
+                  pass
+            else:
+                  flag953=1
+                  for J in range(2,NBREM):
+                        if(EN <= EBRM[J]):
+                              flag953=0
+                  if(flag953):
+                        J=NBREM
+                  A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+                  B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+                  A1=(math.log(Z9T[J])-math.log(Z9T[J-1]))/(EBRM[J]-EBRM[J-1])
+                  B1=(math.log(Z9T[J])*EBRM[J-1]-math.log(Z9T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+                  QIN[47][I]=math.exp(A*EN+B)*1.E-24
+                  QIN[48][I]=math.exp(A1*EN+B1)*4.E-24 
             #  
             # COUNTING IONISATION SUM
             QIONSUM=0.0                    
-            DO 1001 J=1,12
-            1001 QIONSUM=QIONSUM+QION[J][I] 
+            for J in range(1,12):
+                  QIONSUM=QIONSUM+QION[J][I] 
             QSNGLSUM=0.0
-            DO 1002 J=11,46
-            # SKIP TRIPLETS
-            if(J == 11 or J == 16 or J == 23):
-            GO TO 1002
-            QSNGLSUM=QSNGLSUM+QIN[J][I]
-            1002 CONTINUE
-            QTRIPSUM=QIN(11,I)+QIN(16,I)+QIN(23,I) 
+            for J in range(11,46):
+                  # SKIP TRIPLETS
+                  if(J == 11 or J == 16 or J == 23):
+                        break
+                  else:
+                        QSNGLSUM=QSNGLSUM+QIN[J][I]
+            QTRIPSUM=QIN[11][I]+QIN[16][I]+QIN[23][I] 
             # VIBRATION SUM
             VSUM=0.0
-            DO 1003 J=1,10 
-            1003 VSUM=VSUM+QIN[J][I] 
+            for J in range(1,10):
+                  VSUM=VSUM+QIN[J][I] 
             # GROSS IONISATION SUM 
             QIONG=QIONSUM
-            DO 1004 J=6,12
-            1004 QIONG=QIONG+QION[J][I]
+            for J in range(6,12):
+                  QIONG=QIONG+QION[J][I]
 
             #      
             DISTOT=QSNGLSUM+QTRIPSUM+QIONSUM               
@@ -1679,21 +1786,17 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
             #    /'%.4f' % ,/,' NEUTRAL DIP. DISS=','%.4f' % ,' TRIPLET DISS=','%.4f' % ,/,
             #    /' COUNT IONISATION=','%.4f' % ,/' GROSS IONISATION=','%.4f' % ,/,
             #    /' DISTOT=','%.4f' % )
-            9000 CONTINUE                                                          
       #  SAVE COMPUTE TIME 
       if(EFINAL > 1000.):
-      NIN=48
-      DO 9001 J=11,46
-      if(EFINAL <= EIN[J]:
-      ) :
-      NIN=J-1
-      GO TO 9002
-      # endif
-      9001 CONTINUE   
-      9002 CONTINUE                                     
+            NIN=48
+      for J in range(11,46):
+            if(EFINAL <= EIN[J]):
+                  NIN=J-1
+                  break
+            # endif
       return                                                            
       # end 
-      def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN) 
+def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN) 
       # IMPLICIT #real*8 (A-H,O-Z)
       # IMPLICIT #integer*8 (I-N)                                         
       global ECHARG,EMASS,AMU,PIR2                                
@@ -1701,7 +1804,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -2322,7 +2425,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
 )) GO TO 223
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 #
 # IONISATION FOR CHARGE =2
   223 QION[2][I]=0.0
@@ -2355,7 +2458,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[2]:
 )) GO TO 3223
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 #
 # IONISATION FOR CHARGE =3
  3223 QION[3][I]=0.0
@@ -2388,7 +2491,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[3]:
 )) GO TO 4223
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 # CALCULATE L3 SHELL IONISATION
  4223 QION[4][I]=0.00
       PEQION[4][I]=0.5
@@ -2404,7 +2507,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2232 A=(YL3S[J]-YL3S(J-1))/(XL3S[J]-XL3S(J-1))
       B=(XL3S(J-1)*YL3S[J]-XL3S[J]*YL3S(J-1))/(XL3S(J-1)-XL3S[J])
       QION[4][I]=(A*EN+B)*1.D-16
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
 # CALCULATE L2 SHELL IONISATION
   224 QION[5][I]=0.00
       PEQION[5][I]=0.5
@@ -2420,7 +2523,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2242 A=(YL2S[J]-YL2S(J-1))/(XL2S[J]-XL2S(J-1))
       B=(XL2S(J-1)*YL2S[J]-XL2S[J]*YL2S(J-1))/(XL2S(J-1)-XL2S[J])
       QION[5][I]=(A*EN+B)*1.D-16
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
 # CALCULATE L1 SHELL IONISATION
   225 QION[6][I]=0.00
       PEQION[6][I]=0.5
@@ -2436,7 +2539,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2252 A=(YL1S[J]-YL1S(J-1))/(XL1S[J]-XL1S(J-1))
       B=(XL1S(J-1)*YL1S[J]-XL1S[J]*YL1S(J-1))/(XL1S(J-1)-XL1S[J])
       QION[6][I]=(A*EN+B)*1.D-16
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
 # CALCULATE K  SHELL IONISATION
   226 QION[7][I]=0.00
       PEQION[7][I]=0.5
@@ -2452,7 +2555,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2262 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J])
       QION[7][I]=(A*EN+B)*1.D-16
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
 # ATTACHMENT
   227 Q[4][I]=0.0    
 # COUNTING IONISATION        
@@ -2516,8 +2619,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X1S5(N1S5) EV SCALE BY 1/E**3
  3111 QIN[1][I]=Y1S5(N1S5)*(X1S5(N1S5)/EN)**3*1.0D-18     
  3112 if(EN <= (2.0*EIN[1])) GO TO 312
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-# 1S4 F=0.0580
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]# 1S4 F=0.0580
   312 if(EN <= EIN[2]) GO TO 413
       if(EN > X1S4(N1S4):
 ) GO TO 3141
@@ -2532,8 +2634,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3142
  3141 QIN[2][I]=0.0580/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[2])
  3142 if(EN <= (2.0*EIN[2])) GO TO 315
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-# 1S3
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]# 1S3
   315 if(EN <= EIN[3]) GO TO 413
       if(EN > X1S3(N1S3):
 ) GO TO 3171
@@ -2549,8 +2650,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X1S3(N1S3) EV SCALE BY 1/E**3
  3171 QIN[3][I]=Y1S3(N1S3)*(X1S3(N1S3)/EN)**3*1.D-18
  3172 if(EN <= (2.0*EIN[3])) GO TO 318
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-# 1S2  F=0.2260
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]# 1S2  F=0.2260
   318 if(EN <= EIN[4]) GO TO 413
       if(EN > X1S2(N1S2):
 ) GO TO 3201
@@ -2565,8 +2665,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3202
  3201 QIN[4][I]=0.2260/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[4])
  3202 if(EN <= (2.0*EIN[4])) GO TO 321
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-#         
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]#         
 # P STATES
 #
 # 2P10
@@ -2585,8 +2684,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P10(N2P10) EV SCALE BY 1/E**2
  3231 QIN[5][I]=Y2P10(N2P10)*(X2P10(N2P10)/EN)**2*1.0D-18*PSCALE
  3232 if(EN <= (2.0*EIN[5])) GO TO 324
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-# 2P9
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]# 2P9
   324 if(EN <= EIN[6]) GO TO 413
       if(EN > X2P9(N2P9):
 ) GO TO 3261
@@ -2602,8 +2700,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P9(N2P9) EV SCALE BY 1/E**2
  3261 QIN[6][I]=Y2P9(N2P9)*(X2P9(N2P9)/EN)**2*1.0D-18*PSCALE
  3262 if(EN <= (2.0*EIN[6])) GO TO 327
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-# 2P8
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]# 2P8
   327 if(EN <= EIN[7]) GO TO 413
       if(EN > X2P8(N2P8):
 ) GO TO 3291
@@ -2619,8 +2716,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P8(N2P8) EV SCALE BY 1/E
  3291 QIN[7][I]=Y2P8(N2P8)*(X2P8(N2P8)/EN)*1.0D-18*PSCALE
  3292 if(EN <= (2.0*EIN[7])) GO TO 330
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-# 2P7
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]# 2P7
   330 if(EN <= EIN[8]) GO TO 413
       if(EN > X2P7(N2P7):
 ) GO TO 3321
@@ -2636,8 +2732,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P7(N2P7) EV SCALE BY 1/E**2
  3321 QIN[8][I]=Y2P7(N2P7)*(X2P7(N2P7)/EN)**2*1.0D-18*PSCALE
  3322 if(EN <= (2.0*EIN[8])) GO TO 333
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-# 2P6
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]# 2P6
   333 if(EN <= EIN[9]) GO TO 413
       if(EN > X2P6(N2P6):
 ) GO TO 3351
@@ -2653,8 +2748,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P6(N2P6) EV SCALE BY 1/E
  3351 QIN[9][I]=Y2P6(N2P6)*(X2P6(N2P6)/EN)*1.0D-18*PSCALE
  3352 if(EN <= (2.0*EIN[9])) GO TO 336
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-# 2P5
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]# 2P5
   336 if(EN <= EIN[10]) GO TO 413
       if(EN > X2P5(N2P5):
 ) GO TO 3381
@@ -2665,12 +2759,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P5
   338 A=(Y2P5[J]-Y2P5(J-1))/(X2P5[J]-X2P5(J-1))                    
       B=(X2P5(J-1)*Y2P5[J]-X2P5[J]*Y2P5(J-1))/(X2P5(J-1)-X2P5[J])
-      QIN(10,I)=(A*EN+B)*1.D-18*PSCALE
+      QIN[10][I]=(A*EN+B)*1.D-18*PSCALE
       GO TO 3382
 # IF ENERGY GT X2P5(N2P5) EV SCALE BY 1/E
- 3381 QIN(10,I)=Y2P5(N2P5)*(X2P5(N2P5)/EN)*1.0D-18*PSCALE
+ 3381 QIN[10][I]=Y2P5(N2P5)*(X2P5(N2P5)/EN)*1.0D-18*PSCALE
  3382 if(EN <= (2.0*EIN[10])) GO TO 339
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 # 2P4
   339 if(EN <= EIN[11]) GO TO 413
       if(EN > X2P4(N2P4):
@@ -2682,12 +2776,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P4
   341 A=(Y2P4[J]-Y2P4(J-1))/(X2P4[J]-X2P4(J-1))                    
       B=(X2P4(J-1)*Y2P4[J]-X2P4[J]*Y2P4(J-1))/(X2P4(J-1)-X2P4[J])
-      QIN(11,I)=(A*EN+B)*1.D-18*PSCALE
+      QIN[11][I]=(A*EN+B)*1.D-18*PSCALE
       GO TO 3412
 # IF ENERGY GT X2P4(N2P4) EV SCALE BY 1/E**2
- 3411 QIN(11,I)=Y2P4(N2P4)*(X2P4(N2P4)/EN)**2*1.0D-18*PSCALE
+ 3411 QIN[11][I]=Y2P4(N2P4)*(X2P4(N2P4)/EN)**2*1.0D-18*PSCALE
  3412 if(EN <= (2.0*EIN[11])) GO TO 342
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
 # 2P3
   342 if(EN <= EIN[12]) GO TO 413
       if(EN > X2P3(N2P3):
@@ -2699,12 +2793,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P3
   344 A=(Y2P3[J]-Y2P3(J-1))/(X2P3[J]-X2P3(J-1))                    
       B=(X2P3(J-1)*Y2P3[J]-X2P3[J]*Y2P3(J-1))/(X2P3(J-1)-X2P3[J])
-      QIN(12,I)=(A*EN+B)*1.D-18*PSCALE
+      QIN[12][I]=(A*EN+B)*1.D-18*PSCALE
       GO TO 3442
 # IF ENERGY GT X2P3(N2P3) EV SCALE BY 1/E
- 3441 QIN(12,I)=Y2P3(N2P3)*(X2P3(N2P3)/EN)*1.0D-18*PSCALE
+ 3441 QIN[12][I]=Y2P3(N2P3)*(X2P3(N2P3)/EN)*1.0D-18*PSCALE
  3442 if(EN <= (2.0*EIN[12])) GO TO 345
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 # 2P2
   345 if(EN <= EIN[13]) GO TO 413
       if(EN > X2P2(N2P2):
@@ -2716,12 +2810,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P2
   347 A=(Y2P2[J]-Y2P2(J-1))/(X2P2[J]-X2P2(J-1))                    
       B=(X2P2(J-1)*Y2P2[J]-X2P2[J]*Y2P2(J-1))/(X2P2(J-1)-X2P2[J])
-      QIN(13,I)=(A*EN+B)*1.D-18*PSCALE
+      QIN[13][I]=(A*EN+B)*1.D-18*PSCALE
       GO TO 3472
 # IF ENERGY GT X2P2(N2P2) EV SCALE BY 1/E**2
- 3471 QIN(13,I)=Y2P2(N2P2)*(X2P2(N2P2)/EN)**2*1.0D-18*PSCALE
+ 3471 QIN[13][I]=Y2P2(N2P2)*(X2P2(N2P2)/EN)**2*1.0D-18*PSCALE
  3472 if(EN <= (2.0*EIN[13])) GO TO 348
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 # 2P1
   348 if(EN <= EIN[14]) GO TO 413
       if(EN > X2P1(N2P1):
@@ -2733,12 +2827,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P1
   350 A=(Y2P1[J]-Y2P1(J-1))/(X2P1[J]-X2P1(J-1))                    
       B=(X2P1(J-1)*Y2P1[J]-X2P1[J]*Y2P1(J-1))/(X2P1(J-1)-X2P1[J])
-      QIN(14,I)=(A*EN+B)*1.D-18*PSCALE
+      QIN[14][I]=(A*EN+B)*1.D-18*PSCALE
       GO TO 3502
 # IF ENERGY GT X2P1(N2P1) EV SCALE BY 1/E
- 3501 QIN(14,I)=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.0D-18*PSCALE
+ 3501 QIN[14][I]=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.0D-18*PSCALE
  3502 if(EN <= (2.0*EIN[14])) GO TO 351
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 # 3D6
   351 if(EN <= EIN[15]) GO TO 413
       if(EN > X3D6(N3D6):
@@ -2750,12 +2844,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D6
   353 A=(Y3D6[J]-Y3D6(J-1))/(X3D6[J]-X3D6(J-1))                    
       B=(X3D6(J-1)*Y3D6[J]-X3D6[J]*Y3D6(J-1))/(X3D6(J-1)-X3D6[J])
-      QIN(15,I)=(A*EN+B)*1.D-18
+      QIN[15][I]=(A*EN+B)*1.D-18
       GO TO 3532
 # IF ENERGY GT X3D6(N3D6) EV SCALE BY 1/E**3
- 3531 QIN(15,I)=Y3D6(N3D6)*(X3D6(N3D6)/EN)**3*1.0D-18
+ 3531 QIN[15][I]=Y3D6(N3D6)*(X3D6(N3D6)/EN)**3*1.0D-18
  3532 if(EN <= (2.0*EIN[15])) GO TO 354
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 # 3D5 F=0.0010 
   354 if(EN <= EIN[16]) GO TO 413
       if(EN > X3D5(N3D5):
@@ -2767,13 +2861,13 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D5
   356 A=(Y3D5[J]-Y3D5(J-1))/(X3D5[J]-X3D5(J-1))                    
       B=(X3D5(J-1)*Y3D5[J]-X3D5[J]*Y3D5(J-1))/(X3D5(J-1)-X3D5[J])
-      QIN(16,I)=(A*EN+B)*1.D-18
+      QIN[16][I]=(A*EN+B)*1.D-18
       GO TO 3562
- 3561 QIN(16,I)=0.0010/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[16])
-      if(QIN(16,I):
- < 0.0) QIN(16,I)=0.0
+ 3561 QIN[16][I]=0.0010/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[16])
+      if(QIN[16][I]:
+ < 0.0) QIN[16][I]=0.0
  3562 if(EN <= (2.0*EIN[16])) GO TO 357
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # 3D3
   357 if(EN <= EIN[17]) GO TO 413
       if(EN > X3D3(N3D3):
@@ -2785,12 +2879,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D3
   359 A=(Y3D3[J]-Y3D3(J-1))/(X3D3[J]-X3D3(J-1))                    
       B=(X3D3(J-1)*Y3D3[J]-X3D3[J]*Y3D3(J-1))/(X3D3(J-1)-X3D3[J])
-      QIN(17,I)=(A*EN+B)*1.D-18
+      QIN[17][I]=(A*EN+B)*1.D-18
       GO TO 3592
 # IF ENERGY GT X3D3(N3D3) EV SCALE BY 1/E**3
- 3591 QIN(17,I)=Y3D3(N3D3)*(X3D3(N3D3)/EN)**3*1.0D-18
+ 3591 QIN[17][I]=Y3D3(N3D3)*(X3D3(N3D3)/EN)**3*1.0D-18
  3592 if(EN <= (2.0*EIN[17])) GO TO 360
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 # 3D4'
   360 if(EN <= EIN[18]) GO TO 413
       if(EN > X3D4P(N3D4P):
@@ -2802,12 +2896,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4P
   362 A=(Y3D4P[J]-Y3D4P(J-1))/(X3D4P[J]-X3D4P(J-1))                    
       B=(X3D4P(J-1)*Y3D4P[J]-X3D4P[J]*Y3D4P(J-1))/(X3D4P(J-1)-X3D4P[J])
-      QIN(18,I)=(A*EN+B)*1.D-18
+      QIN[18][I]=(A*EN+B)*1.D-18
       GO TO 3622
 # IF ENERGY GT X3D4P(N3D4P) EV SCALE BY 1/E**3
- 3621 QIN(18,I)=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**3*1.0D-18
+ 3621 QIN[18][I]=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**3*1.0D-18
  3622 if(EN <= (2.0*EIN[18])) GO TO 363
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # 3D4 
   363 if(EN <= EIN[19]) GO TO 413
       if(EN > X3D4(N3D4):
@@ -2819,12 +2913,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4
   365 A=(Y3D4[J]-Y3D4(J-1))/(X3D4[J]-X3D4(J-1))                    
       B=(X3D4(J-1)*Y3D4[J]-X3D4[J]*Y3D4(J-1))/(X3D4(J-1)-X3D4[J])
-      QIN(19,I)=(A*EN+B)*1.D-18
+      QIN[19][I]=(A*EN+B)*1.D-18
       GO TO 3652
 # IF ENERGY GT X3D4(N3D4) EV SCALE BY 1/E**2
- 3651 QIN(19,I)=Y3D4(N3D4)*(X3D4(N3D4)/EN)**2*1.0D-18
+ 3651 QIN[19][I]=Y3D4(N3D4)*(X3D4(N3D4)/EN)**2*1.0D-18
  3652 if(EN <= (2.0*EIN[19])) GO TO 366
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 # 3D1''
   366 if(EN <= EIN[20]) GO TO 413
       if(EN > X3D1PP(N3D1PP):
@@ -2836,12 +2930,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1PP
   368 A=(Y3D1PP[J]-Y3D1PP(J-1))/(X3D1PP[J]-X3D1PP(J-1))               
       B=(X3D1PP(J-1)*Y3D1PP[J]-X3D1PP[J]*Y3D1PP(J-1))/(X3D1PP(J-1)-X3D1PP[J])
-      QIN(20,I)=(A*EN+B)*1.D-18
+      QIN[20][I]=(A*EN+B)*1.D-18
       GO TO 3682
 # IF EN GT X3D1PP(N3D1PP) EV  SCALE BY 1/E**2
- 3681 QIN(20,I)=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**2*1.0D-18
+ 3681 QIN[20][I]=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**2*1.0D-18
  3682 if(EN <= (2.0*EIN[20])) GO TO 369
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # 2S5 
   369 if(EN <= EIN[21]) GO TO 413
       if(EN > X2S5(N2S5):
@@ -2853,20 +2947,20 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S5
   371 A=(Y2S5[J]-Y2S5(J-1))/(X2S5[J]-X2S5(J-1))                    
       B=(X2S5(J-1)*Y2S5[J]-X2S5[J]*Y2S5(J-1))/(X2S5(J-1)-X2S5[J])
-      QIN(21,I)=(A*EN+B)*1.D-18
+      QIN[21][I]=(A*EN+B)*1.D-18
       GO TO 3712
 # IF EN GT X2S5(N2S5) EV   SCALE BY 1/E**2
- 3711 QIN(21,I)=Y2S5(N2S5)*(X2S5(N2S5)/EN)**2*1.0D-18
+ 3711 QIN[21][I]=Y2S5(N2S5)*(X2S5(N2S5)/EN)**2*1.0D-18
  3712 if(EN <= (2.0*EIN[21])) GO TO 372
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 # 2S4 F=0.0257
   372 if(EN <= EIN[22]) GO TO 413
-      QIN(22,I)=0.0257/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[22])
-      if(QIN(22,I):
- < 0.0) QIN(22,I)=0.0
+      QIN[22][I]=0.0257/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[22])
+      if(QIN[22][I]:
+ < 0.0) QIN[22][I]=0.0
       if(EN <= (2.0*EIN[22]:
 )) GO TO 375
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 # 3D1' 
   375 if(EN <= EIN[23]) GO TO 413
       if(EN > X3D1P(N3D1P):
@@ -2878,20 +2972,20 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1P
   377 A=(Y3D1P[J]-Y3D1P(J-1))/(X3D1P[J]-X3D1P(J-1))                    
       B=(X3D1P(J-1)*Y3D1P[J]-X3D1P[J]*Y3D1P(J-1))/(X3D1P(J-1)-X3D1P[J])
-      QIN(23,I)=(A*EN+B)*1.D-18
+      QIN[23][I]=(A*EN+B)*1.D-18
       GO TO 3772
 # IF EN GT X3D1P(N3D1P) EV  SCALE BY 1/E
- 3771 QIN(23,I)=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)*1.0D-18
+ 3771 QIN[23][I]=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)*1.0D-18
  3772 if(EN <= (2.0*EIN[23])) GO TO 378
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 # 3D2  F=0.074
   378 if(EN <= EIN[24]) GO TO 413
-      QIN(24,I)=0.0740/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[24])
-      if(QIN(24,I):
- < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=0.0740/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[24])
+      if(QIN[24][I]:
+ < 0.0) QIN[24][I]=0.0
       if(EN <= (2.0*EIN[24]:
 )) GO TO 381
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 # 3S1''''
   381 if(EN <= EIN[25]) GO TO 413
       if(EN > X3S1PPPP(N3S1PPPP):
@@ -2903,12 +2997,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PPPP
   383 A=(Y3S1PPPP[J]-Y3S1PPPP(J-1))/(X3S1PPPP[J]-X3S1PPPP(J-1))         
       B=(X3S1PPPP(J-1)*Y3S1PPPP[J]-X3S1PPPP[J]*Y3S1PPPP(J-1))/(X3S1PPPP(J-1)-X3S1PPPP[J])
-      QIN(25,I)=(A*EN+B)*1.D-18
+      QIN[25][I]=(A*EN+B)*1.D-18
       GO TO 3832
 # IF EN GT X3S1PPPP(N3S1PPPP) EV  SCALE BY 1/E**3
- 3831 QIN(25,I)=Y3S1PPPP(N3S1PPPP)*(X3S1PPPP(N3S1PPPP)/EN)**3*1.0D-18
+ 3831 QIN[25][I]=Y3S1PPPP(N3S1PPPP)*(X3S1PPPP(N3S1PPPP)/EN)**3*1.0D-18
  3832 if(EN <= (2.0*EIN[25])) GO TO 384
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 # 3S1''  
   384 if(EN <= EIN[26]) GO TO 413
       if(EN > X3S1PP(N3S1PP):
@@ -2920,12 +3014,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PP
   386 A=(Y3S1PP[J]-Y3S1PP(J-1))/(X3S1PP[J]-X3S1PP(J-1))         
       B=(X3S1PP(J-1)*Y3S1PP[J]-X3S1PP[J]*Y3S1PP(J-1))/(X3S1PP(J-1)-X3S1PP[J])
-      QIN(26,I)=(A*EN+B)*1.D-18
+      QIN[26][I]=(A*EN+B)*1.D-18
       GO TO 3862
 # IF EN GT X3S1PP(N3S1PP) EV  SCALE BY 1/E**3
- 3861 QIN(26,I)=Y3S1PP(N3S1PP)*(X3S1PP(N3S1PP)/EN)**3*1.0D-18
+ 3861 QIN[26][I]=Y3S1PP(N3S1PP)*(X3S1PP(N3S1PP)/EN)**3*1.0D-18
  3862 if(EN <= (2.0*EIN[26])) GO TO 387
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 # 3S1'''
   387 if(EN <= EIN[27]) GO TO 413
       if(EN > X3S1PPP(N3S1PPP):
@@ -2937,12 +3031,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PPP
   389 A=(Y3S1PPP[J]-Y3S1PPP(J-1))/(X3S1PPP[J]-X3S1PPP(J-1))         
       B=(X3S1PPP(J-1)*Y3S1PPP[J]-X3S1PPP[J]*Y3S1PPP(J-1))/(X3S1PPP(J-1)-X3S1PPP[J])
-      QIN(27,I)=(A*EN+B)*1.D-18
+      QIN[27][I]=(A*EN+B)*1.D-18
       GO TO 3892
 # IF EN GT X3S1PPP(N3S1PPP) EV  SCALE BY 1/E
- 3891 QIN(27,I)=Y3S1PPP(N3S1PPP)*(X3S1PPP(N3S1PPP)/EN)*1.0D-18
+ 3891 QIN[27][I]=Y3S1PPP(N3S1PPP)*(X3S1PPP(N3S1PPP)/EN)*1.0D-18
  3892 if(EN <= (2.0*EIN[27])) GO TO 390
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 # 2S3 
   390 if(EN <= EIN[28]) GO TO 413
       if(EN > X2S3(N2S3):
@@ -2954,143 +3048,143 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S3
   392 A=(Y2S3[J]-Y2S3(J-1))/(X2S3[J]-X2S3(J-1))                    
       B=(X2S3(J-1)*Y2S3[J]-X2S3[J]*Y2S3(J-1))/(X2S3(J-1)-X2S3[J])
-      QIN(28,I)=(A*EN+B)*1.D-18
+      QIN[28][I]=(A*EN+B)*1.D-18
       GO TO 3922
 # IF EN GT X2S3(N2S3) EV  SCALE BY 1/E**2
- 3921 QIN(28,I)=Y2S3(N2S3)*(X2S3(N2S3)/EN)**2*1.0D-18
+ 3921 QIN[28][I]=Y2S3(N2S3)*(X2S3(N2S3)/EN)**2*1.0D-18
  3922 if(EN <= (2.0*EIN[28])) GO TO 393
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 # 2S2  F=0.011
   393 if(EN <= EIN[29]) GO TO 413
-      QIN(29,I)=0.0110/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[29])
-      if(QIN(29,I):
- < 0.0) QIN(29,I)=0.0
+      QIN[29][I]=0.0110/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[29])
+      if(QIN[29][I]:
+ < 0.0) QIN[29][I]=0.0
       if(EN <= (2.0*EIN[29]:
 )) GO TO 396
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 # 3S1' F=0.092
   396 if(EN <= EIN[30]) GO TO 413
-      QIN(30,I)=0.0920/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[30])
-      if(QIN(30,I):
- < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=0.0920/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[30])
+      if(QIN[30][I]:
+ < 0.0) QIN[30][I]=0.0
       if(EN <= (2.0*EIN[30]:
 )) GO TO 399
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 # 4D5 F=0.0019
   399 if(EN <= EIN[31]) GO TO 413
-      QIN(31,I)=0.0019/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[31])
-      if(QIN(31,I):
- < 0.0) QIN(31,I)=0.0
+      QIN[31][I]=0.0019/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[31])
+      if(QIN[31][I]:
+ < 0.0) QIN[31][I]=0.0
       if(EN <= (2.0*EIN[31]:
 )) GO TO 400
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 # 3S4 F=0.0144
   400 if(EN <= EIN[32]) GO TO 413
-      QIN(32,I)=0.0144/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[32])
-      if(QIN(32,I):
- < 0.0) QIN(32,I)=0.0
+      QIN[32][I]=0.0144/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[32])
+      if(QIN[32][I]:
+ < 0.0) QIN[32][I]=0.0
       if(EN <= (2.0*EIN[32]:
 )) GO TO 401
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 # 4D2 F=0.0484
   401 if(EN <= EIN[33]) GO TO 413
-      QIN(33,I)=0.0484/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[33])
-      if(QIN(33,I):
- < 0.0) QIN(33,I)=0.0
+      QIN[33][I]=0.0484/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[33])
+      if(QIN[33][I]:
+ < 0.0) QIN[33][I]=0.0
       if(EN <= (2.0*EIN[33]:
 )) GO TO 402
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 # 4S1' F=0.0209
   402 if(EN <= EIN[34]) GO TO 413
-      QIN(34,I)=0.0209/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[34])
-      if(QIN(34,I):
- < 0.0) QIN(34,I)=0.0
+      QIN[34][I]=0.0209/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[34])
+      if(QIN[34][I]:
+ < 0.0) QIN[34][I]=0.0
       if(EN <= (2.0*EIN[34]:
 )) GO TO 403
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 # 3S2  F=0.0220
   403 if(EN <= EIN[35]) GO TO 413
-      QIN(35,I)=0.0220/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[35])
-      if(QIN(35,I):
- < 0.0) QIN(35,I)=0.0
+      QIN[35][I]=0.0220/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[35])
+      if(QIN[35][I]:
+ < 0.0) QIN[35][I]=0.0
       if(EN <= (2.0*EIN[35]:
 )) GO TO 404
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 # 5D5  F=0.0041
   404 if(EN <= EIN[36]) GO TO 413
-      QIN(36,I)=0.0041/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[36])
-      if(QIN(36,I):
- < 0.0) QIN(36,I)=0.0
+      QIN[36][I]=0.0041/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[36])
+      if(QIN[36][I]:
+ < 0.0) QIN[36][I]=0.0
       if(EN <= (2.0*EIN[36]:
 )) GO TO 405
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 # 4S4  F=0.0426
   405 if(EN <= EIN[37]) GO TO 413
-      QIN(37,I)=0.0426/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[37])
-      if(QIN(37,I):
- < 0.0) QIN(37,I)=0.0
+      QIN[37][I]=0.0426/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[37])
+      if(QIN[37][I]:
+ < 0.0) QIN[37][I]=0.0
       if(EN <= (2.0*EIN[37]:
 )) GO TO 406
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 # 5D2  F=0.0426
   406 if(EN <= EIN[38]) GO TO 413
-      QIN(38,I)=0.0426/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[38])
-      if(QIN(38,I):
- < 0.0) QIN(38,I)=0.0
+      QIN[38][I]=0.0426/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[38])
+      if(QIN[38][I]:
+ < 0.0) QIN[38][I]=0.0
       if(EN <= (2.0*EIN[38]:
 )) GO TO 407
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 # 6D5  F=0.00075
   407 if(EN <= EIN[39]) GO TO 413
-      QIN(39,I)=.00075/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[39])
-      if(QIN(39,I):
- < 0.0) QIN(39,I)=0.0
+      QIN[39][I]=.00075/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[39])
+      if(QIN[39][I]:
+ < 0.0) QIN[39][I]=0.0
       if(EN <= (2.0*EIN[39]:
 )) GO TO 408
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 # 5S1' F=0.00051
   408 if(EN <= EIN[40]) GO TO 413
-      QIN(40,I)=.00051/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[40])
-      if(QIN(40,I):
- < 0.0) QIN(40,I)=0.0
+      QIN[40][I]=.00051/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[40])
+      if(QIN[40][I]:
+ < 0.0) QIN[40][I]=0.0
       if(EN <= (2.0*EIN[40]:
 )) GO TO 409
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 # 4S2  F=0.00074
   409 if(EN <= EIN[41]) GO TO 413
-      QIN(41,I)=.00074/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[41])
-      if(QIN(41,I):
- < 0.0) QIN(41,I)=0.0
+      QIN[41][I]=.00074/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[41])
+      if(QIN[41][I]:
+ < 0.0) QIN[41][I]=0.0
       if(EN <= (2.0*EIN[41]:
 )) GO TO 410
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 # 5S4  F=0.0130 
   410 if(EN <= EIN[42]) GO TO 413
-      QIN(42,I)=0.0130/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[42])
-      if(QIN(42,I):
- < 0.0) QIN(42,I)=0.0
+      QIN[42][I]=0.0130/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[42])
+      if(QIN[42][I]:
+ < 0.0) QIN[42][I]=0.0
       if(EN <= (2.0*EIN[42]:
 )) GO TO 411
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 # 6D2  F=0.0290 
   411 if(EN <= EIN[43]) GO TO 413 
-      QIN(43,I)=0.0290/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[43])
-      if(QIN(43,I):
- < 0.0) QIN(43,I)=0.0
+      QIN[43][I]=0.0290/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[43])
+      if(QIN[43][I]:
+ < 0.0) QIN[43][I]=0.0
       if(EN <= (2.0*EIN[43]:
 )) GO TO 412
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 # SUM HIGHER J=1 STATES F=0.1315
   412 if(EN <= EIN[44]) GO TO 413
-      QIN(44,I)=0.1315/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[44])
-      if(QIN(44,I):
- < 0.0) QIN(44,I)=0.0
+      QIN[44][I]=0.1315/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[44])
+      if(QIN[44][I]:
+ < 0.0) QIN[44][I]=0.0
       if(EN <= (2.0*EIN[44]:
 )) GO TO 413
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
   413 CONTINUE
 # BREMSSTRAHLUNG X-SECTION
-      QIN(45,I)=0.0
+      QIN[45][I]=0.0
       if(EN <= 1000.):
  GO TO 450
       DO 414 J=2,NBREM
@@ -3098,13 +3192,13 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 415
   414 CONTINUE
       J=NBREM
-  415 A=(math.log(Z18T[J])-math.log(Z18T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z18T[J])*EBRM(J-1)-math.log(Z18T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(45,I)=math.exp(A*EN+B)*1.D-24
+  415 A=(math.log(Z18T[J])-math.log(Z18T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z18T[J])*EBRM[J-1]-math.log(Z18T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[45][I]=math.exp(A*EN+B)*1.D-24
   450 CONTINUE     
       Q1SSUM=QIN[1][I]+QIN[2][I]+QIN[3][I]+QIN[4][I] 
-      QPSSUM=QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN(10,I)+QIN(11,I)+QIN(12,I)+QIN(13,I)+QIN(14,I)   
-      QDSSUM=QIN(17,I)+QIN(18,I)+QIN(19,I)+QIN(20,I)+QIN(21,I)+QIN(22,I)+QIN(23,I)+QIN(24,I)+QIN(25,I)+QIN(26,I)+QIN(27,I)+QIN(28,I)+QIN(29,I)+QIN(30,I)+QIN(31,I)+QIN(32,I)+QIN(33,I)+QIN(34,I)+QIN(35,I)+QIN(36,I)+QIN(37,I)+QIN(38,I)+QIN(39,I)+QIN(40,I)+QIN(41,I)+QIN(42,I)+QIN(43,I)+QIN(44,I)+QIN(15,I)+QIN(16,I)
+      QPSSUM=QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN[10][I]+QIN[11][I]+QIN[12][I]+QIN[13][I]+QIN[14][I]   
+      QDSSUM=QIN[17][I]+QIN[18][I]+QIN[19][I]+QIN[20][I]+QIN[21][I]+QIN[22][I]+QIN[23][I]+QIN[24][I]+QIN[25][I]+QIN[26][I]+QIN[27][I]+QIN[28][I]+QIN[29][I]+QIN[30][I]+QIN[31][I]+QIN[32][I]+QIN[33][I]+QIN[34][I]+QIN[35][I]+QIN[36][I]+QIN[37][I]+QIN[38][I]+QIN[39][I]+QIN[40][I]+QIN[41][I]+QIN[42][I]+QIN[43][I]+QIN[44][I]+QIN[15][I]+QIN[16][I]
       TOTSUM=Q1SSUM+QPSSUM+QDSSUM    
 #     WRITE(6,997) EN,QIN[1][I],QIN[2][I],QIN[3][I],QIN[4][I],Q1SSUM,QPSSUM,
 #    /QDSSUM,TOTSUM
@@ -3112,7 +3206,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 #    /'%.3f' %,' Q1S2 =','%.3f' %,/,'S1 =','%.3f' %,' P2=','%.3f' %,' D3 =','%.3f' %,
 #    /' QTOT=','%.3f' %)  
 #  TOTAL X-SECTION
-      Q[1][I]=QELA+Q1SSUM+QPSSUM+QDSSUM+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QIN(45,I)
+      Q[1][I]=QELA+Q1SSUM+QPSSUM+QDSSUM+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QIN[45][I]
   900 CONTINUE                                                          
 # SAVE COMPUTE TIME
       DO 910 K=1,NIN
@@ -3136,7 +3230,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]    
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]  
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -3565,7 +3659,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
 )) GO TO 200
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))                               
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])                               
 # ATTACHMENT                                                            
   200 Q[4][I]=0.00 
 # COUNTING IONISATION
@@ -3591,7 +3685,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   242 CONTINUE  
       if(EN <= (2.00*EION[2]:
 )) GO TO 250
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
   250 Q[6][I]=0.00
 # CALCULATE CHARGE STATE 1 AND 2 FROM COUNT AND GROSS
       QTEMP1=2.00*Q[5][I]-QION[1][I]
@@ -3627,7 +3721,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X23S(N23S) EV SCALE BY 1/E**3 
   311 QIN[1][I]=Y23S(N23S)*(X23S(N23S)/EN)**3*1.D-18
   312 if(EN <= (2.0*EIN[1])) GO TO 320   
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1])) 
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]
 #
 # 2 1S                                                                  
   320 if(EN <= EIN[2]) GO TO 2000
@@ -3645,8 +3739,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X21S(N21S) EV SCALE BY 1/E
   341 QIN[2][I]=Y21S(N21S)*(X21S(N21S)/EN)*1.D-18   
   342 if(EN <= (2.0*EIN[2])) GO TO 350
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-#
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]#
 # 2 3P
   350 if(EN <= EIN[3]) GO TO 2000
       if(EN > X23P(N23P):
@@ -3663,8 +3756,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X23P(N23P) EV SCALE BY 1/E**3
   371 QIN[3][I]=Y23P(N23P)*(X23P(N23P)/EN)**3*1.D-18   
   372 if(EN <= (2.0*EIN[3])) GO TO 380
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-#
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]#
 # 2 1P        OSC STRENGTH  F=0.27608
   380 if(EN <= EIN[4]) GO TO 2000
       if(EN > X21P(N21P):
@@ -3681,8 +3773,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X21P(N21P) EV : USE BEF SCALING
   401 QIN[4][I]=0.27608/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[4]+E[3])
   402 if(EN <= (2.0*EIN[4])) GO TO 410
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-#
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]#
 # 3 3S
   410 if(EN <= EIN[5]) GO TO 2000
       if(EN > X33S(N33S):
@@ -3699,8 +3790,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X33S(N33S) EV SCALE BY 1/E**3
   431 QIN[5][I]=Y33S(N33S)*(X33S(N33S)/EN)**3*1.D-18   
   432 if(EN <= (2.0*EIN[5])) GO TO 440
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-#
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]#
 # 3 1S
   440 if(EN <= EIN[6]) GO TO 2000
       if(EN > X31S(N31S):
@@ -3717,8 +3807,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X31S(N31S) EV SCALE BY 1/E   
   461 QIN[6][I]=Y31S(N31S)*(X31S(N31S)/EN)*1.D-18   
   462 if(EN <= (2.0*EIN[6])) GO TO 470
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-#
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]#
 # 3 3P
   470 if(EN <= EIN[7]) GO TO 2000
       if(EN > X33P(N33P):
@@ -3735,8 +3824,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X33P(N33P) EV SCALE BY 1/E**3
   491 QIN[7][I]=Y33P(N33P)*(X33P(N33P)/EN)*1.D-18   
   492 if(EN <= (2.0*EIN[7])) GO TO 500
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-#
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]#
 # 3 3D
   500 if(EN <= EIN[8]) GO TO 2000
       if(EN > X33D[N33D]):
@@ -3753,8 +3841,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X33D[N33D] EV SCALE BY 1/E**3
   521 QIN[8][I]=Y33D[N33D]*(X33D[N33D]/EN)*1.D-18   
   522 if(EN <= (2.0*EIN[8])) GO TO 530
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-#
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]#
 # 3 1D
   530 if(EN <= EIN[9]) GO TO 2000
       if(EN > X31D[N31D]):
@@ -3771,8 +3858,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X31D[N31D] EV SCALE BY 1/E   
   551 QIN[9][I]=Y31D[N31D]*(X31D[N31D]/EN)*1.D-18   
   552 if(EN <= (2.0*EIN[9])) GO TO 560
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-#
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]#
 # 3 1P        OSC STRENGTH F=0.07342
   560 if(EN <= EIN[10]) GO TO 2000
       if(EN > X31P(N31P):
@@ -3784,12 +3870,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N31P
   580 A=(Y31P[J]-Y31P(J-1))/(X31P[J]-X31P(J-1))                         
       B=(X31P(J-1)*Y31P[J]-X31P[J]*Y31P(J-1))/(X31P(J-1)-X31P[J])       
-      QIN(10,I)=(A*EN+B)*1.D-18
+      QIN[10][I]=(A*EN+B)*1.D-18
       GO TO 582
 # IF ENERGY GT X31P(N31P) EV : USE BEF SCALING
-  581 QIN(10,I)=0.07342/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
+  581 QIN[10][I]=0.07342/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
   582 if(EN <= (2.0*EIN[10])) GO TO 590
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 #
 # 4 3S
   590 if(EN <= EIN[11]) GO TO 2000
@@ -3802,12 +3888,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
   610 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(11,I)=(A*EN+B)*1.D-18
+      QIN[11][I]=(A*EN+B)*1.D-18
       GO TO 612
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
-  611 QIN(11,I)=Y43S(N43S)*(X43S(N43S)/EN)**3*1.D-18
+  611 QIN[11][I]=Y43S(N43S)*(X43S(N43S)/EN)**3*1.D-18
   612 if(EN <= (2.0*EIN[11])) GO TO 620
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
 #
 # 4 1S
   620 if(EN <= EIN[12]) GO TO 2000
@@ -3820,12 +3906,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
   640 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(12,I)=(A*EN+B)*1.D-18
+      QIN[12][I]=(A*EN+B)*1.D-18
       GO TO 642
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
-  641 QIN(12,I)=Y41S(N41S)*(X41S(N41S)/EN)*1.D-18
+  641 QIN[12][I]=Y41S(N41S)*(X41S(N41S)/EN)*1.D-18
   642 if(EN <= (2.0*EIN[12])) GO TO 650
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 #
 # 4 3P
   650 if(EN <= EIN[13]) GO TO 2000
@@ -3838,12 +3924,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   670 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(13,I)=(A*EN+B)*1.D-18
+      QIN[13][I]=(A*EN+B)*1.D-18
       GO TO 672
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
-  671 QIN(13,I)=Y43P(N43P)*(X43P(N43P)/EN)**3*1.D-18
+  671 QIN[13][I]=Y43P(N43P)*(X43P(N43P)/EN)**3*1.D-18
   672 if(EN <= (2.0*EIN[13])) GO TO 680
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 #
 # 4 3D
   680 if(EN <= EIN[14]) GO TO 2000
@@ -3856,12 +3942,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   700 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(14,I)=(A*EN+B)*1.D-18
+      QIN[14][I]=(A*EN+B)*1.D-18
       GO TO 702
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
-  701 QIN(14,I)=Y43D[N43D]*(X43D[N43D]/EN)**3*1.D-18
+  701 QIN[14][I]=Y43D[N43D]*(X43D[N43D]/EN)**3*1.D-18
   702 if(EN <= (2.0*EIN[14])) GO TO 710
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 #
 # 4 1D
   710 if(EN <= EIN[15]) GO TO 2000
@@ -3874,12 +3960,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
   730 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(15,I)=(A*EN+B)*1.D-18
+      QIN[15][I]=(A*EN+B)*1.D-18
       GO TO 732
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
-  731 QIN(15,I)=Y41D[N41D]*(X41D[N41D]/EN)*1.D-18
+  731 QIN[15][I]=Y41D[N41D]*(X41D[N41D]/EN)*1.D-18
   732 if(EN <= (2.0*EIN[15])) GO TO 740
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 #
 # 4 3F
   740 if(EN <= EIN[16]) GO TO 2000
@@ -3892,12 +3978,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43F
   760 A=(Y43F[J]-Y43F(J-1))/(X43F[J]-X43F(J-1))                         
       B=(X43F(J-1)*Y43F[J]-X43F[J]*Y43F(J-1))/(X43F(J-1)-X43F[J])       
-      QIN(16,I)=(A*EN+B)*1.D-18
+      QIN[16][I]=(A*EN+B)*1.D-18
       GO TO 762
 # IF ENERGY GT X43F(N43F) EV SCALE BY 1/E**4  
-  761 QIN(16,I)=Y43F(N43F)*(X43F(N43F)/EN)**4*1.D-18
+  761 QIN[16][I]=Y43F(N43F)*(X43F(N43F)/EN)**4*1.D-18
   762 if(EN <= (2.0*EIN[16])) GO TO 770
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 #
 # 4 1F
   770 if(EN <= EIN[17]) GO TO 2000
@@ -3910,12 +3996,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41F
   790 A=(Y41F[J]-Y41F(J-1))/(X41F[J]-X41F(J-1))                         
       B=(X41F(J-1)*Y41F[J]-X41F[J]*Y41F(J-1))/(X41F(J-1)-X41F[J])       
-      QIN(17,I)=(A*EN+B)*1.D-18
+      QIN[17][I]=(A*EN+B)*1.D-18
       GO TO 792
 # IF ENERGY GT X41F(N41F) EV SCALE BY 1/E     
-  791 QIN(17,I)=Y41F(N41F)*(X41F(N41F)/EN)*1.D-18
+  791 QIN[17][I]=Y41F(N41F)*(X41F(N41F)/EN)*1.D-18
   792 if(EN <= (2.0*EIN[17])) GO TO 800
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 #
 # 4 1P       OSC STRENGTH  F=0.02986
   800 if(EN <= EIN[18]) GO TO 2000
@@ -3928,12 +4014,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
   820 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(18,I)=(A*EN+B)*1.D-18
+      QIN[18][I]=(A*EN+B)*1.D-18
       GO TO 822
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
-  821 QIN(18,I)=0.02986/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
+  821 QIN[18][I]=0.02986/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
   822 if(EN <= (2.0*EIN[18])) GO TO 830
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 #
 # 5 3S SCALED FROM 4 3S
   830 if(EN <= EIN[19]) GO TO 2000
@@ -3948,12 +4034,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
   850 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(19,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[19][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 852
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
-  851 QIN(19,I)=0.512*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+  851 QIN[19][I]=0.512*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
   852 if(EN <= (2.0*EIN[19])) GO TO 860
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 #
 # 5 1S SCALED FROM 4 1S
   860 if(EN <= EIN[20]) GO TO 2000
@@ -3968,12 +4054,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
   880 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(20,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[20][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 882
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
-  881 QIN(20,I)=0.512*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+  881 QIN[20][I]=0.512*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
   882 if(EN <= (2.0*EIN[20])) GO TO 890
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 #
 # 5 3P SCALED FROM 4 3P
   890 if(EN <= EIN[21]) GO TO 2000
@@ -3988,12 +4074,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   910 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(21,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[21][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 912
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
-  911 QIN(21,I)=0.512*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+  911 QIN[21][I]=0.512*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
   912 if(EN <= (2.0*EIN[21])) GO TO 920
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 #
 # 5 3D SCALED FROM 4 3D
   920 if(EN <= EIN[22]) GO TO 2000
@@ -4008,12 +4094,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   940 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(22,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[22][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 942
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
-  941 QIN(22,I)=0.512*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+  941 QIN[22][I]=0.512*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
   942 if(EN <= (2.0*EIN[22])) GO TO 950
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 #
 # 5 1D SCALED FROM 4 1D
   950 if(EN <= EIN[23]) GO TO 2000
@@ -4028,12 +4114,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
   970 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(23,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[23][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 972
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
-  971 QIN(23,I)=0.512*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+  971 QIN[23][I]=0.512*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
   972 if(EN <= (2.0*EIN[23])) GO TO 980
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 #
 # 5 3F SCALED FROM 4 3F
   980 if(EN <= EIN[24]) GO TO 2000
@@ -4048,12 +4134,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43F
  1000 A=(Y43F[J]-Y43F(J-1))/(X43F[J]-X43F(J-1))                         
       B=(X43F(J-1)*Y43F[J]-X43F[J]*Y43F(J-1))/(X43F(J-1)-X43F[J])       
-      QIN(24,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[24][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 1002
 # IF ENERGY GT X43F(N43F) EV SCALE BY 1/E**4  
- 1001 QIN(24,I)=0.512*Y43F(N43F)*(X43F(N43F)/ENP)**4*1.D-18
+ 1001 QIN[24][I]=0.512*Y43F(N43F)*(X43F(N43F)/ENP)**4*1.D-18
  1002 if(EN <= (2.0*EIN[24])) GO TO 1010
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 #
 # 5 1F SCALED FROM 4 1F
  1010 if(EN <= EIN[25]) GO TO 2000
@@ -4068,12 +4154,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41F
  1030 A=(Y41F[J]-Y41F(J-1))/(X41F[J]-X41F(J-1))                         
       B=(X41F(J-1)*Y41F[J]-X41F[J]*Y41F(J-1))/(X41F(J-1)-X41F[J])       
-      QIN(25,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[25][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 1032
 # IF ENERGY GT X41F(N41F) EV SCALE BY 1/E     
- 1031 QIN(25,I)=0.512*Y41F(N41F)*(X41F(N41F)/ENP)*1.D-18
+ 1031 QIN[25][I]=0.512*Y41F(N41F)*(X41F(N41F)/ENP)*1.D-18
  1032 if(EN <= (2.0*EIN[25])) GO TO 1040
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 #
 # 5 1P   SCALED FROM 4 1P   OSC STRENGTH  F=0.01504
  1040 if(EN <= EIN[26]) GO TO 2000
@@ -4088,12 +4174,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1060 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(26,I)=0.01504/0.02986*(A*ENP+B)*1.D-18
+      QIN[26][I]=0.01504/0.02986*(A*ENP+B)*1.D-18
       GO TO 1062
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1061 QIN(26,I)=0.01504/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
+ 1061 QIN[26][I]=0.01504/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
  1062 if(EN <= (2.0*EIN[26])) GO TO 1070
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 #
 # 6 3S SCALED FROM 4 3S
  1070 if(EN <= EIN[27]) GO TO 2000
@@ -4108,12 +4194,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
  1090 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(27,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[27][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1092
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
- 1091 QIN(27,I)=0.296*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+ 1091 QIN[27][I]=0.296*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
  1092 if(EN <= (2.0*EIN[27])) GO TO 1100
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 #
 # 6 1S SCALED FROM 4 1S
  1100 if(EN <= EIN[28]) GO TO 2000
@@ -4128,12 +4214,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
  1120 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(28,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[28][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1122
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
- 1121 QIN(28,I)=0.296*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+ 1121 QIN[28][I]=0.296*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
  1122 if(EN <= (2.0*EIN[28])) GO TO 1130
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 #
 # 6 3P SCALED FROM 4 3P
  1130 if(EN <= EIN[29]) GO TO 2000
@@ -4148,12 +4234,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1150 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(29,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[29][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1152
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
- 1151 QIN(29,I)=0.296*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+ 1151 QIN[29][I]=0.296*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
  1152 if(EN <= (2.0*EIN[29])) GO TO 1160
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 #
 # 6 3D SCALED FROM 4 3D
  1160 if(EN <= EIN[30]) GO TO 2000
@@ -4168,12 +4254,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1180 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(30,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[30][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1182
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
- 1181 QIN(30,I)=0.296*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+ 1181 QIN[30][I]=0.296*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
  1182 if(EN <= (2.0*EIN[30])) GO TO 1190
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 #
 # 6 1D SCALED FROM 4 1D
  1190 if(EN <= EIN[31]) GO TO 2000
@@ -4188,12 +4274,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
  1210 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(31,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[31][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1212
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
- 1211 QIN(31,I)=0.296*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+ 1211 QIN[31][I]=0.296*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
  1212 if(EN <= (2.0*EIN[31])) GO TO 1220
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 #
 # 6 1P  SCALED FROM 4 1P    OSC STRENGTH  F=0.00863 
  1220 if(EN <= EIN[32]) GO TO 2000
@@ -4208,12 +4294,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1240 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(32,I)=0.00863/0.02986*(A*ENP+B)*1.D-18
+      QIN[32][I]=0.00863/0.02986*(A*ENP+B)*1.D-18
       GO TO 1242
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1241 QIN(32,I)=0.00863/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
+ 1241 QIN[32][I]=0.00863/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
  1242 if(EN <= (2.0*EIN[32])) GO TO 1250 
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 #
 # 7 3S SCALED FROM 4 3S
  1250 if(EN <= EIN[33]) GO TO 2000
@@ -4228,12 +4314,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
  1270 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(33,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[33][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1272
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
- 1271 QIN(33,I)=0.187*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+ 1271 QIN[33][I]=0.187*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
  1272 if(EN <= (2.0*EIN[33])) GO TO 1280
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 #
 # 7 1S SCALED FROM 4 1S
  1280 if(EN <= EIN[34]) GO TO 2000
@@ -4248,12 +4334,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
  1300 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(34,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[34][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1302
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
- 1301 QIN(34,I)=0.187*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+ 1301 QIN[34][I]=0.187*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
  1302 if(EN <= (2.0*EIN[34])) GO TO 1310
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 #
 # 7 3P SCALED FROM 4 3P
  1310 if(EN <= EIN[35]) GO TO 2000
@@ -4268,12 +4354,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1330 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(35,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[35][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1332
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
- 1331 QIN(35,I)=0.187*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+ 1331 QIN[35][I]=0.187*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
  1332 if(EN <= (2.0*EIN[35])) GO TO 1340
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 #
 # 7 3D SCALED FROM 4 3D
  1340 if(EN <= EIN[36]) GO TO 2000
@@ -4288,12 +4374,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1360 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(36,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[36][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1362
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
- 1361 QIN(36,I)=0.187*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+ 1361 QIN[36][I]=0.187*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
  1362 if(EN <= (2.0*EIN[36])) GO TO 1370
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 #
 # 7 1D SCALED FROM 4 1D
  1370 if(EN <= EIN[37]) GO TO 2000
@@ -4308,12 +4394,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
  1390 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(37,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[37][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1392
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
- 1391 QIN(37,I)=0.187*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+ 1391 QIN[37][I]=0.187*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
  1392 if(EN <= (2.0*EIN[37])) GO TO 1400
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 #
 # 7 1P  SCALED FROM 4 1P   OSC STRENGTH  F=0.00540 
  1400 if(EN <= EIN[38]) GO TO 2000
@@ -4328,12 +4414,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1420 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(38,I)=0.00540/0.02986*(A*ENP+B)*1.D-18
+      QIN[38][I]=0.00540/0.02986*(A*ENP+B)*1.D-18
       GO TO 1422
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1421 QIN(38,I)=0.00540/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
+ 1421 QIN[38][I]=0.00540/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
  1422 if(EN <= (2.0*EIN[38])) GO TO 1430 
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 #
 # SUM 3S LEVELS FROM 8 3S HIGHER AND SCALED FROM 4 3S
  1430 if(EN <= EIN[39]) GO TO 2000
@@ -4348,12 +4434,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
  1450 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(39,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[39][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1452
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
- 1451 QIN(39,I)=0.553*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+ 1451 QIN[39][I]=0.553*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
  1452 if(EN <= (2.0*EIN[39])) GO TO 1460
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 #
 # SUM 1S LEVELS FROM 8 1S HIGHER AND SCALED FROM 4 1S
  1460 if(EN <= EIN[40]) GO TO 2000
@@ -4368,12 +4454,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
  1480 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(40,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[40][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1482
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
- 1481 QIN(40,I)=0.553*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+ 1481 QIN[40][I]=0.553*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
  1482 if(EN <= (2.0*EIN[40])) GO TO 1490
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 #
 # SUM 3P LEVELS FROM  8 3P HIGHER AND SCALED FROM 4 3P
  1490 if(EN <= EIN[41]) GO TO 2000
@@ -4388,12 +4474,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1510 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(41,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[41][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1512
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
- 1511 QIN(41,I)=0.553*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+ 1511 QIN[41][I]=0.553*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
  1512 if(EN <= (2.0*EIN[41])) GO TO 1520
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 #
 # SUM 3D LEVELS FROM 8 3D HIGHER AND SCALED FROM 4 3D
  1520 if(EN <= EIN[42]) GO TO 2000
@@ -4408,12 +4494,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1540 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(42,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[42][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1542
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
- 1541 QIN(42,I)=0.553*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+ 1541 QIN[42][I]=0.553*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
  1542 if(EN <= (2.0*EIN[42])) GO TO 1550
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 #
 # SUM 1D LEVELS FROM 8 1D HIGHER AND SCALED FROM 4 1D
  1550 if(EN <= EIN[43]) GO TO 2000
@@ -4428,12 +4514,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
  1570 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(43,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[43][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1572
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
- 1571 QIN(43,I)=0.553*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+ 1571 QIN[43][I]=0.553*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
  1572 if(EN <= (2.0*EIN[43])) GO TO 1580
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 #
 # 8 1P SCALED FROM 4 1P   OSC STRENGTH  F=0.00362 
  1580 if(EN <= EIN[44]) GO TO 2000
@@ -4448,12 +4534,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1600 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(44,I)=0.00362/0.02986*(A*ENP+B)*1.D-18
+      QIN[44][I]=0.00362/0.02986*(A*ENP+B)*1.D-18
       GO TO 1602
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1601 QIN(44,I)=0.00362/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
+ 1601 QIN[44][I]=0.00362/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
  1602 if(EN <= (2.0*EIN[44])) GO TO 1610 
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
 #
 # 9 1P SCALED FROM 4 1P   OSC STRENGTH  F=0.00253 
  1610 if(EN <= EIN[45]) GO TO 2000
@@ -4468,12 +4554,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1630 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(45,I)=0.00253/0.02986*(A*ENP+B)*1.D-18
+      QIN[45][I]=0.00253/0.02986*(A*ENP+B)*1.D-18
       GO TO 1632
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1631 QIN(45,I)=0.00253/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
+ 1631 QIN[45][I]=0.00253/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
  1632 if(EN <= (2.0*EIN[45])) GO TO 1640 
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
 #
 # 10 1P SCALED FROM 4 1P    OSC STRENGTH F=0.00184
  1640 if(EN <= EIN[46]) GO TO 2000
@@ -4488,12 +4574,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1660 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(46,I)=0.00184/0.02986*(A*ENP+B)*1.D-18
+      QIN[46][I]=0.00184/0.02986*(A*ENP+B)*1.D-18
       GO TO 1662
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1661 QIN(46,I)=0.00184/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
+ 1661 QIN[46][I]=0.00184/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
  1662 if(EN <= (2.0*EIN[46])) GO TO 1670 
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
 #
 # 11 1P SCALED FROM 4 1P   OSC STRENGTH F=0.00138
  1670 if(EN <= EIN[47]) GO TO 2000
@@ -4508,12 +4594,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1690 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(47,I)=0.00138/0.02986*(A*ENP+B)*1.D-18
+      QIN[47][I]=0.00138/0.02986*(A*ENP+B)*1.D-18
       GO TO 1692
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1691 QIN(47,I)=0.00138/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
+ 1691 QIN[47][I]=0.00138/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
  1692 if(EN <= (2.0*EIN[47])) GO TO 1700 
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
 #
 # 12 1P SCALED FROM 4 1P   OSC STRENGTH F=0.00106
  1700 if(EN <= EIN[48]) GO TO 2000
@@ -4528,12 +4614,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1720 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(48,I)=0.00106/0.02986*(A*ENP+B)*1.D-18
+      QIN[48][I]=0.00106/0.02986*(A*ENP+B)*1.D-18
       GO TO 1722
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1721 QIN(48,I)=0.00106/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
+ 1721 QIN[48][I]=0.00106/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
  1722 if(EN <= (2.0*EIN[48])) GO TO 1730 
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
 #
 # SUM HIGHER 1P LEVELS     OSC STRENGTH F=0.00440
  1730 if(EN <= EIN[49]) GO TO 2000
@@ -4548,12 +4634,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1750 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(49,I)=0.00440/0.02986*(A*ENP+B)*1.D-18
+      QIN[49][I]=0.00440/0.02986*(A*ENP+B)*1.D-18
       GO TO 1752
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1751 QIN(49,I)=0.00440/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
+ 1751 QIN[49][I]=0.00440/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
  1752 if(EN <= (2.0*EIN[49])) GO TO 1760 
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
  1760 CONTINUE
 #  LOAD BREMSSTRAHLUNG X-SECTIONS
       if(EN <= 1000.):
@@ -4563,22 +4649,22 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 1790
  1780 CONTINUE
       J=NBREM
- 1790 A=(math.log(Z2T[J])-math.log(Z2T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z2T[J])*EBRM(J-1)-math.log(Z2T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(50,I)=math.exp(A*EN+B)*1.D-24
+ 1790 A=(math.log(Z2T[J])-math.log(Z2T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z2T[J])*EBRM[J-1]-math.log(Z2T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[50][I]=math.exp(A*EN+B)*1.D-24
 #
  2000 CONTINUE                                                          
 #     
       QMET=QIN[1][I]+QIN[2][I]
-      QDIP=QIN[4][I]+QIN(10,I)+QIN(18,I)+QIN(26,I)+QIN(32,I)+QIN(38,I)+QIN(44,I)+QIN(45,I)+QIN(46,I)+QIN(47,I)+QIN(48,I)+QIN(49,I)
-      QTRP=QIN[1][I]+QIN[3][I]+QIN[5][I]+QIN[7][I]+QIN[8][I]+QIN(11,I)+QIN(13,I)+QIN(14,I)+QIN(16,I)+QIN(19,I)+QIN(21,I)+QIN(22,I)+QIN(24,I)+QIN(27,I)+QIN(29,I)+QIN(30,I)+QIN(33,I)+QIN(35,I)+QIN(36,I)+QIN(39,I)+QIN(41,I)+QIN(42,I) 
-      QSNG=QIN[2][I]+QIN[4][I]+QIN[6][I]+QIN[9][I]+QIN(10,I)+QIN(12,I)+QIN(15,I)+QIN(17,I)+QIN(18,I)+QIN(20,I)+QIN(23,I)+QIN(25,I)+QIN(26,I)+QIN(28,I)+QIN(31,I)+QIN(32,I)+QIN(34,I)+QIN(37,I)+QIN(38,I)+QIN(40,I)+QIN(43,I)+QIN(44,I)+QIN(45,I)+QIN(46,I)+QIN(47,I)+QIN(48,I)+QIN(49,I)
+      QDIP=QIN[4][I]+QIN[10][I]+QIN[18][I]+QIN[26][I]+QIN[32][I]+QIN[38][I]+QIN[44][I]+QIN[45][I]+QIN[46][I]+QIN[47][I]+QIN[48][I]+QIN[49][I]
+      QTRP=QIN[1][I]+QIN[3][I]+QIN[5][I]+QIN[7][I]+QIN[8][I]+QIN[11][I]+QIN[13][I]+QIN[14][I]+QIN[16][I]+QIN[19][I]+QIN[21][I]+QIN[22][I]+QIN[24][I]+QIN[27][I]+QIN[29][I]+QIN[30][I]+QIN[33][I]+QIN[35][I]+QIN[36][I]+QIN[39][I]+QIN[41][I]+QIN[42][I] 
+      QSNG=QIN[2][I]+QIN[4][I]+QIN[6][I]+QIN[9][I]+QIN[10][I]+QIN[12][I]+QIN[15][I]+QIN[17][I]+QIN[18][I]+QIN[20][I]+QIN[23][I]+QIN[25][I]+QIN[26][I]+QIN[28][I]+QIN[31][I]+QIN[32][I]+QIN[34][I]+QIN[37][I]+QIN[38][I]+QIN[40][I]+QIN[43][I]+QIN[44][I]+QIN[45][I]+QIN[46][I]+QIN[47][I]+QIN[48][I]+QIN[49][I]
       QINEL=QSNG+QTRP+QION[1][I]+QION[2][I]
-      Q[1][I]=QELA+QINEL+QIN(50,I)                            
+      Q[1][I]=QELA+QINEL+QIN[50][I]                            
 # EXAMINE X-SECTION 
-#     WRITE(6,986) EN,QIN[4][I],QIN(10,I),QIN(18,I),QIN(26,I),QIN(32,I),
-#    /QIN(38,I),QIN(44,I),QIN(45,I),QIN(46,I),QIN(47,I),QIN(48,I),
-#    /QIN(49,I) 
+#     WRITE(6,986) EN,QIN[4][I],QIN[10][I],QIN[18][I],QIN[26][I],QIN[32][I],
+#    /QIN[38][I],QIN[44][I],QIN[45][I],QIN[46][I],QIN[47][I],QIN[48][I],
+#    /QIN[49][I] 
 # 986 print(' EN=',D11.5,' 21P=','%.3f' %,' 31P=','%.3f' %,' 41P=','%.3f' %,' 51
 #    /P=','%.3f' %,' 61P=','%.3f' %,' 71P=','%.3f' %,/,8X,' 81P=','%.3f' %,' 91P=',D
 #    /11.3,' 101P=','%.3f' %,' 111P=','%.3f' %,' 121P=','%.3f' %,' HIP=','%.3f' %)
@@ -4607,7 +4693,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]    
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -5036,7 +5122,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
 )) GO TO 200
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))                               
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])                               
 # ATTACHMENT                                                            
   200 Q[4][I]=0.00 
 # COUNTING IONISATION
@@ -5062,7 +5148,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   242 CONTINUE  
       if(EN <= (2.00*EION[2]:
 )) GO TO 250
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
   250 Q[6][I]=0.00                                                      
 #
       QTEMP1=2.0*Q[5][I]-QION[1][I]
@@ -5098,7 +5184,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X23S(N23S) EV SCALE BY 1/E**3 
   311 QIN[1][I]=Y23S(N23S)*(X23S(N23S)/EN)**3*1.D-18
   312 if(EN <= (2.0*EIN[1])) GO TO 320   
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1])) 
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]
 #
 # 2 1S                                                                  
   320 if(EN <= EIN[2]) GO TO 2000
@@ -5116,8 +5202,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X21S(N21S) EV SCALE BY 1/E
   341 QIN[2][I]=Y21S(N21S)*(X21S(N21S)/EN)*1.D-18   
   342 if(EN <= (2.0*EIN[2])) GO TO 350
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-#
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]#
 # 2 3P
   350 if(EN <= EIN[3]) GO TO 2000
       if(EN > X23P(N23P):
@@ -5134,8 +5219,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X23P(N23P) EV SCALE BY 1/E**3
   371 QIN[3][I]=Y23P(N23P)*(X23P(N23P)/EN)**3*1.D-18   
   372 if(EN <= (2.0*EIN[3])) GO TO 380
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-#
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]#
 # 2 1P        OSC STRENGTH  F=0.27608
   380 if(EN <= EIN[4]) GO TO 2000
       if(EN > X21P(N21P):
@@ -5152,8 +5236,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X21P(N21P) EV : USE BEF SCALING
   401 QIN[4][I]=0.27608/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[4]+E[3])
   402 if(EN <= (2.0*EIN[4])) GO TO 410
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-#
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]#
 # 3 3S
   410 if(EN <= EIN[5]) GO TO 2000
       if(EN > X33S(N33S):
@@ -5170,8 +5253,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X33S(N33S) EV SCALE BY 1/E**3
   431 QIN[5][I]=Y33S(N33S)*(X33S(N33S)/EN)**3*1.D-18   
   432 if(EN <= (2.0*EIN[5])) GO TO 440
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-#
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]#
 # 3 1S
   440 if(EN <= EIN[6]) GO TO 2000
       if(EN > X31S(N31S):
@@ -5188,8 +5270,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X31S(N31S) EV SCALE BY 1/E   
   461 QIN[6][I]=Y31S(N31S)*(X31S(N31S)/EN)*1.D-18   
   462 if(EN <= (2.0*EIN[6])) GO TO 470
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-#
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]#
 # 3 3P
   470 if(EN <= EIN[7]) GO TO 2000
       if(EN > X33P(N33P):
@@ -5206,8 +5287,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X33P(N33P) EV SCALE BY 1/E**3
   491 QIN[7][I]=Y33P(N33P)*(X33P(N33P)/EN)*1.D-18   
   492 if(EN <= (2.0*EIN[7])) GO TO 500
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-#
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]#
 # 3 3D
   500 if(EN <= EIN[8]) GO TO 2000
       if(EN > X33D[N33D]):
@@ -5224,8 +5304,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X33D[N33D] EV SCALE BY 1/E**3
   521 QIN[8][I]=Y33D[N33D]*(X33D[N33D]/EN)*1.D-18   
   522 if(EN <= (2.0*EIN[8])) GO TO 530
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-#
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]#
 # 3 1D
   530 if(EN <= EIN[9]) GO TO 2000
       if(EN > X31D[N31D]):
@@ -5242,8 +5321,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X31D[N31D] EV SCALE BY 1/E   
   551 QIN[9][I]=Y31D[N31D]*(X31D[N31D]/EN)*1.D-18   
   552 if(EN <= (2.0*EIN[9])) GO TO 560
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-#
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]#
 # 3 1P        OSC STRENGTH F=0.07342
   560 if(EN <= EIN[10]) GO TO 2000
       if(EN > X31P(N31P):
@@ -5255,12 +5333,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N31P
   580 A=(Y31P[J]-Y31P(J-1))/(X31P[J]-X31P(J-1))                         
       B=(X31P(J-1)*Y31P[J]-X31P[J]*Y31P(J-1))/(X31P(J-1)-X31P[J])       
-      QIN(10,I)=(A*EN+B)*1.D-18
+      QIN[10][I]=(A*EN+B)*1.D-18
       GO TO 582
 # IF ENERGY GT X31P(N31P) EV : USE BEF SCALING
-  581 QIN(10,I)=0.07342/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
+  581 QIN[10][I]=0.07342/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
   582 if(EN <= (2.0*EIN[10])) GO TO 590
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 #
 # 4 3S
   590 if(EN <= EIN[11]) GO TO 2000
@@ -5273,12 +5351,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
   610 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(11,I)=(A*EN+B)*1.D-18
+      QIN[11][I]=(A*EN+B)*1.D-18
       GO TO 612
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
-  611 QIN(11,I)=Y43S(N43S)*(X43S(N43S)/EN)**3*1.D-18
+  611 QIN[11][I]=Y43S(N43S)*(X43S(N43S)/EN)**3*1.D-18
   612 if(EN <= (2.0*EIN[11])) GO TO 620
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
 #
 # 4 1S
   620 if(EN <= EIN[12]) GO TO 2000
@@ -5291,12 +5369,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
   640 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(12,I)=(A*EN+B)*1.D-18
+      QIN[12][I]=(A*EN+B)*1.D-18
       GO TO 642
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
-  641 QIN(12,I)=Y41S(N41S)*(X41S(N41S)/EN)*1.D-18
+  641 QIN[12][I]=Y41S(N41S)*(X41S(N41S)/EN)*1.D-18
   642 if(EN <= (2.0*EIN[12])) GO TO 650
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 #
 # 4 3P
   650 if(EN <= EIN[13]) GO TO 2000
@@ -5309,12 +5387,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   670 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(13,I)=(A*EN+B)*1.D-18
+      QIN[13][I]=(A*EN+B)*1.D-18
       GO TO 672
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
-  671 QIN(13,I)=Y43P(N43P)*(X43P(N43P)/EN)**3*1.D-18
+  671 QIN[13][I]=Y43P(N43P)*(X43P(N43P)/EN)**3*1.D-18
   672 if(EN <= (2.0*EIN[13])) GO TO 680
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 #
 # 4 3D
   680 if(EN <= EIN[14]) GO TO 2000
@@ -5327,12 +5405,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   700 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(14,I)=(A*EN+B)*1.D-18
+      QIN[14][I]=(A*EN+B)*1.D-18
       GO TO 702
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
-  701 QIN(14,I)=Y43D[N43D]*(X43D[N43D]/EN)**3*1.D-18
+  701 QIN[14][I]=Y43D[N43D]*(X43D[N43D]/EN)**3*1.D-18
   702 if(EN <= (2.0*EIN[14])) GO TO 710
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 #
 # 4 1D
   710 if(EN <= EIN[15]) GO TO 2000
@@ -5345,12 +5423,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
   730 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(15,I)=(A*EN+B)*1.D-18
+      QIN[15][I]=(A*EN+B)*1.D-18
       GO TO 732
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
-  731 QIN(15,I)=Y41D[N41D]*(X41D[N41D]/EN)*1.D-18
+  731 QIN[15][I]=Y41D[N41D]*(X41D[N41D]/EN)*1.D-18
   732 if(EN <= (2.0*EIN[15])) GO TO 740
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 #
 # 4 3F
   740 if(EN <= EIN[16]) GO TO 2000
@@ -5363,12 +5441,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43F
   760 A=(Y43F[J]-Y43F(J-1))/(X43F[J]-X43F(J-1))                         
       B=(X43F(J-1)*Y43F[J]-X43F[J]*Y43F(J-1))/(X43F(J-1)-X43F[J])       
-      QIN(16,I)=(A*EN+B)*1.D-18
+      QIN[16][I]=(A*EN+B)*1.D-18
       GO TO 762
 # IF ENERGY GT X43F(N43F) EV SCALE BY 1/E**4  
-  761 QIN(16,I)=Y43F(N43F)*(X43F(N43F)/EN)**4*1.D-18
+  761 QIN[16][I]=Y43F(N43F)*(X43F(N43F)/EN)**4*1.D-18
   762 if(EN <= (2.0*EIN[16])) GO TO 770
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 #
 # 4 1F
   770 if(EN <= EIN[17]) GO TO 2000
@@ -5381,12 +5459,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41F
   790 A=(Y41F[J]-Y41F(J-1))/(X41F[J]-X41F(J-1))                         
       B=(X41F(J-1)*Y41F[J]-X41F[J]*Y41F(J-1))/(X41F(J-1)-X41F[J])       
-      QIN(17,I)=(A*EN+B)*1.D-18
+      QIN[17][I]=(A*EN+B)*1.D-18
       GO TO 792
 # IF ENERGY GT X41F(N41F) EV SCALE BY 1/E     
-  791 QIN(17,I)=Y41F(N41F)*(X41F(N41F)/EN)*1.D-18
+  791 QIN[17][I]=Y41F(N41F)*(X41F(N41F)/EN)*1.D-18
   792 if(EN <= (2.0*EIN[17])) GO TO 800
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 #
 # 4 1P       OSC STRENGTH  F=0.02986
   800 if(EN <= EIN[18]) GO TO 2000
@@ -5399,12 +5477,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
   820 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(18,I)=(A*EN+B)*1.D-18
+      QIN[18][I]=(A*EN+B)*1.D-18
       GO TO 822
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
-  821 QIN(18,I)=0.02986/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
+  821 QIN[18][I]=0.02986/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
   822 if(EN <= (2.0*EIN[18])) GO TO 830
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 #
 # 5 3S SCALED FROM 4 3S
   830 if(EN <= EIN[19]) GO TO 2000
@@ -5419,12 +5497,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
   850 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(19,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[19][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 852
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
-  851 QIN(19,I)=0.512*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+  851 QIN[19][I]=0.512*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
   852 if(EN <= (2.0*EIN[19])) GO TO 860
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 #
 # 5 1S SCALED FROM 4 1S
   860 if(EN <= EIN[20]) GO TO 2000
@@ -5439,12 +5517,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
   880 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(20,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[20][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 882
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
-  881 QIN(20,I)=0.512*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+  881 QIN[20][I]=0.512*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
   882 if(EN <= (2.0*EIN[20])) GO TO 890
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 #
 # 5 3P SCALED FROM 4 3P
   890 if(EN <= EIN[21]) GO TO 2000
@@ -5459,12 +5537,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   910 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(21,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[21][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 912
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
-  911 QIN(21,I)=0.512*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+  911 QIN[21][I]=0.512*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
   912 if(EN <= (2.0*EIN[21])) GO TO 920
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 #
 # 5 3D SCALED FROM 4 3D
   920 if(EN <= EIN[22]) GO TO 2000
@@ -5479,12 +5557,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
   940 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(22,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[22][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 942
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
-  941 QIN(22,I)=0.512*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+  941 QIN[22][I]=0.512*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
   942 if(EN <= (2.0*EIN[22])) GO TO 950
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 #
 # 5 1D SCALED FROM 4 1D
   950 if(EN <= EIN[23]) GO TO 2000
@@ -5499,12 +5577,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
   970 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(23,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[23][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 972
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
-  971 QIN(23,I)=0.512*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+  971 QIN[23][I]=0.512*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
   972 if(EN <= (2.0*EIN[23])) GO TO 980
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 #
 # 5 3F SCALED FROM 4 3F
   980 if(EN <= EIN[24]) GO TO 2000
@@ -5519,12 +5597,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43F
  1000 A=(Y43F[J]-Y43F(J-1))/(X43F[J]-X43F(J-1))                         
       B=(X43F(J-1)*Y43F[J]-X43F[J]*Y43F(J-1))/(X43F(J-1)-X43F[J])       
-      QIN(24,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[24][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 1002
 # IF ENERGY GT X43F(N43F) EV SCALE BY 1/E**4  
- 1001 QIN(24,I)=0.512*Y43F(N43F)*(X43F(N43F)/ENP)**4*1.D-18
+ 1001 QIN[24][I]=0.512*Y43F(N43F)*(X43F(N43F)/ENP)**4*1.D-18
  1002 if(EN <= (2.0*EIN[24])) GO TO 1010
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 #
 # 5 1F SCALED FROM 4 1F
  1010 if(EN <= EIN[25]) GO TO 2000
@@ -5539,12 +5617,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41F
  1030 A=(Y41F[J]-Y41F(J-1))/(X41F[J]-X41F(J-1))                         
       B=(X41F(J-1)*Y41F[J]-X41F[J]*Y41F(J-1))/(X41F(J-1)-X41F[J])       
-      QIN(25,I)=0.512*(A*ENP+B)*1.D-18
+      QIN[25][I]=0.512*(A*ENP+B)*1.D-18
       GO TO 1032
 # IF ENERGY GT X41F(N41F) EV SCALE BY 1/E     
- 1031 QIN(25,I)=0.512*Y41F(N41F)*(X41F(N41F)/ENP)*1.D-18
+ 1031 QIN[25][I]=0.512*Y41F(N41F)*(X41F(N41F)/ENP)*1.D-18
  1032 if(EN <= (2.0*EIN[25])) GO TO 1040
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 #
 # 5 1P   SCALED FROM 4 1P   OSC STRENGTH  F=0.01504
  1040 if(EN <= EIN[26]) GO TO 2000
@@ -5559,12 +5637,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1060 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(26,I)=0.01504/0.02986*(A*ENP+B)*1.D-18
+      QIN[26][I]=0.01504/0.02986*(A*ENP+B)*1.D-18
       GO TO 1062
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1061 QIN(26,I)=0.01504/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
+ 1061 QIN[26][I]=0.01504/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
  1062 if(EN <= (2.0*EIN[26])) GO TO 1070
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 #
 # 6 3S SCALED FROM 4 3S
  1070 if(EN <= EIN[27]) GO TO 2000
@@ -5579,12 +5657,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
  1090 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(27,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[27][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1092
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
- 1091 QIN(27,I)=0.296*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+ 1091 QIN[27][I]=0.296*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
  1092 if(EN <= (2.0*EIN[27])) GO TO 1100
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 #
 # 6 1S SCALED FROM 4 1S
  1100 if(EN <= EIN[28]) GO TO 2000
@@ -5599,12 +5677,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
  1120 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(28,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[28][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1122
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
- 1121 QIN(28,I)=0.296*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+ 1121 QIN[28][I]=0.296*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
  1122 if(EN <= (2.0*EIN[28])) GO TO 1130
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 #
 # 6 3P SCALED FROM 4 3P
  1130 if(EN <= EIN[29]) GO TO 2000
@@ -5619,12 +5697,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1150 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(29,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[29][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1152
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
- 1151 QIN(29,I)=0.296*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+ 1151 QIN[29][I]=0.296*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
  1152 if(EN <= (2.0*EIN[29])) GO TO 1160
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 #
 # 6 3D SCALED FROM 4 3D
  1160 if(EN <= EIN[30]) GO TO 2000
@@ -5639,12 +5717,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1180 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(30,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[30][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1182
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
- 1181 QIN(30,I)=0.296*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+ 1181 QIN[30][I]=0.296*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
  1182 if(EN <= (2.0*EIN[30])) GO TO 1190
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 #
 # 6 1D SCALED FROM 4 1D
  1190 if(EN <= EIN[31]) GO TO 2000
@@ -5659,12 +5737,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
  1210 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(31,I)=0.296*(A*ENP+B)*1.D-18
+      QIN[31][I]=0.296*(A*ENP+B)*1.D-18
       GO TO 1212
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
- 1211 QIN(31,I)=0.296*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+ 1211 QIN[31][I]=0.296*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
  1212 if(EN <= (2.0*EIN[31])) GO TO 1220
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 #
 # 6 1P  SCALED FROM 4 1P    OSC STRENGTH  F=0.00863 
  1220 if(EN <= EIN[32]) GO TO 2000
@@ -5679,12 +5757,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1240 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(32,I)=0.00863/0.02986*(A*ENP+B)*1.D-18
+      QIN[32][I]=0.00863/0.02986*(A*ENP+B)*1.D-18
       GO TO 1242
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1241 QIN(32,I)=0.00863/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
+ 1241 QIN[32][I]=0.00863/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
  1242 if(EN <= (2.0*EIN[32])) GO TO 1250 
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 #
 # 7 3S SCALED FROM 4 3S
  1250 if(EN <= EIN[33]) GO TO 2000
@@ -5699,12 +5777,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
  1270 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(33,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[33][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1272
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
- 1271 QIN(33,I)=0.187*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+ 1271 QIN[33][I]=0.187*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
  1272 if(EN <= (2.0*EIN[33])) GO TO 1280
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 #
 # 7 1S SCALED FROM 4 1S
  1280 if(EN <= EIN[34]) GO TO 2000
@@ -5719,12 +5797,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
  1300 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(34,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[34][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1302
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
- 1301 QIN(34,I)=0.187*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+ 1301 QIN[34][I]=0.187*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
  1302 if(EN <= (2.0*EIN[34])) GO TO 1310
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 #
 # 7 3P SCALED FROM 4 3P
  1310 if(EN <= EIN[35]) GO TO 2000
@@ -5739,12 +5817,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1330 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(35,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[35][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1332
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
- 1331 QIN(35,I)=0.187*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+ 1331 QIN[35][I]=0.187*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
  1332 if(EN <= (2.0*EIN[35])) GO TO 1340
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 #
 # 7 3D SCALED FROM 4 3D
  1340 if(EN <= EIN[36]) GO TO 2000
@@ -5759,12 +5837,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1360 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(36,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[36][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1362
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
- 1361 QIN(36,I)=0.187*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+ 1361 QIN[36][I]=0.187*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
  1362 if(EN <= (2.0*EIN[36])) GO TO 1370
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 #
 # 7 1D SCALED FROM 4 1D
  1370 if(EN <= EIN[37]) GO TO 2000
@@ -5779,12 +5857,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
  1390 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(37,I)=0.187*(A*ENP+B)*1.D-18
+      QIN[37][I]=0.187*(A*ENP+B)*1.D-18
       GO TO 1392
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
- 1391 QIN(37,I)=0.187*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+ 1391 QIN[37][I]=0.187*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
  1392 if(EN <= (2.0*EIN[37])) GO TO 1400
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 #
 # 7 1P  SCALED FROM 4 1P   OSC STRENGTH  F=0.00540 
  1400 if(EN <= EIN[38]) GO TO 2000
@@ -5799,12 +5877,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1420 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(38,I)=0.00540/0.02986*(A*ENP+B)*1.D-18
+      QIN[38][I]=0.00540/0.02986*(A*ENP+B)*1.D-18
       GO TO 1422
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1421 QIN(38,I)=0.00540/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
+ 1421 QIN[38][I]=0.00540/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
  1422 if(EN <= (2.0*EIN[38])) GO TO 1430 
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 #
 # SUM 3S LEVELS FROM 8 3S HIGHER AND SCALED FROM 4 3S
  1430 if(EN <= EIN[39]) GO TO 2000
@@ -5819,12 +5897,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43S
  1450 A=(Y43S[J]-Y43S(J-1))/(X43S[J]-X43S(J-1))                         
       B=(X43S(J-1)*Y43S[J]-X43S[J]*Y43S(J-1))/(X43S(J-1)-X43S[J])       
-      QIN(39,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[39][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1452
 # IF ENERGY GT X43S(N43S) EV SCALE BY 1/E**3
- 1451 QIN(39,I)=0.553*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
+ 1451 QIN[39][I]=0.553*Y43S(N43S)*(X43S(N43S)/ENP)**3*1.D-18
  1452 if(EN <= (2.0*EIN[39])) GO TO 1460
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 #
 # SUM 1S LEVELS FROM 8 1S HIGHER AND SCALED FROM 4 1S
  1460 if(EN <= EIN[40]) GO TO 2000
@@ -5839,12 +5917,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41S
  1480 A=(Y41S[J]-Y41S(J-1))/(X41S[J]-X41S(J-1))                         
       B=(X41S(J-1)*Y41S[J]-X41S[J]*Y41S(J-1))/(X41S(J-1)-X41S[J])       
-      QIN(40,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[40][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1482
 # IF ENERGY GT X41S(N41S) EV SCALE BY 1/E     
- 1481 QIN(40,I)=0.553*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
+ 1481 QIN[40][I]=0.553*Y41S(N41S)*(X41S(N41S)/ENP)*1.D-18
  1482 if(EN <= (2.0*EIN[40])) GO TO 1490
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 #
 # SUM 3P LEVELS FROM  8 3P HIGHER AND SCALED FROM 4 3P
  1490 if(EN <= EIN[41]) GO TO 2000
@@ -5859,12 +5937,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1510 A=(Y43P[J]-Y43P(J-1))/(X43P[J]-X43P(J-1))                         
       B=(X43P(J-1)*Y43P[J]-X43P[J]*Y43P(J-1))/(X43P(J-1)-X43P[J])       
-      QIN(41,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[41][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1512
 # IF ENERGY GT X43P(N43P) EV SCALE BY 1/E**3  
- 1511 QIN(41,I)=0.553*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
+ 1511 QIN[41][I]=0.553*Y43P(N43P)*(X43P(N43P)/ENP)**3*1.D-18
  1512 if(EN <= (2.0*EIN[41])) GO TO 1520
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 #
 # SUM 3D LEVELS FROM 8 3D HIGHER AND SCALED FROM 4 3D
  1520 if(EN <= EIN[42]) GO TO 2000
@@ -5879,12 +5957,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N43P
  1540 A=(Y43D[J]-Y43D[J-1])/(X43D[J]-X43D[J-1])                         
       B=(X43D[J-1]*Y43D[J]-X43D[J]*Y43D[J-1])/(X43D[J-1]-X43D[J])       
-      QIN(42,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[42][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1542
 # IF ENERGY GT X43D[N43D] EV SCALE BY 1/E**3  
- 1541 QIN(42,I)=0.553*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
+ 1541 QIN[42][I]=0.553*Y43D[N43D]*(X43D[N43D]/ENP)**3*1.D-18
  1542 if(EN <= (2.0*EIN[42])) GO TO 1550
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 #
 # SUM 1D LEVELS FROM 8 1D HIGHER AND SCALED FROM 4 1D
  1550 if(EN <= EIN[43]) GO TO 2000
@@ -5899,12 +5977,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41D
  1570 A=(Y41D[J]-Y41D[J-1])/(X41D[J]-X41D[J-1])                         
       B=(X41D[J-1]*Y41D[J]-X41D[J]*Y41D[J-1])/(X41D[J-1]-X41D[J])       
-      QIN(43,I)=0.553*(A*ENP+B)*1.D-18
+      QIN[43][I]=0.553*(A*ENP+B)*1.D-18
       GO TO 1572
 # IF ENERGY GT X41D[N41D] EV SCALE BY 1/E     
- 1571 QIN(43,I)=0.553*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
+ 1571 QIN[43][I]=0.553*Y41D[N41D]*(X41D[N41D]/ENP)*1.D-18
  1572 if(EN <= (2.0*EIN[43])) GO TO 1580
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 #
 # 8 1P SCALED FROM 4 1P   OSC STRENGTH  F=0.00362 
  1580 if(EN <= EIN[44]) GO TO 2000
@@ -5919,12 +5997,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1600 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(44,I)=0.00362/0.02986*(A*ENP+B)*1.D-18
+      QIN[44][I]=0.00362/0.02986*(A*ENP+B)*1.D-18
       GO TO 1602
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1601 QIN(44,I)=0.00362/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
+ 1601 QIN[44][I]=0.00362/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
  1602 if(EN <= (2.0*EIN[44])) GO TO 1610 
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
 #
 # 9 1P SCALED FROM 4 1P   OSC STRENGTH  F=0.00253 
  1610 if(EN <= EIN[45]) GO TO 2000
@@ -5939,12 +6017,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1630 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(45,I)=0.00253/0.02986*(A*ENP+B)*1.D-18
+      QIN[45][I]=0.00253/0.02986*(A*ENP+B)*1.D-18
       GO TO 1632
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1631 QIN(45,I)=0.00253/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
+ 1631 QIN[45][I]=0.00253/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
  1632 if(EN <= (2.0*EIN[45])) GO TO 1640 
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
 #
 # 10 1P SCALED FROM 4 1P    OSC STRENGTH F=0.00184
  1640 if(EN <= EIN[46]) GO TO 2000
@@ -5959,12 +6037,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1660 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(46,I)=0.00184/0.02986*(A*ENP+B)*1.D-18
+      QIN[46][I]=0.00184/0.02986*(A*ENP+B)*1.D-18
       GO TO 1662
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1661 QIN(46,I)=0.00184/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
+ 1661 QIN[46][I]=0.00184/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
  1662 if(EN <= (2.0*EIN[46])) GO TO 1670 
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
 #
 # 11 1P SCALED FROM 4 1P   OSC STRENGTH F=0.00138
  1670 if(EN <= EIN[47]) GO TO 2000
@@ -5979,12 +6057,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1690 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(47,I)=0.00138/0.02986*(A*ENP+B)*1.D-18
+      QIN[47][I]=0.00138/0.02986*(A*ENP+B)*1.D-18
       GO TO 1692
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1691 QIN(47,I)=0.00138/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
+ 1691 QIN[47][I]=0.00138/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
  1692 if(EN <= (2.0*EIN[47])) GO TO 1700 
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
 #
 # 12 1P SCALED FROM 4 1P   OSC STRENGTH F=0.00106
  1700 if(EN <= EIN[48]) GO TO 2000
@@ -5999,12 +6077,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1720 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(48,I)=0.00106/0.02986*(A*ENP+B)*1.D-18
+      QIN[48][I]=0.00106/0.02986*(A*ENP+B)*1.D-18
       GO TO 1722
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1721 QIN(48,I)=0.00106/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
+ 1721 QIN[48][I]=0.00106/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
  1722 if(EN <= (2.0*EIN[48])) GO TO 1730 
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
 #
 # SUM HIGHER 1P LEVELS     OSC STRENGTH F=0.00440
  1730 if(EN <= EIN[49]) GO TO 2000
@@ -6019,12 +6097,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N41P
  1750 A=(Y41P[J]-Y41P(J-1))/(X41P[J]-X41P(J-1))                         
       B=(X41P(J-1)*Y41P[J]-X41P[J]*Y41P(J-1))/(X41P(J-1)-X41P[J])       
-      QIN(49,I)=0.00440/0.02986*(A*ENP+B)*1.D-18
+      QIN[49][I]=0.00440/0.02986*(A*ENP+B)*1.D-18
       GO TO 1752
 # IF ENERGY GT X41P(N41P) EV USE BEF SCALING  
- 1751 QIN(49,I)=0.00440/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
+ 1751 QIN[49][I]=0.00440/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
  1752 if(EN <= (2.0*EIN[49])) GO TO 1760 
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
  1760 CONTINUE
 # LOAD BREMSSTRAHLUNG X-SECTION
       if(EN <= 1000.):
@@ -6034,22 +6112,22 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 1790
  1780 CONTINUE
       J=NBREM
- 1790 A=(math.log(Z2T[J])-math.log(Z2T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z2T[J])*EBRM(J-1)-math.log(Z2T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])  
-      QIN(50,I)=math.exp(A*EN+B)*1.D-24
+ 1790 A=(math.log(Z2T[J])-math.log(Z2T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z2T[J])*EBRM[J-1]-math.log(Z2T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])  
+      QIN[50][I]=math.exp(A*EN+B)*1.D-24
 #
  2000 CONTINUE                                                          
 #     
       QMET=QIN[1][I]+QIN[2][I]
-      QDIP=QIN[4][I]+QIN(10,I)+QIN(18,I)+QIN(26,I)+QIN(32,I)+QIN(38,I)+QIN(44,I)+QIN(45,I)+QIN(46,I)+QIN(47,I)+QIN(48,I)+QIN(49,I)
-      QTRP=QIN[1][I]+QIN[3][I]+QIN[5][I]+QIN[7][I]+QIN[8][I]+QIN(11,I)+QIN(13,I)+QIN(14,I)+QIN(16,I)+QIN(19,I)+QIN(21,I)+QIN(22,I)+QIN(24,I)+QIN(27,I)+QIN(29,I)+QIN(30,I)+QIN(33,I)+QIN(35,I)+QIN(36,I)+QIN(39,I)+QIN(41,I)+QIN(42,I) 
-      QSNG=QIN[2][I]+QIN[4][I]+QIN[6][I]+QIN[9][I]+QIN(10,I)+QIN(12,I)+QIN(15,I)+QIN(17,I)+QIN(18,I)+QIN(20,I)+QIN(23,I)+QIN(25,I)+QIN(26,I)+QIN(28,I)+QIN(31,I)+QIN(32,I)+QIN(34,I)+QIN(37,I)+QIN(38,I)+QIN(40,I)+QIN(43,I)+QIN(44,I)+QIN(45,I)+QIN(46,I)+QIN(47,I)+QIN(48,I)+QIN(49,I)
+      QDIP=QIN[4][I]+QIN[10][I]+QIN[18][I]+QIN[26][I]+QIN[32][I]+QIN[38][I]+QIN[44][I]+QIN[45][I]+QIN[46][I]+QIN[47][I]+QIN[48][I]+QIN[49][I]
+      QTRP=QIN[1][I]+QIN[3][I]+QIN[5][I]+QIN[7][I]+QIN[8][I]+QIN[11][I]+QIN[13][I]+QIN[14][I]+QIN[16][I]+QIN[19][I]+QIN[21][I]+QIN[22][I]+QIN[24][I]+QIN[27][I]+QIN[29][I]+QIN[30][I]+QIN[33][I]+QIN[35][I]+QIN[36][I]+QIN[39][I]+QIN[41][I]+QIN[42][I] 
+      QSNG=QIN[2][I]+QIN[4][I]+QIN[6][I]+QIN[9][I]+QIN[10][I]+QIN[12][I]+QIN[15][I]+QIN[17][I]+QIN[18][I]+QIN[20][I]+QIN[23][I]+QIN[25][I]+QIN[26][I]+QIN[28][I]+QIN[31][I]+QIN[32][I]+QIN[34][I]+QIN[37][I]+QIN[38][I]+QIN[40][I]+QIN[43][I]+QIN[44][I]+QIN[45][I]+QIN[46][I]+QIN[47][I]+QIN[48][I]+QIN[49][I]
       QINEL=QSNG+QTRP+QION[1][I]+QION[2][I]
-      Q[1][I]=QELA+QINEL+QIN(50,I)                            
+      Q[1][I]=QELA+QINEL+QIN[50][I]                            
 # EXAMINE X-SECTION 
-#     WRITE(6,986) EN,QIN[4][I],QIN(10,I),QIN(18,I),QIN(26,I),QIN(32,I),
-#    /QIN(38,I),QIN(44,I),QIN(45,I),QIN(46,I),QIN(47,I),QIN(48,I),
-#    /QIN(49,I) 
+#     WRITE(6,986) EN,QIN[4][I],QIN[10][I],QIN[18][I],QIN[26][I],QIN[32][I],
+#    /QIN[38][I],QIN[44][I],QIN[45][I],QIN[46][I],QIN[47][I],QIN[48][I],
+#    /QIN[49][I] 
 # 986 print(' EN=',D11.5,' 21P=','%.3f' %,' 31P=','%.3f' %,' 41P=','%.3f' %,' 51
 #    /P=','%.3f' %,' 61P=','%.3f' %,' 71P=','%.3f' %,/,8X,' 81P=','%.3f' %,' 91P=',D
 #    /11.3,' 101P=','%.3f' %,' 111P=','%.3f' %,' 121P=','%.3f' %,' HIP=','%.3f' %)
@@ -6078,7 +6156,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)  
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]     
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -6662,7 +6740,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # THE IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
 )) GO TO 129
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 #
 # IONISATION FOR CHARGE STATE =2
   129 QION[2][I]=0.00    
@@ -6693,7 +6771,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # THE IONISATION ENERGY
       if(EN <= (2.0*EION[2]:
 )) GO TO 149
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 #
 # IONISATION FOR CHARGE STATE =3
   149 QION[3][I]=0.00    
@@ -6724,7 +6802,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # THE IONISATION ENERGY
       if(EN <= (2.0*EION[3]:
 )) GO TO 169
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 #
 # CALCULATE K-SHELL IONISATION
   169 QION[4][I]=0.00
@@ -6741,7 +6819,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   193 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J])
       QION[4][I]=(A*EN+B)*1.D-16
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
   198 CONTINUE
 # ATTACHMENT             
       Q[4][I]=0.00 
@@ -6806,8 +6884,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X1S5(N1S5) EV SCALE BY 1/E**3
   311 QIN[1][I]=Y1S5(N1S5)*(X1S5(N1S5)/EN)**3*1.0D-18  
   312 if(EN <= (2.0*EIN[1])) GO TO 320
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-#
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]#
 # 1S4 RESONANCE LEVEL  F=0.0118
   320 if(EN <= EIN[2]) GO TO 2000  
       if(EN > X1S4(N1S4):
@@ -6825,7 +6902,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   341 QIN[2][I]=0.0118/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[2]+E[3])   
       QIN[2][I]=abs(QIN[2][I])
   342 if(EN <= (2.0*EIN[2])) GO TO 350 
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))                         
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]                        
 # 1S3 METASTABLE LEVEL
   350 if(EN <= EIN[3]) GO TO 2000 
       if(EN > X1S3(N1S3):
@@ -6842,7 +6919,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X1S3(N1S3) EV SCALE BY 1/E**3
   371 QIN[3][I]=Y1S3(N1S3)*(X1S3(N1S3)/EN)**3*1.D-18 
   372 if(EN <= (2.0*EIN[3])) GO TO 380
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))    
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]   
 # 1S2 RESONANCE LEVEL F=0.159
   380 if(EN <= EIN[4]) GO TO 2000 
       if(EN > X1S2(N1S2):
@@ -6860,7 +6937,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   401 QIN[4][I]=0.1590/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[4]+E[3])  
       QIN[4][I]=abs(QIN[4][I])
   402 if(EN <= (2.0*EIN[4])) GO TO 410
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))                                
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]                               
 # 2P10 
   410 if(EN <= EIN[5]) GO TO 2000   
       if(EN > X2P10(N2P10):
@@ -6877,7 +6954,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P10(N2P10) EV SCALE BY 1/E**2
   431 QIN[5][I]=Y2P10(N2P10)*(X2P10(N2P10)/EN)**2*1.D-18       
   432 if(EN <= (2.0*EIN[5])) GO TO 440
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))                          
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]                         
 # 2P9
   440 if(EN <= EIN[6]) GO TO 2000  
       if(EN > X2P9(N2P9):
@@ -6894,7 +6971,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P9(N2P9) EV  SCALE BY 1/E**2
   461 QIN[6][I]=Y2P9(N2P9)*(X2P9(N2P9)/EN)**2*1.D-18       
   462 if(EN <= (2.0*EIN[6])) GO TO 470
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))                               
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]                              
 # 2P8
   470 if(EN <= EIN[7]) GO TO 2000 
       if(EN > X2P8(N2P8):
@@ -6911,7 +6988,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P8(N2P8) EV  SCALE BY 1/E
   491 QIN[7][I]=Y2P8(N2P8)*(X2P8(N2P8)/EN)*1.D-18       
   492 if(EN <= (2.0*EIN[7])) GO TO 500 
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))                    
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]                   
 # 2P7
   500 if(EN <= EIN[8]) GO TO 2000 
       if(EN > X2P7(N2P7):
@@ -6928,7 +7005,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P7(N2P7) EV SCALE BY 1/E**2
   521 QIN[8][I]=Y2P7(N2P7)*(X2P7(N2P7)/EN)**2*1.D-18          
   522 if(EN <= (2.0*EIN[8])) GO TO 530
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))                                
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]                               
 # 2P6
   530 if(EN <= EIN[9]) GO TO 2000   
       if(EN > X2P6(N2P6):
@@ -6945,7 +7022,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IF ENERGY GT X2P6(N2P6) EV   SCALE BY 1/E
   551 QIN[9][I]=Y2P6(N2P6)*(X2P6(N2P6)/EN)*1.D-18         
   552 if(EN <= (2.0*EIN[9])) GO TO 560
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))                                  
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]                                 
 # 2P5
   560 if(EN <= EIN[10]) GO TO 2000   
       if(EN > X2P5(N2P5):
@@ -6957,12 +7034,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P5                                                           
   580 A=(Y2P5[J]-Y2P5(J-1))/(X2P5[J]-X2P5(J-1))                         
       B=(X2P5(J-1)*Y2P5[J]-X2P5[J]*Y2P5(J-1))/(X2P5(J-1)-X2P5[J])       
-      QIN(10,I)=(A*EN+B)*1.0D-18         
+      QIN[10][I]=(A*EN+B)*1.0D-18         
       GO TO 582
 # IF ENERGY GT X2P5(N2P5) EV   SCALE BY 1/E**2
-  581 QIN(10,I)=Y2P5(N2P5)*(X2P5(N2P5)/EN)**2*1.D-18         
+  581 QIN[10][I]=Y2P5(N2P5)*(X2P5(N2P5)/EN)**2*1.D-18         
   582 if(EN <= (2.0*EIN[10])) GO TO 590
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))                                
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]                                
 # 2P4 
   590 if(EN <= EIN[11]) GO TO 2000   
       if(EN > X2P4(N2P4):
@@ -6974,12 +7051,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P4                                                           
   610 A=(Y2P4[J]-Y2P4(J-1))/(X2P4[J]-X2P4(J-1))                         
       B=(X2P4(J-1)*Y2P4[J]-X2P4[J]*Y2P4(J-1))/(X2P4(J-1)-X2P4[J])       
-      QIN(11,I)=(A*EN+B)*1.0D-18          
+      QIN[11][I]=(A*EN+B)*1.0D-18          
       GO TO 612
 # IF ENERGY GT X2P4(N2P4) EV   SCALE BY 1/E   
-  611 QIN(11,I)=Y2P4(N2P4)*(X2P4(N2P4)/EN)*1.D-18           
+  611 QIN[11][I]=Y2P4(N2P4)*(X2P4(N2P4)/EN)*1.D-18           
   612 if(EN <= (2.0*EIN[11])) GO TO 620
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))                                
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]                                
 # 2P3 
   620 if(EN <= EIN[12]) GO TO 2000   
       if(EN > X2P3(N2P3):
@@ -6991,12 +7068,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P3                                                           
   640 A=(Y2P3[J]-Y2P3(J-1))/(X2P3[J]-X2P3(J-1))                         
       B=(X2P3(J-1)*Y2P3[J]-X2P3[J]*Y2P3(J-1))/(X2P3(J-1)-X2P3[J])       
-      QIN(12,I)=(A*EN+B)*1.0D-18          
+      QIN[12][I]=(A*EN+B)*1.0D-18          
       GO TO 642
 # IF ENERGY GT X2P3(N2P3) EV   SCALE BY 1/E   
-  641 QIN(12,I)=Y2P3(N2P3)*(X2P3(N2P3)/EN)*1.D-18         
+  641 QIN[12][I]=Y2P3(N2P3)*(X2P3(N2P3)/EN)*1.D-18         
   642 if(EN <= (2.0*EIN[12])) GO TO 650
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))                                
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]                                
 # 2P2 
   650 if(EN <= EIN[13]) GO TO 2000   
       if(EN > X2P2(N2P2):
@@ -7008,12 +7085,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P2                                                           
   670 A=(Y2P2[J]-Y2P2(J-1))/(X2P2[J]-X2P2(J-1))                         
       B=(X2P2(J-1)*Y2P2[J]-X2P2[J]*Y2P2(J-1))/(X2P2(J-1)-X2P2[J])       
-      QIN(13,I)=(A*EN+B)*1.0D-18            
+      QIN[13][I]=(A*EN+B)*1.0D-18            
       GO TO 672
 # IF ENERGY GT X2P2(N2P2) EV   SCALE BY 1/E**2
-  671 QIN(13,I)=Y2P2(N2P2)*(X2P2(N2P2)/EN)**2*1.D-18         
+  671 QIN[13][I]=Y2P2(N2P2)*(X2P2(N2P2)/EN)**2*1.D-18         
   672 if(EN <= (2.0*EIN[13])) GO TO 680
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))                                
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]                                
 # 2P1 
   680 if(EN <= EIN[14]) GO TO 2000   
       if(EN > X2P1(N2P1):
@@ -7025,12 +7102,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P1                                                           
   700 A=(Y2P1[J]-Y2P1(J-1))/(X2P1[J]-X2P1(J-1))                         
       B=(X2P1(J-1)*Y2P1[J]-X2P1[J]*Y2P1(J-1))/(X2P1(J-1)-X2P1[J])       
-      QIN(14,I)=(A*EN+B)*1.0D-18           
+      QIN[14][I]=(A*EN+B)*1.0D-18           
       GO TO 702
 # IF ENERGY GT X2P1(N2P1) EV   SCALE BY 1/E   
-  701 QIN(14,I)=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.D-18          
+  701 QIN[14][I]=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.D-18          
   702 if(EN <= (2.0*EIN[14])) GO TO 710
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))                                
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]                                
 # 2S5  
   710 if(EN <= EIN[15]) GO TO 2000   
       if(EN > X2S5(N2S5):
@@ -7042,19 +7119,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S5                                                           
   730 A=(Y2S5[J]-Y2S5(J-1))/(X2S5[J]-X2S5(J-1))                         
       B=(X2S5(J-1)*Y2S5[J]-X2S5[J]*Y2S5(J-1))/(X2S5(J-1)-X2S5[J])       
-      QIN(15,I)=(A*EN+B)*1.0D-18
+      QIN[15][I]=(A*EN+B)*1.0D-18
       GO TO 732
 # IF ENERGY GT X2S5(N2S5) EV   SCALE BY 1/E**2
-  731 QIN(15,I)=Y2S5(N2S5)*(X2S5(N2S5)/EN)**2*1.D-18
+  731 QIN[15][I]=Y2S5(N2S5)*(X2S5(N2S5)/EN)**2*1.D-18
   732 if(EN <= (2.0*EIN[15])) GO TO 740
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))                                
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]                                
 # 2S4   BEF SCALING
   740 if(EN <= EIN[16]) GO TO 2000
-      QIN(16,I)=0.0128/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])   
-      QIN(16,I)=abs(QIN(16,I))
+      QIN[16][I]=0.0128/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])   
+      QIN[16][I]=abs(QIN[16][I])
       if(EN <= (2.0*EIN[16]:
 )) GO TO 750 
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # 2S3
   750 if(EN <= EIN[17]) GO TO 2000   
       if(EN > X2S3(N2S3):
@@ -7066,19 +7143,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S3                                                           
   770 A=(Y2S3[J]-Y2S3(J-1))/(X2S3[J]-X2S3(J-1))                         
       B=(X2S3(J-1)*Y2S3[J]-X2S3[J]*Y2S3(J-1))/(X2S3(J-1)-X2S3[J])       
-      QIN(17,I)=(A*EN+B)*1.0D-18
+      QIN[17][I]=(A*EN+B)*1.0D-18
       GO TO 772
 # IF ENERGY GT X2S3(N2S3) EV   SCALE BY 1/E**2
-  771 QIN(17,I)=Y2S3(N2S3)*(X2S3(N2S3)/EN)**2*1.D-18
+  771 QIN[17][I]=Y2S3(N2S3)*(X2S3(N2S3)/EN)**2*1.D-18
   772 if(EN <= (2.0*EIN[17])) GO TO 780
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))                                
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]                                
 # 2S2   BEF SCALING
   780 if(EN <= EIN[18]) GO TO 2000
-      QIN(18,I)=0.0166/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3]) 
-      QIN(18,I)=abs(QIN(18,I))  
+      QIN[18][I]=0.0166/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3]) 
+      QIN[18][I]=abs(QIN[18][I])  
       if(EN <= (2.0*EIN[18]:
 )) GO TO 790 
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # 3D6
   790 if(EN <= EIN[19]) GO TO 2000   
       if(EN > X3D6(N3D6):
@@ -7090,19 +7167,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D6                                                           
   810 A=(Y3D6[J]-Y3D6(J-1))/(X3D6[J]-X3D6(J-1))                         
       B=(X3D6(J-1)*Y3D6[J]-X3D6[J]*Y3D6(J-1))/(X3D6(J-1)-X3D6[J])       
-      QIN(19,I)=(A*EN+B)*1.0D-18
+      QIN[19][I]=(A*EN+B)*1.0D-18
       GO TO 812
 # IF ENERGY GT X3D6(N3D6) EV   SCALE BY 1/E**2
-  811 QIN(19,I)=Y3D6(N3D6)*(X3D6(N3D6)/EN)**2*1.D-18
+  811 QIN[19][I]=Y3D6(N3D6)*(X3D6(N3D6)/EN)**2*1.D-18
   812 if(EN <= (2.0*EIN[19])) GO TO 820
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))                                
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]                                
 # 3D5   BEF SCALING
   820 if(EN <= EIN[20]) GO TO 2000
-      QIN(20,I)=0.0048/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3]) 
-      QIN(20,I)=abs(QIN(20,I))  
+      QIN[20][I]=0.0048/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3]) 
+      QIN[20][I]=abs(QIN[20][I])  
       if(EN <= (2.0*EIN[20]:
 )) GO TO 830 
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # 3D4#
   830 if(EN <= EIN[21]) GO TO 2000   
       if(EN > X3D4P(N3D4P):
@@ -7114,12 +7191,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4P                                                           
   850 A=(Y3D4P[J]-Y3D4P(J-1))/(X3D4P[J]-X3D4P(J-1))                    
       B=(X3D4P(J-1)*Y3D4P[J]-X3D4P[J]*Y3D4P(J-1))/(X3D4P(J-1)-X3D4P[J])
-      QIN(21,I)=(A*EN+B)*1.0D-18
+      QIN[21][I]=(A*EN+B)*1.0D-18
       GO TO 852
 # IF ENERGY GT X3D4P(N3D4P) EV   SCALE BY 1/E**2
-  851 QIN(21,I)=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**2*1.D-18
+  851 QIN[21][I]=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**2*1.D-18
   852 if(EN <= (2.0*EIN[21])) GO TO 860
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))                                
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]                                
 # 3D4
   860 if(EN <= EIN[22]) GO TO 2000   
       if(EN > X3D4(N3D4):
@@ -7131,12 +7208,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4                                                           
   880 A=(Y3D4[J]-Y3D4(J-1))/(X3D4[J]-X3D4(J-1))                    
       B=(X3D4(J-1)*Y3D4[J]-X3D4[J]*Y3D4(J-1))/(X3D4(J-1)-X3D4[J])
-      QIN(22,I)=(A*EN+B)*1.0D-18
+      QIN[22][I]=(A*EN+B)*1.0D-18
       GO TO 882
 # IF ENERGY GT X3D4(N3D4) EV   SCALE BY 1/E**2
-  881 QIN(22,I)=Y3D4(N3D4)*(X3D4(N3D4)/EN)**2*1.D-18
+  881 QIN[22][I]=Y3D4(N3D4)*(X3D4(N3D4)/EN)**2*1.D-18
   882 if(EN <= (2.0*EIN[22])) GO TO 890
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))                                
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]                                
 # 3D3
   890 if(EN <= EIN[23]) GO TO 2000   
       if(EN > X3D3(N3D3):
@@ -7148,19 +7225,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D3                                                           
   910 A=(Y3D3[J]-Y3D3(J-1))/(X3D3[J]-X3D3(J-1))                    
       B=(X3D3(J-1)*Y3D3[J]-X3D3[J]*Y3D3(J-1))/(X3D3(J-1)-X3D3[J])
-      QIN(23,I)=(A*EN+B)*1.0D-18
+      QIN[23][I]=(A*EN+B)*1.0D-18
       GO TO 912
 # IF ENERGY GT X3D3(N3D3) EV   SCALE BY 1/E**2
-  911 QIN(23,I)=Y3D3(N3D3)*(X3D3(N3D3)/EN)**2*1.D-18
+  911 QIN[23][I]=Y3D3(N3D3)*(X3D3(N3D3)/EN)**2*1.D-18
   912 if(EN <= (2.0*EIN[23])) GO TO 920
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))                                
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]                                
 # 3D2     BEF SCALING
   920 if(EN <= EIN[24]) GO TO 2000
-      QIN(24,I)=0.0146/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3]) 
-      QIN(24,I)=abs(QIN(24,I))  
+      QIN[24][I]=0.0146/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3]) 
+      QIN[24][I]=abs(QIN[24][I])  
       if(EN <= (2.0*EIN[24]:
 )) GO TO 930 
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 # 3D1##
   930 if(EN <= EIN[25]) GO TO 2000   
       if(EN > X3D1PP(N3D1PP):
@@ -7172,12 +7249,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1PP                                                         
   950 A=(Y3D1PP[J]-Y3D1PP(J-1))/(X3D1PP[J]-X3D1PP(J-1))                
       B=(X3D1PP(J-1)*Y3D1PP[J]-X3D1PP[J]*Y3D1PP(J-1))/(X3D1PP(J-1)-X3D1PP[J])
-      QIN(25,I)=(A*EN+B)*1.0D-18
+      QIN[25][I]=(A*EN+B)*1.0D-18
       GO TO 952
 # IF ENERGY GT X3D1PP(N3D1PP) EV   SCALE BY 1/E**2
-  951 QIN(25,I)=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**2*1.D-18
+  951 QIN[25][I]=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**2*1.D-18
   952 if(EN <= (2.0*EIN[25])) GO TO 960
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))                                
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]                                
 # 3D1#
   960 if(EN <= EIN[26]) GO TO 2000   
       if(EN > X3D1P(N3D1P):
@@ -7189,12 +7266,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1P                                                         
   980 A=(Y3D1P[J]-Y3D1P(J-1))/(X3D1P[J]-X3D1P(J-1))                
       B=(X3D1P(J-1)*Y3D1P[J]-X3D1P[J]*Y3D1P(J-1))/(X3D1P(J-1)-X3D1P[J])
-      QIN(26,I)=(A*EN+B)*1.0D-18
+      QIN[26][I]=(A*EN+B)*1.0D-18
       GO TO 982
 # IF ENERGY GT X3D1P(N3D1P) EV   SCALE BY 1/E**2
-  981 QIN(26,I)=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)**2*1.D-18
+  981 QIN[26][I]=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)**2*1.D-18
   982 if(EN <= (2.0*EIN[26])) GO TO 990
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))                                
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]                                
 # 3S1####
   990 if(EN <= EIN[27]) GO TO 2000   
       if(EN > X3S1PPPP(N3S1PPPP):
@@ -7206,12 +7283,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PPPP                                                       
  1010 A=(Y3S1PPPP[J]-Y3S1PPPP(J-1))/(X3S1PPPP[J]-X3S1PPPP(J-1))       
       B=(X3S1PPPP(J-1)*Y3S1PPPP[J]-X3S1PPPP[J]*Y3S1PPPP(J-1))/(X3S1PPPP(J-1)-X3S1PPPP[J])
-      QIN(27,I)=(A*EN+B)*1.0D-18
+      QIN[27][I]=(A*EN+B)*1.0D-18
       GO TO 1012
 # IF ENERGY GT X3S1PPPP(N3S1PPPP) EV   SCALE BY 1/E**2
- 1011 QIN(27,I)=Y3S1PPPP(N3S1PPPP)*(X3S1PPPP(N3S1PPPP)/EN)**2*1.D-18
+ 1011 QIN[27][I]=Y3S1PPPP(N3S1PPPP)*(X3S1PPPP(N3S1PPPP)/EN)**2*1.D-18
  1012 if(EN <= (2.0*EIN[27])) GO TO 1020
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))                                
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]                                
 # 3S1###
  1020 if(EN <= EIN[28]) GO TO 2000   
       if(EN > X3S1PPP(N3S1PPP):
@@ -7223,12 +7300,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PPP                                                         
  1040 A=(Y3S1PPP[J]-Y3S1PPP(J-1))/(X3S1PPP[J]-X3S1PPP(J-1))            
       B=(X3S1PPP(J-1)*Y3S1PPP[J]-X3S1PPP[J]*Y3S1PPP(J-1))/(X3S1PPP(J-1)-X3S1PPP[J])
-      QIN(28,I)=(A*EN+B)*1.0D-18
+      QIN[28][I]=(A*EN+B)*1.0D-18
       GO TO 1042
 # IF ENERGY GT X3S1PPP(N3S1PPP) EV   SCALE BY 1/E**2
- 1041 QIN(28,I)=Y3S1PPP(N3S1PPP)*(X3S1PPP(N3S1PPP)/EN)**2*1.D-18
+ 1041 QIN[28][I]=Y3S1PPP(N3S1PPP)*(X3S1PPP(N3S1PPP)/EN)**2*1.D-18
  1042 if(EN <= (2.0*EIN[28])) GO TO 1050
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))                                
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]                                
 # 3S1##
  1050 if(EN <= EIN[29]) GO TO 2000   
       if(EN > X3S1PP(N3S1PP):
@@ -7240,19 +7317,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PP                                                         
  1070 A=(Y3S1PP[J]-Y3S1PP(J-1))/(X3S1PP[J]-X3S1PP(J-1))                
       B=(X3S1PP(J-1)*Y3S1PP[J]-X3S1PP[J]*Y3S1PP(J-1))/(X3S1PP(J-1)-X3S1PP[J])
-      QIN(29,I)=(A*EN+B)*1.0D-18
+      QIN[29][I]=(A*EN+B)*1.0D-18
       GO TO 1072
 # IF ENERGY GT X3S1PP(N3S1PP) EV   SCALE BY 1/E**2
- 1071 QIN(29,I)=Y3S1PP(N3S1PP)*(X3S1PP(N3S1PP)/EN)**2*1.D-18
+ 1071 QIN[29][I]=Y3S1PP(N3S1PP)*(X3S1PP(N3S1PP)/EN)**2*1.D-18
  1072 if(EN <= (2.0*EIN[29])) GO TO 1080
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))                                
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]                                
 # 3S1#   BEF SCALING
  1080 if(EN <= EIN[30]) GO TO 2000
-      QIN(30,I)=0.00676/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])  
-      QIN(30,I)=abs(QIN(30,I)) 
+      QIN[30][I]=0.00676/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])  
+      QIN[30][I]=abs(QIN[30][I]) 
       if(EN <= (2.0*EIN[30]:
 )) GO TO 1090 
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 # SUM 3P10--3P6
  1090 if(EN <= EIN[31]) GO TO 2000   
       if(EN > X3P106(N3P106):
@@ -7264,12 +7341,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P106                                                          
  1110 A=(Y3P106[J]-Y3P106(J-1))/(X3P106[J]-X3P106(J-1))                
       B=(X3P106(J-1)*Y3P106[J]-X3P106[J]*Y3P106(J-1))/(X3P106(J-1)-X3P106[J])       
-      QIN(31,I)=(A*EN+B)*1.0D-18
+      QIN[31][I]=(A*EN+B)*1.0D-18
       GO TO 1112
 # IF ENERGY GT X3P106(N3P106) EV   SCALE BY 1/E**1.5   
- 1111 QIN(31,I)=Y3P106(N3P106)*(X3P106(N3P106)/EN)**1.5*1.D-18
+ 1111 QIN[31][I]=Y3P106(N3P106)*(X3P106(N3P106)/EN)**1.5*1.D-18
  1112 if(EN <= (2.0*EIN[31])) GO TO 1120
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))                                
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]                                
 # SUM 3P5--3P2
  1120 if(EN <= EIN[32]) GO TO 2000   
       if(EN > X3P52(N3P52):
@@ -7281,12 +7358,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P52                                                          
  1140 A=(Y3P52[J]-Y3P52(J-1))/(X3P52[J]-X3P52(J-1))                
       B=(X3P52(J-1)*Y3P52[J]-X3P52[J]*Y3P52(J-1))/(X3P52(J-1)-X3P52[J])
-      QIN(32,I)=(A*EN+B)*1.0D-18
+      QIN[32][I]=(A*EN+B)*1.0D-18
       GO TO 1142
 # IF ENERGY GT X3P52(N3P52) EV   SCALE BY 1/E**1.5   
- 1141 QIN(32,I)=Y3P52(N3P52)*(X3P52(N3P52)/EN)**1.5*1.D-18
+ 1141 QIN[32][I]=Y3P52(N3P52)*(X3P52(N3P52)/EN)**1.5*1.D-18
  1142 if(EN <= (2.0*EIN[32])) GO TO 1150
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))                                
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]                                
 # 3P1
  1150 if(EN <= EIN[33]) GO TO 2000   
       if(EN > X3P1(N3P1):
@@ -7298,96 +7375,96 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P1                                                          
  1170 A=(Y3P1[J]-Y3P1(J-1))/(X3P1[J]-X3P1(J-1))                
       B=(X3P1(J-1)*Y3P1[J]-X3P1[J]*Y3P1(J-1))/(X3P1(J-1)-X3P1[J])
-      QIN(33,I)=(A*EN+B)*1.0D-18
+      QIN[33][I]=(A*EN+B)*1.0D-18
       GO TO 1172
 # IF ENERGY GT X3P1(N3P1) EV   SCALE BY 1/E   
- 1171 QIN(33,I)=Y3P1(N3P1)*(X3P1(N3P1)/EN)*1.D-18
+ 1171 QIN[33][I]=Y3P1(N3P1)*(X3P1(N3P1)/EN)*1.D-18
  1172 if(EN <= (2.0*EIN[33])) GO TO 1180
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))                                
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]                                
 # 3S4     BEF SCALING
  1180 if(EN <= EIN[34]) GO TO 2000
-      QIN(34,I)=0.00635/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])   
-      QIN(34,I)=abs(QIN(34,I))
+      QIN[34][I]=0.00635/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])   
+      QIN[34][I]=abs(QIN[34][I])
       if(EN <= (2.0*EIN[34]:
 )) GO TO 1190
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 # 3S2     BEF SCALING
  1190 if(EN <= EIN[35]) GO TO 2000
-      QIN(35,I)=0.00440/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
-      QIN(35,I)=abs(QIN(35,I))   
+      QIN[35][I]=0.00440/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
+      QIN[35][I]=abs(QIN[35][I])   
       if(EN <= (2.0*EIN[35]:
 )) GO TO 1200
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 # 4D5     BEF SCALING
  1200 if(EN <= EIN[36]) GO TO 2000
-      QIN(36,I)=0.00705/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
-      QIN(36,I)=abs(QIN(36,I))   
+      QIN[36][I]=0.00705/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
+      QIN[36][I]=abs(QIN[36][I])   
       if(EN <= (2.0*EIN[36]:
 )) GO TO 1210
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 # 4D2     BEF SCALING
  1210 if(EN <= EIN[37]) GO TO 2000
-      QIN(37,I)=0.00235/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3]) 
-      QIN(37,I)=abs(QIN(37,I))  
+      QIN[37][I]=0.00235/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3]) 
+      QIN[37][I]=abs(QIN[37][I])  
       if(EN <= (2.0*EIN[37]:
 )) GO TO 1220
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 # 4S1#    BEF SCALING
  1220 if(EN <= EIN[38]) GO TO 2000
-      QIN(38,I)=0.00435/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3]) 
-      QIN(38,I)=abs(QIN(38,I))  
+      QIN[38][I]=0.00435/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3]) 
+      QIN[38][I]=abs(QIN[38][I])  
       if(EN <= (2.0*EIN[38]:
 )) GO TO 1230
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 # 4S4     BEF SCALING
  1230 if(EN <= EIN[39]) GO TO 2000
-      QIN(39,I)=0.00325/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
-      QIN(39,I)=abs(QIN(39,I))   
+      QIN[39][I]=0.00325/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
+      QIN[39][I]=abs(QIN[39][I])   
       if(EN <= (2.0*EIN[39]:
 )) GO TO 1240
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 # 5D5     BEF SCALING
  1240 if(EN <= EIN[40]) GO TO 2000
-      QIN(40,I)=0.00383/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3]) 
-      QIN(40,I)=abs(QIN(40,I))  
+      QIN[40][I]=0.00383/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3]) 
+      QIN[40][I]=abs(QIN[40][I])  
       if(EN <= (2.0*EIN[40]:
 )) GO TO 1250
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 # 5D2     BEF SCALING
  1250 if(EN <= EIN[41]) GO TO 2000
-      QIN(41,I)=0.00127/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3]) 
-      QIN(41,I)=abs(QIN(41,I))  
+      QIN[41][I]=0.00127/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3]) 
+      QIN[41][I]=abs(QIN[41][I])  
       if(EN <= (2.0*EIN[41]:
 )) GO TO 1260
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 # 4S2     BEF SCALING
  1260 if(EN <= EIN[42]) GO TO 2000
-      QIN(42,I)=0.00165/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3]) 
-      QIN(42,I)=abs(QIN(42,I))  
+      QIN[42][I]=0.00165/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3]) 
+      QIN[42][I]=abs(QIN[42][I])  
       if(EN <= (2.0*EIN[42]:
 )) GO TO 1270
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 # 5S1#    BEF SCALING
  1270 if(EN <= EIN[43]) GO TO 2000
-      QIN(43,I)=0.00250/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])   
-      QIN(43,I)=abs(QIN(43,I))
+      QIN[43][I]=0.00250/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])   
+      QIN[43][I]=abs(QIN[43][I])
       if(EN <= (2.0*EIN[43]:
 )) GO TO 1280
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 # SUM HIGHER RESONANCE S STATES
  1280 if(EN <= EIN[44]) GO TO 2000
-      QIN(44,I)=0.00962/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])  
-      QIN(44,I)=abs(QIN(44,I)) 
+      QIN[44][I]=0.00962/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])  
+      QIN[44][I]=abs(QIN[44][I]) 
       if(EN <= (2.0*EIN[44]:
 )) GO TO 1290
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
 # SUM HIGHER RESONANCE S STATES
  1290 if(EN <= EIN[45]) GO TO 2000
-      QIN(45,I)=0.01695/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])   
-      QIN(45,I)=abs(QIN(45,I))
+      QIN[45][I]=0.01695/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])   
+      QIN[45][I]=abs(QIN[45][I])
       if(EN <= (2.0*EIN[45]:
 )) GO TO 2000
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
 # LOAD BREMSSTRAHLUNG X-SECTIONS
       if(EN < 1000.):
  GO TO 2000
@@ -7396,14 +7473,14 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 1310
  1300 CONTINUE
       J=NBREM
- 1310 A=(math.log(Z10T[J])-math.log(Z10T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z10T[J])*EBRM(J-1)-math.log(Z10T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(46,I)=math.exp(A*EN+B)*1.D-24
+ 1310 A=(math.log(Z10T[J])-math.log(Z10T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z10T[J])*EBRM[J-1]-math.log(Z10T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[46][I]=math.exp(A*EN+B)*1.D-24
  2000 CONTINUE 
       QINEL=0.0
       DO 8000 ILVL=1,NIN
  8000 QINEL=QINEL+QIN(ILVL,I)
-      Q[1][I]=QELA+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QINEL+QIN(46,I)
+      Q[1][I]=QELA+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QINEL+QIN[46][I]
 # WRITE TOTAL, COUNTING IONISATION, INELASTIC AND ELASTIC X-SECTIONS
 #     WRITE(6,8001) EN,Q[1][I],Q[5][I],QINEL,QELA
 #8001 print(3X,' EN=','%.4f' % ,' QTOT=','%.4f' % ,' QION=','%.4f' % ,' QINEL=',
@@ -7430,7 +7507,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -8275,7 +8352,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
 )) GO TO 225
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 # IONISATION FOR CHARGE =2
   225 QION[2][I]=0.00
       PEQION[2][I]=0.50
@@ -8301,7 +8378,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  1252 CONTINUE
       if(EN <= (2.0*EION[2]:
 )) GO TO 2253
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 # IONISATION FOR CHARGE =3
  2253 QION[3][I]=0.00
       PEQION[3][I]=0.50
@@ -8327,7 +8404,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  1254 CONTINUE
       if(EN <= (2.0*EION[3]:
 )) GO TO 3256
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 # IONISATION FOR CHARGE STATE =4
  3256 QION[4][I]=0.00
       PEQION[4][I]=0.50
@@ -8353,7 +8430,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  1255 CONTINUE
       if(EN <= (2.0*EION[4]:
 )) GO TO 2256
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
 #
 # M3 SHELL IONISATION
  2256 QION[5][I]=0.00
@@ -8370,7 +8447,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2258 A=(YM3S[J]-YM3S(J-1))/(XM3S[J]-XM3S(J-1))
       B=(XM3S(J-1)*YM3S[J]-XM3S[J]*YM3S(J-1))/(XM3S(J-1)-XM3S[J])
       QION[5][I]=(A*EN+B)*1.D-16
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
 # M2 SHELL IONISATION
  2259 QION[6][I]=0.00
       PEQION[6][I]=0.50
@@ -8386,7 +8463,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2261 A=(YM2S[J]-YM2S(J-1))/(XM2S[J]-XM2S(J-1))
       B=(XM2S(J-1)*YM2S[J]-XM2S[J]*YM2S(J-1))/(XM2S(J-1)-XM2S[J])
       QION[6][I]=(A*EN+B)*1.D-16
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
 # M1 SHELL IONISATION
  2262 QION[7][I]=0.00
       PEQION[7][I]=0.50
@@ -8402,7 +8479,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2264 A=(YM1S[J]-YM1S(J-1))/(XM1S[J]-XM1S(J-1))
       B=(XM1S(J-1)*YM1S[J]-XM1S[J]*YM1S(J-1))/(XM1S(J-1)-XM1S[J])
       QION[7][I]=(A*EN+B)*1.D-16
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
 # L3 SHELL IONISATION
  2265 QION[8][I]=0.00
       PEQION[8][I]=0.50
@@ -8418,7 +8495,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2267 A=(YL3S[J]-YL3S(J-1))/(XL3S[J]-XL3S(J-1))
       B=(XL3S(J-1)*YL3S[J]-XL3S[J]*YL3S(J-1))/(XL3S(J-1)-XL3S[J])
       QION[8][I]=(A*EN+B)*1.D-16
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
 # L2 SHELL IONISATION
  2268 QION[9][I]=0.00
       PEQION[9][I]=0.50
@@ -8434,7 +8511,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2270 A=(YL2S[J]-YL2S(J-1))/(XL2S[J]-XL2S(J-1))
       B=(XL2S(J-1)*YL2S[J]-XL2S[J]*YL2S(J-1))/(XL2S(J-1)-XL2S[J])
       QION[9][I]=(A*EN+B)*1.D-16
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
 # L1 SHELL IONISATION
  2271 QION[10][I]=0.00
       PEQION[10][I]=0.50
@@ -8450,7 +8527,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2273 A=(YL1S[J]-YL1S(J-1))/(XL1S[J]-XL1S(J-1))
       B=(XL1S(J-1)*YL1S[J]-XL1S[J]*YL1S(J-1))/(XL1S(J-1)-XL1S[J])
       QION[10][I]=(A*EN+B)*1.D-16
-      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
 #  K SHELL IONISATION
  2274 QION[11][I]=0.00
       PEQION[11][I]=0.50
@@ -8466,7 +8543,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2276 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J])
       QION[11][I]=(A*EN+B)*1.D-16
-      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
 #  ATTACHMENT                                                    
  2277 Q[4][I]=0.0
 # COUNTING IONISATION                                         
@@ -8531,8 +8608,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X1S5(N1S5) EV BY 1/E**3
   352 QIN[1][I]=Y1S5(N1S5)*(X1S5(N1S5)/EN)**3*1.0D-18*AN1S
   353 if(EN <= (2.0*EIN[1])) GO TO 354
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-# 1S4                                                 F=0.203
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]# 1S4                                                 F=0.203
   354 if(EN <= EIN[2]) GO TO 899
       if(EN > X1S4(N1S4):
 ) GO TO 357
@@ -8547,8 +8623,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 358
   357 QIN[2][I]=0.203/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[2]+E[3])
   358 if(EN <= (2.0*EIN[2])) GO TO 359
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-# 1S3
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]# 1S3
   359 if(EN <= EIN[3]) GO TO 899
       if(EN > X1S3(N1S3):
 ) GO TO 362                                
@@ -8564,8 +8639,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X1S3(N1S3) EV BY 1/E**3
   362 QIN[3][I]=Y1S3(N1S3)*(X1S3(N1S3)/EN)**3*1.0D-18*AN1S
   363 if(EN <= (2.0*EIN[3])) GO TO 364
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-# 1S2                                                 F=0.182
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]# 1S2                                                 F=0.182
   364 if(EN <= EIN[4]) GO TO 899
       if(EN > X1S2(N1S2):
 ) GO TO 367
@@ -8580,8 +8654,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 368
   367 QIN[4][I]=0.182/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[4]+E[3])
   368 if(EN <= (2.0*EIN[4])) GO TO 369
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-# 2P10
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]# 2P10
   369 if(EN <= EIN[5]) GO TO 899
       if(EN > X2P10(N2P10):
 ) GO TO 372                                
@@ -8597,8 +8670,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X2P10(N2P10) EV BY 1/E**3
   372 QIN[5][I]=Y2P10(N2P10)*(X2P10(N2P10)/EN)**3*1.0D-18*AN2P10
   373 if(EN <= (2.0*EIN[5])) GO TO 374
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-# 2P9
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]# 2P9
   374 if(EN <= EIN[6]) GO TO 899
       if(EN > X2P9(N2P9):
 ) GO TO 377                                
@@ -8614,8 +8686,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X2P9(N2P9) EV BY 1/E**3
   377 QIN[6][I]=Y2P9(N2P9)*(X2P9(N2P9)/EN)**3*1.0D-18*AN2P
   378 if(EN <= (2.0*EIN[6])) GO TO 379
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-# 2P8
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]# 2P8
   379 if(EN <= EIN[7]) GO TO 899
       if(EN > X2P8(N2P8):
 ) GO TO 382                                
@@ -8631,8 +8702,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X2P8(N2P8) EV BY 1/E   
   382 QIN[7][I]=Y2P8(N2P8)*(X2P8(N2P8)/EN)*1.0D-18*AN2P
   383 if(EN <= (2.0*EIN[7])) GO TO 384
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-# 2P7
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]# 2P7
   384 if(EN <= EIN[8]) GO TO 899
       if(EN > X2P7(N2P7):
 ) GO TO 387                                
@@ -8648,8 +8718,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X2P7(N2P7) EV BY 1/E**3
   387 QIN[8][I]=Y2P7(N2P7)*(X2P7(N2P7)/EN)**3*1.0D-18*AN2P
   388 if(EN <= (2.0*EIN[8])) GO TO 389
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-# 2P6
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]# 2P6
   389 if(EN <= EIN[9]) GO TO 899
       if(EN > X2P6(N2P6):
 ) GO TO 392                                
@@ -8665,8 +8734,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # SCALED X-SECTION ABOVE X2P6(N2P6) EV BY 1/E   
   392 QIN[9][I]=Y2P6(N2P6)*(X2P6(N2P6)/EN)*1.0D-18*AN2P
   393 if(EN <= (2.0*EIN[9])) GO TO 394
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-# 2P5
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]# 2P5
   394 if(EN <= EIN[10]) GO TO 899
       if(EN > X2P5(N2P5):
 ) GO TO 397                                
@@ -8677,12 +8745,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P5                                                           
   396 A=(Y2P5[J]-Y2P5(J-1))/(X2P5[J]-X2P5(J-1))                     
       B=(X2P5(J-1)*Y2P5[J]-X2P5[J]*Y2P5(J-1))/(X2P5(J-1)-X2P5[J]) 
-      QIN(10,I)=(A*EN+B)*1.0D-18*AN2P5
+      QIN[10][I]=(A*EN+B)*1.0D-18*AN2P5
       GO TO 398
 # SCALED X-SECTION ABOVE X2P5(N2P5) EV BY 1/E   
-  397 QIN(10,I)=Y2P5(N2P5)*(X2P5(N2P5)/EN)*1.0D-18*AN2P5
+  397 QIN[10][I]=Y2P5(N2P5)*(X2P5(N2P5)/EN)*1.0D-18*AN2P5
   398 if(EN <= (2.0*EIN[10])) GO TO 399
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 # 3D6
   399 if(EN <= EIN[11]) GO TO 899
       if(EN > X3D6(N3D6):
@@ -8694,12 +8762,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D6                                                           
   401 A=(Y3D6[J]-Y3D6(J-1))/(X3D6[J]-X3D6(J-1))                     
       B=(X3D6(J-1)*Y3D6[J]-X3D6[J]*Y3D6(J-1))/(X3D6(J-1)-X3D6[J]) 
-      QIN(11,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[11][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 403
 # SCALED X-SECTION ABOVE X3D6(N3D6) EV BY 1/E**3
-  402 QIN(11,I)=Y3D6(N3D6)*(X3D6(N3D6)/EN)**3*1.0D-18*AN3D
+  402 QIN[11][I]=Y3D6(N3D6)*(X3D6(N3D6)/EN)**3*1.0D-18*AN3D
   403 if(EN <= (2.0*EIN[11])) GO TO 404
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
 # 3D5
   404 if(EN <= EIN[12]) GO TO 899
       if(EN > X3D5(N3D5):
@@ -8711,14 +8779,14 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D5                                                           
   406 A=(Y3D5[J]-Y3D5(J-1))/(X3D5[J]-X3D5(J-1))                     
       B=(X3D5(J-1)*Y3D5[J]-X3D5[J]*Y3D5(J-1))/(X3D5(J-1)-X3D5[J]) 
-      QIN(12,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[12][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 408
 # USE BEF SCALING ABOVE X3D5(N3D5) EV                      F=0.0053
-  407 QIN(12,I)=0.0053/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])     
-      if(QIN(12,I):
- < 0.0) QIN(12,I)=0.00
+  407 QIN[12][I]=0.0053/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])     
+      if(QIN[12][I]:
+ < 0.0) QIN[12][I]=0.00
   408 if(EN <= (2.0*EIN[12])) GO TO 409
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 # 2P4
   409 if(EN <= EIN[13]) GO TO 899
       if(EN > X2P4(N2P4):
@@ -8730,12 +8798,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P4                                                           
   411 A=(Y2P4[J]-Y2P4(J-1))/(X2P4[J]-X2P4(J-1))                     
       B=(X2P4(J-1)*Y2P4[J]-X2P4[J]*Y2P4(J-1))/(X2P4(J-1)-X2P4[J]) 
-      QIN(13,I)=(A*EN+B)*1.0D-18*AN2P
+      QIN[13][I]=(A*EN+B)*1.0D-18*AN2P
       GO TO 413
 # SCALED X-SECTION ABOVE X2P4(N2P4) EV BY 1/E**3
-  412 QIN(13,I)=Y2P4(N2P4)*(X2P4(N2P4)/EN)**3*1.0D-18*AN2P
+  412 QIN[13][I]=Y2P4(N2P4)*(X2P4(N2P4)/EN)**3*1.0D-18*AN2P
   413 if(EN <= (2.0*EIN[13])) GO TO 414
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 # 3D3
   414 if(EN <= EIN[14]) GO TO 899
       if(EN > X3D3(N3D3):
@@ -8747,12 +8815,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D3                                                           
   416 A=(Y3D3[J]-Y3D3(J-1))/(X3D3[J]-X3D3(J-1))                     
       B=(X3D3(J-1)*Y3D3[J]-X3D3[J]*Y3D3(J-1))/(X3D3(J-1)-X3D3[J]) 
-      QIN(14,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[14][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 418
 # SCALED X-SECTION ABOVE X3D3(N3D3) EV BY 1/E**3
-  417 QIN(14,I)=Y3D3(N3D3)*(X3D3(N3D3)/EN)**3*1.0D-18*AN3D
+  417 QIN[14][I]=Y3D3(N3D3)*(X3D3(N3D3)/EN)**3*1.0D-18*AN3D
   418 if(EN <= (2.0*EIN[14])) GO TO 419
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 # 3D4P
   419 if(EN <= EIN[15]) GO TO 899
       if(EN > X3D4P(N3D4P):
@@ -8764,12 +8832,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4P                                                           
   421 A=(Y3D4P[J]-Y3D4P(J-1))/(X3D4P[J]-X3D4P(J-1))                     
       B=(X3D4P(J-1)*Y3D4P[J]-X3D4P[J]*Y3D4P(J-1))/(X3D4P(J-1)-X3D4P[J]) 
-      QIN(15,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[15][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 423
 # SCALED X-SECTION ABOVE X3D4P(N3D4P) EV BY 1/E**3
-  422 QIN(15,I)=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**3*1.0D-18*AN3D
+  422 QIN[15][I]=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**3*1.0D-18*AN3D
   423 if(EN <= (2.0*EIN[15])) GO TO 424
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 # 2P3 
   424 if(EN <= EIN[16]) GO TO 899
       if(EN > X2P3(N2P3):
@@ -8781,12 +8849,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P3                                                           
   426 A=(Y2P3[J]-Y2P3(J-1))/(X2P3[J]-X2P3(J-1))                     
       B=(X2P3(J-1)*Y2P3[J]-X2P3[J]*Y2P3(J-1))/(X2P3(J-1)-X2P3[J]) 
-      QIN(16,I)=(A*EN+B)*1.0D-18*AN2P
+      QIN[16][I]=(A*EN+B)*1.0D-18*AN2P
       GO TO 428
 # SCALED X-SECTION ABOVE X2P3(N2P3) EV BY 1/E**3
-  427 QIN(16,I)=Y2P3(N2P3)*(X2P3(N2P3)/EN)**3*1.0D-18*AN2P
+  427 QIN[16][I]=Y2P3(N2P3)*(X2P3(N2P3)/EN)**3*1.0D-18*AN2P
   428 if(EN <= (2.0*EIN[16])) GO TO 429
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # 2P2 
   429 if(EN <= EIN[17]) GO TO 899
       if(EN > X2P2(N2P2):
@@ -8798,12 +8866,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P2                                                           
   431 A=(Y2P2[J]-Y2P2(J-1))/(X2P2[J]-X2P2(J-1))                     
       B=(X2P2(J-1)*Y2P2[J]-X2P2[J]*Y2P2(J-1))/(X2P2(J-1)-X2P2[J]) 
-      QIN(17,I)=(A*EN+B)*1.0D-18*AN2P
+      QIN[17][I]=(A*EN+B)*1.0D-18*AN2P
       GO TO 433
 # SCALED X-SECTION ABOVE X2P2(N2P2) EV BY 1/E   
-  432 QIN(17,I)=Y2P2(N2P2)*(X2P2(N2P2)/EN)*1.0D-18*AN2P
+  432 QIN[17][I]=Y2P2(N2P2)*(X2P2(N2P2)/EN)*1.0D-18*AN2P
   433 if(EN <= (2.0*EIN[17])) GO TO 434
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 # 3D4 
   434 if(EN <= EIN[18]) GO TO 899
       if(EN > X3D4(N3D4):
@@ -8815,12 +8883,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4                                                           
   436 A=(Y3D4[J]-Y3D4(J-1))/(X3D4[J]-X3D4(J-1))                     
       B=(X3D4(J-1)*Y3D4[J]-X3D4[J]*Y3D4(J-1))/(X3D4(J-1)-X3D4[J]) 
-      QIN(18,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[18][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 438
 # SCALED X-SECTION ABOVE X3D4(N3D4) EV BY 1/E   
-  437 QIN(18,I)=Y3D4(N3D4)*(X3D4(N3D4)/EN)*1.0D-18*AN3D
+  437 QIN[18][I]=Y3D4(N3D4)*(X3D4(N3D4)/EN)*1.0D-18*AN3D
   438 if(EN <= (2.0*EIN[18])) GO TO 439
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # 2P1 
   439 if(EN <= EIN[19]) GO TO 899
       if(EN > X2P1(N2P1):
@@ -8832,12 +8900,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P1                                                           
   441 A=(Y2P1[J]-Y2P1(J-1))/(X2P1[J]-X2P1(J-1))                     
       B=(X2P1(J-1)*Y2P1[J]-X2P1[J]*Y2P1(J-1))/(X2P1(J-1)-X2P1[J]) 
-      QIN(19,I)=(A*EN+B)*1.0D-18*AN2P1
+      QIN[19][I]=(A*EN+B)*1.0D-18*AN2P1
       GO TO 443
 # SCALED X-SECTION ABOVE X2P1(N2P1) EV BY 1/E   
-  442 QIN(19,I)=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.0D-18*AN2P1
+  442 QIN[19][I]=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.0D-18*AN2P1
   443 if(EN <= (2.0*EIN[19])) GO TO 444
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 # 3D1PP
   444 if(EN <= EIN[20]) GO TO 899
       if(EN > X3D1PP(N3D1PP):
@@ -8849,12 +8917,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1PP                                                         
   446 A=(Y3D1PP[J]-Y3D1PP(J-1))/(X3D1PP[J]-X3D1PP(J-1))                
       B=(X3D1PP(J-1)*Y3D1PP[J]-X3D1PP[J]*Y3D1PP(J-1))/(X3D1PP(J-1)-X3D1PP[J]) 
-      QIN(20,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[20][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 448
 # SCALED X-SECTION ABOVE X3D1PP(N3D1PP) EV BY 1/E**3   
-  447 QIN(20,I)=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**3*1.0D-18*AN3D
+  447 QIN[20][I]=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**3*1.0D-18*AN3D
   448 if(EN <= (2.0*EIN[20])) GO TO 449
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # 3D1P 
   449 if(EN <= EIN[21]) GO TO 899
       if(EN > X3D1P(N3D1P):
@@ -8866,12 +8934,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1P                                                         
   451 A=(Y3D1P[J]-Y3D1P(J-1))/(X3D1P[J]-X3D1P(J-1))                
       B=(X3D1P(J-1)*Y3D1P[J]-X3D1P[J]*Y3D1P(J-1))/(X3D1P(J-1)-X3D1P[J]) 
-      QIN(21,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[21][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 453
 # SCALED X-SECTION ABOVE X3D1P(N3D1P) EV BY 1/E  
-  452 QIN(21,I)=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)*1.0D-18*AN3D
+  452 QIN[21][I]=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)*1.0D-18*AN3D
   453 if(EN <= (2.0*EIN[21])) GO TO 454
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 # 2S5  
   454 if(EN <= EIN[22]) GO TO 899
       if(EN > X2S5(N2S5):
@@ -8883,28 +8951,28 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S5                                                         
   456 A=(Y2S5[J]-Y2S5(J-1))/(X2S5[J]-X2S5(J-1))                
       B=(X2S5(J-1)*Y2S5[J]-X2S5[J]*Y2S5(J-1))/(X2S5(J-1)-X2S5[J]) 
-      QIN(22,I)=(A*EN+B)*1.0D-18*AN1S    
+      QIN[22][I]=(A*EN+B)*1.0D-18*AN1S    
       GO TO 458
 # SCALED X-SECTION ABOVE X2S5(N2S5) EV BY 1/E**3  
-  457 QIN(22,I)=Y2S5(N2S5)*(X2S5(N2S5)/EN)**3*1.0D-18*AN1S
+  457 QIN[22][I]=Y2S5(N2S5)*(X2S5(N2S5)/EN)**3*1.0D-18*AN1S
   458 if(EN <= (2.0*EIN[22])) GO TO 459
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 # 3D2  BEF SCALED                                         F=0.082
   459 if(EN <= EIN[23]) GO TO 899
-      QIN(23,I)=0.082/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])
-      if(QIN(23,I):
- < 0.0) QIN(23,I)=0.00
+      QIN[23][I]=0.082/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])
+      if(QIN[23][I]:
+ < 0.0) QIN[23][I]=0.00
       if(EN <= (2.0*EIN[23]:
 )) GO TO 460
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 # 2S4  BEF SCALED                                         F=0.154
   460 if(EN <= EIN[24]) GO TO 899
-      QIN(24,I)=0.154/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
-      if(QIN(24,I):
- < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=0.154/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
+      if(QIN[24][I]:
+ < 0.0) QIN[24][I]=0.0
       if(EN <= (2.0*EIN[24]:
 )) GO TO 461
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 # 3P10 
   461 if(EN <= EIN[25]) GO TO 899
       if(EN > X3P10(N3P10):
@@ -8916,12 +8984,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P10                                                         
   463 A=(Y3P10[J]-Y3P10(J-1))/(X3P10[J]-X3P10(J-1))                
       B=(X3P10(J-1)*Y3P10[J]-X3P10[J]*Y3P10(J-1))/(X3P10(J-1)-X3P10[J]) 
-      QIN(25,I)=(A*EN+B)*1.0D-18*AN3P
+      QIN[25][I]=(A*EN+B)*1.0D-18*AN3P
       GO TO 465
 # SCALED X-SECTION ABOVE X3P10(N3P10) EV BY 1/E**3  
-  464 QIN(25,I)=Y3P10(N3P10)*(X3P10(N3P10)/EN)**3*1.0D-18*AN3P
+  464 QIN[25][I]=Y3P10(N3P10)*(X3P10(N3P10)/EN)**3*1.0D-18*AN3P
   465 if(EN <= (2.0*EIN[25])) GO TO 466
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 # 3P9  
   466 if(EN <= EIN[26]) GO TO 899
       if(EN > X3P9(N3P9):
@@ -8933,12 +9001,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P9                                                         
   468 A=(Y3P9[J]-Y3P9(J-1))/(X3P9[J]-X3P9(J-1))                
       B=(X3P9(J-1)*Y3P9[J]-X3P9[J]*Y3P9(J-1))/(X3P9(J-1)-X3P9[J]) 
-      QIN(26,I)=(A*EN+B)*1.0D-18*AN3P
+      QIN[26][I]=(A*EN+B)*1.0D-18*AN3P
       GO TO 470
 # SCALED X-SECTION ABOVE X3P9(N3P9) EV BY 1/E**3  
-  469 QIN(26,I)=Y3P9(N3P9)*(X3P9(N3P9)/EN)**3*1.0D-18*AN3P
+  469 QIN[26][I]=Y3P9(N3P9)*(X3P9(N3P9)/EN)**3*1.0D-18*AN3P
   470 if(EN <= (2.0*EIN[26])) GO TO 471
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 # 3P8  
   471 if(EN <= EIN[27]) GO TO 899
       if(EN > X3P8(N3P8):
@@ -8950,12 +9018,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P8                                                         
   473 A=(Y3P8[J]-Y3P8(J-1))/(X3P8[J]-X3P8(J-1))                
       B=(X3P8(J-1)*Y3P8[J]-X3P8[J]*Y3P8(J-1))/(X3P8(J-1)-X3P8[J]) 
-      QIN(27,I)=(A*EN+B)*1.0D-18*AN3P
+      QIN[27][I]=(A*EN+B)*1.0D-18*AN3P
       GO TO 475
 # SCALED X-SECTION ABOVE X3P8(N3P8) EV BY 1/E     
-  474 QIN(27,I)=Y3P8(N3P8)*(X3P8(N3P8)/EN)*1.0D-18*AN3P
+  474 QIN[27][I]=Y3P8(N3P8)*(X3P8(N3P8)/EN)*1.0D-18*AN3P
   475 if(EN <= (2.0*EIN[27])) GO TO 476
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 # 3S1PP  
   476 if(EN <= EIN[28]) GO TO 899
       if(EN > X3S1PP(N3S1PP):
@@ -8967,12 +9035,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PP                                                        
   478 A=(Y3S1PP[J]-Y3S1PP(J-1))/(X3S1PP[J]-X3S1PP(J-1))                
       B=(X3S1PP(J-1)*Y3S1PP[J]-X3S1PP[J]*Y3S1PP(J-1))/(X3S1PP(J-1)-X3S1PP[J]) 
-      QIN(28,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[28][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 480
 # SCALED X-SECTION ABOVE X3S1PP(N3S1PP) EV BY 1/E**3     
-  479 QIN(28,I)=Y3S1PP(N3S1PP)*(X3S1PP(N3S1PP)/EN)**3*1.0D-18*AN3D
+  479 QIN[28][I]=Y3S1PP(N3S1PP)*(X3S1PP(N3S1PP)/EN)**3*1.0D-18*AN3D
   480 if(EN <= (2.0*EIN[28])) GO TO 481
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 # 3P7    
   481 if(EN <= EIN[29]) GO TO 899
       if(EN > X3P7(N3P7):
@@ -8984,12 +9052,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P7                                                        
   483 A=(Y3P7[J]-Y3P7(J-1))/(X3P7[J]-X3P7(J-1))                
       B=(X3P7(J-1)*Y3P7[J]-X3P7[J]*Y3P7(J-1))/(X3P7(J-1)-X3P7[J]) 
-      QIN(29,I)=(A*EN+B)*1.0D-18*AN3P
+      QIN[29][I]=(A*EN+B)*1.0D-18*AN3P
       GO TO 485
 # SCALED X-SECTION ABOVE X3P7(N3P7) EV BY 1/E**3     
-  484 QIN(29,I)=Y3P7(N3P7)*(X3P7(N3P7)/EN)**3*1.0D-18*AN3P
+  484 QIN[29][I]=Y3P7(N3P7)*(X3P7(N3P7)/EN)**3*1.0D-18*AN3P
   485 if(EN <= (2.0*EIN[29])) GO TO 486
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 # 3P6    
   486 if(EN <= EIN[30]) GO TO 899
       if(EN > X3P6(N3P6):
@@ -9001,12 +9069,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P6                                                        
   488 A=(Y3P6[J]-Y3P6(J-1))/(X3P6[J]-X3P6(J-1))                
       B=(X3P6(J-1)*Y3P6[J]-X3P6[J]*Y3P6(J-1))/(X3P6(J-1)-X3P6[J]) 
-      QIN(30,I)=(A*EN+B)*1.0D-18*AN3P
+      QIN[30][I]=(A*EN+B)*1.0D-18*AN3P
       GO TO 490
 # SCALED X-SECTION ABOVE X3P6(N3P6) EV BY 1/E        
-  489 QIN(30,I)=Y3P6(N3P6)*(X3P6(N3P6)/EN)*1.0D-18*AN3P
+  489 QIN[30][I]=Y3P6(N3P6)*(X3P6(N3P6)/EN)*1.0D-18*AN3P
   490 if(EN <= (2.0*EIN[30])) GO TO 491
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 # 3S1PPPP    
   491 if(EN <= EIN[31]) GO TO 899
       if(EN > X3S1PPPP(N3S1PPPP):
@@ -9018,12 +9086,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PPPP                                                        
   493 A=(Y3S1PPPP[J]-Y3S1PPPP(J-1))/(X3S1PPPP[J]-X3S1PPPP(J-1))       
       B=(X3S1PPPP(J-1)*Y3S1PPPP[J]-X3S1PPPP[J]*Y3S1PPPP(J-1))/(X3S1PPPP(J-1)-X3S1PPPP[J]) 
-      QIN(31,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[31][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 495
 # SCALED X-SECTION ABOVE X3S1PPPP(N3S1PPPP) EV BY 1/E**3        
-  494 QIN(31,I)=Y3S1PPPP(N3S1PPPP)*(X3S1PPPP(N3S1PPPP)/EN)**3*1.0D-18*AN3D
+  494 QIN[31][I]=Y3S1PPPP(N3S1PPPP)*(X3S1PPPP(N3S1PPPP)/EN)**3*1.0D-18*AN3D
   495 if(EN <= (2.0*EIN[31])) GO TO 496
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 # 3S1PPP    
   496 if(EN <= EIN[32]) GO TO 899
       if(EN > X3S1PPP(N3S1PPP):
@@ -9035,12 +9103,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S1PPP                                                        
   498 A=(Y3S1PPP[J]-Y3S1PPP(J-1))/(X3S1PPP[J]-X3S1PPP(J-1))       
       B=(X3S1PPP(J-1)*Y3S1PPP[J]-X3S1PPP[J]*Y3S1PPP(J-1))/(X3S1PPP(J-1)-X3S1PPP[J]) 
-      QIN(32,I)=(A*EN+B)*1.0D-18*AN3D
+      QIN[32][I]=(A*EN+B)*1.0D-18*AN3D
       GO TO 500
 # SCALED X-SECTION ABOVE X3S1PPP(N3S1PPP) EV BY 1/E        
-  499 QIN(32,I)=Y3S1PPP(N3S1PPP)*(X3S1PPP(N3S1PPP)/EN)*1.0D-18*AN3D
+  499 QIN[32][I]=Y3S1PPP(N3S1PPP)*(X3S1PPP(N3S1PPP)/EN)*1.0D-18*AN3D
   500 if(EN <= (2.0*EIN[32])) GO TO 501
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 # 3P5    
   501 if(EN <= EIN[33]) GO TO 899
       if(EN > X3P5(N3P5):
@@ -9052,20 +9120,20 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3P5                                                        
   503 A=(Y3P5[J]-Y3P5(J-1))/(X3P5[J]-X3P5(J-1))       
       B=(X3P5(J-1)*Y3P5[J]-X3P5[J]*Y3P5(J-1))/(X3P5(J-1)-X3P5[J]) 
-      QIN(33,I)=(A*EN+B)*1.0D-18*AN3P5
+      QIN[33][I]=(A*EN+B)*1.0D-18*AN3P5
       GO TO 505
 # SCALED X-SECTION ABOVE X3P5(N3P5) EV BY 1/E        
-  504 QIN(33,I)=Y3P5(N3P5)*(X3P5(N3P5)/EN)*1.0D-18*AN3P5
+  504 QIN[33][I]=Y3P5(N3P5)*(X3P5(N3P5)/EN)*1.0D-18*AN3P5
   505 if(EN <= (2.0*EIN[33])) GO TO 506
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 # 4D5  BEF SCALED                                          F=0.0140
   506 if(EN <= EIN[34]) GO TO 899
-      QIN(34,I)=0.014/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
-      if(QIN(34,I):
- < 0.0) QIN(34,I)=0.00
+      QIN[34][I]=0.014/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
+      if(QIN[34][I]:
+ < 0.0) QIN[34][I]=0.00
       if(EN <= (2.0*EIN[34]:
 )) GO TO 507
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 # 4D6    
   507 if(EN <= EIN[35]) GO TO 899
       if(EN > X4D6(N4D6):
@@ -9077,12 +9145,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4D6                                                        
   509 A=(Y4D6[J]-Y4D6(J-1))/(X4D6[J]-X4D6(J-1))       
       B=(X4D6(J-1)*Y4D6[J]-X4D6[J]*Y4D6(J-1))/(X4D6(J-1)-X4D6[J]) 
-      QIN(35,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[35][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 511
 # SCALED X-SECTION ABOVE X4D6(N4D6) EV BY 1/E**3     
-  510 QIN(35,I)=Y4D6(N4D6)*(X4D6(N4D6)/EN)**3*1.0D-18*AN4D
+  510 QIN[35][I]=Y4D6(N4D6)*(X4D6(N4D6)/EN)**3*1.0D-18*AN4D
   511 if(EN <= (2.0*EIN[35])) GO TO 512
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 # 4D4P   
   512 if(EN <= EIN[36]) GO TO 899
       if(EN > X4D4P(N4D4P):
@@ -9094,20 +9162,20 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4D4P                                                       
   514 A=(Y4D4P[J]-Y4D4P(J-1))/(X4D4P[J]-X4D4P(J-1))       
       B=(X4D4P(J-1)*Y4D4P[J]-X4D4P[J]*Y4D4P(J-1))/(X4D4P(J-1)-X4D4P[J]) 
-      QIN(36,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[36][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 516
 # SCALED X-SECTION ABOVE X4D4P(N4D4P) EV BY 1/E**3     
-  515 QIN(36,I)=Y4D4P(N4D4P)*(X4D4P(N4D4P)/EN)**3*1.0D-18*AN4D
+  515 QIN[36][I]=Y4D4P(N4D4P)*(X4D4P(N4D4P)/EN)**3*1.0D-18*AN4D
   516 if(EN <= (2.0*EIN[36])) GO TO 517
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 # 3S1P        BEF SCALED                                     F=0.0435
   517 if(EN <= EIN[37]) GO TO 899
-      QIN(37,I)=0.0435/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
-      if(QIN(37,I):
- < 0.0) QIN(37,I)=0.00
+      QIN[37][I]=0.0435/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
+      if(QIN[37][I]:
+ < 0.0) QIN[37][I]=0.00
       if(EN <= (2.0*EIN[37]:
 )) GO TO 518
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 # 4D4    
   518 if(EN <= EIN[38]) GO TO 899
       if(EN > X4D4(N4D4):
@@ -9119,12 +9187,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4D4                                                       
   520 A=(Y4D4[J]-Y4D4(J-1))/(X4D4[J]-X4D4(J-1))       
       B=(X4D4(J-1)*Y4D4[J]-X4D4[J]*Y4D4(J-1))/(X4D4(J-1)-X4D4[J]) 
-      QIN(38,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[38][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 522
 # SCALED X-SECTION ABOVE X4D4(N4D4) EV BY 1/E     
-  521 QIN(38,I)=Y4D4(N4D4)*(X4D4(N4D4)/EN)*1.0D-18*AN4D
+  521 QIN[38][I]=Y4D4(N4D4)*(X4D4(N4D4)/EN)*1.0D-18*AN4D
   522 if(EN <= (2.0*EIN[38])) GO TO 523
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 # 4D3    
   523 if(EN <= EIN[39]) GO TO 899
       if(EN > X4D3(N4D3):
@@ -9136,12 +9204,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4D3                                                       
   525 A=(Y4D3[J]-Y4D3(J-1))/(X4D3[J]-X4D3(J-1))       
       B=(X4D3(J-1)*Y4D3[J]-X4D3[J]*Y4D3(J-1))/(X4D3(J-1)-X4D3[J]) 
-      QIN(39,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[39][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 527
 # SCALED X-SECTION ABOVE X4D3(N4D3) EV BY 1/E**3  
-  526 QIN(39,I)=Y4D3(N4D3)*(X4D3(N4D3)/EN)**3*1.0D-18*AN4D
+  526 QIN[39][I]=Y4D3(N4D3)*(X4D3(N4D3)/EN)**3*1.0D-18*AN4D
   527 if(EN <= (2.0*EIN[39])) GO TO 528
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 # 2S3    
   528 if(EN <= EIN[40]) GO TO 899
       if(EN > X2S3(N2S3):
@@ -9153,20 +9221,20 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S3                                                       
   530 A=(Y2S3[J]-Y2S3(J-1))/(X2S3[J]-X2S3(J-1))       
       B=(X2S3(J-1)*Y2S3[J]-X2S3[J]*Y2S3(J-1))/(X2S3(J-1)-X2S3[J]) 
-      QIN(40,I)=(A*EN+B)*1.0D-18*AN1S     
+      QIN[40][I]=(A*EN+B)*1.0D-18*AN1S     
       GO TO 532
 # SCALED X-SECTION ABOVE X2S3(N2S3) EV BY 1/E**3  
-  531 QIN(40,I)=Y2S3(N2S3)*(X2S3(N2S3)/EN)**3*1.0D-18*AN1S
+  531 QIN[40][I]=Y2S3(N2S3)*(X2S3(N2S3)/EN)**3*1.0D-18*AN1S
   532 if(EN <= (2.0*EIN[40])) GO TO 533
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 # 2S2         BEF SCALED                                 F=0.0105
   533 if(EN <= EIN[41]) GO TO 899
-      QIN(41,I)=0.0105/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
-      if(QIN(41,I):
- < 0.0) QIN(41,I)=0.00
+      QIN[41][I]=0.0105/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
+      if(QIN[41][I]:
+ < 0.0) QIN[41][I]=0.00
       if(EN <= (2.0*EIN[41]:
 )) GO TO 534
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 # 4D1PP    
   534 if(EN <= EIN[42]) GO TO 899
       if(EN > X4D1PP(N4D1PP):
@@ -9178,12 +9246,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4D1PP                                                       
   536 A=(Y4D1PP[J]-Y4D1PP(J-1))/(X4D1PP[J]-X4D1PP(J-1))       
       B=(X4D1PP(J-1)*Y4D1PP[J]-X4D1PP[J]*Y4D1PP(J-1))/(X4D1PP(J-1)-X4D1PP[J]) 
-      QIN(42,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[42][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 538
 # SCALED X-SECTION ABOVE X4D1PP(N4D1PP) EV BY 1/E**3  
-  537 QIN(42,I)=Y4D1PP(N4D1PP)*(X4D1PP(N4D1PP)/EN)**3*1.0D-18*AN4D
+  537 QIN[42][I]=Y4D1PP(N4D1PP)*(X4D1PP(N4D1PP)/EN)**3*1.0D-18*AN4D
   538 if(EN <= (2.0*EIN[42])) GO TO 539
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 # 4D1P   
   539 if(EN <= EIN[43]) GO TO 899
       if(EN > X4D1P(N4D1P):
@@ -9195,12 +9263,12 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4D1P                                                       
   541 A=(Y4D1P[J]-Y4D1P(J-1))/(X4D1P[J]-X4D1P(J-1))       
       B=(X4D1P(J-1)*Y4D1P[J]-X4D1P[J]*Y4D1P(J-1))/(X4D1P(J-1)-X4D1P[J]) 
-      QIN(43,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[43][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 543
 # SCALED X-SECTION ABOVE X4D1P(N4D1P) EV BY 1/E**3  
-  542 QIN(43,I)=Y4D1P(N4D1P)*(X4D1P(N4D1P)/EN)**3*1.0D-18*AN4D
+  542 QIN[43][I]=Y4D1P(N4D1P)*(X4D1P(N4D1P)/EN)**3*1.0D-18*AN4D
   543 if(EN <= (2.0*EIN[43])) GO TO 544
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 # 3S5    
   544 if(EN <= EIN[44]) GO TO 899
       if(EN > X3S5(N3S5):
@@ -9212,28 +9280,28 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3S5                                                       
   546 A=(Y3S5[J]-Y3S5(J-1))/(X3S5[J]-X3S5(J-1))       
       B=(X3S5(J-1)*Y3S5[J]-X3S5[J]*Y3S5(J-1))/(X3S5(J-1)-X3S5[J]) 
-      QIN(44,I)=(A*EN+B)*1.0D-18*AN1S
+      QIN[44][I]=(A*EN+B)*1.0D-18*AN1S
       GO TO 548
 # SCALED X-SECTION ABOVE X3S5(N3S5) EV BY 1/E**3  
-  547 QIN(44,I)=Y3S5(N3S5)*(X3S5(N3S5)/EN)**3*1.0D-18*AN1S
+  547 QIN[44][I]=Y3S5(N3S5)*(X3S5(N3S5)/EN)**3*1.0D-18*AN1S
   548 if(EN <= (2.0*EIN[44])) GO TO 549
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
 # 4D2         BEF SCALED                                   F=0.0970
   549 if(EN <= EIN[45]) GO TO 899
-      QIN(45,I)=0.0970/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
-      if(QIN(45,I):
- < 0.0) QIN(45,I)=0.00
+      QIN[45][I]=0.0970/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
+      if(QIN[45][I]:
+ < 0.0) QIN[45][I]=0.00
       if(EN <= (2.0*EIN[45]:
 )) GO TO 550
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
 # 3S4         BEF SCALED                                   F=0.0808
   550 if(EN <= EIN[46]) GO TO 899
-      QIN(46,I)=0.0808/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
-      if(QIN(46,I):
- < 0.0) QIN(46,I)=0.00
+      QIN[46][I]=0.0808/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
+      if(QIN[46][I]:
+ < 0.0) QIN[46][I]=0.00
       if(EN <= (2.0*EIN[46]:
 )) GO TO 551 
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
 # 4FS   
   551 if(EN <= EIN[47]) GO TO 899
       if(EN > X4FS(N4FS):
@@ -9245,44 +9313,44 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4FS                                                       
   553 A=(Y4FS[J]-Y4FS(J-1))/(X4FS[J]-X4FS(J-1))       
       B=(X4FS(J-1)*Y4FS[J]-X4FS[J]*Y4FS(J-1))/(X4FS(J-1)-X4FS[J]) 
-      QIN(47,I)=(A*EN+B)*1.0D-18*AN4D
+      QIN[47][I]=(A*EN+B)*1.0D-18*AN4D
       GO TO 555
 # SCALED X-SECTION ABOVE X4FS(N4FS) EV BY 1/E  
-  554 QIN(47,I)=Y4FS(N4FS)*(X4FS(N4FS)/EN)*1.0D-18*AN4D
+  554 QIN[47][I]=Y4FS(N4FS)*(X4FS(N4FS)/EN)*1.0D-18*AN4D
   555 if(EN <= (2.0*EIN[47])) GO TO 556
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
 # 5D5         BEF SCALED                                  F=0.0015
   556 if(EN <= EIN[48]) GO TO 899
-      QIN(48,I)=0.0015/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
-      if(QIN(48,I):
- < 0.0) QIN(48,I)=0.00
+      QIN[48][I]=0.0015/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
+      if(QIN[48][I]:
+ < 0.0) QIN[48][I]=0.00
       if(EN <= (2.0*EIN[48]:
 )) GO TO 557
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
 # 5D2         BEF SCALED                                   F=0.0439
   557 if(EN <= EIN[49]) GO TO 899
-      QIN(49,I)=0.0439/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
-      if(QIN(49,I):
- < 0.0) QIN(49,I)=0.00
+      QIN[49][I]=0.0439/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
+      if(QIN[49][I]:
+ < 0.0) QIN[49][I]=0.00
       if(EN <= (2.0*EIN[49]:
 )) GO TO 558
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
 # 4S4         BEF SCALED                                   F=0.0203
   558 if(EN <= EIN[50]) GO TO 899
-      QIN(50,I)=0.0203/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
-      if(QIN(50,I):
- < 0.0) QIN(50,I)=0.00
+      QIN[50][I]=0.0203/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
+      if(QIN[50][I]:
+ < 0.0) QIN[50][I]=0.00
       if(EN <= (2.0*EIN[50]:
 )) GO TO 559
-      PEQIN(50,I)=PEQEL(2,(I-IOFFN[50]))
+      PEQIN[50][I]=PEQEL[2][(I-IOFFN[50])]
 # SUM OF HIGHER DIPOLE STATES       BEF SCALED              F=0.1680
   559 if(EN <= EIN[51]) GO TO 899
-      QIN(51,I)=0.1680/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+E[3])
-      if(QIN(51,I):
- < 0.0) QIN(51,I)=0.00
+      QIN[51][I]=0.1680/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+E[3])
+      if(QIN[51][I]:
+ < 0.0) QIN[51][I]=0.00
       if(EN <= (2.0*EIN[51]:
 )) GO TO 899
-      PEQIN(51,I)=PEQEL(2,(I-IOFFN[51]))
+      PEQIN[51][I]=PEQEL[2][(I-IOFFN[51])]
 # LOAD BREMSSTRAHLUNG X-SECTIONS
       if(EN <= 1000.):
  GO TO 899
@@ -9291,14 +9359,14 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 610
   600 CONTINUE
       J=NBREM
-  610 A=(math.log(Z36T[J])-math.log(Z36T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z36T[J])*EBRM(J-1)-math.log(Z36T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(52,I)=math.exp(A*EN+B)*1.D-24
+  610 A=(math.log(Z36T[J])-math.log(Z36T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z36T[J])*EBRM[J-1]-math.log(Z36T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[52][I]=math.exp(A*EN+B)*1.D-24
   899 CONTINUE  
 # 
 # CALCULATE TOTAL X-SECTION                           
       Q1SUM=QIN[1][I]+QIN[2][I]+QIN[3][I]+QIN[4][I] 
-      Q2SUM=QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN(10,I)
+      Q2SUM=QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN[10][I]
       Q3SUM=0.0
       Q4SUM=0.0
       DO 700 JK=11,24
@@ -9306,7 +9374,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       DO 701 JK=25,51
   701 Q4SUM=Q4SUM+QIN(JK,I)
       QINEL=Q1SUM+Q2SUM+Q3SUM+Q4SUM
-      Q[1][I]=QELA+QINEL+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QIN(52,I)
+      Q[1][I]=QELA+QINEL+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QIN[52][I]
 #     WRITE(6,8976) EN,Q1SUM,Q2SUM,Q3SUM,Q4SUM,QINEL
 #8976 print(' EN=',F9.1,' Q1=','%.3f' %,' Q2=','%.3f' %,' Q3=','%.3f' %,' Q4=',
 #    /'%.3f' %,' QSUM=','%.3f' %)       
@@ -9332,7 +9400,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]         
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]         
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]   
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
@@ -10081,7 +10149,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
 )) GO TO 3200
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 # IONISATION CHARGE STATE =2                          
  3200 QION[2][I]=0.0
       PEQION[2][I]=0.50
@@ -10111,7 +10179,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[2]:
 )) GO TO 3250
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 # IONISATION CHARGE STATE =3                          
  3250 QION[3][I]=0.0
       PEQION[3][I]=0.50
@@ -10141,7 +10209,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # IONISATION ENERGY
       if(EN <= (2.0*EION[3]:
 )) GO TO 3300
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 # GROSS SUM OF IONISATION STATE =4+5+6
  3300 Q456=0.0
       if(EN <= 106.35):
@@ -10204,7 +10272,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2232 A=(YM5S[J]-YM5S(J-1))/(XM5S[J]-XM5S(J-1))
       B=(XM5S(J-1)*YM5S[J]-XM5S[J]*YM5S(J-1))/(XM5S(J-1)-XM5S[J])
       QION[4][I]=(A*EN+B)*1.D-16
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
 # M4-SHELL IONISATION
  2233 QION[5][I]=0.00
       PEQION[5][I]=0.50
@@ -10220,7 +10288,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2235 A=(YM4S[J]-YM4S(J-1))/(XM4S[J]-XM4S(J-1))
       B=(XM4S(J-1)*YM4S[J]-XM4S[J]*YM4S(J-1))/(XM4S(J-1)-XM4S[J])
       QION[5][I]=(A*EN+B)*1.D-16
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
 # M3-SHELL IONISATION
  2236 QION[6][I]=0.00
       PEQION[6][I]=0.50
@@ -10236,7 +10304,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2238 A=(YM3S[J]-YM3S(J-1))/(XM3S[J]-XM3S(J-1))
       B=(XM3S(J-1)*YM3S[J]-XM3S[J]*YM3S(J-1))/(XM3S(J-1)-XM3S[J])
       QION[6][I]=(A*EN+B)*1.D-16
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
 # M2-SHELL IONISATION
  2239 QION[7][I]=0.00
       PEQION[7][I]=0.50
@@ -10252,7 +10320,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2241 A=(YM2S[J]-YM2S(J-1))/(XM2S[J]-XM2S(J-1))
       B=(XM2S(J-1)*YM2S[J]-XM2S[J]*YM2S(J-1))/(XM2S(J-1)-XM2S[J])
       QION[7][I]=(A*EN+B)*1.D-16
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
 # M1-SHELL IONISATION
  2242 QION[8][I]=0.00
       PEQION[8][I]=0.50
@@ -10268,7 +10336,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2244 A=(YM1S[J]-YM1S(J-1))/(XM1S[J]-XM1S(J-1))
       B=(XM1S(J-1)*YM1S[J]-XM1S[J]*YM1S(J-1))/(XM1S(J-1)-XM1S[J])
       QION[8][I]=(A*EN+B)*1.D-16
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
 # L3-SHELL IONISATION
  2245 QION[9][I]=0.00
       PEQION[9][I]=0.50
@@ -10284,7 +10352,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2247 A=(YL3S[J]-YL3S(J-1))/(XL3S[J]-XL3S(J-1))
       B=(XL3S(J-1)*YL3S[J]-XL3S[J]*YL3S(J-1))/(XL3S(J-1)-XL3S[J])
       QION[9][I]=(A*EN+B)*1.D-16
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
 # L2-SHELL IONISATION
  2248 QION[10][I]=0.00
       PEQION[10][I]=0.50
@@ -10300,7 +10368,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2250 A=(YL2S[J]-YL2S(J-1))/(XL2S[J]-XL2S(J-1))
       B=(XL2S(J-1)*YL2S[J]-XL2S[J]*YL2S(J-1))/(XL2S(J-1)-XL2S[J])
       QION[10][I]=(A*EN+B)*1.D-16
-      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
 # L1-SHELL IONISATION
  2251 QION[11][I]=0.00
       PEQION[11][I]=0.50
@@ -10316,7 +10384,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2253 A=(YL1S[J]-YL1S(J-1))/(XL1S[J]-XL1S(J-1))
       B=(XL1S(J-1)*YL1S[J]-XL1S[J]*YL1S(J-1))/(XL1S(J-1)-XL1S[J])
       QION[11][I]=(A*EN+B)*1.D-16
-      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
 #  K-SHELL IONISATION
  2254 QION[12][I]=0.00
       PEQION[12][I]=0.50
@@ -10332,7 +10400,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
  2256 A=(YKSH[J]-YKSH(J-1))/(XKSH[J]-XKSH(J-1))
       B=(XKSH(J-1)*YKSH[J]-XKSH[J]*YKSH(J-1))/(XKSH(J-1)-XKSH[J])
       QION[12][I]=(A*EN+B)*1.D-16
-      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL[2][(I-IOFFION[12]))
  2257 CONTINUE
 # ATTACHMENT
       Q[4][I]=0.0
@@ -10396,7 +10464,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3111
  3110 QIN[1][I]=Y1S5(N1S5)*(X1S5(N1S5)/EN)**3*1.0D-18
  3111 if(EN <= (2.0*EIN[1])) GO TO 312
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))       
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]      
 # 1S4 F=0.260                   
   312 if(EN <= EIN[2]) GO TO 413                    
       if(EN > X1S4(N1S4):
@@ -10412,7 +10480,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3142
  3141 QIN[2][I]=0.260/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[2]+E[3])
  3142 if(EN <= (2.0*EIN[2])) GO TO 315
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))   
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]  
 # 1S3                                  
   315 if(EN <= EIN[3]) GO TO 413  
       if(EN > X1S3(N1S3):
@@ -10428,7 +10496,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3171
  3170 QIN[3][I]=Y1S3(N1S3)*(X1S3(N1S3)/EN)**3*1.0D-18
  3171 if(EN <= (2.0*EIN[3])) GO TO 318
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))   
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]  
 # 1S2 F=0.183                   
   318 if(EN <= EIN[4]) GO TO 413                
       if(EN > X1S2(N1S2):
@@ -10444,8 +10512,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3202
  3201 QIN[4][I]=0.183/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[4]+E[3])
  3202 if(EN <= (2.0*EIN[4])) GO TO 321
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-#
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]#
 # P STATES
 #
 # 2P10    
@@ -10463,8 +10530,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3231
  3230 QIN[5][I]=Y2P10(N2P10)*(X2P10(N2P10)/EN)**3*1.0D-18 
  3231 if(EN <= (2.0*EIN[5])) GO TO 324
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-# 2P9    
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]# 2P9    
   324 if(EN <= EIN[6]) GO TO 413                        
       if(EN > X2P9(N2P9):
 ) GO TO 3260                
@@ -10479,8 +10545,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3261
  3260 QIN[6][I]=Y2P9(N2P9)*(X2P9(N2P9)/EN)*1.0D-18
  3261 if(EN <= (2.0*EIN[6])) GO TO 327
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-# 2P8    
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]# 2P8    
   327 if(EN <= EIN[7]) GO TO 413                 
       if(EN > X2P8(N2P8):
 ) GO TO 3290                       
@@ -10495,8 +10560,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3291  
  3290 QIN[7][I]=Y2P8(N2P8)*(X2P8(N2P8)/EN)**3*1.0D-18  
  3291 if(EN <= (2.0*EIN[7])) GO TO 330
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-# 2P7    
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]# 2P7    
   330 if(EN <= EIN[8]) GO TO 413                    
       if(EN > X2P7(N2P7):
 ) GO TO 3320                    
@@ -10511,8 +10575,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3321 
  3320 QIN[8][I]=Y2P7(N2P7)*(X2P7(N2P7)/EN)**2*1.0D-18   
  3321 if(EN <= (2.0*EIN[8])) GO TO 333
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-# 2P6    
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]# 2P6    
   333 if(EN <= EIN[9]) GO TO 413                    
       if(EN > X2P6(N2P6):
 ) GO TO 3355                    
@@ -10527,8 +10590,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       GO TO 3356   
  3355 QIN[9][I]=Y2P6(N2P6)*(X2P6(N2P6)/EN)*1.0D-18
  3356 if(EN <= (2.0*EIN[9])) GO TO 336
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-# 3D6    
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]# 3D6    
   336 if(EN <= EIN[10]) GO TO 413                
       if(EN > X3D6(N3D6):
 ) GO TO 3380                    
@@ -10539,19 +10601,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D6                                                           
   338 A=(Y3D6[J]-Y3D6(J-1))/(X3D6[J]-X3D6(J-1))                     
       B=(X3D6(J-1)*Y3D6[J]-X3D6[J]*Y3D6(J-1))/(X3D6(J-1)-X3D6[J]) 
-      QIN(10,I)=(A*EN+B)*1.0D-18     
+      QIN[10][I]=(A*EN+B)*1.0D-18     
       GO TO 3381  
- 3380 QIN(10,I)=Y3D6(N3D6)*(X3D6(N3D6)/EN)**1.5*1.0D-18 
+ 3380 QIN[10][I]=Y3D6(N3D6)*(X3D6(N3D6)/EN)**1.5*1.0D-18 
  3381 if(EN <= (2.0*EIN[10])) GO TO 339
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 # 3D5 J=1 F=0.0100   
   339 if(EN <= EIN[11]) GO TO 413 
-      QIN(11,I)=0.0100/(EIN[11]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[11]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[11]+E[3])
-      if(QIN(11,I):
- < 0.0) QIN(11,I)=0.0
+      QIN[11][I]=0.0100/(EIN[11]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[11]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[11]+E[3])
+      if(QIN[11][I]:
+ < 0.0) QIN[11][I]=0.0
       if(EN <= (2.0*EIN[11]:
 )) GO TO 340
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
 # 2P5 
   340 if(EN <= EIN[12]) GO TO 413
       if(EN > X2P5(N2P5):
@@ -10563,11 +10625,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P5                                                           
   342 A=(Y2P5[J]-Y2P5(J-1))/(X2P5[J]-X2P5(J-1))                     
       B=(X2P5(J-1)*Y2P5[J]-X2P5[J]*Y2P5(J-1))/(X2P5(J-1)-X2P5[J]) 
-      QIN(12,I)=(A*EN+B)*1.0D-18     
+      QIN[12][I]=(A*EN+B)*1.0D-18     
       GO TO 3421
- 3420 QIN(12,I)=Y2P5(N2P5)*(X2P5(N2P5)/EN)*1.0D-18   
+ 3420 QIN[12][I]=Y2P5(N2P5)*(X2P5(N2P5)/EN)*1.0D-18   
  3421 if(EN <= (2.0*EIN[12])) GO TO 343
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 # 3D4#
   343 if(EN <= EIN[13]) GO TO 413
       if(EN > X3D4P(N3D4P):
@@ -10579,11 +10641,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4P                                                           
   345 A=(Y3D4P[J]-Y3D4P(J-1))/(X3D4P[J]-X3D4P(J-1))                     
       B=(X3D4P(J-1)*Y3D4P[J]-X3D4P[J]*Y3D4P(J-1))/(X3D4P(J-1)-X3D4P[J]) 
-      QIN(13,I)=(A*EN+B)*1.0D-18       
+      QIN[13][I]=(A*EN+B)*1.0D-18       
       GO TO 3451 
- 3450 QIN(13,I)=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**1.5*1.0D-18 
+ 3450 QIN[13][I]=Y3D4P(N3D4P)*(X3D4P(N3D4P)/EN)**1.5*1.0D-18 
  3451 if(EN <= (2.0*EIN[13])) GO TO 346
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 # 3D3 
   346 if(EN <= EIN[14]) GO TO 413
       if(EN > X3D3(N3D3):
@@ -10595,11 +10657,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D3                                                           
   348 A=(Y3D3[J]-Y3D3(J-1))/(X3D3[J]-X3D3(J-1))                     
       B=(X3D3(J-1)*Y3D3[J]-X3D3[J]*Y3D3(J-1))/(X3D3(J-1)-X3D3[J]) 
-      QIN(14,I)=(A*EN+B)*1.0D-18     
+      QIN[14][I]=(A*EN+B)*1.0D-18     
       GO TO 3481
- 3480 QIN(14,I)=Y3D3(N3D3)*(X3D3(N3D3)/EN)**1.5*1.0D-18    
+ 3480 QIN[14][I]=Y3D3(N3D3)*(X3D3(N3D3)/EN)**1.5*1.0D-18    
  3481 if(EN <= (2.0*EIN[14])) GO TO 349
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 # 3D4 
   349 if(EN <= EIN[15]) GO TO 413
       if(EN > X3D4(N3D4):
@@ -10611,11 +10673,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D4                                                           
   351 A=(Y3D4[J]-Y3D4(J-1))/(X3D4[J]-X3D4(J-1))                     
       B=(X3D4(J-1)*Y3D4[J]-X3D4[J]*Y3D4(J-1))/(X3D4(J-1)-X3D4[J]) 
-      QIN(15,I)=(A*EN+B)*1.0D-18  
+      QIN[15][I]=(A*EN+B)*1.0D-18  
       GO TO 3511
- 3510 QIN(15,I)=Y3D4(N3D4)*(X3D4(N3D4)/EN)**2*1.0D-18
+ 3510 QIN[15][I]=Y3D4(N3D4)*(X3D4(N3D4)/EN)**2*1.0D-18
  3511 if(EN <= (2.0*EIN[15])) GO TO 352
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 # 3D1##
   352 if(EN <= EIN[16]) GO TO 413
       if(EN > X3D1PP(N3D1PP):
@@ -10627,11 +10689,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1PP                                                        
   354 A=(Y3D1PP[J]-Y3D1PP(J-1))/(X3D1PP[J]-X3D1PP(J-1))               
       B=(X3D1PP(J-1)*Y3D1PP[J]-X3D1PP[J]*Y3D1PP(J-1))/(X3D1PP(J-1)-X3D1PP[J]) 
-      QIN(16,I)=(A*EN+B)*1.0D-18  
+      QIN[16][I]=(A*EN+B)*1.0D-18  
       GO TO 3541
- 3540 QIN(16,I)=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**3*1.0D-18
+ 3540 QIN[16][I]=Y3D1PP(N3D1PP)*(X3D1PP(N3D1PP)/EN)**3*1.0D-18
  3541 if(EN <= (2.0*EIN[16])) GO TO 355
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # 3D1#
   355 if(EN <= EIN[17]) GO TO 413
       if(EN > X3D1P(N3D1P):
@@ -10643,19 +10705,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3D1P                                                        
   357 A=(Y3D1P[J]-Y3D1P(J-1))/(X3D1P[J]-X3D1P(J-1))               
       B=(X3D1P(J-1)*Y3D1P[J]-X3D1P[J]*Y3D1P(J-1))/(X3D1P(J-1)-X3D1P[J]) 
-      QIN(17,I)=(A*EN+B)*1.0D-18  
+      QIN[17][I]=(A*EN+B)*1.0D-18  
       GO TO 3571
- 3570 QIN(17,I)=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)*1.0D-18
+ 3570 QIN[17][I]=Y3D1P(N3D1P)*(X3D1P(N3D1P)/EN)*1.0D-18
  3571 if(EN <= (2.0*EIN[17])) GO TO 358
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 # 3D2 J=1 F=0.379
   358 if(EN <= EIN[18]) GO TO 413 
-      QIN(18,I)=0.3790/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
-      if(QIN(18,I):
- < 0.0) QIN(18,I)=0.0
+      QIN[18][I]=0.3790/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
+      if(QIN[18][I]:
+ < 0.0) QIN[18][I]=0.0
       if(EN <= (2.0*EIN[18]:
 )) GO TO 359
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # 2S5
   359 if(EN <= EIN[19]) GO TO 413
       if(EN > X2S5(N2S5):
@@ -10667,19 +10729,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2S5                                                        
   361 A=(Y2S5[J]-Y2S5(J-1))/(X2S5[J]-X2S5(J-1))               
       B=(X2S5(J-1)*Y2S5[J]-X2S5[J]*Y2S5(J-1))/(X2S5(J-1)-X2S5[J]) 
-      QIN(19,I)=(A*EN+B)*1.0D-18  
+      QIN[19][I]=(A*EN+B)*1.0D-18  
       GO TO 3611
- 3610 QIN(19,I)=Y2S5(N2S5)*(X2S5(N2S5)/EN)**3*1.0D-18
+ 3610 QIN[19][I]=Y2S5(N2S5)*(X2S5(N2S5)/EN)**3*1.0D-18
  3611 if(EN <= (2.0*EIN[19])) GO TO 362
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 # 2S4 J=1 F=0.086
   362 if(EN <= EIN[20]) GO TO 413 
-      QIN(20,I)=0.086/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])
-      if(QIN(20,I):
- < 0.0) QIN(20,I)=0.0
+      QIN[20][I]=0.086/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])
+      if(QIN[20][I]:
+ < 0.0) QIN[20][I]=0.0
       if(EN <= (2.0*EIN[20]:
 )) GO TO 363
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # SUM 3P10+3P9+3P8+3P7+3P6+3P5
   363 if(EN <= EIN[21]) GO TO 413
       if(EN > X3P105(N3PSUM):
@@ -10691,11 +10753,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N3PSUM                                                      
   365 A=(Y3P105[J]-Y3P105(J-1))/(X3P105[J]-X3P105(J-1))               
       B=(X3P105(J-1)*Y3P105[J]-X3P105[J]*Y3P105(J-1))/(X3P105(J-1)-X3P105[J]) 
-      QIN(21,I)=(A*EN+B)*1.0D-18
+      QIN[21][I]=(A*EN+B)*1.0D-18
       GO TO 3651
- 3650 QIN(21,I)=Y3P105(N3PSUM)*(X3P105(N3PSUM)/EN)*1.0D-18
+ 3650 QIN[21][I]=Y3P105(N3PSUM)*(X3P105(N3PSUM)/EN)*1.0D-18
  3651 if(EN <= (2.0*EIN[21])) GO TO 366
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 # 2P4                           
   366 if(EN <= EIN[22]) GO TO 413
       if(EN > X2P4(N2P4):
@@ -10707,11 +10769,11 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P4                                                      
   368 A=(Y2P4[J]-Y2P4(J-1))/(X2P4[J]-X2P4(J-1))               
       B=(X2P4(J-1)*Y2P4[J]-X2P4[J]*Y2P4(J-1))/(X2P4(J-1)-X2P4[J]) 
-      QIN(22,I)=(A*EN+B)*1.0D-18  
+      QIN[22][I]=(A*EN+B)*1.0D-18  
       GO TO 3681
- 3680 QIN(22,I)=Y2P4(N2P4)*(X2P4(N2P4)/EN)**2*1.0D-18
+ 3680 QIN[22][I]=Y2P4(N2P4)*(X2P4(N2P4)/EN)**2*1.0D-18
  3681 if(EN <= (2.0*EIN[22])) GO TO 369
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 # SUM 4D6+4D3+4D4P+4D4+4D1PP+4D1P
   369 if(EN <= EIN[23]) GO TO 413
       if(EN > X4DSUM(N4DSUM):
@@ -10723,19 +10785,19 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N4DSUM                                                      
   371 A=(Y4DSUM[J]-Y4DSUM(J-1))/(X4DSUM[J]-X4DSUM(J-1))               
       B=(X4DSUM(J-1)*Y4DSUM[J]-X4DSUM[J]*Y4DSUM(J-1))/(X4DSUM(J-1)-X4DSUM[J]) 
-      QIN(23,I)=(A*EN+B)*1.0D-18
+      QIN[23][I]=(A*EN+B)*1.0D-18
       GO TO 3711
  3710 QIN[2][I]=Y4DSUM(N4DSUM)*(X4DSUM(N4DSUM)/EN)**3*1.0D-18
  3711 if(EN <= (2.0*EIN[23])) GO TO 372
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 # 4D5 J=1 F=0.0010
   372 if(EN <= EIN[24]) GO TO 413 
-      QIN(24,I)=0.0010/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
-      if(QIN(24,I):
- < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=0.0010/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
+      if(QIN[24][I]:
+ < 0.0) QIN[24][I]=0.0
       if(EN <= (2.0*EIN[24]:
 )) GO TO 373
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 # 2P3                           
   373 if(EN <= EIN[25]) GO TO 413
       if(EN > X2P3(N2P3):
@@ -10747,9 +10809,9 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P3                                                      
   375 A=(Y2P3[J]-Y2P3(J-1))/(X2P3[J]-X2P3(J-1))               
       B=(X2P3(J-1)*Y2P3[J]-X2P3[J]*Y2P3(J-1))/(X2P3(J-1)-X2P3[J]) 
-      QIN(25,I)=(A*EN+B)*1.0D-18  
+      QIN[25][I]=(A*EN+B)*1.0D-18  
       GO TO 3751
- 3750 QIN(25,I)=Y2P3(N2P3)*(X2P3(N2P3)/EN)*1.D-18
+ 3750 QIN[25][I]=Y2P3(N2P3)*(X2P3(N2P3)/EN)*1.D-18
  3751 if(EN <= (2.0*EIN[25])) GO TO 376
 # 2P2                           
   376 if(EN <= EIN[26]) GO TO 413
@@ -10762,9 +10824,9 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P2                                                      
   378 A=(Y2P2[J]-Y2P2(J-1))/(X2P2[J]-X2P2(J-1))               
       B=(X2P2(J-1)*Y2P2[J]-X2P2[J]*Y2P2(J-1))/(X2P2(J-1)-X2P2[J]) 
-      QIN(26,I)=(A*EN+B)*1.0D-18  
+      QIN[26][I]=(A*EN+B)*1.0D-18  
       GO TO 3781
- 3780 QIN(26,I)=Y2P2(N2P2)*(X2P2(N2P2)/EN)**2*1.0D-18
+ 3780 QIN[26][I]=Y2P2(N2P2)*(X2P2(N2P2)/EN)**2*1.0D-18
  3781 if(EN <= (2.0*EIN[26])) GO TO 379
 # 2P1                           
   379 if(EN <= EIN[27]) GO TO 413
@@ -10777,194 +10839,194 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=N2P1                                                      
   381 A=(Y2P1[J]-Y2P1(J-1))/(X2P1[J]-X2P1(J-1))               
       B=(X2P1(J-1)*Y2P1[J]-X2P1[J]*Y2P1(J-1))/(X2P1(J-1)-X2P1[J]) 
-      QIN(27,I)=(A*EN+B)*1.0D-18  
+      QIN[27][I]=(A*EN+B)*1.0D-18  
       GO TO 3811
- 3810 QIN(27,I)=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.D-18
+ 3810 QIN[27][I]=Y2P1(N2P1)*(X2P1(N2P1)/EN)*1.D-18
  3811 if(EN <= (2.0*EIN[27])) GO TO 382
 # 4D2 J=1 F=0.0835
   382 if(EN <= EIN[28]) GO TO 413 
-      QIN(28,I)=0.0835/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])
-      if(QIN(28,I):
- < 0.0) QIN(28,I)=0.0
+      QIN[28][I]=0.0835/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])
+      if(QIN[28][I]:
+ < 0.0) QIN[28][I]=0.0
       if(EN <= (2.0*EIN[28]:
 )) GO TO 383
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 # 3S4 J=1 F=0.0225
   383 if(EN <= EIN[29]) GO TO 413 
-      QIN(29,I)=0.0225/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])
-      if(QIN(29,I):
- < 0.0) QIN(29,I)=0.0
+      QIN[29][I]=0.0225/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])
+      if(QIN[29][I]:
+ < 0.0) QIN[29][I]=0.0
       if(EN <= (2.0*EIN[29]:
 )) GO TO 384
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 # 5D5 J=1 F=0.0227
   384 if(EN <= EIN[30]) GO TO 413 
-      QIN(30,I)=0.0227/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
-      if(QIN(30,I):
- < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=0.0227/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
+      if(QIN[30][I]:
+ < 0.0) QIN[30][I]=0.0
       if(EN <= (2.0*EIN[30]:
 )) GO TO 385
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 # 5D2 J=1 F=0.0020
   385 if(EN <= EIN[31]) GO TO 413 
-      QIN(31,I)=0.0020/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])
-      if(QIN(31,I):
- < 0.0) QIN(31,I)=0.0
+      QIN[31][I]=0.0020/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])
+      if(QIN[31][I]:
+ < 0.0) QIN[31][I]=0.0
       if(EN <= (2.0*EIN[31]:
 )) GO TO 386
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 # 4S4 J=1 F=0.0005
   386 if(EN <= EIN[32]) GO TO 413 
-      QIN(32,I)=0.0005/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
-      if(QIN(32,I):
- < 0.0) QIN(32,I)=0.0
+      QIN[32][I]=0.0005/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
+      if(QIN[32][I]:
+ < 0.0) QIN[32][I]=0.0
       if(EN <= (2.0*EIN[32]:
 )) GO TO 387
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 # 3S1# J=1 F=0.1910
   387 if(EN <= EIN[33]) GO TO 413 
-      QIN(33,I)=0.1910/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])
-      if(QIN(33,I):
- < 0.0) QIN(33,I)=0.0
+      QIN[33][I]=0.1910/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])
+      if(QIN[33][I]:
+ < 0.0) QIN[33][I]=0.0
       if(EN <= (2.0*EIN[33]:
 )) GO TO 388
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 # 6D5 J=1 F=0.0088 
   388 if(EN <= EIN[34]) GO TO 413 
-      QIN(34,I)=0.0088/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
-      if(QIN(34,I):
- < 0.0) QIN(34,I)=0.0
+      QIN[34][I]=0.0088/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
+      if(QIN[34][I]:
+ < 0.0) QIN[34][I]=0.0
       if(EN <= (2.0*EIN[34]:
 )) GO TO 389
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 # 6D2 J=1 F=0.0967 
   389 if(EN <= EIN[35]) GO TO 413 
-      QIN(35,I)=0.0967/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
-      if(QIN(35,I):
- < 0.0) QIN(35,I)=0.0
+      QIN[35][I]=0.0967/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
+      if(QIN[35][I]:
+ < 0.0) QIN[35][I]=0.0
       if(EN <= (2.0*EIN[35]:
 )) GO TO 390
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 # 5S4 J=1 F=0.0288 
   390 if(EN <= EIN[36]) GO TO 413 
-      QIN(36,I)=0.0288/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
-      if(QIN(36,I):
- < 0.0) QIN(36,I)=0.0
+      QIN[36][I]=0.0288/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
+      if(QIN[36][I]:
+ < 0.0) QIN[36][I]=0.0
       if(EN <= (2.0*EIN[36]:
 )) GO TO 391
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 # 7D5 J=1 F=0.0042 
   391 if(EN <= EIN[37]) GO TO 413 
-      QIN(37,I)=0.0042/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
-      if(QIN(37,I):
- < 0.0) QIN(37,I)=0.0
+      QIN[37][I]=0.0042/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
+      if(QIN[37][I]:
+ < 0.0) QIN[37][I]=0.0
       if(EN <= (2.0*EIN[37]:
 )) GO TO 392
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 # 7D2 J=1 F=0.0625 
   392 if(EN <= EIN[38]) GO TO 413 
-      QIN(38,I)=0.0625/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
-      if(QIN(38,I):
- < 0.0) QIN(38,I)=0.0
+      QIN[38][I]=0.0625/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
+      if(QIN[38][I]:
+ < 0.0) QIN[38][I]=0.0
       if(EN <= (2.0*EIN[38]:
 )) GO TO 393
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 # 6S4 J=1 F=0.0025 
   393 if(EN <= EIN[39]) GO TO 413 
-      QIN(39,I)=0.0025/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
-      if(QIN(39,I):
- < 0.0) QIN(39,I)=0.0
+      QIN[39][I]=0.0025/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
+      if(QIN[39][I]:
+ < 0.0) QIN[39][I]=0.0
       if(EN <= (2.0*EIN[39]:
 )) GO TO 394
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 # 2S2 J=1 F=0.0290 
   394 if(EN <= EIN[40]) GO TO 413 
-      QIN(40,I)=0.0290/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])
-      if(QIN(40,I):
- < 0.0) QIN(40,I)=0.0
+      QIN[40][I]=0.0290/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])
+      if(QIN[40][I]:
+ < 0.0) QIN[40][I]=0.0
       if(EN <= (2.0*EIN[40]:
 )) GO TO 395
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 # 8D5 J=1 F=0.0035 
   395 if(EN <= EIN[41]) GO TO 413 
-      QIN(41,I)=0.0035/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
-      if(QIN(41,I):
- < 0.0) QIN(41,I)=0.0
+      QIN[41][I]=0.0035/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
+      if(QIN[41][I]:
+ < 0.0) QIN[41][I]=0.0
       if(EN <= (2.0*EIN[41]:
 )) GO TO 396
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 # 8D2 J=1 F=0.0386 
   396 if(EN <= EIN[42]) GO TO 413 
-      QIN(42,I)=0.0386/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])
-      if(QIN(42,I):
- < 0.0) QIN(42,I)=0.0
+      QIN[42][I]=0.0386/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])
+      if(QIN[42][I]:
+ < 0.0) QIN[42][I]=0.0
       if(EN <= (2.0*EIN[42]:
 )) GO TO 397
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 # 7S4 J=1 F=0.0050 
   397 if(EN <= EIN[43]) GO TO 413 
-      QIN(43,I)=0.0050/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])
-      if(QIN(43,I):
- < 0.0) QIN(43,I)=0.0
+      QIN[43][I]=0.0050/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])
+      if(QIN[43][I]:
+ < 0.0) QIN[43][I]=0.0
       if(EN <= (2.0*EIN[43]:
 )) GO TO 398
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 # 9D5 J=1 F=0.0005 
   398 if(EN <= EIN[44]) GO TO 413 
-      QIN(44,I)=0.0005/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
-      if(QIN(44,I):
- < 0.0) QIN(44,I)=0.0
+      QIN[44][I]=0.0005/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
+      if(QIN[44][I]:
+ < 0.0) QIN[44][I]=0.0
       if(EN <= (2.0*EIN[44]:
 )) GO TO 399
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
 # 9D2 J=1 F=0.0250 
   399 if(EN <= EIN[45]) GO TO 413 
-      QIN(45,I)=0.0250/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
-      if(QIN(45,I):
- < 0.0) QIN(45,I)=0.0
+      QIN[45][I]=0.0250/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
+      if(QIN[45][I]:
+ < 0.0) QIN[45][I]=0.0
       if(EN <= (2.0*EIN[45]:
 )) GO TO 400
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
 # 8S4 J=1 F=0.0023 
   400 if(EN <= EIN[46]) GO TO 413 
-      QIN(46,I)=0.0023/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
-      if(QIN(46,I):
- < 0.0) QIN(46,I)=0.0
+      QIN[46][I]=0.0023/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
+      if(QIN[46][I]:
+ < 0.0) QIN[46][I]=0.0
       if(EN <= (2.0*EIN[46]:
 )) GO TO 401
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
 # 10D5 J=1 F=0.0005 
   401 if(EN <= EIN[47]) GO TO 413 
-      QIN(47,I)=0.0005/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
-      if(QIN(47,I):
- < 0.0) QIN(47,I)=0.0
+      QIN[47][I]=0.0005/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
+      if(QIN[47][I]:
+ < 0.0) QIN[47][I]=0.0
       if(EN <= (2.0*EIN[47]:
 )) GO TO 402
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
 # 10D2 J=1 F=0.0164 
   402 if(EN <= EIN[48]) GO TO 413 
-      QIN(48,I)=0.0164/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
-      if(QIN(48,I):
- < 0.0) QIN(48,I)=0.0
+      QIN[48][I]=0.0164/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
+      if(QIN[48][I]:
+ < 0.0) QIN[48][I]=0.0
       if(EN <= (2.0*EIN[48]:
 )) GO TO 403
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
 # 9S4  J=1 F=0.0014 
   403 if(EN <= EIN[49]) GO TO 413 
-      QIN(49,I)=0.0014/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
-      if(QIN(49,I):
- < 0.0) QIN(49,I)=0.0
+      QIN[49][I]=0.0014/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
+      if(QIN[49][I]:
+ < 0.0) QIN[49][I]=0.0
       if(EN <= (2.0*EIN[49]:
 )) GO TO 404
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
 # HIGH J=1 F=0.0831
   404 if(EN <= EIN[50]) GO TO 413 
-      QIN(50,I)=0.0831/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
-      if(QIN(50,I):
- < 0.0) QIN(50,I)=0.0
+      QIN[50][I]=0.0831/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
+      if(QIN[50][I]:
+ < 0.0) QIN[50][I]=0.0
       if(EN <= (2.0*EIN[50]:
 )) GO TO 405
-      PEQIN(50,I)=PEQEL(2,(I-IOFFN[50]))
+      PEQIN[50][I]=PEQEL[2][(I-IOFFN[50])]
   405 CONTINUE
       if(EN <= 1000.):
  GO TO 413
@@ -10973,15 +11035,15 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 510
   500 CONTINUE
       J=NBREM
-  510 A=(math.log(Z54T[J])-math.log(Z54T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z54T[J])*EBRM(J-1)-math.log(Z54T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(51,I)=math.exp(A*EN+B)*1.D-24
+  510 A=(math.log(Z54T[J])-math.log(Z54T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z54T[J])*EBRM[J-1]-math.log(Z54T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[51][I]=math.exp(A*EN+B)*1.D-24
 #
 # CALCULATE TOTAL X-SECTION
   413 QEXC=0.0
       DO 414 NLEV=1,NIN
   414 QEXC=QEXC+QIN(NLEV,I) 
-      Q[1][I]=QELA+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QION[12][I]+QEXC+QIN(51,I)
+      Q[1][I]=QELA+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QION[12][I]+QEXC+QIN[51][I]
 #
 #     WRITE(6,997) EN,Q[1][I],QEXC,Q[5][I],QELA
 # 997 print(' EN =','%.4f' % ,' QTOT =','%.3f' %,' QEXC =','%.3f' %,' QION =',D12
@@ -11009,7 +11071,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -11517,7 +11579,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   104 CONTINUE        
       if(EN <= (2.0*EION[1]:
 )) GO TO 110
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 # IONISATION TO CH3 +                                                     
   110 QION[2][I]=0.0             
       PEQION[2][I]=0.5   
@@ -11541,7 +11603,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   114 CONTINUE        
       if(EN <= (2.0*EION[2]:
 )) GO TO 120
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 # IONISATION TO CH2 +                                                     
   120 QION[3][I]=0.0             
       PEQION[3][I]=0.5   
@@ -11565,7 +11627,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   124 CONTINUE        
       if(EN <= (2.0*EION[3]:
 )) GO TO 130
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 # IONISATION TO H +                                                         
   130 QION[4][I]=0.0             
       PEQION[4][I]=0.5   
@@ -11589,7 +11651,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   134 CONTINUE        
       if(EN <= (2.0*EION[4]:
 )) GO TO 140
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
 # IONISATION TO CH +                                                         
   140 QION[5][I]=0.0             
       PEQION[5][I]=0.5   
@@ -11613,7 +11675,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   144 CONTINUE        
       if(EN <= (2.0*EION[5]:
 )) GO TO 150
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
 # IONISATION TO C +                                                         
   150 QION[6][I]=0.0             
       PEQION[6][I]=0.5   
@@ -11637,7 +11699,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   154 CONTINUE        
       if(EN <= (2.0*EION[6]:
 )) GO TO 160
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
 # IONISATION TO DOUBLY POSITIVE CHARGED FINAL STATES             
   160 QION[7][I]=0.0             
       PEQION[7][I]=0.5   
@@ -11661,7 +11723,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   164 CONTINUE        
       if(EN <= (2.0*EION[7]:
 )) GO TO 170
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
 # IONISATION TO H2 +          
   170 QION[8][I]=0.0             
       PEQION[8][I]=0.5   
@@ -11685,7 +11747,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
   174 CONTINUE        
       if(EN <= (2.0*EION[8]:
 )) GO TO 180
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
 # CALCULATE K-SHELL IONISATION
   180 QION[9][I]=0.00
       PEQION[9][I]=0.5   
@@ -11703,7 +11765,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       QION[9][I]=(A*EN+B)*1.D-16     
       if(EN <= (2.0*EION[9]:
 )) GO TO 194
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
 # COORECT IONISATION FOR SPLIT INTO K-SHELL
   194 QSUM=0.0
       DO 195 L=1,8
@@ -11746,7 +11808,7 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 # 280 Q[5][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)
 # 290 CONTINUE
 #     IF(EN <= (2.0*E(3))) GO TO 295
-#     PEQEL[5][I]=PEQEL(2,(I-IOFFION[1]))
+#     PEQEL[5][I]=PEQEL[2][(I-IOFFION[1]])
 # 295 CONTINUE      
 # 
   300 Q[6][I]=0.0                                                        
@@ -11848,8 +11910,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 520                                      
   510 CONTINUE                                                          
       J=NVIBV1                                                          
-  520 A=(YVBV1[J]-YVBV1(J-1))/(XVBV1[J]-XVBV1(J-1))                     
-      B=(XVBV1(J-1)*YVBV1[J]-XVBV1[J]*YVBV1(J-1))/(XVBV1(J-1)-XVBV1[J])
+  520 A=(YVBV1[J]-YVBV1[J-1])/(XVBV1[J]-XVBV1[J-1])                     
+      B=(XVBV1[J-1]*YVBV1[J]-XVBV1[J]*YVBV1[J-1])/(XVBV1[J-1]-XVBV1[J])
       QIN[5][I]=(A*EN+B)*1.D-16
       GO TO 550 
 # SCALE BY 1/E**2 ABOVE XVBV1(NVIBV1) EV
@@ -11867,8 +11929,8 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 570                                      
   560 CONTINUE                                                          
       J=NVIBV3                                                          
-  570 A=(YVBV3[J]-YVBV3(J-1))/(XVBV3[J]-XVBV3(J-1))                     
-      B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J])
+  570 A=(YVBV3[J]-YVBV3[J-1])/(XVBV3[J]-XVBV3[J-1])                     
+      B=(XVBV3[J-1]*YVBV3[J]-XVBV3[J]*YVBV3[J-1])/(XVBV3[J-1]-XVBV3[J])
       QIN[6][I]=A*EN+B
       GO TO 576
   575 QIN[6][I]=YVBV3(NVIBV3)*(XVBV3(NVIBV3)/EN)**2
@@ -11929,17 +11991,17 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 702
   701 CONTINUE
       J=NTRP1
-  702 A=(YTR1[J]-YTR1(J-1))/(XTR1[J]-XTR1(J-1))
-      B=(XTR1(J-1)*YTR1[J]-XTR1[J]*YTR1(J-1))/(XTR1(J-1)-XTR1[J])
+  702 A=(YTR1[J]-YTR1[J-1])/(XTR1[J]-XTR1[J-1])
+      B=(XTR1[J-1]*YTR1[J]-XTR1[J]*YTR1[J-1])/(XTR1[J-1]-XTR1[J])
       QIN[9][I]=(A*EN+B)*1.D-16
       GO TO 704
 # SCALE BY 1/E**2 ABOVE XTR1(NTRP1) EV
   703 QIN[9][I]=YTR1(NTRP1)*(XTR1(NTRP1)/EN)**2*1.D-16
   704 if(EN <= (3.0*EIN[9])) GO TO 705
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))                                 
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]                                
 # ATTACHMENT - DEATTACHMENT RESONANCE VIA H- AT 9.8EV RESONANCE
-  705 QIN(10,I)=0.0
-      PEQIN(10,I)=0.0
+  705 QIN[10][I]=0.0
+      PEQIN[10][I]=0.0
       if(EN <= EIN[10]:
 ) GO TO 708
       if(EN > XDET(NDET):
@@ -11949,15 +12011,15 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 707
   706 CONTINUE
       J=NDET
-  707 A=(YDET[J]-YDET(J-1))/(XDET[J]-XDET(J-1))
-      B=(XDET(J-1)*YDET[J]-XDET[J]*YDET(J-1))/(XDET(J-1)-XDET[J])
-      QIN(10,I)=(A*EN+B)*1.D-16
+  707 A=(YDET[J]-YDET[J-1])/(XDET[J]-XDET[J-1])
+      B=(XDET[J-1]*YDET[J]-XDET[J]*YDET[J-1])/(XDET[J-1]-XDET[J])
+      QIN[10][I]=(A*EN+B)*1.D-16
       if(EN <= (3.0*EIN[10]:
 )) GO TO 708
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 # TRIPLET DISSOCIATION  AT 8.5 EV
-  708 QIN(11,I)=0.0
-      PEQIN(11,I)=0.0
+  708 QIN[11][I]=0.0
+      PEQIN[11][I]=0.0
       if(EN <= EIN[11]:
 ) GO TO 713
       if(EN > XTR2(NTRP2):
@@ -11967,50 +12029,50 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 710
   709 CONTINUE
       J=NTRP2
-  710 A=(YTR2[J]-YTR2(J-1))/(XTR2[J]-XTR2(J-1))
-      B=(XTR2(J-1)*YTR2[J]-XTR2[J]*YTR2(J-1))/(XTR2(J-1)-XTR2[J])
-      QIN(11,I)=(A*EN+B)*1.D-16
+  710 A=(YTR2[J]-YTR2[J-1])/(XTR2[J]-XTR2[J-1])
+      B=(XTR2[J-1]*YTR2[J]-XTR2[J]*YTR2[J-1])/(XTR2[J-1]-XTR2[J])
+      QIN[11][I]=(A*EN+B)*1.D-16
       GO TO 712
 # SCALE BY 1/E**2 ABOVE XTR2(NTRP2) EV
-  711 QIN(11,I)=YTR2(NTRP2)*(XTR2(NTRP2)/EN)**2*1.D-16
+  711 QIN[11][I]=YTR2(NTRP2)*(XTR2(NTRP2)/EN)**2*1.D-16
   712 if(EN <= (3.0*EIN[11])) GO TO 713
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))                               
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]                               
 # SINGLET DISSOCIATION AT 8.75 EV USE BEF SCALING WITH F=0.0271
-  713 QIN(12,I)=0.0
-      PEQIN(12,I)=0.0
+  713 QIN[12][I]=0.0
+      PEQIN[12][I]=0.0
       if(EN <= EIN[12]:
 ) GO TO 714
-      QIN(12,I)=0.0271/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.029
-      if(QIN(12,I):
- < 0.0) QIN(12,I)=0.0       
+      QIN[12][I]=0.0271/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.029
+      if(QIN[12][I]:
+ < 0.0) QIN[12][I]=0.0       
       if(EN <= (3.0*EIN[12]:
 )) GO TO 714
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 # SINGLET DISSOCIATION AT 9.25 EV USE BEF SCALING WITH F=0.0442
-  714 QIN(13,I)=0.0
-      PEQIN(13,I)=0.0
+  714 QIN[13][I]=0.0
+      PEQIN[13][I]=0.0
       if(EN <= EIN[13]:
 ) GO TO 715
-      QIN(13,I)=0.0442/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.027
-      if(QIN(13,I):
- < 0.0) QIN(13,I)=0.0       
+      QIN[13][I]=0.0442/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.027
+      if(QIN[13][I]:
+ < 0.0) QIN[13][I]=0.0       
       if(EN <= (3.0*EIN[13]:
 )) GO TO 715
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 # SINGLET DISSOCIATION AT 9.75 EV USE BEF SCALING WITH F=0.0859
-  715 QIN(14,I)=0.0
-      PEQIN(14,I)=0.0
+  715 QIN[14][I]=0.0
+      PEQIN[14][I]=0.0
       if(EN <= EIN[14]:
 ) GO TO 716
-      QIN(14,I)=0.0859/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])*1.026
-      if(QIN(14,I):
- < 0.0) QIN(14,I)=0.0       
+      QIN[14][I]=0.0859/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])*1.026
+      if(QIN[14][I]:
+ < 0.0) QIN[14][I]=0.0       
       if(EN <= (3.0*EIN[14]:
 )) GO TO 716
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 # TRIPLET DISSOCIATION  AT 10.0EV
-  716 QIN(15,I)=0.0
-      PEQIN(15,I)=0.0
+  716 QIN[15][I]=0.0
+      PEQIN[15][I]=0.0
       if(EN <= EIN[15]:
 ) GO TO 721
       if(EN > XTR3(NTRP3):
@@ -12020,94 +12082,94 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 718
   717 CONTINUE
       J=NTRP3
-  718 A=(YTR3[J]-YTR3(J-1))/(XTR3[J]-XTR3(J-1))
-      B=(XTR3(J-1)*YTR3[J]-XTR3[J]*YTR3(J-1))/(XTR3(J-1)-XTR3[J])
-      QIN(15,I)=(A*EN+B)*1.D-16
+  718 A=(YTR3[J]-YTR3[J-1])/(XTR3[J]-XTR3[J-1])
+      B=(XTR3[J-1]*YTR3[J]-XTR3[J]*YTR3[J-1])/(XTR3[J-1]-XTR3[J])
+      QIN[15][I]=(A*EN+B)*1.D-16
       GO TO 720
 # SCALE BY 1/E**2 ABOVE XTR3(NTRP3) EV
-  719 QIN(15,I)=YTR3(NTRP3)*(XTR3(NTRP3)/EN)**2*1.D-16
+  719 QIN[15][I]=YTR3(NTRP3)*(XTR3(NTRP3)/EN)**2*1.D-16
   720 if(EN <= (3.0*EIN[15])) GO TO 721
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))                               
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]                               
 # SINGLET DISSOCIATION AT 10.25 EV USE BEF SCALING WITH F=0.0906
-  721 QIN(16,I)=0.00
-      PEQIN(16,I)=0.0
+  721 QIN[16][I]=0.00
+      PEQIN[16][I]=0.0
       if(EN <= EIN[16]:
 ) GO TO 722
-      QIN(16,I)=0.0906/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])*1.024
-      if(QIN(16,I):
- < 0.0) QIN(16,I)=0.0       
+      QIN[16][I]=0.0906/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])*1.024
+      if(QIN[16][I]:
+ < 0.0) QIN[16][I]=0.0       
       if(EN <= (3.0*EIN[16]:
 )) GO TO 722
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # SINGLET DISSOCIATION AT 10.75 EV USE BEF SCALING WITH F=0.0841
-  722 QIN(17,I)=0.0
-      PEQIN(17,I)=0.0
+  722 QIN[17][I]=0.0
+      PEQIN[17][I]=0.0
       if(EN <= EIN[17]:
 ) GO TO 723
-      QIN(17,I)=0.0841/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.023
-      if(QIN(17,I):
- < 0.0) QIN(17,I)=0.0       
+      QIN[17][I]=0.0841/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.023
+      if(QIN[17][I]:
+ < 0.0) QIN[17][I]=0.0       
       if(EN <= (3.0*EIN[17]:
 )) GO TO 723
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 # SINGLET DISSOCIATION AT 11.25 EV USE BEF SCALING WITH F=0.1036
-  723 QIN(18,I)=0.0
-      PEQIN(18,I)=0.0
+  723 QIN[18][I]=0.0
+      PEQIN[18][I]=0.0
       if(EN <= EIN[18]:
 ) GO TO 724
-      QIN(18,I)=0.1036/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.022
-      if(QIN(18,I):
- < 0.0) QIN(18,I)=0.0       
+      QIN[18][I]=0.1036/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.022
+      if(QIN[18][I]:
+ < 0.0) QIN[18][I]=0.0       
       if(EN <= (3.0*EIN[18]:
 )) GO TO 724
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # SINGLET DISSOCIATION AT 11.75 EV USE BEF SCALING WITH F=0.1460
-  724 QIN(19,I)=0.0
-      PEQIN(19,I)=0.0
+  724 QIN[19][I]=0.0
+      PEQIN[19][I]=0.0
       if(EN <= EIN[19]:
 ) GO TO 725
-      QIN(19,I)=0.1460/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.021
-      if(QIN(19,I):
- < 0.0) QIN(19,I)=0.0       
+      QIN[19][I]=0.1460/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.021
+      if(QIN[19][I]:
+ < 0.0) QIN[19][I]=0.0       
       if(EN <= (3.0*EIN[19]:
 )) GO TO 725
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 # SINGLET DISSOCIATION AT 12.25 EV USE BEF SCALING WITH F=0.1548
-  725 QIN(20,I)=0.0
-      PEQIN(20,I)=0.0
+  725 QIN[20][I]=0.0
+      PEQIN[20][I]=0.0
       if(EN <= EIN[20]:
 ) GO TO 726
-      QIN(20,I)=0.1548/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])*1.020
-      if(QIN(20,I):
- < 0.0) QIN(20,I)=0.0       
+      QIN[20][I]=0.1548/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])*1.020
+      if(QIN[20][I]:
+ < 0.0) QIN[20][I]=0.0       
       if(EN <= (3.0*EIN[20]:
 )) GO TO 726
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # SINGLET DISSOCIATION AT 12.75 EV USE BEF SCALING WITH F=0.1927
-  726 QIN(21,I)=0.0
-      PEQIN(21,I)=0.0
+  726 QIN[21][I]=0.0
+      PEQIN[21][I]=0.0
       if(EN <= EIN[21]:
 ) GO TO 727
-      QIN(21,I)=0.1927/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.020
-      if(QIN(21,I):
- < 0.0) QIN(21,I)=0.0       
+      QIN[21][I]=0.1927/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.020
+      if(QIN[21][I]:
+ < 0.0) QIN[21][I]=0.0       
       if(EN <= (3.0*EIN[21]:
 )) GO TO 727
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 # SINGLET DISSOCIATION AT 13.25 EV USE BEF SCALING WITH F=0.1981
-  727 QIN(22,I)=0.0
-      PEQIN(22,I)=0.0
+  727 QIN[22][I]=0.0
+      PEQIN[22][I]=0.0
       if(EN <= EIN[22]:
 ) GO TO 728
-      QIN(22,I)=0.1981/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])*1.019
-      if(QIN(22,I):
- < 0.0) QIN(22,I)=0.0       
+      QIN[22][I]=0.1981/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])*1.019
+      if(QIN[22][I]:
+ < 0.0) QIN[22][I]=0.0       
       if(EN <= (3.0*EIN[22]:
 )) GO TO 728
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 #  DISSOCIATIVE EXC TO STATES DECAYING VIA CH(A2DELTA TO G.S.)           
-  728 QIN(23,I)=0.0
-      PEQIN(23,I)=0.0                             
+  728 QIN[23][I]=0.0
+      PEQIN[23][I]=0.0                             
       if(EN <= EIN[23]:
 ) GO TO 731 
       if(EN > XCHD[NCHD]):
@@ -12119,15 +12181,15 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NCHD                                                            
   730 A=(YCHD[J]-YCHD[J-1])/(XCHD[J]-XCHD[J-1])                     
       B=(XCHD[J-1]*YCHD[J]-XCHD[J]*YCHD[J-1])/(XCHD[J-1]-XCHD[J]) 
-      QIN(23,I)=(A*EN+B)*1.D-16 
+      QIN[23][I]=(A*EN+B)*1.D-16 
       GO TO 7312
 # ABOVE XCHD[NCHD] EV SCALE BY 1/E
- 7311 QIN(23,I)=YCHD[NCHD]*(XCHD[NCHD]/EN)*1.D-16
+ 7311 QIN[23][I]=YCHD[NCHD]*(XCHD[NCHD]/EN)*1.D-16
  7312 if(EN <= (3.0*EIN[23])) GO TO 731
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))                               
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]                               
 #  DISSOCIATIVE EXC TO STATES DECAYING VIA CH(B2SIGMA- TO G.S.)          
-  731 QIN(24,I)=0.0
-      PEQIN(24,I)=0.0                               
+  731 QIN[24][I]=0.0
+      PEQIN[24][I]=0.0                               
       if(EN <= EIN[24]:
 ) GO TO 734  
       if(EN > XCHB[NCHB]):
@@ -12139,81 +12201,81 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NCHB                                                            
   733 A=(YCHB[J]-YCHB[J-1])/(XCHB[J]-XCHB[J-1])                     
       B=(XCHB[J-1]*YCHB[J]-XCHB[J]*YCHB[J-1])/(XCHB[J-1]-XCHB[J]) 
-      QIN(24,I)=(A*EN+B)*1.D-16
+      QIN[24][I]=(A*EN+B)*1.D-16
       GO TO 7342
 # ABOVE XCHB[NCHB] EV SCALE BY 1/E
- 7341 QIN(24,I)=YCHB[NCHB]*(XCHB[NCHB]/EN)*1.0D-16
+ 7341 QIN[24][I]=YCHB[NCHB]*(XCHB[NCHB]/EN)*1.0D-16
  7342 if(EN <= (3.0*EIN[24])) GO TO 734 
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))                                
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]                                
 # SINGLET DISSOCIATION AT 13.75 EV USE BEF SCALING WITH F=0.1628
-  734 QIN(25,I)=0.0
-       PEQIN(25,I)=0.0
+  734 QIN[25][I]=0.0
+       PEQIN[25][I]=0.0
       if(EN <= EIN[25]:
 ) GO TO 735
-      QIN(25,I)=0.1628/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.018
-      if(QIN(25,I):
- < 0.0) QIN(25,I)=0.0       
+      QIN[25][I]=0.1628/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.018
+      if(QIN[25][I]:
+ < 0.0) QIN[25][I]=0.0       
       if(EN <= (3.0*EIN[25]:
 )) GO TO 735
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 # SINGLET DISSOCIATION AT 14.25 EV USE BEF SCALING WITH F=0.1093
-  735 QIN(26,I)=0.0
-      PEQIN(26,I)=0.0
+  735 QIN[26][I]=0.0
+      PEQIN[26][I]=0.0
       if(EN <= EIN[26]:
 ) GO TO 736
-      QIN(26,I)=0.1093/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.018
-      if(QIN(26,I):
- < 0.0) QIN(26,I)=0.0       
+      QIN[26][I]=0.1093/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.018
+      if(QIN[26][I]:
+ < 0.0) QIN[26][I]=0.0       
       if(EN <= (3.0*EIN[26]:
 )) GO TO 736
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 # SINGLET DISSOCIATION AT 14.75 EV USE BEF SCALING WITH F=0.0628
-  736 QIN(27,I)=0.0
-      PEQIN(27,I)=0.0
+  736 QIN[27][I]=0.0
+      PEQIN[27][I]=0.0
       if(EN <= EIN[27]:
 ) GO TO 737
-      QIN(27,I)=0.0628/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.017
-      if(QIN(27,I):
- < 0.0) QIN(27,I)=0.0       
+      QIN[27][I]=0.0628/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.017
+      if(QIN[27][I]:
+ < 0.0) QIN[27][I]=0.0       
       if(EN <= (3.0*EIN[27]:
 )) GO TO 737
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 # SINGLET DISSOCIATION AT 15.25 EV USE BEF SCALING WITH F=0.0297
-  737 QIN(28,I)=0.0
-      PEQIN(28,I)=0.0
+  737 QIN[28][I]=0.0
+      PEQIN[28][I]=0.0
       if(EN <= EIN[28]:
 ) GO TO 738
-      QIN(28,I)=0.0297/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.016
-      if(QIN(28,I):
- < 0.0) QIN(28,I)=0.0       
+      QIN[28][I]=0.0297/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.016
+      if(QIN[28][I]:
+ < 0.0) QIN[28][I]=0.0       
       if(EN <= (3.0*EIN[28]:
 )) GO TO 738
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 # SINGLET DISSOCIATION AT 15.75 EV USE BEF SCALING WITH F=0.0074
-  738 QIN(29,I)=0.0
-      PEQIN(29,I)=0.0
+  738 QIN[29][I]=0.0
+      PEQIN[29][I]=0.0
       if(EN <= EIN[29]:
 ) GO TO 7381
-      QIN(29,I)=0.0074/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.016
-      if(QIN(29,I):
- < 0.0) QIN(29,I)=0.0       
+      QIN[29][I]=0.0074/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.016
+      if(QIN[29][I]:
+ < 0.0) QIN[29][I]=0.0       
       if(EN <= (3.0*EIN[29]:
 )) GO TO 7381
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 # ENERGY LOSS TO EXCITED POSITIVE IONS NOT ALREADY INCLUDED
- 7381 QIN(30,I)=0.0
-      PEQIN(30,I)=0.0
+ 7381 QIN[30][I]=0.0
+      PEQIN[30][I]=0.0
       if(EN <= EIN[30]:
 ) GO TO 739      
-      QIN(30,I)=0.5000/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
-      if(QIN(30,I):
- < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=0.5000/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
+      if(QIN[30][I]:
+ < 0.0) QIN[30][I]=0.0
       if(EN <= (3.0*EIN[30]:
 )) GO TO 739
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30])) 
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])] 
 #  DISSOCIATIVE EXC TO STATES DECAYING VIA H(ALPHA) 
-  739 QIN(31,I)=0.0  
-      PEQIN(31,I)=0.0                       
+  739 QIN[31][I]=0.0  
+      PEQIN[31][I]=0.0                       
       if(EN <= EIN[31]:
 ) GO TO 742    
       if(EN > XHAL(NHAL):
@@ -12225,15 +12287,15 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NHAL                                                            
   741 A=(YHAL[J]-YHAL(J-1))/(XHAL[J]-XHAL(J-1))                     
       B=(XHAL(J-1)*YHAL[J]-XHAL[J]*YHAL(J-1))/(XHAL(J-1)-XHAL[J]) 
-      QIN(31,I)=(A*EN+B)*1.D-16
+      QIN[31][I]=(A*EN+B)*1.D-16
       GO TO 7422
 # ABOVE XHAL(NHAL) EV SCALE BY 1/E
- 7421 QIN(31,I)=YHAL(NHAL)*(XHAL(NHAL)/EN)*1.D-16
+ 7421 QIN[31][I]=YHAL(NHAL)*(XHAL(NHAL)/EN)*1.D-16
  7422 if(EN <= (3.0*EIN[31])) GO TO 742 
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))                               
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]                               
 #  DISSOCIATIVE EXC TO STATES DECAYING VIA H(BETA)                     
-  742 QIN(32,I)=0.0                               
-      PEQIN(32,I)=0.0            
+  742 QIN[32][I]=0.0                               
+      PEQIN[32][I]=0.0            
       if(EN <= EIN[32]:
 ) GO TO 745  
       if(EN > XHBE(NHBE):
@@ -12245,38 +12307,38 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
       J=NHBE                                                            
   744 A=(YHBE[J]-YHBE(J-1))/(XHBE[J]-XHBE(J-1))                     
       B=(XHBE(J-1)*YHBE[J]-XHBE[J]*YHBE(J-1))/(XHBE(J-1)-XHBE[J]) 
-      QIN(32,I)=(A*EN+B)*1.D-16  
+      QIN[32][I]=(A*EN+B)*1.D-16  
       GO TO 7452
 # ABOVE XHBE(NHBE) EV SCALE BY 1/E
- 7451 QIN(32,I)=YHBE(NHBE)*(XHBE(NHBE)/EN)*1.0D-16
+ 7451 QIN[32][I]=YHBE(NHBE)*(XHBE(NHBE)/EN)*1.0D-16
  7452 if(EN <= (3.0*EIN[32])) GO TO 745  
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))      
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]      
 # SINGLET DISSOCIATION AT 20.50 EV USE BEF SCALING WITH F=0.0045
-  745 QIN(33,I)=0.0
-      PEQIN(33,I)=0.0
+  745 QIN[33][I]=0.0
+      PEQIN[33][I]=0.0
       if(EN <= EIN[33]:
 ) GO TO 746
-      QIN(33,I)=0.0045/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.037
-      if(QIN(33,I):
- < 0.0) QIN(33,I)=0.0       
+      QIN[33][I]=0.0045/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.037
+      if(QIN[33][I]:
+ < 0.0) QIN[33][I]=0.0       
       if(EN <= (3.0*EIN[33]:
 )) GO TO 746
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 # SINGLET DISSOCIATION AT 22.00 EV USE BEF SCALING WITH F=0.0045
-  746 QIN(34,I)=0.0
-      PEQIN(34,I)=0.0
+  746 QIN[34][I]=0.0
+      PEQIN[34][I]=0.0
       if(EN <= EIN[34]:
 ) GO TO 747
-      QIN(34,I)=0.0045/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.034
-      if(QIN(34,I):
- < 0.0) QIN(34,I)=0.0       
+      QIN[34][I]=0.0045/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.034
+      if(QIN[34][I]:
+ < 0.0) QIN[34][I]=0.0       
       if(EN <= (3.0*EIN[34]:
 )) GO TO 747
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
   747 CONTINUE
 # LOAD BREMSSTRAHLUNG X-SECTIONS
-      QIN(35,I)=0.0
-      QIN(36,I)=0.0
+      QIN[35][I]=0.0
+      QIN[36][I]=0.0
       if(EN <= 1000.):
  GO TO 800
       DO 780 J=2,NBREM
@@ -12284,22 +12346,22 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 ) GO TO 790
   780 CONTINUE
       J=NBREM
-  790 A=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A1=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(35,I)=math.exp(A*EN+B)*1.D-24
-      QIN(36,I)=math.exp(A1*EN+B1)*4.D-24
+  790 A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A1=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[35][I]=math.exp(A*EN+B)*1.D-24
+      QIN[36][I]=math.exp(A1*EN+B1)*4.D-24
   800 CONTINUE
 #     WRITE(6,881) EN
 # 881 print('EN=',D14.6)
 #     WRITE(6,882) QIN[1][I],QIN[2][I],QIN[3][I],QIN[4][I],QIN[5][I]
-#     WRITE(6,882) QIN[6][I],QIN[7][I],QIN[8][I],QIN[9][I],QIN(10,I)
-#     WRITE(6,882) QIN(11,I),QIN(12,I),QIN(13,I),QIN(14,I),QIN(15,I)
-#     WRITE(6,882) QIN(16,I),QIN(17,I),QIN(18,I),QIN(19,I),QIN(20,I)
-#     WRITE(6,882) QIN(21,I),QIN(22,I),QIN(23,I),QIN(24,I),QIN(25,I)
-#     WRITE(6,882) QIN(26,I),QIN(27,I),QIN(28,I),QIN(29,I),QIN(30,I)
-#     WRITE(6,882) QIN(31,I),QIN(32,I),QIN(33,I),QIN(34,I),QIN(35,I)
+#     WRITE(6,882) QIN[6][I],QIN[7][I],QIN[8][I],QIN[9][I],QIN[10][I]
+#     WRITE(6,882) QIN[11][I],QIN[12][I],QIN[13][I],QIN[14][I],QIN[15][I]
+#     WRITE(6,882) QIN[16][I],QIN[17][I],QIN[18][I],QIN[19][I],QIN[20][I]
+#     WRITE(6,882) QIN[21][I],QIN[22][I],QIN[23][I],QIN[24][I],QIN[25][I]
+#     WRITE(6,882) QIN[26][I],QIN[27][I],QIN[28][I],QIN[29][I],QIN[30][I]
+#     WRITE(6,882) QIN[31][I],QIN[32][I],QIN[33][I],QIN[34][I],QIN[35][I]
 # 882 print(' QIN ',5'%.4f' % )
 #     WRITE(6,883) Q[2][I],Q[3][I],Q[4][I],Q[5][I]
 # 883 print(' Q 2 3 4 5',4'%.4f' % )
@@ -12308,16 +12370,16 @@ def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION
 #
       QSUP=QIN[1][I]+QIN[3][I]
       QVIB=QIN[2][I]+QIN[4][I]+QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]
-      QDATT=QIN(10,I)
-      QSING=QIN(12,I)+QIN(13,I)+QIN(14,I)+QIN(16,I)+QIN(17,I)+QIN(18,I)+QIN(19,I)+QIN(20,I)+QIN(21,I)+QIN(22,I)+QIN(25,I)+QIN(26,I)+QIN(27,I)+QIN(28,I)+QIN(29,I)+QIN(30,I)+QIN(33,I)+QIN(34,I)
-      QTRIP=QIN[9][I]+QIN(11,I)+QIN(15,I)
-      QEXC=QIN(23,I)+QIN(24,I)+QIN(31,I)+QIN(32,I) 
+      QDATT=QIN[10][I]
+      QSING=QIN[12][I]+QIN[13][I]+QIN[14][I]+QIN[16][I]+QIN[17][I]+QIN[18][I]+QIN[19][I]+QIN[20][I]+QIN[21][I]+QIN[22][I]+QIN[25][I]+QIN[26][I]+QIN[27][I]+QIN[28][I]+QIN[29][I]+QIN[30][I]+QIN[33][I]+QIN[34][I]
+      QTRIP=QIN[9][I]+QIN[11][I]+QIN[15][I]
+      QEXC=QIN[23][I]+QIN[24][I]+QIN[31][I]+QIN[32][I] 
       QTTT=QEXC+QTRIP+QSING+QDATT  
       QWINT=QION[2][I]+QTTT
       QINEL=QSUP+QVIB+QDATT+QSING+QTRIP+QEXC+Q[5][I]+Q[4][I]      
       Q[1][I]=Q[2][I]+Q[5][I]+Q[4][I]+QTTT+QSUP+QVIB 
       QIONSUM=QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QION[8][I]+QION[8][I]+QION[9][I]               
-#     Q[1][I]=Q[2][I]+Q[5][I]+Q[4][I]+QTTT+QSUP+QVIB+QIN(34,I)+QIN(35,I)
+#     Q[1][I]=Q[2][I]+Q[5][I]+Q[4][I]+QTTT+QSUP+QVIB+QIN[34][I]+QIN[35][I]
 #     WRITE(6,767) EN,Q[1][I],QSUP,QVIB,QDATT,QSING,QTRIP,QEXC,QTTT,QINEL
 #767  print(' EN=',F9.2,' QTOT=','%.3f' %,' QSUP=','%.3f' %,' QVIB=','%.3f' %,/,
 #    /' QDATT=','%.3f' %,' QSING=','%.3f' %,' QTRIP=','%.3f' %,' QEXC=','%.3f' %,/,
@@ -12348,7 +12410,7 @@ c 768 print(' EN=',F9.2,' QIONSUM=','%.3f' %)
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -12828,8 +12890,8 @@ c     NANISO=0
 ) GO TO 20                                         
    10 CONTINUE                                                          
       J=N                                                          
-   20 A=(YMT[J]-YMT(J-1))/(XEN[J]-XEN[J-1])                         
-      B=(XEN[J-1]*YMT[J]-XEN[J]*YMT(J-1))/(XEN[J-1]-XEN[J])   
+   20 A=(YMT[J]-YMT[J-1])/(XEN[J]-XEN[J-1])                         
+      B=(XEN[J-1]*YMT[J]-XEN[J]*YMT[J-1])/(XEN[J-1]-XEN[J])   
       QMT=(A*EN+B)*1.D-16
       A=(YEL[J]-YEL(J-1))/(XEN[J]-XEN[J-1])
       B=(XEN[J-1]*YEL[J]-XEN[J]*YEL(J-1))/(XEN[J-1]-XEN[J])
@@ -12852,7 +12914,7 @@ c     NANISO=0
       B=(XNJ1*YXJ-XNJ*YXJ1)/(XNJ1-XNJ)
       QEL=math.exp(A*math.log(EN)+B)*1.D-16
       YXJ=math.log(YMT[J])
-      YXJ1=math.log(YMT(J-1))
+      YXJ1=math.log(YMT[J-1])
       A=(YXJ-YXJ1)/(XNJ-XNJ1)
       B=(XNJ1*YXJ-XNJ*YXJ1)/(XNJ1-XNJ)
       QMT=math.exp(A*math.log(EN)+B)*1.D-16
@@ -12925,7 +12987,7 @@ c     NANISO=0
   107 CONTINUE
       if(EN < (2.0*EION[1]:
 )) GO TO 110
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 # C2H4+ 
   110 if(EN <= EION[2]) GO TO 120         
       if(EN > XION2(NION2):
@@ -12949,7 +13011,7 @@ c     NANISO=0
   117 CONTINUE
       if(EN < (2.0*EION[2]:
 )) GO TO 120
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 # C2H5+ 
   120 if(EN <= EION[3]) GO TO 130         
       if(EN > XION3(NION3):
@@ -12973,7 +13035,7 @@ c     NANISO=0
   127 CONTINUE
       if(EN < (2.0*EION[3]:
 )) GO TO 130
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 # CH3+ 
   130 if(EN <= EION[4]) GO TO 140         
       if(EN > XION4(NION4):
@@ -12997,7 +13059,7 @@ c     NANISO=0
   137 CONTINUE
       if(EN < (2.0*EION[4]:
 )) GO TO 140
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
 # C2H3+ 
   140 if(EN <= EION[5]) GO TO 150         
       if(EN > XION5(NION5):
@@ -13021,7 +13083,7 @@ c     NANISO=0
   147 CONTINUE
       if(EN < (2.0*EION[5]:
 )) GO TO 150
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
 # C2H2+ 
   150 if(EN <= EION[6]) GO TO 160         
       if(EN > XION6(NION6):
@@ -13045,7 +13107,7 @@ c     NANISO=0
   157 CONTINUE
       if(EN < (2.0*EION[6]:
 )) GO TO 160
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
 # H+ 
   160 if(EN <= EION[7]) GO TO 170         
       if(EN > XION7(NION7):
@@ -13069,7 +13131,7 @@ c     NANISO=0
   167 CONTINUE
       if(EN < (2.0*EION[7]:
 )) GO TO 170
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
 # H2+ 
   170 if(EN <= EION[8]) GO TO 180         
       if(EN > XION8(NION8):
@@ -13093,7 +13155,7 @@ c     NANISO=0
   177 CONTINUE
       if(EN < (2.0*EION[8]:
 )) GO TO 180
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
 # CH2+ 
   180 if(EN <= EION[9]) GO TO 190         
       if(EN > XION9(NION9):
@@ -13117,7 +13179,7 @@ c     NANISO=0
   187 CONTINUE
       if(EN < (2.0*EION[9]:
 )) GO TO 190
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
 # C2H+
   190 if(EN <= EION[10]) GO TO 200         
       if(EN > XION10(NION10):
@@ -13141,7 +13203,7 @@ c     NANISO=0
   197 CONTINUE
       if(EN < (2.0*EION[10]:
 )) GO TO 200
-      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
 # C2H6++
   200 if(EN <= EION[11]) GO TO 210         
       if(EN > XION11(NION11):
@@ -13165,7 +13227,7 @@ c     NANISO=0
   207 CONTINUE
       if(EN < (2.0*EION[11]:
 )) GO TO 210
-      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
 # H3+
   210 if(EN <= EION[12]) GO TO 220         
       if(EN > XION12(NION12):
@@ -13189,7 +13251,7 @@ c     NANISO=0
   217 CONTINUE
       if(EN < (2.0*EION[12]:
 )) GO TO 220
-      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL[2][(I-IOFFION[12]))
 # CH+
   220 if(EN <= EION[13]) GO TO 230         
       if(EN > XION13(NION13):
@@ -13213,7 +13275,7 @@ c     NANISO=0
   227 CONTINUE
       if(EN < (2.0*EION[13]:
 )) GO TO 230
-      PEQION[13][I]=PEQEL(2,(I-IOFFION[13]))
+      PEQION[13][I]=PEQEL[2][(I-IOFFION[13]))
 # C2+
   230 if(EN <= EION[14]) GO TO 240         
       if(EN > XION14(NION14):
@@ -13237,7 +13299,7 @@ c     NANISO=0
   237 CONTINUE
       if(EN < (2.0*EION[14]:
 )) GO TO 240
-      PEQION[14][I]=PEQEL(2,(I-IOFFION[14]))
+      PEQION[14][I]=PEQEL[2][(I-IOFFION[14]))
 # C+ 
   240 if(EN <= EION[15]) GO TO 250         
       if(EN > XION15(NION15):
@@ -13261,7 +13323,7 @@ c     NANISO=0
   247 CONTINUE
       if(EN < (2.0*EION[15]:
 )) GO TO 250
-      PEQION[15][I]=PEQEL(2,(I-IOFFION[15]))
+      PEQION[15][I]=PEQEL[2][(I-IOFFION[15]))
 # CARBON K-SHELL 
   250 if(EN <= EION[16]) GO TO 260         
       DO 251 J=2,NION16                                                 
@@ -13274,7 +13336,7 @@ c     NANISO=0
       QION[16][I]=(A*EN+B)*1.D-16               
       if(EN < (2.0*EION[16]:
 )) GO TO 255
-      PEQION[16][I]=PEQEL(2,(I-IOFFION[16]))
+      PEQION[16][I]=PEQEL[2][(I-IOFFION[16]))
 # CORRECTION TO INISATION FOR SPLIT OFF KSHELL
   255 QSUM=0.00
       DO 256 L=1,15
@@ -13330,16 +13392,14 @@ c     NANISO=0
       QIN[1][I]=0.0045*math.log((EFAC+1.0)/(EFAC-1.0))/EN
       QIN[1][I]=QIN[1][I]*APOP1/(1.0+APOP1)*1.D-16
       if(EN > 10.0):
- PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-#
+ PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]#
 # VIBRATION-TORSION                      ANISOTROPIC ABOVE 10 EV
   350 if(EN <= EIN[2]) GO TO 351
       EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN[2][I]=0.0045*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN[2][I]=QIN[2][I]*1.0/(1.0+APOP1)*1.D-16
       if(EN > 10.0):
- PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-#
+ PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]#
 # SUPERELASTIC VIB1                     ANISOTROPIC ABOVE 10 EV
   351 if(EN <= 0.0) GO TO 356
       if((EN+EIN[4]:
@@ -13356,8 +13416,7 @@ c     NANISO=0
   354 QIN[3][I]=YVIB1(NVIB1)*(XVIB1(NVIB1)/(EN+EIN[4]))**2
   355 QIN[3][I]=QIN[3][I]*APOP2/(1.0+APOP2)*1.D-16
       if(EN > 10.0):
- PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-#  VIB1                           ANISOTROPIC ABOVE 10 EV               
+ PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]#  VIB1                           ANISOTROPIC ABOVE 10 EV               
   356 if(EN <= EIN[4]) GO TO 361  
       if(EN > XVIB1(NVIB1):
 ) GO TO 359
@@ -13373,7 +13432,7 @@ c     NANISO=0
   359 QIN[4][I]=YVIB1(NVIB1)*(XVIB1(NVIB1)/EN)**2
   360 QIN[4][I]=QIN[4][I]/(1.0+APOP2)*1.D-16   
       if(EN > 10.0):
- PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))  
+ PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))] 
 # SUPERELASTIC VIB2                       ANISOTROPIC ABOVE 10 EV
   361 if(EN <= 0.0) GO TO 366
       if((EN+EIN[6]:
@@ -13390,8 +13449,7 @@ c     NANISO=0
   364 QIN[5][I]=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN[6]))**2
   365 QIN[5][I]=QIN[5][I]*APOP3/(1.0+APOP3)*1.D-16
       if(EN > 10.0):
- PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-# VIB2                                  ANISOTROPIC ABOVE 10 EV
+ PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]# VIB2                                  ANISOTROPIC ABOVE 10 EV
   366 if(EN <= EIN[6]) GO TO 371
       if(EN > XVIB2(NVIB2):
 ) GO TO 369                                 
@@ -13407,7 +13465,7 @@ c     NANISO=0
   369 QIN[6][I]=YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)**2
   370 QIN[6][I]=QIN[6][I]/(1.0+APOP3)*1.D-16
       if(EN > 10.0):
- PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))       
+ PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]      
 # SUPERELASTIC VIB3                       ANISOTROPIC ABOVE 10 EV
   371 if(EN <= 0.0) GO TO 376
       if((EN+EIN[8]:
@@ -13424,8 +13482,7 @@ c     NANISO=0
   374 QIN[7][I]=YVIB3(NVIB3)*(XVIB3(NVIB3)/(EN+EIN[8]))**2
   375 QIN[7][I]=QIN[7][I]*APOP4/(1.0+APOP4)*1.D-16
       if(EN > 10.0):
- PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-# VIB3                                  ANISOTROPIC ABOBE 10 EV
+ PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]# VIB3                                  ANISOTROPIC ABOBE 10 EV
   376 if(EN <= EIN[8]) GO TO 381   
       if(EN > XVIB3(NVIB3):
 ) GO TO 379
@@ -13441,7 +13498,7 @@ c     NANISO=0
   379 QIN[8][I]=YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)**2    
   380 QIN[8][I]=QIN[8][I]/(1.0+APOP4)*1.D-16
       if(EN > 10.0):
- PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))    
+ PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]   
 # VIB4                                      ANISOTROPIC ABOVE 10 EV
   381 if(EN <= EIN[9]) GO TO 386 
       if(EN > XVIB4(NVIB4):
@@ -13456,22 +13513,22 @@ c     NANISO=0
       QIN[9][I]=(A*EN+B)*1.D-16
       GO TO 385
   384 QIN[9][I]=YVIB4(NVIB4)*(XVIB4(NVIB4)/EN)**2*1.D-16
-  385 if(EN > 10.0) PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))     
+  385 if(EN > 10.0) PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]    
 # VIB HARMONICS                           ANISOTROPIC ABOVE 10 EV   
   386 if(EN <= EIN[10]) GO TO 391   
-      if(EN > XVIB5(NVIB5):
+      if(EN > XVIB5[NVIB5]:
 ) GO TO 389    
       DO 387 J=2,NVIB5                                                  
       if(EN <= XVIB5[J]:
 ) GO TO 388                                      
   387 CONTINUE                                                          
       J=NVIB5                                                           
-  388 A=(YVIB5[J]-YVIB5(J-1))/(XVIB5[J]-XVIB5(J-1))                     
-      B=(XVIB5(J-1)*YVIB5[J]-XVIB5[J]*YVIB5(J-1))/(XVIB5(J-1)-XVIB5[J]) 
-      QIN(10,I)=(A*EN+B)*1.D-16 
+  388 A=(YVIB5[J]-YVIB5[J-1])/(XVIB5[J]-XVIB5[J-1])                     
+      B=(XVIB5[J-1]*YVIB5[J]-XVIB5[J]*YVIB5[J-1])/(XVIB5[J-1]-XVIB5[J]) 
+      QIN[10][I]=(A*EN+B)*1.D-16 
       GO TO 390 
-  389 QIN(10,I)=YVIB5(NVIB5)*(XVIB5(NVIB5)/EN)**2*1.D-16        
-  390 if(EN > 10.0) PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+  389 QIN[10][I]=YVIB5[NVIB5]*(XVIB5[NVIB5]/EN)**2*1.D-16        
+  390 if(EN > 10.0) PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
   391 CONTINUE 
 #  
 # EXCITATION TO TRIPLET AND SINGLET LEVELS
@@ -13479,400 +13536,400 @@ c     NANISO=0
 # FIRST TRIPLET AT  6.85 EV
       if(EN <= EIN[11]:
 ) GO TO 405
-      if(EN > XTR1(NTR1):
+      if(EN > XTR1[NTR1]:
 ) GO TO 403                                   
       DO 401 J=2,NTR1                                              
       if(EN <= XTR1[J]:
 ) GO TO 402                                  
   401 CONTINUE                                                          
       J=NTR1                                       
-  402 A=(YTR1[J]-YTR1(J-1))/(XTR1[J]-XTR1(J-1))                    
-      B=(XTR1(J-1)*YTR1[J]-XTR1[J]*YTR1(J-1))/(XTR1(J-1)-XTR1[J])       
-      QIN(11,I)=(A*EN+B)*1.D-16     
+  402 A=(YTR1[J]-YTR1[J-1])/(XTR1[J]-XTR1[J-1])                    
+      B=(XTR1[J-1]*YTR1[J]-XTR1[J]*YTR1[J-1])/(XTR1[J-1]-XTR1[J])       
+      QIN[11][I]=(A*EN+B)*1.D-16     
       GO TO 404
-# SCALE BY 1/E**2 ABOVE XTR1(NTR1) EV
-  403 QIN(11,I)=YTR1(NTR1)*(XTR1(NTR1)/EN)**2*1.D-16
+# SCALE BY 1/E**2 ABOVE XTR1[NTR1] EV
+  403 QIN[11][I]=YTR1[NTR1]*(XTR1[NTR1]/EN)**2*1.D-16
   404 if(EN <= (3.0*EIN[11])) GO TO 405
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
 #
 # SINGLET DISSOCIATION AT  7.93  EV     BEF SCALING F=.000136          
   405 if(EN <= (EIN[12])) GO TO 406
-      QIN(12,I)=0.000136/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])
-      if(QIN(12,I):
- < 0.0) QIN(12,I)=0.0
+      QIN[12][I]=0.000136/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])
+      if(QIN[12][I]:
+ < 0.0) QIN[12][I]=0.0
       if(EN <= (3.0*EIN[12]:
 )) GO TO 406
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 # 
 # SECOND TRIPLET AT  8.00 EV                                   
   406 if(EN <= EIN[13]) GO TO 411
-      if(EN > XTR2(NTR2):
+      if(EN > XTR2[NTR2]:
 ) GO TO 409  
       DO 407 J=2,NTR2                                                  
       if(EN <= XTR2[J]:
 ) GO TO 408                                      
   407 CONTINUE                                                          
       J=NTR2                                                           
-  408 A=(YTR2[J]-YTR2(J-1))/(XTR2[J]-XTR2(J-1))                     
-      B=(XTR2(J-1)*YTR2[J]-XTR2[J]*YTR2(J-1))/(XTR2(J-1)-XTR2[J]) 
-      QIN(13,I)=(A*EN+B)*1.D-16
+  408 A=(YTR2[J]-YTR2[J-1])/(XTR2[J]-XTR2[J-1])                     
+      B=(XTR2[J-1]*YTR2[J]-XTR2[J]*YTR2[J-1])/(XTR2[J-1]-XTR2[J]) 
+      QIN[13][I]=(A*EN+B)*1.D-16
       GO TO 410
-# SCALE BY 1/E**2 ABOVE XTR2(NTR2) EV
-  409 QIN(13,I)=YTR2(NTR2)*(XTR2(NTR2)/EN)**2*1.D-16
+# SCALE BY 1/E**2 ABOVE XTR2[NTR2] EV
+  409 QIN[13][I]=YTR2[NTR2]*(XTR2[NTR2]/EN)**2*1.D-16
   410 if(EN <= (3.0*EIN[13])) GO TO 411
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 #
 # SINGLET DISSOCIATION AT  8.15  EV     BEF SCALING F=.001744
   411 if(EN <= (EIN[14])) GO TO 412
-      QIN(14,I)=0.001744/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])
-      if(QIN(14,I):
- < 0.0) QIN(14,I)=0.0
+      QIN[14][I]=0.001744/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])
+      if(QIN[14][I]:
+ < 0.0) QIN[14][I]=0.0
       if(EN <= (3.0*EIN[14]:
 )) GO TO 412
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
 # SINGLET DISSOCIATION AT  8.48  EV     BEF SCALING F=.008187
   412 if(EN <= (EIN[15])) GO TO 413
-      QIN(15,I)=0.008187/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])
-      if(QIN(15,I):
- < 0.0) QIN(15,I)=0.0
+      QIN[15][I]=0.008187/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])
+      if(QIN[15][I]:
+ < 0.0) QIN[15][I]=0.0
       if(EN <= (3.0*EIN[15]:
 )) GO TO 413
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 # SINGLET DISSOCIATION AT  8.723 EV     BEF SCALING F=.006312
   413 if(EN <= (EIN[16])) GO TO 414
-      QIN(16,I)=0.006312/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])
-      if(QIN(16,I):
- < 0.0) QIN(16,I)=0.0
+      QIN[16][I]=0.006312/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])
+      if(QIN[16][I]:
+ < 0.0) QIN[16][I]=0.0
       if(EN <= (3.0*EIN[16]:
 )) GO TO 414
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # SINGLET DISSOCIATION AT  8.865 EV     BEF SCALING F=.011877
   414 if(EN <= (EIN[17])) GO TO 415
-      QIN(17,I)=0.011877/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])
-      if(QIN(17,I):
- < 0.0) QIN(17,I)=0.0
+      QIN[17][I]=0.011877/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])
+      if(QIN[17][I]:
+ < 0.0) QIN[17][I]=0.0
       if(EN <= (3.0*EIN[17]:
 )) GO TO 415
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 # SINGLET DISSOCIATION AT  9.007 EV     BEF SCALING F=.020856
   415 if(EN <= (EIN[18])) GO TO 416
-      QIN(18,I)=0.020856/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
-      if(QIN(18,I):
- < 0.0) QIN(18,I)=0.0
+      QIN[18][I]=0.020856/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])
+      if(QIN[18][I]:
+ < 0.0) QIN[18][I]=0.0
       if(EN <= (3.0*EIN[18]:
 )) GO TO 416
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # SINGLET DISSOCIATION AT  9.149 EV     BEF SCALING F=.031444
   416 if(EN <= (EIN[19])) GO TO 417
-      QIN(19,I)=0.031444/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])
-      if(QIN(19,I):
- < 0.0) QIN(19,I)=0.0
+      QIN[19][I]=0.031444/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])
+      if(QIN[19][I]:
+ < 0.0) QIN[19][I]=0.0
       if(EN <= (3.0*EIN[19]:
 )) GO TO 417
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 # SINGLET DISSOCIATION AT  9.291 EV     BEF SCALING F=.039549
   417 if(EN <= (EIN[21])) GO TO 418
-      QIN(20,I)=0.039549/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])
-      if(QIN(20,I):
- < 0.0) QIN(20,I)=0.0
+      QIN[20][I]=0.039549/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])
+      if(QIN[20][I]:
+ < 0.0) QIN[20][I]=0.0
       if(EN <= (3.0*EIN[20]:
 )) GO TO 418
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # SINGLET DISSOCIATION AT  9.433 EV     BEF SCALING F=.042350
   418 if(EN <= (EIN[21])) GO TO 419
-      QIN(21,I)=0.042350/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])
-      if(QIN(21,I):
- < 0.0) QIN(21,I)=0.0
+      QIN[21][I]=0.042350/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])
+      if(QIN[21][I]:
+ < 0.0) QIN[21][I]=0.0
       if(EN <= (3.0*EIN[21]:
 )) GO TO 419
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 # SINGLET DISSOCIATION AT  9.575 EV     BEF SCALING F=.041113
   419 if(EN <= (EIN[22])) GO TO 420
-      QIN(22,I)=0.041113/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])
-      if(QIN(22,I):
- < 0.0) QIN(22,I)=0.0
+      QIN[22][I]=0.041113/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])
+      if(QIN[22][I]:
+ < 0.0) QIN[22][I]=0.0
       if(EN <= (3.0*EIN[22]:
 )) GO TO 420
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
 # SINGLET DISSOCIATION AT  9.717 EV     BEF SCALING F=.038256
   420 if(EN <= (EIN[23])) GO TO 421
-      QIN(23,I)=0.038256/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])
-      if(QIN(23,I):
- < 0.0) QIN(23,I)=0.0
+      QIN[23][I]=0.038256/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])
+      if(QIN[23][I]:
+ < 0.0) QIN[23][I]=0.0
       if(EN <= (3.0*EIN[23]:
 )) GO TO 421
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 # SINGLET DISSOCIATION AT  9.859 EV     BEF SCALING F=.036556
   421 if(EN <= (EIN[24])) GO TO 422
-      QIN(24,I)=0.036556/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
-      if(QIN(24,I):
- < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=0.036556/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
+      if(QIN[24][I]:
+ < 0.0) QIN[24][I]=0.0
       if(EN <= (3.0*EIN[24]:
 )) GO TO 422
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 #
 # THIRD TRIPLET AT 10.0 EV                                   
   422 if(EN <= EIN[25]) GO TO 427
-      if(EN > XTR3(NTR3):
+      if(EN > XTR3[NTR3]:
 ) GO TO 425  
       DO 423 J=2,NTR3                                                  
       if(EN <= XTR3[J]:
 ) GO TO 424                                      
   423 CONTINUE                                                          
       J=NTR3                                                           
-  424 A=(YTR3[J]-YTR3(J-1))/(XTR3[J]-XTR3(J-1))                     
-      B=(XTR3(J-1)*YTR3[J]-XTR3[J]*YTR3(J-1))/(XTR3(J-1)-XTR3[J]) 
-      QIN(25,I)=(A*EN+B)*1.D-16
+  424 A=(YTR3[J]-YTR3[J-1])/(XTR3[J]-XTR3[J-1])                     
+      B=(XTR3[J-1]*YTR3[J]-XTR3[J]*YTR3[J-1])/(XTR3[J-1]-XTR3[J]) 
+      QIN[25][I]=(A*EN+B)*1.D-16
       GO TO 426
-# SCALE BY 1/E**2 ABOVE XTR2(NTR2) EV
-  425 QIN(25,I)=YTR3(NTR3)*(XTR3(NTR3)/EN)**2*1.D-16
+# SCALE BY 1/E**2 ABOVE XTR2[NTR2] EV
+  425 QIN[25][I]=YTR3[NTR3]*(XTR3[NTR3]/EN)**2*1.D-16
   426 if(EN <= (3.0*EIN[25])) GO TO 427
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 #
 # SINGLET DISSOCIATION AT 10.115 EV     BEF SCALING F=.096232
   427 if(EN <= (EIN[26])) GO TO 428
-      QIN(26,I)=0.096232/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
-      if(QIN(26,I):
- < 0.0) QIN(26,I)=0.0
+      QIN[26][I]=0.096232/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
+      if(QIN[26][I]:
+ < 0.0) QIN[26][I]=0.0
       if(EN <= (3.0*EIN[26]:
 )) GO TO 428
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 # SINGLET DISSOCIATION AT 10.45  EV     BEF SCALING F=.083738
   428 if(EN <= (EIN[27])) GO TO 429
-      QIN(27,I)=0.083738/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])
-      if(QIN(27,I):
- < 0.0) QIN(27,I)=0.0
+      QIN[27][I]=0.083738/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])
+      if(QIN[27][I]:
+ < 0.0) QIN[27][I]=0.0
       if(EN <= (3.0*EIN[27]:
 )) GO TO 429
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 # SINGLET DISSOCIATION AT 10.672 EV     BEF SCALING F=.043456
   429 if(EN <= (EIN[28])) GO TO 430
-      QIN(28,I)=0.043456/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])
-      if(QIN(28,I):
- < 0.0) QIN(28,I)=0.0
+      QIN[28][I]=0.043456/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])
+      if(QIN[28][I]:
+ < 0.0) QIN[28][I]=0.0
       if(EN <= (3.0*EIN[28]:
 )) GO TO 430
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 # SINGLET DISSOCIATION AT 10.816 EV     BEF SCALING F=.047436
   430 if(EN <= (EIN[29])) GO TO 431
-      QIN(29,I)=0.047436/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])
-      if(QIN(29,I):
- < 0.0) QIN(29,I)=0.0
+      QIN[29][I]=0.047436/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])
+      if(QIN[29][I]:
+ < 0.0) QIN[29][I]=0.0
       if(EN <= (3.0*EIN[29]:
 )) GO TO 431
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 # SINGLET DISSOCIATION AT 10.960 EV     BEF SCALING F=.047800
   431 if(EN <= (EIN[30])) GO TO 432
-      QIN(30,I)=0.047800/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
-      if(QIN(30,I):
- < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=0.047800/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
+      if(QIN[30][I]:
+ < 0.0) QIN[30][I]=0.0
       if(EN <= (3.0*EIN[30]:
 )) GO TO 432
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 # SINGLET DISSOCIATION AT 11.104 EV     BEF SCALING F=.048914
   432 if(EN <= (EIN[31])) GO TO 433
-      QIN(31,I)=0.048914/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])
-      if(QIN(31,I):
- < 0.0) QIN(31,I)=0.0
+      QIN[31][I]=0.048914/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])
+      if(QIN[31][I]:
+ < 0.0) QIN[31][I]=0.0
       if(EN <= (3.0*EIN[31]:
 )) GO TO 433
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 # SINGLET DISSOCIATION AT 11.248 EV     BEF SCALING F=.054353
   433 if(EN <= (EIN[32])) GO TO 434
-      QIN(32,I)=0.054353/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
-      if(QIN(32,I):
- < 0.0) QIN(32,I)=0.0
+      QIN[32][I]=0.054353/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
+      if(QIN[32][I]:
+ < 0.0) QIN[32][I]=0.0
       if(EN <= (3.0*EIN[32]:
 )) GO TO 434
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 # SINGLET DISSOCIATION AT 11.392 EV     BEF SCALING F=.061019
   434 if(EN <= (EIN[33])) GO TO 435
-      QIN(33,I)=0.061019/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])
-      if(QIN(33,I):
- < 0.0) QIN(33,I)=0.0
+      QIN[33][I]=0.061019/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])
+      if(QIN[33][I]:
+ < 0.0) QIN[33][I]=0.0
       if(EN <= (3.0*EIN[33]:
 )) GO TO 435
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 # SINGLET DISSOCIATION AT 11.732 EV     BEF SCALING F=.244430
   435 if(EN <= (EIN[34])) GO TO 436
-      QIN(34,I)=0.244430/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
-      if(QIN(34,I):
- < 0.0) QIN(34,I)=0.0
+      QIN[34][I]=0.244430/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
+      if(QIN[34][I]:
+ < 0.0) QIN[34][I]=0.0
       if(EN <= (3.0*EIN[34]:
 )) GO TO 436
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 # SINGLET DISSOCIATION AT 12.4   EV     BEF SCALING F=.284790
   436 if(EN <= (EIN[35])) GO TO 437
-      QIN(35,I)=0.284790/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
-      if(QIN(35,I):
- < 0.0) QIN(35,I)=0.0
+      QIN[35][I]=0.284790/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
+      if(QIN[35][I]:
+ < 0.0) QIN[35][I]=0.0
       if(EN <= (2.0*EIN[35]:
 )) GO TO 437
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 # SINGLET DISSOCIATION AT 13.0   EV     BEF SCALING F=.095973
   437 if(EN <= (EIN[36])) GO TO 438
-      QIN(36,I)=0.095973/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
-      if(QIN(36,I):
- < 0.0) QIN(36,I)=0.0
+      QIN[36][I]=0.095973/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
+      if(QIN[36][I]:
+ < 0.0) QIN[36][I]=0.0
       if(EN <= (2.0*EIN[36]:
 )) GO TO 438
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
 # SINGLET DISSOCIATION AT 13.5   EV     BEF SCALING F=.090728
   438 if(EN <= (EIN[37])) GO TO 439
-      QIN(37,I)=0.090728/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
-      if(QIN(37,I):
- < 0.0) QIN(37,I)=0.0
+      QIN[37][I]=0.090728/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
+      if(QIN[37][I]:
+ < 0.0) QIN[37][I]=0.0
       if(EN <= (2.0*EIN[37]:
 )) GO TO 439
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
 # SINGLET DISSOCIATION AT 14.1   EV     BEF SCALING F=.071357
   439 if(EN <= (EIN[38])) GO TO 440
-      QIN(38,I)=0.071357/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
-      if(QIN(38,I):
- < 0.0) QIN(38,I)=0.0
+      QIN[38][I]=0.071357/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
+      if(QIN[38][I]:
+ < 0.0) QIN[38][I]=0.0
       if(EN <= (2.0*EIN[38]:
 )) GO TO 440
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
 # SINGLET DISSOCIATION AT 14.7   EV     BEF SCALING F=.074875
   440 if(EN <= (EIN[39])) GO TO 441
-      QIN(39,I)=0.074875/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
-      if(QIN(39,I):
- < 0.0) QIN(39,I)=0.0
+      QIN[39][I]=0.074875/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
+      if(QIN[39][I]:
+ < 0.0) QIN[39][I]=0.0
       if(EN <= (2.0*EIN[39]:
 )) GO TO 441
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
 # SINGLET DISSOCIATION AT 15.3   EV     BEF SCALING F=.054542
   441 if(EN <= (EIN[40])) GO TO 442
-      QIN(40,I)=0.054542/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])
-      if(QIN(40,I):
- < 0.0) QIN(40,I)=0.0
+      QIN[40][I]=0.054542/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])
+      if(QIN[40][I]:
+ < 0.0) QIN[40][I]=0.0
       if(EN <= (2.0*EIN[40]:
 )) GO TO 442
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
 # SINGLET DISSOCIATION AT 15.9   EV     BEF SCALING F=.022479
   442 if(EN <= (EIN[41])) GO TO 443
-      QIN(41,I)=0.022479/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
-      if(QIN(41,I):
- < 0.0) QIN(41,I)=0.0
+      QIN[41][I]=0.022479/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
+      if(QIN[41][I]:
+ < 0.0) QIN[41][I]=0.0
       if(EN <= (2.0*EIN[41]:
 )) GO TO 443
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
 # SINGLET DISSOCIATION AT 16.5   EV     BEF SCALING F=.008585
   443 if(EN <= (EIN[42])) GO TO 444
-      QIN(42,I)=0.008585/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])
-      if(QIN(42,I):
- < 0.0) QIN(42,I)=0.0
+      QIN[42][I]=0.008585/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])
+      if(QIN[42][I]:
+ < 0.0) QIN[42][I]=0.0
       if(EN <= (2.0*EIN[42]:
 )) GO TO 444
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
 # SINGLET DISSOCIATION AT 17.1   EV     BEF SCALING F=.004524
   444 if(EN <= (EIN[43])) GO TO 445
-      QIN(43,I)=0.004524/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])
-      if(QIN(43,I):
- < 0.0) QIN(43,I)=0.0
+      QIN[43][I]=0.004524/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])
+      if(QIN[43][I]:
+ < 0.0) QIN[43][I]=0.0
       if(EN <= (2.0*EIN[43]:
 )) GO TO 445
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
 # SINGLET DISSOCIATION AT 17.7   EV     BEF SCALING F=.004982
   445 if(EN <= (EIN[44])) GO TO 446
-      QIN(44,I)=0.004982/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
-      if(QIN(44,I):
- < 0.0) QIN(44,I)=0.0
+      QIN[44][I]=0.004982/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
+      if(QIN[44][I]:
+ < 0.0) QIN[44][I]=0.0
       if(EN <= (2.0*EIN[44]:
 )) GO TO 446
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
 # SINGLET DISSOCIATION AT 18.5   EV     BEF SCALING F=.010130
   446 if(EN <= (EIN[45])) GO TO 447
-      QIN(45,I)=0.010130/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
-      if(QIN(45,I):
- < 0.0) QIN(45,I)=0.0
+      QIN[45][I]=0.010130/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
+      if(QIN[45][I]:
+ < 0.0) QIN[45][I]=0.0
       if(EN <= (2.0*EIN[45]:
 )) GO TO 447
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
 # SINGLET DISSOCIATION AT 19.5   EV     BEF SCALING F=.013320
   447 if(EN <= (EIN[46])) GO TO 448
-      QIN(46,I)=0.013320/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
-      if(QIN(46,I):
- < 0.0) QIN(46,I)=0.0
+      QIN[46][I]=0.013320/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
+      if(QIN[46][I]:
+ < 0.0) QIN[46][I]=0.0
       if(EN <= (2.0*EIN[46]:
 )) GO TO 448
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
 # SINGLET DISSOCIATION AT 20.5   EV     BEF SCALING F=.013310
   448 if(EN <= (EIN[47])) GO TO 449
-      QIN(47,I)=0.013310/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
-      if(QIN(47,I):
- < 0.0) QIN(47,I)=0.0
+      QIN[47][I]=0.013310/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
+      if(QIN[47][I]:
+ < 0.0) QIN[47][I]=0.0
       if(EN <= (2.0*EIN[47]:
 )) GO TO 449
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
 # SINGLET DISSOCIATION AT 21.5   EV     BEF SCALING F=.010760
   449 if(EN <= (EIN[48])) GO TO 450
-      QIN(48,I)=0.010760/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
-      if(QIN(48,I):
- < 0.0) QIN(48,I)=0.0
+      QIN[48][I]=0.010760/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
+      if(QIN[48][I]:
+ < 0.0) QIN[48][I]=0.0
       if(EN <= (2.0*EIN[48]:
 )) GO TO 450
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
 # SINGLET DISSOCIATION AT 22.5   EV     BEF SCALING F=.009797
   450 if(EN <= (EIN[49])) GO TO 451
-      QIN(49,I)=0.009797/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
-      if(QIN(49,I):
- < 0.0) QIN(49,I)=0.0
+      QIN[49][I]=0.009797/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
+      if(QIN[49][I]:
+ < 0.0) QIN[49][I]=0.0
       if(EN <= (2.0*EIN[49]:
 )) GO TO 451
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
 # SINGLET DISSOCIATION AT 23.5   EV     BEF SCALING F=.009198
   451 if(EN <= (EIN[50])) GO TO 452
-      QIN(50,I)=0.009198/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
-      if(QIN(50,I):
- < 0.0) QIN(50,I)=0.0
+      QIN[50][I]=0.009198/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
+      if(QIN[50][I]:
+ < 0.0) QIN[50][I]=0.0
       if(EN <= (2.0*EIN[50]:
 )) GO TO 452
-      PEQIN(50,I)=PEQEL(2,(I-IOFFN[50]))
+      PEQIN[50][I]=PEQEL[2][(I-IOFFN[50])]
 # SINGLET DISSOCIATION AT 24.5   EV     BEF SCALING F=.008312
   452 if(EN <= (EIN[51])) GO TO 453
-      QIN(51,I)=0.008312/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+E[3])
-      if(QIN(51,I):
- < 0.0) QIN(51,I)=0.0
+      QIN[51][I]=0.008312/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+E[3])
+      if(QIN[51][I]:
+ < 0.0) QIN[51][I]=0.0
       if(EN <= (2.0*EIN[51]:
 )) GO TO 453
-      PEQIN(51,I)=PEQEL(2,(I-IOFFN[51]))
+      PEQIN[51][I]=PEQEL[2][(I-IOFFN[51])]
 # SINGLET DISSOCIATION AT 25.5   EV     BEF SCALING F=.007139
   453 if(EN <= (EIN[52])) GO TO 454
-      QIN(52,I)=0.007139/(EIN[52]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[52]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[52]+E[3])
-      if(QIN(52,I):
- < 0.0) QIN(52,I)=0.0
+      QIN[52][I]=0.007139/(EIN[52]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[52]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[52]+E[3])
+      if(QIN[52][I]:
+ < 0.0) QIN[52][I]=0.0
       if(EN <= (2.0*EIN[52]:
 )) GO TO 454
-      PEQIN(52,I)=PEQEL(2,(I-IOFFN[52]))
+      PEQIN[52][I]=PEQEL[2][(I-IOFFN[52])]
 # SINGLET DISSOCIATION AT 26.5   EV     BEF SCALING F=.004715
   454 if(EN <= (EIN[53])) GO TO 455
-      QIN(53,I)=0.004715/(EIN[53]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[53]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[53]+E[3])
-      if(QIN(53,I):
- < 0.0) QIN(53,I)=0.0
+      QIN[53][I]=0.004715/(EIN[53]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[53]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[53]+E[3])
+      if(QIN[53][I]:
+ < 0.0) QIN[53][I]=0.0
       if(EN <= (2.0*EIN[53]:
 )) GO TO 455
-      PEQIN(53,I)=PEQEL(2,(I-IOFFN[53]))
+      PEQIN[53][I]=PEQEL[2][(I-IOFFN[53])]
 # SINGLET DISSOCIATION AT 27.5   EV     BEF SCALING F=.002137
   455 if(EN <= (EIN[54])) GO TO 456
-      QIN(54,I)=0.002137/(EIN[54]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[54]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[54]+E[3])
-      if(QIN(54,I):
- < 0.0) QIN(54,I)=0.0
+      QIN[54][I]=0.002137/(EIN[54]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[54]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[54]+E[3])
+      if(QIN[54][I]:
+ < 0.0) QIN[54][I]=0.0
       if(EN <= (2.0*EIN[54]:
 )) GO TO 456
-      PEQIN(54,I)=PEQEL(2,(I-IOFFN[54]))
+      PEQIN[54][I]=PEQEL[2][(I-IOFFN[54])]
 # SINGLET DISSOCIATION AT 28.5   EV     BEF SCALING F=.000662
   456 if(EN <= (EIN[55])) GO TO 457
-      QIN(55,I)=0.000662/(EIN[55]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[55]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[55]+E[3])
-      if(QIN(55,I):
- < 0.0) QIN(55,I)=0.0
+      QIN[55][I]=0.000662/(EIN[55]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[55]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[55]+E[3])
+      if(QIN[55][I]:
+ < 0.0) QIN[55][I]=0.0
       if(EN <= (2.0*EIN[55]:
 )) GO TO 457
-      PEQIN(55,I)=PEQEL(2,(I-IOFFN[55]))
+      PEQIN[55][I]=PEQEL[2][(I-IOFFN[55])]
   457 CONTINUE
 # LOAD BREMSSTRAHLUNG X-SECTION
-      QIN(56,I)=0.0
-      QIN(57,I)=0.0
+      QIN[56][I]=0.0
+      QIN[57][I]=0.0
       if(EN <= 1000.):
  GO TO 800
       DO 780 J=2,NBRM
@@ -13880,12 +13937,12 @@ c     NANISO=0
 ) GO TO 790
   780 CONTINUE
       J=NBREM
-  790 A=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A1=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(56,I)=math.exp(A*EN+B)*2.D-24
-      QIN(57,I)=math.exp(A1*EN+B1)*6.D-24
+  790 A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A1=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[56][I]=math.exp(A*EN+B)*2.D-24
+      QIN[57][I]=math.exp(A1*EN+B1)*6.D-24
   800 CONTINUE
 #
 #  LOAD NULL COLLISIONS
@@ -13986,7 +14043,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]       
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -14527,8 +14584,8 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       ) GO TO 20                                         
       10 CONTINUE                                                          
       J=N                                                          
-      20 A=(YMT[J]-YMT(J-1))/(XEN[J]-XEN[J-1])                         
-      B=(XEN[J-1]*YMT[J]-XEN[J]*YMT(J-1))/(XEN[J-1]-XEN[J])
+      20 A=(YMT[J]-YMT[J-1])/(XEN[J]-XEN[J-1])                         
+      B=(XEN[J-1]*YMT[J]-XEN[J]*YMT[J-1])/(XEN[J-1]-XEN[J])
       QMT=(A*EN+B)*1.D-16
       A=(YEL[J]-YEL(J-1))/(XEN[J]-XEN[J-1])                         
       B=(XEN[J-1]*YEL[J]-XEN[J]*YEL(J-1))/(XEN[J-1]-XEN[J])
@@ -14551,7 +14608,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       B=(XNJ1*YXJ-XNJ*YXJ1)/(XNJ1-XNJ)
       QEL=math.exp(A*math.log(EN)+B)*1.D-16
       YXJ=math.log(YMT[J])
-      YXJ1=math.log(YMT(J-1))
+      YXJ1=math.log(YMT[J-1])
       A=(YXJ-YXJ1)/(XNJ-XNJ1)
       B=(XNJ1*YXJ-XNJ*YXJ1)/(XNJ1-XNJ)
       QMT=math.exp(A*math.log(EN)+B)*1.D-16
@@ -14632,7 +14689,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       64 CONTINUE
       if(EN < (2.0*EION[1]:
       )) GO TO 65
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
       # C3H7+ 
       65 if(EN <= EION[2]) GO TO 70         
       if(EN > XION2(NION2):
@@ -14651,7 +14708,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       69 CONTINUE
       if(EN < (2.0*EION[2]:
       )) GO TO 70
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
       # C3H6+ 
       70 if(EN <= EION[3]) GO TO 75         
       if(EN > XION3(NION3):
@@ -14670,7 +14727,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       74 CONTINUE
       if(EN < (2.0*EION[3]:
       )) GO TO 75
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
       # C2H4+ 
       75 if(EN <= EION[4]) GO TO 80         
       if(EN > XION4(NION4):
@@ -14689,7 +14746,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       79 CONTINUE
       if(EN < (2.0*EION[4]:
       )) GO TO 80
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
       # C2H5+ 
       80 if(EN <= EION[5]) GO TO 85         
       if(EN > XION5(NION5):
@@ -14708,7 +14765,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       84 CONTINUE
       if(EN < (2.0*EION[5]:
       )) GO TO 85
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
       # C3H5+ 
       85 if(EN <= EION[6]) GO TO 90         
       if(EN > XION6(NION6):
@@ -14727,7 +14784,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       89 CONTINUE
       if(EN < (2.0*EION[6]:
       )) GO TO 90
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
       # CH3+
       90 if(EN <= EION[7]) GO TO 95         
       if(EN > XION7(NION7):
@@ -14746,7 +14803,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       94 CONTINUE
       if(EN < (2.0*EION[7]:
       )) GO TO 95
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
       # C3H4+
       95 if(EN <= EION[8]) GO TO 100         
       if(EN > XION8(NION8):
@@ -14765,7 +14822,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       99 CONTINUE
       if(EN < (2.0*EION[8]:
       )) GO TO 100
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
       # C2H2+ 
       100 if(EN <= EION[9]) GO TO 105         
       if(EN > XION9(NION9):
@@ -14784,7 +14841,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       104 CONTINUE
       if(EN < (2.0*EION[9]:
       )) GO TO 105
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
       # C2H3+
       105 if(EN <= EION[10]) GO TO 110         
       if(EN > XION10(NION10):
@@ -14803,7 +14860,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       109 CONTINUE
       if(EN < (2.0*EION[10]:
       )) GO TO 110
-      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
       # C3H3+
       110 if(EN <= EION[11]) GO TO 115         
       if(EN > XION11(NION11):
@@ -14822,7 +14879,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       114 CONTINUE
       if(EN < (2.0*EION[11]:
       )) GO TO 115
-      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
       # H+
       115 if(EN <= EION[12]) GO TO 120         
       if(EN > XION12(NION12):
@@ -14841,7 +14898,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       119 CONTINUE
       if(EN < (2.0*EION[12]:
       )) GO TO 120
-      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL[2][(I-IOFFION[12]))
       # H2+  AND H3+
       120 if(EN <= EION[13]) GO TO 125         
       if(EN > XION13(NION13):
@@ -14860,7 +14917,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       124 CONTINUE
       if(EN < (2.0*EION[13]:
       )) GO TO 125
-      PEQION[13][I]=PEQEL(2,(I-IOFFION[13]))
+      PEQION[13][I]=PEQEL[2][(I-IOFFION[13]))
       # CH2+
       125 if(EN <= EION[14]) GO TO 130         
       if(EN > XION14(NION14):
@@ -14879,7 +14936,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       129 CONTINUE
       if(EN < (2.0*EION[14]:
       )) GO TO 130
-      PEQION[14][I]=PEQEL(2,(I-IOFFION[14]))
+      PEQION[14][I]=PEQEL[2][(I-IOFFION[14]))
       # C3H2+
       130 if(EN <= EION[15]) GO TO 135         
       if(EN > XION15(NION15):
@@ -14898,7 +14955,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       134 CONTINUE
       if(EN < (2.0*EION[15]:
       )) GO TO 135
-      PEQION[15][I]=PEQEL(2,(I-IOFFION[15]))
+      PEQION[15][I]=PEQEL[2][(I-IOFFION[15]))
       # C3H+
       135 if(EN <= EION[16]) GO TO 140         
       if(EN > XION16(NION16):
@@ -14917,7 +14974,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       139 CONTINUE
       if(EN < (2.0*EION[16]:
       )) GO TO 140
-      PEQION[16][I]=PEQEL(2,(I-IOFFION[16]))
+      PEQION[16][I]=PEQEL[2][(I-IOFFION[16]))
       # C2H+
       140 if(EN <= EION[17]) GO TO 145         
       if(EN > XION17(NION17):
@@ -14936,7 +14993,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       144 CONTINUE
       if(EN < (2.0*EION[17]:
       )) GO TO 145
-      PEQION[17][I]=PEQEL(2,(I-IOFFION[17]))
+      PEQION[17][I]=PEQEL[2][(I-IOFFION[17]))
       # ++ DOUBLE CHARGED STABLE IONS
       145 if(EN <= EION[18]) GO TO 150         
       if(EN > XION18(NION18):
@@ -14955,7 +15012,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       149 CONTINUE
       if(EN < (2.0*EION[18]:
       )) GO TO 150
-      PEQION[18][I]=PEQEL(2,(I-IOFFION[18]))
+      PEQION[18][I]=PEQEL[2][(I-IOFFION[18]))
       # ++ DOUBLE CHARGED UNSTABLE IONS (DISSOCIATIVE)
       150 if(EN <= EION[19]) GO TO 155         
       if(EN > XION19(NION19):
@@ -14974,7 +15031,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       154 CONTINUE
       if(EN < (2.0*EION[19]:
       )) GO TO 155
-      PEQION[19][I]=PEQEL(2,(I-IOFFION[19]))
+      PEQION[19][I]=PEQEL[2][(I-IOFFION[19]))
       # CH+
       155 if(EN <= EION[20]) GO TO 160         
       if(EN > XION20(NION20):
@@ -14993,7 +15050,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       159 CONTINUE
       if(EN < (2.0*EION[20]:
       )) GO TO 160
-      PEQION[20][I]=PEQEL(2,(I-IOFFION[20]))
+      PEQION[20][I]=PEQEL[2][(I-IOFFION[20]))
       # C+ 
       160 if(EN <= EION[21]) GO TO 165         
       if(EN > XION21(NION21):
@@ -15012,7 +15069,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       164 CONTINUE
       if(EN < (2.0*EION[21]:
       )) GO TO 165
-      PEQION[21][I]=PEQEL(2,(I-IOFFION[21]))
+      PEQION[21][I]=PEQEL[2][(I-IOFFION[21]))
       # C2+
       165 if(EN <= EION[22]) GO TO 170         
       if(EN > XION22(NION22):
@@ -15031,7 +15088,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       169 CONTINUE
       if(EN < (2.0*EION[22]:
       )) GO TO 170
-      PEQION[22][I]=PEQEL(2,(I-IOFFION[22]))
+      PEQION[22][I]=PEQEL[2][(I-IOFFION[22]))
       # C3+
       170 if(EN <= EION[23]) GO TO 175         
       if(EN > XION23(NION23):
@@ -15050,7 +15107,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       174 CONTINUE
       if(EN < (2.0*EION[23]:
       )) GO TO 175
-      PEQION[23][I]=PEQEL(2,(I-IOFFION[23]))
+      PEQION[23][I]=PEQEL[2][(I-IOFFION[23]))
       # CARBON K-SHELL 
       175 if(EN <= EION[24]) GO TO 180         
       DO 176 J=2,NION24                                                 
@@ -15064,7 +15121,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       QION[24][I]=3.0*(A*EN+B)*1.D-16               
       if(EN < (2.0*EION[24]:
       )) GO TO 180
-      PEQION[24][I]=PEQEL(2,(I-IOFFION[24]))
+      PEQION[24][I]=PEQEL[2][(I-IOFFION[24]))
       # CORRECTION TO TOTAL I0NISATION DUE TO SPLIT OFF KSHELL
       180 QSUM=0.00
       DO 181 L=1,23
@@ -15120,15 +15177,13 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       QIN[1][I]=0.00536*math.log((EFAC+1.0)/(EFAC-1.0))/EN 
       QIN[1][I]=QIN[1][I]*APOP1/(1.0+APOP1)*1.D-16    
       if(EN > 10.0):
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-      #   VIBRATION TORSION                      ANISOTROPIC ABOVE 10EV
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]      #   VIBRATION TORSION                      ANISOTROPIC ABOVE 10EV
       302 if(EN <= EIN[2]) GO TO 303
       EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN[2][I]=0.00536*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN[2][I]=QIN[2][I]*1.0/(1.0+APOP1)*1.D-16    
       if(EN > 10.0):
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-      #
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]      #
       # VIBRATION SUPERELASTIC                   ANISOTROPIC ABOVE 10EV
       303 if(EN <= 0.0) GO TO 316
       if((EN+EIN[4]:
@@ -15145,8 +15200,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       314 QIN[3][I]=YVIB1(NVIB1)*(XVIB1(NVIB1)/(EN+EIN[4]))**2
       315 QIN[3][I]=QIN[3][I]*APOP2/(1.0+APOP2)*1.D-16        
       if(EN > 10.0):
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-      #     
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]      #     
       # VIBRATION INELASTIC                    ANISOTROPIC ABOVE 10EV 
       316 if(EN <= EIN[4]) GO TO 321                   
       if(EN > XVIB1(NVIB1):
@@ -15163,7 +15217,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       319 QIN[4][I]=YVIB1(NVIB1)*(XVIB1(NVIB1)/EN)**2
       320 QIN[4][I]=QIN[4][I]/(1.0+APOP2)*1.D-16           
       if(EN > 10.0):
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))    
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]   
       #               
       #  SUPERELASTIC VIBRATION                  ANISOTROPIC ABOVE 10EV                          
       321 if(EN <= 0.0) GO TO 326   
@@ -15181,7 +15235,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       324 QIN[5][I]=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN[6]))**2
       325 QIN[5][I]=QIN[5][I]*APOP3/(1.0+APOP3)*1.D-16           
       if(EN > 10.0):
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))                 
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]                
       #                                                       
       #  VIBRATION                              ANISOTROPIC ABOVE 10EV                          
       326 if(EN <= EIN[6]) GO TO 331  
@@ -15199,7 +15253,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       329 QIN[6][I]=YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)**2
       330 QIN[6][I]=QIN[6][I]/(1.0+APOP3)*1.D-16          
       if(EN > 10.0):
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))             
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]            
       #                                                          
       # VIBRATION INELASTIC                 
       331 if(EN <= EIN[7]) GO TO 341 
@@ -15217,7 +15271,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       334 QIN[7][I]=YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)**2
       335 QIN[7][I]=QIN[7][I]*1.D-16         
       if(EN > 10.0):
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))                   
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]                  
       #                                                                       
       # VIBRATION INELASTIC                                               
       341 if(EN <= EIN[8]) GO TO 351    
@@ -15237,7 +15291,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       if(QIN[8][I]:
       < 0.0) QIN[8][I]=0.0
       if(EN > 10.0):
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8])) 
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]
       351 CONTINUE    
       #
       # EXCITATIONS
@@ -15248,460 +15302,459 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       # FIRST TRIPLET AT  6.57 EV
       if(EN <= EIN[9]:
       ) GO TO 405
-      if(EN > XTR1(NTR1):
+      if(EN > XTR1[NTR1]:
       ) GO TO 403                                   
       DO 401 J=2,NTR1                                              
       if(EN <= XTR1[J]:
       ) GO TO 402                                  
       401 CONTINUE                                                          
       J=NTR1                                       
-      402 A=(YTR1[J]-YTR1(J-1))/(XTR1[J]-XTR1(J-1))                    
-      B=(XTR1(J-1)*YTR1[J]-XTR1[J]*YTR1(J-1))/(XTR1(J-1)-XTR1[J])       
+      402 A=(YTR1[J]-YTR1[J-1])/(XTR1[J]-XTR1[J-1])                    
+      B=(XTR1[J-1]*YTR1[J]-XTR1[J]*YTR1[J-1])/(XTR1[J-1]-XTR1[J])       
       QIN[9][I]=(A*EN+B)*1.D-16     
       GO TO 404
-      # SCALE BY 1/E**2 ABOVE XTR1(NTR1) EV
-      403 QIN[9][I]=YTR1(NTR1)*(XTR1(NTR1)/EN)**2*1.D-16
+      # SCALE BY 1/E**2 ABOVE XTR1[NTR1] EV
+      403 QIN[9][I]=YTR1[NTR1]*(XTR1[NTR1]/EN)**2*1.D-16
       404 if(EN <= (3.0*EIN[9])) GO TO 405
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-      #
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]      #
       # SINGLET DISSOCIATION AT  7.65  EV     BEF SCALING F=.000339          
       405 if(EN <= (EIN[10])) GO TO 406
-      QIN(10,I)=0.000339/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
-      if(QIN(10,I):
-      < 0.0) QIN(10,I)=0.0
+      QIN[10][I]=0.000339/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
+      if(QIN[10][I]:
+      < 0.0) QIN[10][I]=0.0
       if(EN <= (3.0*EIN[10]:
       )) GO TO 406
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
       # 
       # SECOND TRIPLET AT  7.67 EV                                   
       406 if(EN <= EIN[11]) GO TO 411
-      if(EN > XTR2(NTR2):
+      if(EN > XTR2[NTR2]:
       ) GO TO 409  
       DO 407 J=2,NTR2                                                  
       if(EN <= XTR2[J]:
       ) GO TO 408                                      
       407 CONTINUE                                                          
       J=NTR2                                                           
-      408 A=(YTR2[J]-YTR2(J-1))/(XTR2[J]-XTR2(J-1))                     
-      B=(XTR2(J-1)*YTR2[J]-XTR2[J]*YTR2(J-1))/(XTR2(J-1)-XTR2[J]) 
-      QIN(11,I)=(A*EN+B)*1.D-16
+      408 A=(YTR2[J]-YTR2[J-1])/(XTR2[J]-XTR2[J-1])                     
+      B=(XTR2[J-1]*YTR2[J]-XTR2[J]*YTR2[J-1])/(XTR2[J-1]-XTR2[J]) 
+      QIN[11][I]=(A*EN+B)*1.D-16
       GO TO 410
-      # SCALE BY 1/E**2 ABOVE XTR2(NTR2) EV
-      409 QIN(11,I)=YTR2(NTR2)*(XTR2(NTR2)/EN)**2*1.D-16
+      # SCALE BY 1/E**2 ABOVE XTR2[NTR2] EV
+      409 QIN[11][I]=YTR2[NTR2]*(XTR2[NTR2]/EN)**2*1.D-16
       410 if(EN <= (3.0*EIN[11])) GO TO 411
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
       #
       # SINGLET DISSOCIATION AT  7.95  EV     BEF SCALING F=.004660
       411 if(EN <= (EIN[12])) GO TO 412
-      QIN(12,I)=0.004660/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])
-      if(QIN(12,I):
-      < 0.0) QIN(12,I)=0.0
+      QIN[12][I]=0.004660/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])
+      if(QIN[12][I]:
+      < 0.0) QIN[12][I]=0.0
       if(EN <= (3.0*EIN[12]:
       )) GO TO 412
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
       # SINGLET DISSOCIATION AT  8.25  EV     BEF SCALING F=.012816
       412 if(EN <= (EIN[13])) GO TO 413
-      QIN(13,I)=0.012816/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])
-      if(QIN(13,I):
-      < 0.0) QIN(13,I)=0.0
+      QIN[13][I]=0.012816/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])
+      if(QIN[13][I]:
+      < 0.0) QIN[13][I]=0.0
       if(EN <= (3.0*EIN[13]:
       )) GO TO 413
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
       # SINGLET DISSOCIATION AT  8.55  EV     BEF SCALING F=.037747
       413 if(EN <= (EIN[14])) GO TO 414
-      QIN(14,I)=0.037747/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])
-      if(QIN(14,I):
-      < 0.0) QIN(14,I)=0.0
+      QIN[14][I]=0.037747/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])
+      if(QIN[14][I]:
+      < 0.0) QIN[14][I]=0.0
       if(EN <= (3.0*EIN[14]:
       )) GO TO 414
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
       # SINGLET DISSOCIATION AT  8.85  EV     BEF SCALING F=.081783
       414 if(EN <= (EIN[15])) GO TO 415
-      QIN(15,I)=0.081783/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])
-      if(QIN(15,I):
-      < 0.0) QIN(15,I)=0.0
+      QIN[15][I]=0.081783/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])
+      if(QIN[15][I]:
+      < 0.0) QIN[15][I]=0.0
       if(EN <= (3.0*EIN[15]:
       )) GO TO 415
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
       # SINGLET DISSOCIATION AT  9.15  EV     BEF SCALING F=.084248
       415 if(EN <= (EIN[16])) GO TO 416
-      QIN(16,I)=0.084248/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])
-      if(QIN(16,I):
-      < 0.0) QIN(16,I)=0.0
+      QIN[16][I]=0.084248/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])
+      if(QIN[16][I]:
+      < 0.0) QIN[16][I]=0.0
       if(EN <= (3.0*EIN[16]:
       )) GO TO 416
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
       # SINGLET DISSOCIATION AT  9.45  EV     BEF SCALING F=.090347
       416 if(EN <= (EIN[17])) GO TO 422
-      QIN(17,I)=0.090347/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])
-      if(QIN(17,I):
-      < 0.0) QIN(17,I)=0.0
+      QIN[17][I]=0.090347/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])
+      if(QIN[17][I]:
+      < 0.0) QIN[17][I]=0.0
       if(EN <= (3.0*EIN[17]:
       )) GO TO 422
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
       #
       # THIRD TRIPLET AT 9.59 EV                                   
       422 if(EN <= EIN[18]) GO TO 417
-      if(EN > XTR3(NTR3):
+      if(EN > XTR3[NTR3]:
       ) GO TO 425  
       DO 423 J=2,NTR3                                                  
       if(EN <= XTR3[J]:
       ) GO TO 424                                      
       423 CONTINUE                                                          
       J=NTR3                                                           
-      424 A=(YTR3[J]-YTR3(J-1))/(XTR3[J]-XTR3(J-1))                     
-      B=(XTR3(J-1)*YTR3[J]-XTR3[J]*YTR3(J-1))/(XTR3(J-1)-XTR3[J]) 
-      QIN(18,I)=(A*EN+B)*1.D-16
+      424 A=(YTR3[J]-YTR3[J-1])/(XTR3[J]-XTR3[J-1])                     
+      B=(XTR3[J-1]*YTR3[J]-XTR3[J]*YTR3[J-1])/(XTR3[J-1]-XTR3[J]) 
+      QIN[18][I]=(A*EN+B)*1.D-16
       GO TO 426
-      # SCALE BY 1/E**2 ABOVE XTR3(NTR3) EV
-      425 QIN(18,I)=YTR3(NTR3)*(XTR3(NTR3)/EN)**2*1.D-16     
+      # SCALE BY 1/E**2 ABOVE XTR3[NTR3] EV
+      425 QIN[18][I]=YTR3[NTR3]*(XTR3[NTR3]/EN)**2*1.D-16     
       426 if(EN <= (3.0*EIN[18])) GO TO 417
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
       #
       # SINGLET DISSOCIATION AT  9.75  EV     BEF SCALING F=.098580
       417 if(EN <= (EIN[19])) GO TO 418
-      QIN(19,I)=0.098580/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])
-      if(QIN(19,I):
-      < 0.0) QIN(19,I)=0.0
+      QIN[19][I]=0.098580/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])
+      if(QIN[19][I]:
+      < 0.0) QIN[19][I]=0.0
       if(EN <= (3.0*EIN[19]:
       )) GO TO 418
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
       # SINGLET DISSOCIATION AT  10.05 EV     BEF SCALING F=.10415 
       418 if(EN <= (EIN[20])) GO TO 419
-      QIN(20,I)=0.104150/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])
-      if(QIN(20,I):
-      < 0.0) QIN(20,I)=0.0
+      QIN[20][I]=0.104150/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])
+      if(QIN[20][I]:
+      < 0.0) QIN[20][I]=0.0
       if(EN <= (3.0*EIN[20]:
       )) GO TO 419
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
       # SINGLET DISSOCIATION AT  10.35 EV     BEF SCALING F=.11379 
       419 if(EN <= (EIN[21])) GO TO 420
-      QIN(21,I)=0.113790/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])
-      if(QIN(21,I):
-      < 0.0) QIN(21,I)=0.0
+      QIN[21][I]=0.113790/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])
+      if(QIN[21][I]:
+      < 0.0) QIN[21][I]=0.0
       if(EN <= (3.0*EIN[21]:
       )) GO TO 420
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
       # SINGLET DISSOCIATION AT  10.65 EV     BEF SCALING F=.12674 
       420 if(EN <= (EIN[22])) GO TO 421
-      QIN(22,I)=0.126740/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])
-      if(QIN(22,I):
-      < 0.0) QIN(22,I)=0.0
+      QIN[22][I]=0.126740/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])
+      if(QIN[22][I]:
+      < 0.0) QIN[22][I]=0.0
       if(EN <= (3.0*EIN[22]:
       )) GO TO 421
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
       # SINGLET DISSOCIATION AT  10.9  EV     BEF SCALING F=.096356
       421 if(EN <= (EIN[23])) GO TO 427
-      QIN(23,I)=0.096356/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])
-      if(QIN(23,I):
-      < 0.0) QIN(23,I)=0.0
+      QIN[23][I]=0.096356/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])
+      if(QIN[23][I]:
+      < 0.0) QIN[23][I]=0.0
       if(EN <= (3.0*EIN[23]:
       )) GO TO 427
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
       # SINGLET DISSOCIATION AT 11.1   EV     BEF SCALING F=.10387 
       427 if(EN <= (EIN[24])) GO TO 428
-      QIN(24,I)=0.103870/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
-      if(QIN(24,I):
-      < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=0.103870/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])
+      if(QIN[24][I]:
+      < 0.0) QIN[24][I]=0.0
       if(EN <= (3.0*EIN[24]:
       )) GO TO 428
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
       # SINGLET DISSOCIATION AT 11.3   EV     BEF SCALING F=.10183 
       428 if(EN <= (EIN[25])) GO TO 429
-      QIN(25,I)=0.101830/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])
-      if(QIN(25,I):
-      < 0.0) QIN(25,I)=0.0
+      QIN[25][I]=0.101830/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])
+      if(QIN[25][I]:
+      < 0.0) QIN[25][I]=0.0
       if(EN <= (3.0*EIN[25]:
       )) GO TO 429
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
       # SINGLET DISSOCIATION AT 11.5   EV     BEF SCALING F=.096718
       429 if(EN <= (EIN[26])) GO TO 430
-      QIN(26,I)=0.096718/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
-      if(QIN(26,I):
-      < 0.0) QIN(26,I)=0.0
+      QIN[26][I]=0.096718/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])
+      if(QIN[26][I]:
+      < 0.0) QIN[26][I]=0.0
       if(EN <= (3.0*EIN[26]:
       )) GO TO 430
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
       # SINGLET DISSOCIATION AT 11.7   EV     BEF SCALING F=.090149
       430 if(EN <= (EIN[27])) GO TO 431
-      QIN(27,I)=0.090149/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])
-      if(QIN(27,I):
-      < 0.0) QIN(27,I)=0.0
+      QIN[27][I]=0.090149/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])
+      if(QIN[27][I]:
+      < 0.0) QIN[27][I]=0.0
       if(EN <= (3.0*EIN[27]:
       )) GO TO 431
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
       # SINGLET DISSOCIATION AT 11.9   EV     BEF SCALING F=.086661
       431 if(EN <= (EIN[28])) GO TO 432
-      QIN(28,I)=0.086661/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])
-      if(QIN(28,I):
-      < 0.0) QIN(28,I)=0.0
+      QIN[28][I]=0.086661/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])
+      if(QIN[28][I]:
+      < 0.0) QIN[28][I]=0.0
       if(EN <= (3.0*EIN[28]:
       )) GO TO 432
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
       # SINGLET DISSOCIATION AT 12.1   EV     BEF SCALING F=.086097
       432 if(EN <= (EIN[29])) GO TO 433
-      QIN(29,I)=0.086097/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])
-      if(QIN(29,I):
-      < 0.0) QIN(29,I)=0.0
+      QIN[29][I]=0.086097/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])
+      if(QIN[29][I]:
+      < 0.0) QIN[29][I]=0.0
       if(EN <= (3.0*EIN[29]:
       )) GO TO 433
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
       # SINGLET DISSOCIATION AT 12.3   EV     BEF SCALING F=.083324
       433 if(EN <= (EIN[30])) GO TO 434
-      QIN(30,I)=0.083324/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
-      if(QIN(30,I):
-      < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=0.083324/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])
+      if(QIN[30][I]:
+      < 0.0) QIN[30][I]=0.0
       if(EN <= (3.0*EIN[30]:
       )) GO TO 434
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
       # SINGLET DISSOCIATION AT 12.5   EV     BEF SCALING F=.079943
       434 if(EN <= (EIN[31])) GO TO 435
-      QIN(31,I)=0.079943/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])
-      if(QIN(31,I):
-      < 0.0) QIN(31,I)=0.0
+      QIN[31][I]=0.079943/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])
+      if(QIN[31][I]:
+      < 0.0) QIN[31][I]=0.0
       if(EN <= (3.0*EIN[31]:
       )) GO TO 435
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
       # SINGLET DISSOCIATION AT 12.7   EV     BEF SCALING F=.077210
       435 if(EN <= (EIN[32])) GO TO 436
-      QIN(32,I)=0.077210/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
-      if(QIN(32,I):
-      < 0.0) QIN(32,I)=0.0
+      QIN[32][I]=0.077210/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])
+      if(QIN[32][I]:
+      < 0.0) QIN[32][I]=0.0
       if(EN <= (3.0*EIN[32]:
       )) GO TO 436
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
       # SINGLET DISSOCIATION AT 12.9   EV     BEF SCALING F=.070368
       436 if(EN <= (EIN[33])) GO TO 437
-      QIN(33,I)=0.070368/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])
-      if(QIN(33,I):
-      < 0.0) QIN(33,I)=0.0
+      QIN[33][I]=0.070368/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])
+      if(QIN[33][I]:
+      < 0.0) QIN[33][I]=0.0
       if(EN <= (2.0*EIN[33]:
       )) GO TO 437
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
       # SINGLET DISSOCIATION AT 13.1   EV     BEF SCALING F=.061365
       437 if(EN <= (EIN[34])) GO TO 438
-      QIN(34,I)=0.061365/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
-      if(QIN(34,I):
-      < 0.0) QIN(34,I)=0.0
+      QIN[34][I]=0.061365/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])
+      if(QIN[34][I]:
+      < 0.0) QIN[34][I]=0.0
       if(EN <= (2.0*EIN[34]:
       )) GO TO 438
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
       # SINGLET DISSOCIATION AT 13.3   EV     BEF SCALING F=.053208
       438 if(EN <= (EIN[35])) GO TO 439
-      QIN(35,I)=0.053208/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
-      if(QIN(35,I):
-      < 0.0) QIN(35,I)=0.0
+      QIN[35][I]=0.053208/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])
+      if(QIN[35][I]:
+      < 0.0) QIN[35][I]=0.0
       if(EN <= (2.0*EIN[35]:
       )) GO TO 439
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
       # SINGLET DISSOCIATION AT 13.5   EV     BEF SCALING F=.046320
       439 if(EN <= (EIN[36])) GO TO 440
-      QIN(36,I)=0.046320/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
-      if(QIN(36,I):
-      < 0.0) QIN(36,I)=0.0
+      QIN[36][I]=0.046320/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])
+      if(QIN[36][I]:
+      < 0.0) QIN[36][I]=0.0
       if(EN <= (2.0*EIN[36]:
       )) GO TO 440
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
       # SINGLET DISSOCIATION AT 13.7   EV     BEF SCALING F=.042827
       440 if(EN <= (EIN[37])) GO TO 441
-      QIN(37,I)=0.042827/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
-      if(QIN(37,I):
-      < 0.0) QIN(37,I)=0.0
+      QIN[37][I]=0.042827/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])
+      if(QIN[37][I]:
+      < 0.0) QIN[37][I]=0.0
       if(EN <= (2.0*EIN[37]:
       )) GO TO 441
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
       # SINGLET DISSOCIATION AT 13.9   EV     BEF SCALING F=.038898
       441 if(EN <= (EIN[38])) GO TO 442
-      QIN(38,I)=0.038898/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
-      if(QIN(38,I):
-      < 0.0) QIN(38,I)=0.0
+      QIN[38][I]=0.038898/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+E[3])
+      if(QIN[38][I]:
+      < 0.0) QIN[38][I]=0.0
       if(EN <= (2.0*EIN[38]:
       )) GO TO 442
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
       # SINGLET DISSOCIATION AT 14.1   EV     BEF SCALING F=.035930
       442 if(EN <= (EIN[39])) GO TO 443
-      QIN(39,I)=0.035930/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
-      if(QIN(39,I):
-      < 0.0) QIN(39,I)=0.0
+      QIN[39][I]=0.035930/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+E[3])
+      if(QIN[39][I]:
+      < 0.0) QIN[39][I]=0.0
       if(EN <= (2.0*EIN[39]:
       )) GO TO 443
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
       # SINGLET DISSOCIATION AT 14.3   EV     BEF SCALING F=.033632
       443 if(EN <= (EIN[40])) GO TO 444
-      QIN(40,I)=0.033632/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])
-      if(QIN(40,I):
-      < 0.0) QIN(40,I)=0.0
+      QIN[40][I]=0.033632/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+E[3])
+      if(QIN[40][I]:
+      < 0.0) QIN[40][I]=0.0
       if(EN <= (2.0*EIN[40]:
       )) GO TO 444
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
       # SINGLET DISSOCIATION AT 14.5   EV     BEF SCALING F=.030562
       444 if(EN <= (EIN[41])) GO TO 445
-      QIN(41,I)=0.030562/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
-      if(QIN(41,I):
-      < 0.0) QIN(41,I)=0.0
+      QIN[41][I]=0.030562/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+E[3])
+      if(QIN[41][I]:
+      < 0.0) QIN[41][I]=0.0
       if(EN <= (2.0*EIN[41]:
       )) GO TO 445
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
       # SINGLET DISSOCIATION AT 14.7   EV     BEF SCALING F=.028559
       445 if(EN <= (EIN[42])) GO TO 446
-      QIN(42,I)=0.028559/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])
-      if(QIN(42,I):
-      < 0.0) QIN(42,I)=0.0
+      QIN[42][I]=0.028559/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+E[3])
+      if(QIN[42][I]:
+      < 0.0) QIN[42][I]=0.0
       if(EN <= (2.0*EIN[42]:
       )) GO TO 446
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
       # SINGLET DISSOCIATION AT 14.9   EV     BEF SCALING F=.027052
       446 if(EN <= (EIN[43])) GO TO 447
-      QIN(43,I)=0.027052/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])
-      if(QIN(43,I):
-      < 0.0) QIN(43,I)=0.0
+      QIN[43][I]=0.027052/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+E[3])
+      if(QIN[43][I]:
+      < 0.0) QIN[43][I]=0.0
       if(EN <= (2.0*EIN[43]:
       )) GO TO 447
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
       # SINGLET DISSOCIATION AT 15.2   EV     BEF SCALING F=.048051
       447 if(EN <= (EIN[44])) GO TO 448
-      QIN(44,I)=0.048051/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
-      if(QIN(44,I):
-      < 0.0) QIN(44,I)=0.0
+      QIN[44][I]=0.048051/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+E[3])
+      if(QIN[44][I]:
+      < 0.0) QIN[44][I]=0.0
       if(EN <= (2.0*EIN[44]:
       )) GO TO 448
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
       # SINGLET DISSOCIATION AT 15.6   EV     BEF SCALING F=.036375
       448 if(EN <= (EIN[45])) GO TO 449
-      QIN(45,I)=0.036375/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
-      if(QIN(45,I):
-      < 0.0) QIN(45,I)=0.0
+      QIN[45][I]=0.036375/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+E[3])
+      if(QIN[45][I]:
+      < 0.0) QIN[45][I]=0.0
       if(EN <= (2.0*EIN[45]:
       )) GO TO 449
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
       # SINGLET DISSOCIATION AT 16.0   EV     BEF SCALING F=.020165
       449 if(EN <= (EIN[46])) GO TO 450
-      QIN(46,I)=0.020165/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
-      if(QIN(46,I):
-      < 0.0) QIN(46,I)=0.0
+      QIN[46][I]=0.020165/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+E[3])
+      if(QIN[46][I]:
+      < 0.0) QIN[46][I]=0.0
       if(EN <= (2.0*EIN[46]:
       )) GO TO 450
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
       # SINGLET DISSOCIATION AT 16.4   EV     BEF SCALING F=.010038
       450 if(EN <= (EIN[47])) GO TO 451
-      QIN(47,I)=0.010038/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
-      if(QIN(47,I):
-      < 0.0) QIN(47,I)=0.0
+      QIN[47][I]=0.010038/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+E[3])
+      if(QIN[47][I]:
+      < 0.0) QIN[47][I]=0.0
       if(EN <= (2.0*EIN[47]:
       )) GO TO 451
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
       # SINGLET DISSOCIATION AT 16.8   EV     BEF SCALING F=.0054441
       451 if(EN <= (EIN[48])) GO TO 452
-      QIN(48,I)=0.0054441/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
-      if(QIN(48,I):
-      < 0.0) QIN(48,I)=0.0
+      QIN[48][I]=0.0054441/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+E[3])
+      if(QIN[48][I]:
+      < 0.0) QIN[48][I]=0.0
       if(EN <= (2.0*EIN[48]:
       )) GO TO 452
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
       # SINGLET DISSOCIATION AT 17.25   EV     BEF SCALING F=.0050790
       452 if(EN <= (EIN[49])) GO TO 453
-      QIN(49,I)=0.0050790/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
-      if(QIN(49,I):
-      < 0.0) QIN(49,I)=0.0
+      QIN[49][I]=0.0050790/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+E[3])
+      if(QIN[49][I]:
+      < 0.0) QIN[49][I]=0.0
       if(EN <= (2.0*EIN[49]:
       )) GO TO 453
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
       # SINGLET DISSOCIATION AT 17.75   EV     BEF SCALING F=.0057699
       453 if(EN <= (EIN[50])) GO TO 454
-      QIN(50,I)=0.0057699/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
-      if(QIN(50,I):
-      < 0.0) QIN(50,I)=0.0
+      QIN[50][I]=0.0057699/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+E[3])
+      if(QIN[50][I]:
+      < 0.0) QIN[50][I]=0.0
       if(EN <= (2.0*EIN[50]:
       )) GO TO 454
-      PEQIN(50,I)=PEQEL(2,(I-IOFFN[50]))
+      PEQIN[50][I]=PEQEL[2][(I-IOFFN[50])]
       # SINGLET DISSOCIATION AT 18.25   EV     BEF SCALING F=.0072715
       454 if(EN <= (EIN[51])) GO TO 455
-      QIN(51,I)=0.0072715/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+E[3])
-      if(QIN(51,I):
-      < 0.0) QIN(51,I)=0.0
+      QIN[51][I]=0.0072715/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+E[3])
+      if(QIN[51][I]:
+      < 0.0) QIN[51][I]=0.0
       if(EN <= (2.0*EIN[51]:
       )) GO TO 455
-      PEQIN(51,I)=PEQEL(2,(I-IOFFN[51]))
+      PEQIN[51][I]=PEQEL[2][(I-IOFFN[51])]
       # SINGLET DISSOCIATION AT 18.75   EV     BEF SCALING F=.010296
       455 if(EN <= (EIN[52])) GO TO 456
-      QIN(52,I)=0.010296/(EIN[52]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[52]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[52]+E[3])
-      if(QIN(52,I):
-      < 0.0) QIN(52,I)=0.0
+      QIN[52][I]=0.010296/(EIN[52]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[52]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[52]+E[3])
+      if(QIN[52][I]:
+      < 0.0) QIN[52][I]=0.0
       if(EN <= (2.0*EIN[52]:
       )) GO TO 456
-      PEQIN(52,I)=PEQEL(2,(I-IOFFN[52]))
+      PEQIN[52][I]=PEQEL[2][(I-IOFFN[52])]
       # SINGLET DISSOCIATION AT 19.25   EV     BEF SCALING F=.014152
       456 if(EN <= (EIN[53])) GO TO 457
-      QIN(53,I)=0.014152/(EIN[53]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[53]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[53]+E[3])
-      if(QIN(53,I):
-      < 0.0) QIN(53,I)=0.0
+      QIN[53][I]=0.014152/(EIN[53]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[53]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[53]+E[3])
+      if(QIN[53][I]:
+      < 0.0) QIN[53][I]=0.0
       if(EN <= (2.0*EIN[53]:
       )) GO TO 457
-      PEQIN(53,I)=PEQEL(2,(I-IOFFN[53]))
+      PEQIN[53][I]=PEQEL[2][(I-IOFFN[53])]
       # SINGLET DISSOCIATION AT 19.75   EV     BEF SCALING F=.013698
       457 if(EN <= (EIN[54])) GO TO 458
-      QIN(54,I)=0.013698/(EIN[54]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[54]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[54]+E[3])
-      if(QIN(54,I):
-      < 0.0) QIN(54,I)=0.0
+      QIN[54][I]=0.013698/(EIN[54]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[54]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[54]+E[3])
+      if(QIN[54][I]:
+      < 0.0) QIN[54][I]=0.0
       if(EN <= (2.0*EIN[54]:
       )) GO TO 458
-      PEQIN(54,I)=PEQEL(2,(I-IOFFN[54]))
+      PEQIN[54][I]=PEQEL[2][(I-IOFFN[54])]
       # SINGLET DISSOCIATION AT 20.25   EV     BEF SCALING F=.010362
       458 if(EN <= (EIN[55])) GO TO 459
-      QIN(55,I)=0.010362/(EIN[55]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[55]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[55]+E[3])
-      if(QIN(55,I):
-      < 0.0) QIN(55,I)=0.0
+      QIN[55][I]=0.010362/(EIN[55]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[55]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[55]+E[3])
+      if(QIN[55][I]:
+      < 0.0) QIN[55][I]=0.0
       if(EN <= (2.0*EIN[55]:
       )) GO TO 459
-      PEQIN(55,I)=PEQEL(2,(I-IOFFN[55]))
+      PEQIN[55][I]=PEQEL[2][(I-IOFFN[55])]
       # SINGLET DISSOCIATION AT 20.75   EV     BEF SCALING F=.0088401
       459 if(EN <= (EIN[56])) GO TO 460
-      QIN(56,I)=0.0088401/(EIN[56]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[56]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[56]+E[3])
-      if(QIN(56,I):
-      < 0.0) QIN(56,I)=0.0
+      QIN[56][I]=0.0088401/(EIN[56]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[56]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[56]+E[3])
+      if(QIN[56][I]:
+      < 0.0) QIN[56][I]=0.0
       if(EN <= (2.0*EIN[56]:
       )) GO TO 460
-      PEQIN(56,I)=PEQEL(2,(I-IOFFN[56]))
+      PEQIN[56][I]=PEQEL[2][(I-IOFFN[56])]
       # SINGLET DISSOCIATION AT 21.5    EV     BEF SCALING F=.022195
       460 if(EN <= (EIN[57])) GO TO 461
-      QIN(57,I)=0.022195/(EIN[57]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[57]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[57]+E[3])
-      if(QIN(57,I):
-      < 0.0) QIN(57,I)=0.0
+      QIN[57][I]=0.022195/(EIN[57]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[57]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[57]+E[3])
+      if(QIN[57][I]:
+      < 0.0) QIN[57][I]=0.0
       if(EN <= (2.0*EIN[57]:
       )) GO TO 461
-      PEQIN(57,I)=PEQEL(2,(I-IOFFN[57]))
+      PEQIN[57][I]=PEQEL[2][(I-IOFFN[57])]
       # SINGLET DISSOCIATION AT 22.5    EV     BEF SCALING F=.019172
       461 if(EN <= (EIN[58])) GO TO 462
-      QIN(58,I)=0.019172/(EIN[58]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[58]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[58]+E[3])
-      if(QIN(58,I):
-      < 0.0) QIN(58,I)=0.0
+      QIN[58][I]=0.019172/(EIN[58]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[58]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[58]+E[3])
+      if(QIN[58][I]:
+      < 0.0) QIN[58][I]=0.0
       if(EN <= (2.0*EIN[58]:
       )) GO TO 462
-      PEQIN(58,I)=PEQEL(2,(I-IOFFN[58]))
+      PEQIN[58][I]=PEQEL[2][(I-IOFFN[58])]
       # SINGLET DISSOCIATION AT 23.5    EV     BEF SCALING F=.011553
       462 if(EN <= (EIN[59])) GO TO 463
-      QIN(59,I)=0.011553/(EIN[59]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[59]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[59]+E[3])
-      if(QIN(59,I):
-      < 0.0) QIN(59,I)=0.0
+      QIN[59][I]=0.011553/(EIN[59]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[59]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[59]+E[3])
+      if(QIN[59][I]:
+      < 0.0) QIN[59][I]=0.0
       if(EN <= (2.0*EIN[59]:
       )) GO TO 463
-      PEQIN(59,I)=PEQEL(2,(I-IOFFN[59])) 
+      PEQIN[59][I]=PEQEL[2][(I-IOFFN[59])] 
       # SINGLET DISSOCIATION AT 24.5    EV     BEF SCALING F=.0089679
       463 if(EN <= (EIN[60])) GO TO 464
-      QIN(60,I)=0.0089679/(EIN[60]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[60]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[60]+E[3])
-      if(QIN(60,I):
-      < 0.0) QIN(60,I)=0.0
+      QIN[60][I]=0.0089679/(EIN[60]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[60]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[60]+E[3])
+      if(QIN[60][I]:
+      < 0.0) QIN[60][I]=0.0
       if(EN <= (2.0*EIN[60]:
       )) GO TO 464
-      PEQIN(60,I)=PEQEL(2,(I-IOFFN[60])) 
+      PEQIN[60][I]=PEQEL[2][(I-IOFFN[60])] 
       # SINGLET DISSOCIATION AT 25.5    EV     BEF SCALING F=.0064815
       464 if(EN <= (EIN[61])) GO TO 465
-      QIN(61,I)=0.0064815/(EIN[61]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[61]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[61]+E[3])
-      if(QIN(61,I):
-      < 0.0) QIN(61,I)=0.0
+      QIN[61][I]=0.0064815/(EIN[61]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[61]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[61]+E[3])
+      if(QIN[61][I]:
+      < 0.0) QIN[61][I]=0.0
       if(EN <= (2.0*EIN[61]:
       )) GO TO 465
-      PEQIN(61,I)=PEQEL(2,(I-IOFFN[61])) 
+      PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])] 
       # 
       # FOURTH TRIPLET AT  26.0 EV                                   
       465 if(EN <= EIN[62]) GO TO 470
@@ -15714,33 +15767,33 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NTR4                                                           
       467 A=(YTR4[J]-YTR4(J-1))/(XTR4[J]-XTR4(J-1))                     
       B=(XTR4(J-1)*YTR4[J]-XTR4[J]*YTR4(J-1))/(XTR4(J-1)-XTR4[J]) 
-      QIN(62,I)=(A*EN+B)*1.D-16
+      QIN[62][I]=(A*EN+B)*1.D-16
       GO TO 469
       # SCALE BY 1/E**2 ABOVE XTR4(NTR4) EV
-      468 QIN(62,I)=YTR4(NTR4)*(XTR4(NTR4)/EN)**2*1.D-16
+      468 QIN[62][I]=YTR4(NTR4)*(XTR4(NTR4)/EN)**2*1.D-16
       469 if(EN <= (3.0*EIN[62])) GO TO 470
-      PEQIN(62,I)=PEQEL(2,(I-IOFFN[62]))
+      PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]
       #
       # SINGLET DISSOCIATION AT 26.5    EV     BEF SCALING F=.0035484
       470 if(EN <= (EIN[63])) GO TO 471
-      QIN(63,I)=0.0035484/(EIN[63]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[63]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[63]+E[3])
-      if(QIN(63,I):
-      < 0.0) QIN(63,I)=0.0
+      QIN[63][I]=0.0035484/(EIN[63]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[63]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[63]+E[3])
+      if(QIN[63][I]:
+      < 0.0) QIN[63][I]=0.0
       if(EN <= (2.0*EIN[63]:
       )) GO TO 471
-      PEQIN(63,I)=PEQEL(2,(I-IOFFN[63])) 
+      PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])] 
       # SINGLET DISSOCIATION AT 27.5    EV     BEF SCALING F=.0010872
       471 if(EN <= (EIN[64])) GO TO 472
-      QIN(64,I)=0.0010872/(EIN[64]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[64]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[64]+E[3])
-      if(QIN(64,I):
-      < 0.0) QIN(64,I)=0.0
+      QIN[64][I]=0.0010872/(EIN[64]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[64]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[64]+E[3])
+      if(QIN[64][I]:
+      < 0.0) QIN[64][I]=0.0
       if(EN <= (2.0*EIN[64]:
       )) GO TO 472
-      PEQIN(64,I)=PEQEL(2,(I-IOFFN[64])) 
+      PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])] 
       472 CONTINUE
       # LOAD BREMSSTRAHLUNG X-SECTION
-      QIN(65,I)=0.0
-      QIN(66,I)=0.0
+      QIN[65][I]=0.0
+      QIN[66][I]=0.0
       if(EN <= 1000.):
       GO TO 800
       DO 780 J=2,NBREM
@@ -15748,12 +15801,12 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       ) GO TO 790
       780 CONTINUE
       J=NBREM
-      790 A=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A1=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(65,I)=math.exp(A*EN+B)*3.D-24
-      QIN(66,I)=math.exp(A1*EN+B1)*8.D-24
+      790 A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A1=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[65][I]=math.exp(A*EN+B)*3.D-24
+      QIN[66][I]=math.exp(A1*EN+B1)*8.D-24
       800 CONTINUE
       #
       #  LOAD NULL COLLISIONS
@@ -15817,7 +15870,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       SUMTOTM=SUMVIB+SUMEXC+SUMION+SUMATT+SUMELMT
       SUMTOT=SUMVIB+SUMEXC+SUMION+SUMATT+SUMEL
       SUMNONEL=SUMVIB+SUMEXC+SUMION+SUMATT
-      SUMTRIPLET=QIN[9][I]+QIN(11,I)+QIN(18,I)+QIN(62,I)
+      SUMTRIPLET=QIN[9][I]+QIN[11][I]+QIN[18][I]+QIN[62][I]
       SUMDIPOLE=SUMEXC-SUMTRIPLET
       #
       #     WRITE(6,887) EN,QIN[1][I],QIN[2][I]
@@ -15851,7 +15904,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]    
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]    
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]     
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -16255,7 +16308,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       # AT AN ENERGY OFFSET BY THE IONISATION ENERGY
       if(EN <= (2.0*EION[1]:
       )) GO TO 150
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
       # CALCULATE IONISATION-EXCITATION AND SPLIT IONISATION INTO
       # IONISATION ONLY AND IONISATION +EXCITATION
       150 QION[2][I]=0.0
@@ -16271,7 +16324,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       QION[1][I]=QION[1][I]-QION[2][I]
       if(EN <= (2.0*EION[2]:
       )) GO TO 160
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
       # K-SHELL IONISATION
       160 QION[3][I]=0.0
       PEQION[3][I]=0.5
@@ -16294,7 +16347,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       # AT AN ENERGY OFFSET BY THE IONISATION ENERGY
       if(EN <= (2.0*EION[3]:
       )) GO TO 170
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
       # CORRECT DISSOCIATIVE IONISATION FOR SPLIT INTO K-SHELL
       170 QION[2][I]=QION[2][I]-QION[3][I]
       # ATTACHMENT (NO ATTACHMENT)                                          
@@ -16311,7 +16364,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       Q[5][I]=Q[5][I]-QION[3][I]
       if(EN <= (2.0*E[3]:
       )) GO TO 210
-      PEQEL[5][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQEL[5][I]=PEQEL[2][(I-IOFFION[1]])
       210 CONTINUE
       #**********************************************************************
       # TEMPORARY MOD FOR RANGE PARAMETERS 
@@ -16331,8 +16384,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       if(EN < (5.0*abs(EIN[1]:
       ))) GO TO 305
       if(NANISO == 2):
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-      # TORSION           
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]      # TORSION           
       305 QIN[2][I]=0.0
       PEQIN[2][I]=0.5  
       if(NANISO == 2):
@@ -16345,8 +16397,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       if(EN < (5.0*abs(EIN[2]:
       ))) GO TO 400
       if(NANISO == 2):
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))
-      # SUPERELASTIC VIB B# end MODES
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]      # SUPERELASTIC VIB B# end MODES
       400 QIN[3][I]=0.0
       PEQIN[3][I]=0.5
       if(NANISO == 2):
@@ -16367,8 +16418,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       425 QIN[3][I]=APOPV2*YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)*1.D-16
       426 if(EN < (3.0*abs(EIN[3]))) GO TO 450
       if(NANISO == 2):
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))
-      # VIB B# end MODES 
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]      # VIB B# end MODES 
       450 QIN[4][I]=0.0  
       PEQIN[4][I]=0.5                
       if(NANISO == 2):
@@ -16389,8 +16439,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       475 QIN[4][I]=APOPGS*YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)*1.D-16
       476 if(EN < (3.0*abs(EIN[4]))) GO TO 500
       if(NANISO == 2):
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-      # SUPERELASTIC VIB STRETCH MODES
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]      # SUPERELASTIC VIB STRETCH MODES
       500 CONTINUE 
       QIN[5][I]=0.0
       PEQIN[5][I]=0.5
@@ -16412,8 +16461,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       525 QIN[5][I]=APOPV3*YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)*1.D-16
       526 if(EN < (3.0*abs(EIN[5]))) GO TO 550
       if(NANISO == 2):
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-      # VIB STRETCH MODES
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]      # VIB STRETCH MODES
       550 CONTINUE                                                          
       QIN[6][I]=0.0  
       PEQIN[6][I]=0.5
@@ -16435,8 +16483,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       575 QIN[6][I]=APOPGS*YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)*1.D-16  
       576 if(EN < (3.0*abs(EIN[6]))) GO TO 600
       if(NANISO == 2):
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-      # SUPERELASTIC VIB STRETCH MODES
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]      # SUPERELASTIC VIB STRETCH MODES
       600 CONTINUE 
       QIN[7][I]=0.0
       PEQIN[7][I]=0.5
@@ -16458,8 +16505,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       625 QIN[7][I]=APOPV4*YVIB4(NVIB4)*(XVIB4(NVIB4)/EN)*1.D-16
       626 if(EN < (3.0*abs(EIN[7]))) GO TO 650
       if(NANISO == 2):
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-      #  VIB STRETCH MODES         
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]      #  VIB STRETCH MODES         
       650 CONTINUE                                                          
       QIN[8][I]=0.0  
       PEQIN[8][I]=0.5 
@@ -16481,7 +16527,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       675 QIN[8][I]=APOPGS*YVIB4(NVIB4)*(XVIB4(NVIB4)/EN)*1.D-16             
       676 if(EN < (3.0*abs(EIN[8]))) GO TO 700
       if(NANISO == 2):
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))       
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]      
       # HIGHER VIBRATIONAL MODES                                              
       700 QIN[9][I]=0.0  
       PEQIN[9][I]=0.5       
@@ -16489,26 +16535,25 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       PEQIN[9][I]=0.0                            
       if(EN <= EIN[9]:
       ) GO TO 800                           
-      if(EN > XVIB5(NVIB5):
+      if(EN > XVIB5[NVIB5]:
       ) GO TO 725             
       DO 710 J=2,NVIB5                                                  
       if(EN <= XVIB5[J]:
       ) GO TO 720                                      
       710 CONTINUE                                                          
       J=NVIB5                                                           
-      720 A=(YVIB5[J]-YVIB5(J-1))/(XVIB5[J]-XVIB5(J-1))                     
-      B=(XVIB5(J-1)*YVIB5[J]-XVIB5[J]*YVIB5(J-1))/(XVIB5(J-1)-XVIB5[J]) 
+      720 A=(YVIB5[J]-YVIB5[J-1])/(XVIB5[J]-XVIB5[J-1])                     
+      B=(XVIB5[J-1]*YVIB5[J]-XVIB5[J]*YVIB5[J-1])/(XVIB5[J-1]-XVIB5[J]) 
       QIN[9][I]=(A*EN+B)*1.D-16
       GO TO 726
-      725 QIN[9][I]=YVIB5(NVIB5)*(XVIB5(NVIB5)/EN)*1.D-16
+      725 QIN[9][I]=YVIB5[NVIB5]*(XVIB5[NVIB5]/EN)*1.D-16
       726 if(EN < (3.0*abs(EIN[9]))) GO TO 800
       if(NANISO == 2):
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-      # EXCITATION    TRIPLET  ABOVE XEXC1(NEXC1) SCALE BY 1/EN**3           
-      800 QIN(10,I)=0.0 
-      PEQIN(10,I)=0.5  
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]      # EXCITATION    TRIPLET  ABOVE XEXC1(NEXC1) SCALE BY 1/EN**3           
+      800 QIN[10][I]=0.0 
+      PEQIN[10][I]=0.5  
       if(NANISO == 2):
-      PEQIN(10,I)=0.0                             
+      PEQIN[10][I]=0.0                             
       if(EN <= EIN[10]:
       ) GO TO 850     
       if(EN > XEXC1(NEXC1):
@@ -16520,17 +16565,17 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NEXC1                                                           
       820 A=(YEXC1[J]-YEXC1(J-1))/(XEXC1[J]-XEXC1(J-1))                     
       B=(XEXC1(J-1)*YEXC1[J]-XEXC1[J]*YEXC1(J-1))/(XEXC1(J-1)-XEXC1[J]) 
-      QIN(10,I)=(A*EN+B)*1.D-16  
+      QIN[10][I]=(A*EN+B)*1.D-16  
       GO TO 840
       # SCALE BY 1/E**3
-      830 QIN(10,I)=YEXC1(NEXC1)*(XEXC1(NEXC1)/EN)**3*1.D-16
+      830 QIN[10][I]=YEXC1(NEXC1)*(XEXC1(NEXC1)/EN)**3*1.D-16
       840 if(EN <= (2.0*EIN[10])) GO TO 850
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
       # EXCITATION  TRIPLET ABOVE XEXC2(NEXC2) SCALE BY 1/E**3
-      850 QIN(11,I)=0.0 
-      PEQIN(11,I)=0.5              
+      850 QIN[11][I]=0.0 
+      PEQIN[11][I]=0.5              
       if(NANISO == 2):
-      PEQIN(11,I)=0.0                                   
+      PEQIN[11][I]=0.0                                   
       if(EN <= EIN[11]:
       ) GO TO 900    
       if(EN > XEXC2(NEXC2):
@@ -16542,159 +16587,159 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       J=NEXC2                                                           
       870 A=(YEXC2[J]-YEXC2(J-1))/(XEXC2[J]-XEXC2(J-1))                     
       B=(XEXC2(J-1)*YEXC2[J]-XEXC2[J]*YEXC2(J-1))/(XEXC2(J-1)-XEXC2[J]) 
-      QIN(11,I)=(A*EN+B)*1.D-16
+      QIN[11][I]=(A*EN+B)*1.D-16
       GO TO 890                                         
       #  SCALE BY 1/E**3
-      880 QIN(11,I)=YEXC2(NEXC2)*(XEXC2(NEXC2)/EN)**3*1.D-16
+      880 QIN[11][I]=YEXC2(NEXC2)*(XEXC2(NEXC2)/EN)**3*1.D-16
       890 if(EN <= (2.0*EIN[11])) GO TO 900
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))   
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]   
       # EXCITATION   F=0.00131                                      
-      900 QIN(12,I)=0.0              
-      PEQIN(12,I)=0.0                                   
+      900 QIN[12][I]=0.0              
+      PEQIN[12][I]=0.0                                   
       if(EN <= EIN[12]:
       ) GO TO 905
-      QIN(12,I)=.00131/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[12])*ASING
-      if(QIN(12,I):
-      < 0.0) QIN(12,I)=0.0
+      QIN[12][I]=.00131/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[12])*ASING
+      if(QIN[12][I]:
+      < 0.0) QIN[12][I]=0.0
       if(EN <= (2.0*EIN[12]:
       )) GO TO 905
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))     
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]     
       # EXCITATION   F=0.0150                                       
-      905 QIN(13,I)=0.0              
-      PEQIN(13,I)=0.0                                   
+      905 QIN[13][I]=0.0              
+      PEQIN[13][I]=0.0                                   
       if(EN <= EIN[13]:
       ) GO TO 910
-      QIN(13,I)=.01500/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[13])*ASING
-      if(QIN(13,I):
-      < 0.0) QIN(13,I)=0.0
+      QIN[13][I]=.01500/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[13])*ASING
+      if(QIN[13][I]:
+      < 0.0) QIN[13][I]=0.0
       if(EN <= (2.0*EIN[13]:
       )) GO TO 910
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))     
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]     
       # EXCITATION   F=0.11400                                      
-      910 QIN(14,I)=0.0              
-      PEQIN(14,I)=0.0                                   
+      910 QIN[14][I]=0.0              
+      PEQIN[14][I]=0.0                                   
       if(EN <= EIN[14]:
       ) GO TO 915
-      QIN(14,I)=.11400/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[14])*ASING
-      if(QIN(14,I):
-      < 0.0) QIN(14,I)=0.0
+      QIN[14][I]=.11400/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[14])*ASING
+      if(QIN[14][I]:
+      < 0.0) QIN[14][I]=0.0
       if(EN <= (2.0*EIN[14]:
       )) GO TO 915
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))     
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]     
       # EXCITATION   F=0.15700                                      
-      915 QIN(15,I)=0.0              
-      PEQIN(15,I)=0.0                                   
+      915 QIN[15][I]=0.0              
+      PEQIN[15][I]=0.0                                   
       if(EN <= EIN[15]:
       ) GO TO 920
-      QIN(15,I)=.15700/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[15])*ASING
-      if(QIN(15,I):
-      < 0.0) QIN(15,I)=0.0
+      QIN[15][I]=.15700/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[15])*ASING
+      if(QIN[15][I]:
+      < 0.0) QIN[15][I]=0.0
       if(EN <= (2.0*EIN[15]:
       )) GO TO 920
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
       # EXCITATION   F=0.17100                                      
-      920 QIN(16,I)=0.0              
-      PEQIN(16,I)=0.0                                   
+      920 QIN[16][I]=0.0              
+      PEQIN[16][I]=0.0                                   
       if(EN <= EIN[16]:
       ) GO TO 925
-      QIN(16,I)=.17100/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[16])*ASING
-      if(QIN(16,I):
-      < 0.0) QIN(16,I)=0.0
+      QIN[16][I]=.17100/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[16])*ASING
+      if(QIN[16][I]:
+      < 0.0) QIN[16][I]=0.0
       if(EN <= (2.0*EIN[16]:
       )) GO TO 925
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))     
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]     
       # EXCITATION   F=0.18800                                      
-      925 QIN(17,I)=0.0              
-      PEQIN(17,I)=0.0                                   
+      925 QIN[17][I]=0.0              
+      PEQIN[17][I]=0.0                                   
       if(EN <= EIN[17]:
       ) GO TO 930
-      QIN(17,I)=.18800/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[17])*ASING
-      if(QIN(17,I):
-      < 0.0) QIN(17,I)=0.0
+      QIN[17][I]=.18800/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[17])*ASING
+      if(QIN[17][I]:
+      < 0.0) QIN[17][I]=0.0
       if(EN <= (2.0*EIN[17]:
       )) GO TO 930
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))    
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]    
       # EXCITATION   F=0.20500                                      
-      930 QIN(18,I)=0.0              
-      PEQIN(18,I)=0.0                                   
+      930 QIN[18][I]=0.0              
+      PEQIN[18][I]=0.0                                   
       if(EN <= EIN[18]:
       ) GO TO 935
-      QIN(18,I)=.20500/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[18])*ASING
-      if(QIN(18,I):
-      < 0.0) QIN(18,I)=0.0
+      QIN[18][I]=.20500/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[18])*ASING
+      if(QIN[18][I]:
+      < 0.0) QIN[18][I]=0.0
       if(EN <= (2.0*EIN[18]:
       )) GO TO 935
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))    
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]    
       # EXCITATION   F=0.19300                                      
-      935 QIN(19,I)=0.0              
-      PEQIN(19,I)=0.0                                   
+      935 QIN[19][I]=0.0              
+      PEQIN[19][I]=0.0                                   
       if(EN <= EIN[19]:
       ) GO TO 940
-      QIN(19,I)=.19300/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[19])*ASING
-      if(QIN(19,I):
-      < 0.0) QIN(19,I)=0.0
+      QIN[19][I]=.19300/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[19])*ASING
+      if(QIN[19][I]:
+      < 0.0) QIN[19][I]=0.0
       if(EN <= (2.0*EIN[19]:
       )) GO TO 940
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))    
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]    
       # EXCITATION   F=0.16200                                      
-      940 QIN(20,I)=0.0              
-      PEQIN(20,I)=0.0                                   
+      940 QIN[20][I]=0.0              
+      PEQIN[20][I]=0.0                                   
       if(EN <= EIN[20]:
       ) GO TO 945
-      QIN(20,I)=.16200/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[20])*ASING
-      if(QIN(20,I):
-      < 0.0) QIN(20,I)=0.0
+      QIN[20][I]=.16200/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[20])*ASING
+      if(QIN[20][I]:
+      < 0.0) QIN[20][I]=0.0
       if(EN <= (2.0*EIN[20]:
       )) GO TO 945
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))    
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]    
       # EXCITATION   F=0.10300                                      
-      945 QIN(21,I)=0.0              
-      PEQIN(21,I)=0.0                                   
+      945 QIN[21][I]=0.0              
+      PEQIN[21][I]=0.0                                   
       if(EN <= EIN[21]:
       ) GO TO 950
-      QIN(21,I)=.10300/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[21])*ASING
-      if(QIN(21,I):
-      < 0.0) QIN(21,I)=0.0
+      QIN[21][I]=.10300/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[21])*ASING
+      if(QIN[21][I]:
+      < 0.0) QIN[21][I]=0.0
       if(EN <= (2.0*EIN[21]:
       )) GO TO 950
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))    
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]    
       # EXCITATION   F=0.06700                                      
-      950 QIN(22,I)=0.0              
-      PEQIN(22,I)=0.0                                   
+      950 QIN[22][I]=0.0              
+      PEQIN[22][I]=0.0                                   
       if(EN <= EIN[22]:
       ) GO TO 955
-      QIN(22,I)=.06700/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[22])*ASING
-      if(QIN(22,I):
-      < 0.0) QIN(22,I)=0.0
+      QIN[22][I]=.06700/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[22])*ASING
+      if(QIN[22][I]:
+      < 0.0) QIN[22][I]=0.0
       if(EN <= (2.0*EIN[22]:
       )) GO TO 955
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))    
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]    
       # EXCITATION   F=0.06400                                      
-      955 QIN(23,I)=0.0              
-      PEQIN(23,I)=0.0                                   
+      955 QIN[23][I]=0.0              
+      PEQIN[23][I]=0.0                                   
       if(EN <= EIN[23]:
       ) GO TO 960
-      QIN(23,I)=.06400/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[23])*ASING
-      if(QIN(23,I):
-      < 0.0) QIN(23,I)=0.0
+      QIN[23][I]=.06400/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[23])*ASING
+      if(QIN[23][I]:
+      < 0.0) QIN[23][I]=0.0
       if(EN <= (2.0*EIN[23]:
       )) GO TO 960
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))    
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]    
       # EXCITATION   F=0.02800                                      
-      960 QIN(24,I)=0.0              
-      PEQIN(24,I)=0.0                                   
+      960 QIN[24][I]=0.0              
+      PEQIN[24][I]=0.0                                   
       if(EN <= EIN[24]:
       ) GO TO 965
-      QIN(24,I)=.02800/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[24])*ASING
-      if(QIN(24,I):
-      < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=.02800/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[24])*ASING
+      if(QIN[24][I]:
+      < 0.0) QIN[24][I]=0.0
       if(EN <= (2.0*EIN[24]:
       )) GO TO 965
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
       965 CONTINUE    
       # LOAD BREMSSTRAHLUNG X-SECTIONS
-      QIN(25,I)=0.0
-      QIN(26,I)=0.0
+      QIN[25][I]=0.0
+      QIN[26][I]=0.0
       if(EN <= 1000.):
       GO TO 990
       DO 972 J=2,NBREM
@@ -16702,20 +16747,20 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       ) GO TO 973
       972 CONTINUE
       J=NBREM
-      973 A=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])            
-      A1=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])                                
-      QIN(25,I)=math.exp(A*EN+B)*4.0*1.D-24
-      QIN(26,I)=math.exp(A1*EN+B1)*10.0*1.D-24
+      973 A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])            
+      A1=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])                                
+      QIN[25][I]=math.exp(A*EN+B)*4.0*1.D-24
+      QIN[26][I]=math.exp(A1*EN+B1)*10.0*1.D-24
       990 CONTINUE
       #
-      QSNG=QIN(12,I)+QIN(13,I)+QIN(14,I)+QIN(15,I)+QIN(16,I)+QIN(17,I)+QIN(18,I)+QIN(19,I)+QIN(20,I)+QIN(21,I)+QIN(22,I)+QIN(23,I)+QIN(24,I)
-      QTRP=QIN(10,I)+QIN(11,I) 
+      QSNG=QIN[12][I]+QIN[13][I]+QIN[14][I]+QIN[15][I]+QIN[16][I]+QIN[17][I]+QIN[18][I]+QIN[19][I]+QIN[20][I]+QIN[21][I]+QIN[22][I]+QIN[23][I]+QIN[24][I]
+      QTRP=QIN[10][I]+QIN[11][I] 
       QTOTEXC=QTRP+QSNG
       Q[1][I]=Q[2][I]+Q[5][I]+Q[4][I]+QIN[1][I]+QIN[2][I]+QIN[3][I]+QIN[4][I]+  QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QEXCTOT
       #    /QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QEXCTOT+
-      #    /QIN(25,I)+QIN(26,I)
+      #    /QIN[25][I]+QIN[26][I]
       #     WRITE(6,991) EN,QTRP,QSNG,QTOTEXC
       # 991 print(' EN=','%.4f' % ,' QTRP=','%.4f' % ,' QSNG=','%.4f' % ,' QEXCTOT=',
       #    /'%.4f' % )
@@ -16743,7 +16788,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250],PJ(220) 
@@ -17512,7 +17557,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
       QION[1][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.67716
       24 if(EN <= (2.0*EION[1])) GO TO 1025
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
       #  IONISATION CO2+(A2PIu)
       1025 QION[2][I]=0.0 
       PEQION[2][I]=0.5  
@@ -17534,7 +17579,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION2(NION2) EV
       1028 QION[2][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.67716*0.385
       1029 if(EN <= (2.0*EION[2])) GO TO 1030
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
       #  IONISATION CO2+(B2SIGMA+u)
       1030 QION[3][I]=0.0 
       PEQION[3][I]=0.5  
@@ -17556,7 +17601,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION3(NION3) EV
       1033 QION[3][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.67716*0.220
       1034 if(EN <= (2.0*EION[3])) GO TO 1035
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
       #  DISSOCIATIVE IONISATION O+
       1035 QION[4][I]=0.0 
       PEQION[4][I]=0.5  
@@ -17578,7 +17623,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION4(NION4) EV
       1038 QION[4][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.16156
       1039 if(EN <= (2.0*EION[4])) GO TO 1040
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
       #  DISSOCIATIVE IONISATION CO+
       1040 QION[5][I]=0.0 
       PEQION[5][I]=0.5  
@@ -17600,7 +17645,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION5(NION5) EV
       1043 QION[5][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.07962
       1044 if(EN <= (2.0*EION[5])) GO TO 1045
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
       #  DISSOCIATIVE IONISATION C+ 
       1045 QION[6][I]=0.0 
       PEQION[6][I]=0.5  
@@ -17622,7 +17667,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION6(NION6) EV
       1048 QION[6][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.07452
       1049 if(EN <= (2.0*EION[6])) GO TO 1050
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
       #   IONISATION CO2++ 
       1050 QION[7][I]=0.0 
       PEQION[7][I]=0.5  
@@ -17644,7 +17689,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION7(NION7) EV
       1053 QION[7][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00559
       1054 if(EN <= (2.0*EION[7])) GO TO 1055
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
       #   DISSOCIATIVE IONISATION C++ 
       1055 QION[8][I]=0.0 
       PEQION[8][I]=0.5  
@@ -17666,7 +17711,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION8(NION8) EV
       1058 QION[8][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00076
       1059 if(EN <= (2.0*EION[8])) GO TO 1060
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
       #   DISSOCIATIVE IONISATION O++ 
       1060 QION[9][I]=0.0 
       PEQION[9][I]=0.5  
@@ -17688,7 +17733,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION9(NION9) EV
       1063 QION[9][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00080
       1064 if(EN <= (2.0*EION[9])) GO TO 25
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
       # CARBON K-SHELL IONISATION
       25 QION[10][I]=0.0 
       PEQION[10][I]=0.5  
@@ -17706,7 +17751,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QION[10][I]=1.0D-16*(A*EN+B) 
       if(EN <= (2.0*EION[10]:
       )) GO TO 28
-      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
       # OXYGEN K-SHELL IONISATION
       28 QION[11][I]=0.0 
       PEQION[11][I]=0.5  
@@ -17725,7 +17770,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QION[11][I]=2.0D-16*(A*EN+B) 
       if(EN <= (2.0*EION[11]:
       )) GO TO 301
-      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
       #
       # FIX CO2+ X-SECTION FOR SPLIT INTO CO2+ EXCITED STATES
       301 QION[1][I]=QION[1][I]-QION[2][I]-QION[3][I]
@@ -17761,8 +17806,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN < (4.0*abs(EIN[K]:
       ))) GO TO 50
       if(NANISO > 0):
-      PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      50 CONTINUE
+      PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      50 CONTINUE
       51 QIN(K,I)=PJ(L)*QBK*math.sqrt(1.0-EIN[K]/EN)*AJ*(AJ-1.0)/((2.0*AJ+1.0)*(2.0*AJ-1.0))
       # ROTATION                 
       DO 52 K=1,59,2
@@ -17778,8 +17822,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN < (4.0*abs(EIN[K]:
       ))) GO TO 52
       if(NANISO > 0):
-      PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      52 CONTINUE
+      PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      52 CONTINUE
       # BORN (1/E) FALL OFF IN ROTATONAL X-SEC ABOVE 6.0 EV .
       if(EN < 6.0):
       GO TO 80
@@ -17789,14 +17832,14 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       80 CONTINUE   
       #                                                                        
       #  SUPERELASTIC V2  B# end MODE                                            
-      QIN(61,I)=0.0 
-      PEQIN(61,I)=0.50
+      QIN[61][I]=0.0 
+      PEQIN[61][I]=0.50
       if(NANISO == 2):
-      PEQIN(61,I)=0.00
+      PEQIN[61][I]=0.00
       if(EN <= 0.0):
       GO TO 150
       EFAC=math.sqrt(1.0-(EIN[61]/EN))
-      QIN(61,I)=AMPV2*math.log((EFAC+1.0)/(EFAC-1.0))/EN 
+      QIN[61][I]=AMPV2*math.log((EFAC+1.0)/(EFAC-1.0))/EN 
       if((EN+EIN[62]:
       ) > XV2(NV2)) GO TO 125                   
       DO 110 J=2,NV2                                                    
@@ -17806,23 +17849,23 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV2                                                             
       120 A=(YV2[J]-YV2(J-1))/(XV2[J]-XV2(J-1))                     
       B=(XV2(J-1)*YV2[J]-XV2[J]*YV2(J-1))/(XV2(J-1)-XV2[J]) 
-      QIN(61,I)=QIN(61,I)+(EN+EIN[62])*(A*(EN+EIN[62])+B)/EN
+      QIN[61][I]=QIN[61][I]+(EN+EIN[62])*(A*(EN+EIN[62])+B)/EN
       GO TO 126
-      125 QIN(61,I)=QIN(61,I)+YV2(NV2)*XV2(NV2)*(EN+EIN[62])/(EN*EN)
-      126 QIN(61,I)=QIN(61,I)*APOPV2/DEGV2*1.D-16
+      125 QIN[61][I]=QIN[61][I]+YV2(NV2)*XV2(NV2)*(EN+EIN[62])/(EN*EN)
+      126 QIN[61][I]=QIN[61][I]*APOPV2/DEGV2*1.D-16
       if(EN < (3.0*abs(EIN[61]:
       ))) GO TO 150
       if(NANISO > 0):
-      PEQIN(61,I)=PEQEL(2,(I-IOFFN[61]))
+      PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
       # V2  B# end MODE                                                             
-      150 QIN(62,I)=0.0                        
-      PEQIN(62,I)=0.50
+      150 QIN[62][I]=0.0                        
+      PEQIN[62][I]=0.50
       if(NANISO == 2):
-      PEQIN(62,I)=0.00
+      PEQIN[62][I]=0.00
       if(EN <= EIN[62]:
       ) GO TO 200 
       EFAC=math.sqrt(1.0-(EIN[62]/EN))
-      QIN(62,I)=AMPV2*math.log((1.0+EFAC)/(1.0-EFAC))/EN
+      QIN[62][I]=AMPV2*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       if(EN > XV2(NV2):
       ) GO TO 175                    
       DO 160 J=2,NV2                                                    
@@ -17832,21 +17875,21 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV2                                                             
       170 A=(YV2[J]-YV2(J-1))/(XV2[J]-XV2(J-1))                     
       B=(XV2(J-1)*YV2[J]-XV2[J]*YV2(J-1))/(XV2(J-1)-XV2[J]) 
-      QIN(62,I)=QIN(62,I)+(A*EN+B)
+      QIN[62][I]=QIN[62][I]+(A*EN+B)
       GO TO 176
-      175 QIN(62,I)=QIN(62,I)+YV2(NV2)*XV2(NV2)/EN
-      176 QIN(62,I)=QIN(62,I)*APOPGS*1.D-16
+      175 QIN[62][I]=QIN[62][I]+YV2(NV2)*XV2(NV2)/EN
+      176 QIN[62][I]=QIN[62][I]*APOPGS*1.D-16
       if(EN < (3.0*EIN[62]:
       )) GO TO 200
       if(NANISO > 0):
-      PEQIN(62,I)=PEQEL(2,(I-IOFFN[62]))
+      PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]
       #     
       #  SUPERELASTIC 2V2 B# end MODE HARMONIC                                               
       200 CONTINUE                                                          
-      QIN(63,I)=0.0  
-      PEQIN(63,I)=0.50
+      QIN[63][I]=0.0  
+      PEQIN[63][I]=0.50
       if(NANISO == 2):
-      PEQIN(63,I)=0.00
+      PEQIN[63][I]=0.00
       if(EN <= 0.0):
       GO TO 250                 
       if((EN+EIN[64]:
@@ -17858,20 +17901,20 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=N2V2                                                            
       220 A=(Y2V2[J]-Y2V2(J-1))/(X2V2[J]-X2V2(J-1))                     
       B=(X2V2(J-1)*Y2V2[J]-X2V2[J]*Y2V2(J-1))/(X2V2(J-1)-X2V2[J]) 
-      QIN(63,I)=(EN+EIN[64])*(A*(EN+EIN[64])+B)/EN
+      QIN[63][I]=(EN+EIN[64])*(A*(EN+EIN[64])+B)/EN
       GO TO 226
-      225 QIN(63,I)=Y2V2(N2V2)*X2V2(N2V2)*(EN+EIN[64])/(EN*EN)
-      226 QIN(63,I)=QIN(63,I)*APOP2V2/DEG2V2*1.D-16      
+      225 QIN[63][I]=Y2V2(N2V2)*X2V2(N2V2)*(EN+EIN[64])/(EN*EN)
+      226 QIN[63][I]=QIN[63][I]*APOP2V2/DEG2V2*1.D-16      
       if(EN < (3.0*abs(EIN[63]:
       ))) GO TO 250
       if(NANISO > 0):
-      PEQIN(63,I)=PEQEL(2,(I-IOFFN[63]))          
+      PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])]          
       #  2V2 B# end MODE HARMONIC                                               
       250 CONTINUE                                                          
-      QIN(64,I)=0.0  
-      PEQIN(64,I)=0.50
+      QIN[64][I]=0.0  
+      PEQIN[64][I]=0.50
       if(NANISO == 2):
-      PEQIN(64,I)=0.00
+      PEQIN[64][I]=0.00
       if(EN <= EIN[64]:
       ) GO TO 300       
       if(EN > X2V2(N2V2):
@@ -17883,21 +17926,21 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=N2V2                                                            
       270 A=(Y2V2[J]-Y2V2(J-1))/(X2V2[J]-X2V2(J-1))                     
       B=(X2V2(J-1)*Y2V2[J]-X2V2[J]*Y2V2(J-1))/(X2V2(J-1)-X2V2[J]) 
-      QIN(64,I)=(A*EN+B)
+      QIN[64][I]=(A*EN+B)
       GO TO 276
-      275 QIN(64,I)=Y2V2(N2V2)*X2V2(N2V2)/EN  
-      276 QIN(64,I)=QIN(64,I)*APOPGS*1.D-16  
+      275 QIN[64][I]=Y2V2(N2V2)*X2V2(N2V2)/EN  
+      276 QIN[64][I]=QIN[64][I]*APOPGS*1.D-16  
       if(EN < (3.0*EIN[64]:
       )) GO TO 300
       if(NANISO > 0):
-      PEQIN(64,I)=PEQEL(2,(I-IOFFN[64]))                
+      PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])]                
       #  
       # SUPERELASTIC V1 SYMMETRIC STRETCH                                
       300 CONTINUE                                                          
-      QIN(65,I)=0.0  
-      PEQIN(65,I)=0.50
+      QIN[65][I]=0.0  
+      PEQIN[65][I]=0.50
       if(NANISO == 2):
-      PEQIN(65,I)=0.00
+      PEQIN[65][I]=0.00
       if(EN <= 0.0):
       GO TO 350   
       if((EN+EIN(66):
@@ -17909,20 +17952,20 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV1                                                             
       320 A=(YV1[J]-YV1(J-1))/(XV1[J]-XV1(J-1))                     
       B=(XV1(J-1)*YV1[J]-XV1[J]*YV1(J-1))/(XV1(J-1)-XV1[J]) 
-      QIN(65,I)=(EN+EIN(66))*(A*(EN+EIN(66))+B)/EN
+      QIN[65][I]=(EN+EIN(66))*(A*(EN+EIN(66))+B)/EN
       GO TO 326
-      325 QIN(65,I)=YV1(NV1)*XV1(NV1)*(EN+EIN(66))/(EN*EN)
-      326 QIN(65,I)=QIN(65,I)*APOPV1/DEGV1*1.D-16   
+      325 QIN[65][I]=YV1(NV1)*XV1(NV1)*(EN+EIN(66))/(EN*EN)
+      326 QIN[65][I]=QIN[65][I]*APOPV1/DEGV1*1.D-16   
       if(EN < (3.0*abs(EIN(65):
       ))) GO TO 350
       if(NANISO > 0):
-      PEQIN(65,I)=PEQEL(2,(I-IOFFN(65)))               
+      PEQIN[65][I]=PEQEL[2][(I-IOFFN(65))]               
       # V1 SYMMETRIC STRETCH                                                 
       350 CONTINUE                                                          
-      QIN(66,I)=0.0  
-      PEQIN(66,I)=0.50
+      QIN[66][I]=0.0  
+      PEQIN[66][I]=0.50
       if(NANISO == 2):
-      PEQIN(66,I)=0.00
+      PEQIN[66][I]=0.00
       if(EN <= EIN(66):
       ) GO TO 400              
       if(EN > XV1(NV1):
@@ -17934,21 +17977,21 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV1                                                             
       370 A=(YV1[J]-YV1(J-1))/(XV1[J]-XV1(J-1))                     
       B=(XV1(J-1)*YV1[J]-XV1[J]*YV1(J-1))/(XV1(J-1)-XV1[J]) 
-      QIN(66,I)=(A*EN+B)
+      QIN[66][I]=(A*EN+B)
       GO TO 376 
-      375 QIN(66,I)=YV1(NV1)*XV1(NV1)/EN
-      376 QIN(66,I)=QIN(66,I)*APOPGS*1.D-16
+      375 QIN[66][I]=YV1(NV1)*XV1(NV1)/EN
+      376 QIN[66][I]=QIN[66][I]*APOPGS*1.D-16
       if(EN < (3.0*EIN(66):
       )) GO TO 400
       if(NANISO > 0):
-      PEQIN(66,I)=PEQEL(2,(I-IOFFN(66)))             
+      PEQIN[66][I]=PEQEL[2][(I-IOFFN(66))]             
       #  
       # SUPERELASTIC 3V2 + V12                                                
       400 CONTINUE                                                          
-      QIN(67,I)=0.0  
-      PEQIN(67,I)=0.50
+      QIN[67][I]=0.0  
+      PEQIN[67][I]=0.50
       if(NANISO == 2):
-      PEQIN(67,I)=0.00
+      PEQIN[67][I]=0.00
       if(EN <= 0.0):
       GO TO 450 
       if((EN+EIN(68):
@@ -17960,20 +18003,20 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=N3V2                                                            
       420 A=(Y3V2[J]-Y3V2(J-1))/(X3V2[J]-X3V2(J-1))                     
       B=(X3V2(J-1)*Y3V2[J]-X3V2[J]*Y3V2(J-1))/(X3V2(J-1)-X3V2[J])
-      QIN(67,I)=(EN+EIN(68))*(A*(EN+EIN(68))+B)/EN
+      QIN[67][I]=(EN+EIN(68))*(A*(EN+EIN(68))+B)/EN
       GO TO 426
-      425 QIN(67,I)=Y3V2(N3V2)*X3V2(N3V2)*(EN+EIN(68))/(EN*EN) 
-      426 QIN(67,I)=QIN(67,I)*APOP3V2/DEG3V2*1.D-16  
+      425 QIN[67][I]=Y3V2(N3V2)*X3V2(N3V2)*(EN+EIN(68))/(EN*EN) 
+      426 QIN[67][I]=QIN[67][I]*APOP3V2/DEG3V2*1.D-16  
       if(EN < (3.0*abs(EIN(68):
       ))) GO TO 450
       if(NANISO > 0):
-      PEQIN(67,I)=PEQEL(2,(I-IOFFN(67)))                
+      PEQIN[67][I]=PEQEL[2][(I-IOFFN(67))]                
       # 3V2 + V12                                                             
       450 CONTINUE                                                          
-      QIN(68,I)=0.0  
-      PEQIN(68,I)=0.50
+      QIN[68][I]=0.0  
+      PEQIN[68][I]=0.50
       if(NANISO == 2):
-      PEQIN(68,I)=0.00
+      PEQIN[68][I]=0.00
       if(EN <= EIN(68):
       ) GO TO 500
       if(EN > X3V2(N3V2):
@@ -17985,24 +18028,24 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=N3V2                                                            
       470 A=(Y3V2[J]-Y3V2(J-1))/(X3V2[J]-X3V2(J-1))                     
       B=(X3V2(J-1)*Y3V2[J]-X3V2[J]*Y3V2(J-1))/(X3V2(J-1)-X3V2[J]) 
-      QIN(68,I)=(A*EN+B)  
+      QIN[68][I]=(A*EN+B)  
       GO TO 476
-      475 QIN(68,I)=Y3V2(N3V2)*X3V2(N3V2)/EN
-      476 QIN(68,I)=QIN(68,I)*APOPGS*1.D-16
+      475 QIN[68][I]=Y3V2(N3V2)*X3V2(N3V2)/EN
+      476 QIN[68][I]=QIN[68][I]*APOPGS*1.D-16
       if(EN < (3.0*EIN(68):
       )) GO TO 500
       if(NANISO > 0):
-      PEQIN(68,I)=PEQEL(2,(I-IOFFN(68)))               
+      PEQIN[68][I]=PEQEL[2][(I-IOFFN(68))]               
       #
       #  SUPERELASTIC V3 ASYMMETRIC STRETCH                                                     
-      500 QIN(69,I)=0.0  
-      PEQIN(69,I)=0.50
+      500 QIN[69][I]=0.0  
+      PEQIN[69][I]=0.50
       if(NANISO == 2):
-      PEQIN(69,I)=0.00
+      PEQIN[69][I]=0.00
       if(EN <= 0.0):
       GO TO 550
       EFAC=math.sqrt(1.0-(EIN(69)/EN))
-      QIN(69,I)=AMPV3*math.log((EFAC+1.0)/(EFAC-1.0))/EN    
+      QIN[69][I]=AMPV3*math.log((EFAC+1.0)/(EFAC-1.0))/EN    
       if((EN+EIN(70):
       ) > XV3(NV3)) GO TO 525                
       DO 510 J=2,NV3                                                    
@@ -18012,23 +18055,23 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV3                                                             
       520 A=(YV3[J]-YV3(J-1))/(XV3[J]-XV3(J-1))                     
       B=(XV3(J-1)*YV3[J]-XV3[J]*YV3(J-1))/(XV3(J-1)-XV3[J]) 
-      QIN(69,I)=QIN(69,I)+(EN+EIN(70))*(A*(EN+EIN(70))+B)/EN
+      QIN[69][I]=QIN[69][I]+(EN+EIN(70))*(A*(EN+EIN(70))+B)/EN
       GO TO 526
-      525 QIN(69,I)=QIN(69,I)+YV3(NV3)*XV3(NV3)*(EN+EIN(70))/(EN*EN)
-      526 QIN(69,I)=QIN(69,I)*APOPV3/DEGV3*1.D-16
+      525 QIN[69][I]=QIN[69][I]+YV3(NV3)*XV3(NV3)*(EN+EIN(70))/(EN*EN)
+      526 QIN[69][I]=QIN[69][I]*APOPV3/DEGV3*1.D-16
       if(EN < (3.0*abs(EIN(69):
       )))  GO TO 550
       if(NANISO > 0):
-      PEQIN(69,I)=PEQEL(2,(I-IOFFN(69)))
+      PEQIN[69][I]=PEQEL[2][(I-IOFFN(69))]
       # V3  ASYMMETRIC STRETCH                                                    
-      550 QIN(70,I)=0.0  
-      PEQIN(70,I)=0.50
+      550 QIN[70][I]=0.0  
+      PEQIN[70][I]=0.50
       if(NANISO == 2):
-      PEQIN(70,I)=0.00
+      PEQIN[70][I]=0.00
       if(EN <= EIN(70):
       ) GO TO 600 
       EFAC=math.sqrt(1.0-(EIN(70)/EN))
-      QIN(70,I)=AMPV3*math.log((1.0+EFAC)/(1.0-EFAC))/EN  
+      QIN[70][I]=AMPV3*math.log((1.0+EFAC)/(1.0-EFAC))/EN  
       if(EN > XV3(NV3):
       ) GO TO 575                  
       DO 560 J=2,NV3                                                    
@@ -18038,21 +18081,21 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV3                                                             
       570 A=(YV3[J]-YV3(J-1))/(XV3[J]-XV3(J-1))                     
       B=(XV3(J-1)*YV3[J]-XV3[J]*YV3(J-1))/(XV3(J-1)-XV3[J]) 
-      QIN(70,I)=QIN(70,I)+(A*EN+B)
+      QIN[70][I]=QIN[70][I]+(A*EN+B)
       GO TO 576
-      575 QIN(70,I)=QIN(70,I)+YV3(NV3)*XV3(NV3)/EN
-      576 QIN(70,I)=QIN(70,I)*APOPGS*1.D-16
+      575 QIN[70][I]=QIN[70][I]+YV3(NV3)*XV3(NV3)/EN
+      576 QIN[70][I]=QIN[70][I]*APOPGS*1.D-16
       if(EN < (3.0*EIN(70):
       )) GO TO 600
       if(NANISO > 0):
-      PEQIN(70,I)=PEQEL(2,(I-IOFFN(70)))
+      PEQIN[70][I]=PEQEL[2][(I-IOFFN(70))]
       #     
       #  4V2 + 2V1 + V12V2  POLYAD 3                                                 
       600 CONTINUE                                                          
-      QIN(71,I)=0.0  
-      PEQIN(71,I)=0.50
+      QIN[71][I]=0.0  
+      PEQIN[71][I]=0.50
       if(NANISO == 2):
-      PEQIN(71,I)=0.00
+      PEQIN[71][I]=0.00
       if(EN <= EIN(71):
       ) GO TO 650 
       if(EN > XVPD3(NPD3):
@@ -18064,19 +18107,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD3                                                           
       620 A=(YVPD3[J]-YVPD3(J-1))/(XVPD3[J]-XVPD3(J-1))                     
       B=(XVPD3(J-1)*YVPD3[J]-XVPD3[J]*YVPD3(J-1))/(XVPD3(J-1)-XVPD3[J]) 
-      QIN(71,I)=(A*EN+B)*1.D-16             
+      QIN[71][I]=(A*EN+B)*1.D-16             
       GO TO 626
-      625 QIN(71,I)=YVPD3(NPD3)*XVPD3(NPD3)/EN*1.D-16       
+      625 QIN[71][I]=YVPD3(NPD3)*XVPD3(NPD3)/EN*1.D-16       
       626 if(EN < (3.0*EIN(71))) GO TO 650
       if(NANISO > 0):
-      PEQIN(71,I)=PEQEL(2,(I-IOFFN(71)))
+      PEQIN[71][I]=PEQEL[2][(I-IOFFN(71))]
       #                                      
       #       3V2V1  + 2V1V2                                                   
       650 CONTINUE                                                          
-      QIN(72,I)=0.0  
-      PEQIN(72,I)=0.50
+      QIN[72][I]=0.0  
+      PEQIN[72][I]=0.50
       if(NANISO == 2):
-      PEQIN(72,I)=0.00
+      PEQIN[72][I]=0.00
       if(EN <= EIN(72):
       ) GO TO 700                         
       if(EN > XV130(NV130):
@@ -18088,19 +18131,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NV130                                                           
       670 A=(YV130[J]-YV130(J-1))/(XV130[J]-XV130(J-1))                     
       B=(XV130(J-1)*YV130[J]-XV130[J]*YV130(J-1))/(XV130(J-1)-XV130[J]) 
-      QIN(72,I)=(A*EN+B)*1.D-16       
+      QIN[72][I]=(A*EN+B)*1.D-16       
       GO TO 676
-      675 QIN(72,I)=YV130(NV130)*XV130(NV130)/EN*1.D-16   
+      675 QIN[72][I]=YV130(NV130)*XV130(NV130)/EN*1.D-16   
       676 if(EN < (3.0*EIN(72))) GO TO 700
       if(NANISO > 0):
-      PEQIN(72,I)=PEQEL(2,(I-IOFFN(72)))
+      PEQIN[72][I]=PEQEL[2][(I-IOFFN(72))]
       #                                      
       #   POLYAD 4                                                                    
       700 CONTINUE                                                          
-      QIN(73,I)=0.0  
-      PEQIN(73,I)=0.50
+      QIN[73][I]=0.0  
+      PEQIN[73][I]=0.50
       if(NANISO == 2):
-      PEQIN(73,I)=0.00
+      PEQIN[73][I]=0.00
       if(EN <= EIN(73):
       ) GO TO 750                   
       if(EN > XVPD4(NPD4):
@@ -18112,19 +18155,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD4                                                            
       720 A=(YVPD4[J]-YVPD4(J-1))/(XVPD4[J]-XVPD4(J-1))                     
       B=(XVPD4(J-1)*YVPD4[J]-XVPD4[J]*YVPD4(J-1))/(XVPD4(J-1)-XVPD4[J]) 
-      QIN(73,I)=(A*EN+B)*1.D-16      
+      QIN[73][I]=(A*EN+B)*1.D-16      
       GO TO 726
-      725 QIN(73,I)=YVPD4(NPD4)*XVPD4(NPD4)/EN*1.D-16     
+      725 QIN[73][I]=YVPD4(NPD4)*XVPD4(NPD4)/EN*1.D-16     
       726 if(EN < (3.0*EIN(73))) GO TO 750
       if(NANISO > 0):
-      PEQIN(73,I)=PEQEL(2,(I-IOFFN(73)))
+      PEQIN[73][I]=PEQEL[2][(I-IOFFN(73))]
       #
       #  PLOYAD 5     
       750 CONTINUE                                                          
-      QIN(74,I)=0.0  
-      PEQIN(74,I)=0.50
+      QIN[74][I]=0.0  
+      PEQIN[74][I]=0.50
       if(NANISO == 2):
-      PEQIN(74,I)=0.00
+      PEQIN[74][I]=0.00
       if(EN <= EIN(74):
       ) GO TO 800
       if(EN > XVPD5(NPD5):
@@ -18136,19 +18179,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD5                                                            
       770 A=(YVPD5[J]-YVPD5(J-1))/(XVPD5[J]-XVPD5(J-1))                     
       B=(XVPD5(J-1)*YVPD5[J]-XVPD5[J]*YVPD5(J-1))/(XVPD5(J-1)-XVPD5[J]) 
-      QIN(74,I)=(A*EN+B)*1.D-16  
+      QIN[74][I]=(A*EN+B)*1.D-16  
       GO TO 799
-      775 QIN(74,I)=YVPD5(NPD5)*XVPD5(NPD5)/EN*1.D-16
+      775 QIN[74][I]=YVPD5(NPD5)*XVPD5(NPD5)/EN*1.D-16
       799 if(EN < (3.0*EIN(74))) GO TO 800
       if(NANISO > 0):
-      PEQIN(74,I)=PEQEL(2,(I-IOFFN(74)))
+      PEQIN[74][I]=PEQEL[2][(I-IOFFN(74))]
       #                                              
       #   POLYAD 6                                                                    
       800 CONTINUE                                                          
-      QIN(75,I)=0.0  
-      PEQIN(75,I)=0.50
+      QIN[75][I]=0.0  
+      PEQIN[75][I]=0.50
       if(NANISO == 2):
-      PEQIN(75,I)=0.00
+      PEQIN[75][I]=0.00
       if(EN <= EIN(75):
       ) GO TO 850                
       if(EN > XVPD6(NPD6):
@@ -18160,19 +18203,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD6                                                            
       820 A=(YVPD6[J]-YVPD6(J-1))/(XVPD6[J]-XVPD6(J-1))                     
       B=(XVPD6(J-1)*YVPD6[J]-XVPD6[J]*YVPD6(J-1))/(XVPD6(J-1)-XVPD6[J]) 
-      QIN(75,I)=(A*EN+B)*1.D-16 
+      QIN[75][I]=(A*EN+B)*1.D-16 
       GO TO 826
-      825 QIN(75,I)=YVPD6(NPD6)*XVPD6(NPD6)/EN*1.D-16
+      825 QIN[75][I]=YVPD6(NPD6)*XVPD6(NPD6)/EN*1.D-16
       826 if(EN < (3.0*EIN(75)))  GO TO 850
       if(NANISO > 0):
-      PEQIN(75,I)=PEQEL(2,(I-IOFFN(75)))
+      PEQIN[75][I]=PEQEL[2][(I-IOFFN(75))]
       #                                             
       #   POLYAD 7                                                                    
       850 CONTINUE                                                          
-      QIN(76,I)=0.0  
-      PEQIN(76,I)=0.50
+      QIN[76][I]=0.0  
+      PEQIN[76][I]=0.50
       if(NANISO == 2):
-      PEQIN(76,I)=0.00
+      PEQIN[76][I]=0.00
       if(EN <= EIN(76):
       ) GO TO 900                
       if(EN > XVPD7(NPD7):
@@ -18184,19 +18227,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD7                                                            
       870 A=(YVPD7[J]-YVPD7(J-1))/(XVPD7[J]-XVPD7(J-1))                     
       B=(XVPD7(J-1)*YVPD7[J]-XVPD7[J]*YVPD7(J-1))/(XVPD7(J-1)-XVPD7[J]) 
-      QIN(76,I)=(A*EN+B)*1.D-16 
+      QIN[76][I]=(A*EN+B)*1.D-16 
       GO TO 876
-      875 QIN(76,I)=YVPD7(NPD7)*XVPD7(NPD7)/EN*1.D-16
+      875 QIN[76][I]=YVPD7(NPD7)*XVPD7(NPD7)/EN*1.D-16
       876 if(EN < (3.0*EIN(76))) GO TO 900
       if(NANISO > 0):
-      PEQIN(76,I)=PEQEL(2,(I-IOFFN(76)))
+      PEQIN[76][I]=PEQEL[2][(I-IOFFN(76))]
       #                                              
       #   POLYAD 8                                                                    
       900 CONTINUE                                                          
-      QIN(77,I)=0.0  
-      PEQIN(77,I)=0.50
+      QIN[77][I]=0.0  
+      PEQIN[77][I]=0.50
       if(NANISO == 2):
-      PEQIN(77,I)=0.00
+      PEQIN[77][I]=0.00
       if(EN <= EIN(77):
       ) GO TO 950                
       if(EN > XVPD8(NPD8):
@@ -18208,19 +18251,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD8                                                            
       920 A=(YVPD8[J]-YVPD8(J-1))/(XVPD8[J]-XVPD8(J-1))                     
       B=(XVPD8(J-1)*YVPD8[J]-XVPD8[J]*YVPD8(J-1))/(XVPD8(J-1)-XVPD8[J]) 
-      QIN(77,I)=(A*EN+B)*1.D-16
+      QIN[77][I]=(A*EN+B)*1.D-16
       GO TO 926
-      925 QIN(77,I)=YVPD8(NPD8)*XVPD8(NPD8)/EN*1.D-16
+      925 QIN[77][I]=YVPD8(NPD8)*XVPD8(NPD8)/EN*1.D-16
       926 if(EN < (3.0*EIN(77)))  GO TO 950
       if(NANISO > 0):
-      PEQIN(77,I)=PEQEL(2,(I-IOFFN(77)))
+      PEQIN[77][I]=PEQEL[2][(I-IOFFN(77))]
       #                                               
       #   POLYAD 9                                                                    
       950 CONTINUE                                                          
-      QIN(78,I)=0.0  
-      PEQIN(78,I)=0.50
+      QIN[78][I]=0.0  
+      PEQIN[78][I]=0.50
       if(NANISO == 2):
-      PEQIN(78,I)=0.00
+      PEQIN[78][I]=0.00
       if(EN <= EIN(78):
       ) GO TO 1000               
       if(EN > XVPD9(NPD9):
@@ -18232,19 +18275,19 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPD9                                                            
       970 A=(YVPD9[J]-YVPD9(J-1))/(XVPD9[J]-XVPD9(J-1))                     
       B=(XVPD9(J-1)*YVPD9[J]-XVPD9[J]*YVPD9(J-1))/(XVPD9(J-1)-XVPD9[J]) 
-      QIN(78,I)=(A*EN+B)*1.D-16     
+      QIN[78][I]=(A*EN+B)*1.D-16     
       GO TO 976 
-      975 QIN(78,I)=YVPD9(NPD9)*XVPD9(NPD9)/EN*1.D-16
+      975 QIN[78][I]=YVPD9(NPD9)*XVPD9(NPD9)/EN*1.D-16
       976 if(EN < (3.0*EIN(78))) GO TO 1000
       if(NANISO > 0):
-      PEQIN(78,I)=PEQEL(2,(I-IOFFN(78)))
+      PEQIN[78][I]=PEQEL[2][(I-IOFFN(78))]
       #                                          
       #   SUM OF HIGHER POLYADS                                                       
       1000 CONTINUE                                                          
-      QIN(79,I)=0.0   
-      PEQIN(79,I)=0.50
+      QIN[79][I]=0.0   
+      PEQIN[79][I]=0.50
       if(NANISO == 2):
-      PEQIN(79,I)=0.00
+      PEQIN[79][I]=0.00
       if(EN <= EIN(79):
       ) GO TO 1080               
       if(EN > XVPDH(NPDH):
@@ -18256,168 +18299,168 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NPDH                                                            
       1002 A=(YVPDH[J]-YVPDH(J-1))/(XVPDH[J]-XVPDH(J-1))                     
       B=(XVPDH(J-1)*YVPDH[J]-XVPDH[J]*YVPDH(J-1))/(XVPDH(J-1)-XVPDH[J]) 
-      QIN(79,I)=(A*EN+B)*1.D-16       
+      QIN[79][I]=(A*EN+B)*1.D-16       
       GO TO 1006
-      1005 QIN(79,I)=YVPDH(NPDH)*XVPDH(NPDH)/EN*1.D-16   
+      1005 QIN[79][I]=YVPDH(NPDH)*XVPDH(NPDH)/EN*1.D-16   
       1006 if(EN < (3.0*EIN(79))) GO TO 1080
       if(NANISO > 0):
-      PEQIN(79,I)=PEQEL(2,(I-IOFFN(79)))
+      PEQIN[79][I]=PEQEL[2][(I-IOFFN(79))]
       #  1DELu  6.50ev                      
       1080 CONTINUE                                                          
-      QIN(80,I)=0.0  
-      PEQIN(80,I)=0.5
+      QIN[80][I]=0.0  
+      PEQIN[80][I]=0.5
       if(NANISO == 2):
-      PEQIN(80,I)=0.0  
+      PEQIN[80][I]=0.0  
       if(EN <= EIN(80):
       ) GO TO 1081 
-      QIN(80,I)=.0000698/(EIN(80)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(80)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(80)+E[3])*1.0192
-      if(QIN(80,I):
-      < 0.0) QIN(80,I)=0.0
+      QIN[80][I]=.0000698/(EIN(80)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(80)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(80)+E[3])*1.0192
+      if(QIN[80][I]:
+      < 0.0) QIN[80][I]=0.0
       if(EN <= (2.0*EIN(80):
       )) GO TO 1081  
       if(NANISO > 0):
-      PEQIN(80,I)=PEQEL(2,(I-IOFFN(80)))               
+      PEQIN[80][I]=PEQEL[2][(I-IOFFN(80))]               
       # 1DELu 6.75 ev                                                        
       1081 CONTINUE                                                          
-      QIN(81,I)=0.0   
-      PEQIN(81,I)=0.5  
+      QIN[81][I]=0.0   
+      PEQIN[81][I]=0.5  
       if(NANISO == 2):
-      PEQIN(81,I)=0.0                                  
+      PEQIN[81][I]=0.0                                  
       if(EN <= EIN(81):
       ) GO TO 1082                            
-      QIN(81,I)=.0000630/(EIN(81)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(81)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(81)+E[3])*1.0185
-      if(QIN(81,I):
-      < 0.0) QIN(81,I)=0.0
+      QIN[81][I]=.0000630/(EIN(81)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(81)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(81)+E[3])*1.0185
+      if(QIN[81][I]:
+      < 0.0) QIN[81][I]=0.0
       if(EN <= (2.0*EIN(81):
       )) GO TO 1082
       if(NANISO > 0):
-      PEQIN(81,I)=PEQEL(2,(I-IOFFN(81)))           
+      PEQIN[81][I]=PEQEL[2][(I-IOFFN(81))]           
       #   1DELu  7.00ev                                            
       1082 CONTINUE                                                          
-      QIN(82,I)=0.0
-      PEQIN(82,I)=0.5 
+      QIN[82][I]=0.0
+      PEQIN[82][I]=0.5 
       if(NANISO == 2):
-      PEQIN(82,I)=0.0                                 
+      PEQIN[82][I]=0.0                                 
       if(EN <= EIN(82):
       ) GO TO 1083
-      QIN(82,I)=.0000758/(EIN(82)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(82)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(82)+E[3])*1.0179
-      if(QIN(82,I):
-      < 0.0) QIN(82,I)=0.0
+      QIN[82][I]=.0000758/(EIN(82)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(82)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(82)+E[3])*1.0179
+      if(QIN[82][I]:
+      < 0.0) QIN[82][I]=0.0
       if(EN <= (2.0*EIN(82):
       )) GO TO 1083
       if(NANISO > 0):
-      PEQIN(82,I)=PEQEL(2,(I-IOFFN(82))) 
+      PEQIN[82][I]=PEQEL[2][(I-IOFFN(82))] 
       #   1DELu 7.25ev
       1083 CONTINUE                                                          
-      QIN(83,I)=0.0
-      PEQIN(83,I)=0.5
+      QIN[83][I]=0.0
+      PEQIN[83][I]=0.5
       if(NANISO == 2):
-      PEQIN(83,I)=0.0                                  
+      PEQIN[83][I]=0.0                                  
       if(EN <= EIN(83):
       ) GO TO 1084
-      QIN(83,I)=.0001638/(EIN(83)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(83)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(83)+E[3])*1.0172
-      if(QIN(83,I):
-      < 0.0) QIN(83,I)=0.0
+      QIN[83][I]=.0001638/(EIN(83)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(83)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(83)+E[3])*1.0172
+      if(QIN[83][I]:
+      < 0.0) QIN[83][I]=0.0
       if(EN <= (2.0*EIN(83):
       )) GO TO 1084
       if(NANISO > 0):
-      PEQIN(83,I)=PEQEL(2,(I-IOFFN(83)))       
+      PEQIN[83][I]=PEQEL[2][(I-IOFFN(83))]       
       # 1DELu  7.5ev   
       1084 CONTINUE                                                          
-      QIN(84,I)=0.0 
-      PEQIN(84,I)=0.5
+      QIN[84][I]=0.0 
+      PEQIN[84][I]=0.5
       if(NANISO == 2):
-      PEQIN(84,I)=0.0                                  
+      PEQIN[84][I]=0.0                                  
       if(EN <= EIN(84):
       ) GO TO 1085
-      QIN(84,I)=.0003356/(EIN(84)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(84)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(84)+E[3])*1.0167
-      if(QIN(84,I):
-      < 0.0) QIN(84,I)=0.0
+      QIN[84][I]=.0003356/(EIN(84)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(84)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(84)+E[3])*1.0167
+      if(QIN[84][I]:
+      < 0.0) QIN[84][I]=0.0
       if(EN <= (2.0*EIN(84):
       )) GO TO 1085   
       if(NANISO > 0):
-      PEQIN(84,I)=PEQEL(2,(I-IOFFN(84)))           
+      PEQIN[84][I]=PEQEL[2][(I-IOFFN(84))]           
       #  1DELu 7.75ev                                
       1085 CONTINUE           
-      QIN(85,I)=0.0
-      PEQIN(85,I)=0.5
+      QIN[85][I]=0.0
+      PEQIN[85][I]=0.5
       if(NANISO == 2):
-      PEQIN(85,I)=0.0                              
+      PEQIN[85][I]=0.0                              
       if(EN <= EIN(85):
       ) GO TO 1086
-      QIN(85,I)=.0007378/(EIN(85)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(85)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(85)+E[3])*1.0161
-      if(QIN(85,I):
-      < 0.0) QIN(85,I)=0.0
+      QIN[85][I]=.0007378/(EIN(85)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(85)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(85)+E[3])*1.0161
+      if(QIN[85][I]:
+      < 0.0) QIN[85][I]=0.0
       if(EN <= (2.0*EIN(85):
       )) GO TO 1086
       if(NANISO > 0):
-      PEQIN(85,I)=PEQEL(2,(I-IOFFN(85))) 
+      PEQIN[85][I]=PEQEL[2][(I-IOFFN(85))] 
       #  1DELu 8.0ev   
       1086 CONTINUE                                                          
-      QIN(86,I)=0.0
-      PEQIN(86,I)=0.5
+      QIN[86][I]=0.0
+      PEQIN[86][I]=0.5
       if(NANISO == 2):
-      PEQIN(86,I)=0.0                              
+      PEQIN[86][I]=0.0                              
       if(EN <= EIN(86):
       ) GO TO 1087
-      QIN(86,I)=.001145/(EIN(86)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(86)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(86)+E[3])*1.0156
-      if(QIN(86,I):
-      < 0.0) QIN(86,I)=0.0
+      QIN[86][I]=.001145/(EIN(86)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(86)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(86)+E[3])*1.0156
+      if(QIN[86][I]:
+      < 0.0) QIN[86][I]=0.0
       if(EN <= (2.0*EIN(86):
       )) GO TO 1087
       if(NANISO > 0):
-      PEQIN(86,I)=PEQEL(2,(I-IOFFN(86))) 
+      PEQIN[86][I]=PEQEL[2][(I-IOFFN(86))] 
       # 1DELu 8.25ev    
       1087 CONTINUE                                                          
-      QIN(87,I)=0.0
-      PEQIN(87,I)=0.5
+      QIN[87][I]=0.0
+      PEQIN[87][I]=0.5
       if(NANISO == 2):
-      PEQIN(87,I)=0.0                              
+      PEQIN[87][I]=0.0                              
       if(EN <= EIN(87):
       ) GO TO 1088
-      QIN(87,I)=.001409/(EIN(87)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(87)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(87)+E[3])*1.0152
-      if(QIN(85,I):
-      < 0.0) QIN(87,I)=0.0
+      QIN[87][I]=.001409/(EIN(87)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(87)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(87)+E[3])*1.0152
+      if(QIN[85][I]:
+      < 0.0) QIN[87][I]=0.0
       if(EN <= (2.0*EIN(87):
       )) GO TO 1088
       if(NANISO > 0):
-      PEQIN(87,I)=PEQEL(2,(I-IOFFN(87))) 
+      PEQIN[87][I]=PEQEL[2][(I-IOFFN(87))] 
       #  1DELu 8.50ev   
       1088 CONTINUE                                                          
-      QIN(88,I)=0.0
-      PEQIN(88,I)=0.5
+      QIN[88][I]=0.0
+      PEQIN[88][I]=0.5
       if(NANISO == 2):
-      PEQIN(88,I)=0.0                              
+      PEQIN[88][I]=0.0                              
       if(EN <= EIN(88):
       ) GO TO 1089
-      QIN(88,I)=.001481/(EIN(88)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(88)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(88)+E[3])*1.0147
-      if(QIN(88,I):
-      < 0.0) QIN(88,I)=0.0
+      QIN[88][I]=.001481/(EIN(88)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(88)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(88)+E[3])*1.0147
+      if(QIN[88][I]:
+      < 0.0) QIN[88][I]=0.0
       if(EN <= (2.0*EIN(88):
       )) GO TO 1089
       if(NANISO > 0):
-      PEQIN(88,I)=PEQEL(2,(I-IOFFN(88))) 
+      PEQIN[88][I]=PEQEL[2][(I-IOFFN(88))] 
       # 1DELu 8.75ev   
       1089 CONTINUE                                                          
-      QIN(89,I)=0.0
-      PEQIN(89,I)=0.5
+      QIN[89][I]=0.0
+      PEQIN[89][I]=0.5
       if(NANISO == 2):
-      PEQIN(89,I)=0.0                              
+      PEQIN[89][I]=0.0                              
       if(EN <= EIN(89):
       ) GO TO 1090
-      QIN(89,I)=.000859/(EIN(89)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(89)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(89)+E[3])*1.0143
-      if(QIN(89,I):
-      < 0.0) QIN(89,I)=0.0
+      QIN[89][I]=.000859/(EIN(89)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(89)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(89)+E[3])*1.0143
+      if(QIN[89][I]:
+      < 0.0) QIN[89][I]=0.0
       if(EN <= (2.0*EIN(89):
       )) GO TO 1090
       if(NANISO > 0):
-      PEQIN(89,I)=PEQEL(2,(I-IOFFN(89))) 
+      PEQIN[89][I]=PEQEL[2][(I-IOFFN(89))] 
       # TRIPLET
       1090 CONTINUE                                                          
-      QIN(90,I)=0.0
-      PEQIN(90,I)=0.5
+      QIN[90][I]=0.0
+      PEQIN[90][I]=0.5
       if(NANISO == 2):
-      PEQIN(90,I)=0.0                              
+      PEQIN[90][I]=0.0                              
       if(EN <= EIN(90):
       ) GO TO 1091
       if(EN > XTRP1(NTRP1):
@@ -18429,139 +18472,139 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NTRP1
       2082 A=(YTRP1[J]-YTRP1(J-1))/(XTRP1[J]-XTRP1(J-1))
       B=(XTRP1(J-1)*YTRP1[J]-XTRP1[J]*YTRP1(J-1))/(XTRP1(J-1)-XTRP1[J])
-      QIN(90,I)=(A*EN+B)*1.D-16                
+      QIN[90][I]=(A*EN+B)*1.D-16                
       GO TO 2084
       # SCALE BY 1/E**2 ABOVE XTRP1(NTRP1) EV
-      2083 QIN(90,I)=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.D-16                
+      2083 QIN[90][I]=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.D-16                
       2084 if(EN <= (2.0*EIN(90))) GO TO 1091
       if(NANISO > 0):
-      PEQIN(90,I)=PEQEL(2,(I-IOFFN(90))) 
+      PEQIN[90][I]=PEQEL[2][(I-IOFFN(90))] 
       #  1PIg  8.90ev                                            
       1091 CONTINUE                                                          
-      QIN(91,I)=0.0
-      PEQIN(91,I)=0.5
+      QIN[91][I]=0.0
+      PEQIN[91][I]=0.5
       if(NANISO == 2):
-      PEQIN(91,I)=0.0                              
+      PEQIN[91][I]=0.0                              
       if(EN <= EIN(91):
       ) GO TO 1092
-      QIN(91,I)=.001687/(EIN(91)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(91)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(91)+E[3])*1.0140
-      if(QIN(91,I):
-      < 0.0) QIN(91,I)=0.0
+      QIN[91][I]=.001687/(EIN(91)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(91)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(91)+E[3])*1.0140
+      if(QIN[91][I]:
+      < 0.0) QIN[91][I]=0.0
       if(EN <= (2.0*EIN(91):
       )) GO TO 1092
       if(NANISO > 0):
-      PEQIN(91,I)=PEQEL(2,(I-IOFFN(91))) 
+      PEQIN[91][I]=PEQEL[2][(I-IOFFN(91))] 
       #  1PIg 9.15ev   
       1092 CONTINUE                                                          
-      QIN(92,I)=0.0
-      PEQIN(92,I)=0.5
+      QIN[92][I]=0.0
+      PEQIN[92][I]=0.5
       if(NANISO == 2):
-      PEQIN(92,I)=0.0                              
+      PEQIN[92][I]=0.0                              
       if(EN <= EIN(92):
       ) GO TO 1093
-      QIN(92,I)=.002115/(EIN(92)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(92)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(92)+E[3])*1.0137
-      if(QIN(92,I):
-      < 0.0) QIN(92,I)=0.0
+      QIN[92][I]=.002115/(EIN(92)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(92)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(92)+E[3])*1.0137
+      if(QIN[92][I]:
+      < 0.0) QIN[92][I]=0.0
       if(EN <= (2.0*EIN(92):
       )) GO TO 1093
       if(NANISO > 0):
-      PEQIN(92,I)=PEQEL(2,(I-IOFFN(92))) 
+      PEQIN[92][I]=PEQEL[2][(I-IOFFN(92))] 
       #  1PIg  9.4ev   
       1093 CONTINUE                                                          
-      QIN(93,I)=0.0
-      PEQIN(93,I)=0.5
+      QIN[93][I]=0.0
+      PEQIN[93][I]=0.5
       if(NANISO == 2):
-      PEQIN(93,I)=0.0                              
+      PEQIN[93][I]=0.0                              
       if(EN <= EIN(93):
       ) GO TO 1094
-      QIN(93,I)=.001920/(EIN(93)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(93)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(93)+E[3])*1.0133
-      if(QIN(93,I):
-      < 0.0) QIN(93,I)=0.0
+      QIN[93][I]=.001920/(EIN(93)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(93)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(93)+E[3])*1.0133
+      if(QIN[93][I]:
+      < 0.0) QIN[93][I]=0.0
       if(EN <= (2.0*EIN(93):
       )) GO TO 1094
       if(NANISO > 0):
-      PEQIN(93,I)=PEQEL(2,(I-IOFFN(93))) 
+      PEQIN[93][I]=PEQEL[2][(I-IOFFN(93))] 
       #  1PIg  9.65ev   
       1094 CONTINUE                                                          
-      QIN(94,I)=0.0
-      PEQIN(94,I)=0.5
+      QIN[94][I]=0.0
+      PEQIN[94][I]=0.5
       if(NANISO == 2):
-      PEQIN(94,I)=0.0                              
+      PEQIN[94][I]=0.0                              
       if(EN <= EIN(94):
       ) GO TO 1095
-      QIN(94,I)=.001180/(EIN(94)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(94)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(94)+E[3])*1.0130
-      if(QIN(94,I):
-      < 0.0) QIN(94,I)=0.0
+      QIN[94][I]=.001180/(EIN(94)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(94)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(94)+E[3])*1.0130
+      if(QIN[94][I]:
+      < 0.0) QIN[94][I]=0.0
       if(EN <= (2.0*EIN(94):
       )) GO TO 1095
       if(NANISO > 0):
-      PEQIN(94,I)=PEQEL(2,(I-IOFFN(94))) 
+      PEQIN[94][I]=PEQEL[2][(I-IOFFN(94))] 
       #  1PIg  9.9ev   
       1095 CONTINUE                                                          
-      QIN(95,I)=0.0
-      PEQIN(95,I)=0.5
+      QIN[95][I]=0.0
+      PEQIN[95][I]=0.5
       if(NANISO == 2):
-      PEQIN(95,I)=0.0                              
+      PEQIN[95][I]=0.0                              
       if(EN <= EIN(95):
       ) GO TO 1096
-      QIN(95,I)=.000683/(EIN(95)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(95)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(95)+E[3])*1.0126
-      if(QIN(95,I):
-      < 0.0) QIN(95,I)=0.0
+      QIN[95][I]=.000683/(EIN(95)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(95)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(95)+E[3])*1.0126
+      if(QIN[95][I]:
+      < 0.0) QIN[95][I]=0.0
       if(EN <= (2.0*EIN(95):
       )) GO TO 1096
       if(NANISO > 0):
-      PEQIN(95,I)=PEQEL(2,(I-IOFFN(95))) 
+      PEQIN[95][I]=PEQEL[2][(I-IOFFN(95))] 
       #  1PIg 10.15ev   
       1096 CONTINUE                                                          
-      QIN(96,I)=0.0
-      PEQIN(96,I)=0.5
+      QIN[96][I]=0.0
+      PEQIN[96][I]=0.5
       if(NANISO == 2):
-      PEQIN(96,I)=0.0                              
+      PEQIN[96][I]=0.0                              
       if(EN <= EIN(96):
       ) GO TO 1097
-      QIN(96,I)=.000456/(EIN(96)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(96)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(96)+E[3])*1.0123
-      if(QIN(96,I):
-      < 0.0) QIN(96,I)=0.0
+      QIN[96][I]=.000456/(EIN(96)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(96)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(96)+E[3])*1.0123
+      if(QIN[96][I]:
+      < 0.0) QIN[96][I]=0.0
       if(EN <= (2.0*EIN(96):
       )) GO TO 1097
       if(NANISO > 0):
-      PEQIN(96,I)=PEQEL(2,(I-IOFFN(96))) 
+      PEQIN[96][I]=PEQEL[2][(I-IOFFN(96))] 
       #   RA:AU  10.7ev                                                     
       1097 CONTINUE                                                          
-      QIN(97,I)=0.0
-      PEQIN(97,I)=0.5
+      QIN[97][I]=0.0
+      PEQIN[97][I]=0.5
       if(NANISO == 2):
-      PEQIN(97,I)=0.0                              
+      PEQIN[97][I]=0.0                              
       if(EN <= EIN(97):
       ) GO TO 1098
-      QIN(97,I)=.004361/(EIN(97)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(97)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(97)+E[3])
-      if(QIN(97,I):
-      < 0.0) QIN(97,I)=0.0
+      QIN[97][I]=.004361/(EIN(97)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(97)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(97)+E[3])
+      if(QIN[97][I]:
+      < 0.0) QIN[97][I]=0.0
       if(EN <= (2.0*EIN(97):
       )) GO TO 1098
       if(NANISO > 0):
-      PEQIN(97,I)=PEQEL(2,(I-IOFFN(97))) 
+      PEQIN[97][I]=PEQEL[2][(I-IOFFN(97))] 
       #  1SIGu+'  1SIGu+  C'   11.048ev                               
       1098 CONTINUE                                                          
-      QIN(98,I)=0.0
-      PEQIN(98,I)=0.5
+      QIN[98][I]=0.0
+      PEQIN[98][I]=0.5
       if(NANISO == 2):
-      PEQIN(98,I)=0.0                              
+      PEQIN[98][I]=0.0                              
       if(EN <= EIN(98):
       ) GO TO 1099
-      QIN(98,I)=.1718/(EIN(98)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(98)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(98)+E[3])
-      if(QIN(98,I):
-      < 0.0) QIN(98,I)=0.0
+      QIN[98][I]=.1718/(EIN(98)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(98)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(98)+E[3])
+      if(QIN[98][I]:
+      < 0.0) QIN[98][I]=0.0
       if(EN <= (2.0*EIN(98):
       )) GO TO 1099
       if(NANISO > 0):
-      PEQIN(98,I)=PEQEL(2,(I-IOFFN(98))) 
+      PEQIN[98][I]=PEQEL[2][(I-IOFFN(98))] 
       #  TRIPLET                                                                
       1099 CONTINUE                                                          
-      QIN(99,I)=0.0
-      PEQIN(99,I)=0.5
+      QIN[99][I]=0.0
+      PEQIN[99][I]=0.5
       if(NANISO == 2):
-      PEQIN(99,I)=0.0                              
+      PEQIN[99][I]=0.0                              
       if(EN <= EIN(99):
       ) GO TO 1100
       if(EN > XTRP2(NTRP2):
@@ -18573,13 +18616,13 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NTRP2
       2092 A=(YTRP2[J]-YTRP2(J-1))/(XTRP2[J]-XTRP2(J-1))
       B=(XTRP2(J-1)*YTRP2[J]-XTRP2[J]*YTRP2(J-1))/(XTRP2(J-1)-XTRP2[J])
-      QIN(99,I)=(A*EN+B)*1.D-16             
+      QIN[99][I]=(A*EN+B)*1.D-16             
       GO TO 2094
       # SCALE BY 1/E**2 ABOVE XTRP2(NTRP2) EV
-      2093 QIN(99,I)=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.D-16           
+      2093 QIN[99][I]=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.D-16           
       2094 if(EN <= (2.0*EIN(99))) GO TO 1100
       if(NANISO > 0):
-      PEQIN(99,I)=PEQEL(2,(I-IOFFN(99))) 
+      PEQIN[99][I]=PEQEL[2][(I-IOFFN(99))] 
       # 1PIu  11.385ev                                                  
       1100 CONTINUE                                                          
       QIN(100,I)=0.0
@@ -18594,7 +18637,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(100):
       )) GO TO 1101
       if(NANISO > 0):
-      PEQIN(100,I)=PEQEL(2,(I-IOFFN(100))) 
+      PEQIN(100,I)=PEQEL[2][(I-IOFFN(100)]) 
       #  RYDBERG  11.543ev                                                  
       1101 CONTINUE                                                          
       QIN(101,I)=0.0
@@ -18609,7 +18652,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(101):
       )) GO TO 1102
       if(NANISO > 0):
-      PEQIN(101,I)=PEQEL(2,(I-IOFFN(101))) 
+      PEQIN(101,I)=PEQEL[2][(I-IOFFN(101)]) 
       #   RYDBERG 11.608ev                                               
       1102 CONTINUE                                                          
       QIN(102,I)=0.0
@@ -18624,7 +18667,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(102):
       )) GO TO 1103
       if(NANISO > 0):
-      PEQIN(102,I)=PEQEL(2,(I-IOFFN(102))) 
+      PEQIN(102,I)=PEQEL[2][(I-IOFFN(102)]) 
       #   RYDBERG 11.683ev                    
       1103 CONTINUE                                                          
       QIN(103,I)=0.0
@@ -18639,7 +18682,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(103):
       )) GO TO 1104
       if(NANISO > 0):
-      PEQIN(103,I)=PEQEL(2,(I-IOFFN(103))) 
+      PEQIN(103,I)=PEQEL[2][(I-IOFFN(103)]) 
       #   RYDBERG  11.758ev                                             
       1104 CONTINUE                                                          
       QIN(104,I)=0.0
@@ -18654,7 +18697,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(104):
       )) GO TO 1105
       if(NANISO > 0):
-      PEQIN(104,I)=PEQEL(2,(I-IOFFN(104))) 
+      PEQIN(104,I)=PEQEL[2][(I-IOFFN(104)]) 
       #   RYDBERG  11.826ev                                               
       1105 CONTINUE                                                          
       QIN(105,I)=0.0
@@ -18669,7 +18712,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(105):
       )) GO TO 1106
       if(NANISO > 0):
-      PEQIN(105,I)=PEQEL(2,(I-IOFFN(105))) 
+      PEQIN(105,I)=PEQEL[2][(I-IOFFN(105)]) 
       #   RYDBERG  11.971ev                                               
       1106 CONTINUE                                                          
       QIN(106,I)=0.0
@@ -18684,7 +18727,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(106):
       )) GO TO 1107
       if(NANISO > 0):
-      PEQIN(106,I)=PEQEL(2,(I-IOFFN(106))) 
+      PEQIN(106,I)=PEQEL[2][(I-IOFFN(106)]) 
       #  RYDBERG  12.142ev                                                
       1107 CONTINUE                                                          
       QIN(107,I)=0.0
@@ -18699,7 +18742,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(107):
       )) GO TO 1108
       if(NANISO > 0):
-      PEQIN(107,I)=PEQEL(2,(I-IOFFN(107))) 
+      PEQIN(107,I)=PEQEL[2][(I-IOFFN(107)]) 
       #  RYDBERG  12.301ev                                                 
       1108 CONTINUE                                                          
       QIN(108,I)=0.0
@@ -18714,7 +18757,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(108):
       )) GO TO 1109
       if(NANISO > 0):
-      PEQIN(108,I)=PEQEL(2,(I-IOFFN(108))) 
+      PEQIN(108,I)=PEQEL[2][(I-IOFFN(108)]) 
       #  RYDBERG   12.469ev                                               
       1109 CONTINUE                                                          
       QIN(109,I)=0.0
@@ -18729,7 +18772,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(109):
       )) GO TO 1110
       if(NANISO > 0):
-      PEQIN(109,I)=PEQEL(2,(I-IOFFN(109))) 
+      PEQIN(109,I)=PEQEL[2][(I-IOFFN(109)]) 
       #  RYDBERG 12.627ev                                                  
       1110 CONTINUE                                                          
       QIN(110,I)=0.0
@@ -18744,7 +18787,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(110):
       )) GO TO 1111
       if(NANISO > 0):
-      PEQIN(110,I)=PEQEL(2,(I-IOFFN(110))) 
+      PEQIN(110,I)=PEQEL[2][(I-IOFFN(110)]) 
       #  CONTINUUM  12.75ev                                                   
       1111 CONTINUE                                                          
       QIN(111,I)=0.0
@@ -18759,7 +18802,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(111):
       )) GO TO 1112
       if(NANISO > 0):
-      PEQIN(111,I)=PEQEL(2,(I-IOFFN(111))) 
+      PEQIN(111,I)=PEQEL[2][(I-IOFFN(111)]) 
       #  RYDBERG  12.901ev                                                      
       1112 CONTINUE                                                          
       QIN(112,I)=0.0
@@ -18774,7 +18817,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(112):
       )) GO TO 1113
       if(NANISO > 0):
-      PEQIN(112,I)=PEQEL(2,(I-IOFFN(112))) 
+      PEQIN(112,I)=PEQEL[2][(I-IOFFN(112)]) 
       #  SUM RYDBERGS 13.01ev                                                    
       1113 CONTINUE                                                          
       QIN(113,I)=0.0
@@ -18789,7 +18832,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(113):
       )) GO TO 1114
       if(NANISO > 0):
-      PEQIN(113,I)=PEQEL(2,(I-IOFFN(113))) 
+      PEQIN(113,I)=PEQEL[2][(I-IOFFN(113)]) 
       #  SUM RYDBERGS 13.15ev                                                    
       1114 CONTINUE                                                          
       QIN(114,I)=0.0
@@ -18804,7 +18847,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(114):
       )) GO TO 1115
       if(NANISO > 0):
-      PEQIN(114,I)=PEQEL(2,(I-IOFFN(114))) 
+      PEQIN(114,I)=PEQEL[2][(I-IOFFN(114)]) 
       #  SUM RYDBERGS  13.28ev                                                   
       1115 CONTINUE                                                          
       QIN(115,I)=0.0
@@ -18819,7 +18862,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(115):
       )) GO TO 1116
       if(NANISO > 0):
-      PEQIN(115,I)=PEQEL(2,(I-IOFFN(115))) 
+      PEQIN(115,I)=PEQEL[2][(I-IOFFN(115)]) 
       #  SUM RYDBERGS  13.39ev                                                  
       1116 CONTINUE                                                          
       QIN(116,I)=0.0
@@ -18834,7 +18877,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(116):
       )) GO TO 1117
       if(NANISO > 0):
-      PEQIN(116,I)=PEQEL(2,(I-IOFFN(116))) 
+      PEQIN(116,I)=PEQEL[2][(I-IOFFN(116)]) 
       #  SUM RYDBERGS   13.51ev                                                 
       1117 CONTINUE                                                          
       QIN(117,I)=0.0
@@ -18849,7 +18892,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(117):
       )) GO TO 1118
       if(NANISO > 0):
-      PEQIN(117,I)=PEQEL(2,(I-IOFFN(117))) 
+      PEQIN(117,I)=PEQEL[2][(I-IOFFN(117)]) 
       #  SUM RYDBERGS   13.68ev                                               
       1118 CONTINUE                                                          
       QIN(118,I)=0.0
@@ -18864,7 +18907,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(118):
       )) GO TO 1119
       if(NANISO > 0):
-      PEQIN(118,I)=PEQEL(2,(I-IOFFN(118))) 
+      PEQIN(118,I)=PEQEL[2][(I-IOFFN(118)]) 
       #  NEUTRAL DISSOCIATION 13.78ev                                            
       1119 CONTINUE                                                          
       QIN(119,I)=0.0
@@ -18879,7 +18922,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(119):
       )) GO TO 1120
       if(NANISO > 0):
-      PEQIN(119,I)=PEQEL(2,(I-IOFFN(119))) 
+      PEQIN(119,I)=PEQEL[2][(I-IOFFN(119)]) 
       #  NEUTRAL DISSOCIATION  14.0ev                                            
       1120 CONTINUE                                                          
       QIN(120,I)=0.0
@@ -18894,7 +18937,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(120):
       )) GO TO 1121
       if(NANISO > 0):
-      PEQIN(120,I)=PEQEL(2,(I-IOFFN(120))) 
+      PEQIN(120,I)=PEQEL[2][(I-IOFFN(120)]) 
       #  NEUTRAL DISSOCIATION  14.25ev 
       1121 CONTINUE                                                          
       QIN(121,I)=0.0
@@ -18909,7 +18952,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(121):
       )) GO TO 1122
       if(NANISO > 0):
-      PEQIN(121,I)=PEQEL(2,(I-IOFFN(121))) 
+      PEQIN(121,I)=PEQEL[2][(I-IOFFN(121)]) 
       #   NEUTRAL DISSOCIATION  14.5ev 
       1122 CONTINUE                                                          
       QIN(122,I)=0.0
@@ -18924,7 +18967,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(122):
       )) GO TO 1123
       if(NANISO > 0):
-      PEQIN(122,I)=PEQEL(2,(I-IOFFN(122))) 
+      PEQIN(122,I)=PEQEL[2][(I-IOFFN(122)]) 
       #  NEUTRAL DISSOCIATION  14.75ev  
       1123 CONTINUE                                                          
       QIN(123,I)=0.0
@@ -18939,7 +18982,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(123):
       )) GO TO 1124
       if(NANISO > 0):
-      PEQIN(123,I)=PEQEL(2,(I-IOFFN(123))) 
+      PEQIN(123,I)=PEQEL[2][(I-IOFFN(123)]) 
       #  NEUTRAL DISSOCIATION  15.0ev 
       1124 CONTINUE                                                          
       QIN(124,I)=0.0
@@ -18954,7 +18997,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(124):
       )) GO TO 1125
       if(NANISO > 0):
-      PEQIN(124,I)=PEQEL(2,(I-IOFFN(124))) 
+      PEQIN(124,I)=PEQEL[2][(I-IOFFN(124)]) 
       #  NEUTRAL DISSOCIATION  15.25ev 
       1125 CONTINUE                                                          
       QIN(125,I)=0.0
@@ -18969,7 +19012,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(125):
       )) GO TO 1126
       if(NANISO > 0):
-      PEQIN(125,I)=PEQEL(2,(I-IOFFN(125))) 
+      PEQIN(125,I)=PEQEL[2][(I-IOFFN(125)]) 
       #  NEUTRAL DISSOCIATION  15.5ev 
       1126 CONTINUE                                                          
       QIN(126,I)=0.0
@@ -18984,7 +19027,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(126):
       )) GO TO 1127
       if(NANISO > 0):
-      PEQIN(126,I)=PEQEL(2,(I-IOFFN(126))) 
+      PEQIN(126,I)=PEQEL[2][(I-IOFFN(126)]) 
       #  NEUTRAL DISSOCIATION  15.75ev 
       1127 CONTINUE                                                          
       QIN(127,I)=0.0
@@ -18999,7 +19042,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(127):
       )) GO TO 1128
       if(NANISO > 0):
-      PEQIN(127,I)=PEQEL(2,(I-IOFFN(127)))  
+      PEQIN(127,I)=PEQEL[2][(I-IOFFN(127)])  
       #  NEUTRAL DISSOCIATION  16.0ev 
       1128 CONTINUE                                                          
       QIN(128,I)=0.0
@@ -19014,7 +19057,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(128):
       )) GO TO 1129
       if(NANISO > 0):
-      PEQIN(128,I)=PEQEL(2,(I-IOFFN(128))) 
+      PEQIN(128,I)=PEQEL[2][(I-IOFFN(128)]) 
       # NEUTRAL DISSOCIATION  16.25ev 
       1129 CONTINUE                                                          
       QIN(129,I)=0.0
@@ -19029,7 +19072,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(129):
       )) GO TO 1130
       if(NANISO > 0):
-      PEQIN(129,I)=PEQEL(2,(I-IOFFN(129))) 
+      PEQIN(129,I)=PEQEL[2][(I-IOFFN(129)]) 
       #  NEUTRAL DISSOCIATION  16.5ev 
       1130 CONTINUE                                                          
       QIN(130,I)=0.0
@@ -19044,7 +19087,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(130):
       )) GO TO 1131
       if(NANISO > 0):
-      PEQIN(130,I)=PEQEL(2,(I-IOFFN(130))) 
+      PEQIN(130,I)=PEQEL[2][(I-IOFFN(130)]) 
       # NEUTRAL DISSOCIATION  16.75ev 
       1131 CONTINUE                                                          
       QIN(131,I)=0.0
@@ -19059,7 +19102,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(131):
       )) GO TO 1132
       if(NANISO > 0):
-      PEQIN(131,I)=PEQEL(2,(I-IOFFN(131))) 
+      PEQIN(131,I)=PEQEL[2][(I-IOFFN(131)]) 
       #  NEUTRAL DISSOCIATION  17.0ev 
       1132 CONTINUE                                                          
       QIN(132,I)=0.0
@@ -19074,7 +19117,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(132):
       )) GO TO 1133 
       if(NANISO > 0):
-      PEQIN(132,I)=PEQEL(2,(I-IOFFN(132))) 
+      PEQIN(132,I)=PEQEL[2][(I-IOFFN(132)]) 
       #  NEUTRAL DISSOCIATION  17.25ev 
       1133 CONTINUE                                                          
       QIN(133,I)=0.0
@@ -19089,7 +19132,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(133):
       )) GO TO 1134
       if(NANISO > 0):
-      PEQIN(133,I)=PEQEL(2,(I-IOFFN(133))) 
+      PEQIN(133,I)=PEQEL[2][(I-IOFFN(133)]) 
       #  NEUTRAL DISSOCIATION  17.5ev 
       1134 CONTINUE                                                          
       QIN(134,I)=0.0
@@ -19104,7 +19147,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(134):
       )) GO TO 1135
       if(NANISO > 0):
-      PEQIN(134,I)=PEQEL(2,(I-IOFFN(134))) 
+      PEQIN(134,I)=PEQEL[2][(I-IOFFN(134)]) 
       # NEUTRAL DISSOCIATION  17.75ev 
       1135 CONTINUE                                                          
       QIN(135,I)=0.0
@@ -19119,7 +19162,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(135):
       )) GO TO 1136
       if(NANISO > 0):
-      PEQIN(135,I)=PEQEL(2,(I-IOFFN(135))) 
+      PEQIN(135,I)=PEQEL[2][(I-IOFFN(135)]) 
       # NEUTRAL DISSOCIATION  18.00ev 
       1136 CONTINUE                                                          
       QIN(136,I)=0.0
@@ -19134,7 +19177,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(136):
       )) GO TO 1137
       if(NANISO > 0):
-      PEQIN(136,I)=PEQEL(2,(I-IOFFN(136))) 
+      PEQIN(136,I)=PEQEL[2][(I-IOFFN(136)]) 
       # NEUTRAL DISSOCIATION  18.25ev 
       1137 CONTINUE                                                          
       QIN(137,I)=0.0
@@ -19149,7 +19192,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(137):
       )) GO TO 1138
       if(NANISO > 0):
-      PEQIN(137,I)=PEQEL(2,(I-IOFFN(137))) 
+      PEQIN(137,I)=PEQEL[2][(I-IOFFN(137)]) 
       # NEUTRAL DISSOCIATION  18.50ev 
       1138 CONTINUE                                                          
       QIN(138,I)=0.0
@@ -19164,7 +19207,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(138):
       )) GO TO 1139
       if(NANISO > 0):
-      PEQIN(138,I)=PEQEL(2,(I-IOFFN(138))) 
+      PEQIN(138,I)=PEQEL[2][(I-IOFFN(138)]) 
       # NEUTRAL DISSOCIATION  18.75ev 
       1139 CONTINUE                                                          
       QIN(139,I)=0.0
@@ -19179,7 +19222,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(139):
       )) GO TO 1140
       if(NANISO > 0):
-      PEQIN(139,I)=PEQEL(2,(I-IOFFN(139))) 
+      PEQIN(139,I)=PEQEL[2][(I-IOFFN(139)]) 
       # NEUTRAL DISSOCIATION  19.00ev 
       1140 CONTINUE                                                          
       QIN(140,I)=0.0
@@ -19194,7 +19237,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(140):
       )) GO TO 1141
       if(NANISO > 0):
-      PEQIN(140,I)=PEQEL(2,(I-IOFFN(140))) 
+      PEQIN(140,I)=PEQEL[2][(I-IOFFN(140)]) 
       # NEUTRAL DISSOCIATION  19.25ev 
       1141 CONTINUE                                                          
       QIN(141,I)=0.0
@@ -19209,7 +19252,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(141):
       )) GO TO 1142
       if(NANISO > 0):
-      PEQIN(141,I)=PEQEL(2,(I-IOFFN(141))) 
+      PEQIN(141,I)=PEQEL[2][(I-IOFFN(141)]) 
       # NEUTRAL DISSOCIATION  19.50ev 
       1142 CONTINUE                                                          
       QIN(142,I)=0.0
@@ -19224,7 +19267,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(142):
       )) GO TO 1143
       if(NANISO > 0):
-      PEQIN(142,I)=PEQEL(2,(I-IOFFN(142))) 
+      PEQIN(142,I)=PEQEL[2][(I-IOFFN(142)]) 
       # NEUTRAL DISSOCIATION  19.75ev 
       1143 CONTINUE                                                          
       QIN(143,I)=0.0
@@ -19239,7 +19282,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(143):
       )) GO TO 1144
       if(NANISO > 0):
-      PEQIN(143,I)=PEQEL(2,(I-IOFFN(143))) 
+      PEQIN(143,I)=PEQEL[2][(I-IOFFN(143)]) 
       #  TRIPLET SUM OF HIGH LYING TRIPLETS                                         
       1144 CONTINUE                                                          
       QIN(144,I)=0.0
@@ -19256,7 +19299,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(EN <= (2.0*EIN(144):
       )) GO TO 1145
       if(NANISO > 0):
-      PEQIN(144,I)=PEQEL(2,(I-IOFFN(144)))  
+      PEQIN(144,I)=PEQEL[2][(I-IOFFN(144)])  
       #
       1145 CONTINUE
       # LOAD BREMSSTRAHLUNG X-SECTIONS
@@ -19269,10 +19312,10 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       ) GO TO 1420
       1410 CONTINUE
       J=NBREM
-      1420 A=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A1=(math.log(Z8T[J])-math.log(Z8T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z8T[J])*EBRM(J-1)-math.log(Z8T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
+      1420 A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A1=(math.log(Z8T[J])-math.log(Z8T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z8T[J])*EBRM[J-1]-math.log(Z8T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
       QIN(145,I)=math.exp(A*EN+B)*1.D-24
       QIN(146,I)=math.exp(A1*EN+B1)*2.D-24
       1440 CONTINUE
@@ -19292,7 +19335,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       SUME=SUME+QIN(K,I)
       1460 CONTINUE  
       # SUM TRIPLET EXCITATION
-      SUMTRP=QIN(90,I)+QIN(99,I)+QIN(144,I)
+      SUMTRP=QIN[90][I]+QIN[99][I]+QIN(144,I)
       # GET SUM DIPOLE
       SUME=SUME-SUMTRP
       SUMEXC=SUME+SUMTRP
@@ -19330,7 +19373,7 @@ def GAS13(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -19380,7 +19423,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]        
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250] 
@@ -20069,9 +20112,9 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       33 CONTINUE
       J=NMMT
       34 Y1=math.log(YMT[J])
-      Y2=math.log(YMT(J-1))
+      Y2=math.log(YMT[J-1])
       X1=math.log(XMT[J])
-      X2=math.log(XMT(J-1))  
+      X2=math.log(XMT[J-1])  
       A=(Y1-Y2)/(X1-X2)
       B=(X2*Y1-X1*Y2)/(X2-X1)
       QMMT=math.exp(A*math.log(EN)+B)*1.D-16
@@ -20249,7 +20292,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       90 DO 98 J=1,NION     
       if(EN <= (2.0*EION[J]:
       )) GO TO 98
-      PEQION[J][I]=PEQEL(2,(I-IOFFION[J]))
+      PEQION[J][I]=PEQEL[2][(I-IOFFION[J]])
       98 CONTINUE
       #
       #  ATTACHMENT    H-
@@ -20425,7 +20468,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       GOTO 174
       173 QIN(211,I)=YVIB1(NVIB1)*(XVIB1(NVIB1)/(EN+EIN(212)))/EN
       174 QIN(211,I)=QIN(211,I)*APOPV1*1.D-16        
-      PEQIN(211,I)=PEQEL(2,(I-IOFFN(211)))
+      PEQIN(211,I)=PEQEL[2][(I-IOFFN(211)])
       180 CONTINUE
       #  VIBRATION   B# end  V2 (DIPOLE 1/E FALL OFF ABOVE ENERGY OF
       #  XVIB1(NVIB1) EV )
@@ -20459,7 +20502,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(212,I)=1.0-EPSIL
       GO TO 210
-      2043 PEQIN(212,I)=PEQEL(2,(I-IOFFN(212)))
+      2043 PEQIN(212,I)=PEQEL[2][(I-IOFFN(212)])
       210 CONTINUE      
       #  VIBRATION STRETCH V1+V3                                           
       QIN(213,I)=0.0                                                    
@@ -20498,7 +20541,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(213,I)=1.0-EPSIL
       GO TO 220
-      2143 PEQIN(213,I)=PEQEL(2,(I-IOFFN(213)))
+      2143 PEQIN(213,I)=PEQEL[2][(I-IOFFN(213)])
       220 CONTINUE                                                          
       #  VIBRATION HARMONICS NV2 + NV1 +NV3                                                                     
       QIN(214,I)=0.0                                                    
@@ -20531,7 +20574,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(214,I)=1.0-EPSIL
       GO TO 230
-      2243 PEQIN(214,I)=PEQEL(2,(I-IOFFN(214)))
+      2243 PEQIN(214,I)=PEQEL[2][(I-IOFFN(214)])
       230 CONTINUE    
       # TRIPLET 3B1                                    
       QIN(215,I)=0.0                                                    
@@ -20554,7 +20597,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       GO TO 303
       302 QIN(215,I)=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**1.5*1.D-16          
       303 if(EN <= (2.0*EIN(215))) GO TO 310
-      PEQIN(215,I)=PEQEL(2,(I-IOFFN(215)))
+      PEQIN(215,I)=PEQEL[2][(I-IOFFN(215)])
       # EXCITATION  1B1 (7.48EV LEVEL SPLIT INTO 4 GROUPS)
       310 if(EN <= EIN(216)) GO TO 311
       QIN(216,I)=0.003437/(EIN(216)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(216)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(216))
@@ -20574,7 +20617,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(216,I)=1.0-EPSIL
       GO TO 311
-      3103 PEQIN(216,I)=PEQEL(2,(I-IOFFN(216)))
+      3103 PEQIN(216,I)=PEQEL[2][(I-IOFFN(216)])
       # EXCITATION  1B1 (7.48EV LEVEL SPLIT INTO 4 GROUPS)
       311 if(EN <= EIN(217)) GO TO 312
       QIN(217,I)=0.017166/(EIN(217)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(217)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(217))
@@ -20594,7 +20637,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(217,I)=1.0-EPSIL
       GO TO 312
-      3113 PEQIN(217,I)=PEQEL(2,(I-IOFFN(217)))
+      3113 PEQIN(217,I)=PEQEL[2][(I-IOFFN(217)])
       # EXCITATION  1B1 (7.48EV LEVEL SPLIT INTO 4 GROUPS)
       312 if(EN <= EIN(218)) GO TO 313
       QIN(218,I)=0.019703/(EIN(218)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(218)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(218))
@@ -20614,7 +20657,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(218,I)=1.0-EPSIL
       GO TO 313
-      3123 PEQIN(218,I)=PEQEL(2,(I-IOFFN(218)))
+      3123 PEQIN(218,I)=PEQEL[2][(I-IOFFN(218)])
       # EXCITATION  1B1 (7.48EV LEVEL SPLIT INTO 4 GROUPS)
       313 if(EN <= EIN(219)) GO TO 314
       QIN(219,I)=0.005486/(EIN(219)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(219)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(219))
@@ -20634,7 +20677,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(219,I)=1.0-EPSIL
       GO TO 314
-      3133 PEQIN(219,I)=PEQEL(2,(I-IOFFN(219)))
+      3133 PEQIN(219,I)=PEQEL[2][(I-IOFFN(219)])
       # TRIPLET ( 3A2 + 1A2 + 3A1) 9.1EV                                   
       314 QIN(220,I)=0.0                                                    
       if(EN <= EIN(220):
@@ -20656,7 +20699,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       GO TO 318
       317 QIN(220,I)=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**1.5*1.D-16          
       318 if(EN <= (2.0*EIN(220))) GO TO 322
-      PEQIN(220,I)=PEQEL(2,(I-IOFFN(220)))             
+      PEQIN(220,I)=PEQEL[2][(I-IOFFN(220)])             
       # EXCITATION  1A1 (9.69EV LEVEL SPLIT INTO 4 GROUPS)
       322 if(EN <= EIN(221)) GO TO 323
       QIN(221,I)=0.006609/(EIN(221)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(221)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(221))
@@ -20676,7 +20719,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(221,I)=1.0-EPSIL
       GO TO 323
-      3223 PEQIN(221,I)=PEQEL(2,(I-IOFFN(221)))
+      3223 PEQIN(221,I)=PEQEL[2][(I-IOFFN(221)])
       # EXCITATION  1A1 (9.69EV LEVEL SPLIT INTO 4 GROUPS)
       323 if(EN <= EIN(222)) GO TO 324
       QIN(222,I)=0.030025/(EIN(222)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(222)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(222))
@@ -20696,7 +20739,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(222,I)=1.0-EPSIL
       GO TO 324
-      3233 PEQIN(222,I)=PEQEL(2,(I-IOFFN(222)))
+      3233 PEQIN(222,I)=PEQEL[2][(I-IOFFN(222)])
       # EXCITATION  1A1 (9.69EV LEVEL SPLIT INTO 4 GROUPS)
       324 if(EN <= EIN(223)) GO TO 325
       QIN(223,I)=0.030025/(EIN(223)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(223)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(223))
@@ -20716,7 +20759,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(223,I)=1.0-EPSIL
       GO TO 325
-      3243 PEQIN(223,I)=PEQEL(2,(I-IOFFN(223)))
+      3243 PEQIN(223,I)=PEQEL[2][(I-IOFFN(223)])
       # EXCITATION  1A1 (9.69EV LEVEL SPLIT INTO 4 GROUPS)
       325 if(EN <= EIN(224)) GO TO 326
       QIN(224,I)=0.006609/(EIN(224)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(224)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(224))
@@ -20736,7 +20779,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(224,I)=1.0-EPSIL
       GO TO 326
-      3253 PEQIN(224,I)=PEQEL(2,(I-IOFFN(224)))
+      3253 PEQIN(224,I)=PEQEL[2][(I-IOFFN(224)])
       # TRIPLET 3B1 9.95 EV                                                
       326 QIN(225,I)=0.0                                                    
       if(EN <= EIN(225):
@@ -20758,7 +20801,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       GO TO 330
       329 QIN(225,I)=YTRP3(NTRP3)*(XTRP3(NTRP3)/EN)**1.5*1.D-16          
       330 if(EN <= (2.0*EIN(225))) GO TO 332
-      PEQIN(225,I)=PEQEL(2,(I-IOFFN(225)))
+      PEQIN(225,I)=PEQEL[2][(I-IOFFN(225)])
       # EXCITATION   1B1 (3pa1)     9.994 EV                      
       332 if(EN <= EIN(226)) GO TO 333
       QIN(226,I)=0.005200/(EIN(226)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(226)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(226))
@@ -20778,7 +20821,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(226,I)=1.0-EPSIL
       GO TO 333
-      3323 PEQIN(226,I)=PEQEL(2,(I-IOFFN(226)))
+      3323 PEQIN(226,I)=PEQEL[2][(I-IOFFN(226)])
       # EXCITATION   1A1 (3pa1+3pb1)  10.172 EV                      
       333 if(EN <= EIN(227)) GO TO 334
       QIN(227,I)=0.014000/(EIN(227)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(227)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(227))
@@ -20798,7 +20841,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(227,I)=1.0-EPSIL
       GO TO 334
-      3333 PEQIN(227,I)=PEQEL(2,(I-IOFFN(227)))
+      3333 PEQIN(227,I)=PEQEL[2][(I-IOFFN(227)])
       # EXCITATION    3pa1+3pb1       10.39 EV                      
       334 if(EN <= EIN(228)) GO TO 335
       QIN(228,I)=0.010700/(EIN(228)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(228)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(228))
@@ -20818,7 +20861,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(228,I)=1.0-EPSIL
       GO TO 335
-      3343 PEQIN(228,I)=PEQEL(2,(I-IOFFN(228)))
+      3343 PEQIN(228,I)=PEQEL[2][(I-IOFFN(228)])
       # EXCITATION    3pa1+3pb1       10.575EV                      
       335 if(EN <= EIN(229)) GO TO 336
       QIN(229,I)=0.009200/(EIN(229)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(229)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(229))
@@ -20838,7 +20881,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(229,I)=1.0-EPSIL
       GO TO 336
-      3353 PEQIN(229,I)=PEQEL(2,(I-IOFFN(229)))
+      3353 PEQIN(229,I)=PEQEL[2][(I-IOFFN(229)])
       # EXCITATION    3pa1+3pb1       10.78 EV                      
       336 if(EN <= EIN(230)) GO TO 337
       QIN(230,I)=0.006900/(EIN(230)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(230)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(230))
@@ -20858,7 +20901,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(230,I)=1.0-EPSIL
       GO TO 337
-      3363 PEQIN(230,I)=PEQEL(2,(I-IOFFN(230)))
+      3363 PEQIN(230,I)=PEQEL[2][(I-IOFFN(230)])
       # EXCITATION    3da1+3da2+3db1  11.01 EV                      
       337 if(EN <= EIN(231)) GO TO 338
       QIN(231,I)=0.021800/(EIN(231)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(231)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(231))
@@ -20878,7 +20921,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(231,I)=1.0-EPSIL
       GO TO 338
-      3373 PEQIN(231,I)=PEQEL(2,(I-IOFFN(231)))
+      3373 PEQIN(231,I)=PEQEL[2][(I-IOFFN(231)])
       # EXCITATION    3da1  11.122 EV                     
       338 if(EN <= EIN(232)) GO TO 339
       QIN(232,I)=0.023900/(EIN(232)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(232)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(232))
@@ -20898,7 +20941,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(232,I)=1.0-EPSIL
       GO TO 339
-      3383 PEQIN(232,I)=PEQEL(2,(I-IOFFN(232)))
+      3383 PEQIN(232,I)=PEQEL[2][(I-IOFFN(232)])
       # EXCITATION    4pa1  11.377 EV                     
       339 if(EN <= EIN(233)) GO TO 340
       QIN(233,I)=0.013991/(EIN(233)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(233)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(233))
@@ -20918,7 +20961,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(233,I)=1.0-EPSIL
       GO TO 340
-      3393 PEQIN(233,I)=PEQEL(2,(I-IOFFN(233)))
+      3393 PEQIN(233,I)=PEQEL[2][(I-IOFFN(233)])
       # EXCITATION    4pb1  11.525 EV                     
       340 if(EN <= EIN(234)) GO TO 341
       QIN(234,I)=0.009905/(EIN(234)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(234)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(234))
@@ -20938,7 +20981,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(234,I)=1.0-EPSIL
       GO TO 341
-      3403 PEQIN(234,I)=PEQEL(2,(I-IOFFN(234)))
+      3403 PEQIN(234,I)=PEQEL[2][(I-IOFFN(234)])
       # EXCITATION    4da1+4db1  11.75 EV                 
       341 if(EN <= EIN(235)) GO TO 342
       QIN(235,I)=0.023551/(EIN(235)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(235)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(235))
@@ -20958,7 +21001,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(235,I)=1.0-EPSIL
       GO TO 342
-      3413 PEQIN(235,I)=PEQEL(2,(I-IOFFN(235)))
+      3413 PEQIN(235,I)=PEQEL[2][(I-IOFFN(235)])
       # EXCITATION    5p         11.94 EV                 
       342 if(EN <= EIN(236)) GO TO 343
       QIN(236,I)=0.007967/(EIN(236)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(236)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(236))
@@ -20978,7 +21021,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(236,I)=1.0-EPSIL
       GO TO 343
-      3423 PEQIN(236,I)=PEQEL(2,(I-IOFFN(236)))
+      3423 PEQIN(236,I)=PEQEL[2][(I-IOFFN(236)])
       # EXCITATION    5d         12.08 EV                 
       343 if(EN <= EIN(237)) GO TO 344
       QIN(237,I)=0.018315/(EIN(237)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(237)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(237))
@@ -20998,7 +21041,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(237,I)=1.0-EPSIL
       GO TO 344
-      3433 PEQIN(237,I)=PEQEL(2,(I-IOFFN(237)))
+      3433 PEQIN(237,I)=PEQEL[2][(I-IOFFN(237)])
       # EXCITATION    6d         12.24 EV                 
       344 if(EN <= EIN(238)) GO TO 345
       QIN(238,I)=0.011109/(EIN(238)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(238)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(238))
@@ -21018,7 +21061,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(238,I)=1.0-EPSIL
       GO TO 345
-      3443 PEQIN(238,I)=PEQEL(2,(I-IOFFN(238)))
+      3443 PEQIN(238,I)=PEQEL[2][(I-IOFFN(238)])
       # EXCITATION    7d         12.34 EV                 
       345 if(EN <= EIN(239)) GO TO 346
       QIN(239,I)=0.008591/(EIN(239)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(239)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(239))
@@ -21038,7 +21081,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(239,I)=1.0-EPSIL
       GO TO 346
-      3453 PEQIN(239,I)=PEQEL(2,(I-IOFFN(239)))
+      3453 PEQIN(239,I)=PEQEL[2][(I-IOFFN(239)])
       # EXCITATION    8d+9d+10d  12.50 EV                 
       346 if(EN <= EIN(240)) GO TO 347
       QIN(240,I)=0.028137/(EIN(240)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(240)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(240))
@@ -21058,7 +21101,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(240,I)=1.0-EPSIL
       GO TO 347
-      3463 PEQIN(240,I)=PEQEL(2,(I-IOFFN(240)))
+      3463 PEQIN(240,I)=PEQEL[2][(I-IOFFN(240)])
       # TRIPLET SUM OF HIGHER TRIPLETS   13.0 EV                                            
       347 QIN(241,I)=0.0                                                    
       if(EN <= EIN(241):
@@ -21080,7 +21123,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       GO TO 351
       350 QIN(241,I)=YTRP4(NTRP4)*(XTRP4(NTRP4)/EN)**1.5*1.D-16            
       351 if(EN <= (2.0*EIN(241))) GO TO 353
-      PEQIN(241,I)=PEQEL(2,(I-IOFFN(241)))
+      PEQIN(241,I)=PEQEL[2][(I-IOFFN(241)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=13.117 
       353 if(EN <= EIN(242)) GO TO 354
       QIN(242,I)=0.119100/(EIN(242)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(242)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(242))
@@ -21100,7 +21143,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(242,I)=1.0-EPSIL
       GO TO 354
-      3533 PEQIN(242,I)=PEQEL(2,(I-IOFFN(242)))
+      3533 PEQIN(242,I)=PEQEL[2][(I-IOFFN(242)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=14.117 
       354 if(EN <= EIN(243)) GO TO 355
       QIN(243,I)=0.097947/(EIN(243)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(243)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(243))
@@ -21120,7 +21163,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(243,I)=1.0-EPSIL
       GO TO 355
-      3543 PEQIN(243,I)=PEQEL(2,(I-IOFFN(243)))
+      3543 PEQIN(243,I)=PEQEL[2][(I-IOFFN(243)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=15.117 
       355 if(EN <= EIN(244)) GO TO 356 
       QIN(244,I)=0.039540/(EIN(244)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(244)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(244))
@@ -21140,7 +21183,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(244,I)=1.0-EPSIL
       GO TO 356
-      3553 PEQIN(244,I)=PEQEL(2,(I-IOFFN(244)))
+      3553 PEQIN(244,I)=PEQEL[2][(I-IOFFN(244)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=16.117 
       356 if(EN <= EIN(245)) GO TO 357 
       QIN(245,I)=0.042191/(EIN(245)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(245)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(245))
@@ -21160,7 +21203,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(245,I)=1.0-EPSIL
       GO TO 357
-      3563 PEQIN(245,I)=PEQEL(2,(I-IOFFN(245)))
+      3563 PEQIN(245,I)=PEQEL[2][(I-IOFFN(245)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=17.117 
       357 if(EN <= EIN(246)) GO TO 358 
       QIN(246,I)=0.059428/(EIN(246)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(246)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(246))
@@ -21180,7 +21223,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(246,I)=1.0-EPSIL
       GO TO 358
-      3573 PEQIN(246,I)=PEQEL(2,(I-IOFFN(246)))
+      3573 PEQIN(246,I)=PEQEL[2][(I-IOFFN(246)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=18.438 
       358 if(EN <= EIN(247)) GO TO 359 
       QIN(247,I)=0.077707/(EIN(247)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(247)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(247))
@@ -21200,7 +21243,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(247,I)=1.0-EPSIL
       GO TO 359
-      3583 PEQIN(247,I)=PEQEL(2,(I-IOFFN(247)))
+      3583 PEQIN(247,I)=PEQEL[2][(I-IOFFN(247)])
       # EXCITATION    NEUTRAL DISSOCIATION   ELOSS=20.316 
       359 if(EN <= EIN(248)) GO TO 360 
       QIN(248,I)=0.013838/(EIN(248)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(248)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN(248))
@@ -21220,7 +21263,7 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       EPSIL=A*EPOINT+B
       PEQIN(248,I)=1.0-EPSIL
       GO TO 360
-      3593 PEQIN(248,I)=PEQEL(2,(I-IOFFN(248)))
+      3593 PEQIN(248,I)=PEQEL[2][(I-IOFFN(248)])
       360 CONTINUE                                  
       #
       # LOAD BREMSSTRAHLUNG X-SECTION
@@ -21233,11 +21276,11 @@ def GAS14(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY   ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PE
       ) GO TO 790
       780 CONTINUE
       J=NBREM
-      790 A=(math.log(Z8T[J])-math.log(Z8T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z8T[J])*EBRM(J-1)-math.log(Z8T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
+      790 A=(math.log(Z8T[J])-math.log(Z8T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z8T[J])*EBRM[J-1]-math.log(Z8T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
       QIN(249,I)=math.exp(A*EN+B)*1.D-24
-      A=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
+      A=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
       QIN(250,I)=math.exp(A*EN+B)*2.D-24
       800 CONTINUE
       #----------------------------------------------------------------------
@@ -21374,7 +21417,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30] 
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -22248,7 +22291,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       81 DO 85 J=1,NION
       if(EN <= (2.0*EION[J]:
       )) GO TO 85
-      PEQION[J][I]=PEQEL(2,(I-IOFFION[J]))
+      PEQION[J][I]=PEQEL[2][(I-IOFFION[J]])
       85 CONTINUE   
       # CORRECTION TO IONISATION FOR AUGER EMISSION FROM KSHELL
       QION[1][I]=QION[1][I]-AUGK*QION[8][I] 
@@ -22337,8 +22380,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3214
       3213 QIN(K,I)=PJ(2*K+1)*SFAC*YROT13(NROT13)*XROT13(NROT13)/(EN-EIN[K])*1.D-16
-      3214 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3214 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 2) :
       if((EN-EIN[K]:
       ) > XROT35(NROT35)) GO TO 3217
@@ -22356,8 +22398,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3218
       3217 QIN(K,I)=PJ(2*K+1)*SFAC*YROT35(NROT35)*XROT35(NROT35)/(EN-EIN[K])*1.D-16      
-      3218 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3218 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 3) :
       if((EN-EIN[K]:
       ) > XROT57(NROT57)) GO TO 3221
@@ -22375,8 +22416,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3222
       3221 QIN(K,I)=PJ(2*K+1)*SFAC*YROT57(NROT57)*XROT57(NROT57)/(EN-EIN[K])*1.D-16      
-      3222 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3222 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 4) :
       if((EN-EIN[K]:
       ) > XROT79(NROT79)) GO TO 3225
@@ -22394,8 +22434,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3226
       3225 QIN(K,I)=PJ(2*K+1)*SFAC*YROT79(NROT79)*XROT79(NROT79)/(EN-EIN[K])*1.D-16      
-      3226 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3226 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 5) :
       if((EN-EIN[K]:
       ) > XROT911(NROT911)) GO TO 3229
@@ -22413,8 +22452,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3230
       3229 QIN(K,I)=PJ(2*K+1)*SFAC*YROT911(NROT911)*XROT911(NROT911)/(EN-EIN[K])*1.D-16      
-      3230 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3230 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 6) :
       if((EN-EIN[K]:
       ) > XROT1113(NROT1113)) GO TO 3233
@@ -22432,8 +22470,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3234
       3233 QIN(K,I)=PJ(2*K+1)*SFAC*YROT1113(NROT1113)*XROT1113(NROT1113)/(EN-EIN[K])*1.D-16      
-      3234 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3234 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 7) :
       if((EN-EIN[K]:
       ) > XROT1315(NROT1315)) GO TO 3237
@@ -22451,8 +22488,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3238
       3237 QIN(K,I)=PJ(2*K+1)*SFAC*YROT1315(NROT1315)*XROT1315(NROT1315)/(EN-EIN[K])*1.D-16      
-      3238 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3238 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 8) :
       if((EN-EIN[K]:
       ) > XROT1517(NROT1517)) GO TO 3241
@@ -22470,8 +22506,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3242
       3241 QIN(K,I)=PJ(2*K+1)*SFAC*YROT1517(NROT1517)*XROT1517(NROT1517)/(EN-EIN[K])*1.D-16      
-      3242 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3242 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 9) :
       if((EN-EIN[K]:
       ) > XROT1719(NROT1719)) GO TO 3245
@@ -22489,8 +22524,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3246
       3245 QIN(K,I)=PJ(2*K+1)*SFAC*YROT1719(NROT1719)*XROT1719(NROT1719)/(EN-EIN[K])*1.D-16      
-      3246 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3246 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 10) :
       if((EN-EIN[K]:
       ) > XROT1921(NROT1921)) GO TO 3249
@@ -22508,8 +22542,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3250
       3249 QIN(K,I)=PJ(2*K+1)*SFAC*YROT1921(NROT1921)*XROT1921(NROT1921)/(EN-EIN[K])*1.D-16      
-      3250 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3250 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 11) :
       if((EN-EIN[K]:
       ) > XROT2123(NROT2123)) GO TO 3253
@@ -22527,8 +22560,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3254
       3253 QIN(K,I)=PJ(2*K+1)*SFAC*YROT2123(NROT2123)*XROT2123(NROT2123)/(EN-EIN[K])*1.D-16      
-      3254 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3254 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 12) :
       if((EN-EIN[K]:
       ) > XROT2325(NROT2325)) GO TO 3257
@@ -22546,8 +22578,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3258
       3257 QIN(K,I)=PJ(2*K+1)*SFAC*YROT2325(NROT2325)*XROT2325(NROT2325)/(EN-EIN[K])*1.D-16      
-      3258 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3258 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 13) :
       if((EN-EIN[K]:
       ) > XROT2527(NROT2527)) GO TO 3261
@@ -22565,8 +22596,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3262
       3261 QIN(K,I)=PJ(2*K+1)*SFAC*YROT2527(NROT2527)*XROT2527(NROT2527)/(EN-EIN[K])*1.D-16      
-      3262 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3262 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 14) :
       if((EN-EIN[K]:
       ) > XROT2729(NROT2729)) GO TO 3265
@@ -22584,8 +22614,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3266
       3265 QIN(K,I)=PJ(2*K+1)*SFAC*YROT2729(NROT2729)*XROT2729(NROT2729)/(EN-EIN[K])*1.D-16      
-      3266 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3266 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 15) :
       if((EN-EIN[K]:
       ) > XROT2931(NROT2931)) GO TO 3269
@@ -22603,8 +22632,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3270
       3269 QIN(K,I)=PJ(2*K+1)*SFAC*YROT2931(NROT2931)*XROT2931(NROT2931)/(EN-EIN[K])*1.D-16      
-      3270 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3270 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 16) :
       if((EN-EIN[K]:
       ) > XROT3133(NROT3133)) GO TO 3273
@@ -22622,8 +22650,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3274
       3273 QIN(K,I)=PJ(2*K+1)*SFAC*YROT3133(NROT3133)*XROT3133(NROT3133)/(EN-EIN[K])*1.D-16      
-      3274 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3274 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 17) :
       if((EN-EIN[K]:
       ) > XROT3335(NROT3335)) GO TO 3277
@@ -22641,8 +22668,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3278
       3277 QIN(K,I)=PJ(2*K+1)*SFAC*YROT3335(NROT3335)*XROT3335(NROT3335)/(EN-EIN[K])*1.D-16      
-      3278 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3278 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 18) :
       if((EN-EIN[K]:
       ) > XROT3537(NROT3537)) GO TO 3281
@@ -22660,8 +22686,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3282
       3281 QIN(K,I)=PJ(2*K+1)*SFAC*YROT3537(NROT3537)*XROT3537(NROT3537)/(EN-EIN[K])*1.D-16      
-      3282 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3282 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 19) :
       if((EN-EIN[K]:
       ) > XROT3739(NROT3739)) GO TO 3285
@@ -22679,8 +22704,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3286
       3285 QIN(K,I)=PJ(2*K+1)*SFAC*YROT3739(NROT3739)*XROT3739(NROT3739)/(EN-EIN[K])*1.D-16      
-      3286 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3286 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 20) :
       if((EN-EIN[K]:
       ) > XROT3941(NROT3941)) GO TO 3289
@@ -22698,8 +22722,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3290
       3289 QIN(K,I)=PJ(2*K+1)*SFAC*YROT3941(NROT3941)*XROT3941(NROT3941)/(EN-EIN[K])*1.D-16      
-      3290 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3290 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 21) :
       if((EN-EIN[K]:
       ) > XROT4143(NROT4143)) GO TO 3293
@@ -22717,8 +22740,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3294
       3293 QIN(K,I)=PJ(2*K+1)*SFAC*YROT4143(NROT4143)*XROT4143(NROT4143)/(EN-EIN[K])*1.D-16      
-      3294 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3294 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 22) :
       if((EN-EIN[K]:
       ) > XROT4345(NROT4345)) GO TO 3297
@@ -22736,8 +22758,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3298
       3297 QIN(K,I)=PJ(2*K+1)*SFAC*YROT4345(NROT4345)*XROT4345(NROT4345)/(EN-EIN[K])*1.D-16      
-      3298 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3298 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 23) :
       if((EN-EIN[K]:
       ) > XROT4547(NROT4547)) GO TO 3301
@@ -22755,8 +22776,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3302
       3301 QIN(K,I)=PJ(2*K+1)*SFAC*YROT4547(NROT4547)*XROT4547(NROT4547)/(EN-EIN[K])*1.D-16      
-      3302 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      #
+      3302 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      #
       else if (K == 24) :
       if((EN-EIN[K]:
       ) > XROT4749(NROT4749)) GO TO 3305
@@ -22774,8 +22794,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K+1)*SFAC*(EN-EIN[K])*math.exp(A*math.log(EN-EIN[K])+B)/EN*1.D-16
       GO TO 3306
       3305 QIN(K,I)=PJ(2*K+1)*SFAC*YROT4749(NROT4749)*XROT4749(NROT4749)/(EN-EIN[K])*1.D-16      
-      3306 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      else:
+      3306 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      else:
       WRITE(6,997) K
       997 print(' ERROR IN INDEX IN OXYGEN def K=',I3)
       # endif
@@ -22826,8 +22845,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3337
       3336 QIN(K,I)=PJ(2*K-49)*YROT13(NROT13)*XROT13(NROT13)/EN*1.D-16     
-      3337 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3337 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 26) :
       if(EN < XROT35[1]:
       ) GO TO 312
@@ -22847,8 +22865,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3341
       3340 QIN(K,I)=PJ(2*K-49)*YROT35(NROT35)*XROT35(NROT35)/EN*1.D-16     
-      3341 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3341 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 27) :
       if(EN < XROT57[1]:
       ) GO TO 312
@@ -22868,8 +22885,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3345
       3344 QIN(K,I)=PJ(2*K-49)*YROT57(NROT57)*XROT57(NROT57)/EN*1.D-16     
-      3345 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3345 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 28) :
       if(EN < XROT79[1]:
       ) GO TO 312
@@ -22889,8 +22905,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3349
       3348 QIN(K,I)=PJ(2*K-49)*YROT79(NROT79)*XROT79(NROT79)/EN*1.D-16     
-      3349 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3349 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 29) :
       if(EN < XROT911[1]:
       ) GO TO 312
@@ -22910,8 +22925,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3353
       3352 QIN(K,I)=PJ(2*K-49)*YROT911(NROT911)*XROT911(NROT911)/EN*1.D-16   
-      3353 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3353 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 30) :
       if(EN < XROT1113[1]:
       ) GO TO 312
@@ -22931,8 +22945,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3357
       3356 QIN(K,I)=PJ(2*K-49)*YROT1113(NROT1113)*XROT1113(NROT1113)/EN*1.D-16   
-      3357 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3357 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 31) :
       if(EN < XROT1315[1]:
       ) GO TO 312
@@ -22952,8 +22965,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3361
       3360 QIN(K,I)=PJ(2*K-49)*YROT1315(NROT1315)*XROT1315(NROT1315)/EN*1.D-16   
-      3361 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3361 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 32) :
       if(EN < XROT1517[1]:
       ) GO TO 312
@@ -22973,8 +22985,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3365
       3364 QIN(K,I)=PJ(2*K-49)*YROT1517(NROT1517)*XROT1517(NROT1517)/EN*1.D-16   
-      3365 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3365 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 33) :
       if(EN < XROT1719[1]:
       ) GO TO 312
@@ -22994,8 +23005,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3369
       3368 QIN(K,I)=PJ(2*K-49)*YROT1719(NROT1719)*XROT1719(NROT1719)/EN*1.D-16   
-      3369 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3369 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 34) :
       if(EN < XROT1921[1]:
       ) GO TO 312
@@ -23015,8 +23025,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3373
       3372 QIN(K,I)=PJ(2*K-49)*YROT1921(NROT1921)*XROT1921(NROT1921)/EN*1.D-16   
-      3373 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3373 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 35) :
       if(EN < XROT2123[1]:
       ) GO TO 312
@@ -23036,8 +23045,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3377
       3376 QIN(K,I)=PJ(2*K-49)*YROT2123(NROT2123)*XROT2123(NROT2123)/EN*1.D-16   
-      3377 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3377 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 36) :
       if(EN < XROT2325[1]:
       ) GO TO 312
@@ -23057,8 +23065,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3381
       3380 QIN(K,I)=PJ(2*K-49)*YROT2325(NROT2325)*XROT2325(NROT2325)/EN*1.D-16   
-      3381 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3381 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 37) :
       if(EN < XROT2527[1]:
       ) GO TO 312
@@ -23078,8 +23085,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3385
       3384 QIN(K,I)=PJ(2*K-49)*YROT2527(NROT2527)*XROT2527(NROT2527)/EN*1.D-16   
-      3385 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3385 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 38) :
       if(EN < XROT2729[1]:
       ) GO TO 312
@@ -23099,8 +23105,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3389
       3388 QIN(K,I)=PJ(2*K-49)*YROT2729(NROT2729)*XROT2729(NROT2729)/EN*1.D-16   
-      3389 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3389 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 39) :
       if(EN < XROT2931[1]:
       ) GO TO 312
@@ -23120,8 +23125,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3393
       3392 QIN(K,I)=PJ(2*K-49)*YROT2931(NROT2931)*XROT2931(NROT2931)/EN*1.D-16   
-      3393 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3393 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 40) :
       if(EN < XROT3133[1]:
       ) GO TO 312
@@ -23141,8 +23145,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3397
       3396 QIN(K,I)=PJ(2*K-49)*YROT3133(NROT3133)*XROT3133(NROT3133)/EN*1.D-16   
-      3397 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3397 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 41) :
       if(EN < XROT3335[1]:
       ) GO TO 312
@@ -23162,8 +23165,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3401
       3400 QIN(K,I)=PJ(2*K-49)*YROT3335(NROT3335)*XROT3335(NROT3335)/EN*1.D-16   
-      3401 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3401 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 42) :
       if(EN < XROT3537[1]:
       ) GO TO 312
@@ -23183,8 +23185,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3405
       3404 QIN(K,I)=PJ(2*K-49)*YROT3537(NROT3537)*XROT3537(NROT3537)/EN*1.D-16   
-      3405 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3405 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 43) :
       if(EN < XROT3739[1]:
       ) GO TO 312
@@ -23204,8 +23205,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3409
       3408 QIN(K,I)=PJ(2*K-49)*YROT3739(NROT3739)*XROT3739(NROT3739)/EN*1.D-16   
-      3409 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3409 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 44) :
       if(EN < XROT3941[1]:
       ) GO TO 312
@@ -23225,8 +23225,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3413
       3412 QIN(K,I)=PJ(2*K-49)*YROT3941(NROT3941)*XROT3941(NROT3941)/EN*1.D-16   
-      3413 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3413 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 45) :
       if(EN < XROT4143[1]:
       ) GO TO 312
@@ -23246,8 +23245,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3417
       3416 QIN(K,I)=PJ(2*K-49)*YROT4143(NROT4143)*XROT4143(NROT4143)/EN*1.D-16   
-      3417 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3417 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 46) :
       if(EN < XROT4345[1]:
       ) GO TO 312
@@ -23267,8 +23265,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3421
       3420 QIN(K,I)=PJ(2*K-49)*YROT4345(NROT4345)*XROT4345(NROT4345)/EN*1.D-16   
-      3421 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3421 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 47) :
       if(EN < XROT4547[1]:
       ) GO TO 312
@@ -23288,8 +23285,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3425
       3424 QIN(K,I)=PJ(2*K-49)*YROT4547(NROT4547)*XROT4547(NROT4547)/EN*1.D-16   
-      3425 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      # 
+      3425 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      # 
       else if(K == 48) :
       if(EN < XROT4749[1]:
       ) GO TO 312
@@ -23309,8 +23305,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN(K,I)=PJ(2*K-49)*math.exp(A*math.log(EN)+B)*1.D-16
       GO TO 3429
       3428 QIN(K,I)=PJ(2*K-49)*YROT4749(NROT4749)*XROT4749(NROT4749)/EN*1.D-16   
-      3429 if(EN > 3.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      else:
+      3429 if(EN > 3.0) PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      else:
       WRITE(6,997) K
       # endif
       # CALCULATE ENHANCEMENT OF ROTATION DUE TO VIBRATIONAL RESONANCES
@@ -23353,11 +23348,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB
       381 A=(YVIB1[J]-YVIB1(J-1))/(XVIB[J]-XVIB[J-1])
       B=(XVIB[J-1]*YVIB1[J]-XVIB[J]*YVIB1(J-1))/(XVIB[J-1]-XVIB[J])
-      QIN(49,I)=(A*(EN+EIN[50])+B)*(EN+EIN[50])/EN
-      QIN(49,I)=QIN(49,I)*APOP2/(1.0+APOP2)*1.D-16
+      QIN[49][I]=(A*(EN+EIN[50])+B)*(EN+EIN[50])/EN
+      QIN[49][I]=QIN[49][I]*APOP2/(1.0+APOP2)*1.D-16
       GO TO 383
-      382 QIN(49,I)=YVIB1(NVIB)*(XVIB[NVIB]/EN)*APOP2/(1.0+APOP2)*1.D-16
-      383 if(EN > 6.0) PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      382 QIN[49][I]=YVIB1(NVIB)*(XVIB[NVIB]/EN)*APOP2/(1.0+APOP2)*1.D-16
+      383 if(EN > 6.0) PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
       #  VIB1                     
       400 if(EN <= EIN[50]) GO TO 450    
       if(EN > XVIB[NVIB]):
@@ -23369,11 +23364,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       420 A=(YVIB1[J]-YVIB1(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB1[J]-XVIB[J]*YVIB1(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(50,I)=(A*EN+B)/(1.0+APOP2)*1.D-16
+      QIN[50][I]=(A*EN+B)/(1.0+APOP2)*1.D-16
       GO TO 440
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      430 QIN(50,I)=YVIB1(NVIB)*(XVIB[NVIB]/EN)/(1.0+APOP2)*1.D-16
-      440 if(EN > 6.0) PEQIN(50,I)=PEQEL(2,(I-IOFFN[50])) 
+      430 QIN[50][I]=YVIB1(NVIB)*(XVIB[NVIB]/EN)/(1.0+APOP2)*1.D-16
+      440 if(EN > 6.0) PEQIN[50][I]=PEQEL[2][(I-IOFFN[50])] 
       #                                                                       
       450 if(EN <= EIN[51]) GO TO 500                     
       if(EN > XVIB[NVIB]):
@@ -23385,11 +23380,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       470 A=(YVIB2[J]-YVIB2(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB2[J]-XVIB[J]*YVIB2(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(51,I)=(A*EN+B)*1.D-16
+      QIN[51][I]=(A*EN+B)*1.D-16
       GO TO 490
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      480 QIN(51,I)=YVIB2(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      490 if(EN > 6.0) PEQIN(51,I)=PEQEL(2,(I-IOFFN[51]))              
+      480 QIN[51][I]=YVIB2(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      490 if(EN > 6.0) PEQIN[51][I]=PEQEL[2][(I-IOFFN[51])]              
       #                                                                       
       500 if(EN <= EIN[52]) GO TO 550 
       if(EN > XVIB[NVIB]):
@@ -23401,11 +23396,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       520 A=(YVIB3[J]-YVIB3(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB3[J]-XVIB[J]*YVIB3(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(52,I)=(A*EN+B)*1.D-16    
+      QIN[52][I]=(A*EN+B)*1.D-16    
       GO TO 540
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      530 QIN(52,I)=YVIB3(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      540 if(EN > 6.0) PEQIN(52,I)=PEQEL(2,(I-IOFFN[52]))
+      530 QIN[52][I]=YVIB3(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      540 if(EN > 6.0) PEQIN[52][I]=PEQEL[2][(I-IOFFN[52])]
       #                                                                       
       550 if(EN <= EIN[53]) GO TO 600   
       if(EN > XVIB[NVIB]):
@@ -23417,11 +23412,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       570 A=(YVIB4[J]-YVIB4(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB4[J]-XVIB[J]*YVIB4(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(53,I)=(A*EN+B)*1.D-16   
+      QIN[53][I]=(A*EN+B)*1.D-16   
       GO TO 590
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      580 QIN(53,I)=YVIB4(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      590 if(EN > 6.0) PEQIN(53,I)=PEQEL(2,(I-IOFFN[53]))     
+      580 QIN[53][I]=YVIB4(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      590 if(EN > 6.0) PEQIN[53][I]=PEQEL[2][(I-IOFFN[53])]     
       #                                                                       
       600 if(EN <= EIN[54]) GO TO 605   
       if(EN > XVIB[NVIB]):
@@ -23431,13 +23426,13 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       GO TO 602                                      
       601 CONTINUE                                                          
       J=NVIB                                                           
-      602 A=(YVIB5[J]-YVIB5(J-1))/(XVIB[J]-XVIB[J-1])                     
-      B=(XVIB[J-1]*YVIB5[J]-XVIB[J]*YVIB5(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(54,I)=(A*EN+B)*1.D-16   
+      602 A=(YVIB5[J]-YVIB5[J-1])/(XVIB[J]-XVIB[J-1])                     
+      B=(XVIB[J-1]*YVIB5[J]-XVIB[J]*YVIB5[J-1])/(XVIB[J-1]-XVIB[J]) 
+      QIN[54][I]=(A*EN+B)*1.D-16   
       GO TO 604
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      603 QIN(54,I)=YVIB5(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      604 if(EN > 6.0) PEQIN(54,I)=PEQEL(2,(I-IOFFN[54]))                  
+      603 QIN[54][I]=YVIB5(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      604 if(EN > 6.0) PEQIN[54][I]=PEQEL[2][(I-IOFFN[54])]                  
       # A1 DELTA                                                                   
       605 if(EN <= EIN[55]) GO TO 610
       if(EN > XEXC1(NEXC1):
@@ -23449,11 +23444,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NEXC1                                                           
       607 A=(YEXC1[J]-YEXC1(J-1))/(XEXC1[J]-XEXC1(J-1))                     
       B=(XEXC1(J-1)*YEXC1[J]-XEXC1[J]*YEXC1(J-1))/(XEXC1(J-1)-XEXC1[J]) 
-      QIN(55,I)=(A*EN+B)*1.D-16     
+      QIN[55][I]=(A*EN+B)*1.D-16     
       GO TO 609   
       # SCALE BY 1/E**2 ABOVE XEXC1(NEXC1) EV                                       
-      608 QIN(55,I)=YEXC1(NEXC1)*(XEXC1(NEXC1)/EN)**2*1.D-16        
-      609 if(EN > 6.0) PEQIN(55,I)=PEQEL(2,(I-IOFFN[55])) 
+      608 QIN[55][I]=YEXC1(NEXC1)*(XEXC1(NEXC1)/EN)**2*1.D-16        
+      609 if(EN > 6.0) PEQIN[55][I]=PEQEL[2][(I-IOFFN[55])] 
       #              
       610 if(EN <= EIN[56]) GO TO 615   
       if(EN > XVIB[NVIB]):
@@ -23463,13 +23458,13 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       GO TO 612                                      
       611 CONTINUE                                                          
       J=NVIB                                                           
-      612 A=(YVIB6[J]-YVIB6(J-1))/(XVIB[J]-XVIB[J-1])                     
-      B=(XVIB[J-1]*YVIB6[J]-XVIB[J]*YVIB6(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(56,I)=(A*EN+B)*1.D-16   
+      612 A=(YVIB6[J]-YVIB6[J-1])/(XVIB[J]-XVIB[J-1])                     
+      B=(XVIB[J-1]*YVIB6[J]-XVIB[J]*YVIB6[J-1])/(XVIB[J-1]-XVIB[J]) 
+      QIN[56][I]=(A*EN+B)*1.D-16   
       GO TO 614
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      613 QIN(56,I)=YVIB6(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      614 if(EN > 6.0) PEQIN(56,I)=PEQEL(2,(I-IOFFN[56]))                 
+      613 QIN[56][I]=YVIB6(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      614 if(EN > 6.0) PEQIN[56][I]=PEQEL[2][(I-IOFFN[56])]                 
       #              
       615 if(EN <= EIN[57]) GO TO 620   
       if(EN > XVIB[NVIB]):
@@ -23481,11 +23476,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       617 A=(YVIB7[J]-YVIB7(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB7[J]-XVIB[J]*YVIB7(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(57,I)=(A*EN+B)*1.D-16   
+      QIN[57][I]=(A*EN+B)*1.D-16   
       GO TO 619
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      618 QIN(57,I)=YVIB7(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      619 if(EN > 6.0) PEQIN(57,I)=PEQEL(2,(I-IOFFN[57]))                 
+      618 QIN[57][I]=YVIB7(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      619 if(EN > 6.0) PEQIN[57][I]=PEQEL[2][(I-IOFFN[57])]                 
       #              
       620 if(EN <= EIN[58]) GO TO 625   
       if(EN > XVIB[NVIB]):
@@ -23497,11 +23492,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       622 A=(YVIB8[J]-YVIB8(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB8[J]-XVIB[J]*YVIB8(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(58,I)=(A*EN+B)*1.D-16   
+      QIN[58][I]=(A*EN+B)*1.D-16   
       GO TO 624
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      623 QIN(58,I)=YVIB8(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      624 if(EN > 6.0) PEQIN(58,I)=PEQEL(2,(I-IOFFN[58]))                 
+      623 QIN[58][I]=YVIB8(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      624 if(EN > 6.0) PEQIN[58][I]=PEQEL[2][(I-IOFFN[58])]                 
       # B1 SIGMA                                                                  
       625 if(EN <= EIN[59]) GO TO 630 
       if(EN > XEXC2(NEXC2):
@@ -23513,11 +23508,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NEXC2                                                           
       627 A=(YEXC2[J]-YEXC2(J-1))/(XEXC2[J]-XEXC2(J-1))                     
       B=(XEXC2(J-1)*YEXC2[J]-XEXC2[J]*YEXC2(J-1))/(XEXC2(J-1)-XEXC2[J]) 
-      QIN(59,I)=(A*EN+B)*1.D-16        
+      QIN[59][I]=(A*EN+B)*1.D-16        
       GO TO 629   
       # SCALE BY 1/E**2 ABOVE XEXC2(NEXC2) EV                                     
-      628 QIN(59,I)=YEXC2(NEXC2)*(XEXC2(NEXC2)/EN)**2*1.D-16      
-      629 if(EN > (3.0*EIN[59])) PEQIN(61,I)=PEQEL(2,(I-IOFFN[59]))  
+      628 QIN[59][I]=YEXC2(NEXC2)*(XEXC2(NEXC2)/EN)**2*1.D-16      
+      629 if(EN > (3.0*EIN[59])) PEQIN[61][I]=PEQEL[2][(I-IOFFN[59])]  
       #              
       630 if(EN <= EIN[60]) GO TO 635   
       if(EN > XVIB[NVIB]):
@@ -23529,11 +23524,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       632 A=(YVIB9[J]-YVIB9(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB9[J]-XVIB[J]*YVIB9(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(60,I)=(A*EN+B)*1.D-16   
+      QIN[60][I]=(A*EN+B)*1.D-16   
       GO TO 634
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      633 QIN(60,I)=YVIB9(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      634 if(EN > 6.0) PEQIN(60,I)=PEQEL(2,(I-IOFFN[60]))                 
+      633 QIN[60][I]=YVIB9(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      634 if(EN > 6.0) PEQIN[60][I]=PEQEL[2][(I-IOFFN[60])]                 
       #              
       635 if(EN <= EIN[61]) GO TO 640   
       if(EN > XVIB[NVIB]):
@@ -23545,11 +23540,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       637 A=(YVIB10[J]-YVIB10(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB10[J]-XVIB[J]*YVIB10(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(61,I)=(A*EN+B)*1.D-16   
+      QIN[61][I]=(A*EN+B)*1.D-16   
       GO TO 639
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      638 QIN(61,I)=YVIB10(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      639 if(EN > 6.0) PEQIN(61,I)=PEQEL(2,(I-IOFFN[61]))                 
+      638 QIN[61][I]=YVIB10(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      639 if(EN > 6.0) PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]                 
       #              
       640 if(EN <= EIN[62]) GO TO 645   
       if(EN > XVIB[NVIB]):
@@ -23561,11 +23556,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       642 A=(YVIB11[J]-YVIB11(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB11[J]-XVIB[J]*YVIB11(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(62,I)=(A*EN+B)*1.D-16   
+      QIN[62][I]=(A*EN+B)*1.D-16   
       GO TO 644
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      643 QIN(62,I)=YVIB11(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      644 if(EN > 6.0) PEQIN(62,I)=PEQEL(2,(I-IOFFN[62]))                 
+      643 QIN[62][I]=YVIB11(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      644 if(EN > 6.0) PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]                 
       #              
       645 if(EN <= EIN[63]) GO TO 650   
       if(EN > XVIB[NVIB]):
@@ -23577,11 +23572,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       647 A=(YVIB12[J]-YVIB12(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB12[J]-XVIB[J]*YVIB12(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(63,I)=(A*EN+B)*1.D-16   
+      QIN[63][I]=(A*EN+B)*1.D-16   
       GO TO 649
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      648 QIN(63,I)=YVIB12(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      649 if(EN > 6.0) PEQIN(63,I)=PEQEL(2,(I-IOFFN[63]))                 
+      648 QIN[63][I]=YVIB12(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      649 if(EN > 6.0) PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])]                 
       #              
       650 if(EN <= EIN[64]) GO TO 655   
       if(EN > XVIB[NVIB]):
@@ -23593,11 +23588,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       652 A=(YVIB13[J]-YVIB13(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB13[J]-XVIB[J]*YVIB13(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(64,I)=(A*EN+B)*1.D-16   
+      QIN[64][I]=(A*EN+B)*1.D-16   
       GO TO 654
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      653 QIN(64,I)=YVIB13(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      654 if(EN > 6.0) PEQIN(64,I)=PEQEL(2,(I-IOFFN[64]))                 
+      653 QIN[64][I]=YVIB13(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      654 if(EN > 6.0) PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])]                 
       #              
       655 if(EN <= EIN(65)) GO TO 660   
       if(EN > XVIB[NVIB]):
@@ -23609,11 +23604,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       657 A=(YVIB14[J]-YVIB14(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB14[J]-XVIB[J]*YVIB14(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(65,I)=(A*EN+B)*1.D-16   
+      QIN[65][I]=(A*EN+B)*1.D-16   
       GO TO 659
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      658 QIN(65,I)=YVIB14(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      659 if(EN > 6.0) PEQIN(65,I)=PEQEL(2,(I-IOFFN(65)))                 
+      658 QIN[65][I]=YVIB14(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      659 if(EN > 6.0) PEQIN[65][I]=PEQEL[2][(I-IOFFN(65))]                 
       #              
       660 if(EN <= EIN(66)) GO TO 665   
       if(EN > XVIB[NVIB]):
@@ -23625,11 +23620,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       662 A=(YVIB15[J]-YVIB15(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB15[J]-XVIB[J]*YVIB15(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(66,I)=(A*EN+B)*1.D-16   
+      QIN[66][I]=(A*EN+B)*1.D-16   
       GO TO 664
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      663 QIN(66,I)=YVIB15(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      664 if(EN > 6.0) PEQIN(66,I)=PEQEL(2,(I-IOFFN(66)))                 
+      663 QIN[66][I]=YVIB15(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      664 if(EN > 6.0) PEQIN[66][I]=PEQEL[2][(I-IOFFN(66))]                 
       #              
       665 if(EN <= EIN(67)) GO TO 670   
       if(EN > XVIB[NVIB]):
@@ -23641,11 +23636,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       667 A=(YVIB16[J]-YVIB16(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB16[J]-XVIB[J]*YVIB16(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(67,I)=(A*EN+B)*1.D-16   
+      QIN[67][I]=(A*EN+B)*1.D-16   
       GO TO 669
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      668 QIN(67,I)=YVIB16(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      669 if(EN > 6.0) PEQIN(67,I)=PEQEL(2,(I-IOFFN(67)))                 
+      668 QIN[67][I]=YVIB16(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      669 if(EN > 6.0) PEQIN[67][I]=PEQEL[2][(I-IOFFN(67))]                 
       #              
       670 if(EN <= EIN(68)) GO TO 675   
       if(EN > XVIB[NVIB]):
@@ -23657,11 +23652,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       672 A=(YVIB17[J]-YVIB17(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB17[J]-XVIB[J]*YVIB17(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(68,I)=(A*EN+B)*1.D-16   
+      QIN[68][I]=(A*EN+B)*1.D-16   
       GO TO 674
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      673 QIN(68,I)=YVIB17(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      674 if(EN > 6.0) PEQIN(68,I)=PEQEL(2,(I-IOFFN(68)))                 
+      673 QIN[68][I]=YVIB17(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      674 if(EN > 6.0) PEQIN[68][I]=PEQEL[2][(I-IOFFN(68))]                 
       #              
       675 if(EN <= EIN(69)) GO TO 680   
       if(EN > XVIB[NVIB]):
@@ -23673,11 +23668,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       677 A=(YVIB18[J]-YVIB18(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB18[J]-XVIB[J]*YVIB18(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(69,I)=(A*EN+B)*1.D-16   
+      QIN[69][I]=(A*EN+B)*1.D-16   
       GO TO 679
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      678 QIN(69,I)=YVIB18(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      679 if(EN > 6.0) PEQIN(69,I)=PEQEL(2,(I-IOFFN(69)))                 
+      678 QIN[69][I]=YVIB18(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      679 if(EN > 6.0) PEQIN[69][I]=PEQEL[2][(I-IOFFN(69))]                 
       #              
       680 if(EN <= EIN(70)) GO TO 685   
       if(EN > XVIB[NVIB]):
@@ -23689,11 +23684,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       682 A=(YVIB19[J]-YVIB19(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB19[J]-XVIB[J]*YVIB19(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(70,I)=(A*EN+B)*1.D-16   
+      QIN[70][I]=(A*EN+B)*1.D-16   
       GO TO 684
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      683 QIN(70,I)=YVIB19(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      684 if(EN > 6.0) PEQIN(70,I)=PEQEL(2,(I-IOFFN(70)))                 
+      683 QIN[70][I]=YVIB19(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      684 if(EN > 6.0) PEQIN[70][I]=PEQEL[2][(I-IOFFN(70))]                 
       #              
       685 if(EN <= EIN(71)) GO TO 690   
       if(EN > XVIB[NVIB]):
@@ -23705,11 +23700,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       687 A=(YVIB20[J]-YVIB20(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB20[J]-XVIB[J]*YVIB20(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(71,I)=(A*EN+B)*1.D-16   
+      QIN[71][I]=(A*EN+B)*1.D-16   
       GO TO 689
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      688 QIN(71,I)=YVIB20(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      689 if(EN > 6.0) PEQIN(71,I)=PEQEL(2,(I-IOFFN(71)))                 
+      688 QIN[71][I]=YVIB20(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      689 if(EN > 6.0) PEQIN[71][I]=PEQEL[2][(I-IOFFN(71))]                 
       #              
       690 if(EN <= EIN(72)) GO TO 1000  
       if(EN > XVIB[NVIB]):
@@ -23721,11 +23716,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB                                                           
       692 A=(YVIB21[J]-YVIB21(J-1))/(XVIB[J]-XVIB[J-1])                     
       B=(XVIB[J-1]*YVIB21[J]-XVIB[J]*YVIB21(J-1))/(XVIB[J-1]-XVIB[J]) 
-      QIN(72,I)=(A*EN+B)*1.D-16   
+      QIN[72][I]=(A*EN+B)*1.D-16   
       GO TO 694
       # SCALE BY 1/E ABOVE XVIB[NVIB]
-      693 QIN(72,I)=YVIB20(NVIB)*(XVIB[NVIB]/EN)*1.D-16
-      694 if(EN > 6.0) PEQIN(72,I)=PEQEL(2,(I-IOFFN(72)))                 
+      693 QIN[72][I]=YVIB20(NVIB)*(XVIB[NVIB]/EN)*1.D-16
+      694 if(EN > 6.0) PEQIN[72][I]=PEQEL[2][(I-IOFFN(72))]                 
       #  
       #   HERZBERG CONTINUUM  C1SIG +A#3DEL + A3SIG 
       # PART1                                                            
@@ -23739,11 +23734,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NEXC3                                                           
       1015 A=(YEXC3[J]-YEXC3(J-1))/(XEXC3[J]-XEXC3(J-1))                     
       B=(XEXC3(J-1)*YEXC3[J]-XEXC3[J]*YEXC3(J-1))/(XEXC3(J-1)-XEXC3[J]) 
-      QIN(73,I)=(A*EN+B)*1.D-16                   
+      QIN[73][I]=(A*EN+B)*1.D-16                   
       GO TO 1021
       # SCALE BY 1/E ABOVE XEXC3(NEXC3)                            
-      1020 QIN(73,I)=YEXC3(NEXC3)*(XEXC3(NEXC3)/EN)*1.D-16         
-      1021 if(EN > (2.0*EIN(73))) PEQIN(73,I)=PEQEL(2,(I-IOFFN(73)))       
+      1020 QIN[73][I]=YEXC3(NEXC3)*(XEXC3(NEXC3)/EN)*1.D-16         
+      1021 if(EN > (2.0*EIN(73))) PEQIN[73][I]=PEQEL[2][(I-IOFFN(73))]       
       # PART2                                                                      
       1030 if(EN <= EIN(74)) GO TO 1060
       if(EN > XEXC4(NEXC4):
@@ -23755,11 +23750,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NEXC4                                                           
       1045 A=(YEXC4[J]-YEXC4(J-1))/(XEXC4[J]-XEXC4(J-1))                     
       B=(XEXC4(J-1)*YEXC4[J]-XEXC4[J]*YEXC4(J-1))/(XEXC4(J-1)-XEXC4[J]) 
-      QIN(74,I)=(A*EN+B)*1.D-16                     
+      QIN[74][I]=(A*EN+B)*1.D-16                     
       GO TO 1060
       # SCALE BY 1/E ABOVE XEXC4(NEXC4)                            
-      1050 QIN(74,I)=YEXC4(NEXC4)*(XEXC4(NEXC4)/EN)*1.D-16           
-      1060 if(EN > (2.0*EIN(74))) PEQIN(74,I)=PEQEL(2,(I-IOFFN(74)))
+      1050 QIN[74][I]=YEXC4(NEXC4)*(XEXC4(NEXC4)/EN)*1.D-16           
+      1060 if(EN > (2.0*EIN(74))) PEQIN[74][I]=PEQEL[2][(I-IOFFN(74))]
       # PART3                                                                      
       if(EN <= EIN(75):
       ) GO TO 1100      
@@ -23772,45 +23767,45 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NEXC5                                                           
       1075 A=(YEXC5[J]-YEXC5(J-1))/(XEXC5[J]-XEXC5(J-1))                     
       B=(XEXC5(J-1)*YEXC5[J]-XEXC5[J]*YEXC5(J-1))/(XEXC5(J-1)-XEXC5[J]) 
-      QIN(75,I)=(A*EN+B)*1.D-16              
+      QIN[75][I]=(A*EN+B)*1.D-16              
       GO TO 1100
       # SCALE BY 1/E ABOVE XEXC5(NEXC5)                              
-      1080 QIN(75,I)=YEXC5(NEXC5)*(XEXC5(NEXC5)/EN)*1.D-16              
-      1100 if(EN > (2.0*EIN(75))) PEQIN(75,I)=PEQEL(2,(I-IOFFN(75)))
+      1080 QIN[75][I]=YEXC5(NEXC5)*(XEXC5(NEXC5)/EN)*1.D-16              
+      1100 if(EN > (2.0*EIN(75))) PEQIN[75][I]=PEQEL[2][(I-IOFFN(75))]
       # SUM OF TRANSITIONS TO B3SIGMA V=7 TO V=21
       if(EN <= EIN(76):
       ) GO TO 1150
       # USE BEF SCALING
-      QIN(76,I)=0.00026/(EIN(76)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(76)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(76)+E[3])
-      if(QIN(76,I):
-      < 0.0) QIN(76,I)=0.0  
+      QIN[76][I]=0.00026/(EIN(76)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(76)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(76)+E[3])
+      if(QIN[76][I]:
+      < 0.0) QIN[76][I]=0.0  
       if(EN > (2.0*EIN(76):
-      )) PEQIN(76,I)=PEQEL(2,(I-IOFFN(76)))
+      )) PEQIN[76][I]=PEQEL[2][(I-IOFFN(76))]
       #
       # SCHUMANN-RUNGE CONTINUUM 
       1150 if(EN <= EIN(77)) GO TO 1151
       # USE BEF SCALING
-      QIN(77,I)=0.000408/(EIN(77)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(77)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(77)+E[3])
+      QIN[77][I]=0.000408/(EIN(77)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(77)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(77)+E[3])
       1151 if(EN <= EIN(78)) GO TO 1152
-      QIN(78,I)=0.000623/(EIN(78)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(78)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(78)+E[3])
+      QIN[78][I]=0.000623/(EIN(78)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(78)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(78)+E[3])
       1152 if(EN <= EIN(79)) GO TO 1153
-      QIN(79,I)=0.001016/(EIN(79)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(79)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(79)+E[3])
+      QIN[79][I]=0.001016/(EIN(79)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(79)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(79)+E[3])
       1153 if(EN <= EIN(80)) GO TO 1154
-      QIN(80,I)=0.001562/(EIN(80)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(80)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(80)+E[3])
+      QIN[80][I]=0.001562/(EIN(80)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(80)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(80)+E[3])
       1154 if(EN <= EIN(81)) GO TO 1155
-      QIN(81,I)=0.002312/(EIN(81)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(81)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(81)+E[3])
+      QIN[81][I]=0.002312/(EIN(81)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(81)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(81)+E[3])
       1155 if(EN <= EIN(82)) GO TO 1156
-      QIN(82,I)=0.003234/(EIN(82)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(82)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(82)+E[3])
+      QIN[82][I]=0.003234/(EIN(82)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(82)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(82)+E[3])
       1156 if(EN <= EIN(83)) GO TO 1157
-      QIN(83,I)=0.004362/(EIN(83)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(83)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(83)+E[3])
+      QIN[83][I]=0.004362/(EIN(83)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(83)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(83)+E[3])
       1157 if(EN <= EIN(84)) GO TO 1158
-      QIN(84,I)=0.005573/(EIN(84)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(84)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(84)+E[3])
+      QIN[84][I]=0.005573/(EIN(84)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(84)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(84)+E[3])
       1158 if(EN <= EIN(85)) GO TO 1159
-      QIN(85,I)=0.006930/(EIN(85)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(85)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(85)+E[3])
+      QIN[85][I]=0.006930/(EIN(85)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(85)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(85)+E[3])
       1159 if(EN <= EIN(86)) GO TO 1160
-      QIN(86,I)=0.008342/(EIN(86)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(86)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(86)+E[3])
+      QIN[86][I]=0.008342/(EIN(86)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(86)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(86)+E[3])
       1160 if(EN <= EIN(87)) GO TO 1161
-      QIN(87,I)=0.009692/(EIN(87)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(87)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(87)+E[3])
+      QIN[87][I]=0.009692/(EIN(87)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(87)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(87)+E[3])
       # SUM OF RESONANCES (NON-DIPOLE) IN S-R CONTINUUM AT 8.20EV
       if(EN <= EIN(88):
       ) GO TO 1161      
@@ -23823,33 +23818,33 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NEXC6                                                           
       962 A=(YEXC6[J]-YEXC6(J-1))/(XEXC6[J]-XEXC6(J-1))                     
       B=(XEXC6(J-1)*YEXC6[J]-XEXC6[J]*YEXC6(J-1))/(XEXC6(J-1)-XEXC6[J]) 
-      QIN(88,I)=(A*EN+B)*1.D-16          
+      QIN[88][I]=(A*EN+B)*1.D-16          
       GO TO 1161
       # SCALE BY 1/E ABOVE XEXC6(NEXC6)                              
-      963 QIN(88,I)=YEXC6(NEXC6)*(XEXC6(NEXC6)/EN)*1.D-16             
+      963 QIN[88][I]=YEXC6(NEXC6)*(XEXC6(NEXC6)/EN)*1.D-16             
       # MORE SCHUMANN RUNGE CONTINUUM
       1161 if(EN <= EIN(89)) GO TO 1162
-      QIN(89,I)=0.010816/(EIN(89)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(89)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(89)+E[3])
+      QIN[89][I]=0.010816/(EIN(89)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(89)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(89)+E[3])
       1162 if(EN <= EIN(90)) GO TO 1163
-      QIN(90,I)=0.011839/(EIN(90)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(90)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(90)+E[3])
+      QIN[90][I]=0.011839/(EIN(90)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(90)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(90)+E[3])
       1163 if(EN <= EIN(91)) GO TO 1164
-      QIN(91,I)=0.012580/(EIN(91)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(91)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(91)+E[3])
+      QIN[91][I]=0.012580/(EIN(91)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(91)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(91)+E[3])
       1164 if(EN <= EIN(92)) GO TO 1165
-      QIN(92,I)=0.013160/(EIN(92)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(92)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(92)+E[3])
+      QIN[92][I]=0.013160/(EIN(92)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(92)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(92)+E[3])
       1165 if(EN <= EIN(93)) GO TO 1166
-      QIN(93,I)=0.013432/(EIN(93)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(93)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(93)+E[3])
+      QIN[93][I]=0.013432/(EIN(93)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(93)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(93)+E[3])
       1166 if(EN <= EIN(94)) GO TO 1167
-      QIN(94,I)=0.013571/(EIN(94)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(94)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(94)+E[3])
+      QIN[94][I]=0.013571/(EIN(94)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(94)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(94)+E[3])
       1167 if(EN <= EIN(95)) GO TO 1168
-      QIN(95,I)=0.013425/(EIN(95)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(95)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(95)+E[3])
+      QIN[95][I]=0.013425/(EIN(95)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(95)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(95)+E[3])
       1168 if(EN <= EIN(96)) GO TO 1169
-      QIN(96,I)=0.012948/(EIN(96)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(96)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(96)+E[3])
+      QIN[96][I]=0.012948/(EIN(96)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(96)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(96)+E[3])
       1169 if(EN <= EIN(97)) GO TO 1170
-      QIN(97,I)=0.010892/(EIN(97)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(97)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(97)+E[3])
+      QIN[97][I]=0.010892/(EIN(97)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(97)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(97)+E[3])
       1170 if(EN <= EIN(98)) GO TO 1171
-      QIN(98,I)=0.006688/(EIN(98)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(98)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(98)+E[3])
+      QIN[98][I]=0.006688/(EIN(98)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(98)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(98)+E[3])
       1171 if(EN <= EIN(99)) GO TO 1172
-      QIN(99,I)=0.002784/(EIN(99)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(99)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(99)+E[3])
+      QIN[99][I]=0.002784/(EIN(99)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(99)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(99)+E[3])
       1172 if(EN <= EIN(100)) GO TO 1173
       QIN(100,I)=0.001767/(EIN(100)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(100)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(100)+E[3])
       1173 if(EN <= EIN(101)) GO TO 1174
@@ -23936,7 +23931,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       <= 0.0) QIN(JK,I)=0.0
       if(EN <= (2.0*EIN(JK):
       )) GO TO 1200
-      PEQIN(JK,I)=PEQEL(2,(I-IOFFN(JK)))
+      PEQIN(JK,I)=PEQEL[2][(I-IOFFN(JK))]
       1200 CONTINUE
       # NEUTRAL DISSOCIATION ABOVE IONISATION ENERGY
       # 
@@ -24053,7 +24048,7 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       <= 0.0) QIN(JK,I)=0.0
       if(EN <= (2.0*EIN(JK):
       )) GO TO 1340
-      PEQIN(JK,I)=PEQEL(2,(I-IOFFN(JK)))
+      PEQIN(JK,I)=PEQEL[2][(I-IOFFN(JK))]
       1340 CONTINUE
       # LOAD BREMSSTRAHLUNG X-SECTION
       QIN(149,I)=0.0
@@ -24064,8 +24059,8 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       ) GO TO 1342
       1341 CONTINUE
       J=NBREM
-      1342 A=(math.log(Z8T[J])-math.log(Z8T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z8T[J])*EBRM(J-1)-math.log(Z8T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
+      1342 A=(math.log(Z8T[J])-math.log(Z8T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z8T[J])*EBRM[J-1]-math.log(Z8T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
       QIN(149,I)=math.exp(A*EN+B)*2.D-24
       1350 CONTINUE
       # SCHUMANN RUNGE SUM
@@ -24090,11 +24085,11 @@ def GAS15(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       SUMVIB=0.0
       DO 1506 JK=49,54 
       1506 SUMVIB=SUMVIB+QIN(JK,I)
-      SUMVIB=SUMVIB+QIN(55,I)+QIN(56,I)+QIN(57,I)
+      SUMVIB=SUMVIB+QIN[55][I]+QIN[56][I]+QIN[57][I]
       DO 1507 JK=60,72 
       1507 SUMVIB=SUMVIB+QIN(JK,I)
       # SUM HERZBERG
-      SUMHERZ=QIN(73,I)+QIN(74,I)+QIN(75,I)  
+      SUMHERZ=QIN[73][I]+QIN[74][I]+QIN[75][I]  
       # SUM E3SIGMA
       SUME3=QIN(104,I)+QIN(105,I)+QIN(106,I)
       # SUM ION
@@ -24136,7 +24131,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]         
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]         
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250],PJ(220) 
@@ -25053,7 +25048,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       434 DO 435 J=1,12
       if(EN <= (2.0*EION[J]:
       )) GO TO 435
-      PEQION[J][I]=PEQEL(2,(I-IOFFION[J]))
+      PEQION[J][I]=PEQEL[2][(I-IOFFION[J]])
       435 CONTINUE
       #  
       # CORRECTION TO IONISATION FOR AUGER EMISSION
@@ -25115,11 +25110,11 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       #  ROT 0-2
       if(EN <= EIN[39]:
       ) GO TO 80
-      QIN(39,I)=FROT0*QBK*math.sqrt(1.0-EIN[39]/EN)*2.0/3.0
-      QIN(39,I)=QIN(39,I)*RESFAC
-      PEQIN(39,I)=0.0
+      QIN[39][I]=FROT0*QBK*math.sqrt(1.0-EIN[39]/EN)*2.0/3.0
+      QIN[39][I]=QIN[39][I]*RESFAC
+      PEQIN[39][I]=0.0
       if(NANISO == 2):
-      PEQIN(39,I)=0.0
+      PEQIN[39][I]=0.0
       # ROT 1-3 AND HIGHER
       DO 58 K=40,76
       AJ=float(K-39) 
@@ -25143,10 +25138,10 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       #  VIBRATIONAL AND EXCITATION X-SECTIONS         
       #--------------------------------------------------------------------- 
       #  V1 SUPERELASTIC 
-      QIN(77,I)=0.0
-      PEQIN(77,I)=0.5
+      QIN[77][I]=0.0
+      PEQIN[77][I]=0.5
       if(NANISO == 2):
-      PEQIN(77,I)=0.0
+      PEQIN[77][I]=0.0
       if(EN <= 0.0):
       GO TO 87
       if((EN-EIN(77):
@@ -25158,13 +25153,13 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB1                                                           
       86 A=(YVB1[J]-YVB1(J-1))/(XVB1[J]-XVB1(J-1))                     
       B=(XVB1(J-1)*YVB1[J]-XVB1[J]*YVB1(J-1))/(XVB1(J-1)-XVB1[J]) 
-      QIN(77,I)=(EN-EIN(77))*(A*(EN-EIN(77))+B)/EN
+      QIN[77][I]=(EN-EIN(77))*(A*(EN-EIN(77))+B)/EN
       GO TO 862
-      861 QIN(77,I)=(EN-EIN(77))*YVB1(NVIB1)*(XVB1(NVIB1)/(EN*EN)) 
-      862 QIN(77,I)=APOPV1*QIN(77,I)*1.D-16        
+      861 QIN[77][I]=(EN-EIN(77))*YVB1(NVIB1)*(XVB1(NVIB1)/(EN*EN)) 
+      862 QIN[77][I]=APOPV1*QIN[77][I]*1.D-16        
       87 CONTINUE
       #  V1  
-      QIN(78,I)=0.0                                                     
+      QIN[78][I]=0.0                                                     
       if(EN <= EIN(78):
       ) GO TO 110
       if(EN > XVB1(NVIB1):
@@ -25176,12 +25171,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB1                                                           
       100 A=(YVB1[J]-YVB1(J-1))/(XVB1[J]-XVB1(J-1))                     
       B=(XVB1(J-1)*YVB1[J]-XVB1[J]*YVB1(J-1))/(XVB1(J-1)-XVB1[J]) 
-      QIN(78,I)=APOPGS*(A*EN+B)*1.D-16   
+      QIN[78][I]=APOPGS*(A*EN+B)*1.D-16   
       GO TO 110
-      101 QIN(78,I)=APOPGS*YVB1(NVIB1)*(XVB1(NVIB1)/EN)*1.D-16            
+      101 QIN[78][I]=APOPGS*YVB1(NVIB1)*(XVB1(NVIB1)/EN)*1.D-16            
       110 CONTINUE
       #  2V1                                                                  
-      QIN(79,I)=0.0                                
+      QIN[79][I]=0.0                                
       if(EN <= EIN(79):
       ) GO TO 140                           
       if(EN > XVB2(NVIB2):
@@ -25193,12 +25188,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB2                                                           
       130 A=(YVB2[J]-YVB2(J-1))/(XVB2[J]-XVB2(J-1))                     
       B=(XVB2(J-1)*YVB2[J]-XVB2[J]*YVB2(J-1))/(XVB2(J-1)-XVB2[J]) 
-      QIN(79,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[79][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 140  
-      131 QIN(79,I)=APOPGS*YVB2(NVIB2)*(XVB2(NVIB2)/EN)*1.D-16             
+      131 QIN[79][I]=APOPGS*YVB2(NVIB2)*(XVB2(NVIB2)/EN)*1.D-16             
       140 CONTINUE                           
       #  3V1                                                       
-      QIN(80,I)=0.0                                                    
+      QIN[80][I]=0.0                                                    
       if(EN <= EIN(80):
       ) GO TO 170                           
       if(EN > XVB3(NVIB3):
@@ -25210,12 +25205,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB3                                                           
       160 A=(YVB3[J]-YVB3(J-1))/(XVB3[J]-XVB3(J-1))                     
       B=(XVB3(J-1)*YVB3[J]-XVB3[J]*YVB3(J-1))/(XVB3(J-1)-XVB3[J]) 
-      QIN(80,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[80][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 170
-      161 QIN(80,I)=APOPGS*YVB3(NVIB3)*(XVB3(NVIB3)/EN)*1.D-16           
+      161 QIN[80][I]=APOPGS*YVB3(NVIB3)*(XVB3(NVIB3)/EN)*1.D-16           
       170 CONTINUE                       
       # 4V1                                                               
-      QIN(81,I)=0.0                                           
+      QIN[81][I]=0.0                                           
       if(EN <= EIN(81):
       ) GO TO 200                               
       if(EN > XVB4(NVIB4):
@@ -25227,12 +25222,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB4                                                           
       190 A=(YVB4[J]-YVB4(J-1))/(XVB4[J]-XVB4(J-1))                     
       B=(XVB4(J-1)*YVB4[J]-XVB4[J]*YVB4(J-1))/(XVB4(J-1)-XVB4[J]) 
-      QIN(81,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[81][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 200
-      191 QIN(81,I)=APOPGS*YVB4(NVIB4)*(XVB4(NVIB4)/EN)*1.D-16            
+      191 QIN[81][I]=APOPGS*YVB4(NVIB4)*(XVB4(NVIB4)/EN)*1.D-16            
       200 CONTINUE                               
       # 5V1                                                                  
-      QIN(82,I)=0.0                                          
+      QIN[82][I]=0.0                                          
       if(EN <= EIN(82):
       ) GO TO 230                              
       if(EN > XVB5(NVIB5):
@@ -25244,12 +25239,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB5                                                           
       220 A=(YVB5[J]-YVB5(J-1))/(XVB5[J]-XVB5(J-1))                     
       B=(XVB5(J-1)*YVB5[J]-XVB5[J]*YVB5(J-1))/(XVB5(J-1)-XVB5[J]) 
-      QIN(82,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[82][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 230
-      221 QIN(82,I)=APOPGS*YVB5(NVIB5)*(XVB5(NVIB5)/EN)*1.D-16           
+      221 QIN[82][I]=APOPGS*YVB5(NVIB5)*(XVB5(NVIB5)/EN)*1.D-16           
       230 CONTINUE                       
       # 6V1                                                                   
-      QIN(83,I)=0.0                                                     
+      QIN[83][I]=0.0                                                     
       if(EN <= EIN(83):
       ) GO TO 260                               
       if(EN > XVB6(NVIB6):
@@ -25261,12 +25256,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB6                                                           
       250 A=(YVB6[J]-YVB6(J-1))/(XVB6[J]-XVB6(J-1))                     
       B=(XVB6(J-1)*YVB6[J]-XVB6[J]*YVB6(J-1))/(XVB6(J-1)-XVB6[J]) 
-      QIN(83,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[83][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 260
-      251 QIN(83,I)=APOPGS*YVB6(NVIB6)*(XVB6(NVIB6)/EN)*1.D-16         
+      251 QIN[83][I]=APOPGS*YVB6(NVIB6)*(XVB6(NVIB6)/EN)*1.D-16         
       260 CONTINUE 
       # 7V1                                                                   
-      QIN(84,I)=0.0                                                     
+      QIN[84][I]=0.0                                                     
       if(EN <= EIN(84):
       ) GO TO 330                              
       if(EN > XVB7(NVIB7):
@@ -25278,12 +25273,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB7                                                           
       320 A=(YVB7[J]-YVB7(J-1))/(XVB7[J]-XVB7(J-1))                     
       B=(XVB7(J-1)*YVB7[J]-XVB7[J]*YVB7(J-1))/(XVB7(J-1)-XVB7[J]) 
-      QIN(84,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[84][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 330
-      321 QIN(84,I)=APOPGS*YVB7(NVIB7)*(XVB7(NVIB7)/EN)*1.D-16        
+      321 QIN[84][I]=APOPGS*YVB7(NVIB7)*(XVB7(NVIB7)/EN)*1.D-16        
       330 CONTINUE                                                          
       # 8V1                                                                   
-      QIN(85,I)=0.0                                                     
+      QIN[85][I]=0.0                                                     
       if(EN <= EIN(85):
       ) GO TO 360                                 
       if(EN > XVB8(NVIB8):
@@ -25295,12 +25290,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB8                                                           
       350 A=(YVB8[J]-YVB8(J-1))/(XVB8[J]-XVB8(J-1))                     
       B=(XVB8(J-1)*YVB8[J]-XVB8[J]*YVB8(J-1))/(XVB8(J-1)-XVB8[J]) 
-      QIN(85,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[85][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 360
-      351 QIN(85,I)=APOPGS*YVB8(NVIB8)*(XVB8(NVIB8)/EN)*1.D-16         
+      351 QIN[85][I]=APOPGS*YVB8(NVIB8)*(XVB8(NVIB8)/EN)*1.D-16         
       360 CONTINUE 
       # 9V1                                                                   
-      QIN(86,I)=0.0                                                     
+      QIN[86][I]=0.0                                                     
       if(EN <= EIN(86):
       ) GO TO 2030                              
       if(EN > XVB9(NVIB9):
@@ -25312,12 +25307,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB9                                                           
       2020 A=(YVB9[J]-YVB9(J-1))/(XVB9[J]-XVB9(J-1))                     
       B=(XVB9(J-1)*YVB9[J]-XVB9[J]*YVB9(J-1))/(XVB9(J-1)-XVB9[J]) 
-      QIN(86,I)=APOPGS*(A*EN+B)*1.D-16
+      QIN[86][I]=APOPGS*(A*EN+B)*1.D-16
       GO TO 2030
-      2021 QIN(86,I)=APOPGS*YVB9(NVIB9)*(XVB9(NVIB9)/EN)*1.D-16        
+      2021 QIN[86][I]=APOPGS*YVB9(NVIB9)*(XVB9(NVIB9)/EN)*1.D-16        
       2030 CONTINUE 
       # 10V1                                                                  
-      QIN(87,I)=0.0                                                     
+      QIN[87][I]=0.0                                                     
       if(EN <= EIN(87):
       ) GO TO 2060                               
       if(EN > XVB10(NVIB10):
@@ -25329,12 +25324,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB10                                                          
       2050 A=(YVB10[J]-YVB10(J-1))/(XVB10[J]-XVB10(J-1))                     
       B=(XVB10(J-1)*YVB10[J]-XVB10[J]*YVB10(J-1))/(XVB10(J-1)-XVB10[J]) 
-      QIN(87,I)=APOPGS*(A*EN+B)*1.D-16  
+      QIN[87][I]=APOPGS*(A*EN+B)*1.D-16  
       GO TO 2060
-      2051 QIN(87,I)=APOPGS*YVB10(NVIB10)*(XVB10(NVIB10)/EN)*1.D-16   
+      2051 QIN[87][I]=APOPGS*YVB10(NVIB10)*(XVB10(NVIB10)/EN)*1.D-16   
       2060 CONTINUE 
       # 11V1                                                                  
-      QIN(88,I)=0.0                                                     
+      QIN[88][I]=0.0                                                     
       if(EN <= EIN(88):
       ) GO TO 2130                        
       if(EN > XVB11(NVIB11):
@@ -25346,12 +25341,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB11                                                          
       2120 A=(YVB11[J]-YVB11(J-1))/(XVB11[J]-XVB11(J-1))                     
       B=(XVB11(J-1)*YVB11[J]-XVB11[J]*YVB11(J-1))/(XVB11(J-1)-XVB11[J]) 
-      QIN(88,I)=APOPGS*(A*EN+B)*1.D-16  
+      QIN[88][I]=APOPGS*(A*EN+B)*1.D-16  
       GO TO 2130
-      2121 QIN(88,I)=APOPGS*YVB11(NVIB11)*(XVB11(NVIB11)/EN)*1.D-16    
+      2121 QIN[88][I]=APOPGS*YVB11(NVIB11)*(XVB11(NVIB11)/EN)*1.D-16    
       2130 CONTINUE 
       # 12V1                                                           
-      QIN(89,I)=0.0                                                     
+      QIN[89][I]=0.0                                                     
       if(EN <= EIN(89):
       ) GO TO 2160                                
       if(EN > XVB12(NVIB12):
@@ -25363,12 +25358,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB12                                                          
       2150 A=(YVB12[J]-YVB12(J-1))/(XVB12[J]-XVB12(J-1))                     
       B=(XVB12(J-1)*YVB12[J]-XVB12[J]*YVB12(J-1))/(XVB12(J-1)-XVB12[J]) 
-      QIN(89,I)=APOPGS*(A*EN+B)*1.D-16  
+      QIN[89][I]=APOPGS*(A*EN+B)*1.D-16  
       GO TO 2160
-      2151 QIN(89,I)=APOPGS*YVB12(NVIB12)*(XVB12(NVIB12)/EN)*1.D-16   
+      2151 QIN[89][I]=APOPGS*YVB12(NVIB12)*(XVB12(NVIB12)/EN)*1.D-16   
       2160 CONTINUE 
       # 13V1                                                                  
-      QIN(90,I)=0.0                                                     
+      QIN[90][I]=0.0                                                     
       if(EN <= EIN(90):
       ) GO TO 2230                               
       if(EN > XVB13(NVIB13):
@@ -25380,12 +25375,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB13                                                          
       2220 A=(YVB13[J]-YVB13(J-1))/(XVB13[J]-XVB13(J-1))                     
       B=(XVB13(J-1)*YVB13[J]-XVB13[J]*YVB13(J-1))/(XVB13(J-1)-XVB13[J]) 
-      QIN(90,I)=APOPGS*(A*EN+B)*1.D-16  
+      QIN[90][I]=APOPGS*(A*EN+B)*1.D-16  
       GO TO 2230
-      2221 QIN(90,I)=APOPGS*YVB13(NVIB13)*(XVB13(NVIB13)/EN)*1.D-16      
+      2221 QIN[90][I]=APOPGS*YVB13(NVIB13)*(XVB13(NVIB13)/EN)*1.D-16      
       2230 CONTINUE 
       # 14V1                                                                  
-      QIN(91,I)=0.0                                                     
+      QIN[91][I]=0.0                                                     
       if(EN <= EIN(91):
       ) GO TO 2260                                  
       if(EN > XVB14(NVIB14):
@@ -25397,12 +25392,12 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB14                                                          
       2250 A=(YVB14[J]-YVB14(J-1))/(XVB14[J]-XVB14(J-1))                     
       B=(XVB14(J-1)*YVB14[J]-XVB14[J]*YVB14(J-1))/(XVB14(J-1)-XVB14[J]) 
-      QIN(91,I)=APOPGS*(A*EN+B)*1.D-16  
+      QIN[91][I]=APOPGS*(A*EN+B)*1.D-16  
       GO TO 2260
-      2251 QIN(91,I)=APOPGS*YVB14(NVIB14)*(XVB14(NVIB14)/EN)*1.D-16     
+      2251 QIN[91][I]=APOPGS*YVB14(NVIB14)*(XVB14(NVIB14)/EN)*1.D-16     
       2260 CONTINUE 
       # 15V1                                                                  
-      QIN(92,I)=0.0                                                     
+      QIN[92][I]=0.0                                                     
       if(EN <= EIN(92):
       ) GO TO 2330                                 
       if(EN > XVB15(NVIB15):
@@ -25414,9 +25409,9 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NVIB15                                                          
       2320 A=(YVB15[J]-YVB15(J-1))/(XVB15[J]-XVB15(J-1))                     
       B=(XVB15(J-1)*YVB15[J]-XVB15[J]*YVB15(J-1))/(XVB15(J-1)-XVB15[J]) 
-      QIN(92,I)=APOPGS*(A*EN+B)*1.D-16  
+      QIN[92][I]=APOPGS*(A*EN+B)*1.D-16  
       GO TO 2330
-      2321 QIN(92,I)=APOPGS*YVB15(NVIB15)*(XVB15(NVIB15)/EN)*1.D-16   
+      2321 QIN[92][I]=APOPGS*YVB15(NVIB15)*(XVB15(NVIB15)/EN)*1.D-16   
       2330 CONTINUE
       # SET ROTATIONAL AND VIBRATIONAL ANGULAR DISTRIBUTIONS ( IF KIN NE 0 )
       DO 2440 K=1,92
@@ -25426,14 +25421,13 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(EN <= 3.0*abs(EIN[K]:
       )) GO TO 2440
       if(NANISO > 0):
-      PEQIN(K,I)=PEQEL(2,(I-IOFFN[K]))
-      2440 CONTINUE
+      PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      2440 CONTINUE
       #  
       # A3SIGMA (V=0-4)  
-      QIN(93,I)=0.0 
-      PEQIN(93,I)=0.5
+      QIN[93][I]=0.0 
+      PEQIN[93][I]=0.5
       if(NANISO == 2):
-      PEQIN(93,I)=0.0
+      PEQIN[93][I]=0.0
       if(EN <= EIN(93):
       ) GO TO 450                      
       if(EN > XTRP1(NTRP1):
@@ -25445,24 +25439,24 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP1                                                           
       440 A=(YTRP1[J]-YTRP1(J-1))/(XTRP1[J]-XTRP1(J-1))                     
       B=(XTRP1(J-1)*YTRP1[J]-XTRP1[J]*YTRP1(J-1))/(XTRP1(J-1)-XTRP1[J]) 
-      QIN(93,I)=(A*EN+B)*1.D-16
+      QIN[93][I]=(A*EN+B)*1.D-16
       A=(YTP1M[J]-YTP1M(J-1))/(XTRP1[J]-XTRP1(J-1))                     
       B=(XTRP1(J-1)*YTP1M[J]-XTRP1[J]*YTP1M(J-1))/(XTRP1(J-1)-XTRP1[J]) 
       RAT=A*EN+B
       GO TO 446
-      445 QIN(93,I)=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.D-16
+      445 QIN[93][I]=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.D-16
       RAT=YTP1M(NTRP1)*(XTRP1(NTRP1)/EN)
       446 if(EN <= (3.0*EIN(93))) GO TO 450
       if(NANISO == 1):
-      PEQIN(93,I)=1.5-RAT
+      PEQIN[93][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(93,I)=PEQEL(2,(I-IOFFN(93)))
+      PEQIN[93][I]=PEQEL[2][(I-IOFFN(93))]
       450 CONTINUE                                                          
       # A3SIGMA (V=5-9)                                     
-      QIN(94,I)=0.0 
-      PEQIN(94,I)=0.5 
+      QIN[94][I]=0.0 
+      PEQIN[94][I]=0.5 
       if(NANISO == 2):
-      PEQIN(94,I)=0.0                         
+      PEQIN[94][I]=0.0                         
       if(EN <= EIN(94):
       ) GO TO 480  
       if(EN > XTRP2(NTRP2):
@@ -25474,24 +25468,24 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP2                                                           
       470 A=(YTRP2[J]-YTRP2(J-1))/(XTRP2[J]-XTRP2(J-1))                     
       B=(XTRP2(J-1)*YTRP2[J]-XTRP2[J]*YTRP2(J-1))/(XTRP2(J-1)-XTRP2[J]) 
-      QIN(94,I)=(A*EN+B)*1.D-16
+      QIN[94][I]=(A*EN+B)*1.D-16
       A=(YTP2M[J]-YTP2M(J-1))/(XTRP2[J]-XTRP2(J-1))                     
       B=(XTRP2(J-1)*YTP2M[J]-XTRP2[J]*YTP2M(J-1))/(XTRP2(J-1)-XTRP2[J]) 
       RAT=A*EN+B
       GO TO 476
-      475 QIN(94,I)=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.D-16
+      475 QIN[94][I]=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.D-16
       RAT=YTP2M(NTRP2)*(XTRP2(NTRP2)/EN)
       476 if(EN <= (3.0*EIN(94))) GO TO 480
       if(NANISO == 1):
-      PEQIN(94,I)=1.5-RAT
+      PEQIN[94][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(94,I)=PEQEL(2,(I-IOFFN(94)))
+      PEQIN[94][I]=PEQEL[2][(I-IOFFN(94))]
       480 CONTINUE                                                          
       # B3PI (V=0-3)                                  
-      QIN(95,I)=0.0 
-      PEQIN(95,I)=0.5                      
+      QIN[95][I]=0.0 
+      PEQIN[95][I]=0.5                      
       if(NANISO == 2):
-      PEQIN(95,I)=0.0                            
+      PEQIN[95][I]=0.0                            
       if(EN <= EIN(95):
       ) GO TO 510
       if(EN > XTRP3(NTRP3):
@@ -25503,24 +25497,24 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP3                                                           
       500 A=(YTRP3[J]-YTRP3(J-1))/(XTRP3[J]-XTRP3(J-1))                     
       B=(XTRP3(J-1)*YTRP3[J]-XTRP3[J]*YTRP3(J-1))/(XTRP3(J-1)-XTRP3[J]) 
-      QIN(95,I)=(A*EN+B)*1.D-16                     
+      QIN[95][I]=(A*EN+B)*1.D-16                     
       A=(YTP3M[J]-YTP3M(J-1))/(XTRP3[J]-XTRP3(J-1))                     
       B=(XTRP3(J-1)*YTP3M[J]-XTRP3[J]*YTP3M(J-1))/(XTRP3(J-1)-XTRP3[J]) 
       RAT=A*EN+B
       GO TO 506
-      505 QIN(95,I)=YTRP3(NTRP3)*(XTRP3(NTRP3)/EN)**2*1.D-16
+      505 QIN[95][I]=YTRP3(NTRP3)*(XTRP3(NTRP3)/EN)**2*1.D-16
       RAT=YTP3M(NTRP3)*(XTRP3(NTRP3)/EN)
       506 if(EN <= (3.0*EIN(95))) GO TO 510
       if(NANISO == 1):
-      PEQIN(95,I)=1.5-RAT
+      PEQIN[95][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(95,I)=PEQEL(2,(I-IOFFN(95)))
+      PEQIN[95][I]=PEQEL[2][(I-IOFFN(95))]
       510 CONTINUE                                                          
       # W3DELTA  (V=0-5)                    
-      QIN(96,I)=0.0  
-      PEQIN(96,I)=0.5 
+      QIN[96][I]=0.0  
+      PEQIN[96][I]=0.5 
       if(NANISO == 2):
-      PEQIN(96,I)=0.0                            
+      PEQIN[96][I]=0.0                            
       if(EN <= EIN(96):
       ) GO TO 540                       
       if(EN > XTRP4(NTRP4):
@@ -25532,24 +25526,24 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP4                                                           
       530 A=(YTRP4[J]-YTRP4(J-1))/(XTRP4[J]-XTRP4(J-1))                     
       B=(XTRP4(J-1)*YTRP4[J]-XTRP4[J]*YTRP4(J-1))/(XTRP4(J-1)-XTRP4[J]) 
-      QIN(96,I)=(A*EN+B)*1.D-16
+      QIN[96][I]=(A*EN+B)*1.D-16
       A=(YTP4M[J]-YTP4M(J-1))/(XTRP4[J]-XTRP4(J-1))                     
       B=(XTRP4(J-1)*YTP4M[J]-XTRP4[J]*YTP4M(J-1))/(XTRP4(J-1)-XTRP4[J]) 
       RAT=A*EN+B
       GO TO 536
-      535 QIN(96,I)=YTRP4(NTRP4)*(XTRP4(NTRP4)/EN)**2*1.D-16
+      535 QIN[96][I]=YTRP4(NTRP4)*(XTRP4(NTRP4)/EN)**2*1.D-16
       RAT=YTP4M(NTRP4)*(XTRP4(NTRP4)/EN)
       536 if(EN <= (3.0*EIN(96))) GO TO 540
       if(NANISO == 1):
-      PEQIN(96,I)=1.5-RAT
+      PEQIN[96][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(96,I)=PEQEL(2,(I-IOFFN(96)))
+      PEQIN[96][I]=PEQEL[2][(I-IOFFN(96))]
       540 CONTINUE                                                          
       # A3SIGMA  (V=10-21)                      
-      QIN(97,I)=0.0      
-      PEQIN(97,I)=0.5    
+      QIN[97][I]=0.0      
+      PEQIN[97][I]=0.5    
       if(NANISO == 2):
-      PEQIN(97,I)=0.0                      
+      PEQIN[97][I]=0.0                      
       if(EN <= EIN(97):
       ) GO TO 570       
       if(EN > XTRP5(NTRP5):
@@ -25561,24 +25555,24 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP5                                                           
       560 A=(YTRP5[J]-YTRP5(J-1))/(XTRP5[J]-XTRP5(J-1))                     
       B=(XTRP5(J-1)*YTRP5[J]-XTRP5[J]*YTRP5(J-1))/(XTRP5(J-1)-XTRP5[J]) 
-      QIN(97,I)=(A*EN+B)*1.D-16                   
+      QIN[97][I]=(A*EN+B)*1.D-16                   
       A=(YTP5M[J]-YTP5M(J-1))/(XTRP5[J]-XTRP5(J-1))                     
       B=(XTRP5(J-1)*YTP5M[J]-XTRP5[J]*YTP5M(J-1))/(XTRP5(J-1)-XTRP5[J]) 
       RAT=A*EN+B
       GO TO 566
-      565 QIN(97,I)=YTRP5(NTRP5)*(XTRP5(NTRP5)/EN)**2*1.D-16
+      565 QIN[97][I]=YTRP5(NTRP5)*(XTRP5(NTRP5)/EN)**2*1.D-16
       RAT=YTP5M(NTRP5)*(XTRP5(NTRP5)/EN)
       566 if(EN <= (3.0*EIN(97))) GO TO 570
       if(NANISO == 1):
-      PEQIN(97,I)=1.5-RAT
+      PEQIN[97][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(97,I)=PEQEL(2,(I-IOFFN(97)))
+      PEQIN[97][I]=PEQEL[2][(I-IOFFN(97))]
       570 CONTINUE                                                          
       # B3PI (V=4-16)                              
-      QIN(98,I)=0.0  
-      PEQIN(98,I)=0.5  
+      QIN[98][I]=0.0  
+      PEQIN[98][I]=0.5  
       if(NANISO == 2):
-      PEQIN(98,I)=0.0                              
+      PEQIN[98][I]=0.0                              
       if(EN <= EIN(98):
       ) GO TO 600       
       if(EN > XTRP6(NTRP6):
@@ -25590,24 +25584,24 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP6                                                           
       590 A=(YTRP6[J]-YTRP6(J-1))/(XTRP6[J]-XTRP6(J-1))                     
       B=(XTRP6(J-1)*YTRP6[J]-XTRP6[J]*YTRP6(J-1))/(XTRP6(J-1)-XTRP6[J]) 
-      QIN(98,I)=(A*EN+B)*1.D-16                               
+      QIN[98][I]=(A*EN+B)*1.D-16                               
       A=(YTP6M[J]-YTP6M(J-1))/(XTRP6[J]-XTRP6(J-1))                     
       B=(XTRP6(J-1)*YTP6M[J]-XTRP6[J]*YTP6M(J-1))/(XTRP6(J-1)-XTRP6[J]) 
       RAT=A*EN+B
       GO TO 596
-      595 QIN(98,I)=YTRP6(NTRP6)*(XTRP6(NTRP6)/EN)**2*1.D-16
+      595 QIN[98][I]=YTRP6(NTRP6)*(XTRP6(NTRP6)/EN)**2*1.D-16
       RAT=YTP6M(NTRP6)*(XTRP6(NTRP6)/EN)
       596 if(EN <= (3.0*EIN(98))) GO TO 600
       if(NANISO == 1):
-      PEQIN(98,I)=1.5-RAT
+      PEQIN[98][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(98,I)=PEQEL(2,(I-IOFFN(98)))
+      PEQIN[98][I]=PEQEL[2][(I-IOFFN(98))]
       600 CONTINUE                                                          
       # W3DEL (V=6-10)                             
-      QIN(99,I)=0.0
-      PEQIN(99,I)=0.5
+      QIN[99][I]=0.0
+      PEQIN[99][I]=0.5
       if(NANISO == 2):
-      PEQIN(99,I)=0.0                              
+      PEQIN[99][I]=0.0                              
       if(EN <= EIN(99):
       ) GO TO 603       
       if(EN > XTRP7(NTRP7):
@@ -25619,18 +25613,18 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       J=NTRP7                                                           
       602 A=(YTRP7[J]-YTRP7(J-1))/(XTRP7[J]-XTRP7(J-1))                     
       B=(XTRP7(J-1)*YTRP7[J]-XTRP7[J]*YTRP7(J-1))/(XTRP7(J-1)-XTRP7[J]) 
-      QIN(99,I)=(A*EN+B)*1.D-16                               
+      QIN[99][I]=(A*EN+B)*1.D-16                               
       A=(YTP7M[J]-YTP7M(J-1))/(XTRP7[J]-XTRP7(J-1))                     
       B=(XTRP7(J-1)*YTP7M[J]-XTRP7[J]*YTP7M(J-1))/(XTRP7(J-1)-XTRP7[J])
       RAT=A*EN+B
       GO TO 6026
-      6025 QIN(99,I)=YTRP7(NTRP7)*(XTRP7(NTRP7)/EN)**2*1.D-16
+      6025 QIN[99][I]=YTRP7(NTRP7)*(XTRP7(NTRP7)/EN)**2*1.D-16
       RAT=YTP7M(NTRP7)*(XTRP7(NTRP7)/EN)
       6026 if(EN <= (3.0*EIN(99))) GO TO 603
       if(NANISO == 1):
-      PEQIN(99,I)=1.5-RAT
+      PEQIN[99][I]=1.5-RAT
       if(NANISO == 2):
-      PEQIN(99,I)=PEQEL(2,(I-IOFFN(99)))
+      PEQIN[99][I]=PEQEL[2][(I-IOFFN(99))]
       603 CONTINUE                                                          
       # A1PI (V=0-3)                                  
       QIN(100,I)=0.0  
@@ -25659,7 +25653,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(100,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(100,I)=PEQEL(2,(I-IOFFN(100)))
+      PEQIN(100,I)=PEQEL[2][(I-IOFFN(100)])
       630 CONTINUE                                                          
       # B#3SIG (V=0-6)                             
       QIN(101,I)=0.0  
@@ -25688,7 +25682,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(101,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(101,I)=PEQEL(2,(I-IOFFN(101)))
+      PEQIN(101,I)=PEQEL[2][(I-IOFFN(101)])
       633 CONTINUE                                                          
       # A#1SIG (V=0-6)                      
       QIN(102,I)=0.0
@@ -25717,7 +25711,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(102,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(102,I)=PEQEL(2,(I-IOFFN(102)))
+      PEQIN(102,I)=PEQEL[2][(I-IOFFN(102)])
       660 CONTINUE                                                          
       # W3DEL (V=11-19)                              
       QIN(103,I)=0.0      
@@ -25746,7 +25740,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(103,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(103,I)=PEQEL(2,(I-IOFFN(103)))
+      PEQIN(103,I)=PEQEL[2][(I-IOFFN(103)])
       690 CONTINUE                                                          
       # W1DEL (V=0-5)                               
       QIN(104,I)=0.0
@@ -25775,7 +25769,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(104,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(104,I)=PEQEL(2,(I-IOFFN(104)))
+      PEQIN(104,I)=PEQEL[2][(I-IOFFN(104)])
       720 CONTINUE                                                          
       # A1PI (V=4-15)                                 
       QIN(105,I)=0.0      
@@ -25804,7 +25798,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(105,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(105,I)=PEQEL(2,(I-IOFFN(105)))
+      PEQIN(105,I)=PEQEL[2][(I-IOFFN(105)])
       723 CONTINUE                                                          
       # B#3SIG   (V=7-18)                             
       QIN(106,I)=0.0
@@ -25833,7 +25827,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(106,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(106,I)=PEQEL(2,(I-IOFFN(106)))
+      PEQIN(106,I)=PEQEL[2][(I-IOFFN(106)])
       750 CONTINUE                                                          
       # A#1SIG (V=7-19)                                   
       QIN(107,I)=0.0
@@ -25862,7 +25856,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(107,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(107,I)=PEQEL(2,(I-IOFFN(107)))
+      PEQIN(107,I)=PEQEL[2][(I-IOFFN(107)])
       780 CONTINUE                                                          
       # W1DEL (V=6-18)                          
       QIN(108,I)=0.0
@@ -25891,7 +25885,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(108,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(108,I)=PEQEL(2,(I-IOFFN(108)))
+      PEQIN(108,I)=PEQEL[2][(I-IOFFN(108)])
       783 CONTINUE                                                          
       # C3PI (V=0-4)                     
       QIN(109,I)=0.0      
@@ -25920,7 +25914,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(109,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(109,I)=PEQEL(2,(I-IOFFN(109)))
+      PEQIN(109,I)=PEQEL[2][(I-IOFFN(109)])
       786 CONTINUE                                                          
       # E3SIG                                  
       QIN(110,I)=0.0
@@ -25949,7 +25943,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(110,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(110,I)=PEQEL(2,(I-IOFFN(110)))
+      PEQIN(110,I)=PEQEL[2][(I-IOFFN(110)])
       789 CONTINUE                                                          
       # A##1SIG (V=0-1)                      
       QIN(111,I)=0.0
@@ -25978,7 +25972,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(111,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(111,I)=PEQEL(2,(I-IOFFN(111)))
+      PEQIN(111,I)=PEQEL[2][(I-IOFFN(111)])
       792 CONTINUE                                                          
       # B1PI  (V=0-6)                 F=0.1855           
       QIN(112,I)=0.0
@@ -26008,7 +26002,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(112,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(112,I)=PEQEL(2,(I-IOFFN(112)))
+      PEQIN(112,I)=PEQEL[2][(I-IOFFN(112)])
       795 CONTINUE                                                          
       # C#1SIG (V=0-3)                    F=0.150
       QIN(113,I)=0.0      
@@ -26038,7 +26032,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(113,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(113,I)=PEQEL(2,(I-IOFFN(113)))
+      PEQIN(113,I)=PEQEL[2][(I-IOFFN(113)])
       798 CONTINUE                                                          
       # G 3PI (V=0-3)                          
       QIN(114,I)=0.0
@@ -26067,7 +26061,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(114,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(114,I)=PEQEL(2,(I-IOFFN(114)))
+      PEQIN(114,I)=PEQEL[2][(I-IOFFN(114)])
       801 CONTINUE                                                          
       # C3 1PI (V=0-3)                 F=0.15            
       QIN(115,I)=0.0
@@ -26097,7 +26091,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(115,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(115,I)=PEQEL(2,(I-IOFFN(115)))
+      PEQIN(115,I)=PEQEL[2][(I-IOFFN(115)])
       804 CONTINUE                                                          
       # F 3PI (V=0-3)                          
       QIN(116,I)=0.0      
@@ -26126,7 +26120,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(116,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(116,I)=PEQEL(2,(I-IOFFN(116)))
+      PEQIN(116,I)=PEQEL[2][(I-IOFFN(116)])
       807 CONTINUE                                                          
       # B1PI  (V=7-14)                      F=0.0663
       QIN(117,I)=0.0      
@@ -26156,7 +26150,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(117,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(117,I)=PEQEL(2,(I-IOFFN(117)))
+      PEQIN(117,I)=PEQEL[2][(I-IOFFN(117)])
       810 CONTINUE                                                          
       # B# 1SIG (V=0-10)                       F=.0601
       QIN(118,I)=0.0      
@@ -26185,7 +26179,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(118,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(118,I)=PEQEL(2,(I-IOFFN(118)))
+      PEQIN(118,I)=PEQEL[2][(I-IOFFN(118)])
       813 CONTINUE                                                          
       # O3 1PI (V=0-3)                       F=0.0828
       QIN(119,I)=0.0
@@ -26215,7 +26209,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(119,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(119,I)=PEQEL(2,(I-IOFFN(119)))
+      PEQIN(119,I)=PEQEL[2][(I-IOFFN(119)])
       816 CONTINUE   
       # C# 1SIG  (SUM V=4-6) (AVERAGE E=14.090)  F=0.139
       QIN(120,I)=0.0
@@ -26245,7 +26239,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(120,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(120,I)=PEQEL(2,(I-IOFFN(120)))
+      PEQIN(120,I)=PEQEL[2][(I-IOFFN(120)])
       819 CONTINUE                                                          
       #    
       # B# 1SIG  (V=11-24)                 
@@ -26276,7 +26270,7 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(NANISO == 1):
       PEQIN(121,I)=1.5-RAT
       if(NANISO == 2):
-      PEQIN(121,I)=PEQEL(2,(I-IOFFN(121)))
+      PEQIN(121,I)=PEQEL[2][(I-IOFFN(121)])
       829 CONTINUE                                                          
       # E# 1SIG     ELOSS=14.36EV    F=0.0108   
       QIN(122,I)=0.0      
@@ -26368,8 +26362,8 @@ def GAS16(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       ) GO TO 8962
       8961 CONTINUE
       J=NBREM
-      8962 A=(math.log(Z7T[J])-math.log(Z7T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z7T[J])*EBRM(J-1)-math.log(Z7T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
+      8962 A=(math.log(Z7T[J])-math.log(Z7T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z7T[J])*EBRM[J-1]-math.log(Z7T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
       QIN(128,I)=math.exp(A*EN+B)*2.D-24
       8969 CONTINUE                                                          
       # ROTATIONAL SUM                                                        
@@ -26447,7 +26441,7 @@ def GAS17(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -26497,7 +26491,7 @@ def GAS18(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -26547,7 +26541,7 @@ def GAS19(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -26597,7 +26591,7 @@ def GAS20(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -26647,7 +26641,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -27300,7 +27294,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       122 CONTINUE
       if(EN <= (2.0*EION[1]:
       )) GO TO 123
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))  
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])  
       # DISSOCIATIVE IONISATION
       123 QION[2][I]=0.0
       PEQION[2][I]=0.50
@@ -27326,7 +27320,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       142 CONTINUE
       if(EN <= (2.0*EION[2]:
       )) GO TO 150
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
       # CALCULATE NON-DISSOCIATIVE IONISATION
       150  if(QION[1][I] == 0.0) GO TO 200
       QION[1][I]=QION[1][I]-QION[2][I]
@@ -27454,8 +27448,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       GO TO 2330 
       1330 QIN[5][I]=YROT0(NROT0)*1.D-16*FROT0*XROT0(NROT0)/EN  
       2330 if(EN <= (2.0*EIN[5])) GO TO 1400
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-      #                        ROTATION 1-3                                   
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]      #                        ROTATION 1-3                                   
       1400 if(EN <= EIN[6]) GO TO 1401
       if(EN > XROT1(NROT1):
       ) GO TO 1331                     
@@ -27470,8 +27463,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       GO TO 2331
       1331 QIN[6][I]=YROT1(NROT1)*1.D-16*FROT1*XROT1(NROT1)/EN         
       2331 if(EN <= (2.0*EIN[6])) GO TO 1401
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-      #                      ROTATION 2-4 + 4-6 + 6-8
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]      #                      ROTATION 2-4 + 4-6 + 6-8
       # USED SCALED 2-4 XSECTION FOR 4-6 AND 6-8 
       c ALSO SCALED FOR ENERGY LOSS BY 1.5 FOR 4-6 AND BY 2.0 FOR 6-8                              
       1401 if(EN <= EIN[7]) GO TO 1402
@@ -27489,8 +27481,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       1332 QIN[7][I]=YROT2(NROT2)*1.D-16*(FROT2+FROT4*0.8*1.5+FROT6*0.5*2.0)
       QIN[7][I]=QIN[7][I]*XROT2(NROT2)/EN   
       2332 if(EN <= (2.0*EIN[7])) GO TO 1402
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))
-      #                        ROTATION 3-5 + 5-7 + 7-9
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]      #                        ROTATION 3-5 + 5-7 + 7-9
       # USED SCALED 3-5 XSECTION FOR 5-7 AND 7-9 
       # ALSO SCALED FOR ENERGY LOSS BY 1.4 FOR 5-7 AND 1.8 FOR 7-9     
       1402 if(EN <= EIN[8]) GO TO 1403 
@@ -27508,8 +27499,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       1333 QIN[8][I]=YROT3(NROT3)*1.D-16*(FROT3+FROT5*0.8*1.4+FROT7*0.5*1.8)
       QIN[8][I]=QIN[8][I]*XROT3(NROT3)/EN
       2333 if(EN <= (2.0*EIN[8])) GO TO 1403
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-      #-----------------------------------------------------------------------
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]      #-----------------------------------------------------------------------
       # VIBRATION  V1   WITH DJ=0
       1403 if(EN <= EIN[9]) GO TO 304  
       if(EN > XVIB1(NVIB1):
@@ -27525,8 +27515,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       GO TO 1303
       303 QIN[9][I]=YVIB1(NVIB1)*1.D-16*XVIB1(NVIB1)/EN
       1303 if(EN <= (2.0*EIN[9])) GO TO 304 
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-      #                      
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]      #                      
       #  VIBRATION  V1   WITH DJ=2                                               
       304 if(EN <= EIN[10]) GO TO 308    
       if(EN > XVIB2(NVIB2):
@@ -27538,11 +27527,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NVIB2                                                           
       306 A=(YVIB2[J]-YVIB2(J-1))/(XVIB2[J]-XVIB2(J-1))                     
       B=(XVIB2(J-1)*YVIB2[J]-XVIB2[J]*YVIB2(J-1))/(XVIB2(J-1)-XVIB2[J]) 
-      QIN(10,I)=(A*EN+B)*1.D-16               
+      QIN[10][I]=(A*EN+B)*1.D-16               
       GO TO 1307
-      307 QIN(10,I)=YVIB2(NVIB2)*1.D-16*XVIB2(NVIB2)/EN   
+      307 QIN[10][I]=YVIB2(NVIB2)*1.D-16*XVIB2(NVIB2)/EN   
       1307 if(EN <= (2.0*EIN[10])) GO TO 308 
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
       #            
       # VIBRATION V2                                                         
       308 if(EN <= EIN[11]) GO TO 312 
@@ -27555,11 +27544,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NVIB3                                                           
       310 A=(YVIB3[J]-YVIB3(J-1))/(XVIB3[J]-XVIB3(J-1))                     
       B=(XVIB3(J-1)*YVIB3[J]-XVIB3[J]*YVIB3(J-1))/(XVIB3(J-1)-XVIB3[J]) 
-      QIN(11,I)=(A*EN+B)*1.D-16
+      QIN[11][I]=(A*EN+B)*1.D-16
       GO TO 2311
-      311 QIN(11,I)=YVIB3(NVIB3)*1.D-16*XVIB3(NVIB3)/EN  
+      311 QIN[11][I]=YVIB3(NVIB3)*1.D-16*XVIB3(NVIB3)/EN  
       2311 if(EN <= (2.0*EIN[11])) GO TO 312 
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
       #
       # VIBRATION V3                                       
       312 if(EN <= EIN[12]) GO TO 316 
@@ -27572,11 +27561,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NVIB4                                                           
       314 A=(YVIB4[J]-YVIB4(J-1))/(XVIB4[J]-XVIB4(J-1))                     
       B=(XVIB4(J-1)*YVIB4[J]-XVIB4[J]*YVIB4(J-1))/(XVIB4(J-1)-XVIB4[J]) 
-      QIN(12,I)=(A*EN+B)*1.D-16       
+      QIN[12][I]=(A*EN+B)*1.D-16       
       GO TO 1315
-      315 QIN(12,I)=YVIB4(NVIB4)*1.D-16*XVIB4(NVIB4)/EN      
+      315 QIN[12][I]=YVIB4(NVIB4)*1.D-16*XVIB4(NVIB4)/EN      
       1315 if(EN <= (2.0*EIN[12])) GO TO 316 
-      PEQIN(12,2)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN(12,2)=PEQEL[2][(I-IOFFN[12])]
       #        
       #  B3 SIGMA DISSOCIATION ELOSS=8.0EV                        
       316 if(EN <= EIN[13]) GO TO 320
@@ -27589,10 +27578,10 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NB3S1                                                           
       318 A=(YB3S1[J]-YB3S1(J-1))/(XB3S1[J]-XB3S1(J-1))                     
       B=(XB3S1(J-1)*YB3S1[J]-XB3S1[J]*YB3S1(J-1))/(XB3S1(J-1)-XB3S1[J]) 
-      QIN(13,I)=(A*EN+B)*1.D-16
+      QIN[13][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EIN[13]:
       )) GO TO 320 
-      PEQIN(13,2)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN(13,2)=PEQEL[2][(I-IOFFN[13])]
       #       
       #  B3 SIGMA DISSOCIATION ELOSS=9.0EV                                               
       320 if(EN <= EIN[14]) GO TO 324  
@@ -27605,10 +27594,10 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NB3S2                                                           
       322 A=(YB3S2[J]-YB3S2(J-1))/(XB3S2[J]-XB3S2(J-1))                     
       B=(XB3S2(J-1)*YB3S2[J]-XB3S2[J]*YB3S2(J-1))/(XB3S2(J-1)-XB3S2[J]) 
-      QIN(14,I)=(A*EN+B)*1.D-16
+      QIN[14][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EIN[14]:
       )) GO TO 324 
-      PEQIN(14,2)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN(14,2)=PEQEL[2][(I-IOFFN[14])]
       #                                 
       # B3 SIGMA DISSOCIATION ELOSS=9.5EV
       324 if(EN <= EIN[15]) GO TO 328 
@@ -27621,10 +27610,10 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NB3S3                                                           
       326 A=(YB3S3[J]-YB3S3(J-1))/(XB3S3[J]-XB3S3(J-1))                     
       B=(XB3S3(J-1)*YB3S3[J]-XB3S3[J]*YB3S3(J-1))/(XB3S3(J-1)-XB3S3[J]) 
-      QIN(15,I)=(A*EN+B)*1.D-16   
+      QIN[15][I]=(A*EN+B)*1.D-16   
       if(EN <= (2.0*EIN[15]:
       )) GO TO 328 
-      PEQIN(15,2)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN(15,2)=PEQEL[2][(I-IOFFN[15])]
       #                                                                       
       # B3 SIGMA DISSOCIATION ELOSS=10.0EV 
       # SCALED BY 1/E**3 ABOVE XB3S4(NB3S4) EV
@@ -27638,421 +27627,421 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NB3S4                                                           
       330 A=(YB3S4[J]-YB3S4(J-1))/(XB3S4[J]-XB3S4(J-1))                     
       B=(XB3S4(J-1)*YB3S4[J]-XB3S4[J]*YB3S4(J-1))/(XB3S4(J-1)-XB3S4[J]) 
-      QIN(16,I)=(A*EN+B)*1.D-16   
+      QIN[16][I]=(A*EN+B)*1.D-16   
       GO TO 3331
-      331 QIN(16,I)=YB3S4(NB3S4)*1.D-16*(XB3S4(NB3S4)/EN)**3
+      331 QIN[16][I]=YB3S4(NB3S4)*1.D-16*(XB3S4(NB3S4)/EN)**3
       3331 if(EN <= (2.0*EIN[16])) GO TO 332 
-      PEQIN(16,2)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN(16,2)=PEQEL[2][(I-IOFFN[16])]
       #   LYMAN BANDS FOR VIB=0 TO 36    B1 SIGMA--- GROUND STATE             
       #   DIPOLE ALLOWED  
       # V=0                                                           
       332 if(EN <= EIN[17]) GO TO 333
-      QIN(17,I)=.0016884/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+BEF[1])
-      if(QIN(17,I):
-      < 0.0) QIN(17,I)=0.0
+      QIN[17][I]=.0016884/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+BEF[1])
+      if(QIN[17][I]:
+      < 0.0) QIN[17][I]=0.0
       if(EN <= (2.0*EIN[17]:
       )) GO TO 333
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
       # V=1 B1 SIGMA
       333 if(EN <= EIN[18]) GO TO 334
-      QIN(18,I)=.005782/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+BEF[1])
-      if(QIN(18,I):
-      < 0.0) QIN(18,I)=0.0
+      QIN[18][I]=.005782/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+BEF[1])
+      if(QIN[18][I]:
+      < 0.0) QIN[18][I]=0.0
       if(EN <= (2.0*EIN[18]:
       )) GO TO 334
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
       # V=2 B1 SIGMA
       334 if(EN <= EIN[19]) GO TO 335
-      QIN(19,I)=.011536/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+BEF[1])
-      if(QIN(19,I):
-      < 0.0) QIN(19,I)=0.0
+      QIN[19][I]=.011536/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+BEF[1])
+      if(QIN[19][I]:
+      < 0.0) QIN[19][I]=0.0
       if(EN <= (2.0*EIN[18]:
       )) GO TO 335
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
       # V=3 B1 SIGMA
       335 if(EN <= EIN[20]) GO TO 336
-      QIN(20,I)=.017531/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+BEF[1])
-      if(QIN(20,I):
-      < 0.0) QIN(20,I)=0.0
+      QIN[20][I]=.017531/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+BEF[1])
+      if(QIN[20][I]:
+      < 0.0) QIN[20][I]=0.0
       if(EN <= (2.0*EIN[20]:
       )) GO TO 336
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
       # V=4 B1 SIGMA
       336 if(EN <= EIN[21]) GO TO 337
-      QIN(21,I)=.022477/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+BEF[1])
-      if(QIN(21,I):
-      < 0.0) QIN(21,I)=0.0
+      QIN[21][I]=.022477/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+BEF[1])
+      if(QIN[21][I]:
+      < 0.0) QIN[21][I]=0.0
       if(EN <= (2.0*EIN[21]:
       )) GO TO 337
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
       # V=5 B1 SIGMA
       337 if(EN <= EIN[22]) GO TO 338
-      QIN(22,I)=.025688/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+BEF[1])
-      if(QIN(22,I):
-      < 0.0) QIN(22,I)=0.0
+      QIN[22][I]=.025688/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+BEF[1])
+      if(QIN[22][I]:
+      < 0.0) QIN[22][I]=0.0
       if(EN <= (2.0*EIN[22]:
       )) GO TO 338
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
       # V=6 B1 SIGMA
       338 if(EN <= EIN[23]) GO TO 339
-      QIN(23,I)=.027021/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+BEF[1])
-      if(QIN(23,I):
-      < 0.0) QIN(23,I)=0.0
+      QIN[23][I]=.027021/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+BEF[1])
+      if(QIN[23][I]:
+      < 0.0) QIN[23][I]=0.0
       if(EN <= (2.0*EIN[23]:
       )) GO TO 339
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
       # V=7 B1 SIGMA
       339 if(EN <= EIN[24]) GO TO 340
-      QIN(24,I)=.026731/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+BEF[1])
-      if(QIN(24,I):
-      < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=.026731/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+BEF[1])
+      if(QIN[24][I]:
+      < 0.0) QIN[24][I]=0.0
       if(EN <= (2.0*EIN[24]:
       )) GO TO 340
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
       # V=8 B1 SIGMA
       340 if(EN <= EIN[25]) GO TO 341
-      QIN(25,I)=.025233/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+BEF[1])
-      if(QIN(25,I):
-      < 0.0) QIN(25,I)=0.0
+      QIN[25][I]=.025233/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+BEF[1])
+      if(QIN[25][I]:
+      < 0.0) QIN[25][I]=0.0
       if(EN <= (2.0*EIN[25]:
       )) GO TO 341
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
       # V=9 B1 SIGMA
       341 if(EN <= EIN[26]) GO TO 342
-      QIN(26,I)=.022980/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+BEF[1])
-      if(QIN(26,I):
-      < 0.0) QIN(26,I)=0.0
+      QIN[26][I]=.022980/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+BEF[1])
+      if(QIN[26][I]:
+      < 0.0) QIN[26][I]=0.0
       if(EN <= (2.0*EIN[26]:
       )) GO TO 342
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
       # V=10 B1 SIGMA
       342 if(EN <= EIN[27]) GO TO 343
-      QIN(27,I)=.020362/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+BEF[1])
-      if(QIN(27,I):
-      < 0.0) QIN(27,I)=0.0
+      QIN[27][I]=.020362/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+BEF[1])
+      if(QIN[27][I]:
+      < 0.0) QIN[27][I]=0.0
       if(EN <= (2.0*EIN[27]:
       )) GO TO 343
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
       # V=11 B1 SIGMA
       343 if(EN <= EIN[28]) GO TO 344
-      QIN(28,I)=.017653/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+BEF[1])
-      if(QIN(28,I):
-      < 0.0) QIN(28,I)=0.0
+      QIN[28][I]=.017653/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+BEF[1])
+      if(QIN[28][I]:
+      < 0.0) QIN[28][I]=0.0
       if(EN <= (2.0*EIN[28]:
       )) GO TO 344
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
       # V=12 B1 SIGMA
       344 if(EN <= EIN[29]) GO TO 345
-      QIN(29,I)=.015054/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+BEF[1])
-      if(QIN(29,I):
-      < 0.0) QIN(29,I)=0.0
+      QIN[29][I]=.015054/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+BEF[1])
+      if(QIN[29][I]:
+      < 0.0) QIN[29][I]=0.0
       if(EN <= (2.0*EIN[29]:
       )) GO TO 345
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
       # V=13 B1 SIGMA
       345 if(EN <= EIN[30]) GO TO 346
-      QIN(30,I)=.012678/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+BEF[1])
-      if(QIN(30,I):
-      < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=.012678/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+BEF[1])
+      if(QIN[30][I]:
+      < 0.0) QIN[30][I]=0.0
       if(EN <= (2.0*EIN[30]:
       )) GO TO 346
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
       # V=14 B1 SIGMA
       346 if(EN <= EIN[31]) GO TO 347
-      QIN(31,I)=.010567/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+BEF[1])
-      if(QIN(31,I):
-      < 0.0) QIN(31,I)=0.0
+      QIN[31][I]=.010567/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+BEF[1])
+      if(QIN[31][I]:
+      < 0.0) QIN[31][I]=0.0
       if(EN <= (2.0*EIN[31]:
       )) GO TO 347
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
       # V=15 B1 SIGMA
       347 if(EN <= EIN[32]) GO TO 348
-      QIN(32,I)=.008746/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+BEF[1])
-      if(QIN(32,I):
-      < 0.0) QIN(32,I)=0.0
+      QIN[32][I]=.008746/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+BEF[1])
+      if(QIN[32][I]:
+      < 0.0) QIN[32][I]=0.0
       if(EN <= (2.0*EIN[32]:
       )) GO TO 348
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
       # V=16 B1 SIGMA
       348 if(EN <= EIN[33]) GO TO 349
-      QIN(33,I)=.007201/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+BEF[1])
-      if(QIN(33,I):
-      < 0.0) QIN(33,I)=0.0
+      QIN[33][I]=.007201/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+BEF[1])
+      if(QIN[33][I]:
+      < 0.0) QIN[33][I]=0.0
       if(EN <= (2.0*EIN[33]:
       )) GO TO 349
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
       # V=17 B1 SIGMA
       349 if(EN <= EIN[34]) GO TO 350
-      QIN(34,I)=.005909/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+BEF[1])
-      if(QIN(34,I):
-      < 0.0) QIN(34,I)=0.0
+      QIN[34][I]=.005909/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+BEF[1])
+      if(QIN[34][I]:
+      < 0.0) QIN[34][I]=0.0
       if(EN <= (2.0*EIN[34]:
       )) GO TO 350
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
       # V=18 B1 SIGMA
       350 if(EN <= EIN[35]) GO TO 351
-      QIN(35,I)=.004838/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+BEF[1])
-      if(QIN(35,I):
-      < 0.0) QIN(35,I)=0.0
+      QIN[35][I]=.004838/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+BEF[1])
+      if(QIN[35][I]:
+      < 0.0) QIN[35][I]=0.0
       if(EN <= (2.0*EIN[35]:
       )) GO TO 351
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
       # V=19 B1 SIGMA
       351 if(EN <= EIN[36]) GO TO 352
-      QIN(36,I)=.003956/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+BEF[1])
-      if(QIN(36,I):
-      < 0.0) QIN(36,I)=0.0
+      QIN[36][I]=.003956/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+BEF[1])
+      if(QIN[36][I]:
+      < 0.0) QIN[36][I]=0.0
       if(EN <= (2.0*EIN[36]:
       )) GO TO 352
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
       # V=20 B1 SIGMA
       352 if(EN <= EIN[37]) GO TO 353
-      QIN(37,I)=.003233/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+BEF[1])
-      if(QIN(37,I):
-      < 0.0) QIN(37,I)=0.0
+      QIN[37][I]=.003233/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+BEF[1])
+      if(QIN[37][I]:
+      < 0.0) QIN[37][I]=0.0
       if(EN <= (2.0*EIN[37]:
       )) GO TO 353
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37]))
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
       # V=21 B1 SIGMA
       353 if(EN <= EIN[38]) GO TO 354
-      QIN(38,I)=.002644/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+BEF[1])
-      if(QIN(38,I):
-      < 0.0) QIN(38,I)=0.0
+      QIN[38][I]=.002644/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[38]+BEF[1])
+      if(QIN[38][I]:
+      < 0.0) QIN[38][I]=0.0
       if(EN <= (2.0*EIN[38]:
       )) GO TO 354
-      PEQIN(38,I)=PEQEL(2,(I-IOFFN[38]))
+      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
       # V=22 B1 SIGMA
       354 if(EN <= EIN[39]) GO TO 355
-      QIN(39,I)=.002165/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+BEF[1])
-      if(QIN(39,I):
-      < 0.0) QIN(39,I)=0.0
+      QIN[39][I]=.002165/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[39]+BEF[1])
+      if(QIN[39][I]:
+      < 0.0) QIN[39][I]=0.0
       if(EN <= (2.0*EIN[39]:
       )) GO TO 355
-      PEQIN(39,I)=PEQEL(2,(I-IOFFN[39]))
+      PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
       # V=23 B1 SIGMA
       355 if(EN <= EIN[40]) GO TO 356
-      QIN(40,I)=.001775/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+BEF[1])
-      if(QIN(40,I):
-      < 0.0) QIN(40,I)=0.0
+      QIN[40][I]=.001775/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[40]+BEF[1])
+      if(QIN[40][I]:
+      < 0.0) QIN[40][I]=0.0
       if(EN <= (2.0*EIN[40]:
       )) GO TO 356
-      PEQIN(40,I)=PEQEL(2,(I-IOFFN[40]))
+      PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
       # V=24 B1 SIGMA
       356 if(EN <= EIN[41]) GO TO 357
-      QIN(41,I)=.001457/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+BEF[1])
-      if(QIN(41,I):
-      < 0.0) QIN(41,I)=0.0
+      QIN[41][I]=.001457/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[41]+BEF[1])
+      if(QIN[41][I]:
+      < 0.0) QIN[41][I]=0.0
       if(EN <= (2.0*EIN[41]:
       )) GO TO 357
-      PEQIN(41,I)=PEQEL(2,(I-IOFFN[41]))
+      PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
       # V=25 B1 SIGMA
       357 if(EN <= EIN[42]) GO TO 358
-      QIN(42,I)=.001199/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+BEF[1])
-      if(QIN(42,I):
-      < 0.0) QIN(42,I)=0.0
+      QIN[42][I]=.001199/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[42]+BEF[1])
+      if(QIN[42][I]:
+      < 0.0) QIN[42][I]=0.0
       if(EN <= (2.0*EIN[42]:
       )) GO TO 358
-      PEQIN(42,I)=PEQEL(2,(I-IOFFN[42]))
+      PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
       # V=26 B1 SIGMA
       358 if(EN <= EIN[43]) GO TO 359
-      QIN(43,I)=.0009882/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+BEF[1])
-      if(QIN(43,I):
-      < 0.0) QIN(43,I)=0.0
+      QIN[43][I]=.0009882/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[43]+BEF[1])
+      if(QIN[43][I]:
+      < 0.0) QIN[43][I]=0.0
       if(EN <= (2.0*EIN[43]:
       )) GO TO 359
-      PEQIN(43,I)=PEQEL(2,(I-IOFFN[43]))
+      PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
       # V=27 B1 SIGMA
       359 if(EN <= EIN[44]) GO TO 360
-      QIN(44,I)=.0008153/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+BEF[1])
-      if(QIN(44,I):
-      < 0.0) QIN(44,I)=0.0
+      QIN[44][I]=.0008153/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[44]+BEF[1])
+      if(QIN[44][I]:
+      < 0.0) QIN[44][I]=0.0
       if(EN <= (2.0*EIN[44]:
       )) GO TO 360
-      PEQIN(44,I)=PEQEL(2,(I-IOFFN[44]))
+      PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
       # V=28 B1 SIGMA
       360 if(EN <= EIN[45]) GO TO 361
-      QIN(45,I)=.0006738/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+BEF[1])
-      if(QIN(45,I):
-      < 0.0) QIN(45,I)=0.0
+      QIN[45][I]=.0006738/(EIN[45]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[45]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[45]+BEF[1])
+      if(QIN[45][I]:
+      < 0.0) QIN[45][I]=0.0
       if(EN <= (2.0*EIN[45]:
       )) GO TO 361
-      PEQIN(45,I)=PEQEL(2,(I-IOFFN[45]))
+      PEQIN[45][I]=PEQEL[2][(I-IOFFN[45])]
       # V=29 B1 SIGMA
       361 if(EN <= EIN[46]) GO TO 362
-      QIN(46,I)=.0005561/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+BEF[1])
-      if(QIN(46,I):
-      < 0.0) QIN(46,I)=0.0
+      QIN[46][I]=.0005561/(EIN[46]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[46]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[46]+BEF[1])
+      if(QIN[46][I]:
+      < 0.0) QIN[46][I]=0.0
       if(EN <= (2.0*EIN[46]:
       )) GO TO 362
-      PEQIN(46,I)=PEQEL(2,(I-IOFFN[46]))
+      PEQIN[46][I]=PEQEL[2][(I-IOFFN[46])]
       # V=30 B1 SIGMA
       362 if(EN <= EIN[47]) GO TO 363
-      QIN(47,I)=.0004573/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+BEF[1])
-      if(QIN(47,I):
-      < 0.0) QIN(47,I)=0.0
+      QIN[47][I]=.0004573/(EIN[47]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[47]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[47]+BEF[1])
+      if(QIN[47][I]:
+      < 0.0) QIN[47][I]=0.0
       if(EN <= (2.0*EIN[47]:
       )) GO TO 363
-      PEQIN(47,I)=PEQEL(2,(I-IOFFN[47]))
+      PEQIN[47][I]=PEQEL[2][(I-IOFFN[47])]
       # V=31 B1 SIGMA 
       363 if(EN <= EIN[48]) GO TO 364
-      QIN(48,I)=.0003731/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+BEF[1])
-      if(QIN(48,I):
-      < 0.0) QIN(48,I)=0.0
+      QIN[48][I]=.0003731/(EIN[48]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[48]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[48]+BEF[1])
+      if(QIN[48][I]:
+      < 0.0) QIN[48][I]=0.0
       if(EN <= (2.0*EIN[48]:
       )) GO TO 364
-      PEQIN(48,I)=PEQEL(2,(I-IOFFN[48]))
+      PEQIN[48][I]=PEQEL[2][(I-IOFFN[48])]
       # V=32 B1 SIGMA 
       364 if(EN <= EIN[49]) GO TO 365
-      QIN(49,I)=.0002992/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+BEF[1])
-      if(QIN(49,I):
-      < 0.0) QIN(49,I)=0.0
+      QIN[49][I]=.0002992/(EIN[49]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[49]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[49]+BEF[1])
+      if(QIN[49][I]:
+      < 0.0) QIN[49][I]=0.0
       if(EN <= (2.0*EIN[49]:
       )) GO TO 365
-      PEQIN(49,I)=PEQEL(2,(I-IOFFN[49]))
+      PEQIN[49][I]=PEQEL[2][(I-IOFFN[49])]
       # V=33 B1 SIGMA 
       365 if(EN <= EIN[50]) GO TO 366
-      QIN(50,I)=.0002309/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+BEF[1])
-      if(QIN(50,I):
-      < 0.0) QIN(50,I)=0.0
+      QIN[50][I]=.0002309/(EIN[50]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[50]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[50]+BEF[1])
+      if(QIN[50][I]:
+      < 0.0) QIN[50][I]=0.0
       if(EN <= (2.0*EIN[50]:
       )) GO TO 366
-      PEQIN(50,I)=PEQEL(2,(I-IOFFN[50]))
+      PEQIN[50][I]=PEQEL[2][(I-IOFFN[50])]
       # V=34 B1 SIGMA 
       366 if(EN <= EIN[51]) GO TO 367
-      QIN(51,I)=.0001627/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+BEF[1])
-      if(QIN(51,I):
-      < 0.0) QIN(51,I)=0.0
+      QIN[51][I]=.0001627/(EIN[51]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[51]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[51]+BEF[1])
+      if(QIN[51][I]:
+      < 0.0) QIN[51][I]=0.0
       if(EN <= (2.0*EIN[51]:
       )) GO TO 367
-      PEQIN(51,I)=PEQEL(2,(I-IOFFN[51]))
+      PEQIN[51][I]=PEQEL[2][(I-IOFFN[51])]
       # V=35 B1 SIGMA 
       367 if(EN <= EIN[52]) GO TO 368
-      QIN(52,I)=8.652D-5/(EIN[52]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[52]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[52]+BEF[1])
-      if(QIN(52,I):
-      < 0.0) QIN(52,I)=0.0
+      QIN[52][I]=8.652D-5/(EIN[52]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[52]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[52]+BEF[1])
+      if(QIN[52][I]:
+      < 0.0) QIN[52][I]=0.0
       if(EN <= (2.0*EIN[52]:
       )) GO TO 368
-      PEQIN(52,I)=PEQEL(2,(I-IOFFN[52]))
+      PEQIN[52][I]=PEQEL[2][(I-IOFFN[52])]
       # V=36 B1 SIGMA 
       368 if(EN <= EIN[53]) GO TO 369
-      QIN(53,I)=2.256D-5/(EIN[53]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[53]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[53]+BEF[1])
-      if(QIN(53,I):
-      < 0.0) QIN(53,I)=0.0
+      QIN[53][I]=2.256D-5/(EIN[53]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[53]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[53]+BEF[1])
+      if(QIN[53][I]:
+      < 0.0) QIN[53][I]=0.0
       if(EN <= (2.0*EIN[53]:
       )) GO TO 369
-      PEQIN(53,I)=PEQEL(2,(I-IOFFN[53]))
+      PEQIN[53][I]=PEQEL[2][(I-IOFFN[53])]
       # V=0  C1 PI    
       369 if(EN <= EIN[54]) GO TO 370
-      QIN(54,I)=.0476000/(EIN[54]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[54]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[54]+BEF[2])
-      if(QIN(54,I):
-      < 0.0) QIN(54,I)=0.0
+      QIN[54][I]=.0476000/(EIN[54]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[54]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[54]+BEF[2])
+      if(QIN[54][I]:
+      < 0.0) QIN[54][I]=0.0
       if(EN <= (2.0*EIN[54]:
       )) GO TO 370
-      PEQIN(54,I)=PEQEL(2,(I-IOFFN[54]))
+      PEQIN[54][I]=PEQEL[2][(I-IOFFN[54])]
       # V=1  C1 PI    
       370 if(EN <= EIN[55]) GO TO 371
-      QIN(55,I)=.0728400/(EIN[55]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[55]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[55]+BEF[2])
-      if(QIN(55,I):
-      < 0.0) QIN(55,I)=0.0
+      QIN[55][I]=.0728400/(EIN[55]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[55]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[55]+BEF[2])
+      if(QIN[55][I]:
+      < 0.0) QIN[55][I]=0.0
       if(EN <= (2.0*EIN[55]:
       )) GO TO 371
-      PEQIN(55,I)=PEQEL(2,(I-IOFFN[55]))
+      PEQIN[55][I]=PEQEL[2][(I-IOFFN[55])]
       # V=2  C1 PI    
       371 if(EN <= EIN[56]) GO TO 372
-      QIN(56,I)=.0698200/(EIN[56]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[56]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[56]+BEF[2])
-      if(QIN(56,I):
-      < 0.0) QIN(56,I)=0.0
+      QIN[56][I]=.0698200/(EIN[56]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[56]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[56]+BEF[2])
+      if(QIN[56][I]:
+      < 0.0) QIN[56][I]=0.0
       if(EN <= (2.0*EIN[56]:
       )) GO TO 372
-      PEQIN(56,I)=PEQEL(2,(I-IOFFN[56]))
+      PEQIN[56][I]=PEQEL[2][(I-IOFFN[56])]
       # V=3  C1 PI    
       372 if(EN <= EIN[57]) GO TO 373
-      QIN(57,I)=.0547200/(EIN[57]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[57]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[57]+BEF[2])
-      if(QIN(57,I):
-      < 0.0) QIN(57,I)=0.0
+      QIN[57][I]=.0547200/(EIN[57]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[57]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[57]+BEF[2])
+      if(QIN[57][I]:
+      < 0.0) QIN[57][I]=0.0
       if(EN <= (2.0*EIN[57]:
       )) GO TO 373
-      PEQIN(57,I)=PEQEL(2,(I-IOFFN[57]))
+      PEQIN[57][I]=PEQEL[2][(I-IOFFN[57])]
       # V=4  C1 PI    
       373 if(EN <= EIN[58]) GO TO 374
-      QIN(58,I)=.0387400/(EIN[58]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[58]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[58]+BEF[2])
-      if(QIN(58,I):
-      < 0.0) QIN(58,I)=0.0
+      QIN[58][I]=.0387400/(EIN[58]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[58]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[58]+BEF[2])
+      if(QIN[58][I]:
+      < 0.0) QIN[58][I]=0.0
       if(EN <= (2.0*EIN[58]:
       )) GO TO 374
-      PEQIN(58,I)=PEQEL(2,(I-IOFFN[58]))
+      PEQIN[58][I]=PEQEL[2][(I-IOFFN[58])]
       # V=5  C1 PI    
       374 if(EN <= EIN[59]) GO TO 375
-      QIN(59,I)=.0259800/(EIN[59]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[59]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[59]+BEF[2])
-      if(QIN(59,I):
-      < 0.0) QIN(59,I)=0.0
+      QIN[59][I]=.0259800/(EIN[59]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[59]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[59]+BEF[2])
+      if(QIN[59][I]:
+      < 0.0) QIN[59][I]=0.0
       if(EN <= (2.0*EIN[59]:
       )) GO TO 375
-      PEQIN(59,I)=PEQEL(2,(I-IOFFN[59]))
+      PEQIN[59][I]=PEQEL[2][(I-IOFFN[59])]
       # V=6  C1 PI    
       375 if(EN <= EIN[60]) GO TO 376
-      QIN(60,I)=.0170000/(EIN[60]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[60]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[60]+BEF[2])
-      if(QIN(60,I):
-      < 0.0) QIN(60,I)=0.0
+      QIN[60][I]=.0170000/(EIN[60]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[60]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[60]+BEF[2])
+      if(QIN[60][I]:
+      < 0.0) QIN[60][I]=0.0
       if(EN <= (2.0*EIN[60]:
       )) GO TO 376
-      PEQIN(60,I)=PEQEL(2,(I-IOFFN[60]))
+      PEQIN[60][I]=PEQEL[2][(I-IOFFN[60])]
       # V=7  C1 PI    
       376 if(EN <= EIN[61]) GO TO 377
-      QIN(61,I)=.0109900/(EIN[61]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[61]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[61]+BEF[2])
-      if(QIN(61,I):
-      < 0.0) QIN(61,I)=0.0
+      QIN[61][I]=.0109900/(EIN[61]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[61]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[61]+BEF[2])
+      if(QIN[61][I]:
+      < 0.0) QIN[61][I]=0.0
       if(EN <= (2.0*EIN[61]:
       )) GO TO 377
-      PEQIN(61,I)=PEQEL(2,(I-IOFFN[61]))
+      PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
       # V=8  C1 PI    
       377 if(EN <= EIN[62]) GO TO 378
-      QIN(62,I)=.0070980/(EIN[62]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[62]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[62]+BEF[2])
-      if(QIN(62,I):
-      < 0.0) QIN(62,I)=0.0
+      QIN[62][I]=.0070980/(EIN[62]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[62]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[62]+BEF[2])
+      if(QIN[62][I]:
+      < 0.0) QIN[62][I]=0.0
       if(EN <= (2.0*EIN[62]:
       )) GO TO 378
-      PEQIN(62,I)=PEQEL(2,(I-IOFFN[62]))
+      PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]
       # V=9  C1 PI    
       378 if(EN <= EIN[63]) GO TO 379
-      QIN(63,I)=.0045920/(EIN[63]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[63]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[63]+BEF[2])
-      if(QIN(63,I):
-      < 0.0) QIN(63,I)=0.0
+      QIN[63][I]=.0045920/(EIN[63]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[63]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[63]+BEF[2])
+      if(QIN[63][I]:
+      < 0.0) QIN[63][I]=0.0
       if(EN <= (2.0*EIN[63]:
       )) GO TO 379
-      PEQIN(63,I)=PEQEL(2,(I-IOFFN[63]))
+      PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])]
       # V=10 C1 PI    
       379 if(EN <= EIN[64]) GO TO 380
-      QIN(64,I)=.0029760/(EIN[64]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[64]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[64]+BEF[2])
-      if(QIN(64,I):
-      < 0.0) QIN(64,I)=0.0
+      QIN[64][I]=.0029760/(EIN[64]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[64]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[64]+BEF[2])
+      if(QIN[64][I]:
+      < 0.0) QIN[64][I]=0.0
       if(EN <= (2.0*EIN[64]:
       )) GO TO 380
-      PEQIN(64,I)=PEQEL(2,(I-IOFFN[64]))
+      PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])]
       # V=11 C1 PI    
       380 if(EN <= EIN(65)) GO TO 381
-      QIN(65,I)=.0019090/(EIN(65)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(65)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(65)+BEF[2])
-      if(QIN(65,I):
-      < 0.0) QIN(65,I)=0.0
+      QIN[65][I]=.0019090/(EIN(65)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(65)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(65)+BEF[2])
+      if(QIN[65][I]:
+      < 0.0) QIN[65][I]=0.0
       if(EN <= (2.0*EIN(65):
       )) GO TO 381
-      PEQIN(65,I)=PEQEL(2,(I-IOFFN(65)))
+      PEQIN[65][I]=PEQEL[2][(I-IOFFN(65))]
       # V=12 C1 PI    
       381 if(EN <= EIN(66)) GO TO 382
-      QIN(66,I)=.0011710/(EIN(66)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(66)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(66)+BEF[2])
-      if(QIN(66,I):
-      < 0.0) QIN(66,I)=0.0
+      QIN[66][I]=.0011710/(EIN(66)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(66)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(66)+BEF[2])
+      if(QIN[66][I]:
+      < 0.0) QIN[66][I]=0.0
       if(EN <= (2.0*EIN(66):
       )) GO TO 382
-      PEQIN(66,I)=PEQEL(2,(I-IOFFN(66)))
+      PEQIN[66][I]=PEQEL[2][(I-IOFFN(66))]
       # V=13 C1 PI    
       382 if(EN <= EIN(67)) GO TO 383
-      QIN(67,I)=.0005590/(EIN(67)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(67)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(67)+BEF[2])
-      if(QIN(67,I):
-      < 0.0) QIN(67,I)=0.0
+      QIN[67][I]=.0005590/(EIN(67)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(67)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(67)+BEF[2])
+      if(QIN[67][I]:
+      < 0.0) QIN[67][I]=0.0
       if(EN <= (2.0*EIN(67):
       )) GO TO 383
-      PEQIN(67,I)=PEQEL(2,(I-IOFFN(67)))
+      PEQIN[67][I]=PEQEL[2][(I-IOFFN(67))]
       # C3PI V=0-4  METASTABLE LEVEL     FRANCK-CONDON FAC=0.6967
       # SCALED BY 1/E**3 ABOVE XC3PI(NC3PI) EV
       383 if(EN <= EIN(68)) GO TO 387 
@@ -28065,11 +28054,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NC3PI                                                           
       385 A=(YC3PI[J]-YC3PI(J-1))/(XC3PI[J]-XC3PI(J-1))                     
       B=(XC3PI(J-1)*YC3PI[J]-XC3PI[J]*YC3PI(J-1))/(XC3PI(J-1)-XC3PI[J]) 
-      QIN(68,I)=(A*EN+B)*1.D-16*0.6967
+      QIN[68][I]=(A*EN+B)*1.D-16*0.6967
       GO TO 1386
-      386 QIN(68,I)=YC3PI(NC3PI)*1.D-16*((XC3PI(NC3PI)/EN)**3)*0.6967
+      386 QIN[68][I]=YC3PI(NC3PI)*1.D-16*((XC3PI(NC3PI)/EN)**3)*0.6967
       1386 if(EN <= (2.0*EIN(68))) GO TO 387
-      PEQIN(68,I)=PEQEL(2,(I-IOFFN(68)))
+      PEQIN[68][I]=PEQEL[2][(I-IOFFN(68))]
       # C3PI V=5-18 METASTABLE LEVEL     FRANCK-CONDON FAC=0.3033
       # SCALED BY 1/E**3 ABOVE XC3PI(NC3PI) EV
       387 if(EN <= EIN(69)) GO TO 391 
@@ -28082,11 +28071,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NC3PI                                                           
       389 A=(YC3PI[J]-YC3PI(J-1))/(XC3PI[J]-XC3PI(J-1))                     
       B=(XC3PI(J-1)*YC3PI[J]-XC3PI[J]*YC3PI(J-1))/(XC3PI(J-1)-XC3PI[J]) 
-      QIN(69,I)=(A*EN+B)*1.D-16*0.3033   
+      QIN[69][I]=(A*EN+B)*1.D-16*0.3033   
       GO TO 1390
-      390 QIN(69,I)=YC3PI(NC3PI)*1.D-16*((XC3PI(NC3PI)/EN)**3)*0.3033
+      390 QIN[69][I]=YC3PI(NC3PI)*1.D-16*((XC3PI(NC3PI)/EN)**3)*0.3033
       1390 if(EN <= (2.0*EIN(69))) GO TO 391
-      PEQIN(69,I)=PEQEL(2,(I-IOFFN(69)))
+      PEQIN[69][I]=PEQEL[2][(I-IOFFN(69))]
       # A3SG V=0-2                   FRANCK-CONDON FAC=0.6668
       # SCALED BY 1/E**3 ABOVE XA3SG(NA3SG) EV
       391 if(EN <= EIN(70)) GO TO 395 
@@ -28099,11 +28088,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NA3SG                                                           
       393 A=(YA3SG[J]-YA3SG(J-1))/(XA3SG[J]-XA3SG(J-1))                     
       B=(XA3SG(J-1)*YA3SG[J]-XA3SG[J]*YA3SG(J-1))/(XA3SG(J-1)-XA3SG[J]) 
-      QIN(70,I)=(A*EN+B)*1.D-16*0.6668   
+      QIN[70][I]=(A*EN+B)*1.D-16*0.6668   
       GO TO 1394
-      394 QIN(70,I)=YA3SG(NA3SG)*1.D-16*((XA3SG(NA3SG)/EN)**3)*0.6668
+      394 QIN[70][I]=YA3SG(NA3SG)*1.D-16*((XA3SG(NA3SG)/EN)**3)*0.6668
       1394 if(EN <= (2.0*EIN(70))) GO TO 395
-      PEQIN(70,I)=PEQEL(2,(I-IOFFN(70)))
+      PEQIN[70][I]=PEQEL[2][(I-IOFFN(70))]
       # A3SG V=3-17                  FRANCK-CONDON FAC=0.3332
       # SCALED BY 1/E**3 ABOVE XA3SG(NA3SG) EV
       395 if(EN <= EIN(71)) GO TO 399 
@@ -28116,11 +28105,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NA3SG                                                           
       397 A=(YA3SG[J]-YA3SG(J-1))/(XA3SG[J]-XA3SG(J-1))                     
       B=(XA3SG(J-1)*YA3SG[J]-XA3SG[J]*YA3SG(J-1))/(XA3SG(J-1)-XA3SG[J]) 
-      QIN(71,I)=(A*EN+B)*1.D-16*0.3332
+      QIN[71][I]=(A*EN+B)*1.D-16*0.3332
       GO TO 1398
-      398 QIN(71,I)=YA3SG(NA3SG)*1.D-16*((XA3SG(NA3SG)/EN)**3)*0.3332
+      398 QIN[71][I]=YA3SG(NA3SG)*1.D-16*((XA3SG(NA3SG)/EN)**3)*0.3332
       1398 if(EN <= (2.0*EIN(71))) GO TO 399
-      PEQIN(71,I)=PEQEL(2,(I-IOFFN(71)))
+      PEQIN[71][I]=PEQEL[2][(I-IOFFN(71))]
       # E3SG V=0-9                                           
       # SCALED BY 1/E**3 ABOVE XE3SG(NE3SG) EV
       399 if(EN <= EIN(72)) GO TO 403 
@@ -28133,11 +28122,11 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NE3SG                                                           
       401 A=(YE3SG[J]-YE3SG(J-1))/(XE3SG[J]-XE3SG(J-1))                     
       B=(XE3SG(J-1)*YE3SG[J]-XE3SG[J]*YE3SG(J-1))/(XE3SG(J-1)-XE3SG[J]) 
-      QIN(72,I)=(A*EN+B)*1.D-16          
+      QIN[72][I]=(A*EN+B)*1.D-16          
       GO TO 2402
-      402 QIN(72,I)=YE3SG(NE3SG)*1.D-16*(XE3SG(NE3SG)/EN)**3        
+      402 QIN[72][I]=YE3SG(NE3SG)*1.D-16*(XE3SG(NE3SG)/EN)**3        
       2402 if(EN <= (2.0*EIN(72))) GO TO 403
-      PEQIN(72,I)=PEQEL(2,(I-IOFFN(72)))
+      PEQIN[72][I]=PEQEL[2][(I-IOFFN(72))]
       # EF1 SIGMA V=0-5                   FRANCK-CONDON FACTOR=0.4
       # USE BORN SCALING ABOVE XEFSG(NEFSG)  EV
       403 if(EN <= EIN(73)) GO TO 407 
@@ -28150,13 +28139,13 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NEFSG                                                           
       405 A=(YEFSG[J]-YEFSG(J-1))/(XEFSG[J]-XEFSG(J-1))                     
       B=(XEFSG(J-1)*YEFSG[J]-XEFSG[J]*YEFSG(J-1))/(XEFSG(J-1)-XEFSG[J]) 
-      QIN(73,I)=(A*EN+B)*1.D-16*0.4          
+      QIN[73][I]=(A*EN+B)*1.D-16*0.4          
       GO TO 1406
-      406 QIN(73,I)=.0089000/(EIN(73)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(73)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(73)+BEF[3])
-      if(QIN(73,I):
-      < 0.0) QIN(73,I)=0.0
+      406 QIN[73][I]=.0089000/(EIN(73)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(73)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(73)+BEF[3])
+      if(QIN[73][I]:
+      < 0.0) QIN[73][I]=0.0
       1406 if(EN <= (2.0*EIN(73))) GO TO 407
-      PEQIN(73,I)=PEQEL(2,(I-IOFFN(73)))
+      PEQIN[73][I]=PEQEL[2][(I-IOFFN(73))]
       # EF1 SIGMA V=6-19                   FRANCK-CONDON FACTOR=0.6
       # USE BORN SCALING ABOVE XEFSG(NEFSG) EV
       407 if(EN <= EIN(74)) GO TO 411 
@@ -28169,213 +28158,213 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NEFSG                                                           
       409 A=(YEFSG[J]-YEFSG(J-1))/(XEFSG[J]-XEFSG(J-1))                     
       B=(XEFSG(J-1)*YEFSG[J]-XEFSG[J]*YEFSG(J-1))/(XEFSG(J-1)-XEFSG[J]) 
-      QIN(74,I)=(A*EN+B)*1.D-16*0.6          
+      QIN[74][I]=(A*EN+B)*1.D-16*0.6          
       GO TO 1410
-      410 QIN(74,I)=.0133000/(EIN(74)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(74)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(74)+BEF[3])
-      if(QIN(74,I):
-      < 0.0) QIN(74,I)=0.0
+      410 QIN[74][I]=.0133000/(EIN(74)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(74)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(74)+BEF[3])
+      if(QIN[74][I]:
+      < 0.0) QIN[74][I]=0.0
       1410 if(EN <= (2.0*EIN(74))) GO TO 411
-      PEQIN(74,I)=PEQEL(2,(I-IOFFN(74)))
+      PEQIN[74][I]=PEQEL[2][(I-IOFFN(74))]
       # B#1 SIGMA V=0       
       411 if(EN <= EIN(75)) GO TO 412
-      QIN(75,I)=.003970/(EIN(75)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(75)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(75)+BEF[4])
-      if(QIN(75,I):
-      < 0.0) QIN(75,I)=0.0
+      QIN[75][I]=.003970/(EIN(75)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(75)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(75)+BEF[4])
+      if(QIN[75][I]:
+      < 0.0) QIN[75][I]=0.0
       if(EN <= (2.0*EIN(75):
       )) GO TO 412
-      PEQIN(75,I)=PEQEL(2,(I-IOFFN(75)))
+      PEQIN[75][I]=PEQEL[2][(I-IOFFN(75))]
       # B#1 SIGMA V=1         
       412 if(EN <= EIN(76)) GO TO 413
-      QIN(76,I)=.008150/(EIN(76)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(76)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(76)+BEF[4])
-      if(QIN(76,I):
-      < 0.0) QIN(76,I)=0.0
+      QIN[76][I]=.008150/(EIN(76)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(76)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(76)+BEF[4])
+      if(QIN[76][I]:
+      < 0.0) QIN[76][I]=0.0
       if(EN <= (2.0*EIN(76):
       )) GO TO 413
-      PEQIN(76,I)=PEQEL(2,(I-IOFFN(76)))
+      PEQIN[76][I]=PEQEL[2][(I-IOFFN(76))]
       # B#1 SIGMA V=2         
       413 if(EN <= EIN(77)) GO TO 414
-      QIN(77,I)=.009980/(EIN(77)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(77)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(77)+BEF[4])
-      if(QIN(77,I):
-      < 0.0) QIN(77,I)=0.0
+      QIN[77][I]=.009980/(EIN(77)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(77)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(77)+BEF[4])
+      if(QIN[77][I]:
+      < 0.0) QIN[77][I]=0.0
       if(EN <= (2.0*EIN(77):
       )) GO TO 414
-      PEQIN(77,I)=PEQEL(2,(I-IOFFN(77)))
+      PEQIN[77][I]=PEQEL[2][(I-IOFFN(77))]
       # B#1 SIGMA V=3         
       414 if(EN <= EIN(78)) GO TO 415
-      QIN(78,I)=.009520/(EIN(78)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(78)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(78)+BEF[4])
-      if(QIN(78,I):
-      < 0.0) QIN(78,I)=0.0
+      QIN[78][I]=.009520/(EIN(78)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(78)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(78)+BEF[4])
+      if(QIN[78][I]:
+      < 0.0) QIN[78][I]=0.0
       if(EN <= (2.0*EIN(78):
       )) GO TO 415
-      PEQIN(78,I)=PEQEL(2,(I-IOFFN(78)))
+      PEQIN[78][I]=PEQEL[2][(I-IOFFN(78))]
       # B#1 SIGMA V=4         
       415 if(EN <= EIN(79)) GO TO 416
-      QIN(79,I)=.007550/(EIN(79)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(79)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(79)+BEF[4])
-      if(QIN(79,I):
-      < 0.0) QIN(79,I)=0.0
+      QIN[79][I]=.007550/(EIN(79)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(79)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(79)+BEF[4])
+      if(QIN[79][I]:
+      < 0.0) QIN[79][I]=0.0
       if(EN <= (2.0*EIN(79):
       )) GO TO 416
-      PEQIN(79,I)=PEQEL(2,(I-IOFFN(79)))
+      PEQIN[79][I]=PEQEL[2][(I-IOFFN(79))]
       # B#1 SIGMA V=5         
       416 if(EN <= EIN(80)) GO TO 417
-      QIN(80,I)=.004230/(EIN(80)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(80)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(80)+BEF[4])
-      if(QIN(80,I):
-      < 0.0) QIN(80,I)=0.0
+      QIN[80][I]=.004230/(EIN(80)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(80)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(80)+BEF[4])
+      if(QIN[80][I]:
+      < 0.0) QIN[80][I]=0.0
       if(EN <= (2.0*EIN(80):
       )) GO TO 417
-      PEQIN(80,I)=PEQEL(2,(I-IOFFN(80)))
+      PEQIN[80][I]=PEQEL[2][(I-IOFFN(80))]
       # B#1 SIGMA V=6         
       417 if(EN <= EIN(81)) GO TO 418
-      QIN(81,I)=.000460/(EIN(81)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(81)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(81)+BEF[4])
-      if(QIN(81,I):
-      < 0.0) QIN(81,I)=0.0
+      QIN[81][I]=.000460/(EIN(81)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(81)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(81)+BEF[4])
+      if(QIN[81][I]:
+      < 0.0) QIN[81][I]=0.0
       if(EN <= (2.0*EIN(81):
       )) GO TO 418
-      PEQIN(81,I)=PEQEL(2,(I-IOFFN(81)))
+      PEQIN[81][I]=PEQEL[2][(I-IOFFN(81))]
       # B#1 SIGMA V=7         
       418 if(EN <= EIN(82)) GO TO 419
-      QIN(82,I)=.000450/(EIN(82)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(82)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(82)+BEF[4])
-      if(QIN(82,I):
-      < 0.0) QIN(82,I)=0.0
+      QIN[82][I]=.000450/(EIN(82)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(82)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(82)+BEF[4])
+      if(QIN[82][I]:
+      < 0.0) QIN[82][I]=0.0
       if(EN <= (2.0*EIN(82):
       )) GO TO 419
-      PEQIN(82,I)=PEQEL(2,(I-IOFFN(82)))
+      PEQIN[82][I]=PEQEL[2][(I-IOFFN(82))]
       # B#1 SIGMA V=8         
       419 if(EN <= EIN(83)) GO TO 420
-      QIN(83,I)=.000300/(EIN(83)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(83)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(83)+BEF[4])
-      if(QIN(83,I):
-      < 0.0) QIN(83,I)=0.0
+      QIN[83][I]=.000300/(EIN(83)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(83)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(83)+BEF[4])
+      if(QIN[83][I]:
+      < 0.0) QIN[83][I]=0.0
       if(EN <= (2.0*EIN(83):
       )) GO TO 420
-      PEQIN(83,I)=PEQEL(2,(I-IOFFN(83)))
+      PEQIN[83][I]=PEQEL[2][(I-IOFFN(83))]
       # D1 PI     V=0         
       420 if(EN <= EIN(84)) GO TO 421
-      QIN(84,I)=.007750/(EIN(84)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(84)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(84)+BEF[5])
-      if(QIN(84,I):
-      < 0.0) QIN(84,I)=0.0
+      QIN[84][I]=.007750/(EIN(84)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(84)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(84)+BEF[5])
+      if(QIN[84][I]:
+      < 0.0) QIN[84][I]=0.0
       if(EN <= (2.0*EIN(85):
       )) GO TO 421
-      PEQIN(84,I)=PEQEL(2,(I-IOFFN(84)))
+      PEQIN[84][I]=PEQEL[2][(I-IOFFN(84))]
       # D1 PI     V=1         
       421 if(EN <= EIN(85)) GO TO 422
-      QIN(85,I)=.013100/(EIN(85)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(85)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(85)+BEF[5])
-      if(QIN(85,I):
-      < 0.0) QIN(85,I)=0.0
+      QIN[85][I]=.013100/(EIN(85)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(85)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(85)+BEF[5])
+      if(QIN[85][I]:
+      < 0.0) QIN[85][I]=0.0
       if(EN <= (2.0*EIN(85):
       )) GO TO 422
-      PEQIN(85,I)=PEQEL(2,(I-IOFFN(85)))
+      PEQIN[85][I]=PEQEL[2][(I-IOFFN(85))]
       # D1 PI     V=2         
       422 if(EN <= EIN(86)) GO TO 423
-      QIN(86,I)=.013670/(EIN(86)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(86)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(86)+BEF[5])
-      if(QIN(86,I):
-      < 0.0) QIN(86,I)=0.0
+      QIN[86][I]=.013670/(EIN(86)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(86)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(86)+BEF[5])
+      if(QIN[86][I]:
+      < 0.0) QIN[86][I]=0.0
       if(EN <= (2.0*EIN(86):
       )) GO TO 423
-      PEQIN(86,I)=PEQEL(2,(I-IOFFN(86)))
+      PEQIN[86][I]=PEQEL[2][(I-IOFFN(86))]
       # D1 PI     V=3         
       423 if(EN <= EIN(87)) GO TO 424
-      QIN(87,I)=.011560/(EIN(87)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(87)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(87)+BEF[5])
-      if(QIN(87,I):
-      < 0.0) QIN(87,I)=0.0
+      QIN[87][I]=.011560/(EIN(87)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(87)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(87)+BEF[5])
+      if(QIN[87][I]:
+      < 0.0) QIN[87][I]=0.0
       if(EN <= (2.0*EIN(87):
       )) GO TO 424
-      PEQIN(87,I)=PEQEL(2,(I-IOFFN(87)))
+      PEQIN[87][I]=PEQEL[2][(I-IOFFN(87))]
       # D1 PI     V=4         
       424 if(EN <= EIN(88)) GO TO 425
-      QIN(88,I)=.008730/(EIN(88)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(88)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(88)+BEF[5])
-      if(QIN(88,I):
-      < 0.0) QIN(88,I)=0.0
+      QIN[88][I]=.008730/(EIN(88)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(88)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(88)+BEF[5])
+      if(QIN[88][I]:
+      < 0.0) QIN[88][I]=0.0
       if(EN <= (2.0*EIN(88):
       )) GO TO 425
-      PEQIN(88,I)=PEQEL(2,(I-IOFFN(88)))
+      PEQIN[88][I]=PEQEL[2][(I-IOFFN(88))]
       # D1 PI     V=5         
       425 if(EN <= EIN(89)) GO TO 426
-      QIN(89,I)=.006190/(EIN(89)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(89)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(89)+BEF[5])
-      if(QIN(89,I):
-      < 0.0) QIN(89,I)=0.0
+      QIN[89][I]=.006190/(EIN(89)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(89)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(89)+BEF[5])
+      if(QIN[89][I]:
+      < 0.0) QIN[89][I]=0.0
       if(EN <= (2.0*EIN(89):
       )) GO TO 426
-      PEQIN(89,I)=PEQEL(2,(I-IOFFN(89)))
+      PEQIN[89][I]=PEQEL[2][(I-IOFFN(89))]
       # D1 PI     V=6         
       426 if(EN <= EIN(90)) GO TO 427
-      QIN(90,I)=.004280/(EIN(90)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(90)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(90)+BEF[5])
-      if(QIN(90,I):
-      < 0.0) QIN(90,I)=0.0
+      QIN[90][I]=.004280/(EIN(90)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(90)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(90)+BEF[5])
+      if(QIN[90][I]:
+      < 0.0) QIN[90][I]=0.0
       if(EN <= (2.0*EIN(90):
       )) GO TO 427
-      PEQIN(90,I)=PEQEL(2,(I-IOFFN(90)))
+      PEQIN[90][I]=PEQEL[2][(I-IOFFN(90))]
       # D1 PI     V=7         
       427 if(EN <= EIN(91)) GO TO 428
-      QIN(91,I)=.002920/(EIN(91)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(91)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(91)+BEF[5])
-      if(QIN(91,I):
-      < 0.0) QIN(91,I)=0.0
+      QIN[91][I]=.002920/(EIN(91)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(91)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(91)+BEF[5])
+      if(QIN[91][I]:
+      < 0.0) QIN[91][I]=0.0
       if(EN <= (2.0*EIN(91):
       )) GO TO 428
-      PEQIN(91,I)=PEQEL(2,(I-IOFFN(91)))
+      PEQIN[91][I]=PEQEL[2][(I-IOFFN(91))]
       # D1 PI     V=8         
       428 if(EN <= EIN(92)) GO TO 429
-      QIN(92,I)=.001960/(EIN(92)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(92)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(92)+BEF[5])
-      if(QIN(92,I):
-      < 0.0) QIN(92,I)=0.0
+      QIN[92][I]=.001960/(EIN(92)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(92)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(92)+BEF[5])
+      if(QIN[92][I]:
+      < 0.0) QIN[92][I]=0.0
       if(EN <= (2.0*EIN(92):
       )) GO TO 429
-      PEQIN(92,I)=PEQEL(2,(I-IOFFN(92)))
+      PEQIN[92][I]=PEQEL[2][(I-IOFFN(92))]
       # D1 PI     V=9         
       429 if(EN <= EIN(93)) GO TO 430
-      QIN(93,I)=.001330/(EIN(93)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(93)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(93)+BEF[5])
-      if(QIN(93,I):
-      < 0.0) QIN(93,I)=0.0
+      QIN[93][I]=.001330/(EIN(93)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(93)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(93)+BEF[5])
+      if(QIN[93][I]:
+      < 0.0) QIN[93][I]=0.0
       if(EN <= (2.0*EIN(93):
       )) GO TO 430
-      PEQIN(93,I)=PEQEL(2,(I-IOFFN(93)))
+      PEQIN[93][I]=PEQEL[2][(I-IOFFN(93))]
       # D1 PI     V=10        
       430 if(EN <= EIN(94)) GO TO 431
-      QIN(94,I)=.000910/(EIN(94)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(94)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(94)+BEF[5])
-      if(QIN(94,I):
-      < 0.0) QIN(94,I)=0.0
+      QIN[94][I]=.000910/(EIN(94)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(94)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(94)+BEF[5])
+      if(QIN[94][I]:
+      < 0.0) QIN[94][I]=0.0
       if(EN <= (2.0*EIN(94):
       )) GO TO 431
-      PEQIN(94,I)=PEQEL(2,(I-IOFFN(94)))
+      PEQIN[94][I]=PEQEL[2][(I-IOFFN(94))]
       # D1 PI     V=11        
       431 if(EN <= EIN(95)) GO TO 432
-      QIN(95,I)=.000630/(EIN(95)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(95)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(95)+BEF[5])
-      if(QIN(95,I):
-      < 0.0) QIN(95,I)=0.0
+      QIN[95][I]=.000630/(EIN(95)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(95)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(95)+BEF[5])
+      if(QIN[95][I]:
+      < 0.0) QIN[95][I]=0.0
       if(EN <= (2.0*EIN(95):
       )) GO TO 432
-      PEQIN(95,I)=PEQEL(2,(I-IOFFN(95)))
+      PEQIN[95][I]=PEQEL[2][(I-IOFFN(95))]
       # D1 PI     V=12        
       432 if(EN <= EIN(96)) GO TO 433
-      QIN(96,I)=.000430/(EIN(96)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(96)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(96)+BEF[5])
-      if(QIN(96,I):
-      < 0.0) QIN(96,I)=0.0
+      QIN[96][I]=.000430/(EIN(96)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(96)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(96)+BEF[5])
+      if(QIN[96][I]:
+      < 0.0) QIN[96][I]=0.0
       if(EN <= (2.0*EIN(96):
       )) GO TO 433
-      PEQIN(96,I)=PEQEL(2,(I-IOFFN(96)))
+      PEQIN[96][I]=PEQEL[2][(I-IOFFN(96))]
       # D1 PI     V=13        
       433 if(EN <= EIN(97)) GO TO 434
-      QIN(97,I)=.000290/(EIN(97)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(97)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(97)+BEF[5])
-      if(QIN(97,I):
-      < 0.0) QIN(97,I)=0.0
+      QIN[97][I]=.000290/(EIN(97)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(97)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(97)+BEF[5])
+      if(QIN[97][I]:
+      < 0.0) QIN[97][I]=0.0
       if(EN <= (2.0*EIN(97):
       )) GO TO 434
-      PEQIN(97,I)=PEQEL(2,(I-IOFFN(97)))
+      PEQIN[97][I]=PEQEL[2][(I-IOFFN(97))]
       # D1 PI     V=14        
       434 if(EN <= EIN(98)) GO TO 435
-      QIN(98,I)=.000200/(EIN(98)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(98)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(98)+BEF[5])
-      if(QIN(98,I):
-      < 0.0) QIN(98,I)=0.0
+      QIN[98][I]=.000200/(EIN(98)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(98)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(98)+BEF[5])
+      if(QIN[98][I]:
+      < 0.0) QIN[98][I]=0.0
       if(EN <= (2.0*EIN(98):
       )) GO TO 435
-      PEQIN(98,I)=PEQEL(2,(I-IOFFN(98)))
+      PEQIN[98][I]=PEQEL[2][(I-IOFFN(98))]
       # D1 PI     V=15        
       435 if(EN <= EIN(99)) GO TO 436
-      QIN(99,I)=.000120/(EIN(99)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(99)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(99)+BEF[5])
-      if(QIN(99,I):
-      < 0.0) QIN(99,I)=0.0
+      QIN[99][I]=.000120/(EIN(99)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(99)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(99)+BEF[5])
+      if(QIN[99][I]:
+      < 0.0) QIN[99][I]=0.0
       if(EN <= (2.0*EIN(99):
       )) GO TO 436
-      PEQIN(99,I)=PEQEL(2,(I-IOFFN(99)))
+      PEQIN[99][I]=PEQEL[2][(I-IOFFN(99))]
       # B##1 SIGMA SUM V=0-6  DISSOCIATIVE 
       # SCALED BY 1.08 FOR INCREASED ENERGY LOSSES FROM VIB SERIES
       436 if(EN <= EIN(100)) GO TO 437
@@ -28384,7 +28373,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(100,I)=0.0
       if(EN <= (2.0*EIN(100):
       )) GO TO 437
-      PEQIN(100,I)=PEQEL(2,(I-IOFFN(100)))
+      PEQIN(100,I)=PEQEL[2][(I-IOFFN(100)])
       # D#1 PI     SUM V=0-3  DISSOCIATIVE
       # SCALED BY 1.08 FOR INCREASED ENERGY LOSSES FROM VIB SERIES
       437 if(EN <= EIN(101)) GO TO 438
@@ -28393,7 +28382,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(101,I)=0.0
       if(EN <= (2.0*EIN(101):
       )) GO TO 438
-      PEQIN(101,I)=PEQEL(2,(I-IOFFN(101)))
+      PEQIN(101,I)=PEQEL[2][(I-IOFFN(101)])
       # B###1 SIGMA + D##1 PI VIBRATION SUMMED   DISSOCIATIVE 
       #  SCALED BY 1.08 FOR INCREASED ENERGY LOSSES FROM VIB SERIES
       438 if(EN <= EIN(102)) GO TO 439
@@ -28402,7 +28391,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(102,I)=0.0
       if(EN <= (2.0*EIN(102):
       )) GO TO 439
-      PEQIN(102,I)=PEQEL(2,(I-IOFFN(102)))
+      PEQIN(102,I)=PEQEL[2][(I-IOFFN(102)])
       # B####1 SIGMA + D###1 PI VIBRATION SUMMED   DISSOCIATIVE
       #  SCALED BY 1.08 FOR INCREASED ENERGY LOSSES FROM VIB SERIES
       439 if(EN <= EIN(103)) GO TO 440
@@ -28411,7 +28400,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(103,I)=0.0
       if(EN <= (2.0*EIN(103):
       )) GO TO 440
-      PEQIN(103,I)=PEQEL(2,(I-IOFFN(103)))
+      PEQIN(103,I)=PEQEL[2][(I-IOFFN(103)])
       # B#####1 SIGMA + D####1 PI VIBRATION SUMMED   DISSOCIATIVE 
       #  SCALED BY 1.08 FOR INCREASED ENERGY LOSSES FROM VIB SERIES
       440 if(EN <= EIN(104)) GO TO 441
@@ -28420,7 +28409,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(104,I)=0.0
       if(EN <= (2.0*EIN(104):
       )) GO TO 441
-      PEQIN(104,I)=PEQEL(2,(I-IOFFN(104)))
+      PEQIN(104,I)=PEQEL[2][(I-IOFFN(104)])
       # CONTINUUM EXCITATION AROUND IONISATION ENERGY   DISSOCIATIVE
       # SCALED BY 1.20 FOR INCREASED ENERGY LOSSES ABOVE THRESHOLD
       441 if(EN <= EIN(105)) GO TO 442
@@ -28429,7 +28418,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(105,I)=0.0
       if(EN <= (2.0*EIN(105):
       )) GO TO 442
-      PEQIN(105,I)=PEQEL(2,(I-IOFFN(105)))
+      PEQIN(105,I)=PEQEL[2][(I-IOFFN(105)])
       # PREDISSOCIATION ABOVE IONISATION ENERGY         DISSOCIATIVE
       # SCALED BY 1.2 FOR INCREASED ENERGY LOSSES ABOVE THRESHOLD 
       442 if(EN <= EIN(106)) GO TO 443
@@ -28438,7 +28427,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(106,I)=0.0
       if(EN <= (2.0*EIN(106):
       )) GO TO 443
-      PEQIN(106,I)=PEQEL(2,(I-IOFFN(106)))
+      PEQIN(106,I)=PEQEL[2][(I-IOFFN(106)])
       # DOUBLE EXCITED STATES TO NEUTRALS FROM BACKX ET AL
       443 if(EN <= EIN(107)) GO TO 444
       QIN(107,I)=.00927/(EIN(107)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(107)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(107)+BEF[5])  
@@ -28446,7 +28435,7 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       < 0.0) QIN(107,I)=0.0
       if(EN <= (2.0*EIN(107):
       )) GO TO 444
-      PEQIN(107,I)=PEQEL(2,(I-IOFFN(107)))
+      PEQIN(107,I)=PEQEL[2][(I-IOFFN(107)])
       444 CONTINUE
       # LOAD BREMSSTRAHLUNG X-SECTION
       if(EN <= 1000.):
@@ -28456,8 +28445,8 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       ) GO TO 446 
       445 CONTINUE
       J=NBREM
-      446 A=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/ (EBRM(J-1)-EBRM[J])
+      446 A=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/ (EBRM[J-1]-EBRM[J])
       QIN(108,I)=math.exp(A*EN+B)*2.D-24
       450 CONTINUE
       #---------------------------------------------------------------------
@@ -28491,9 +28480,9 @@ def GAS21(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       c     DISD1PI=DISD1PI+QIN(JK,I)*DISD1P(JK-83)
       c 703 CONTINUE    
       c SUM TRIPLETS
-      c     TRIPL=QIN(13,I)+QIN(14,I)+QIN(15,I)+QIN(16,I)+QIN(68,I)+QIN(69,I)+
-      c    /QIN(70,I)+QIN(71,I)+QIN(72,I)
-      c     DISEFL=(QIN(73,I)+QIN(74,I))*0.5 
+      c     TRIPL=QIN[13][I]+QIN[14][I]+QIN[15][I]+QIN[16][I]+QIN[68][I]+QIN[69][I]+
+      c    /QIN[70][I]+QIN[71][I]+QIN[72][I]
+      c     DISEFL=(QIN[73][I]+QIN[74][I])*0.5 
       # SUM HIGH LEVELS 
       c     QHIGH=QIN(100,I)+QIN(101,I)+QIN(102,I)+QIN(103,I)+QIN(104,I)+
       c    /QIN(105,I)+QIN(106,I)+QIN(107,I)
@@ -28530,7 +28519,7 @@ def GAS22(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28580,7 +28569,7 @@ def GAS23(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28630,7 +28619,7 @@ def GAS24(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28680,7 +28669,7 @@ def GAS25(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28730,7 +28719,7 @@ def GAS26(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28780,7 +28769,7 @@ def GAS27(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28830,7 +28819,7 @@ def GAS28(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28880,7 +28869,7 @@ def GAS29(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -28930,7 +28919,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]  
@@ -29472,7 +29461,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 #        
       if(EN <= (2.0*EION[1]:
 )) GO TO 44
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
 # IONISATION SF4 +
    44 QION[2][I]=0.0             
       PEQION[2][I]=0.5   
@@ -29497,7 +29486,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 #        
       if(EN <= (2.0*EION[2]:
 )) GO TO 54
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
 # IONISATION SF3 +
    54 QION[3][I]=0.0             
       PEQION[3][I]=0.5   
@@ -29522,7 +29511,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 #        
       if(EN <= (2.0*EION[3]:
 )) GO TO 64
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
 # IONISATION SF2 +
    64 QION[4][I]=0.0             
       PEQION[4][I]=0.5   
@@ -29547,7 +29536,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 #        
       if(EN <= (2.0*EION[4]:
 )) GO TO 74
-      PEQION[4][I]=PEQEL(2,(I-IOFFION[4]))
+      PEQION[4][I]=PEQEL[2][(I-IOFFION[4]])
 # IONISATION SF  +
    74 QION[5][I]=0.0             
       PEQION[5][I]=0.5   
@@ -29572,7 +29561,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 #        
       if(EN <= (2.0*EION[5]:
 )) GO TO 84 
-      PEQION[5][I]=PEQEL(2,(I-IOFFION[5]))
+      PEQION[5][I]=PEQEL[2][(I-IOFFION[5]])
 # IONISATION SUM OF S + AND F +
    84 QION[6][I]=0.0             
       PEQION[6][I]=0.5   
@@ -29599,7 +29588,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
    93 CONTINUE
       if(EN < (2.0*EION[6]:
 )) GO TO 94
-      PEQION[6][I]=PEQEL(2,(I-IOFFION[6]))  
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])  
 # IONISATION SUM OF SF3,SF2 AND SF  ALL DOUBLE CHARGED
    94 QION[7][I]=0.0             
       PEQION[7][I]=0.5   
@@ -29623,7 +29612,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
   103 CONTINUE  
       if(EN < (2.0*EION[7]:
 )) GO TO 104
-      PEQION[7][I]=PEQEL(2,(I-IOFFION[7]))
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
 # CALCULATE SULFUR L3 SHELL IONISATION
   104 QION[8][I]=0.0
       PEQION[8][I]=0.5
@@ -29641,7 +29630,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QION[8][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[8]:
 )) GO TO 114
-      PEQION[8][I]=PEQEL(2,(I-IOFFION[8]))
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
 # CALCULATE SULFUR L2 SHELL IONISATION  
   114 QION[9][I]=0.0
       PEQION[9][I]=0.5
@@ -29659,7 +29648,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QION[9][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[9]:
 )) GO TO 124
-      PEQION[9][I]=PEQEL(2,(I-IOFFION[9]))
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
 # CALCULATE SULFUR L1 SHELL IONISATION  
   124 QION[10][I]=0.0
       PEQION[10][I]=0.5
@@ -29677,7 +29666,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QION[10][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[10]:
 )) GO TO 134
-      PEQION[10][I]=PEQEL(2,(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
 # CALCULATE SULFUR K SHELL IONISATION  
   134 QION[11][I]=0.0
       PEQION[11][I]=0.5
@@ -29695,7 +29684,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QION[11][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[11]:
 )) GO TO 144
-      PEQION[11][I]=PEQEL(2,(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
 # CALCULATE FLUORINE K-SHELL IONISATION
   144 QION[12][I]=0.00
       PEQION[12][I]=0.5   
@@ -29713,7 +29702,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QION[12][I]=(A*EN+B)*1.D-16  
       if(EN <= (2.0*EION[12]:
 )) GO TO 154
-      PEQION[12][I]=PEQEL(2,(I-IOFFION[12]))
+      PEQION[12][I]=PEQEL[2][(I-IOFFION[12]))
 # CORECTION TO IONISATION DUE TO SPLIT INTO K AND L SHELLS
   154 SSUM=QION[8][I]+QION[9][I]+QION[10][I]+QION[11][I]+QION[12][I]
       if(SSUM <= 0.0):
@@ -29797,8 +29786,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       QIN[1][I]=V4DCONST*math.log((EFAC+1.0)/(EFAC-1.0))/EN
       QIN[1][I]=QIN[1][I]*APOPV4/DEGV4*1.D-16
       if(KIN[1]:
- == 2) PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))
-# V4 ANISOTROPIC
+ == 2) PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]# V4 ANISOTROPIC
   350 QIN[2][I]=0.0
       PEQIN[2][I]=0.50
       if(KIN[2]:
@@ -29816,7 +29804,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(KIN[2]:
  == 1) PEQIN[2][I]=0.5+(QIN[2][I]-XMT)/QIN[2][I]
       if(KIN[2]:
- == 2) PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))    
+ == 2) PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]   
 # 1V1 SUPERELASTIC 
  400  QIN[3][I]=0.0
       PEQIN[3][I]=0.50
@@ -29838,7 +29826,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
   425 QIN[3][I]=YV1V1(N1V1)*(XV1V1(N1V1)/(EN+EIN[4]))**2
   426 QIN[3][I]=QIN[3][I]*APOPV1/DEGV1*1.D-16 
       if(KIN[3]:
- == 2) PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))                 
+ == 2) PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]                
 # 1V1   ISOTROPIC                                                    
   450 QIN[4][I]=0.0   
       PEQIN[4][I]=0.50              
@@ -29860,8 +29848,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
   475 QIN[4][I]=YV1V1(N1V1)*(XV1V1(N1V1)/EN)**2 
   476 QIN[4][I]=QIN[4][I]*APOPGS*1.D-16 
       if(KIN[4]:
- == 2) PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))
-#
+ == 2) PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]#
 # V3 SUPERELASTIC  
   500 QIN[5][I]=0.0
       PEQIN[5][I]=0.50
@@ -29876,16 +29863,15 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 ) <= XVBV3[J]) GO TO 520
   510 CONTINUE
       J=N1V3
-  520 A=(YVBV3[J]-YVBV3(J-1))/(XVBV3[J]-XVBV3(J-1))                     
-      B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J])
+  520 A=(YVBV3[J]-YVBV3[J-1])/(XVBV3[J]-XVBV3[J-1])                     
+      B=(XVBV3[J-1]*YVBV3[J]-XVBV3[J]*YVBV3[J-1])/(XVBV3[J-1]-XVBV3[J])
       QIN[5][I]=(EN+EIN[6])*(A*(EN+EIN[6])+B)/EN
   530 EFAC=math.sqrt(1.0-(EIN[5]/EN))
 # ADD DIPOLE 
       QIN[5][I]=QIN[5][I]+V3DCONST*math.log((EFAC+1.0)/(EFAC-1.0))/EN
       QIN[5][I]=QIN[5][I]*APOPV3/DEGV3*1.D-16
       if(KIN[5]:
- == 2) PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-# V3 ANISOTROPIC
+ == 2) PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]# V3 ANISOTROPIC
   550 QIN[6][I]=0.0
       PEQIN[6][I]=0.50
       if(KIN[6]:
@@ -29899,8 +29885,8 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
 ) GO TO 570
   560 CONTINUE
       J=N1V3
-  570 A=(YVBV3[J]-YVBV3(J-1))/(XVBV3[J]-XVBV3(J-1))                     
-      B=(XVBV3(J-1)*YVBV3[J]-XVBV3[J]*YVBV3(J-1))/(XVBV3(J-1)-XVBV3[J]) 
+  570 A=(YVBV3[J]-YVBV3[J-1])/(XVBV3[J]-XVBV3[J-1])                     
+      B=(XVBV3[J-1]*YVBV3[J]-XVBV3[J]*YVBV3[J-1])/(XVBV3[J-1]-XVBV3[J]) 
       QIN[6][I]=(A*EN+B)
 # ADD DIPOLE PART
   580 EFAC=math.sqrt(1.0-(EIN[6]/EN))   
@@ -29914,8 +29900,7 @@ def GAS30(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQ
       if(KIN[6]:
  == 1) PEQIN[6][I]=0.5+(QIN[6][I]-XMT)/QIN[6][I]    
       if(KIN[6]:
- == 2) PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))
-c
+ == 2) PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]c
 # 2V1                                                         
   600 QIN[7][I]=0.0
       PEQIN[7][I]=0.50       
@@ -29936,7 +29921,7 @@ c
       GO TO 630 
 # SCALE BY 1/E**2 ABOVE XV2V1(N2V1) EV
   621 QIN[7][I]=YV2V1(N2V1)*(XV2V1(N2V1)/EN)**2*1.D-16 
-  630 if(KIN[7] == 2) PEQIN[7][I]=PEQEL(2,(I-IOFFN[7])) 
+  630 if(KIN[7] == 2) PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]
 # 3V1                                       
   650 QIN[8][I]=0.0    
       PEQIN[8][I]=0.50                
@@ -29957,8 +29942,7 @@ c
       GO TO 676
 # SCALE BY 1/E**2 ABOBE XV3V1(N3V1) EV
   675 QIN[8][I]=YV3V1(N3V1)*(XV3V1(N3V1)/EN)**2*1.D-16
-  676 if(KIN[8] == 2) PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-# 4V1                                   
+  676 if(KIN[8] == 2) PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]# 4V1                                   
   680 QIN[9][I]=0.0
       PEQIN[9][I]=0.50  
       if(KIN[9]:
@@ -29978,12 +29962,11 @@ c
       GO TO 684
 # SCALE BY 1/E**2 ABOVE XV4V1(N4V1) EV
   683 QIN[9][I]=YV4V1(N4V1)*(XV4V1(N4V1)/EN)**2*1.D-16
-  684 if(KIN[9] == 2) PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))
-# 5V1                                   
-  685 QIN(10,I)=0.0                   
-      PEQIN(10,I)=0.50 
+  684 if(KIN[9] == 2) PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]# 5V1                                   
+  685 QIN[10][I]=0.0                   
+      PEQIN[10][I]=0.50 
       if(KIN[10]:
- == 2) PEQIN(10,I)=0.0                                 
+ == 2) PEQIN[10][I]=0.0                                 
       if(EN <= EIN[10]:
 ) GO TO 700    
       if(EN > XV5V1(N5V1):
@@ -29995,14 +29978,14 @@ c
       J=N5V1                                                          
   687 A=(YV5V1[J]-YV5V1(J-1))/(XV5V1[J]-XV5V1(J-1))                     
       B=(XV5V1(J-1)*YV5V1[J]-XV5V1[J]*YV5V1(J-1))/(XV5V1(J-1)-XV5V1[J]) 
-      QIN(10,I)=(A*EN+B)*1.D-16 
+      QIN[10][I]=(A*EN+B)*1.D-16 
       GO TO 689
 # SCALE BY 1/E**2 ABOVE XV5V1(N5V1) EV
-  688 QIN(10,I)=YV5V1(N5V1)*(XV5V1(N5V1)/EN)**2*1.D-16
-  689 if(KIN[10] == 2) PEQIN(10,I)=PEQEL(2,(I-IOFFN[10]))
+  688 QIN[10][I]=YV5V1(N5V1)*(XV5V1(N5V1)/EN)**2*1.D-16
+  689 if(KIN[10] == 2) PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
 # TRIPLET AT 9.6EV
-  700 QIN(11,I)=0.0
-      PEQIN(11,I)=0.0
+  700 QIN[11][I]=0.0
+      PEQIN[11][I]=0.0
       if(EN <= EIN[11]:
 ) GO TO 705
       if(EN > XTR1(NTRP1):
@@ -30012,39 +29995,39 @@ c
 ) GO TO 702
   701 CONTINUE
       J=NTRP1
-  702 A=(YTR1[J]-YTR1(J-1))/(XTR1[J]-XTR1(J-1))
-      B=(XTR1(J-1)*YTR1[J]-XTR1[J]*YTR1(J-1))/(XTR1(J-1)-XTR1[J])
-      QIN(11,I)=(A*EN+B)*1.D-16*AMPTR1
+  702 A=(YTR1[J]-YTR1[J-1])/(XTR1[J]-XTR1[J-1])
+      B=(XTR1[J-1]*YTR1[J]-XTR1[J]*YTR1[J-1])/(XTR1[J-1]-XTR1[J])
+      QIN[11][I]=(A*EN+B)*1.D-16*AMPTR1
       GO TO 704
 # SCALE BY 1/E**2 ABOVE XTR1(NTRP1) EV
-  703 QIN(11,I)=YTR1(NTRP1)*(XTR1(NTRP1)/EN)**2*1.D-16*AMPTR1
+  703 QIN[11][I]=YTR1(NTRP1)*(XTR1(NTRP1)/EN)**2*1.D-16*AMPTR1
   704 if(EN <= (3.0*EIN[11])) GO TO 705
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))                                
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]                                
 # SINGLET DISSOCIATION AT 10.0 EV USE BEF SCALING WITH F=0.0443
-  705 QIN(12,I)=0.0
-      PEQIN(12,I)=0.0
+  705 QIN[12][I]=0.0
+      PEQIN[12][I]=0.0
       if(EN <= EIN[12]:
 ) GO TO 706
-      QIN(12,I)=0.0443/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.025
-      if(QIN(12,I):
- < 0.0) QIN(12,I)=0.0       
+      QIN[12][I]=0.0443/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.025
+      if(QIN[12][I]:
+ < 0.0) QIN[12][I]=0.0       
       if(EN <= (3.0*EIN[12]:
 )) GO TO 706
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
 # SINGLET DISSOCIATION AT 10.5 EV USE BEF SCALING WITH F=0.0642
-  706 QIN(13,I)=0.0
-      PEQIN(13,I)=0.0
+  706 QIN[13][I]=0.0
+      PEQIN[13][I]=0.0
       if(EN <= EIN[13]:
 ) GO TO 707
-      QIN(13,I)=0.0642/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.024
-      if(QIN(13,I):
- < 0.0) QIN(13,I)=0.0       
+      QIN[13][I]=0.0642/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.024
+      if(QIN[13][I]:
+ < 0.0) QIN[13][I]=0.0       
       if(EN <= (3.0*EIN[13]:
 )) GO TO 707
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
 # TRIPLET DISSOCIATION AT 10.9 EV  
-  707 QIN(14,I)=0.0
-      PEQIN(14,I)=0.0
+  707 QIN[14][I]=0.0
+      PEQIN[14][I]=0.0
       if(EN <= EIN[14]:
 ) GO TO 712
       if(EN > XTR2(NTRP2):
@@ -30054,94 +30037,94 @@ c
 ) GO TO 709
   708 CONTINUE
       J=NTRP2
-  709 A=(YTR2[J]-YTR2(J-1))/(XTR2[J]-XTR2(J-1))
-      B=(XTR2(J-1)*YTR2[J]-XTR2[J]*YTR2(J-1))/(XTR2(J-1)-XTR2[J])
-      QIN(14,I)=(A*EN+B)*1.D-16*AMPTR2
+  709 A=(YTR2[J]-YTR2[J-1])/(XTR2[J]-XTR2[J-1])
+      B=(XTR2[J-1]*YTR2[J]-XTR2[J]*YTR2[J-1])/(XTR2[J-1]-XTR2[J])
+      QIN[14][I]=(A*EN+B)*1.D-16*AMPTR2
       GO TO 711
 # SCALE BY 1/E**2 ABOVE XTR2(NTRP2) EV
-  710 QIN(14,I)=YTR2(NTRP2)*(XTR2(NTRP2)/EN)**2*1.D-16*AMPTR2
+  710 QIN[14][I]=YTR2(NTRP2)*(XTR2(NTRP2)/EN)**2*1.D-16*AMPTR2
   711 if(EN <= (3.0*EIN[14])) GO TO 712
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))                               
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]                               
 # SINGLET DISSOCIATION AT 11.0 EV USE BEF SCALING WITH F=0.1839
-  712 QIN(15,I)=0.0
-      PEQIN(15,I)=0.0
+  712 QIN[15][I]=0.0
+      PEQIN[15][I]=0.0
       if(EN <= EIN[15]:
 ) GO TO 713
-      QIN(15,I)=0.1839/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])*1.023
-      if(QIN(15,I):
- < 0.0) QIN(15,I)=0.0       
+      QIN[15][I]=0.1839/(EIN[15]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[15]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[15]+E[3])*1.023
+      if(QIN[15][I]:
+ < 0.0) QIN[15][I]=0.0       
       if(EN <= (3.0*EIN[15]:
 )) GO TO 713
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15]))
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
 # SINGLET DISSOCIATION AT 11.5 EV USE BEF SCALING WITH F=0.1073
-  713 QIN(16,I)=0.0
-      PEQIN(16,I)=0.0
+  713 QIN[16][I]=0.0
+      PEQIN[16][I]=0.0
       if(EN <= EIN[16]:
 ) GO TO 714
-      QIN(16,I)=0.1073/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])*1.022
-      if(QIN(16,I):
- < 0.0) QIN(16,I)=0.0       
+      QIN[16][I]=0.1073/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])*1.022
+      if(QIN[16][I]:
+ < 0.0) QIN[16][I]=0.0       
       if(EN <= (3.0*EIN[16]:
 )) GO TO 714
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
 # SINGLET DISSOCIATION AT 12.0 EV USE BEF SCALING WITH F=0.0880
-  714 QIN(17,I)=0.0
-      PEQIN(17,I)=0.0
+  714 QIN[17][I]=0.0
+      PEQIN[17][I]=0.0
       if(EN <= EIN[17]:
 ) GO TO 715
-      QIN(17,I)=0.0880/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.021
-      if(QIN(17,I):
- < 0.0) QIN(17,I)=0.0       
+      QIN[17][I]=0.0880/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.021
+      if(QIN[17][I]:
+ < 0.0) QIN[17][I]=0.0       
       if(EN <= (3.0*EIN[17]:
 )) GO TO 715
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
 # SINGLET DISSOCIATION AT 12.5 EV USE BEF SCALING WITH F=0.0304
-  715 QIN(18,I)=0.0
-      PEQIN(18,I)=0.0
+  715 QIN[18][I]=0.0
+      PEQIN[18][I]=0.0
       if(EN <= EIN[18]:
 ) GO TO 716
-      QIN(18,I)=0.0304/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.020
-      if(QIN(18,I):
- < 0.0) QIN(18,I)=0.0       
+      QIN[18][I]=0.0304/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.020
+      if(QIN[18][I]:
+ < 0.0) QIN[18][I]=0.0       
       if(EN <= (3.0*EIN[18]:
 )) GO TO 716
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
 # SINGLET DISSOCIATION AT 13.0 EV USE BEF SCALING WITH F=0.0648
 # ION PAIR printION  F- + SF5+
-  716 QIN(19,I)=0.0
-      PEQIN(19,I)=0.0
+  716 QIN[19][I]=0.0
+      PEQIN[19][I]=0.0
       if(EN <= EIN[19]:
 ) GO TO 717
-      QIN(19,I)=0.0648/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.019
-      if(QIN(19,I):
- < 0.0) QIN(19,I)=0.0       
+      QIN[19][I]=0.0648/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.019
+      if(QIN[19][I]:
+ < 0.0) QIN[19][I]=0.0       
       if(EN <= (3.0*EIN[19]:
 )) GO TO 717
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
 # SINGLET DISSOCIATION AT 13.5 EV USE BEF SCALING WITH F=0.1067
-  717 QIN(20,I)=0.0
-      PEQIN(20,I)=0.0
+  717 QIN[20][I]=0.0
+      PEQIN[20][I]=0.0
       if(EN <= EIN[20]:
 ) GO TO 718
-      QIN(20,I)=0.1067/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])*1.019
-      if(QIN(20,I):
- < 0.0) QIN(20,I)=0.0       
+      QIN[20][I]=0.1067/(EIN[20]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[20]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[20]+E[3])*1.019
+      if(QIN[20][I]:
+ < 0.0) QIN[20][I]=0.0       
       if(EN <= (3.0*EIN[20]:
 )) GO TO 718
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20]))
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
 # SINGLET DISSOCIATION AT 14.0 EV USE BEF SCALING WITH F=0.1047
-  718 QIN(21,I)=0.0
-      PEQIN(21,I)=0.0
+  718 QIN[21][I]=0.0
+      PEQIN[21][I]=0.0
       if(EN <= EIN[21]:
 ) GO TO 719
-      QIN(21,I)=0.1047/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.018
-      if(QIN(21,I):
- < 0.0) QIN(21,I)=0.0       
+      QIN[21][I]=0.1047/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.018
+      if(QIN[21][I]:
+ < 0.0) QIN[21][I]=0.0       
       if(EN <= (3.0*EIN[21]:
 )) GO TO 719
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
 # TRIPLET DISSOCIATION  AT 14.4 EV
-  719 QIN(22,I)=0.0
+  719 QIN[22][I]=0.0
       PEQIN[2][I]=0.0
       if(EN <= EIN[22]:
 ) GO TO 724
@@ -30152,160 +30135,160 @@ c
 ) GO TO 721
   720 CONTINUE
       J=NTRP3
-  721 A=(YTR3[J]-YTR3(J-1))/(XTR3[J]-XTR3(J-1))
-      B=(XTR3(J-1)*YTR3[J]-XTR3[J]*YTR3(J-1))/(XTR3(J-1)-XTR3[J])
-      QIN(22,I)=(A*EN+B)*1.D-16*AMPTR3
+  721 A=(YTR3[J]-YTR3[J-1])/(XTR3[J]-XTR3[J-1])
+      B=(XTR3[J-1]*YTR3[J]-XTR3[J]*YTR3[J-1])/(XTR3[J-1]-XTR3[J])
+      QIN[22][I]=(A*EN+B)*1.D-16*AMPTR3
       GO TO 723
 # SCALE BY 1/E**2 ABOVE XTR3(NTRP3) EV
-  722 QIN(22,I)=YTR3(NTRP3)*(XTR3(NTRP3)/EN)**2*1.D-16*AMPTR3
+  722 QIN[22][I]=YTR3(NTRP3)*(XTR3(NTRP3)/EN)**2*1.D-16*AMPTR3
   723 if(EN <= (3.0*EIN[22])) GO TO 724
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))                               
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]                               
 # SINGLET DISSOCIATION AT 14.5 EV USE BEF SCALING WITH F=0.1211
-  724 QIN(23,I)=0.00
-      PEQIN(23,I)=0.0
+  724 QIN[23][I]=0.00
+      PEQIN[23][I]=0.0
       if(EN <= EIN[23]:
 ) GO TO 725
-      QIN(23,I)=0.01211/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])*1.017
-      if(QIN(23,I):
- < 0.0) QIN(23,I)=0.0       
+      QIN[23][I]=0.01211/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])*1.017
+      if(QIN[23][I]:
+ < 0.0) QIN[23][I]=0.0       
       if(EN <= (3.0*EIN[23]:
 )) GO TO 725
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
 # SINGLET DISSOCIATION AT 15.0 EV USE BEF SCALING WITH F=0.2225
-  725 QIN(24,I)=0.0
-      PEQIN(24,I)=0.0
+  725 QIN[24][I]=0.0
+      PEQIN[24][I]=0.0
       if(EN <= EIN[24]:
 ) GO TO 726
-      QIN(24,I)=0.2225/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])*1.017
-      if(QIN(24,I):
- < 0.0) QIN(24,I)=0.0       
+      QIN[24][I]=0.2225/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])*1.017
+      if(QIN[24][I]:
+ < 0.0) QIN[24][I]=0.0       
       if(EN <= (3.0*EIN[24]:
 )) GO TO 726
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
 # SINGLET DISSOCIATION AT 15.5 EV USE BEF SCALING WITH F=0.2731
-  726 QIN(25,I)=0.0
-      PEQIN(25,I)=0.0
+  726 QIN[25][I]=0.0
+      PEQIN[25][I]=0.0
       if(EN <= EIN[25]:
 ) GO TO 727
-      QIN(25,I)=0.2731/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.016
-      if(QIN(25,I):
- < 0.0) QIN(25,I)=0.0       
+      QIN[25][I]=0.2731/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.016
+      if(QIN[25][I]:
+ < 0.0) QIN[25][I]=0.0       
       if(EN <= (3.0*EIN[25]:
 )) GO TO 727
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
 # SINGLET DISSOCIATION AT 16.0 EV USE BEF SCALING WITH F=0.1514
-  727 QIN(26,I)=0.0
-      PEQIN(26,I)=0.0
+  727 QIN[26][I]=0.0
+      PEQIN[26][I]=0.0
       if(EN <= EIN[26]:
 ) GO TO 728
-      QIN(26,I)=0.1514/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.016
-      if(QIN(26,I):
- < 0.0) QIN(26,I)=0.0       
+      QIN[26][I]=0.1514/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.016
+      if(QIN[26][I]:
+ < 0.0) QIN[26][I]=0.0       
       if(EN <= (3.0*EIN[26]:
 )) GO TO 728
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
 # SINGLET DISSOCIATION AT 16.5 EV USE BEF SCALING WITH F=0.1831
-  728 QIN(27,I)=0.0
-       PEQIN(27,I)=0.0
+  728 QIN[27][I]=0.0
+       PEQIN[27][I]=0.0
       if(EN <= EIN[27]:
 ) GO TO 729
-      QIN(27,I)=0.1831/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.015
-      if(QIN(27,I):
- < 0.0) QIN(27,I)=0.0       
+      QIN[27][I]=0.1831/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.015
+      if(QIN[27][I]:
+ < 0.0) QIN[27][I]=0.0       
       if(EN <= (3.0*EIN[27]:
 )) GO TO 729
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
 # SINGLET DISSOCIATION AT 17.00 EV USE BEF SCALING WITH F=0.1678
-  729 QIN(28,I)=0.0
-      PEQIN(28,I)=0.0
+  729 QIN[28][I]=0.0
+      PEQIN[28][I]=0.0
       if(EN <= EIN[28]:
 ) GO TO 730
-      QIN(28,I)=0.1678/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.015
-      if(QIN(28,I):
- < 0.0) QIN(28,I)=0.0       
+      QIN[28][I]=0.1678/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.015
+      if(QIN[28][I]:
+ < 0.0) QIN[28][I]=0.0       
       if(EN <= (3.0*EIN[28]:
 )) GO TO 730
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
 # SINGLET DISSOCIATION AT 17.5 EV USE BEF SCALING WITH F=0.1098
-  730 QIN(29,I)=0.0
-      PEQIN(29,I)=0.0
+  730 QIN[29][I]=0.0
+      PEQIN[29][I]=0.0
       if(EN <= EIN[29]:
 ) GO TO 731
-      QIN(29,I)=0.1098/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.014
-      if(QIN(29,I):
- < 0.0) QIN(29,I)=0.0       
+      QIN[29][I]=0.1098/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.014
+      if(QIN[29][I]:
+ < 0.0) QIN[29][I]=0.0       
       if(EN <= (3.0*EIN[29]:
 )) GO TO 731
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
 # SINGLET DISSOCIATION AT 18.0 EV USE BEF SCALING WITH F=0.0623
-  731 QIN(30,I)=0.0
-      PEQIN(30,I)=0.0
+  731 QIN[30][I]=0.0
+      PEQIN[30][I]=0.0
       if(EN <= EIN[30]:
 ) GO TO 732
-      QIN(30,I)=0.0623/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])*1.014
-      if(QIN(30,I):
- < 0.0) QIN(30,I)=0.0       
+      QIN[30][I]=0.0623/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])*1.014
+      if(QIN[30][I]:
+ < 0.0) QIN[30][I]=0.0       
       if(EN <= (3.0*EIN[30]:
 )) GO TO 732
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
 # SINGLET DISSOCIATION AT 18.5 EV USE BEF SCALING WITH F=0.0361
-  732 QIN(31,I)=0.0
-      PEQIN(31,I)=0.0
+  732 QIN[31][I]=0.0
+      PEQIN[31][I]=0.0
       if(EN <= EIN[31]:
 ) GO TO 733
-      QIN(31,I)=0.0361/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])*1.014
-      if(QIN(31,I):
- < 0.0) QIN(31,I)=0.0       
+      QIN[31][I]=0.0361/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])*1.014
+      if(QIN[31][I]:
+ < 0.0) QIN[31][I]=0.0       
       if(EN <= (3.0*EIN[31]:
 )) GO TO 733
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
 # SINGLET DISSOCIATION AT 19.0 EV USE BEF SCALING WITH F=0.0107
-  733 QIN(32,I)=0.0
-      PEQIN(32,I)=0.0
+  733 QIN[32][I]=0.0
+      PEQIN[32][I]=0.0
       if(EN <= EIN[32]:
 ) GO TO 734
-      QIN(32,I)=0.0107/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])*1.013
-      if(QIN(32,I):
- < 0.0) QIN(32,I)=0.0       
+      QIN[32][I]=0.0107/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])*1.013
+      if(QIN[32][I]:
+ < 0.0) QIN[32][I]=0.0       
       if(EN <= (3.0*EIN[32]:
 )) GO TO 734
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
 # SINGLET DISSOCIATION AT 19.5 EV USE BEF SCALING WITH F=0.0129
-  734 QIN(33,I)=0.0
-      PEQIN(33,I)=0.0
+  734 QIN[33][I]=0.0
+      PEQIN[33][I]=0.0
       if(EN <= EIN[33]:
 ) GO TO 735
-      QIN(33,I)=0.0129/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.013
-      if(QIN(33,I):
- < 0.0) QIN(33,I)=0.0       
+      QIN[33][I]=0.0129/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.013
+      if(QIN[33][I]:
+ < 0.0) QIN[33][I]=0.0       
       if(EN <= (3.0*EIN[33]:
 )) GO TO 735
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
 # SINGLET DISSOCIATION AT 20.0 EV USE BEF SCALING WITH F=0.0053
-  735 QIN(34,I)=0.0
-      PEQIN(34,I)=0.0
+  735 QIN[34][I]=0.0
+      PEQIN[34][I]=0.0
       if(EN <= EIN[34]:
 ) GO TO 736
-      QIN(34,I)=0.0053/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.013
-      if(QIN(34,I):
- < 0.0) QIN(34,I)=0.0       
+      QIN[34][I]=0.0053/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.013
+      if(QIN[34][I]:
+ < 0.0) QIN[34][I]=0.0       
       if(EN <= (3.0*EIN[34]:
 )) GO TO 736
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
 # SINGLET DISSOCIATION AT 23.0 EV USE BEF SCALING WITH F=0.029
-  736 QIN(35,I)=0.0
-      PEQIN(35,I)=0.0
+  736 QIN[35][I]=0.0
+      PEQIN[35][I]=0.0
       if(EN <= EIN[35]:
 ) GO TO 737
-      QIN(35,I)=0.0290/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])*1.02
-      if(QIN(35,I):
- < 0.0) QIN(35,I)=0.0       
+      QIN[35][I]=0.0290/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])*1.02
+      if(QIN[35][I]:
+ < 0.0) QIN[35][I]=0.0       
       if(EN <= (3.0*EIN[35]:
 )) GO TO 737
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
 # LOAD BREMSSTRAHLUNG X-SECTIONS
-  737 QIN(36,I)=0.0
-      QIN(37,I)=0.0
+  737 QIN[36][I]=0.0
+      QIN[37][I]=0.0
       if(EN <= 1000.):
  GO TO 800
       DO 780 J=2,NBREM
@@ -30313,22 +30296,22 @@ c
 ) GO TO 790
   780 CONTINUE
       J=NBREM
-  790 A=(math.log(Z16T[J])-math.log(Z16T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z16T[J])*EBRM(J-1)-math.log(Z16T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A1=(math.log(Z9T[J])-math.log(Z9T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z9T[J])*EBRM(J-1)-math.log(Z9T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(36,I)=math.exp(A*EN+B)*1.D-24
-      QIN(37,I)=math.exp(A1*EN+B1)*6.D-24 
+  790 A=(math.log(Z16T[J])-math.log(Z16T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z16T[J])*EBRM[J-1]-math.log(Z16T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A1=(math.log(Z9T[J])-math.log(Z9T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z9T[J])*EBRM[J-1]-math.log(Z9T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[36][I]=math.exp(A*EN+B)*1.D-24
+      QIN[37][I]=math.exp(A1*EN+B1)*6.D-24 
   800 CONTINUE
 #     WRITE(6,881) EN
 # 881 print('EN=',D14.6)
 #     WRITE(6,882) QIN[1][I],QIN[2][I],QIN[3][I],QIN[4][I],QIN[5][I]
-#     WRITE(6,882) QIN[6][I],QIN[7][I],QIN[8][I],QIN[9][I],QIN(10,I)
-#     WRITE(6,882) QIN(11,I),QIN(12,I),QIN(13,I),QIN(14,I),QIN(15,I)
-#     WRITE(6,882) QIN(16,I),QIN(17,I),QIN(18,I),QIN(19,I),QIN(20,I)
-#     WRITE(6,882) QIN(21,I),QIN(22,I),QIN(23,I),QIN(24,I),QIN(25,I)
-#     WRITE(6,882) QIN(26,I),QIN(27,I),QIN(28,I),QIN(29,I),QIN(30,I)
-#     WRITE(6,882) QIN(31,I),QIN(32,I),QIN(33,I),QIN(34,I),QIN(35,I)
+#     WRITE(6,882) QIN[6][I],QIN[7][I],QIN[8][I],QIN[9][I],QIN[10][I]
+#     WRITE(6,882) QIN[11][I],QIN[12][I],QIN[13][I],QIN[14][I],QIN[15][I]
+#     WRITE(6,882) QIN[16][I],QIN[17][I],QIN[18][I],QIN[19][I],QIN[20][I]
+#     WRITE(6,882) QIN[21][I],QIN[22][I],QIN[23][I],QIN[24][I],QIN[25][I]
+#     WRITE(6,882) QIN[26][I],QIN[27][I],QIN[28][I],QIN[29][I],QIN[30][I]
+#     WRITE(6,882) QIN[31][I],QIN[32][I],QIN[33][I],QIN[34][I],QIN[35][I]
 # 882 print(' QIN ',5'%.4f' % )
 #     WRITE(6,883) Q[2][I],Q[3][I],Q[4][I],Q[5][I]
 # 883 print(' Q 2 3 4 5',4'%.4f' % )
@@ -30336,11 +30319,11 @@ c
 # 884 print('QION 1 2 3 ',3'%.4f' % )
 #
       QSUP=QIN[1][I]+QIN[3][I]+QIN[5][I]
-      QVIB=QIN[2][I]+QIN[4][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN(10,I)
+      QVIB=QIN[2][I]+QIN[4][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN[10][I]
       QSING=0.0
       DO 888 NPT=11,35
   888 QSING=QSING+QIN(NPT,I)
-      QTRIP=QIN(11,I)+QIN(14,I)+QIN(22,I)
+      QTRIP=QIN[11][I]+QIN[14][I]+QIN[22][I]
       QSING=QSING-QTRIP
       QATTA=Q[4][I]
       QIONS=0.0
@@ -30375,7 +30358,7 @@ def GAS31(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30425,7 +30408,7 @@ def GAS32(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30475,7 +30458,7 @@ def GAS33(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30525,7 +30508,7 @@ def GAS34(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30575,7 +30558,7 @@ def GAS35(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30625,7 +30608,7 @@ def GAS36(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30675,7 +30658,7 @@ def GAS37(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30725,7 +30708,7 @@ def GAS38(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30775,7 +30758,7 @@ def GAS39(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30825,7 +30808,7 @@ def GAS40(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30875,7 +30858,7 @@ def GAS41(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30925,7 +30908,7 @@ def GAS42(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -30975,7 +30958,7 @@ def GAS43(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       COMMON/DENS/DEN(20000)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -31025,7 +31008,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       COMMON/MIX2/EG(20000),EROOT(20000),QT1(20000),QT2(20000),QT3(20000),QT4(20000)
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20) 
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6]  
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6]  
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]       
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -31397,7 +31380,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
       QION[1][I]=CONST*(AM2*(X1-DEN[1]/2.0)+C*X2)
       34 if(EN <= (2.0*EION[1])) GO TO 35
-      PEQION[1][I]=PEQEL(2,(I-IOFFION[1]))
+      PEQION[1][I]=PEQEL[2][(I-IOFFION[1]])
       # CARBON K SHELL IONISATION
       35 QION[2][I]=0.0
       PEQION[2][I]=0.5
@@ -31416,7 +31399,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QION[2][I]=3.0*(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[2]:
       )) GO TO 38
-      PEQION[2][I]=PEQEL(2,(I-IOFFION[2]))
+      PEQION[2][I]=PEQEL[2][(I-IOFFION[2]])
       # NITROGEN K-SHELL IONISATION
       38 QION[3][I]=0.0
       PEQION[3][I]=0.5
@@ -31434,7 +31417,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QION[3][I]=(A*EN+B)*1.D-16
       if(EN <= (2.0*EION[3]:
       )) GO TO 41
-      PEQION[3][I]=PEQEL(2,(I-IOFFION[3]))
+      PEQION[3][I]=PEQEL[2][(I-IOFFION[3]])
       # CORRECT THE IONISATION FOR SPLIT INTO KSHELLS
       QION[1][I]=QION[1][I]-AUGKC*QION[2][I]-AUGKN*QION[3][I]
       # ATTACHMENT
@@ -31454,7 +31437,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QIN[1][I]=QIN[1][I]*APOP1/(1.0+APOP1)*1.D-16          
       if(EN <= abs(20.0*EIN[1]:
       )) GO TO 100
-      PEQIN[1][I]=PEQEL(2,(I-IOFFN[1]))    
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]   
       #  ROT1     
       100 QIN[2][I]=0.0 
       PEQIN[2][I]=0.0                                                  
@@ -31465,7 +31448,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QIN[2][I]=QIN[2][I]/(1.0+APOP1)*1.D-16       
       if(EN <= (20.0*EIN[2]:
       )) GO TO 150
-      PEQIN[2][I]=PEQEL(2,(I-IOFFN[2]))                         
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]                        
       # 
       #  SUPERELASTIC TORSION
       #
@@ -31489,7 +31472,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       175 QIN[3][I]=YTORS(NTORS)*XTORS(NTORS)/EN 
       QIN[3][I]=QIN[3][I]*APOP2/(1.0+APOP2)*1.D-16          
       176 if(EN <= abs(10.0*EIN[3])) GO TO 200
-      PEQIN[3][I]=PEQEL(2,(I-IOFFN[3]))            
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]           
       # INELASTIC TORSION                                                          
       200 QIN[4][I]=0.0 
       PEQIN[4][I]=0.0                                                  
@@ -31511,7 +31494,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       225 QIN[4][I]=YTORS(NTORS)*XTORS(NTORS)/EN 
       QIN[4][I]=QIN[4][I]/(1.0+APOP2)*1.D-16 
       226 if(EN <= (10.0*EIN[4])) GO TO 250
-      PEQIN[4][I]=PEQEL(2,(I-IOFFN[4]))                          
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]                         
       # SUPERELASTIC VIB1                                                   
       250 QIN[5][I]=0.0
       PEQIN[5][I]=0.0
@@ -31533,8 +31516,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       275 QIN[5][I]=YVIB1(NVIB1)*XVIB1(NVIB1)/EN
       QIN[5][I]=QIN[5][I]*APOP3/(1.0+APOP3)*1.D-16        
       276 if(EN <= abs(10.0*EIN[5])) GO TO 300
-      PEQIN[5][I]=PEQEL(2,(I-IOFFN[5]))
-      # INELASTIC VIB1                                                           
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]      # INELASTIC VIB1                                                           
       300 QIN[6][I]=0.0 
       PEQIN[6][I]=0.0                                                  
       if(EN <= EIN[6]:
@@ -31555,7 +31537,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       325 QIN[6][I]=YVIB1(NVIB1)*XVIB1(NVIB1)/EN               
       QIN[6][I]=QIN[6][I]/(1.0+APOP3)*1.D-16           
       326 if(EN <= (10.0*EIN[6])) GO TO 350
-      PEQIN[6][I]=PEQEL(2,(I-IOFFN[6]))        
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]       
       # INELASTIC VIB2                                                      
       350 QIN[7][I]=0.0 
       PEQIN[7][I]=0.0                                                  
@@ -31575,7 +31557,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # SCALED BY 1/E ABOVE XVIB2(NVIB2) EV
       375 QIN[7][I]=YVIB2(NVIB2)*XVIB2(NVIB2)/EN*1.D-16            
       376 if(EN <= (5.0*EIN[7])) GO TO 400
-      PEQIN[7][I]=PEQEL(2,(I-IOFFN[7]))              
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]             
       # INELASTIC VIB3                                                               
       400 QIN[8][I]=0.0  
       PEQIN[8][I]=0.0                                                    
@@ -31595,8 +31577,7 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # SCALED BY 1/E ABOVE XVIB3(NVIB3) EV
       425 QIN[8][I]=YVIB3(NVIB3)*XVIB3(NVIB3)/EN*1.D-16        
       426 if(EN <= (5.0*EIN[8])) GO TO 450
-      PEQIN[8][I]=PEQEL(2,(I-IOFFN[8]))
-      # INELASTIC VIBRATION HARMONICS
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]      # INELASTIC VIBRATION HARMONICS
       450 QIN[9][I]=0.0
       PEQIN[9][I]=0.0
       if(EN <= EIN[9]:
@@ -31615,10 +31596,10 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # SCALED BY 1/E ABOVE XVHAR(NVHAR) EV
       475 QIN[9][I]=YVHAR(NVHAR)*XVHAR(NVHAR)/EN*1.D-16
       476 if(EN <= (5.0*EIN[9])) GO TO 500
-      PEQIN[9][I]=PEQEL(2,(I-IOFFN[9]))                     
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]                    
       # EXCITATION  NON DIPOLE                     
-      500 QIN(10,I)=0.0
-      PEQIN(10,I)=0.0
+      500 QIN[10][I]=0.0
+      PEQIN[10][I]=0.0
       if(EN <= EIN[10]:
       ) GO TO 550
       if(EN > XTRP1(NTRP1):
@@ -31630,59 +31611,59 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NTRP1                                                          
       520 A=(YTRP1[J]-YTRP1(J-1))/(XTRP1[J]-XTRP1(J-1))                     
       B=(XTRP1(J-1)*YTRP1[J]-XTRP1[J]*YTRP1(J-1))/(XTRP1(J-1)-XTRP1[J]) 
-      QIN(10,I)=(A*EN+B)*1.D-16    
+      QIN[10][I]=(A*EN+B)*1.D-16    
       GO TO 526
       # SCALED BY 1/E**2 ABOVE XTRP1(NTRP1) EV
-      525 QIN(10,I)=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.D-16
+      525 QIN[10][I]=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.D-16
       526 if(EN <= (5.0*EIN[10])) GO TO 550
-      PEQIN(10,I)=PEQEL(2,(I-IOFFN[10])) 
+      PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])] 
       # PART OF 3S RYDBERG CONTINUUM
-      550 QIN(11,I)=0.0
-      PEQIN(11,I)=0.0
+      550 QIN[11][I]=0.0
+      PEQIN[11][I]=0.0
       if(EN <= EIN[11]:
       ) GO TO 551
-      QIN(11,I)=.0004779/(EIN[11]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[11]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[11]+E[3])*1.0323
-      if(QIN(11,I):
-      < 0.0) QIN(11,I)=0.0
+      QIN[11][I]=.0004779/(EIN[11]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[11]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[11]+E[3])*1.0323
+      if(QIN[11][I]:
+      < 0.0) QIN[11][I]=0.0
       if(EN <= (5.0*EIN[11]:
       )) GO TO 551
-      PEQIN(11,I)=PEQEL(2,(I-IOFFN[11]))
+      PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
       # PART OF 3S RYDBERG CONTINUUM
-      551 QIN(12,I)=0.0
-      PEQIN(12,I)=0.0
+      551 QIN[12][I]=0.0
+      PEQIN[12][I]=0.0
       if(EN <= EIN[12]:
       ) GO TO 552
-      QIN(12,I)=.0039141/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.0303
-      if(QIN(12,I):
-      < 0.0) QIN(12,I)=0.0
+      QIN[12][I]=.0039141/(EIN[12]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[12]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[12]+E[3])*1.0303
+      if(QIN[12][I]:
+      < 0.0) QIN[12][I]=0.0
       if(EN <= (5.0*EIN[12]:
       )) GO TO 552
-      PEQIN(12,I)=PEQEL(2,(I-IOFFN[12]))
+      PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
       # PART OF 3S RYDBERG CONTINUUM
-      552 QIN(13,I)=0.0
-      PEQIN(13,I)=0.0
+      552 QIN[13][I]=0.0
+      PEQIN[13][I]=0.0
       if(EN <= EIN[13]:
       ) GO TO 553
-      QIN(13,I)=.0084476/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.0286
-      if(QIN(13,I):
-      < 0.0) QIN(13,I)=0.0
+      QIN[13][I]=.0084476/(EIN[13]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[13]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[13]+E[3])*1.0286
+      if(QIN[13][I]:
+      < 0.0) QIN[13][I]=0.0
       if(EN <= (5.0*EIN[13]:
       )) GO TO 553
-      PEQIN(13,I)=PEQEL(2,(I-IOFFN[13]))
+      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
       # PART OF 3S RYDBERG CONTINUUM
-      553 QIN(14,I)=0.0
-      PEQIN(14,I)=0.0
+      553 QIN[14][I]=0.0
+      PEQIN[14][I]=0.0
       if(EN <= EIN[14]:
       ) GO TO 554
-      QIN(14,I)=.0102610/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])*1.0270
-      if(QIN(14,I):
-      < 0.0) QIN(14,I)=0.0
+      QIN[14][I]=.0102610/(EIN[14]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[14]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[14]+E[3])*1.0270
+      if(QIN[14][I]:
+      < 0.0) QIN[14][I]=0.0
       if(EN <= (5.0*EIN[14]:
       )) GO TO 554
-      PEQIN(14,I)=PEQEL(2,(I-IOFFN[14]))
+      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
       # EXCITATION  NON DIPOLE                     
-      554 QIN(15,I)=0.0
-      PEQIN(15,I)=0.0
+      554 QIN[15][I]=0.0
+      PEQIN[15][I]=0.0
       if(EN <= EIN[15]:
       ) GO TO 559
       if(EN > XTRP2(NTRP2):
@@ -31694,59 +31675,59 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NTRP2                                                          
       556 A=(YTRP2[J]-YTRP2(J-1))/(XTRP2[J]-XTRP2(J-1))                     
       B=(XTRP2(J-1)*YTRP2[J]-XTRP2[J]*YTRP2(J-1))/(XTRP2(J-1)-XTRP2[J]) 
-      QIN(15,I)=(A*EN+B)*1.D-16    
+      QIN[15][I]=(A*EN+B)*1.D-16    
       GO TO 558
       # SCALED BY 1/E**2 ABOVE XTRP2(NTRP2) EV
-      557 QIN(15,I)=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.D-16
+      557 QIN[15][I]=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.D-16
       558 if(EN <= (5.0*EIN[15])) GO TO 559
-      PEQIN(15,I)=PEQEL(2,(I-IOFFN[15])) 
+      PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])] 
       # PART OF 3P RYDBERG CONTINUUM
-      559 QIN(16,I)=0.0
-      PEQIN(16,I)=0.0
+      559 QIN[16][I]=0.0
+      PEQIN[16][I]=0.0
       if(EN <= EIN[16]:
       ) GO TO 560 
-      QIN(16,I)=0.028163/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])*1.0256
-      if(QIN(16,I):
-      < 0.0) QIN(16,I)=0.0
+      QIN[16][I]=0.028163/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[16]+E[3])*1.0256
+      if(QIN[16][I]:
+      < 0.0) QIN[16][I]=0.0
       if(EN <= (4.0*EIN[16]:
       )) GO TO 560
-      PEQIN(16,I)=PEQEL(2,(I-IOFFN[16]))                    
+      PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]                    
       # PART OF 3P RYDBERG CONTINUUM
-      560 QIN(17,I)=0.0
-      PEQIN(17,I)=0.0
+      560 QIN[17][I]=0.0
+      PEQIN[17][I]=0.0
       if(EN <= EIN[17]:
       ) GO TO 561 
-      QIN(17,I)=0.038700/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.0244
-      if(QIN(17,I):
-      < 0.0) QIN(17,I)=0.0
+      QIN[17][I]=0.038700/(EIN[17]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[17]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[17]+E[3])*1.0244
+      if(QIN[17][I]:
+      < 0.0) QIN[17][I]=0.0
       if(EN <= (4.0*EIN[17]:
       )) GO TO 561
-      PEQIN(17,I)=PEQEL(2,(I-IOFFN[17]))                    
+      PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]                    
       # PART OF 3P RYDBERG CONTINUUM
-      561 QIN(18,I)=0.0
-      PEQIN(18,I)=0.0
+      561 QIN[18][I]=0.0
+      PEQIN[18][I]=0.0
       if(EN <= EIN[18]:
       ) GO TO 562 
-      QIN(18,I)=0.030128/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.0233
-      if(QIN(18,I):
-      < 0.0) QIN(18,I)=0.0
+      QIN[18][I]=0.030128/(EIN[18]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[18]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[18]+E[3])*1.0233
+      if(QIN[18][I]:
+      < 0.0) QIN[18][I]=0.0
       if(EN <= (4.0*EIN[18]:
       )) GO TO 562
-      PEQIN(18,I)=PEQEL(2,(I-IOFFN[18]))                    
+      PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]                    
       # PART OF 3P RYDBERG CONTINUUM
-      562 QIN(19,I)=0.0
-      PEQIN(19,I)=0.0
+      562 QIN[19][I]=0.0
+      PEQIN[19][I]=0.0
       if(EN <= EIN[19]:
       ) GO TO 563 
-      QIN(19,I)=0.024852/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.0222
-      if(QIN(19,I):
-      < 0.0) QIN(19,I)=0.0
+      QIN[19][I]=0.024852/(EIN[19]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[19]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[19]+E[3])*1.0222
+      if(QIN[19][I]:
+      < 0.0) QIN[19][I]=0.0
       if(EN <= (4.0*EIN[19]:
       )) GO TO 563
-      PEQIN(19,I)=PEQEL(2,(I-IOFFN[19]))                    
+      PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]                    
       # EXCITATION  NON DIPOLE                     
-      563 QIN(20,I)=0.0
-      PEQIN(20,I)=0.0
+      563 QIN[20][I]=0.0
+      PEQIN[20][I]=0.0
       if(EN <= EIN[20]:
       ) GO TO 568
       if(EN > XTRP3(NTRP3):
@@ -31758,228 +31739,228 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       J=NTRP3                                                          
       565 A=(YTRP3[J]-YTRP3(J-1))/(XTRP3[J]-XTRP3(J-1))                     
       B=(XTRP3(J-1)*YTRP3[J]-XTRP3[J]*YTRP3(J-1))/(XTRP3(J-1)-XTRP3[J]) 
-      QIN(20,I)=(A*EN+B)*1.D-16    
+      QIN[20][I]=(A*EN+B)*1.D-16    
       GO TO 567
       # SCALED BY 1/E**2 ABOVE XTRP3(NTRP3) EV
-      566 QIN(20,I)=YTRP3(NTRP3)*(XTRP3(NTRP3)/EN)**2*1.D-16
+      566 QIN[20][I]=YTRP3(NTRP3)*(XTRP3(NTRP3)/EN)**2*1.D-16
       567 if(EN <= (4.0*EIN[20])) GO TO 568
-      PEQIN(20,I)=PEQEL(2,(I-IOFFN[20])) 
+      PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])] 
       # HIGH RYDBERG STATES             
-      568 QIN(21,I)=0.0
-      PEQIN(21,I)=0.0
+      568 QIN[21][I]=0.0
+      PEQIN[21][I]=0.0
       if(EN <= EIN[21]:
       ) GO TO 569 
-      QIN(21,I)=0.023943/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.0213
-      if(QIN(21,I):
-      < 0.0) QIN(21,I)=0.0
+      QIN[21][I]=0.023943/(EIN[21]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[21]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[21]+E[3])*1.0213
+      if(QIN[21][I]:
+      < 0.0) QIN[21][I]=0.0
       if(EN <= (4.0*EIN[21]:
       )) GO TO 569
-      PEQIN(21,I)=PEQEL(2,(I-IOFFN[21]))                    
+      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]                    
       # HIGH RYDBERG STATES             
-      569 QIN(22,I)=0.0
-      PEQIN(22,I)=0.0
+      569 QIN[22][I]=0.0
+      PEQIN[22][I]=0.0
       if(EN <= EIN[22]:
       ) GO TO 570 
-      QIN(22,I)=0.026992/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])*1.0204
-      if(QIN(22,I):
-      < 0.0) QIN(22,I)=0.0
+      QIN[22][I]=0.026992/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[22]+E[3])*1.0204
+      if(QIN[22][I]:
+      < 0.0) QIN[22][I]=0.0
       if(EN <= (4.0*EIN[22]:
       )) GO TO 570
-      PEQIN(22,I)=PEQEL(2,(I-IOFFN[22]))                    
+      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]                    
       # HIGH RYDBERG STATES             
-      570 QIN(23,I)=0.0
-      PEQIN(23,I)=0.0
+      570 QIN[23][I]=0.0
+      PEQIN[23][I]=0.0
       if(EN <= EIN[23]:
       ) GO TO 571 
-      QIN(23,I)=0.027837/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])*1.0196
-      if(QIN(23,I):
-      < 0.0) QIN(23,I)=0.0
+      QIN[23][I]=0.027837/(EIN[23]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[23]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[23]+E[3])*1.0196
+      if(QIN[23][I]:
+      < 0.0) QIN[23][I]=0.0
       if(EN <= (4.0*EIN[23]:
       )) GO TO 571
-      PEQIN(23,I)=PEQEL(2,(I-IOFFN[23]))                    
+      PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]                    
       # HIGH RYDBERG STATES             
-      571 QIN(24,I)=0.0
-      PEQIN(24,I)=0.0
+      571 QIN[24][I]=0.0
+      PEQIN[24][I]=0.0
       if(EN <= EIN[24]:
       ) GO TO 572 
-      QIN(24,I)=0.027667/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])*1.0189
-      if(QIN(24,I):
-      < 0.0) QIN(24,I)=0.0
+      QIN[24][I]=0.027667/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[24]+E[3])*1.0189
+      if(QIN[24][I]:
+      < 0.0) QIN[24][I]=0.0
       if(EN <= (4.0*EIN[24]:
       )) GO TO 572
-      PEQIN(24,I)=PEQEL(2,(I-IOFFN[24]))                    
+      PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]                    
       # HIGH RYDBERG STATES             
-      572 QIN(25,I)=0.0
-      PEQIN(25,I)=0.0
+      572 QIN[25][I]=0.0
+      PEQIN[25][I]=0.0
       if(EN <= EIN[25]:
       ) GO TO 573 
-      QIN(25,I)=0.028156/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.0182
-      if(QIN(25,I):
-      < 0.0) QIN(25,I)=0.0
+      QIN[25][I]=0.028156/(EIN[25]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[25]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[25]+E[3])*1.0182
+      if(QIN[25][I]:
+      < 0.0) QIN[25][I]=0.0
       if(EN <= (3.0*EIN[25]:
       )) GO TO 573
-      PEQIN(25,I)=PEQEL(2,(I-IOFFN[25]))                    
+      PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]                    
       # HIGH RYDBERG STATES             
-      573 QIN(26,I)=0.0
-      PEQIN(26,I)=0.0
+      573 QIN[26][I]=0.0
+      PEQIN[26][I]=0.0
       if(EN <= EIN[26]:
       ) GO TO 574 
-      QIN(26,I)=0.045773/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.0175
+      QIN[26][I]=0.045773/(EIN[26]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[26]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[26]+E[3])*1.0175
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(26,I)=QIN(26,I)*0.9324 
-      if(QIN(26,I):
-      < 0.0) QIN(26,I)=0.0
+      QIN[26][I]=QIN[26][I]*0.9324 
+      if(QIN[26][I]:
+      < 0.0) QIN[26][I]=0.0
       if(EN <= (3.0*EIN[26]:
       )) GO TO 574
-      PEQIN(26,I)=PEQEL(2,(I-IOFFN[26]))                    
+      PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]                    
       # HIGH RYDBERG STATES             
-      574 QIN(27,I)=0.0
-      PEQIN(27,I)=0.0
+      574 QIN[27][I]=0.0
+      PEQIN[27][I]=0.0
       if(EN <= EIN[27]:
       ) GO TO 575 
-      QIN(27,I)=0.071724/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.0169
+      QIN[27][I]=0.071724/(EIN[27]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[27]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[27]+E[3])*1.0169
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(27,I)=QIN(27,I)*0.8514 
-      if(QIN(27,I):
-      < 0.0) QIN(27,I)=0.0
+      QIN[27][I]=QIN[27][I]*0.8514 
+      if(QIN[27][I]:
+      < 0.0) QIN[27][I]=0.0
       if(EN <= (3.0*EIN[27]:
       )) GO TO 575
-      PEQIN(27,I)=PEQEL(2,(I-IOFFN[27]))                    
+      PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]                    
       # HIGH RYDBERG STATES             
-      575 QIN(28,I)=0.0
-      PEQIN(28,I)=0.0
+      575 QIN[28][I]=0.0
+      PEQIN[28][I]=0.0
       if(EN <= EIN[28]:
       ) GO TO 576 
-      QIN(28,I)=0.075742/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.0164
+      QIN[28][I]=0.075742/(EIN[28]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[28]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[28]+E[3])*1.0164
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(28,I)=QIN(28,I)*0.7703 
-      if(QIN(28,I):
-      < 0.0) QIN(28,I)=0.0
+      QIN[28][I]=QIN[28][I]*0.7703 
+      if(QIN[28][I]:
+      < 0.0) QIN[28][I]=0.0
       if(EN <= (3.0*EIN[28]:
       )) GO TO 576
-      PEQIN(28,I)=PEQEL(2,(I-IOFFN[28]))                    
+      PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]                    
       # HIGH RYDBERG STATES             
-      576 QIN(29,I)=0.0
-      PEQIN(29,I)=0.0
+      576 QIN[29][I]=0.0
+      PEQIN[29][I]=0.0
       if(EN <= EIN[29]:
       ) GO TO 577 
-      QIN(29,I)=0.077213/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.0159
+      QIN[29][I]=0.077213/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[29]+E[3])*1.0159
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(29,I)=QIN(29,I)*0.6892 
-      if(QIN(29,I):
-      < 0.0) QIN(29,I)=0.0
+      QIN[29][I]=QIN[29][I]*0.6892 
+      if(QIN[29][I]:
+      < 0.0) QIN[29][I]=0.0
       if(EN <= (3.0*EIN[29]:
       )) GO TO 577
-      PEQIN(29,I)=PEQEL(2,(I-IOFFN[29]))                    
+      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]                    
       # HIGH RYDBERG STATES             
-      577 QIN(30,I)=0.0
-      PEQIN(30,I)=0.0
+      577 QIN[30][I]=0.0
+      PEQIN[30][I]=0.0
       if(EN <= EIN[30]:
       ) GO TO 578 
-      QIN(30,I)=0.092447/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])*1.0154
+      QIN[30][I]=0.092447/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[30]+E[3])*1.0154
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(30,I)=QIN(30,I)*0.6081 
-      if(QIN(30,I):
-      < 0.0) QIN(30,I)=0.0
+      QIN[30][I]=QIN[30][I]*0.6081 
+      if(QIN[30][I]:
+      < 0.0) QIN[30][I]=0.0
       if(EN <= (3.0*EIN[30]:
       )) GO TO 578
-      PEQIN(30,I)=PEQEL(2,(I-IOFFN[30]))                    
+      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]                    
       # HIGH RYDBERG STATES             
-      578 QIN(31,I)=0.0
-      PEQIN(31,I)=0.0
+      578 QIN[31][I]=0.0
+      PEQIN[31][I]=0.0
       if(EN <= EIN[31]:
       ) GO TO 579 
-      QIN(31,I)=0.12030/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])*1.0149
+      QIN[31][I]=0.12030/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[31]+E[3])*1.0149
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(31,I)=QIN(31,I)*0.527  
-      if(QIN(31,I):
-      < 0.0) QIN(31,I)=0.0
+      QIN[31][I]=QIN[31][I]*0.527  
+      if(QIN[31][I]:
+      < 0.0) QIN[31][I]=0.0
       if(EN <= (3.0*EIN[31]:
       )) GO TO 579
-      PEQIN(31,I)=PEQEL(2,(I-IOFFN[31]))                    
+      PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]                    
       # HIGH RYDBERG STATES             
-      579 QIN(32,I)=0.0
-      PEQIN(32,I)=0.0
+      579 QIN[32][I]=0.0
+      PEQIN[32][I]=0.0
       if(EN <= EIN[32]:
       ) GO TO 580 
-      QIN(32,I)=0.13563/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])*1.0145
+      QIN[32][I]=0.13563/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[32]+E[3])*1.0145
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(32,I)=QIN(32,I)*0.4459 
-      if(QIN(32,I):
-      < 0.0) QIN(32,I)=0.0
+      QIN[32][I]=QIN[32][I]*0.4459 
+      if(QIN[32][I]:
+      < 0.0) QIN[32][I]=0.0
       if(EN <= (3.0*EIN[32]:
       )) GO TO 580
-      PEQIN(32,I)=PEQEL(2,(I-IOFFN[32]))                    
+      PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]                    
       # HIGH RYDBERG STATES             
-      580 QIN(33,I)=0.0
-      PEQIN(33,I)=0.0
+      580 QIN[33][I]=0.0
+      PEQIN[33][I]=0.0
       if(EN <= EIN[33]:
       ) GO TO 581 
-      QIN(33,I)=0.14202/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.0141
+      QIN[33][I]=0.14202/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[33]+E[3])*1.0141
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(33,I)=QIN(33,I)*0.3649 
-      if(QIN(33,I):
-      < 0.0) QIN(33,I)=0.0
+      QIN[33][I]=QIN[33][I]*0.3649 
+      if(QIN[33][I]:
+      < 0.0) QIN[33][I]=0.0
       if(EN <= (3.0*EIN[33]:
       )) GO TO 581
-      PEQIN(33,I)=PEQEL(2,(I-IOFFN[33]))                    
+      PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]                    
       # HIGH RYDBERG STATES             
-      581 QIN(34,I)=0.0
-      PEQIN(34,I)=0.0
+      581 QIN[34][I]=0.0
+      PEQIN[34][I]=0.0
       if(EN <= EIN[34]:
       ) GO TO 582 
-      QIN(34,I)=0.15238/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.0137
+      QIN[34][I]=0.15238/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[34]+E[3])*1.0137
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(34,I)=QIN(34,I)*0.2838 
-      if(QIN(34,I):
-      < 0.0) QIN(34,I)=0.0
+      QIN[34][I]=QIN[34][I]*0.2838 
+      if(QIN[34][I]:
+      < 0.0) QIN[34][I]=0.0
       if(EN <= (3.0*EIN[34]:
       )) GO TO 582
-      PEQIN(34,I)=PEQEL(2,(I-IOFFN[34]))                    
+      PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]                    
       # HIGH RYDBERG STATES             
-      582 QIN(35,I)=0.0
-      PEQIN(35,I)=0.0
+      582 QIN[35][I]=0.0
+      PEQIN[35][I]=0.0
       if(EN <= EIN[35]:
       ) GO TO 583 
-      QIN(35,I)=0.15903/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])*1.0133
+      QIN[35][I]=0.15903/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[35]+E[3])*1.0133
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(35,I)=QIN(35,I)*0.2027 
-      if(QIN(35,I):
-      < 0.0) QIN(35,I)=0.0
+      QIN[35][I]=QIN[35][I]*0.2027 
+      if(QIN[35][I]:
+      < 0.0) QIN[35][I]=0.0
       if(EN <= (3.0*EIN[35]:
       )) GO TO 583
-      PEQIN(35,I)=PEQEL(2,(I-IOFFN[35]))                    
+      PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]                    
       # HIGH RYDBERG STATES             
-      583 QIN(36,I)=0.0
-      PEQIN(36,I)=0.0
+      583 QIN[36][I]=0.0
+      PEQIN[36][I]=0.0
       if(EN <= EIN[36]:
       ) GO TO 584 
-      QIN(36,I)=0.16048/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])*1.0130
+      QIN[36][I]=0.16048/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[36]+E[3])*1.0130
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(36,I)=QIN(36,I)*0.1216 
-      if(QIN(36,I):
-      < 0.0) QIN(36,I)=0.0
+      QIN[36][I]=QIN[36][I]*0.1216 
+      if(QIN[36][I]:
+      < 0.0) QIN[36][I]=0.0
       if(EN <= (3.0*EIN[36]:
       )) GO TO 584
-      PEQIN(36,I)=PEQEL(2,(I-IOFFN[36]))                    
+      PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]                    
       # HIGH RYDBERG STATES             
-      584 QIN(37,I)=0.0
-      PEQIN(37,I)=0.0
+      584 QIN[37][I]=0.0
+      PEQIN[37][I]=0.0
       if(EN <= EIN[37]:
       ) GO TO 585 
-      QIN(37,I)=0.16530/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])*1.0127
+      QIN[37][I]=0.16530/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[37]+E[3])*1.0127
       # SCALE BY (1.0 - IONISATION QUANTUM EFFICIENCY)
-      QIN(37,I)=QIN(37,I)*0.0405 
-      if(QIN(37,I):
-      < 0.0) QIN(37,I)=0.0
+      QIN[37][I]=QIN[37][I]*0.0405 
+      if(QIN[37][I]:
+      < 0.0) QIN[37][I]=0.0
       if(EN <= (3.0*EIN[37]:
       )) GO TO 585
-      PEQIN(37,I)=PEQEL(2,(I-IOFFN[37])) 
+      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])] 
       585 CONTINUE     
       # LOAD BREMSSTRAHLUNG X-SECTIONS
-      QIN(38,I)=0.0
-      QIN(39,I)=0.0
-      QIN(40,I)=0.0
+      QIN[38][I]=0.0
+      QIN[39][I]=0.0
+      QIN[40][I]=0.0
       if(EN <= 1000.):
       GO TO 720
       DO 700 J=2,NBREM
@@ -31987,15 +31968,15 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       ) GO TO 710
       700 CONTINUE
       J=NBREM
-      710 A=(math.log(Z1T[J])-math.log(Z1T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B=(math.log(Z1T[J])*EBRM(J-1)-math.log(Z1T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A1=(math.log(Z6T[J])-math.log(Z6T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B1=(math.log(Z6T[J])*EBRM(J-1)-math.log(Z6T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      A2=(math.log(Z7T[J])-math.log(Z7T(J-1)))/(EBRM[J]-EBRM(J-1))
-      B2=(math.log(Z7T[J])*EBRM(J-1)-math.log(Z7T(J-1))*EBRM[J])/(EBRM(J-1)-EBRM[J])
-      QIN(38,I)=math.exp(A*EN+B)*9.0*1.D-24
-      QIN(39,I)=math.exp(A1*EN+B1)*3.0*1.D-24
-      QIN(40,I)=math.exp(A2*EN+B2)*1.D-24
+      710 A=(math.log(Z1T[J])-math.log(Z1T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B=(math.log(Z1T[J])*EBRM[J-1]-math.log(Z1T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A1=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B1=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      A2=(math.log(Z7T[J])-math.log(Z7T[J-1]))/(EBRM[J]-EBRM[J-1])
+      B2=(math.log(Z7T[J])*EBRM[J-1]-math.log(Z7T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+      QIN[38][I]=math.exp(A*EN+B)*9.0*1.D-24
+      QIN[39][I]=math.exp(A1*EN+B1)*3.0*1.D-24
+      QIN[40][I]=math.exp(A2*EN+B2)*1.D-24
       720 CONTINUE
       #---------------------------------------------------------------------
       #---------------------------------------------------------------------
@@ -32008,13 +31989,13 @@ def GAS44(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       VSUM=0.0
       DO 800 J=3,9
       800 VSUM=VSUM+QIN[J][I]
-      TRPSUM=QIN(10,I)+QIN(15,I)+QIN(20,I)
+      TRPSUM=QIN[10][I]+QIN[15][I]+QIN[20][I]
       SNGSUM=0.0
       DO 801 J=10,37
       801 SNGSUM=SNGSUM+QIN[J][I]
       SNGSUM=SNGSUM-TRPSUM
       SUMION=QION[1][I]+QION[2][I]+QION[3][I] 
-      SUMBREM=QIN(38,I)+QIN(39,I)+QIN(40,I)
+      SUMBREM=QIN[38][I]+QIN[39][I]+QIN[40][I]
       Q[1][I]=Q[2][I]+SUMION+Q[4][I]+SNGSUM+TRPSUM+VSUM+RSUM
       #     WRITE(6,911) EG[I],Q[1][I],Q[2][I],RSUM,VSUM,SUMION,SNGSUM,TRPSUM,
       #    /SUMBREM
@@ -32046,7 +32027,7 @@ def GAS45(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32096,7 +32077,7 @@ def GAS46(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32146,7 +32127,7 @@ def GAS47(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32196,7 +32177,7 @@ def GAS48(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32246,7 +32227,7 @@ def GAS49(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32296,7 +32277,7 @@ def GAS50(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32346,7 +32327,7 @@ def GAS51(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32396,7 +32377,7 @@ def GAS52(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32446,7 +32427,7 @@ def GAS53(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32496,7 +32477,7 @@ def GAS54(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32546,7 +32527,7 @@ def GAS55(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32596,7 +32577,7 @@ def GAS56(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32646,7 +32627,7 @@ def GAS57(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32696,7 +32677,7 @@ def GAS58(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32746,7 +32727,7 @@ def GAS59(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32796,7 +32777,7 @@ def GAS60(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32846,7 +32827,7 @@ def GAS61(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32896,7 +32877,7 @@ def GAS62(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32946,7 +32927,7 @@ def GAS63(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -32996,7 +32977,7 @@ def GAS64(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33046,7 +33027,7 @@ def GAS65(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33096,7 +33077,7 @@ def GAS66(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33146,7 +33127,7 @@ def GAS67(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33196,7 +33177,7 @@ def GAS68(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33246,7 +33227,7 @@ def GAS69(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33296,7 +33277,7 @@ def GAS70(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33346,7 +33327,7 @@ def GAS71(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33396,7 +33377,7 @@ def GAS72(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33446,7 +33427,7 @@ def GAS73(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33496,7 +33477,7 @@ def GAS74(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33546,7 +33527,7 @@ def GAS75(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33596,7 +33577,7 @@ def GAS76(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33646,7 +33627,7 @@ def GAS77(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33696,7 +33677,7 @@ def GAS78(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33746,7 +33727,7 @@ def GAS79(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
@@ -33796,7 +33777,7 @@ def GAS80(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       global EG,EROOT,QT1,QT2,QT3,QT4 
       global DEN 
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN[10],ESPLIT(5,20)
-      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KIN(250),KEL[6] 
+      DIMENSION PEQEL[6][20000),PEQIN(]50,20000),KIN(250),KEL[6] 
       DIMENSION QION(30,20000),PEQION(30,20000),EION[30],EOBY[30]       
       DIMENSION NC0[30],EC0[30],WKLM[30],EFL[30],NG1[30],EG1[30],NG2[30],EG2[30],IZBR(250),LEGAS[30],ISHELL[30]
       DIMENSION Q(6,20000),QIN(250,20000),E[6],EIN(250),PENFRA[3,250]   
