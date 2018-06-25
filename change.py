@@ -262,6 +262,35 @@ def adjust_functions(content):
                         content[n] = line[:k+1] + ':' + line[k+1:]
                         break
     return content
+def make_arrays(content):
+    for n,line in enumerate(content):
+        count=0
+        if line.strip().startswith('DATA'):
+            i=line.find('/')
+            # print(i,line)
+            # print(line[i])
+            if i>0:
+                # content[n]=str(line)
+                # print(content[n])
+                for k in range(i,len(line)+1):
+                    if(line[k]=='#'):
+                        break
+                    if line[k]=='/':
+                        if count==0:
+                            content[n]=line[:k]+'=['+line[k+1:]
+                            # print(content[n])
+                            count=count+1
+                        elif count==1 and len(line)>k:
+                            content[n]=line[:k]+']'+line[k+1:]
+                            # print(content[n])
+                            count=count-1
+                        elif count==1 and len(line)==k:
+                            content[n]=line[:k]+']'
+                            # print(content[n])
+                            count=count-1
+                        line=content[n]
+                print(content[n])
+    return content
 
 def adjust_ifs(content):
     """ Adds ':' after ')' """    
@@ -315,8 +344,9 @@ def f_to_py(content,map_list,math_list,arrays):
                    e.g. ('.lt.',' < '),('DABS','abs'),
         output - list of python file content strings
     '''
-    output = replace_statements(content,map_list)
+    #output = replace_statements(content,map_list)
     #output = replace_math_functions(output,math_list)
+    output = make_arrays(content)
     print("remember to check all float statements for square braces in degrad  ")
 #    output = replace_all_do(output)
 #    output = adjust_all_arrays(output)
@@ -324,8 +354,8 @@ def f_to_py(content,map_list,math_list,arrays):
 #    output = adjust_ifs(output)
     return output
 
-fname='gasn.py'
-foutname='gasn11.py'
+fname='Gasn.py'
+foutname='Gasn1.py'
 arrays=['A','D','V','B','Z']
 content = file2list(fname)
 output = f_to_py(content,map_list_gas,math_list,arrays)
