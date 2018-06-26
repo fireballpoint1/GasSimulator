@@ -1,3 +1,4 @@
+import numpy
 def BREMSCASC(J11,EGAMMA,X0,Y0,Z0,T0,GDCX,GDCY,GDCZ,ILOW):
 	# IMPLICIT #real*8(A-H,O-Z)
 	# IMPLICIT #integer*8(I-N)
