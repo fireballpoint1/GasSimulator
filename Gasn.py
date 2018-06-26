@@ -3222,7 +3222,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       #                                                                       
       return                                                            
       # end 
-def GAS3(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN) 
+def GAS3(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN):
       IMPLICIT #real*8 (A-H,O-Z)                                         
       IMPLICIT #integer*8 (I-N)
       global ECHARG,EMASS,AMU,PIR2                                
@@ -14992,7 +14992,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       144 CONTINUE
       if(EN < (2.0*EION[17]:
       )) GO TO 145
-      PEQION[17][I]=PEQEL[2][(I-IOFFION[17]))
+      PEQION[17][I]=PEQEL[2][(I-IOFFION[17])]
       # ++ DOUBLE CHARGED STABLE IONS
       145 if(EN <= EION[18]) GO TO 150         
       if(EN > XION18(NION18):
@@ -15011,7 +15011,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       149 CONTINUE
       if(EN < (2.0*EION[18]:
       )) GO TO 150
-      PEQION[18][I]=PEQEL[2][(I-IOFFION[18]))
+      PEQION[18][I]=PEQEL[2][(I-IOFFION[18])]
       # ++ DOUBLE CHARGED UNSTABLE IONS (DISSOCIATIVE)
       150 if(EN <= EION[19]) GO TO 155         
       if(EN > XION19(NION19):
@@ -15030,7 +15030,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       154 CONTINUE
       if(EN < (2.0*EION[19]:
       )) GO TO 155
-      PEQION[19][I]=PEQEL[2][(I-IOFFION[19]))
+      PEQION[19][I]=PEQEL[2][(I-IOFFION[19])]
       # CH+
       155 if(EN <= EION[20]) GO TO 160         
       if(EN > XION20(NION20):
@@ -15049,7 +15049,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       159 CONTINUE
       if(EN < (2.0*EION[20]:
       )) GO TO 160
-      PEQION[20][I]=PEQEL[2][(I-IOFFION[20]))
+      PEQION[20][I]=PEQEL[2][(I-IOFFION[20])]
       # C+ 
       160 if(EN <= EION[21]) GO TO 165         
       if(EN > XION21(NION21):
@@ -15068,7 +15068,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       164 CONTINUE
       if(EN < (2.0*EION[21]:
       )) GO TO 165
-      PEQION[21][I]=PEQEL[2][(I-IOFFION[21]))
+      PEQION[21][I]=PEQEL[2][(I-IOFFION[21])]
       # C2+
       165 if(EN <= EION[22]) GO TO 170         
       if(EN > XION22(NION22):
@@ -15087,7 +15087,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       169 CONTINUE
       if(EN < (2.0*EION[22]:
       )) GO TO 170
-      PEQION[22][I]=PEQEL[2][(I-IOFFION[22]))
+      PEQION[22][I]=PEQEL[2][(I-IOFFION[22])]
       # C3+
       170 if(EN <= EION[23]) GO TO 175         
       if(EN > XION23(NION23):
@@ -15106,7 +15106,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       174 CONTINUE
       if(EN < (2.0*EION[23]:
       )) GO TO 175
-      PEQION[23][I]=PEQEL[2][(I-IOFFION[23]))
+      PEQION[23][I]=PEQEL[2][(I-IOFFION[23])]
       # CARBON K-SHELL 
       175 if(EN <= EION[24]) GO TO 180         
       DO 176 J=2,NION24                                                 
@@ -15120,7 +15120,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       QION[24][I]=3.0*(A*EN+B)*1.D-16               
       if(EN < (2.0*EION[24]:
       )) GO TO 180
-      PEQION[24][I]=PEQEL[2][(I-IOFFION[24]))
+      PEQION[24][I]=PEQEL[2][(I-IOFFION[24])]
       # CORRECTION TO TOTAL I0NISATION DUE TO SPLIT OFF KSHELL
       180 QSUM=0.00
       DO 181 L=1,23
@@ -15176,13 +15176,13 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       QIN[1][I]=0.00536*math.log((EFAC+1.0)/(EFAC-1.0))/EN 
       QIN[1][I]=QIN[1][I]*APOP1/(1.0+APOP1)*1.D-16    
       if(EN > 10.0):
-      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1]))]      #   VIBRATION TORSION                      ANISOTROPIC ABOVE 10EV
+      PEQIN[1][I]=PEQEL[2][(I-IOFFN[1])]      #   VIBRATION TORSION                      ANISOTROPIC ABOVE 10EV
       302 if(EN <= EIN[2]) GO TO 303
       EFAC=math.sqrt(1.0-(EIN[2]/EN))
       QIN[2][I]=0.00536*math.log((1.0+EFAC)/(1.0-EFAC))/EN
       QIN[2][I]=QIN[2][I]*1.0/(1.0+APOP1)*1.D-16    
       if(EN > 10.0):
-      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2]))]      #
+      PEQIN[2][I]=PEQEL[2][(I-IOFFN[2])]      #
       # VIBRATION SUPERELASTIC                   ANISOTROPIC ABOVE 10EV
       303 if(EN <= 0.0) GO TO 316
       if((EN+EIN[4]:
@@ -15199,7 +15199,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       314 QIN[3][I]=YVIB1(NVIB1)*(XVIB1(NVIB1)/(EN+EIN[4]))**2
       315 QIN[3][I]=QIN[3][I]*APOP2/(1.0+APOP2)*1.D-16        
       if(EN > 10.0):
-      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3]))]      #     
+      PEQIN[3][I]=PEQEL[2][(I-IOFFN[3])]      #     
       # VIBRATION INELASTIC                    ANISOTROPIC ABOVE 10EV 
       316 if(EN <= EIN[4]) GO TO 321                   
       if(EN > XVIB1(NVIB1):
@@ -15216,7 +15216,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       319 QIN[4][I]=YVIB1(NVIB1)*(XVIB1(NVIB1)/EN)**2
       320 QIN[4][I]=QIN[4][I]/(1.0+APOP2)*1.D-16           
       if(EN > 10.0):
-      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4]))]   
+      PEQIN[4][I]=PEQEL[2][(I-IOFFN[4])]   
       #               
       #  SUPERELASTIC VIBRATION                  ANISOTROPIC ABOVE 10EV                          
       321 if(EN <= 0.0) GO TO 326   
@@ -15234,7 +15234,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       324 QIN[5][I]=YVIB2(NVIB2)*(XVIB2(NVIB2)/(EN+EIN[6]))**2
       325 QIN[5][I]=QIN[5][I]*APOP3/(1.0+APOP3)*1.D-16           
       if(EN > 10.0):
-      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5]))]                
+      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5])]                
       #                                                       
       #  VIBRATION                              ANISOTROPIC ABOVE 10EV                          
       326 if(EN <= EIN[6]) GO TO 331  
@@ -15252,7 +15252,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       329 QIN[6][I]=YVIB2(NVIB2)*(XVIB2(NVIB2)/EN)**2
       330 QIN[6][I]=QIN[6][I]/(1.0+APOP3)*1.D-16          
       if(EN > 10.0):
-      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6]))]            
+      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6])]            
       #                                                          
       # VIBRATION INELASTIC                 
       331 if(EN <= EIN[7]) GO TO 341 
@@ -15270,7 +15270,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       334 QIN[7][I]=YVIB3(NVIB3)*(XVIB3(NVIB3)/EN)**2
       335 QIN[7][I]=QIN[7][I]*1.D-16         
       if(EN > 10.0):
-      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7]))]                  
+      PEQIN[7][I]=PEQEL[2][(I-IOFFN[7])]                  
       #                                                                       
       # VIBRATION INELASTIC                                               
       341 if(EN <= EIN[8]) GO TO 351    
@@ -15290,7 +15290,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       if(QIN[8][I]:
       < 0.0) QIN[8][I]=0.0
       if(EN > 10.0):
-      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8]))]
+      PEQIN[8][I]=PEQEL[2][(I-IOFFN[8])]
       351 CONTINUE    
       #
       # EXCITATIONS
@@ -15315,7 +15315,7 @@ def GAS10(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       # SCALE BY 1/E**2 ABOVE XTR1[NTR1] EV
       403 QIN[9][I]=YTR1[NTR1]*(XTR1[NTR1]/EN)**2*1.D-16
       404 if(EN <= (3.0*EIN[9])) GO TO 405
-      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9]))]      #
+      PEQIN[9][I]=PEQEL[2][(I-IOFFN[9])]      #
       # SINGLET DISSOCIATION AT  7.65  EV     BEF SCALING F=.000339          
       405 if(EN <= (EIN[10])) GO TO 406
       QIN[10][I]=0.000339/(EIN[10]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[10]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[10]+E[3])
@@ -17666,7 +17666,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION6(NION6) EV
       1048 QION[6][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.07452
       1049 if(EN <= (2.0*EION[6])) GO TO 1050
-      PEQION[6][I]=PEQEL[2][(I-IOFFION[6]])
+      PEQION[6][I]=PEQEL[2][(I-IOFFION[6])]
       #   IONISATION CO2++ 
       1050 QION[7][I]=0.0 
       PEQION[7][I]=0.5  
@@ -17688,7 +17688,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION7(NION7) EV
       1053 QION[7][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00559
       1054 if(EN <= (2.0*EION[7])) GO TO 1055
-      PEQION[7][I]=PEQEL[2][(I-IOFFION[7]])
+      PEQION[7][I]=PEQEL[2][(I-IOFFION[7])]
       #   DISSOCIATIVE IONISATION C++ 
       1055 QION[8][I]=0.0 
       PEQION[8][I]=0.5  
@@ -17710,7 +17710,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION8(NION8) EV
       1058 QION[8][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00076
       1059 if(EN <= (2.0*EION[8])) GO TO 1060
-      PEQION[8][I]=PEQEL[2][(I-IOFFION[8]])
+      PEQION[8][I]=PEQEL[2][(I-IOFFION[8])]
       #   DISSOCIATIVE IONISATION O++ 
       1060 QION[9][I]=0.0 
       PEQION[9][I]=0.5  
@@ -17732,7 +17732,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       # USE BORN-BETHE X-SECTION ABOVE XION9(NION9) EV
       1063 QION[9][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00080
       1064 if(EN <= (2.0*EION[9])) GO TO 25
-      PEQION[9][I]=PEQEL[2][(I-IOFFION[9]])
+      PEQION[9][I]=PEQEL[2][(I-IOFFION[9])]
       # CARBON K-SHELL IONISATION
       25 QION[10][I]=0.0 
       PEQION[10][I]=0.5  
@@ -17750,7 +17750,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QION[10][I]=1.0D-16*(A*EN+B) 
       if(EN <= (2.0*EION[10]:
       )) GO TO 28
-      PEQION[10][I]=PEQEL[2][(I-IOFFION[10]))
+      PEQION[10][I]=PEQEL[2][(I-IOFFION[10])]
       # OXYGEN K-SHELL IONISATION
       28 QION[11][I]=0.0 
       PEQION[11][I]=0.5  
@@ -17769,7 +17769,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QION[11][I]=2.0D-16*(A*EN+B) 
       if(EN <= (2.0*EION[11]:
       )) GO TO 301
-      PEQION[11][I]=PEQEL[2][(I-IOFFION[11]))
+      PEQION[11][I]=PEQEL[2][(I-IOFFION[11])]
       #
       # FIX CO2+ X-SECTION FOR SPLIT INTO CO2+ EXCITED STATES
       301 QION[1][I]=QION[1][I]-QION[2][I]-QION[3][I]
