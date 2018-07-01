@@ -22,6 +22,27 @@
 * DEGRADE()
 * STOP()
 
+## SETUP
+### INPUT 
+* LAST
+	* 1 means stop the script
+	* 0 means keep going  
+
+### Functionality 
+* Input
+	* NGAS
+	* NEVENT
+	* IMIP
+	* NDVEC
+	* NSEED
+	* ESTART
+	* ETHRM
+	* ECUT
+* Stop if invalid inputs
+* Input  
+	* 6 Gas numbers
+	* Fraction of each gas
+
 ## MIXER 
 * The function fills arrays of collision frequency
 * Store counting ionisation X-Section in array CMINIXSC[6] at minimum ionising energy
