@@ -685,7 +685,7 @@ def MONTEFE():
                 for KBR in range(1,IEVNTLB):
                     NCLUS=NCLUS+1
                     if(NCLUS > 150000):
-                        print('   def STOPPED: . NCLUS=',NCLUS,' NREAL=',NREAL)
+                        print('   SUBROUTINE STOPPED: . NCLUS=',NCLUS,' NREAL=',NREAL)
                         sys.exit()
                     # endif    
                     ES[NCLUS]=ECASB[KBR]
@@ -987,7 +987,7 @@ def MONTEFE():
                         if((RGAS[I]*EIN[I]) > 4.0):
                             KEXC=KEXC+1
                             if(KEXC > 150000):
-                                print(2X,' def STOPPED: . KEXC=',KEXC)
+                                print(2X,' SUBROUTINE STOPPED: . KEXC=',KEXC)
                                 sys.exit()
                             # endif
                             # FIND GAS IN WHICH EXCITATION OCCURED AND INCREMENT COUNTER
@@ -1009,7 +1009,7 @@ def MONTEFE():
                             # endif
                             NEXCTOT=NEXCTOT+1
                             NSTEXC=NSTEXC+1
-                            XSTEXC[KEXC]=X
+                            XSTEXC[KEXC]=X190
                             YSTEXC[KEXC]=Y
                             ZSTEXC[KEXC]=Z
                             TSTEXC[KEXC]=ST
