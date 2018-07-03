@@ -25,7 +25,7 @@ Ionising particle clusters are created with a start position of the primart elec
 
 There is at the moment no facility to allow the density effect, which may change the cluster size at energies above minimum ionising. However, the  density effect is expected to be small above minimum ionising. The dE/dX is also calculated for the ionising particle energy.
 
-We have language bindings in Shell, Fortran, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+We have language bindings in Shell, Fortran, and Python! You can view code in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
 
 This documentation page was created with [Slate](https://github.com/lord/slate). 
 
@@ -51,6 +51,7 @@ python3 MAIN.py
 
 > Make sure you're in the same directory as the file you're executing.
 
+The input interface for degrad UI has been written in pyqt-5. main.ui contains the ui structure of the interface, created in the qt-designer. 
 Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
 
 Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:

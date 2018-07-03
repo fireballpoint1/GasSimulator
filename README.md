@@ -23,7 +23,8 @@ magboltz.py is the lastest conversion <br>
 
 ### TODO
 * Usage guide in the wiki for fortran 
-* mail steve 
+* mail steve  - DONE
+* formulate graphs to be plotted
 
 
 ## Installing F2Py<br>
