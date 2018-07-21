@@ -849,7 +849,9 @@ def SETUP(LAST):
 	# end                                                               
 ```
 
-The SETUP() function does something
+The SETUP() function handles the gas inputs
+
+
 
 ### Arguments
 

@@ -300,7 +300,7 @@
 #   
 #   IPEN :  =0 NO PENNING TRANSFERS
 #           =1  PENNING TRANSFERS ALLOWED
-#            ( MODIFY GAS def TO CHANGE PENNING FRACTIONS)
+#            ( MODIFY GAS ROUTINE TO CHANGE PENNING FRACTIONS)
 # -----------------------------------------------------------------
 # FIFTH CARD : 2'%.3f' % ,7I5 : 
 #          DETEFF,EXCWGHT,KGAS,LGAS,LCMP,LRAY,LPAP,LBRM,IECASC
@@ -399,13 +399,17 @@
 # GAS58-80  :DUMMY ROUTINES                                               
 #------------------------------------------------------------------
 #
+import numpy
+from Setup import *
+import sys
 def DEGRADE():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
 	global TMAX,SMALL,API,ESTART,THETA,PHI
 	global TCFMAX #array size 10
 	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE,EOVB,WB,BTHETA,BMAG
-	SETUP(LAST)                                                  
+	LAST=0
+	LAST=SETUP(LAST)
 	if(LAST == 1):
 		sys.exit()
 	DENSITY()
@@ -432,7 +436,7 @@ def DEGRADE():
 	if(BMAG != 0.00):
 		if(BTHETA == 0.00 or BTHETA == 180.00):
 			MONTEFA()
-		else if(BTHETA == 90.00) :
+		elif(BTHETA == 90.00) :
 			MONTEFB()
 		else:
 			MONTEFC()
@@ -441,7 +445,7 @@ def DEGRADE():
 	STATS2()
 	OUTPUT()
 	DEGRADE()
-	sys.exit()                                                             
+	sys.exit()
     # end
 def ANGCUT(PSCT1,ANGC,PSCT2):
 	# IMPLICIT #real*8 (A-H,O-Z)
@@ -463,2277 +467,7 @@ def ANGCUT(PSCT1,ANGC,PSCT2):
 	ANGC=THETAC*RADS
 	return
 	# end                                                              
-def MIXER():
-	# IMPLICIT #real*8 (A-H,O-Z)
-	# IMPLICIT #integer*8 (I-N)                                         
-	CHARACTER*25 NAMEG,NAME1,NAME2,NAME3,NAME4,NAME5,NAME6
-	global AN1,AN2,AN3,AN4,AN5,AN6,AN
-	global FRAC#[6]              
-	CHARACTER*50 DSCRPT,SCRP1(300),SCRP2(300),SCRP3(300),SCRP4(300),SCRP5(300),SCRP6(300)   
-	CHARACTER*50 DSCRPTN,SCRPN1(10),SCRPN2(10),SCRPN3(10),SCRPN4(10),SCRPN5(10),SCRPN6(10)                          
-	global NGASN#[6] 
-	global QELM#(20000)
-	global QSUM#(20000)
-	global QION#(6,20000)
-	global QIN1#(250,20000)
-	global QIN2#(250,20000)
-	global QIN3#(250,20000)
-	global QIN4#(250,20000)
-	global QIN5#(250,20000)
-	global QIN6#(250,20000)
-	global QSATT#(20000)             
-	global E#(20000)
-	global EROOT#(20000)
-	global QTOT#(20000)
-	global QREL#(20000)
-	global QINEL#(20000)
-	global QEL#(20000)
-	global NIN1,NIN2,NIN3,NIN4,NIN5,NIN6
-	global LION#[6]
-	global LIN1#(250)
-	global LIN2#(250)
-	global LIN3#(250)
-	global LIN4#(250)
-	global LIN5#(250)
-	global LIN6#(250),
-	global ALION#[6]
-	global ALIN1#(250)
-	global ALIN2#(250)
-	global ALIN3#(250)
-	global ALIN4#(250)
-	global ALIN5#(250)
-	global ALIN6#(250)
-	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-	global CONST1,CONST2,CONST3,CONST4,CONST5                  
-	global TMAX,SMALL,API,ESTART,THETA,PHI,
-	global TCFMAX#(10)
-	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE,NPLAST
-	global CF#(20000,512)
-	global EIN#(512)
-	global TCF#(20000)
-	global IARRY#(512)
-	global RGAS#(512)
-	global IPN#(512)
-	global WPL#(512)
-	global IZBR#(512)
-	global IPLAST
-	global PENFRA#[3,512]  
-	global CFN#(20000,60)''',
-	global TCFN#(20000)
-	global SCLENUL#(60)    
-	global PSCT#(20000,512)
-	global ANGCT#(20000,512)
-	global INDEX#(512)
-	global NISO
-	global FCION#(20000)
-	global FCATT#(20000)
-	global NEGAS#(512)
-	global LEGAS#(512)
-	global IESHELL#(512)            
-	global VAN1,VAN2,VAN3,VAN4,VAN5,VAN6,VAN,IECASC
-	global DOUBLE#(6,20000)
-	global CMINIXSC#[6]
-	global CMINEXSC#[6]
-	global ECLOSS#[6]
-	global WPLN#[6]
-	global ICOUNT
-	global AVPFRAC#(3,6)
-	global NC0#(512)
-	global EC0#(512)
-	global NG1#(512)
-	global EG1#(512)
-	global NG2#(512)
-	global EG2#(512)
-	global WKLM#(512)
-	global EFL#(512)
-	global LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-	global NAMEG#[6]
-	global NGEXC1,NGEXC2,NGEXC3,NGEXC4,NGEXC5,NGEXC6,IDG1,IDG2,IDG3,IDG4,IDG5,IDG6      
-	global DSCRPT#(512)
-	global DSCRPTN#(60)
-	global ESPLIT#(512,20)
-	global IONMODEL#(512)
-	global BET#[2000]
-	global GAM#(20000)
-	global VC,EMS                        
-	Q1(6,20000),Q2(6,20000),Q3(6,20000),Q4(6,20000),Q5(6,20000),Q6(6,20000)
-	E1[6],E2[6],E3[6],E4[6],E5[6],E6[6],EI1(250),EI2(250),EI3(250),EI4(250),EI5(250),EI6(250)
-	QATT(6,20000),EION[6]         
-	PEQEL1(6,20000),PEQEL2(6,20000),PEQEL3(6,20000),PEQEL4(6,20000),PEQEL5(6,20000),PEQEL6(6,20000)
-	PEQIN1(250,20000),PEQIN2(250,20000),PEQIN3(250,20000),  PEQIN4(250,20000),PEQIN5(250,20000),PEQIN6(250,20000)
-	PENFRA1(3,250),PENFRA2(3,250),PENFRA3(3,250),PENFRA4(3,250),PENFRA5(3,250),PENFRA6(3,250)
-	KIN1(250),KIN2(250),KIN3(250),KIN4(250),KIN5(250),KIN6(250)
-	KEL1[6],KEL2[6],KEL3[6],KEL4[6],KEL5[6],KEL6[6]
-	EION1(30),EION2(30),EION3(30),EION4(30),EION5(30),EION6(30)
-	QION1(30,20000),QION2(30,20000),QION3(30,20000),QION4(30,20000),QION5(30,20000),QION6(30,20000)
-	PEQION1(30,20000),PEQION2(30,20000),PEQION3(30,20000),PEQION4(30,20000),PEQION5(30,20000),PEQION6(30,20000)
-	LEGAS1(30),LEGAS2(30),LEGAS3(30),LEGAS4(30),LEGAS5(30),LEGAS6(30)
-	IESHEL1(30),IESHEL2(30),IESHEL3(30),IESHEL4(30),IESHEL5(30),IESHEL6(30) 
-	EB1(30),EB2(30),EB3(30),EB4(30),EB5(30),EB6(30)
-	NC01(30),NC02(30),NC03(30),NC04(30),NC05(30),NC06(30)
-	EC01(30),EC02(30),EC03(30),EC04(30),EC05(30),EC06(30)
-	NG11(30),NG12(30),NG13(30),NG14(30),NG15(30),NG16(30)
-	EG11(30),EG12(30),EG13(30),EG14(30),EG15(30),EG16(30)
-	NG21(30),NG22(30),NG23(30),NG24(30),NG25(30),NG26(30)
-	EG21(30),EG22(30),EG23(30),EG24(30),EG25(30),EG26(30)
-	WK1(30),WK2(30),WK3(30),WK4(30),WK5(30),WK6(30)
-	EFL1(30),EFL2(30),EFL3(30),EFL4(30),EFL5(30),EFL6(30)
-	IZBR1(250),IZBR2(250),IZBR3(250),IZBR4(250),IZBR5(250),IZBR6(250)
-	QATT1(8,20000),QATT2(8,20000),QATT3(8,20000),QATT4(8,20000),QATT5(8,20000),QATT6(8,20000) 
-	QNUL1(10,20000),QNUL2(10,20000),QNUL3(10,20000),QNUL4(10,20000),QNUL5(10,20000),QNUL6(10,20000),SCLN1(10),SCLN2(10),SCLN3(10),SCLN4(10),SCLN5(10),SCLN6(10)  
-	ESPLIT1(5,20),ESPLIT2(5,20),ESPLIT3(5,20),ESPLIT4(5,20),ESPLIT5(5,20),ESPLIT6(5,20)
-	#                                                                       
-	#  ---------------------------------------------------------------------
-	#                                                                       
-	#     def MIXER FILLS ARRAYS OF COLLISION FREQUENCY              
-	#     CAN HAVE A MIXTURE OF UP TO 6 GASES                               
-	#                                                                       
-	#     MOD: STORE COUNTING IONISATION X-SECTION IN ARRAY CMINIXSC[6]
-	#          AT MINIMUM IONISING ENERGY                                 
-	#  ---------------------------------------------------------------------
-	#                                                             
-	NISO=0
-	NIN1=0                                                            
-	NIN2=0                                                            
-	NIN3=0                                                            
-	NIN4=0
-	NIN5=0
-	NIN6=0
-	NION1=0
-	NION2=0
-	NION3=0
-	NION4=0
-	NION5=0
-	NION6=0
-	NATT1=0
-	NATT2=0
-	NATT3=0
-	NATT4=0
-	NATT5=0
-	NATT6=0
-	NUL1=0
-	NUL2=0
-	NUL3=0
-	NUL4=0
-	NUL5=0
-	NUL6=0
-	for J in range(1,6):
-		NAMEG[J]='-------------------------'                              
-		KEL1[J]=0
-		KEL2[J]=0
-		KEL3[J]=0
-		KEL4[J]=0
-		KEL5[J]=0
-		KEL6[J]=0                       
-		for I in range(1,20000):
-			Q1[J][I]=0.00                                                     
-			Q2[J][I]=0.00                                                     
-			Q3[J][I]=0.00                                                     
-			Q4[J][I]=0.00
-			Q5[J][I]=0.00
-			Q6[J][I]=0.00
-			DOUBLE[J][I]=0.00    
-		E1[J]=0.00                                                       
-		E2[J]=0.00                                                       
-		E3[J]=0.00                                                       
-		E4[J]=0.00 
-		E5[J]=0.00
-		E6[J]=0.00
-	for J in range(1,30):
-		IESHEL1[J]=0
-		IESHEL2[J]=0
-		IESHEL3[J]=0
-		IESHEL4[J]=0
-		IESHEL5[J]=0
-		IESHEL6[J]=0
-		LEGAS1[J]=0
-		LEGAS2[J]=0
-		LEGAS3[J]=0
-		LEGAS4[J]=0
-		LEGAS5[J]=0
-		LEGAS6[J]=0
-		EION1[J]=0.00
-		EION2[J]=0.00
-		EION3[J]=0.00
-		EION4[J]=0.00
-		EIO N5[J]=0.00
-		EION6[J]=0.00
-		EB1[J]=0.00
-		EB2[J]=0.00
-		EB3[J]=0.00
-		EB4[J]=0.00
-		EB5[J]=0.00
-		EB6[J]=0.00
-		EC01[J]=0.00
-		EC02[J]=0.00
-		EC03[J]=0.00
-		EC04[J]=0.00
-		EC05[J]=0.00
-		EC06[J]=0.00
-		EG11[J]=0.00
-		EG12[J]=0.00
-		EG13[J]=0.00
-		EG14[J]=0.00
-		EG15[J]=0.00
-		EG16[J]=0.00
-		EG21[J]=0.00
-		EG22[J]=0.00
-		EG23[J]=0.00
-		EG24[J]=0.00
-		EG25[J]=0.00
-		EG26[J]=0.00
-		WK1[J]=0.00
-		WK2[J]=0.00
-		WK3[J]=0.00
-		WK4[J]=0.00
-		WK5[J]=0.00
-		WK6[J]=0.00
-		EFL1[J]=0.00
-		EFL2[J]=0.00
-		EFL3[J]=0.00
-		EFL4[J]=0.00
-		EFL5[J]=0.00
-		EFL6[J]=0.00
-		NC01[J]=0
-		NC02[J]=0
-		NC03[J]=0
-		NC04[J]=0
-		NC05[J]=0
-		NC06[J]=0
-		NG11[J]=0
-		NG12[J]=0
-		NG13[J]=0
-		NG14[J]=0
-		NG15[J]=0
-		NG16[J]=0
-		NG21[J]=0
-		NG22[J]=0
-		NG23[J]=0
-		NG24[J]=0
-		NG25[J]=0
-		NG26[J]=0
-		for I in range(1,20000):
-			QION1[J][I]=0.00
-			QION2[J][I]=0.00
-			QION3[J][I]=0.00
-			QION4[J][I]=0.00
-			QION5[J][I]=0.00
-			QION6[J][I]=0.00
-	for K in range(1,8):
-		for I in range(1,20000):
-			QATT1[K][I]=0.0
-			QATT2[K][I]=0.0
-			QATT3[K][I]=0.0
-			QATT4[K][I]=0.0
-			QATT5[K][I]=0.0
-			QATT6[K][I]=0.0
-	for K in range(1,10):
-		for I in range(1,20000):
-			QNUL1[K][I]=0.0
-			QNUL2[K][I]=0.0
-			QNUL3[K][I]=0.0
-			QNUL4[K][I]=0.0
-			QNUL5[K][I]=0.0
-			QNUL6[K][I]=0.0
-	for I in range(1,512):
-		IONMODEL[I]=0
-		for K in range(1,20):
-			ESPLIT[I][K]=0.0
-	# CALCULATE AND STORE ENERGY GRID FOR XRAYS BETAS OR PARTICLES
-	if(EFINAL <= 20000.0):
-		ESTEP=EFINAL/float(NSTEP)
-		EHALF=ESTEP/2.00
-		E[1]=EHALF
-		GAM[1]=(EMS+E[1])/EMS
-		BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))
-		for I in range(2,20000):
-			AJ=float(I-1)
-			E[I]=EHALF+ESTEP*AJ
-			GAM[I]=(EMS+E[I])/EMS
-			BET[I]math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-			EROOT[I]=math.sqrt(E[I])
-		EROOT[1]=math.sqrt(EHALF)     
-	else if(EFINAL > 20000.0 and EFINAL <= 140000.0) :
-		ESTEP=1.0
-		EHALF=0.5
-		E[1]=EHALF
-		GAM[1]=(EMS+E[1])/EMS
-		BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))
-		for I in range(2,16000):
-			AJ=float(I-1)
-			E[I]=EHALF+ESTEP*AJ
-			GAM[I]=(EMS+E[I])/EMS
-			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-			EROOT[I]=math.sqrt(E[I])
-		EROOT[1]=math.sqrt(EHALF)
-		ESTEP1=(EFINAL-16000.0)/float(4000)
-		for I in range(16001,20000):
-			AJ=float(I-16000)
-			E[I]=16000.0+AJ*ESTEP1
-			GAM[I]=(EMS+E[I])/EMS
-			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-			EROOT[I]=math.sqrt(E[I])
-	else:
-		ESTEP=1.0
-		EHALF=0.5
-		E[1]=EHALF
-		GAM[1]=(EMS+E[1])/EMS
-		BET[1]=math.sqrt(1.00-1.00/(GAM[1]*GAM[1]))
-		for I in range(2,12000):
-			AJ=float(I-1)
-			E[I]=EHALF+ESTEP*AJ
-			GAM[I]=(EMS+E[I])/EMS
-			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-			EROOT[I]=math.sqrt(E[I])
-		EROOT[1]=math.sqrt(EHALF)
-		ESTEP1=20.0
-		for I in range(12001,16000):
-			AJ=float(I-12000)
-			E[I]=12000.0+AJ*ESTEP1
-			GAM[I]=(EMS+E[I])/EMS
-			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-			EROOT[I]=math.sqrt(E[I])
-		ESTEP2=(EFINAL-92000.0)/float(4000)
-		for I in range(16001,20000):
-			AJ=float(I-16000)
-			E[I]=92000.0+AJ*ESTEP2
-			GAM[I]=(EMS+E[I])/EMS
-			BET[I]=math.sqrt(1.00-1.00/(GAM[I]*GAM[I]))
-			EROOT[I]=math.sqrt(E[I])
-	# endif
-	#
-	for I in range(1,250):
-		IZBR1[I]=0
-		IZBR2[I]=0
-		IZBR3[I]=0
-		IZBR4[I]=0
-		IZBR5[I]=0
-		IZBR6[I]=0
-		KIN1[I]=0
-		KIN2[I]=0
-		KIN3[I]=0
-		KIN4[I]=0
-		KIN5[I]=0
-		KIN6[I]=0
-	for I in range(1,512 ):
-		INDEX[I]=0                                               
-	#                                                                       
-	#   CALL GAS CROSS-SECTIONS 
-	GASMIX(NGASN[1],Q1,QIN1,NIN1,E1,EI1,NAME1,VIRIAL1,EB1,PEQEL1,PEQIN1,PENFRA1,KEL1,KIN1,QION1,PEQION1,EION1,NION1,QATT1,NATT1,QNUL1,NUL1,SCLN1,NC01,EC01,WK1,EFL1,NG11,EG11,NG21,EG21,IZBR1,LEGAS1,IESHEL1,IONMODL1,ESPLIT1,SCRP1,SCRPN1) 
-	if(NGAS == 1):
-		pass
-	else: 
-		GASMIX(NGASN[2],Q2,QIN2,NIN2,E2,EI2,NAME2,VIRIAL2,EB2,PEQEL2,PEQIN2,PENFRA2,KEL2,KIN2,QION2,PEQION2,EION2,NION2,QATT2,NATT2,QNUL2,NUL2,SCLN2,NC02,EC02,WK2,EFL2,NG12,EG12,NG22,EG22,IZBR2,LEGAS2,IESHEL2,IONMODL2,ESPLIT2,SCRP2,SCRPN2) 
-	if(NGAS == 2):
-		pass
-	else: 
-		GASMIX(NGASN[3],Q3,QIN3,NIN3,E3,EI3,NAME3,VIRIAL3,EB3,PEQEL3,PEQIN3,PENFRA3,KEL3,KIN3,QION3,PEQION3,EION3,NION3,QATT3,NATT3,QNUL3,NUL3,SCLN3,NC03,EC03,WK3,EFL3,NG13,EG13,NG23,EG23,IZBR3,LEGAS3,IESHEL3,IONMODL3,ESPLIT3,SCRP3,SCRPN3) 
-	if(NGAS == 3):
-		pass
-	else: 
-		GASMIX(NGASN[4],Q4,QIN4,NIN4,E4,EI4,NAME4,VIRIAL4,EB4,PEQEL4,PEQIN4,PENFRA4,KEL4,KIN4,QION4,PEQION4,EION4,NION4,QATT4,NATT4,QNUL4,NUL4,SCLN4,NC04,EC04,WK4,EFL4,NG14,EG14,NG24,EG24,IZBR4,LEGAS4,IESHEL4,IONMODL4,ESPLIT4,SCRP4,SCRPN4)
-	if(NGAS == 4):
-		pass
-	else: 
-		GASMIX(NGASN[5],Q5,QIN5,NIN5,E5,EI5,NAME5,VIRIAL5,EB5,PEQEL5,PEQIN5,PENFRA5,KEL5,KIN5,QION5,PEQION5,EION5,NION5,QATT5,NATT5,QNUL5,NUL5,SCLN5,NC05,EC05,WK5,EFL5,NG15,EG15,NG25,EG25,IZBR5,LEGAS5,IESHEL5,IONMODL5,ESPLIT5,SCRP5,SCRPN5)
-	if(NGAS == 5):
-		pass
-	else: 
-		GASMIX(NGASN[6],Q6,QIN6,NIN6,E6,EI6,NAME6,VIRIAL6,EB6,PEQEL6,PEQIN6,PENFRA6,KEL6,KIN6,QION6,PEQION6,EION6,NION6,QATT6,NATT6,QNUL6,NUL6,SCLN6,NC06,EC06,WK6,EFL6,NG16,EG16,NG26,EG26,IZBR6,LEGAS6,IESHEL6,IONMODL6,ESPLIT6,SCRP6,SCRPN6)  
-	# ---------------------------------------------------------------                                                         
-	#  CORRECTION OF NUMBER DENSITY DUE TO VIRIAL COEFFICIENT               
-	#  CAN BE defMED HERE NOT YET IMPLEMENTED.                          
-	#-----------------------------------------------------------------      
-	#-----------------------------------------------------------------      
-	#     CALCULATION OF COLLISION FREQUENCIES FOR AN ARRAY OF              
-	#     ELECTRON ENERGIES IN THE RANGE ZERO TO EFINAL        
-	#                                                                     
-	#     L=5*N-4    ELASTIC NTH GAS                                        
-	#     L=5*N-3    IONISATION NTH GAS                               
-	#     L=5*N-2    ATTACHMENT NTH GAS                                  
-	#     L=5*N-1    INELASTIC NTH GAS    
-	#     L=5*N      SUPERELASTIC NTH GAS                    
-	#---------------------------------------------------------------   
-	for IE in range(1,20000):
-		FCION[IE]=0.00
-		FCATT[IE]=0.00
-		#
-		NP=1 
-		IDG1=1
-		NEGAS[NP]=1  
-		LEGAS[NP]=0
-		IESHELL[NP]=0                                               
-		CF[IE][NP]=Q1[2][IE]*VAN1*BET[IE]
-		PSCT[IE][NP]=0.50
-		ANGCT[IE][NP]=1.00    
-		INDEX[NP]=0 
-		#   ELASTIC ANG  
-		if(KEL1[2]== 1):
-			PSCT1=PEQEL1[2][IE]
-			ANGCUT(PSCT1,ANGC,PSCT2)
-			ANGCT[IE][NP]=ANGC
-			PSCT[IE][NP]=PSCT2  
-			INDEX[NP]=1   
-		# endif 
-		if(KEL1[2]== 2):
-			PSCT[IE][NP]=PEQEL1[2][IE]
-			INDEX[NP]=2
-		# endif
-		#
-		if(IE > 1):
-			pass
-		else:                              
-			RGAS1=1.00+E1[2]/2.00                                           
-			RGAS[NP]=RGAS1                                                    
-			EIN[NP]=0.00                                                     
-			IPN[NP]=0 
-			L=1                                                      
-			IARRY[NP]=L 
-			IZBR[NP]=0
-			DSCRPT[NP]=SCRP1[2]  
-			NAMEG[1]=NAME1
-			PENFRA[1][NP]=0.0
-			PENFRA[2][NP]=0.0
-			PENFRA[3][NP]=0.0
-			AVPFRAC[1][1]=0.0
-			AVPFRAC[2][1]=0.0
-			AVPFRAC[3][1]=0.0
-			CMINEXSC[1]=E1[4]*AN1                                        
-			CMINIXSC[1]=E1[5]*AN1
-			ECLOSS[1]=E1[3]
-			WPLN[1]=E1[6]
-		if(EFINAL < E1[3]):
-			GOTO30()  
-		if(NION1 > 1):
-			pass  
-		else:
-			NP=NP+1
-			IDG1=NP
-			# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-			if(ICOUNT == 1):
-				CF[IE][NP]=Q1[5][IE]*VAN1*BET[IE]
-				FCION[IE]=FCION[IE]+CF[IE][NP]
-				DOUBLE[1][IE]=Q1[3][IE]/Q1[5][IE]-1.00
-			else:                                    
-				CF[IE][NP]=Q1[3][IE]*VAN1*BET[IE]
-				FCION[IE]=FCION[IE]+CF[IE][NP]
-			# endif
-			NEGAS[NP]=1 
-			LEGAS[NP]=0
-			IESHELL[NP]=0
-			PSCT[IE][NP]=0.5
-			ANGCT[IE][NP]=1.0
-			INDEX[NP]=0
-			# 
-			if(ICOUNT == 1):
-				if(KEL1[5]== 1) :
-					PSCT1=PEQEL1[5][IE] 
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif
-				if(KEL1[5]== 2) :
-					PSCT[IE][NP]=PEQEL1[5][IE]
-					INDEX[NP]=2
-				# endif
-			else:
-				if(KEL1[3]== 1) :
-					PSCT1=PEQEL1[3][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif
-				if(KEL1[3]== 2) :
-					PSCT[IE][NP]=PEQEL1[3][IE]
-					INDEX[NP]=2
-				# endif
-			# endif
-			#
-			WPL[NP]=EB1[1]
-			NC0[NP]=NC01[1]
-			EC0[NP]=EC01[1]
-			NG1[NP]=NG11[1]
-			EG1[NP]=EG11[1]
-			NG2[NP]=NG21[1]
-			EG2[NP]=EG21[1]
-			WKLM[NP]=WK1[1]
-			EFL[NP]=EFL1[1]
-			if(IE > 1):
-				GOTO30()  
-			RGAS[NP]=RGAS1                                                    
-			EIN[NP]=E1[3]/RGAS1
-			IPN[NP]=1 
-			L=2                                                      
-			IARRY[NP]=L 
-			IZBR[NP]=0
-			DSCRPT[NP]=SCRP1[3]
-			PENFRA[1][NP]=0.0
-			PENFRA[2][NP]=0.0
-			PENFRA[3][NP]=0.0
-			IONMODEL[NP]=IONMODL1
-			for K in range(1,20):
-				ESPLIT[NP][K]=ESPLIT1[IONMODL1][K]
-			GOTO30()  
-		for KION in range(1,NION1):
-			NP=NP+1
-			IDG1=NP
-			# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-			CF[IE][NP]=QION1[KION][IE]*VAN1*BET[IE]
-			FCION[IE]=FCION[IE]+CF[IE][NP]
-			PSCT[IE][NP]=0.50
-			ANGCT[IE][NP]=1.00
-			INDEX[NP]=0 
-			NEGAS[NP]=1
-			LEGAS[NP]=LEGAS1[KION]
-			IESHELL[NP]=IESHEL1[KION]
-			#                           
-			if(KEL1[3]== 1) :
-				PSCT1=PEQION1[KION][IE]
-				ANGCUT(PSCT1,ANGC,PSCT2)
-				ANGCT[IE][NP]=ANGC
-				PSCT[IE][NP]=PSCT2
-				INDEX[NP]=1
-			# endif
-			if(KEL1[3]== 2) :
-				PSCT[IE][NP]=PEQION1[KION][IE]
-				INDEX[NP]=2
-			# endif
-			#
-			WPL[NP]=EB1[KION]
-			NC0[NP]=NC01[KION]
-			EC0[NP]=EC01[KION]
-			NG1[NP]=NG11[KION]
-			EG1[NP]=EG11[KION]
-			NG2[NP]=NG21[KION]
-			EG2[NP]=EG21[KION]
-			WKLM[NP]=WK1[KION]
-			EFL[NP]=EFL1[KION]
-			if(IE > 1):
-				pass                                    
-			else:
-				RGAS[NP]=RGAS1                                                    
-				EIN[NP]=EION1[KION]/RGAS1
-				# 
-				IPN[NP]=1 
-				L=2                                                      
-				IARRY[NP]=L 
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP1[2+KION]
-				PENFRA[1][NP]=0.0
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0
-				IONMODEL[NP]=IONMODL1
-				for K in range(1,20):
-					ESPLIT[NP][K]=ESPLIT1[IONMODL1][K]    
-		def GOTO30():
-			if(EFINAL < E1[4]):
-				GO TO 40   
-			if(NATT1 > 1):
-				pass   
-			else:                               
-				NP=NP+1
-				IDG1=NP                                                           
-				CF[IE][NP]=Q1[4][IE]*VAN1*BET[IE]
-				FCATT[IE]=FCATT[IE]+CF[IE][NP] 
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
-					GOTO40()
-				NEGAS[NP]=1
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				INDEX[NP]=0                                     
-				RGAS[NP]=RGAS1                                                   
-				EIN[NP]=0.00                                                     
-				IPN[NP]=-1              
-				L=3                                           
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP1[3+NION1]
-				PENFRA[1][NP]=0.0
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0 
-				GOTO40()
-			for JJ in range(1,NATT1):
-				NP=NP+1
-				IDG1=NP
-				CF[IE][NP]=QATT1[JJ][IE]*VAN1*BET[IE]
-				FCATT[IE]=FCATT[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
-					pass
-				else:
-					NEGAS[NP]=1
-					LEGAS[NP]=0
-					IESHELL[NP]=0
-					INDEX[NP]=0
-					RGAS[NP]=RGAS1
-					EIN[NP]=0.00
-					IPN[NP]=-1
-					L=3
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP1(2+NION1+JJ)
-					PENFRA[1][NP]=0.0
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0
-			def GOTO40():
-				if(NIN1 == 0):
-					pass
-				else:                                           
-					for J in range(1,NIN1):
-						NP=NP+1
-						IDG1=NP      
-						NEGAS[NP]=1
-						LEGAS[NP]=0
-						IESHELL[NP]=0                                                     
-						CF[IE][NP]=QIN1[J][IE]*VAN1*BET[IE]
-						# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-						if(IZBR1[J]!= 0 and LBRM == 0):
-							CF[IE][NP]=0.0
-						PSCT[IE][NP]=0.5
-						ANGCT[IE][NP]=1.0
-						INDEX[NP]=0
-						#
-						if(KIN1[J]== 1) :   
-							PSCT1=PEQIN1[J][IE]
-							ANGCUT(PSCT1,ANGC,PSCT2)
-							ANGCT[IE][NP]=ANGC
-							PSCT[IE][NP]=PSCT2
-							INDEX[NP]=1   
-						# endif
-						if(KIN1[J]== 2) :
-							PSCT[IE][NP]=PEQIN1[J][IE]
-							INDEX[NP]=2
-						# endif
-						#
-						if(IE > 1):
-							pass         
-						else:                          
-							RGAS[NP]=RGAS1                                                    
-							EIN[NP]=EI1[J]/RGAS1
-							L=4
-							if(EI1[J]< 0.00):
-								L=5                                           
-							IPN[NP]=0  
-							IARRY[NP]=L
-							IZBR[NP]=IZBR1[J]
-							DSCRPT[NP]=SCRP1(4+NION1+NATT1+J)
-							PENFRA[1][NP]=PENFRA1[1][J]
-							PENFRA[2][NP]=PENFRA1[2][J]*1*(10**-6)/math.sqrt(3.00)
-							PENFRA[3][NP]=PENFRA1[3][J]
-							if(PENFRA[1][NP] > AVPFRAC[1][1]) : 
-								AVPFRAC[1][1]=PENFRA[1][NP]
-								AVPFRAC[2][1]=PENFRA[2][NP]
-								AVPFRAC[3][1]=PENFRA[3][NP]
-							# endif
-							if(J == NIN1):
-								CMINEXSC[1]=CMINEXSC[1]*AVPFRAC[1][1]
-				#                                                    
-				if(NGAS == 1):
-					GO TO 600 #yet to be
-				NP=NP+1
-				IDG2=NP  
-				NEGAS[NP]=2
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                                 
-				CF[IE][NP]=Q2[2][IE]*VAN2*BET[IE]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#
-				if(KEL2[2]== 1) :
-					PSCT1=PEQEL2[2][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif
-				if(KEL2[2]== 2) :
-					PSCT[IE][NP]=PEQEL2[2][IE]
-					INDEX[NP]=2 
-				# endif 
-				#
-				if(IE > 1):
-					pass  
-				else:                                   
-					RGAS2=1.00+E2[2]/2.0                                           
-					RGAS[NP]=RGAS2                                                    
-					EIN[NP]=0.00                                                     
-					IPN[NP]=0
-					L=6                                                          
-					IARRY[NP]=L      
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP2[2]  
-					NAMEG[2]=NAME2
-					PENFRA[1][NP]=0.0 
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0
-					AVPFRAC[1][2]=0.0
-					AVPFRAC[2][2]=0.0
-					AVPFRAC[3][2]=0.0                        
-					CMINEXSC[2]=E2[4]*AN2                                        
-					CMINIXSC[2]=E2[5]*AN2
-					ECLOSS[2]=E2[3]
-					WPLN[2]=E2[6]
-				if(EFINAL < E2[3]):
-					GO TO 130  #yet to be 
-				if(NION2 > 1):
-					GO TO 70 
-				else:                                  
-					NP=NP+1
-					IDG2=NP
-					# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-					if(ICOUNT == 1):
-						CF[IE][NP]=Q2[5][IE]*VAN2*BET[IE]
-						FCION[IE]=FCION[IE]+CF[IE][NP]
-						DOUBLE[2][IE]=Q2[3][IE]/Q2[5][IE]-1.00
-					else:                             
-						CF[IE][NP]=Q2[3][IE]*VAN2*BET[IE]
-						FCION[IE]=FCION[IE]+CF[IE][NP]
-					# endif
-					NEGAS[NP]=2
-					LEGAS[NP]=0
-					IESHELL[NP]=0
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					#
-					if(ICOUNT == 1):
-						if(KEL2[5]== 1) :
-							PSCT1=PEQEL2[5][IE]
-							ANGCUT(PSCT1,ANGC,PSCT2)
-							ANGCT[IE][NP]=ANGC
-							PSCT[IE][NP]=PSCT2
-							INDEX[NP]=1
-						# endif
-						if(KEL2[5]== 2) :
-							PSCT[IE][NP]=PEQEL2[5][IE]
-							INDEX[NP]=2
-						# endif
-					else:
-						if(KEL2[3]== 1) :
-							PSCT1=PEQEL2[3][IE]
-							ANGCUT(PSCT1,ANGC,PSCT2)
-							ANGCT[IE][NP]=ANGC
-							PSCT[IE][NP]=PSCT2
-							INDEX[NP]=1
-						# endif
-						if(KEL2[3]== 2) :
-							PSCT[IE][NP]=PEQEL2[3][IE]
-							INDEX[NP]=2
-						# endif
-					# endif
-					#
-					WPL[NP]=EB2[1]
-					NC0[NP]=NC02[1]
-					EC0[NP]=EC02[1]
-					NG1[NP]=NG12[1]
-					EG1[NP]=EG12[1]
-					NG2[NP]=NG22[1]
-					EG2[NP]=EG22[1]
-					WKLM[NP]=WK2[1]
-					EFL[NP]=EFL2[1]
-					if(IE > 1):
-						GO TO 130         #yet to be                              
-					RGAS[NP]=RGAS2                                                    
-					EIN[NP]=E2[3]/RGAS2 
-					IPN[NP]=1  
-					L=7                                                        
-					IARRY[NP]=L
-					IZBR[NP]=0      
-					DSCRPT[NP]=SCRP2[3]     
-					PENFRA[1][NP]=0.0 
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0  
-					IONMODEL[NP]=IONMODL2
-					for K in range(1,20):
-						ESPLIT[NP][K]=ESPLIT2[IONMODL2][K] 
-					GO TO 130          #yet to be                             
-				for KION in range(1,NION2):
-					NP=NP+1
-					IDG2=NP
-					CF[IE][NP]=QION2[KION][IE]*VAN2*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					NEGAS[NP]=2
-					LEGAS[NP]=LEGAS2[KION]
-					IESHELL[NP]=IESHEL2[KION]
-					#
-					if(KEL2[3]== 1) :
-						PSCT1=PEQION2[KION][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL2[3]== 2) :
-						PSCT[IE][NP]=PEQION2[KION][IE]
-						INDEX[NP]=2
-					# endif
-					#
-					WPL[NP]=EB2[KION]
-					NC0[NP]=NC02[KION]
-					EC0[NP]=EC02[KION]
-					NG1[NP]=NG12[KION]
-					EG1[NP]=EG12[KION]
-					NG2[NP]=NG22[KION]
-					EG2[NP]=EG22[KION]
-					WKLM[NP]=WK2[KION]
-					EFL[NP]=EFL2[KION]
-					if(IE > 1):
-						pass
-					else:
-						RGAS[NP]=RGAS2                                                    
-						EIN[NP]=EION2[KION]/RGAS2 
-						#
-						IPN[NP]=1  
-						L=7                                                        
-						IARRY[NP]=L
-						IZBR[NP]=0      
-						DSCRPT[NP]=SCRP2(2+KION)     
-						PENFRA[1][NP]=0.0 
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0       
-						IONMODEL[NP]=IONMODL2
-						for K in range(1,20):
-							ESPLIT[NP][K]=ESPLIT2[IONMODL2][K]                                  
-				130 if(EFINAL < E2[4]):
-					GO TO 140    
-				if(NATT2 > 1):
-					GO TO 561                                 
-				NP=NP+1
-				IDG2=NP                                                           
-				CF[IE][NP]=Q2[4][IE]*VAN2*BET[IE]
-				FCATT[IE]=FCATT[IE]+CF[IE][NP]  
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				if(IE > 1):
-					GO TO 140  #yet to be 
-				NEGAS[NP]=2
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				INDEX[NP]=0                                  
-				RGAS[NP]=RGAS2                                                    
-				EIN[NP]=0.00                                                     
-				IPN[NP]=-1            
-				L=8                                              
-				IARRY[NP]=L
-				IZBR[NP]=0      
-				DSCRPT[NP]=SCRP2[3+NION2]
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0        
-				GO TO 140  #yet to be 
-				561 for JJ in range(1,NATT2):
-					NP=NP+1
-					IDG2=NP
-					CF[IE][NP]=QATT2[JJ][IE]*VAN2*BET[IE]
-					FCATT[IE]=FCATT[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						pass
-					else:
-						NEGAS[NP]=2
-						LEGAS[NP]=0
-						IESHELL[NP]=0
-						INDEX[NP]=0
-						RGAS[NP]=RGAS2
-						EIN[NP]=0.00
-						IPN[NP]=-1
-						L=8
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP2[2+NION2+JJ]
-						PENFRA[1][NP]=0.0
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0
-				140 if(NIN2 == 0):
-					pass 
-				else:     #yet to be                                     
-					for J in range(1,NIN2):
-						NP=NP+1
-						IDG2=NP    
-						NEGAS[NP]=2
-						LEGAS[NP]=0
-						IESHELL[NP]=0                                                   
-						CF[IE][NP]=QIN2[J][IE]*VAN2*BET[IE]
-						# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-						if(IZBR2[J]!= 0 and LBRM == 0):
-							CF[IE][NP]=0.0
-						PSCT[IE][NP]=0.5
-						ANGCT[IE][NP]=1.0
-						INDEX[NP]=0
-						#
-						if(KIN2[J]== 1) :
-							PSCT1=PEQIN2[JIE]
-							ANGCUT(PSCT1,ANGC,PSCT2)
-							ANGCT[IE][NP]=ANGC
-							PSCT[IE][NP]=PSCT2
-							INDEX[NP]=1
-						# endif
-						if(KIN2[J]== 2) :
-							PSCT[IE][NP]=PEQIN2[J][IE]
-							INDEX[NP]=2
-						# endif
-						#
-						if(IE > 1):
-							pass                                   
-						RGAS[NP]=RGAS2                                                   
-						EIN[NP]=EI2[J]/RGAS2
-						L=9 
-						if(EI2[J]< 0.00):
-							L=10                                          
-						IPN[NP]=0         
-						IARRY[NP]=L
-						IZBR[NP]=IZBR2[J]
-						DSCRPT[NP]=SCRP2[4+NION2+NATT2+J]
-						PENFRA[1][NP]=PENFRA2[1][J]
-						PENFRA[2][NP]=PENFRA2[2][J]*1*(10**-6)/math.sqrt(3.00)
-						PENFRA[3][NP]=PENFRA2[3][J]
-						if(PENFRA[1][NP] > AVPFRAC[1][2]) : 
-						AVPFRAC[1][2]=PENFRA[1][NP]
-						AVPFRAC[2][2]=PENFRA[2][NP]
-						AVPFRAC[3][2]=PENFRA[3][NP]
-						# endif
-						if(J == NIN2):
-							CMINEXSC[2]=CMINEXSC[2]*AVPFRAC[1][2]
-					#                                                   
-				if(NGAS == 2):
-					GO TO 600 #yet to be 
-				NP=NP+1
-				IDG3=NP              
-				NEGAS[NP]=3
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                             
-				CF[IE][NP]=Q3[2][IE]*VAN3*BET[IE]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#      
-				if(KEL3[2]== 1) :
-					PSCT1=PEQEL3[2][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif 
-				if(KEL3[2]== 2) :
-					PSCT[IE][NP]=PEQEL3[2][IE]
-					INDEX[NP]=2
-				# endif
-				#
-				if(IE > 1):
-					pass
-				else:                                     
-					RGAS3=1.00+E3[2]/2.00                                           
-					RGAS[NP]=RGAS3                                                    
-					EIN[NP]=0.00                                                     
-					IPN[NP]=0  
-					L=11                                                        
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP3[2]
-					NAMEG[3]=NAME3
-					PENFRA[1][NP]=0.0 
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0
-					AVPFRAC[1][3]=0.0
-					AVPFRAC[2][3]=0.0
-					AVPFRAC[3][3]=0.0
-					CMINEXSC[3]=E3[4]*AN3                                   
-					CMINIXSC[3]=E3[5]*AN3 
-					ECLOSS[3]=E3[3]
-					WPLN[3]=E3[6]
-				if(EFINAL < E3[3]):
-					GO TO 230 	 #yet to be
-				if(NION3 > 1):
-					GO TO 170                                    #yet to be
-				NP=NP+1
-				IDG3=NP
-				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-				if(ICOUNT == 1):
-					CF[IE][NP]=Q3[5][IE]*VAN3*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					DOUBLE[3][IE]=Q3[3][IE]/Q3[5][IE]-1.00
-				else:                              
-					CF[IE][NP]=Q3[3][IE]*VAN3*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-				# endif
-				NEGAS[NP]=3
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#
-				if(ICOUNT == 1):
-					if(KEL3[5]== 1) :
-						PSCT1=PEQEL3[5][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL3[5]== 2) :
-						PSCT[IE][NP]=PEQEL3[5][IE]
-						INDEX[NP]=2
-					# endif
-				else:
-					if(KEL3[3]== 1) :
-						PSCT1=PEQEL3[3][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL3[3]== 2) :
-						PSCT[IE][NP]=PEQEL3[3][IE]
-						INDEX[NP]=2
-					# endif
-				# endif
-				# 
-				WPL[NP]=EB3[1]
-				NC0[NP]=NC03[1]
-				EC0[NP]=EC03[1]
-				NG1[NP]=NG13[1]
-				EG1[NP]=EG13[1]
-				NG2[NP]=NG23[1]
-				EG2[NP]=EG23[1]
-				WKLM[NP]=WK3[1]
-				EFL[NP]=EFL3[1]
-				if(IE > 1):
-					GO TO 230                                            #yet to be
-				RGAS[NP]=RGAS3                                                    
-				EIN[NP]=E3[3]/RGAS3 
-				IPN[NP]=1
-				L=12                                                           
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP3[3] 
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0 
-				IONMODEL[NP]=IONMODL3
-				for K in range(1,20):
-					ESPLIT[NP][K]=ESPLIT3[ONMODL3][K] 
-				GO TO 230  #yet to be
-				170 for KION in range(1,NION3):
-					NP=NP+1
-					IDG3=NP
-					# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-					CF[IE][NP]=QION3[KION][IE]*VAN3*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					NEGAS[NP]=3
-					LEGAS[NP]=LEGAS3[KION]
-					IESHELL[NP]=IESHEL3[KION]
-					#
-					if(KEL3[3]== 1) :
-						PSCT1=PEQION3[3][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL3[3]== 2) :
-						PSCT[IE][NP]=PEQION3[KION][IE]
-						INDEX[NP]=2
-					# endif
-					# 
-					WPL[NP]=EB3[KION]
-					NC0[NP]=NC03[KION]
-					EC0[NP]=EC03[KION]
-					NG1[NP]=NG13[KION]
-					EG1[NP]=EG13[KION]
-					NG2[NP]=NG23[KION]
-					EG2[NP]=EG23[KION]
-					WKLM[NP]=WK3[KION]
-					EFL[NP]=EFL3[KION]
-					if(IE > 1):
-						pass
-					else:                                            
-						RGAS[NP]=RGAS3                                                    
-						EIN[NP]=EION3[KION]/RGAS3 
-						#
-						IPN[NP]=1
-						L=12                                                           
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP3[2+KION]
-						PENFRA[1][NP]=0.0  
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0    
-						IONMODEL[NP]=IONMODL3
-						for K in range(1,20):
-							ESPLIT[NP][K]=ESPLIT3[IONMODL3][K]
-				230 if(EFINAL < E3[4]) GO TO 240      
-				if(NATT3 > 1):
-					pass
-				else:
-					NP=NP+1
-					IDG3=NP                                                           
-					CF[IE][NP]=Q3[4][IE]*VAN3*BET[IE]
-					FCATT[IE]=FCATT[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						GO TO 240	#yet to be 
-					NEGAS[NP]=3
-					LEGAS[NP]=0
-					IESHELL[NP]=0
-					INDEX[NP]=0                                            
-					RGAS[NP]=RGAS3                                                   
-					EIN[NP]=0.00                                                     
-					IPN[NP]=-1 
-					L=13                                                        
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP3[3+NION3]
-					PENFRA[1][NP]=0.0 
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0        
-					GO TO 240	#yet to be 
-				for JJ in range(1,NATT3):
-					NP=NP+1
-					IDG3=NP
-					CF[IE][NP]=QATT3[JJ][IE]*VAN3*BET[IE]  
-					FCATT[IE]=FCATT[IE]+CF[IE][NP]      
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						pass
-					else:
-						NEGAS[NP]=3
-						LEGAS[NP]=0
-						IESHELL[NP]=0
-						INDEX[NP]=0
-						RGAS[NP]=RGAS3
-						EIN[NP]=0.00
-						IPN[NP]=-1
-						L=13
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP3[2+NION3+JJ]
-						PENFRA[1][NP]=0.0
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0
-				240 if(NIN3 == 0):
-					GO TO 260                                           
-				for J in range(1,NIN3):
-					NP=NP+1
-					IDG3=NP      
-					NEGAS[NP]=3
-					LEGAS[NP]=0
-					IESHELL[NP]=0                                                     
-					CF[IE][NP]=QIN3[J][IE]*VAN3*BET[IE]
-					# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-					if(IZBR3[J]!= 0 and LBRM == 0):
-						CF[IE][NP]=0.0
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					#
-					if(KIN3[J]== 1) :
-						PSCT1=PEQIN3[J][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KIN3[J]== 2) :
-						PSCT[IE][NP]=PEQIN3[J,IE]
-						INDEX[NP]=2
-					# endif
-					#
-					if(IE > 1):
-						pass                                     
-					else:
-						RGAS[NP]=RGAS3                                                    
-						EIN[NP]=EI3[J]/RGAS3
-						L=14
-						if(EI3[J]< 0.00):
-							L=15                                          
-						IPN[NP]=0
-						IARRY[NP]=L
-						IZBR[NP]=IZBR3[J]
-						DSCRPT[NP]=SCRP3[4+NION3+NATT3+J]
-						PENFRA[1][NP]=PENFRA3[1][J]
-						PENFRA[2][NP]=PENFRA3[2][J]*1.0*(10**-6)/math.sqrt(3.00)
-						PENFRA[3][NP]=PENFRA3[3][J]  
-						if(PENFRA[1][NP] > AVPFRAC[1][3]) : 
-							AVPFRAC[1][3]=PENFRA[1][NP]
-							AVPFRAC[2][3]=PENFRA[2][NP]
-							AVPFRAC[3][3]=PENFRA[3][NP]
-						# endif
-						if(J == NIN3):
-							CMINEXSC[3]=CMINEXSC[3]*AVPFRAC[1][3]   
-				#                  
-				260 if(NGAS == 3):
-					GO TO 600  
-				NP=NP+1
-				IDG4=NP      
-				NEGAS[NP]=4
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                                     
-				CF[IE][NP]=Q4[2][IE]*VAN4*BET[IE] 
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#
-				if(KEL4[2]== 1) :
-					PSCT1=PEQEL4[2][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1  
-				# endif
-				if(KEL4[2]== 2) :
-					PSCT[IE][NP]=PEQEL4[2][IE]
-					INDEX[NP]=2
-				# endif 
-				#
-				if(IE > 1):
-					pass  
-				else:                                  
-					RGAS4=1.00+E4[2]/2.00                                           
-					RGAS[NP]=RGAS4                                                    
-					EIN[NP]=0.00                                                     
-					IPN[NP]=0
-					L=16                                                          
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP4[2]
-					NAMEG[4]=NAME4 
-					PENFRA[1][NP]=0.0
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0
-					AVPFRAC[1][4]=0.0 
-					AVPFRAC[2][4]=0.0
-					AVPFRAC[3][4]=0.0
-					CMINEXSC[4]=E4[4]*AN4                                       
-					CMINIXSC[4]=E4[5]*AN4
-					ECLOSS[4]=E4[3]
-					WPLN[4]=E4[6]
-				if(EFINAL < E4[3]):
-					GO TO 330  
-				if(NION4 > 1):
-					GO TO 270                                   
-				NP=NP+1
-				IDG4=NP  
-				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-				if(ICOUNT == 1):
-					CF[IE][NP]=Q4[5][IE]*VAN4*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					DOUBLE[4][IE]=Q4[3][IE]/Q4[5][IE]-1.00
-				else:                                                         
-					CF[IE][NP]=Q4[3][IE]*VAN4*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-				# endif
-				NEGAS[NP]=4
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0  
-				#
-				if(ICOUNT == 1):
-					if(KEL4[5]== 1) :
-						PSCT1=PEQEL4[5][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL4[5]== 2) :
-					PSCT[IE][NP]=PEQEL4[5][IE]
-					INDEX[NP]=2
-					# endif
-				else:
-					if(KEL4[3]== 1) :
-						PSCT1=PEQEL4[3][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL4[3]== 2) :
-						PSCT[IE][NP]=PEQEL4[3][IE]
-						INDEX[NP]=2
-					# endif
-				# endif
-				#
-				WPL[NP]=EB4[1]
-				NC0[NP]=NC04[1]
-				EC0[NP]=EC04[1]
-				NG1[NP]=NG14[1]
-				EG1[NP]=EG14[1]
-				NG2[NP]=NG24[1]
-				EG2[NP]=EG24[1]
-				WKLM[NP]=WK4[1]
-				EFL[NP]=EFL4[1]
-				if(IE > 1):
-					GO TO 330    #yet to be                                  
-				RGAS[NP]=RGAS4                                                    
-				EIN[NP]=E4[3]/RGAS4 
-				IPN[NP]=1  
-				L=17                                                        
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP4[3]   
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0 
-				PENFRA[3][NP]=0.0  
-				IONMODEL[NP]=IONMODL4
-				for K in range(1,20):
-					ESPLIT[NP][K]=ESPLIT4[IONMODL4][K] 
-				GO TO 330		#yet to be
-				270 for KION in range(1,NION4):
-					NP=NP+1
-					IDG4=NP
-					# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-					CF[IE][NP]=QION4[KION][IE]*VAN4*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0  
-					NEGAS[NP]=4
-					LEGAS[NP]=LEGAS4[KION]
-					IESHELL[NP]=IESHEL4[KION]
-					#
-					if(KEL4[3]== 1):
-						PSCT1=PEQION4[KION][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL4[3]== 2):
-						PSCT[IE][NP]=PEQION4[KION][IE]
-						INDEX[NP]=2
-					# endif
-					# 
-					WPL[NP]=EB4[KION]
-					NC0[NP]=NC04[KION]
-					EC0[NP]=EC04[KION]
-					NG1[NP]=NG14[KION]
-					EG1[NP]=EG14[KION]
-					NG2[NP]=NG24[KION]
-					EG2[NP]=EG24[KION]
-					WKLM[NP]=WK4[KION]
-					EFL[NP]=EFL4[KION]
-					if(IE > 1):
-						pass
-					else:
-						RGAS[NP]=RGAS4                                                    
-						EIN[NP]=EION4[KION]/RGAS4
-						# 
-						IPN[NP]=1
-						L=17                                                        
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP4[2+KION]
-						PENFRA[1][NP]=0.0  
-						PENFRA[2][NP]=0.0 
-						PENFRA[3][NP]=0.0  
-						IONMODEL[NP]=IONMODL4
-						for K in range(1,20):
-							ESPLIT[NP][K]=ESPLIT4[IONMODL4][K] 
-				330 if(EFINAL < E4[4]):
-					GOTO340()          
-				if(NATT4 > 1):
-					pass
-				else:
-					NP=NP+1
-					IDG4=NP                                                           
-					CF[IE][NP]=Q4[4][IE]*VAN4*BET[IE]
-					FCATT[IE]=FCATT[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						GOTO340()  
-					NEGAS[NP]=4
-					LEGAS[NP]=0
-					IESHELL[NP]=0      
-					INDEX[NP]=0                             
-					RGAS[NP]=RGAS4                                                    
-					EIN[NP]=0.00                                                     
-					IPN[NP]=-1 
-					L=18                                                        
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP4[3+NION4]
-					PENFRA[1][NP]=0.0  
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0        
-					GOTO340()
-				581 for JJ in range(1,NATT4):
-					NP=NP+1
-					IDG4=NP
-					CF[IE][NP]=QATT4[JJ][IE]*VAN4*BET[IE]
-					FCATT[IE]=FCATT[IE]+CF[IE][NP] 
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						pass
-					else:
-						NEGAS[NP]=4
-						LEGAS[NP]=0
-						IESHELL[NP]=0
-						INDEX[NP]=0
-						RGAS[NP]=RGAS4
-						EIN[NP]=0.00
-						IPN[NP]=-1
-						L=18
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP4[2+NION4+JJ]
-						PENFRA[1][NP]=0.0
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0
-				340 if(NIN4 == 0):
-					GO TO 360                                           
-				for J in range(1,NIN4 ):
-					NP=NP+1
-					IDG4=NP
-					NEGAS[NP]=4
-					LEGAS[NP]=0
-					IESHELL[NP]=0
-					CF[IE][NP]=QIN4[J][IE]*VAN4*BET[IE]
-					# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-					if(IZBR4[J]!= 0 and LBRM == 0):
-						CF[IE][NP]=0.0
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					#
-					if(KIN4[J]== 1) :
-						PSCT1=PEQIN4[J][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KIN4[J]== 2) :
-						PSCT[IE][NP]=PEQIN4[J][IE]
-						INDEX[NP]=2
-					# endif
-					#
-					if(IE > 1):
-						pass 
-					else:      
-						RGAS[NP]=RGAS4                                                    
-						EIN[NP]=EI4[J]/RGAS4
-						L=19
-						if(EI4[J]< 0.00):
-							L=20                                          
-						IPN[NP]=0         
-						IARRY[NP]=L
-						IZBR[NP]=IZBR4[J]
-						DSCRPT[NP]=SCRP4[4+NION4+NATT4+J]
-						PENFRA[1][NP]=PENFRA4[1][J]
-						PENFRA[2][NP]=PENFRA4[2][J]*1*(10**-6)/math.sqrt(3.00)
-						PENFRA[3][NP]=PENFRA4[3][J]
-						if(PENFRA[1][NP] > AVPFRAC[1][4]) : 
-							AVPFRAC[1][4]=PENFRA[1][NP]
-							AVPFRAC[2][4]=PENFRA[2][NP]
-							AVPFRAC[3][4]=PENFRA[3][NP]
-						# endif
-						if(J == NIN4):
-							CMINEXSC[4]=CMINEXSC[4]*AVPFRAC[1][4]
-				#                                           
-				360 if(NGAS == 4):
-					GO TO 600  
-				NP=NP+1
-				IDG5=NP      
-				NEGAS[NP]=5
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                                     
-				CF[IE][NP]=Q5[2][IE]*VAN5*BET[IE] 
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#
-				if(KEL5[2]== 1) : 
-					PSCT1=PEQEL5[2][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif
-				if(KEL5[2]== 2) :
-					PSCT[IE][NP]=PEQEL5[2][IE]
-					INDEX[NP]=2
-				# endif
-				# 
-				if(IE > 1):
-					pass
-				else:                                    
-					RGAS5=1.00+E5[2]/2.00                                           
-					RGAS[NP]=RGAS5                                                    
-					EIN[NP]=0.00                                                     
-					IPN[NP]=0
-					L=21                                                          
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP5[2] 
-					NAMEG[5]=NAME5    
-					PENFRA[1][NP]=0.0
-					PENFRA[2][NP]=0.0
-					PENFRA[3][NP]=0.0
-					AVPFRAC[1][5]=0.0
-					AVPFRAC[2][5]=0.0
-					AVPFRAC[3][5]=0.0
-					CMINEXSC[5]=E5[4]*AN5                                    
-					CMINIXSC[5]=E5[5]*AN5
-					ECLOSS[5]=E5[3]
-					WPLN[5]=E5[6]  #1897
-				if(EFINAL < E5[3]):
-					GO TO 430  #yet to be 
-				if(NION5 > 1):
-						GO TO 370             #yet to be                       
-				NP=NP+1
-				IDG5=NP  
-				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-				if(ICOUNT == 1):
-					CF[IE][NP]=Q5[5][IE]*VAN5*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					DOUBLE[5][IE]=Q5[3][IE]/Q5[5][IE]-1.00
-				else:                                                         
-					CF[IE][NP]=Q5[3][IE]*VAN5*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-				# endif
-				NEGAS[NP]=5
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0 
-				#
-				if(ICOUNT == 1):
-					if(KEL5[5]== 1) :
-						PSCT1=PEQEL5[5][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL5[5]== 2) :
-						PSCT[IE][NP]=PEQEL5[5][IE]
-						INDEX[NP]=2
-					# endif
-				else:
-					if(KEL5[3]== 1) :
-						PSCT1=PEQEL5[3][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL5[3]== 2) :
-						PSCT[IE][NP]=PEQEL5[3][IE]
-						INDEX[NP]=2
-					# endif
-				# endif
-				# 
-				WPL[NP]=EB5[1]     
-				NC0[NP]=NC05[1]
-				EC0[NP]=EC05[1]
-				NG1[NP]=NG15[1]
-				EG1[NP]=EG15[1]
-				NG2[NP]=NG25[1]
-				EG2[NP]=EG25[1]
-				WKLM[NP]=WK5[1]
-				EFL[NP]=EFL5[1]
-				if(IE > 1):
-					GO TO 430    #yet to be                                
-				RGAS[NP]=RGAS5                                                    
-				EIN[NP]=E5[3]/RGAS5 
-				IPN[NP]=1
-				L=22                                                          
-				IARRY[NP]=L
-				IZBR[NP]=0
-				DSCRPT[NP]=SCRP5[3]  
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0 
-				IONMODEL[NP]=IONMODL5
-				for K in range(1,20):
-					ESPLIT[NP][K]=ESPLIT5[IONMODL5][K] 
-				GO TO 430       #yet to be
-				370 for KION in range(1,NION5):
-					NP=NP+1
-					IDG5=NP  
-					# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-					CF[IE,NP]=QION5[KION][IE]*VAN5*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE,NP]
-					PSCT[IE,NP]=0.5
-					ANGCT[IE,NP]=1.0
-					INDEX[NP]=0 
-					NEGAS[NP]=5
-					LEGAS[NP]=LEGAS5[KION]
-					IESHELL[NP]=IESHEL5[KION]
-					#
-					if(KEL5[3]== 1) :
-						PSCT1=PEQION5[KION][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KEL5[3]== 2) :
-						PSCT[IE][NP]=PEQION5[KION][IE]
-						INDEX[NP]=2
-					# endif
-					#
-					WPL[NP]=EB5[KION]
-					NC0[NP]=NC05[KION]
-					EC0[NP]=EC05[KION]
-					NG1[NP]=NG15[KION]
-					EG1[NP]=EG15[KION]
-					NG2[NP]=NG25[KION]
-					EG2[NP]=EG25[KION]
-					WKLM[NP]=WK5[KION]
-					EFL[NP]=EFL5[KION]
-					if(IE > 1):
-						pass                                    
-					else:
-						RGAS[NP]=RGAS5                                                    
-						EIN[NP]=EION5[KION]/RGAS5
-						# 
-						IPN[NP]=1
-						L=22                                                          
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP5[2+KION]
-						PENFRA[1][NP]=0.0  
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0 
-						IONMODEL[NP]=IONMODL5
-						for K in range(1,20):
-							ESPLIT[NP][K]=ESPLIT5[IONMODL5][K]
-				430 if(EFINAL < E5[4]):
-					GO TO 440                 
-				if(NATT5 > 1):
-					pass
-				else:                    
-					NP=NP+1
-					IDG5=NP                                                           
-					CF[IE][NP]=Q5[4][IE]*VAN5*BET[IE]
-					FCATT[IE]=FCATT[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						GO TO 440
-					NEGAS[NP]=5
-					LEGAS[NP]=0
-					IESHELL[NP]=0
-					INDEX[NP]=0                                     
-					RGAS[NP]=RGAS5                                                    
-					EIN[NP]=0.00                                                     
-					IPN[NP]=-1             
-					L=23                                            
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP5[3+NION5]
-					PENFRA[1][NP]=0.0  
-					PENFRA[2][NP]=0.0 
-					PENFRA[3][NP]=0.0        
-					GO TO 440
-				for JJ in range(1,NATT5):
-					NP=NP+1
-					IDG5=NP
-					CF[IE][NP]=QATT5[JJ,IE]*VAN5*BET[IE]
-					FCATT[IE]=FCATT[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					if(IE > 1):
-						pass
-					else:
-						NEGAS[NP]=5
-						LEGAS[NP]=0
-						IESHELL[NP]=0
-						INDEX[NP]=0
-						RGAS[NP]=RGAS5
-						EIN[NP]=0.00
-						IPN[NP]=-1
-						L=23
-						IARRY[NP]=L
-						IZBR[NP]=0
-						DSCRPT[NP]=SCRP5[2+NION5+JJ]
-						PENFRA[1][NP]=0.0
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0
-				440 if(NIN5 == 0):
-					GO TO 460                                           
-				for J in range(1,NIN5 ):
-					NP=NP+1
-					IDG5=NP      
-					NEGAS[NP]=5
-					LEGAS[NP]=0
-					IESHELL[NP]=0                                                     
-					CF[IE][NP]=QIN5[J][IE]*VAN5*BET[IE] 
-					# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-					if(IZBR5[J]!= 0 and LBRM == 0):
-						CF[IE][NP]=0.0
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					#
-					if(KIN5[J]== 1) :
-						PSCT1=PEQIN5[J][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1
-					# endif
-					if(KIN5[J]== 2) :
-						PSCT[IE][NP]=PEQIN5[J][IE]
-						INDEX[NP]=2
-					# endif  
-					#        
-					if(IE > 1):
-						pass
-					else:
-						RGAS[NP]=RGAS5                                                    
-						EIN[NP]=EI5[J]/RGAS5
-						L=24
-						if(EI5[J]< 0.00):
-							L=25                                          
-						IPN[NP]=0         
-						IARRY[NP]=L
-						IZBR[NP]=IZBR5[J]
-						DSCRPT[NP]=SCRP5[4+NION5+NATT5+J]
-						PENFRA[1][NP]=PENFRA5[1][J]
-						PENFRA[2][NP]=PENFRA5[2][J]*1*(10**-6)/math.sqrt(3.00)
-						PENFRA[3][NP]=PENFRA5[3][J]
-						if(PENFRA[1][NP] > AVPFRAC[1][5]) : 
-							AVPFRAC[1][5]=PENFRA[1][NP]
-							AVPFRAC[2][5]=PENFRA[2][NP]
-							AVPFRAC[3][5]=PENFRA[3][NP]
-						# endif
-						if(J == NIN5):
-							CMINEXSC[5]=CMINEXSC[5]*AVPFRAC[1][5]  #2108
-				#                                           
-				460 if(NGAS == 5):
-					GO TO 600  #yet to be 
-				NP=NP+1
-				IDG6=NP      
-				NEGAS[NP]=6
-				LEGAS[NP]=0
-				IESHELL[NP]=0                                                     
-				CF[IE][NP]=Q6[2][IE]*VAN6*BET[IE]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0 
-				#
-				if(KEL6[2]== 1) :
-					PSCT1=PEQEL6[2][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif
-				if(KEL6[2]== 2) :
-					PSCT[IE][NP]=PEQEL6[2][IE]
-					INDEX[NP]=2
-				# endif
-				#  
-				if(IE > 1):
-					GO TO 462                                    
-				RGAS6=1.00+E6[2]/2.00                                           
-				RGAS[NP]=RGAS6                                                    
-				EIN[NP]=0.00                                                     
-				IPN[NP]=0
-				L=26                                                          
-				IARRY[NP]=L
-				IZBR[NP]=0  
-				DSCRPT[NP]=SCRP6[2] 
-				NAMEG[6]=NAME6  
-				PENFRA[1][NP]=0.0
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0
-				AVPFRAC[1][6]=0.0
-				AVPFRAC[2][6]=0.0
-				AVPFRAC[3][6]=0.0
-				CMINEXSC[6]=E6[4]*AN6                                       
-				CMINIXSC[6]=E6[5]*AN6
-				ECLOSS[6]=E6[3]
-				WPLN[6]=E6[6]
-				462 if(EFINAL < E6[3]) GO TO 530      
-				if(NION6 > 1):
-				GO TO 470                               
-				NP=NP+1 
-				IDG6=NP 
-				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-				if(ICOUNT == 1):
-					CF[IE][NP]=Q6[5][IE]*VAN6*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					DOUBLE[6][IE]=Q6[3][IE]/Q6[5][IE]-1.00
-				else:                                                         
-					CF[IE][NP]=Q6[3][IE]*VAN6*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-				# endif
-				NEGAS[NP]=6
-				LEGAS[NP]=0
-				IESHELL[NP]=0
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0
-				#
-				if(ICOUNT == 1):
-					if(KEL6[5]== 1) :
-						PSCT1=PEQEL6[5][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1      
-				# endif
-					if(KEL6[5]== 2) :
-						PSCT[IE][NP]=PEQEL6[5][IE]
-						INDEX[NP]=2
-				# endif
-				else:
-					if(KEL6[3]== 1) :
-						PSCT1=PEQEL6[3][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1      
-					# endif
-					if(KEL6[3]== 2) :
-						PSCT[IE][NP]=PEQEL6[3][IE]
-						INDEX[NP]=2
-				# endif
-				# endif
-				#
-				WPL[NP]=EB6[1]
-				NC0[NP]=NC06[1]
-				EC0[NP]=EC06[1]
-				NG1[NP]=NG16[1]
-				EG1[NP]=EG16[1]
-				NG2[NP]=NG26[1]
-				EG2[NP]=EG26[1]
-				WKLM[NP]=WK6[1]
-				EFL[NP]=EFL6[1]
-				if(IE > 1):
-					GO TO 530                                     
-				RGAS[NP]=RGAS6                                                    
-				EIN[NP]=E6[3]/RGAS6 
-				IPN[NP]=1             
-				L=27                                             
-				IARRY[NP]=L
-				IZBR[NP]=0  
-				DSCRPT[NP]=SCRP6[3]
-				PENFRA[1][NP]=0.0  
-				PENFRA[2][NP]=0.0
-				PENFRA[3][NP]=0.0    
-				GO TO 530  
-				470 for KION in range(1,NION6):
-					NP=NP+1
-					IDG6=NP  
-					# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-					CF[IE][NP]=QION6[KION][IE]*VAN6*BET[IE]
-					FCION[IE]=FCION[IE]+CF[IE][NP]
-					PSCT[IE][NP]=0.5
-					ANGCT[IE][NP]=1.0
-					INDEX[NP]=0
-					NEGAS[NP]=6
-					LEGAS[NP]=LEGAS6[KION]
-					IESHELL[NP]=IESHEL6[KION]
-					#
-					if(KEL6[3]== 1) :
-						PSCT1=PEQION6[KION][IE]
-						ANGCUT(PSCT1,ANGC,PSCT2)
-						ANGCT[IE][NP]=ANGC
-						PSCT[IE][NP]=PSCT2
-						INDEX[NP]=1      
-					# endif
-					if(KEL6[3]== 2):
-						PSCT[IE,NP]=PEQION6[KION,IE]
-						INDEX[NP]=2
-					# endif
-					#
-					WPL[NP]=EB6[KION]
-					NC0[NP]=NC06[KION]
-					EC0[NP]=EC06[KION]
-					NG1[NP]=NG16[KION]
-					EG1[NP]=EG16[KION]
-					NG2[NP]=NG26[KION]
-					EG2[NP]=EG26[KION]
-					WKLM[NP]=WK6[KION]
-					EFL[NP]=EFL6[KION]
-					if(IE > 1):
-						pass
-					else:                                     
-						RGAS[NP]=RGAS6                                                    
-						EIN[NP]=EION6[KION]/RGAS6 
-						IPN[NP]=1             
-						L=27                                             
-						IARRY[NP]=L
-						IZBR[NP]=0  
-						DSCRPT[NP]=SCRP6(2+KION)
-						PENFRA[1][NP]=0.0  
-						PENFRA[2][NP]=0.0
-						PENFRA[3][NP]=0.0    
-						IONMODEL[NP]=IONMODL6
-						for K in range(1,20):
-							ESPLIT[NP][K]=ESPLIT6[IONMODL6][K] 
-				530 if(EFINAL < E6[4]):
-					GO TO 540                  
-				else:
-					if(NATT6 > 1):
-						590 for JJ in range(1,NATT6):
-						NP=NP+1
-						IDG6=NP
-						CF[IE][NP]=QATT6[JJ][IE]*VAN6*BET[IE]
-						FCATT[IE]=FCATT[IE]+CF[IE][NP]
-						PSCT[IE][NP]=0.5
-						ANGCT[IE][NP]=1.0
-						if(IE > 1):
-							pass
-						else:    # did a swap here 
-
-							NEGAS[NP]=6
-							LEGAS[NP]=0
-							IESHELL[NP]=0
-							INDEX[NP]=0
-							RGAS[NP]=RGAS6
-							EIN[NP]=0.00
-							IPN[NP]=-1
-							L=28
-							IARRY[NP]=L
-							IZBR[NP]=0
-							DSCRPT[NP]=SCRP6[2+NION6+JJ]
-							PENFRA[1][NP]=0.0
-							PENFRA[2][NP]=0.0
-							PENFRA[3][NP]=0.0
-							IONMODEL[NP]=IONMODL6
-							for K in range(1,20):
-								ESPLIT[NP][K]=ESPLIT6[IONMODL6,K]
-					else:                   
-						NP=NP+1
-						IDG6=NP                                                           
-						CF[IE][NP]=Q6[4][IE]*VAN6*BET[IE] 
-						FCATT[IE]=FCATT[IE]+CF[IE][NP]
-						PSCT[IE][NP]=0.5
-						ANGCT[IE][NP]=1.0
-						if(IE > 1):
-							pass 
-						else:
-							NEGAS[NP]=6
-							LEGAS[NP]=0
-							IESHELL[NP]=0       
-							INDEX[NP]=0                            
-							RGAS[NP]=RGAS6                                                    
-							EIN[NP]=0.00                                                     
-							IPN[NP]=-1
-							L=28                                                          
-							IARRY[NP]=L
-							IZBR[NP]=0  
-							DSCRPT[NP]=SCRP6[3+NION6]
-							PENFRA[1][NP]=0.0  
-							PENFRA[2][NP]=0.0
-							PENFRA[3][NP]=0.0        
-					
-				if(NIN6 == 0):
-					pass          
-				else:                                 
-					for J in range(1,NIN6):
-						NP=NP+1
-						IDG6=NP      
-						NEGAS[NP]=6
-						LEGAS[NP]=0
-						IESHELL[NP]=0                                                     
-						CF[IE][NP]=QIN6[J][IE]*VAN6*BET[IE]
-						# NO X-SECTION FOR BREMSSTRAHLUNG if LBRM=0
-						if(IZBR6[J]!= 0 and LBRM == 0):
-							CF[IE][NP]=0.0
-						PSCT[IE][NP]=0.5
-						ANGCT[IE][NP]=1.0
-						INDEX[NP]=0 
-						#
-						if(KIN6[J]== 1) :
-							PSCT1=PEQIN6[J][IE]
-							ANGCUT(PSCT1,ANGC,PSCT2)
-							ANGCT[IE][NP]=ANGC
-							PSCT[IE][NP]=PSCT2
-							INDEX[NP]=1
-						# endif
-						if(KIN6[J]== 2) :
-							PSCT[IE][NP]=PEQIN6[J][IE]
-							INDEX[NP]=2
-						# endif
-						#
-						if(IE > 1):
-							pass          
-						else:
-							RGAS[NP]=RGAS6                                                    
-							EIN[NP]=EI6[J]/RGAS6
-							L=29
-							if(EI6[J]< 0.00):
-								L=30                                          
-								IPN[NP]=0         
-								IARRY[NP]=L
-								IZBR[NP]=IZBR6[J]  
-								DSCRPT[NP]=SCRP6[4+NION6+NATT6+J]
-								PENFRA[1][NP]=PENFRA6[1,J]
-								PENFRA[2][NP]=PENFRA6[2,J]*1*(10**-6)/math.sqrt(3.00)
-								PENFRA[3][NP]=PENFRA6[3,J]
-								if(PENFRA[1][NP] > AVPFRAC[1][6]):
-									AVPFRAC[1,6]=PENFRA[1][NP]
-									AVPFRAC[2,6]=PENFRA[2][NP]
-									AVPFRAC[3,6]=PENFRA[3][NP]
-							# endif
-							if(J == NIN6):
-								CMINEXSC[6]=CMINEXSC[6]*AVPFRAC[1,6]  #2363
-				560 CONTINUE     
-				#                                                                       
-				600 CONTINUE                                                          
-				IPLAST=NP  
-				# ----------------------------------------------------------------      
-				#   CAN INCREASE ARRAY SIZE UP TO 1740 if MORE COMPLEX MIXTURES USED.
-				#   1740 = 6 * 290 ( 6 = MAX NO OF GASES. 290 = MAX NO OF LEVELS )    
-				# ------------------------------------------------------------------    
-				if(IPLAST > 512):
-					print('WARNING TOO MANY LEVELS IN CALCULATION. CAN INCREASE THE ARRAY SIZES FROM 512 UP TO 1740 MAXIMUM\n')                 
-
-				if(IPLAST > 512):
-				  	sys.exit()                                            
-				# --------------------------------------------------------------------  
-				#     CALCULATION OF TOTAL COLLISION FREQUENCY                          
-				# --------------------------------------------------------------------- 
-				TCF[IE]=0.00              #2380                                       
-				for IL in range(1,IPLAST):
-				  TCF[IE]=TCF[IE]+CF[IE][IL]
-				  if(CF[IE][IL]< 0.00):
-					#WRITE(6,776) CF[IE][IL],IE,IL,IARRY(IL),EIN(IL),E[IE] 
-						print(' WARNING NEGATIVE COLLISION FREQUENCY =',CF[IE,IL],' IE =',IE,' IL =',IL,' IARRY=',IARRY[IL],' EIN=',EIN[IL],' ENERGY=',E[IE])                                              
-				for IL in range(1,IPLAST):
-				  if(TCF[IE]== 0.00):
-				  	CF[IE][IL]=0.00  #2390
-				  else:                                    
-				  	CF[IE][IL]=CF[IE][IL]/TCF[IE]                                                                                          
-					  620 CONTINUE                                                          
-				for IL in range(2,IPLAST):
-					CF[IE][IL]=CF[IE][IL]+CF[IE][IL-1]                                   
-					                   
-				# FIX ROUNDING ERRORS AT HIGHEST VALUE
-				CF[IE][IPLAST]=1.00
-				#
-				#     FCATT[IE]=FCATT[IE]*EROOT[IE]
-				#     FCION[IE]=FCION[IE]*EROOT[IE]                                     
-				#     TCF[IE]=TCF[IE]*EROOT[IE]   
-				FCATT[IE]=FCATT[IE]*1.0D-10  
-				FCION[IE]=FCION[IE]*1.0D-10                                       
-				TCF[IE]=TCF[IE]*1.0D-10   
-				# CALCULATION OF NULL COLLISION FREQUENCIES
-				NP=0
-				NPLAST=0
-				if((NUL1+NUL2+NUL3+NUL4+NUL5+NUL6)== 0):
-					GO TO 699
-				if(NUL1 > 0):
-					for J in range(1,NUL1):
-						NP=NP+1
-						SCLENUL[NP]=SCLN1[J]
-						DSCRPTN[NP]=SCRPN1[J]
-						CFN[IE][NP]=QNUL1[J][IE]*VAN1*SCLENUL[NP]*BET[IE]
-				# endif
-				if(NUL2 > 0):
-					for J in range(1,NUL2):
-					NP=NP+1
-					SCLENUL[NP]=SCLN2[J]
-					DSCRPTN[NP]=SCRPN2[J]
-					CFN[IE][NP]=QNUL2[J][IE]*VAN2*SCLENUL[NP]*BET[IE]
-				# endif
-				if(NUL3 > 0):
-					for J in range(1,NUL3):
-						NP=NP+1
-						SCLENUL[NP]=SCLN3[J]
-						DSCRPTN[NP]=SCRPN3[J]
-						CFN[IE][NP]=QNUL3[J][IE]*VAN3*SCLENUL[NP]*BET[IE]
-				# endif
-				if(NUL4 > 0):
-					for J in range(1,NUL4):
-						NP=NP+1
-						SCLENUL[NP]=SCLN4[J]
-						DSCRPTN[NP]=SCRPN4[J]
-						CFN[IE][NP]=QNUL4[J][IE]*VAN4*SCLENUL[NP]*BET[IE]
-				# endif
-				if(NUL5 > 0):
-					DO 635 J=1,NUL5
-					NP=NP+1
-					SCLENUL[NP]=SCLN5[J]
-					DSCRPTN[NP]=SCRPN5[J]
-					635  CFN[IE][NP]=QNUL5[J][IE]*VAN5*SCLENUL[NP]*BET[IE]
-				# endif
-				if(NUL6 > 0):
-					Dfor J in range(1,NUL6):
-						NP=NP+1
-						SCLENUL[NP]=SCLN6[J]
-						DSCRPTN[NP]=SCRPN6[J]
-						CFN[IE][NP]=QNUL6[J][IE]*VAN6*SCLENUL[NP]*BET[IE]
-				# endif
-				NPLAST=NP
-				# SUM NULL COLLISIONS
-				TCFN[IE]=0.0
-				for IL in range(1,NPLAST):  # call 640  #2455
-					TCFN[IE]=TCFN[IE]+CFN[IE][IL]
-					if(CFN[IE][IL]< 0.0):
-					#print(6,779) CFN[IE][IL],IE,IL
-						print(' WARNING NEGATIVE NULL COLLISION REQUENCY =',CFN[IE][IL],' IE =',IE,' IL =',IL)
-				for IL in range(1,NPLAST):
-				  if(TCFN[IE]== 0.00):
-				  	CFN[IE][IL]=0.00
-				  else:
-				  	CFN[IE][IL]=CFN[IE][IL]/TCFN[IE]
-				TCFN[IE]=TCFN[IE]*1.0*(10**-10) #2467
-				if(NPLAST == 1):
-				  	GO TO 699
-				else:
-					for IL in range(2,NPLAST):
-					    CFN[IE][IL]=CFN[IE][IL]+CFN[IE][IL-1]
-				# FIX ROUNDING ERRORS AT HIGHEST VALUE
-					  CFN[IE][NPLAST]=1.00 
-				#700
-			#     WRITE(6,841) (INDEX[J],J, J=1,IPLAST)
-			# 841 print(2X,' INDEX=',I3,' J=',I3)                   
-			#  SET ANISOTROPIC FLAG if ANISOTROPIC SCATTERING DATA IS DETECTED
-			KELSUM=0 #2479
-			#########                  RESET INDENTATION                ###########################
-			for J in range(1,6):
-				KELSUM=KELSUM+KEL1[J]+KEL2[J]+KEL3[J]+KEL4[J]+KEL5[J]+KEL6[J]
-			for J in range(1,250):
-				KELSUM=KELSUM+KIN1[J]+KIN2[J]+KIN3[J]+KIN4[J]+KIN5[J]+KIN6[J]
-			if(KELSUM > 0):
-				NISO=1  
-			#     if(NISO == 1) WRITE(6,7765) NISO
-			#7765 print(3X,' ANISOTROPIC SCATTERING DETECTED NISO=',I5)         
-			# -------------------------------------------------------------------   
-			#   CALCULATE NULL COLLISION FREQUENCY                                  
-			# -------------------------------------------------------------------   
-			BP=EFIELD*EFIELD*CONST1           #2490                               
-			F2=EFIELD*CONST3                                                  
-			ELOW=TMAX*(TMAX*BP-F2*math.sqrt(0.50*EFINAL))/ESTEP-1.00            
-			ELOW=DMIN1[ELOW][SMALL]                                            
-			EHI=TMAX*(TMAX*BP+F2*math.sqrt(0.50*EFINAL))/ESTEP+1.00
-			if(EHI > 20000.0):
-				EHI=20000.0
-			JONE=1
-			JLARGE=20000  
-			for I in range(1,10):
-					JLOW=20000-2000*(11-I)+1+int(ELOW)                               
-					JHI=20000-2000*(10-I)+int(EHI)
-					JLOW=DMAX0[JLOW][JONE]
-					JHI=DMIN0[JHI][JLARGE]
-			for J in range(JLOW,JHI):
-				if(TCF[J]>= TCFMAX[I]):
-					TCFMAX[I]=TCF[J]                          
-			#---------------------------------------------------------------------
-			# FIND MAXIMUM COLLISION FREQUENCY
-			#     TLIM=TCFMAX[1]
-			#     DO 835 I=1,10
-			# 835 if(TLIM < TCFMAX[I]) TLIM=TCFMAX[I]
-			#     TCFMAX1=TLIM  
-			TLIM=0.0
-			for I in range(1,20000):
-				if(TLIM < TCF[I]) TLIM=TCF[I]
-					TCFMAX1=TLIM                                                    
-			# -------------------------------------------------------------------   
-			#   CROSS SECTION DATA FOR INTEGRALS IN  OUTPUT               
-			# --------------------------------------------------------------------- 
-			for I in range(1,NSTEP):      #900                                         
-				QTOT[I]=AN1*Q1[1][I]+AN2*Q2[1][I]+AN3*Q3[1][I]+AN4*Q4[1][I]+AN5*Q5[1][I]+AN6*Q6[1][I]     
-				QEL[I]=AN1*Q1[2][I]+AN2*Q2[2][I]+AN3*Q3[2][I]+AN4*Q4[2][I]+AN5*Q5[2][I]+AN6*Q6[2][I]             
-			#                                                                       
-			QION[1][I]=Q1[3][I]*AN1   
-			if(NION1 > 1):
-			    for KION in range(1,NION1): #811
-					QION[1][I]=QION1[KION][I]*AN1
-			# endif                                           
-			QION[2][I]=Q2[3][I]*AN2                                             
-				if(NION2 > 1):
-			    for KION in range(1,NION2): #812
-					QION[2][I]=QION2[KION][I]*AN2
-			# endif                                           
-			QION[3][I]=Q3[3][I]*AN3                                             
-			if(NION3 > 1):
-			    for KION in range(1,NION3):
-					QION[3][I]=QION3[KION][I]*AN3
-			# endif                                           
-			QION[4][I]=Q4[3][I]*AN4
-			if(NION4 > 1):
-				for KION in range(1,NION4):
-					QION[4][I]=QION4[KION][I]*AN4
-			# endif                                           
-			QION[5][I]=Q5[3][I]*AN5
-			if(NION5 > 1):
-			    for KION in range(1,NION5):
-					QION[5][I]=QION5[KION][I]*AN5
-			# endif                                           
-			QION[6][I]=Q6[3][I]*AN6                                             
-			if(NION6 > 1):
-			    for KION in range[1][NION6]:
-					QION[6][I]=QION6[KION][I]*AN6
-			# endif                                           
-			QATT[1][I]=Q1[4][I]*AN1                                             
-			QATT[2][I]=Q2[4][I]*AN2                                             
-			QATT[3][I]=Q3[4][I]*AN3                                             
-			QATT[4][I]=Q4[4][I]*AN4
-			QATT[5][I]=Q5[4][I]*AN5
-			QATT[6][I]=Q6[4][I]*AN6                                             
-			#                                                                       
-			QREL[I]=0.00                                                     
-			QSATT[I]=0.00                                                   
-			QSUM[I]=0.00                                                     
-			for J in range(1,NGAS):
-				QSUM[I]=QSUM[I]+QION[J][I]+QATT[J][I]                               
-				QSATT[I]=QSATT[I]+QATT[J][I]                                       
-				QREL[I]=QREL[I]+QION[J][I]-QATT[J][I]                               
-			#                                                                       
-			if(NIN1 == 0):
-				pass
-			else:
-				for J in range(1,NIN1):
-					QSUM[I]=QSUM[I]+QIN1[J][I]*AN1                                     
-			if(NIN2 == 0):
-				pass                                           
-			else:
-				for J in range(1,NIN2):
-					QSUM[I]=QSUM[I]+QIN2[J][I]*AN2                                     
-			if(NIN3 == 0):
-				pass                                           
-			else
-				for J in range(1,NIN3):
-					QSUM[I]=QSUM[I]+QIN3[J][I]*AN3                                     
-			if(NIN4 == 0):
-				pass                                           
-				else:
-					for J in range(1,NIN4):
-					QSUM[I]=QSUM[I]+QIN4[J][I]*AN4                                     
-			if(NIN5 == 0):
-				pass 
-			else:
-				for J in range(1,NIN5):
-						QSUM[I]=QSUM[I]+QIN5[J][I]*AN5
-			if(NIN6 == 0):
-				pass
-			else:
-			    for J in range(1,NIN6):
-					QSUM[I]=QSUM[I]+QIN6[J][I]*AN6                                     
-			##                                                                       
-			return                                                            
-		# end 
-
-	##COMMENT: end subroutine
+#################################### MIXER #############################
 def GASMIX(NGS,Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN):
 	#IMPLICIT #real*8 (A-H,O-Z) 
 	int( I )
@@ -3136,58 +870,58 @@ def BRENERGY(IZ,EIN,EOUT):
 	if(IZ == 1):
 		for J in range(1,200):
 	    	TEMP[J]=Z1[J][IPT]
-	else if(IZ == 2) :
+	elif(IZ == 2) :
 	    for J in range(1,200):
 		    TEMP[J]=Z2[J][IPT]
-	else if(IZ == 5) :
+	elif(IZ == 5) :
 	    for J in range(1,200):++
 	        TEMP[J]=Z5[J][IPT]
-	else if(IZ == 6) :
+	elif(IZ == 6) :
 	    for J in range(1,200):
 	        TEMP[J]=Z6[J][IPT]
-	else if(IZ == 7) :
+	elif(IZ == 7) :
 	    for J in range(1,200):
 	        TEMP[J]=Z7[J][IPT]
-	else if(IZ == 8) :
+	elif(IZ == 8) :
 	    for J in range(1,200):
 	    	TEMP[J]=Z8[J][IPT]
-	else if(IZ == 9) :
+	elif(IZ == 9) :
 	    for J in range(1,200):
 	    	TEMP[J]=Z9[J][IPT]
-	else if(IZ == 10) :
+	elif(IZ == 10) :
 	    for J in range(1,200):
 			TEMP[J]=Z10[J][IPT]
-	else if(IZ == 14) :
+	elif(IZ == 14) :
 	    for J in range(1,200):
 			TEMP[J]=Z14[J][IPT]
-	else if(IZ == 15) :
+	elif(IZ == 15) :
 	    for J in range(1,200):
 			TEMP[J]=Z15[J][IPT]
-	else if(IZ == 16) :
+	elif(IZ == 16) :
 	    for J in range(1,200):
 			TEMP[J]=Z16[J][IPT]
-	else if(IZ == 17) :
+	elif(IZ == 17) :
 	    for J in range(1,200):
 			TEMP[J]=Z17[J][IPT]
-	else if(IZ == 18) :
+	elif(IZ == 18) :
 		for J in range(1,200):
 			TEMP[J]=Z18[J][IPT]
-	else if(IZ == 32) :
+	elif(IZ == 32) :
 		for J in range(1,200):
 			TEMP[J]=Z32[J][IPT]
-	else if(IZ == 35) :
+	elif(IZ == 35) :
 		for J in range(1,200):
 			TEMP[J]=Z35[J][IPT]
-	else if(IZ == 36) :
+	elif(IZ == 36) :
 		for J in range(1,200):
 			TEMP[J]=Z36[J][IPT]
-	else if(IZ == 53) :
+	elif(IZ == 53) :
 		for J in range(1,200):
 			TEMP[J]=Z53[J][IPT]
-	else if(IZ == 54) :
+	elif(IZ == 54) :
 		for J in range(1,200):
 			TEMP[J]=Z54[J][IPT]
-	else if(IZ == 55) :
+	elif(IZ == 55) :
 		for J in range(1,200):
 			TEMP[J]=Z55[J][IPT]
     else:
@@ -3369,113 +1103,7 @@ def BREMSK(ein,egamma,Theta_i,Z,XSEC,Theta_fp):
 	Theta_fp=numpy.arcsin((hbar*phot_freq/Vc*sint)/p_f)
 	return
       # end
-def DENSITY():
-	#IMPLICIT #real*8 (A-H,O-Z)
-	#IMPLICIT #integer*8 (I-N)
-	global DEN #=[0 for x in range(20000)]
-	global CAN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC #=[0 for x in range(6)]
-	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-	global NGASN #=[0 for x in range[6]]
-	global BET#=[0 for x in range(2000)],GAM=[0 for x in range(20000)]
-	global VC,EMS
-	AND=[0 for x in range[6]],EIAV=[0 for x in range(80)],X00=[0 for x in range(80)]
-	X11=[0 for x in range(80)],AKS=[0 for x in range(80)],AAA=[0 for x in range(80)]
-	JELEC=[0 for x in range(80)]
-	# DENSITY EFFECT CONSTANTS
-	# EIAV ENERGY IN EV
-	# JELEC NUMBER OF ELECTRONS PER ATOM OR MOLECULE
-	DATA EIAV=[115.0,188.0,41.8,41.8,137.0,352.0,482.0,41.7,45.4,47.1,48.3,85.0,0.0,71.6,95.0,82.0,0.0,0.0,0.0,0.0,19.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,128.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,48.3,36*0.0]
-	DATA JELEC=[42,18,2,2,10,36,54,10,18,26,34,22,0,10,16,14,0,0,0,0,2,0,0,0,0,0,0,0,0,70,0,0,0,0,0,0,0,0,0,0,0,0,0,34,36*0]
-	DATA X00=[1.70,1.7635,2.2017,2.2017,2.0735,1.7158,1.5630,1.6263,1.5090,1.4339,1.3788,1.6294,0.0,1.7952,1.7541,1.7378,0.0,0.0,0.0,0.0,1.8639,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3788,36*0.0]
-	DATA X11=[4.00,4.4855,3.6122,3.6122,4.6421,5.0748,4.7371,3.9716,3.8726,3.8011,3.7524,4.1825,0.0,4.3437,4.3213,4.1323,0.0,0.0,0.0,0.0,3.2718,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.7524,36*0.0]
-	DATA AKS=[3.00,2.9618,5.8347,5.8347,3.5771,3.4051,2.7414,3.6257,3.6095,3.5920,3.4884,3.3227,0.0,3.5901,3.2913,3.2125,0.0,0.0,0.0,0.0,5.7273,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.4884,36*0.0]
-	DATA AAA=[.18551,.19714,.13443,.13443,.08064,.07446,.23314,.09253,0.09627,0.09916,.10852,.11768,0.0,.08101,.11778,.15349,0.0,0.0,0.0,0.0,.14092,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.177484,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.10852,36*0.0]
-	#
-	API=numpy.arccos(-1.00)                                                 
-	EMS=510998.9280
-	RE=2.8179403267*(10**-13)
-	ALPH=137.035999074
-	ABZERO=273.150                                                   
-	ATMOS=760.00                                                     
-	#                                                                       
-	# DENSITY EFFECT CALCULATION
-	AND[1]=AN1
-	AND[2]=AN2
-	AND[3]=AN3
-	AND[4]=AN4
-	AND[5]=AN5
-	AND[6]=AN6
-	HSUM=0.0
-	SUM1=0.0
-	SUMDNOM=0.0
-	for L1 in range(1,NGAS):
-		SUM1=SUM1+FRAC[L1]*float(JELEC[NGASN[L1]])*math.log(EIAV[NGASN[L1]]) 
-		SUMDNOM=SUMDNOM+FRAC[L1]*float(JELEC[NGASN[L1]])
-		HSUM=HSUM+AND[L1]*float(JELEC(NGASN[L1]))  #22385
-	EIBAR=math.exp(SUM1/SUMDNOM)
-	# PLASMA ENERGY
-	HWP1=math.sqrt(4.0*API*HSUM*RE**3)*ALPH*EMS
-	#
-	DELDEN=math.log(EIBAR/HWP1)
-	CBAR=1.0+2.0*DELDEN
-	flag=0   #SELF ADDED
-	if(NGAS == 1):  #22392
- 		flag=1
-	# CALC X0 AND X1
-	if(CBAR < 10.0):
-		X0=1.6
-		X1=4.0
-	else if(CBAR >= 4.0 and CBAR < 10.5) :
-		X0=1.7
-		X1=4.0
-	else if(CBAR >= 10.5 and CBAR < 11.0) :
-		X0=1.8
-		X1=4.0
-	else if(CBAR >= 11.0 and CBAR < 11.5) :
-		X0=1.9
-		X1=4.0
-	else if(CBAR >= 11.5 and CBAR < 12.25) :
-		X0=2.0
-		X1=4.0
-	else if(CBAR >= 12.25 and CBAR < 13.804) :
-		X0=2.0
-		X1=5.0
-	else: 
-		X0=0.326*CBAR-1.5
-		X1=5.0
-	# endif
-	if(flag==1):
-		AKBAR=3.0
-		ABAR=(CBAR-2.0*math.log(10.00)*X0)/((X1-X0)**3)
-	else if(flag==0):
-		AKBAR=AKS[NGASN[1]]
-		X0=X00[NGASN[1]]
-		X1=X11[NGASN[1]]
-		ABAR=AAA[NGASN[1]]
-	else:
-		pass
-	# CORRECT X0 AND X1 FOR DENSITY CHANGE FROM 20C AND 760 TORR
-	# NB CORRECTION TO CBAR ALREADY DONE
-	DCOR=0.5*math.log10(TORR*293.15/(760.0*(TEMPC+ABZERO)))
-	X0=X0-DCOR
-	X1=X1-DCOR
-	# CALCULATE DENSITY CORRECTION FACTOR ARRAY DEN(20000)
-	AFC=2.0*math.log(10.00)
-	for I in range(1,20000):
-		BG=BET[I]*GAM[I]
-		X=math.log10(BG)
-		if(X < X0):
-			DEN[I]=0.0
-		else if(X > X0 and X < X1) :
-			DEN[I]=ABAR*math.exp(AKBAR*math.log(X1-X))+AFC*X-CBAR
-		else: 
-			DEN[I]=AFC*X-CBAR              
-		# endif
-		#     WRITE(6,99) DEN[I]
-		#  99 print(' DENSITY CORRECTION=',D12.5)
-		
-	return
-	# end
+
 ###################################### SETUP ######################################
 
 def OUTPUT():
@@ -4315,13 +1943,13 @@ def IONSPLIT(I,E,EI,ESEC):
 	# AND IONISATION ENERGY LOSS EI, : OUTPUTS SECONDARY ENERGY ESEC
 	if(IONMODEL[I]== 1) :
 		SPLIT1(I,E,EI,ESEC)
-	else if(IONMODEL[I] == 2) :
+	elif(IONMODEL[I] == 2) :
 		SPLIT2(I,E,EI,ESEC)
-	else if(IONMODEL[I] == 3) :
+	elif(IONMODEL[I] == 3) :
 		SPLIT3(I,E,EI,ESEC)
-	else if(IONMODEL[I] == 4) : 
+	elif(IONMODEL[I] == 4) : 
 		SPLIT4(I,E,EI,ESEC)
-	else if(IONMODEL[I] == 5) :
+	elif(IONMODEL[I] == 5) :
 		SPLIT5(I,E,EI,ESEC) 
 	else:
 		print(' BAD ENERGY SPLITTING MODEL I=',I,' IONMDOLE=',IONMODEL[I])
@@ -5350,7 +2978,7 @@ def STATS2():
 	if(IA > IB):
 	:
 	DMIN0=IB
-	else if(IA < IONE) :
+	elif(IA < IONE) :
 	DMIN0=IONE
 	else: 
 	DMIN0=IA
@@ -6037,12 +3665,20 @@ def VACANCY(KGAS,LGAS,I,ILAST):
 def FLDIST():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
-	COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),EG2(512),WKLM(512),EFL(512)
+	# COMMON/IONFL/
+	global NC0#(512)
+	global EC0#(512)
+	global NG1#(512)
+	global EG1#(512)
+	global NG2#(512)
+	global EG2#(512)
+	global WKLM#(512)
+	global EFL#(512)	
 	# CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY
 	for I in range(1,512):
 		EPH=EFL[I]
 		if(EPH == 0.0):
-			GO TO 1
+			continue
 		JF=3
 		ABSO(JF,EPH,IDUM,KDUM,LDUM,DIST)
 		EFL[I]=DIST
@@ -6229,7 +3865,7 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 	if(LCMP == 0):
 		ISTART=IFIN+1
 		IEND=IFIN+IFINR
-	else if(LCMP == 1) :
+	elif(LCMP == 1) :
 		ISTART=IFIN+IFINR+1
 		IEND=IFIN+IFINR+IFINR
 	# endif
@@ -6240,13 +3876,13 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 	if(LCMP == 0 and LRAY == 0):
 		ISTART=IFIN+1
 		IEND=IFIN+IFINR
-	else if(LCMP == 0 and LRAY == 1) :
+	elif(LCMP == 0 and LRAY == 1) :
 		ISTART=IFIN+IFINR+1
 		IEND=IFIN+IFINR+IFINR
-	else if(LCMP == 1 and LRAY == 0) :
+	elif(LCMP == 1 and LRAY == 0) :
 		ISTART=IFIN+IFINR+1
 		IEND=IFIN+IFINR+IFINR
-	else if(LCMP == 1 and LRAY == 1) :
+	elif(LCMP == 1 and LRAY == 1) :
 		ISTART=IFIN+IFINR+IFINR+1
 		IEND=ISTART+IFINR+IFINR+IFINR
 	else: 
@@ -6275,7 +3911,7 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 		if(ID <= 17):
 			LGAS=1
 			ISHELL=ID
-		else if(ID <= 34) :
+		elif(ID <= 34) :
 			LGAS=2
 			ISHELL=ID-17
 		else:
@@ -6283,12 +3919,12 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 			ISHELL=ID-34
 		# endif
 		GO TO 12
-	else if(ID <= 102) :
+	elif(ID <= 102) :
 		KGAS=2
 		if(ID <= 68):
 			LGAS=1
 			ISHELL=ID-51
-		else if(ID <= 85) :
+		elif(ID <= 85) :
 			LGAS=2
 			ISHELL=ID-68
 		else:
@@ -6296,12 +3932,12 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 			ISHELL=ID-85
 		# endif
 		GO TO 12
-	else if(ID <= 153) :
+	elif(ID <= 153) :
 		KGAS=3
 		if(ID <= 119):
 			LGAS=1
 			ISHELL=ID-102
-		else if(ID <= 136) :
+		elif(ID <= 136) :
 			LGAS=2
 			ISHELL=ID-119
 		else:
@@ -6309,12 +3945,12 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 			ISHELL=ID-136
 		# endif
 		GO TO 12
-	else if(ID <= 204) :
+	elif(ID <= 204) :
 		KGAS=4
 		if(ID <= 170):
 			LGAS=1
 			ISHELL=ID-153
-		else if(ID <= 187) :
+		elif(ID <= 187) :
 			LGAS=2
 			ISHELL=ID-170
 		else:
@@ -6322,12 +3958,12 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 			ISHELL=ID-187
 		# endif
 		GO TO 12
-	else if(ID <= 255) :
+	elif(ID <= 255) :
 		KGAS=5
 		if(ID <= 221):
 			LGAS=1
 			ISHELL=ID-204
-		else if(ID <= 238) :
+		elif(ID <= 238) :
 			LGAS=2
 			ISHELL=ID-221
 		else:
@@ -6340,7 +3976,7 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 		if(ID <= 272):
 			LGAS=1
 			ISHELL=ID-255
-		else if(ID <= 289) :
+		elif(ID <= 289) :
 			LGAS=2
 			ISHELL=ID-272
 		else:
@@ -6363,23 +3999,23 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 		if(ID <= IPET+3):
 			KGAS=1
 			LGAS=ID-IPET
-		else if(ID <= IPET+6) :
+		elif(ID <= IPET+6) :
 			KGAS=2
 			LGAS=ID-IPET-3
-		else if(ID <= IPET+9) : 
+		elif(ID <= IPET+9) : 
 			KGAS=3
 			LGAS=ID-IPET-6 
-		else if(ID <= IPET+12) :
+		elif(ID <= IPET+12) :
 			KGAS=4
 			LGAS=ID-IPET-9
-		else if(ID <= IPET+15) :
+		elif(ID <= IPET+15) :
 			KGAS=5
 			LGAS=ID-IPET-12
 		else:
 			KGAS=6
 			LGAS=ID-IPET-15
 	# endif
-	else if (ID <= IPET+2*IFINR) :
+	elif (ID <= IPET+2*IFINR) :
 		if(LRAY == 1):
 			LRFLG=1
 		if(LRAY == 0 and LPAP == 1):
@@ -6387,16 +4023,16 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 		if(ID <= IPET+IFINR+3):
 			KGAS=1
 			LGAS=ID-IPET-IFINR
-		else if(ID <= IPET+IFINR+6) :
+		elif(ID <= IPET+IFINR+6) :
 			KGAS=2
 			LGAS=ID-IPET-IFINR-3
-		else if(ID <= IPET+IFINR+9) : 
+		elif(ID <= IPET+IFINR+9) : 
 			KGAS=3
 			LGAS=ID-IPET-IFINR-6
-		else if(ID <= IPET+IFINR+12) :
+		elif(ID <= IPET+IFINR+12) :
 			KGAS=4
 			LGAS=ID-IPET-IFINR-9
-		else if(ID <= IPET+IFINR+15) :
+		elif(ID <= IPET+IFINR+15) :
 			KGAS=5
 			LGAS=ID-IPET-IFINR-12
 		else:
@@ -6408,16 +4044,16 @@ def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
 		if(ID <= IPET+3*IFINR):
 			KGAS=1
 			LGAS=ID-IPET-IFINR-IFINR
-		else if(ID <= IPET+IFINR+IFINR+6) :
+		elif(ID <= IPET+IFINR+IFINR+6) :
 			KGAS=2
 			LGAS=ID-IPET-IFINR-IFINR-3
-		else if(ID <= IPET+IFINR+IFINR+9) : 
+		elif(ID <= IPET+IFINR+IFINR+9) : 
 			KGAS=3
 			LGAS=ID-IPET-IFINR-IFINR-6
-		else if(ID <= IPET+IFINR+IFINR+12) :
+		elif(ID <= IPET+IFINR+IFINR+12) :
 			KGAS=4
 			LGAS=ID-IPET-IFINR-IFINR-9
-		else if(ID <= IPET+IFINR+IFINR+15) :
+		elif(ID <= IPET+IFINR+IFINR+15) :
 			KGAS=5
 			LGAS=ID-IPET-IFINR-IFINR-12
 		else:
@@ -6530,7 +4166,7 @@ def CONTROL0(NEVENT,EINIT,ICON):
 	PHI=0.00
 	IODD=0
 	# endif
-	else if (NDVEC == -1) :
+	elif (NDVEC == -1) :
 	PHI=0.00
 	THETA=API
 	if(ICON == 3 and IODD == 2):
@@ -6540,7 +4176,7 @@ def CONTROL0(NEVENT,EINIT,ICON):
 	PHI=0.00
 	IODD=0
 	# endif
-	else if(NDVEC == 0) :
+	elif(NDVEC == 0) :
 	R3=DRAND48(RDUM)
 	PHI=TWOPI*R3
 	THETA=API/2.0  
@@ -6555,7 +4191,7 @@ def CONTROL0(NEVENT,EINIT,ICON):
 	THETA=API/2.0
 	IODD=0
 	# endif
-	else if(NDVEC == 2) :
+	elif(NDVEC == 2) :
 	R3=DRAND48(RDUM)
 	PHI=TWOPI*R3
 	R4=DRAND48(RDUM)
@@ -6964,39 +4600,39 @@ def RAYLOS(KGAS,LGAS,EGAMMA,THETA,ELRAY):
 	:
 	ELRAY=ELRAY*2.00
 	GO TO 20
-	else if (ICF4 == 1) :
+	elif (ICF4 == 1) :
 	if(LGAS == 2):
 	ELRAY=ELRAY*4.00
-	else if (ICH4 == 1) : 
+	elif (ICH4 == 1) : 
 	if(LGAS == 2):
 	ELRAY=ELRAY*4.00
-	else if (ICO2 == 1) :
+	elif (ICO2 == 1) :
 	if(LGAS == 2):
 	ELRAY=ELRAY*2.00
-	else if (IC4H10 == 1) :
+	elif (IC4H10 == 1) :
 	if(LGAS == 1):
 	ELRAY=ELRAY*4.00
 	if(LGAS == 2):
 	ELRAY=ELRAY*10.00
-	else if(ISF6 == 1) :
+	elif(ISF6 == 1) :
 	if(LGAS == 2):
 	ELRAY=ELRAY*6.00
-	else if(ITMA == 1) :
+	elif(ITMA == 1) :
 	if(LGAS == 1):
 	ELRAY=ELRAY*3.00
 	if(LGAS == 3):
 	ELRAY=ELRAY*9.00
-	else if(IC2H6 == 1) :
+	elif(IC2H6 == 1) :
 	if(LGAS == 1):
 	ELRAY=ELRAY*2.00
 	if(LGAS == 2):
 	ELRAY=ELRAY*6.00
-	else if(IC3H8 == 1) :
+	elif(IC3H8 == 1) :
 	if(LGAS == 1):
 	ELRAY=ELRAY*3.00
 	if(LGAS == 2):
 	ELRAY=ELRAY*8.00
-	else if(IH2O == 1) :
+	elif(IH2O == 1) :
 	if(LGAS == 2):
 	ELRAY=ELRAY*2.00
 	else:
@@ -7575,17 +5211,31 @@ def SHAKE(ISHELL,EN,KGAS,LGAS,ESHK,ICON,IFIRST,JVAC):
 def CVAC(KGAS,LGAS,EELEC,KSHELL,IBAD):
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
-	CHARACTER*6 SCR(17),SCR1(17)
-	COMMON/GENCAS/ELEV[17,79],NSDEG(17),AA[17],BB[17],SCR,SCR1
-	COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),RAD[6,3,17,17],PRSHBT(6,3,17),IZ[6,3],INIOCC(6,3,17),ISHLMX(6,3),AMZ[6,3]
-	DIMENSION IOK(17)
+	# CHARACTER*6 SCR(17),SCR1(17)
+	#COMMON/GENCAS/
+	global ELEV#[17,79]
+	global NSDEG#(17)
+	global AA#[17]
+	global BB#[17]
+	global SCR,SCR1
+	# COMMON/MIXC/
+	global PRSH#(6,3,17,17)
+	global ESH#(6,3,17)
+	global AUG#(6,3,17,17,17),
+	global RAD#[6,3,17,17],
+	global PRSHBT#(6,3,17),
+	global IZ#[6,3],
+	global INIOCC#(6,3,17),
+	global ISHLMX#(6,3),
+	global AMZ#[6,3]
+	IOK=numpy.zeros(17+1)
 	# CALCULATE THE SHELL ,KSHELL, FROM WHICH THE COMPTON ELECTRON
 	# ORIGINATES.
 	# RANDOMLY CHOOSE ELECTRON FROM THE (ENERGY) ALLOWED SHELLS
 	for J in range(1,17):
 		# FIND ENERGY LEVELS THAT HAVE LOWER ENERGY THAN THE RECOIL ELECTRON
 		IOK[J]=1
-		if(EELEC < ELEV[J,IZ[KGAS][LGAS]] or ELEV[J,IZ[KGAS][LGAS]] == 0.0):
+		if(EELEC < ELEV[J][IZ[KGAS][LGAS]] or ELEV[J][IZ[KGAS][LGAS]] == 0.0):
 			IOK[J]=0
 		# endif
 	IBAD=0  
@@ -7593,7 +5243,7 @@ def CVAC(KGAS,LGAS,EELEC,KSHELL,IBAD):
 	for J in range(1,17):
 		# FIND TOTAL NUMBER OF AVAILABLE ELECTRONS IN KGAS,LGAS
 		if(IOK[J]== 0):
-			GO TO 2
+			continue
 		NTOT=NTOT+INIOCC[KGAS][LGAS][J]
 	KSHELL=0
 	ANTOT=float(NTOT)
@@ -7601,47 +5251,67 @@ def CVAC(KGAS,LGAS,EELEC,KSHELL,IBAD):
 	ANSUM=0.0
 	for J in range(1,17):
 		if(IOK[J]== 0):
-			GO TO 3
+			continue
 		ANSUM=ANSUM+float(INIOCC[KGAS][LGAS][J])/ANTOT
 		if(R1 < ANSUM):
 			KSHELL=J
 			break
 		# endif
-	4 if(KSHELL == 0) :
-	IBAD=1
+	if(KSHELL == 0):
+		IBAD=1
 	# endif
 	return
 	# end
 def CASCDAT():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
-	CHARACTER*6 SCRPT(17),SCRPT1(17),SCR(17),SCR1(17)
-	COMMON/GENCAS/ELEV[17,79],NSDEG(17),AA[17],BB[17],SCR,SCR1
-	DIMENSION NSD[17]
+	# CHARACTER*6 SCRPT(17),SCRPT1(17),SCR(17),SCR1(17)
+	SCRPT=numpy.zeros(17+1,dtype=str)
+	SCRPT1=numpy.zeros(17+1,dtype=str)
+	# SCR(17),SCR1(17)
+	# COMMON/GENCAS/
+	global ELEV,NSDEG,AA,BB,SCR,SCR1
+	NSDEG=numpy.zeros(17+1)
+	NSD=numpy.zeros(17+1)
+	AA=numpy.zeros(17+1)
+	BB=numpy.zeros(17+1)
+	SCR=numpy.zeros(17+1,dtype=str)
+	SCR1=numpy.zeros(17+1,dtype=str)
 	# GENERAL ATOMIC DATA
-	DATA NSD=[2,2,2,4,2,2,4,4,6,2,2,4,4,6,2,2,4]
-	DATA SCRPT=[' K  ',' L1 ',' L2 ',' L3 ',' M1',' M2 ',' M3 ',' M4 ',' M5 ',' N1 ',' N2 ',' N3 ',' N4 ',' N5 ',' O1 ',' O2 ',' O3 ']
-	DATA SCRPT1=[' 1s ',' 2s ',' 2p1/2',' 2p3/2',' 3s ',' 3p1/2',' 3p3/2',' 3d3/2',' 3d5/2',' 4s ',' 4p1/2',' 4p3/2',' 4d3/2',' 4d5/2',' 5s ',' 5p1/2',' 5p3/2']
-	DATA AA=[0.0,0.0,0.25,0.25,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25]
-	DATA BB=[1.5,1.5,1.25,1.25,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25]
-	DATA ELEV=[13.598,16*0.0,24.587,16*0.0,54.7,5.4,15*0.0,111.5,9.3,15*0.0,188.0,12.6,4.70,14*0.0]
-	# CARBON284.2,18.0,6.40,14*0.0,401.6,24.4,14.534,14.524,13*0.0,532.0,28.5,13.618,13.618,13*0.0,685.4,34.0,16.000,16.000,13*0.0,
-	# NEON870.2,48.475,21.661,21.565,13*0.0,1070.8,63.5,30.65,30.81,5.1,12*0.0,1303.0,88.7,49.78,49.50,7.6,12*0.0,1559.6,117.8,72.95,72.55,10.6,6.0,11*0.0,1839.0,149.7,99.82,99.42,13.5,8.1,11*0.0,2145.5,189.0,136.0,135.0,16.1,10.5,11*0.0,2472.0,230.9,163.6,162.5,20.2,10.4,11*0.0,2822.4,270.0,202.0,200.0,24.5,12.9,11*0.0,
-	# ARGON3205.9,326.3,250.6,248.4,29.239,15.937,15.760,10*0.0,3608.4,378.6,297.3,294.6,34.8,18.3,18.2,10*0.0,4038.5,438.4,349.7,346.2,44.3,25.4,25.3,10*0.0,4492.0,498.0,403.6,398.7,51.1,28.3,28.2,10*0.0,4966.0,560.9,460.2,453.8,58.7,32.6,32.5,10*0.0,5465.0,626.7,519.8,512.1,66.3,37.2,37.1,10*0.0,5989.0,696.0,583.8,574.1,74.1,42.2,42.1,10*0.0,6539.0,769.1,649.9,638.7,82.3,47.2,47.1,10*0.0,7112.0,844.6,719.9,706.8,91.3,52.7,52.6,10*0.0,7709.0,925.1,793.2,778.1,101.0,59.8,58.9,10*0.0,8333.0,1008.6,870.0,852.7,110.8,68.0,66.2,10*0.0,8979.0,1096.7,952.3,932.7,122.5,77.3,75.1,10*0.0,9659.0,1196.2,1044.9,1021.8,139.8,91.4,88.6,10.2,10.1,8*0.0,
-	# Z=3110367.,1299.0,1143.2,1116.4,159.5,103.5,100.0,18.7,18.6,8*0.0,11103.,1414.6,1248.1,1217.0,180.1,124.9,120.8,29.8,29.2,14.3,7.9,6*0.0,11867.,1527.0,1359.1,1323.6,204.7,146.2,141.2,41.7,41.7,17.0,9.8,6*0.0,12658.,1652.0,1474.3,1433.9,229.6,166.5,160.7,55.5,54.6,20.1,9.8,6*0.0,13474.,1782.0,1596.0,1550.0,257.0,189.0,182.0,70.0,69.0,23.8,11.8,6*0.0,
-	# KR14327.26,1921.0,1730.9,1678.4,292.8,222.2,214.4,95.0,93.8,27.5,14.666,13.9996,5*0.0,15200.,2065.,1864.0,1804.0,326.7,248.7,239.1,113.0,112.,30.5,16.3,15.3,5*0.0,16105.,2216.,2007.,1940.0,358.7,280.3,270.0,136.0,134.2,38.9,21.3,20.1,5*0.0,17038.,2373.,2156.,2080.0,392.0,310.6,298.8,157.7,155.8,43.8,24.4,23.1,5*0.0,17998.,2532.,2307.,2223.0,430.3,343.5,329.8,181.1,178.8,50.6,28.5,27.1,5*0.0,
-	# Z=4118986.,2698.,2465.,2371.0,466.6,376.1,360.6,205.0,202.3,56.4,32.6,30.8,5*0.0,20000.,2866.,2625.,2520.0,506.3,411.6,394.0,231.1,227.9,63.2,37.6,35.5,5*0.0,21044.,3043.,2793.,2677.0,544.0,447.6,417.7,257.6,253.9,69.5,42.3,39.9,5*0.0,22117.,3224.,2967.,2838.0,586.1,483.5,461.4,284.2,280.0,75.0,46.3,43.2,5*0.0,23220.,3412.,3146.,3004.0,628.1,521.3,496.5,311.9,307.2,81.4,50.5,47.3,5*0.0,24350.,3604.,3330.,3173.0,671.6,559.9,532.3,340.5,335.2,87.1,55.7,50.9,5*0.0,25514.,3806.,3524.,3351.0,719.0,603.8,573.0,374.0,368.3,97.0,63.7,58.3,5*0.0,26711.,4018.,3727.,3538.,772.0,652.6,618.4,411.9,405.2,109.8,63.9,63.8,11.7,10.7,3*0.0,27940.,4238.,3938.,3730.,827.2,703.2,665.3,451.4,443.9,122.9,73.6,73.5,17.7,16.9,3*0.0,29200.,4465.,4156.,3929.,884.7,756.5,714.6,493.2,484.9,137.1,83.6,83.5,24.9,23.9,3*0.0,
-	# Z=5130491.,4698.,4380.,4132.,946.0,812.7,766.4,537.5,528.2,153.2,95.6,95.5,33.3,32.1,3*0.0,31814.,4939.,4612.,4341.,1006.,870.8,820.0,583.4,573.,169.4,103.3,103.2,41.9,40.4,3*0.0,33169.,5188.,4852.,4557.,1072.,931.0,875.0,630.8,619.3,186.,123.0,122.9,50.6,48.9,3*0.0,
-	# XE34561.,5453.,5107.,4786.,1148.7,1002.1,940.6,689.0,676.4,213.2,146.7,145.5,69.5,67.5,23.3,13.43,12.129843,35985.,5714.,5359.,5012.,1211.,1071.0,1003.0,740.5,726.6,232.3,172.4,161.3,79.8,77.5,23.7,14.2,12.6,37441.,5989.,5624.,5247.,1293.,1137.0,1063.0,795.7,780.5,253.5,192.0,178.6,92.6,89.9,30.3,17.0,14.8,38925.,6266.,5891.,5483.,1362.,1209.0,1128.0,853.0,836.0,274.7,205.8,196.0,105.3,102.5,34.3,19.3,16.8,40443.,6549.,6164.,5723.,1436.,1274.0,1187.0,902.4,883.8,291.0,223.2,206.5,109.0,107.0,37.2,19.8,17.0,41991.,6835.,6440.,5964.,1511.,1337.0,1242.0,948.3,928.8,304.5,236.3,217.6,115.1,115.0,37.4,21.0,20.9,43569.,7126.,6722.,6208.,1575.,1403.,1297.0,1003.3,980.4,319.2,243.3,224.6,120.5,120.4,37.5,21.1,21.0,
-	# Z=6145184.,7428.,7013.,6459.,1650.,1471.,1357.,1052.0,1027.0,332.0,251.,231.,124.,123.,37.6,21.4,21.3,46834.,7737.,7312.,6716.,1723.,1541.,1420.,1110.9,1083.4,347.2,265.6,247.4,128.,127.,37.7,21.4,21.3,48519.,8052.,7617.,6977.,1800.,1614.,1481.,1158.6,1127.5,360.0,284.0,257.0,132.,127.7,37.8,22.0,21.9,50239.,8376.,7930.,7243.,1881.,1688.,1544.,1221.9,1189.6,378.6,286.0,271.0,143.,142.6,36.0,28.0,22.0,51996.,8708.,8252.,7514.,1968.,1768.,1611.,1276.9,1241.1,396.0,322.4,284.1,150.5,150.4,45.6,28.7,22.6,53789.,9046.,8581.,7790.,2047.,1842.,1676.,1333.,1292.6,414.2,333.5,293.2,153.6,153.5,48.9,29.5,23.3,55618.,9394.,8918.,8071.,2128.,1923.,1741.,1392.,1351.,432.4,343.5,308.2,160.1,160.0,49.3,30.8,24.1,57486.,9751.,9264.,8358.,2207.,2006.,1812.,1453.,1409.,449.8,366.2,320.2,167.6,167.5,50.6,31.4,24.7,59390.,10116.,9617.,8648.,2307.,2090.,1885.,1515.,1468.,470.9,385.9,332.6,175.5,175.4,54.7,31.8,25.0,61332.,10486.,9978.,8944.,2398.,2173.,1950.,1576.,1528.,480.5,388.7,339.7,191.2,182.4,55.0,32.5,25.8,
-	# Z=7163314.,10870.,10349.,9244.,2491.,2264.,2024.,1639.,1589.,506.8,412.4,359.2,206.1,196.3,57.3,33.6,26.7,65351.,11271.,10739.,9561.,2601.,2365.,2108.,1716.,1662.,538.0,438.2,380.7,220.0,211.5,64.2,38.0,29.9,67416.,11682.,11136.,9881.,2708.,2469.,2194.,1793.,1735.,563.4,463.4,400.9,237.9,226.4,69.7,42.2,32.7,69525.,12100.,11544.,10207.,2820.,2575.,2281.,1872.,1809.,594.1,490.4,423.6,255.9,243.5,75.6,45.3,36.8,71676.,12527.,11959.,10535.,2932.,2682.,2367.,1949.,1883.,625.4,518.7,446.8,273.9,260.5,83.0,45.6,38.0,73871.,12968.,12385.,10871.,3049.,2792.,2457.,2031.,1960.,658.2,549.1,470.7,293.1,278.5,84.0,58.0,45.0,76111.,13419.,12824.,11215.,3174.,2909.,2551.,2116.,2040.,691.1,577.8,495.8,311.9,296.3,95.2,63.0,49.0,78395.,13880.,13273.,11564.,3296.,3027.,2645.,2202.,2122.,725.4,609.1,519.4,331.6,314.6,101.7,65.3,52.0,80725.,14353.,13734.,11919.,3425.,3148.,2743.,2291.,2206.,762.1,642.7,546.3,353.2,335.1,107.2,74.2,57.2/
+	NSD=[2,2,2,4,2,2,4,4,6,2,2,4,4,6,2,2,4]
+	SCRPT=[' K  ',' L1 ',' L2 ',' L3 ',' M1',' M2 ',' M3 ',' M4 ',' M5 ',' N1 ',' N2 ',' N3 ',' N4 ',' N5 ',' O1 ',' O2 ',' O3 ']
+	SCRPT1=[' 1s ',' 2s ',' 2p1/2',' 2p3/2',' 3s ',' 3p1/2',' 3p3/2',' 3d3/2',' 3d5/2',' 4s ',' 4p1/2',' 4p3/2',' 4d3/2',' 4d5/2',' 5s ',' 5p1/2',' 5p3/2']
+	AA=[0.0,0.0,0.25,0.25,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25]
+	BB=[1.5,1.5,1.25,1.25,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25]
+	ELEV=[13.598]+16*[0.0]+[24.587]+16*[0.0]+[54.7,5.4]+15*[0.0]+[111.5,9.3]+15*[0.0]+[188.0,12.6,4.70]+14*[0.0]+[
+	# CARBON
+	284.2,18.0,6.40]+14*[0.0]+[401.6,24.4,14.534,14.524]+13*[0.0]+[532.0,28.5,13.618,13.618]+13*[0.0]+[685.4,34.0,16.000,16.000]+13*[0.0]+[
+	# NEON
+	870.2,48.475,21.661,21.565]+13*[0.0]+[1070.8,63.5,30.65,30.81,5.1]+12*[0.0]+[1303.0,88.7,49.78,49.50,7.6]+12*[0.0]+[1559.6,117.8,72.95,72.55,10.6,6.0]+11*[0.0]+[1839.0,149.7,99.82,99.42,13.5,8.1]+11*[0.0]+[2145.5,189.0,136.0,135.0,16.1,10.5]+11*[0.0]+[2472.0,230.9,163.6,162.5,20.2,10.4]+11*[0.0]+[2822.4,270.0,202.0,200.0,24.5,12.9]+11*[0.0]+[
+	# ARGON
+	3205.9,326.3,250.6,248.4,29.239,15.937,15.760]+10*[0.0]+[3608.4,378.6,297.3,294.6,34.8,18.3,18.2]+10*[0.0]+[4038.5,438.4,349.7,346.2,44.3,25.4,25.3]+10*[0.0]+[4492.0,498.0,403.6,398.7,51.1,28.3,28.2]+10*[0.0]+[4966.0,560.9,460.2,453.8,58.7,32.6,32.5]+10*[0.0]+[5465.0,626.7,519.8,512.1,66.3,37.2,37.1]+10*[0.0]+[5989.0,696.0,583.8,574.1,74.1,42.2,42.1]+10*[0.0]+[6539.0,769.1,649.9,638.7,82.3,47.2,47.1]+10*[0.0]+[7112.0,844.6,719.9,706.8,91.3,52.7,52.6]+10*[0.0]+[7709.0,925.1,793.2,778.1,101.0,59.8,58.9]+10*[0.0]+[8333.0,1008.6,870.0,852.7,110.8,68.0,66.2]+10*[0.0]+[8979.0,1096.7,952.3,932.7,122.5,77.3,75.1]+10*[0.0]+[9659.0,1196.2,1044.9,1021.8,139.8,91.4,88.6,10.2,10.1]+8*[0.0]+[
+	# Z=31
+	10367.,1299.0,1143.2,1116.4,159.5,103.5,100.0,18.7,18.6]+8*[0.0]+[11103.,1414.6,1248.1,1217.0,180.1,124.9,120.8,29.8,29.2,14.3,7.9]+6*[0.0]+[11867.,1527.0,1359.1,1323.6,204.7,146.2,141.2,41.7,41.7,17.0,9.8]+6*[0.0]+[12658.,1652.0,1474.3,1433.9,229.6,166.5,160.7,55.5,54.6,20.1,9.8]+6*[0.0]+[13474.,1782.0,1596.0,1550.0,257.0,189.0,182.0,70.0,69.0,23.8,11.8]+6*[0.0]+[
+	# KR
+	14327.26,1921.0,1730.9,1678.4,292.8,222.2,214.4,95.0,93.8,27.5,14.666,13.9996]+5*[0.0]+[15200.,2065.,1864.0,1804.0,326.7,248.7,239.1,113.0,112.,30.5,16.3,15.3]+5*[0.0]+[16105.,2216.,2007.,1940.0,358.7,280.3,270.0,136.0,134.2,38.9,21.3,20.1]+5*[0.0]+[17038.,2373.,2156.,2080.0,392.0,310.6,298.8,157.7,155.8,43.8,24.4,23.1]+5*[0.0]+[17998.,2532.,2307.,2223.0,430.3,343.5,329.8,181.1,178.8,50.6,28.5,27.1]+5*[0.0]+[
+	# Z=41
+	18986.,2698.,2465.,2371.0,466.6,376.1,360.6,205.0,202.3,56.4,32.6,30.8]+5*[0.0]+[20000.,2866.,2625.,2520.0,506.3,411.6,394.0,231.1,227.9,63.2,37.6,35.5]+5*[0.0]+[21044.,3043.,2793.,2677.0,544.0,447.6,417.7,257.6,253.9,69.5,42.3,39.9]+5*[0.0]+[22117.,3224.,2967.,2838.0,586.1,483.5,461.4,284.2,280.0,75.0,46.3,43.2]+5*[0.0]+[23220.,3412.,3146.,3004.0,628.1,521.3,496.5,311.9,307.2,81.4,50.5,47.3]+5*[0.0]+[24350.,3604.,3330.,3173.0,671.6,559.9,532.3,340.5,335.2,87.1,55.7,50.9]+5*[0.0]+[25514.,3806.,3524.,3351.0,719.0,603.8,573.0,374.0,368.3,97.0,63.7,58.3]+5*[0.0]+[26711.,4018.,3727.,3538.,772.0,652.6,618.4,411.9,405.2,109.8,63.9,63.8,11.7,10.7]+3*[0.0]+[27940.,4238.,3938.,3730.,827.2,703.2,665.3,451.4,443.9,122.9,73.6,73.5,17.7,16.9]+3*[0.0]+[29200.,4465.,4156.,3929.,884.7,756.5,714.6,493.2,484.9,137.1,83.6,83.5,24.9,23.9]+3*[0.0]+[
+	# Z=51
+	30491.,4698.,4380.,4132.,946.0,812.7,766.4,537.5,528.2,153.2,95.6,95.5,33.3,32.1]+3*[0.0]+[31814.,4939.,4612.,4341.,1006.,870.8,820.0,583.4,573.,169.4,103.3,103.2,41.9,40.4]+3*[0.0]+[33169.,5188.,4852.,4557.,1072.,931.0,875.0,630.8,619.3,186.,123.0,122.9,50.6,48.9]+3*[0.0]+[
+	# XE
+	34561.,5453.,5107.,4786.,1148.7,1002.1,940.6,689.0,676.4,213.2,146.7,145.5,69.5,67.5,23.3,13.43,12.129843,35985.,5714.,5359.,5012.,1211.,1071.0,1003.0,740.5,726.6,232.3,172.4,161.3,79.8,77.5,23.7,14.2,12.6,37441.,5989.,5624.,5247.,1293.,1137.0,1063.0,795.7,780.5,253.5,192.0,178.6,92.6,89.9,30.3,17.0,14.8,38925.,6266.,5891.,5483.,1362.,1209.0,1128.0,853.0,836.0,274.7,205.8,196.0,105.3,102.5,34.3,19.3,16.8,40443.,6549.,6164.,5723.,1436.,1274.0,1187.0,902.4,883.8,291.0,223.2,206.5,109.0,107.0,37.2,19.8,17.0,41991.,6835.,6440.,5964.,1511.,1337.0,1242.0,948.3,928.8,304.5,236.3,217.6,115.1,115.0,37.4,21.0,20.9,43569.,7126.,6722.,6208.,1575.,1403.,1297.0,1003.3,980.4,319.2,243.3,224.6,120.5,120.4,37.5,21.1,21.0,
+	# Z=61
+	45184.,7428.,7013.,6459.,1650.,1471.,1357.,1052.0,1027.0,332.0,251.,231.,124.,123.,37.6,21.4,21.3,46834.,7737.,7312.,6716.,1723.,1541.,1420.,1110.9,1083.4,347.2,265.6,247.4,128.,127.,37.7,21.4,21.3,48519.,8052.,7617.,6977.,1800.,1614.,1481.,1158.6,1127.5,360.0,284.0,257.0,132.,127.7,37.8,22.0,21.9,50239.,8376.,7930.,7243.,1881.,1688.,1544.,1221.9,1189.6,378.6,286.0,271.0,143.,142.6,36.0,28.0,22.0,51996.,8708.,8252.,7514.,1968.,1768.,1611.,1276.9,1241.1,396.0,322.4,284.1,150.5,150.4,45.6,28.7,22.6,53789.,9046.,8581.,7790.,2047.,1842.,1676.,1333.,1292.6,414.2,333.5,293.2,153.6,153.5,48.9,29.5,23.3,55618.,9394.,8918.,8071.,2128.,1923.,1741.,1392.,1351.,432.4,343.5,308.2,160.1,160.0,49.3,30.8,24.1,57486.,9751.,9264.,8358.,2207.,2006.,1812.,1453.,1409.,449.8,366.2,320.2,167.6,167.5,50.6,31.4,24.7,59390.,10116.,9617.,8648.,2307.,2090.,1885.,1515.,1468.,470.9,385.9,332.6,175.5,175.4,54.7,31.8,25.0,61332.,10486.,9978.,8944.,2398.,2173.,1950.,1576.,1528.,480.5,388.7,339.7,191.2,182.4,55.0,32.5,25.8,
+	# Z=71
+	63314.,10870.,10349.,9244.,2491.,2264.,2024.,1639.,1589.,506.8,412.4,359.2,206.1,196.3,57.3,33.6,26.7,65351.,11271.,10739.,9561.,2601.,2365.,2108.,1716.,1662.,538.0,438.2,380.7,220.0,211.5,64.2,38.0,29.9,67416.,11682.,11136.,9881.,2708.,2469.,2194.,1793.,1735.,563.4,463.4,400.9,237.9,226.4,69.7,42.2,32.7,69525.,12100.,11544.,10207.,2820.,2575.,2281.,1872.,1809.,594.1,490.4,423.6,255.9,243.5,75.6,45.3,36.8,71676.,12527.,11959.,10535.,2932.,2682.,2367.,1949.,1883.,625.4,518.7,446.8,273.9,260.5,83.0,45.6,38.0,73871.,12968.,12385.,10871.,3049.,2792.,2457.,2031.,1960.,658.2,549.1,470.7,293.1,278.5,84.0,58.0,45.0,76111.,13419.,12824.,11215.,3174.,2909.,2551.,2116.,2040.,691.1,577.8,495.8,311.9,296.3,95.2,63.0,49.0,78395.,13880.,13273.,11564.,3296.,3027.,2645.,2202.,2122.,725.4,609.1,519.4,331.6,314.6,101.7,65.3,52.0,80725.,14353.,13734.,11919.,3425.,3148.,2743.,2291.,2206.,762.1,642.7,546.3,353.2,335.1,107.2,74.2,57.2]
+	ELEV=numpy.reshape(ELEV,(17,79))	
 	# LOAD GENERAL DATA FOR CASCADE CALCULATIONS
 	for I in range(1,17):
-	NSDEG[I]=NSD[I]
-	SCR[I]=SCRPT[I]
-	SCR1[I]=SCRPT1[I]
-	for J in range(1,79):
-		ELEV[I][J]=ELEV[I][J]
+		NSDEG[I]=NSD[I]
+		SCR[I]=SCRPT[I]
+		SCR1[I]=SCRPT1[I]
+		for J in range(1,79):
+			ELEV[I][J]=ELEV[I][J]
 	return 
 	# end
 def PRINTER():
@@ -7771,270 +5441,7 @@ def PRINTER():
 	111 print(2X,'#real COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)',/,2(5(3X,'%.3f' %)/))                   
 	return                                                            
 	# end                                                               
-def MIXERC():
-	# IMPLICIT #real*8 (A-H,O-Z) 
-	# IMPLICIT #integer*8 (I-N)
-	COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-	COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),RAD[6,3,17,17],PRSHBT(6,3,17),IZ[6,3],INIOCC(6,3,17),ISHLMX(6,3),AMZ[6,3] 
-	COMMON/MIXPE/XPE(6,3,17,60),YPE(6,3,17,60)
-	COMMON/MIXCN/XCP(6,3,54),YRY(6,3,54),YCP(6,3,54),YPP(6,3,54)
-	COMMON/COMPTIN/FRMFR(6,3,45),FRMFC(6,3,45)
-	COMMON/GASN/NGASN[6]
-	DIMENSION PRSH1(3,17,17),PRSH2(3,17,17),PRSH3(3,17,17),PRSH4(3,17,17),PRSH5(3,17,17),PRSH6(3,17,17)
-	DIMENSION PRSHBT1(3,17),PRSHBT2(3,17),PRSHBT3(3,17),PRSHBT4(3,17),PRSHBT5(3,17),PRSHBT6(3,17)
-	DIMENSION ESH1(3,17),ESH2(3,17),ESH3(3,17),ESH4(3,17),ESH5(3,17),ESH6(3,17)
-	DIMENSION AUG1(3,17,17,17),AUG2(3,17,17,17),AUG3(3,17,17,17),AUG4(3,17,17,17),AUG5(3,17,17,17),AUG6(3,17,17,17)
-	DIMENSION RAD1(3,17,17),RAD2(3,17,17),RAD3(3,17,17),RAD4(3,17,17),RAD5(3,17,17),RAD6(3,17,17)
-	DIMENSION INIOCC1(3,17),INIOCC2(3,17),INIOCC3(3,17),INIOCC4(3,17),INIOCC5(3,17),INIOCC6(3,17)
-	DIMENSION XP1(3,17,60),YP1(3,17,60),XP2(3,17,60),YP2(3,17,60),XP3(3,17,60),YP3(3,17,60),XP4(3,17,60),YP4(3,17,60),XP5(3,17,60),YP5(3,17,60),XP6(3,17,60),YP6(3,17,60)
-	DIMENSION XC1(3,54),YR1(3,54),YC1(3,54),YPP1(3,54),XC2(3,54),YR2(3,54),YC2(3,54),YPP2(3,54),XC3(3,54),YR3(3,54),YC3(3,54),YPP3(3,54),XC4(3,54),YR4(3,54),YC4(3,54),YPP4(3,54),XC5(3,54),YR5(3,54),YC5(3,54),YPP5(3,54),XC6(3,54),YR6(3,54),YC6(3,54),YPP6(3,54)
-	DIMENSION FFAC1(3,45),FFAC2(3,45),FFAC3(3,45),FFAC4(3,45),FFAC5(3,45),FFAC6(3,45)
-	DIMENSION FFAR1(3,45),FFAR2(3,45),FFAR3(3,45),FFAR4(3,45),FFAR5(3,45),FFAR6(3,45)
-	DIMENSION IZ1(3),IZ2(3),IZ3(3),IZ4(3),IZ5(3),IZ6(3)
-	DIMENSION AMZ1(3),AMZ2(3),AMZ3(3),AMZ4(3),AMZ5(3),AMZ6(3)
-	# LOAD PHOTOELECTRIC AND COMPTON X-SECS
-	# LOAD INITIAL SHELL OCCUPANCIES FOR EACH GAS
-	# LOAD ENERGY LEVELS
-	# LOAD TRANSITION PROBABILITIES AUGER AND RADIATIVE
-	# LOAD SHAKE OFF PROBABILITIES AND ENERGIES
-	DO 1 I=1,6
-	DO 1 M=1,3
-	IZ[I,M]=0
-	AMZ[I,M]=0.00
-	DO 1 J=1,17
-	ESH(I,M,J)=0.0
-	INIOCC(I,M,J)=0
-	PRSHBT(I,M,J)=0.0
-	for K in range(1,17):
-		PRSH(I,M,J,K)=0.0
-		RAD[I,M,J,K]=0.0
-		for L in range(1,17):
-			AUG(I,M,J,K,L)=0.0
-			1 CONTINUE  
-	CALL GASMIXC(NGASN[1],PRSH1,PRSHBT1,ESH1,AUG1,RAD1,XP1,YP1,XC1,YR1,YC1,YPP1,FFAR1,FFAC1,IZ1,AMZ1,INIOCC1)
-	if(NGAS == 1):
-	GO TO 10
-	CALL GASMIXC(NGASN[2],PRSH2,PRSHBT2,ESH2,AUG2,RAD2,XP2,YP2,XC2,YR2,YC2,YPP2,FFAR2,FFAC2,IZ2,AMZ2,INIOCC2)
-	if(NGAS == 2):
-	GO TO 10
-	CALL GASMIXC(NGASN(3),PRSH3,PRSHBT3,ESH3,AUG3,RAD3,XP3,YP3,XC3,YR3,YC3,YPP3,FFAR3,FFAC3,IZ3,AMZ3,INIOCC3)
-	if(NGAS == 3):
-	GO TO 10
-	CALL GASMIXC(NGASN[4],PRSH4,PRSHBT4,ESH4,AUG4,RAD4,XP4,YP4,XC4,YR4,YC4,YPP4,FFAR4,FFAC4,IZ4,AMZ4,INIOCC4)
-	if(NGAS == 4):
-	GO TO 10
-	CALL GASMIXC(NGASN[5],PRSH5,PRSHBT5,ESH5,AUG5,RAD5,XP5,YP5,XC5,YR5,YC5,YPP5,FFAR5,FFAC5,IZ5,AMZ5,INIOCC5)
-	if(NGAS == 5):
-	GO TO 10
-	CALL GASMIXC(NGASN[6],PRSH6,PRSHBT6,ESH6,AUG6,RAD6,XP6,YP6,XC6,YR6,YC6,YPP6,FFAR6,FFAC6,IZ6,AMZ6,INIOCC6)
-	if(NGAS == 6):
-	GO TO 10
-	10 CONTINUE
-	I=1
-	DO 30 J1=1,3
-	IZ[I,J1]=IZ1(J1)
-	AMZ[I,J1]=AMZ1(J1)
-	DO 30 J=1,17
-	DO 20 M=1,60
-	XPE(1,J1,J,M)=XP1(J1,J,M)
-	YPE(1,J1,J,M)=YP1(J1,J,M)
-	20 CONTINUE
-	ESH(I,J1,J)=ESH1(J1,J)
-	INIOCC(I,J1,J)=INIOCC1(J1,J)
-	if(INIOCC1(J1,J):
-	!= 0) ISHLMX(1,J1)=J
-	PRSHBT(I,J1,J)=PRSHBT1(J1,J)
-	DO 30 K=1,17
-	PRSH(I,J1,J,K)=PRSH1(J1,J,K)
-	RAD[I,J1,J,K]=RAD1(J1,J,K)
-	DO 30 L=1,17
-	AUG(I,J1,J,K,L)=AUG1(J1,J,K,L)
-	30 CONTINUE
-	DO 35 J=1,3
-	DO 35 M=1,54
-	XCP(1,J,M)=XC1(J,M)
-	YRY(1,J,M)=YR1(J,M)
-	YCP(1,J,M)=YC1(J,M)
-	YPP(1,J,M)=YPP1(J,M)
-	35 CONTINUE
-	DO 40 J=1,3
-	DO 40 K=1,45
-	FRMFR(1,J,K)=FFAR1(J,K)
-	40 FRMFC(1,J,K)=FFAC1(J,K)
-	if(NGAS == 1):
-	GO TO 1000
-	I=2
-	DO 60 J1=1,3
-	IZ[I,J1]=IZ2(J1)
-	AMZ[I,J1]=AMZ2(J1)
-	DO 60 J=1,17
-	DO 50 M=1,60
-	XPE(2,J1,J,M)=XP2(J1,J,M)
-	YPE(2,J1,J,M)=YP2(J1,J,M)
-	50 CONTINUE
-	ESH(I,J1,J)=ESH2(J1,J)
-	INIOCC(I,J1,J)=INIOCC2(J1,J)
-	if(INIOCC2(J1,J):
-	!= 0) ISHLMX(2,J1)=J
-	PRSHBT(I,J1,J)=PRSHBT2(J1,J)
-	DO 60 K=1,17
-	PRSH(I,J1,J,K)=PRSH2(J1,J,K)
-	RAD[I,J1,J,K]=RAD2(J1,J,K)
-	DO 60 L=1,17
-	AUG(I,J1,J,K,L)=AUG2(J1,J,K,L)
-	60 CONTINUE
-	DO 65 J=1,3
-	DO 65 M=1,54
-	XCP(2,J,M)=XC2(J,M)
-	YRY(2,J,M)=YR2(J,M)
-	YCP(2,J,M)=YC2(J,M)
-	YPP(2,J,M)=YPP2(J,M)
-	65 CONTINUE
-	DO 70 J=1,3
-	DO 70 K=1,45
-	FRMFR(2,J,K)=FFAR2(J,K)
-	70 FRMFC(2,J,K)=FFAC2(J,K)
-	if(NGAS == 2):
-	GO TO 1000
-	I=3
-	DO 90 J1=1,3
-	IZ[I,J1]=IZ3(J1)
-	AMZ[I,J1]=AMZ3(J1)
-	DO 90 J=1,17
-	DO 80 M=1,60
-	XPE(3,J1,J,M)=XP3(J1,J,M)
-	YPE(3,J1,J,M)=YP3(J1,J,M)
-	80 CONTINUE
-	ESH(I,J1,J)=ESH3(J1,J)
-	INIOCC(I,J1,J)=INIOCC3(J1,J)
-	if(INIOCC3(J1,J):
-	!= 0) ISHLMX(3,J1)=J
-	PRSHBT(I,J1,J)=PRSHBT3(J1,J)
-	DO 90 K=1,17
-	PRSH(I,J1,J,K)=PRSH3(J1,J,K)
-	RAD[I,J1,J,K]=RAD3(J1,J,K)
-	DO 90 L=1,17
-	AUG(I,J1,J,K,L)=AUG3(J1,J,K,L)
-	90 CONTINUE
-	DO 95 J=1,3
-	DO 95 M=1,54
-	XCP(3,J,M)=XC3(J,M)
-	YRY(3,J,M)=YR3(J,M)
-	YCP(3,J,M)=YC3(J,M)
-	YPP(3,J,M)=YPP3(J,M)
-	95 CONTINUE
-	DO 100 J=1,3
-	DO 100 K=1,45
-	FRMFR(3,J,K)=FFAR3(J,K)
-	100 FRMFC(3,J,K)=FFAC3(J,K)
-	if(NGAS == 3):
-	GO TO 1000
-	I=4
-	DO 120 J1=1,3
-	IZ[I,J1]=IZ4(J1)
-	AMZ[I,J1]=AMZ4(J1)
-	DO 120 J=1,17
-	DO 110 M=1,60
-	XPE(4,J1,J,M)=XP4(J1,J,M)
-	YPE(4,J1,J,M)=YP4(J1,J,M)
-	110 CONTINUE
-	ESH(I,J1,J)=ESH4(J1,J)
-	INIOCC(I,J1,J)=INIOCC4(J1,J)
-	if(INIOCC4(J1,J):
-	!= 0) ISHLMX(4,J1)=J
-	PRSHBT(I,J1,J)=PRSHBT4(J1,J)
-	DO 120 K=1,17
-	PRSH(I,J1,J,K)=PRSH4(J1,J,K)
-	RAD[I,J1,J,K]=RAD4(J1,J,K)
-	DO 120 L=1,17
-	AUG(I,J1,J,K,L)=AUG4(J1,J,K,L)
-	120 CONTINUE
-	DO 125 J=1,3
-	DO 125 M=1,54
-	XCP(4,J,M)=XC4(J,M)
-	YRY(4,J,M)=YR4(J,M)
-	YCP(4,J,M)=YC4(J,M)
-	YPP(4,J,M)=YPP4(J,M)
-	125 CONTINUE
-	DO 130 J=1,3
-	DO 130 K=1,45
-	FRMFR(4,J,K)=FFAR4(J,K)
-	130 FRMFC(4,J,K)=FFAC4(J,K)
-	if(NGAS == 4):
-	GO TO 1000
-	I=5
-	DO 150 J1=1,3
-	IZ[I,J1]=IZ5(J1)
-	AMZ[I,J1]=AMZ5(J1)
-	DO 150 J=1,17
-	DO 140 M=1,60
-	XPE(5,J1,J,M)=XP5(J1,J,M)
-	YPE(5,J1,J,M)=YP5(J1,J,M)
-	140 CONTINUE
-	ESH(I,J1,J)=ESH5(J1,J)
-	INIOCC(I,J1,J)=INIOCC5(J1,J)
-	if(INIOCC5(J1,J):
-	!= 0) ISHLMX(5,J1)=J
-	PRSHBT(I,J1,J)=PRSHBT5(J1,J)
-	DO 150 K=1,17
-	PRSH(I,J1,J,K)=PRSH5(J1,J,K)
-	RAD[I,J1,J,K]=RAD5(J1,J,K)
-	DO 150 L=1,17
-	AUG(I,J1,J,K,L)=AUG5(J1,J,K,L)
-	150 CONTINUE
-	DO 155 J=1,3
-	DO 155 M=1,54
-	XCP(5,J,M)=XC5(J,M)
-	YRY(5,J,M)=YR5(J,M)
-	YCP(5,J,M)=YC5(J,M)
-	YPP(5,J,M)=YPP5(J,M) 
-	155 CONTINUE
-	DO 160 J=1,3
-	DO 160 K=1,45
-	FRMFR(5,J,K)=FFAR5(J,K)
-	160 FRMFC(5,J,K)=FFAC5(J,K)
-	if(NGAS == 5):
-	GO TO 1000
-	I=6
-	DO 180 J1=1,3
-	IZ[I,J1]=IZ6(J1)
-	AMZ[I,J1]=AMZ6(J1)
-	DO 180 J=1,17
-	DO 170 M=1,60
-	XPE(6,J1,J,M)=XP6(J1,J,M)
-	YPE(6,J1,J,M)=YP6(J1,J,M)
-	170 CONTINUE
-	ESH(I,J1,J)=ESH6(J1,J)
-	INIOCC(I,J1,J)=INIOCC6(J1,J)
-	if(INIOCC6(J1,J):
-	!= 0) ISHLMX(6,J1)=J
-	PRSHBT(I,J1,J)=PRSHBT6(J1,J)
-	DO 180 K=1,17
-	PRSH(I,J1,J,K)=PRSH6(J1,J,K)
-	RAD[I,J1,J,K]=RAD6(J1,J,K)
-	DO 180 L=1,17
-	AUG(I,J1,J,K,L)=AUG6(J1,J,K,L)
-	180 CONTINUE 
-	DO 185 J=1,3
-	DO 185 M=1,54
-	XCP(6,J,M)=XC6(J,M)
-	YRY(6,J,M)=YR6(J,M)
-	YCP(6,J,M)=YC6(J,M)
-	YPP(6,J,M)=YPP6(J,M)
-	185 CONTINUE
-	DO 190 J=1,3
-	DO 190 K=1,45
-	FRMFR(6,J,K)=FFAR6(J,K)
-	190 FRMFC(6,J,K)=FFAC6(J,K)
-	if(NGAS > 6):
-	:
-	WRITE(6,99) NGAS
-	99 print(' def STOPPED: NGAS=',I3,' IN MIXERC')
-	sys.exit()
-	# endif
-	1000 CONTINUE
-	return
-	# end
+
 def GASMIXC(NGS,PRSH,PRSHBT,ESH,AUG,RAD,XPE,YPE,XCP,YRY,YCP,YPP,FFR,FFC,IZ,AMZ,INIOCC):
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
@@ -8328,10 +5735,10 @@ def ANGGEN(a, b, theta):
 		if (y  ==  0) :
 			theta = 0
 			return
-		else if (y > 0  and  y  <  eps) :
+		elif (y > 0  and  y  <  eps) :
 			theta = (3.00*pi*y/2.00)**(1.00/3.00)
 			return
-		else if (y < 0  and  y  >  -eps) :
+		elif (y < 0  and  y  >  -eps) :
 			theta = -(-3.00*pi*y/2.00)**(1.00/3.00)
 			return
 		# endif

@@ -4,7 +4,7 @@ The aim of this repo is to build a tool and a semi-automated algorithm, to conve
 ## RECENT <br>
 broken into rough modules:<br>
 Structure :
-* degrad1.py + Setup.py + Mipcalc.py + CsstfbN.py + Compress.py + Bremscasc.py + Controlb.py + Calcb.py + Cascadee.py + Controle.py + CalcbN.py + csstfNe.py + Compresse.py + Splitn.py + Montefx.py + csstfN.py + Calcn.py + cgasn.py + gasn.py 
+* degrad1.py + Setup.py + Density.py + Mixerc.py + Mixer.py + Printer.py + Mipcalc.py + CsstfbN.py + Compress.py + Bremscasc.py + Controlb.py + Calcb.py + Cascadee.py + Controle.py + CalcbN.py + csstfNe.py + Compresse.py + Splitn.py + Montefx.py + csstfN.py + Calcn.py + cgasn.py + gasn.py 
 <br>
 Added f2py interface example code in testing directory. Code file -> ftype .
 Terminal Screenshot -> Screenshot <br>
