@@ -1,5 +1,13 @@
 import numpy
+# from degrad1 import *
 from Setup import *
+from Gasmixc import *
+from Mixerc import *
+from Gasmix import *
+from Printer import *
+from Mipcalc import *
+from Density import *
+from Cascdat import *
 import sys
 def DEGRADE():
 	# IMPLICIT #real*8 (A-H,O-Z)

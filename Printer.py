@@ -81,39 +81,39 @@ def PRINTER():
 		print('   SIMULATION WITH COMPLETE SHELL CASCADE')	#17 
 	print('----------------------------------\n\n')
 	print('   MONTE CARLO SOLUTION FOR MIXTURE OF ',NGAS,' GASES.\n   DEGRADATION CALCULATION ALL TIMES IN PICOSECS, DISTANCE IN MICRONS\n   -----------------------------------------------------------------')
-	WRITE(6,30) (NAMEG[J],FRAC[J], J=1,NGAS)                          
-	30  print(/,5X,'  GASES  USED ',15X,' PERCENTAGE USED ',2(/),6(6X,A25,5X,'%.4f' %,/))                    
-	WRITE(6,50) TEMPC,TORR                                            
-	50 print(/,2X,'GAS TEMPERATURE =',F6.1,' DEGREES CENTIGRADE.',/,2X,'GAS PRESSURE = ',F7.1,' TORR.')
+	# WRITE(6,30) (NAMEG[J],FRAC[J], J=1,NGAS)     
+	for J in range(1,NGAS+1):
+		print('\n',5*' ','  GASES  USED ',15*' ',' PERCENTAGE USED ',2*'\n',6*' ',NAMEG[J],5*' ','%.4f' % FRAC[J],'\n')
+	print('\n','  ','GAS TEMPERATURE =','%.1f' % TEMPC,' DEGREES CENTIGRADE.','\n','  ','GAS PRESSURE = ','%.1f' % TORR,' TORR.')
 	if(NSEED != 0):
-	WRITE(6,51) NSEED
-	51 print(2(/),' RANDOM NUMBER SEED =',I10)
+		# WRITE(6,51) NSEED
+		print(2*'\n',' RANDOM NUMBER SEED =',NSEED)
 	if(NSEED == 0):
-	WRITE(6,52) 
-	52 print(2(/),' STANDARD RANDOM NUMBER SEED = 54217137')
+		# WRITE(6,52) 
+		print(2*'\n',' STANDARD RANDOM NUMBER SEED = 54217137')
 	if(IPEN == 0):
-	WRITE(6,55)
-	55 print(2(/),2X,' PENNING IONISATION NOT ALLOWED')
+		# WRITE(6,55)
+		print(2*'\n','  ',' PENNING IONISATION NOT ALLOWED')
 	if(IPEN == 1):
-	WRITE(6,56)                              
-	56 print(2(/),2X,' PENNING IONISATION ALLOWED')
-	WRITE(6,60) EFINAL,NSTEP                                          
-	60  print(1(/),2X,'INTEGRATION FROM 0.0 TO ',F11.1,' EV.  IN ',I5,' STEPS. ') 
-	WRITE(6,90) EFIELD,BMAG,BTHETA,WB                                 
-	90  print(1(/),'  ELECTRIC FIELD =','%.4f' %,' VOLTS/CM.',/'  MAGNETIC FIELD =','%.4f' %,' KILOGAUSS.',/,'  ANGLE BETWEEN ELECTRIC AND MAGNETIC FIELD =','%.3f' % ,' DEGREES.',/,'  CYCLOTRON FREQ. =',E12.3,' RADIANS/PICOSECOND')
-	WRITE(6,43)
-	43  print(/,' USED ANISOTROPIC X-SECTIONS (OKHRIMOVSKYY ET AL) ')
+		# WRITE(6,56)                              
+		print(2*'\n','  ',' PENNING IONISATION ALLOWED')
+	# WRITE(6,60) EFINAL,NSTEP                                          
+	print(1*'\n','  ','INTEGRATION FROM 0.0 TO ','%.1f' % EFINAL,' EV.  IN ',NSTEP,' STEPS. ') 
+	# WRITE(6,90) EFIELD,BMAG,BTHETA,WB                                 
+	print(1*'\n','  ELECTRIC FIELD =','%.4f' % EFIELD,' VOLTS/CM.','\n''  MAGNETIC FIELD =','%.4f' % BMAG,' KILOGAUSS.','\n','  ANGLE BETWEEN ELECTRIC AND MAGNETIC FIELD =','%.3f' % BTHETA,' DEGREES.','\n','  CYCLOTRON FREQ. =','%.3f' % WB,' RADIANS/PICOSECOND')
+	# WRITE(6,43)
+	print('\n',' USED ANISOTROPIC X-SECTIONS (OKHRIMOVSKYY ET AL) ')
 	if(ICOUNT == 1):
-		WRITE(6,34) 
-		34  print(' USED COUNTING IONISATION X-SECTIONS')
+		# WRITE(6,34) 
+		print(' USED COUNTING IONISATION X-SECTIONS')
 	else:
-		WRITE(6,35)
-		35  print(' USE GROSS IONISATION X-SECTIONS')
+		# WRITE(6,35)
+		print(' USE GROSS IONISATION X-SECTIONS')
 	# endif
-	WRITE(6,91) ESTART,NDELTA,ETHRM 
-	91  print(1(/),'  INITIAL ELECTRON OR X-RAY ENERGY =',F11.1,' EV.',/,9X,'NUMBER OF EVENTS =',I9,/,4X,'THERMALISATION ENERGY =',F6.2,' EV.',/)
-	WRITE(6,911) DETEFF,EXCWGHT
-	911 print(' PHOTON DETECTION EFFICIENCY USED IN FANO CALCULATION =','%.3f' % ,' %',/,7X,'WEIGHT GIVEN TO EXCITATION IN FANO CALCULATION =','%.3f' % ,/) 
+	# WRITE(6,91) ESTART,NDELTA,ETHRM 
+	print(1*'\n','  INITIAL ELECTRON OR X-RAY ENERGY =','%.1f' % ESTART,' EV.','\n',9*' ','NUMBER OF EVENTS =',NDELTA,'\n',4*' ','THERMALISATION ENERGY =','%.2f' % ETHRM,' EV.','\n')
+	# WRITE(6,911) DETEFF,EXCWGHT
+	print(' PHOTON DETECTION EFFICIENCY USED IN FANO CALCULATION =','%.3f' % DETEFF,' %','\n',7*' ','WEIGHT GIVEN TO EXCITATION IN FANO CALCULATION =','%.3f' % EXCWGHT,'\n') 
 	if(IMIP == 4 or IMIP == 5):
 		if(KGAS <= 0 or KGAS > NGAS):
 			# WRITE(6,990) KGAS
@@ -131,23 +131,28 @@ def PRINTER():
 	if(NDVEC == 2):
 		# WRITE(6,915)
 		print('  BETA OR X-RAY IN RANDOM DIRECTION TO E-FIELD')
-		GO TO 95
-	# endif
-	if(abs(numpy.cos(THETA):
-	) < 1.D-9 and IMIP > 2) WRITE(6,92)
-	if(abs(numpy.cos(THETA):
-	) < 1.D-9 and IMIP == 2) WRITE(6,922)
-	if(numpy.cos(THETA):
-	== 1.0) WRITE(6,93)
-	if(numpy.cos(THETA):
-	== -1.0) WRITE(6,94)
-	922  print('  ELECTRON BEAM ALONG X DIRECTION')
-	92  print('  BETA OR X-RAY PERP# endICULAR TO E-FIELD IN X-Y PLANE')  
-	93  print('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS IN E-FIELD DIRECTION')
-	94  print('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS OPPOSITE TO E-FIELD DIRECTION')    
-	95  WRITE(6,96) TCFMAX1 
-	96  print(/,2X,'NULL COLLISION FREQUENCY =','%.3f' %,' *(10**12/SEC)',/)
-	WRITE(6,111)  (TCF(L),L=500,9500,1000)                            
-	111 print(2X,'#real COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)',/,2(5(3X,'%.3f' %)/))                   
+		pass
+	else:
+		# endif
+		if(abs(numpy.cos(THETA)) < 1.e-9 and IMIP > 2):
+			# WRITE(6,92)
+			print('  BETA OR X-RAY PERP# endICULAR TO E-FIELD IN X-Y PLANE')  
+		if(abs(numpy.cos(THETA)) < 1.e-9 and IMIP == 2):
+			# WRITE(6,922)
+			print('  ELECTRON BEAM ALONG X DIRECTION')
+		if(numpy.cos(THETA)== 1.0):
+			# WRITE(6,93)
+			print('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS IN E-FIELD DIRECTION')
+		if(numpy.cos(THETA)== -1.0):
+			# WRITE(6,94)
+			print('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS OPPOSITE TO E-FIELD DIRECTION')     
+	# 95  WRITE(6,96) TCFMAX1 
+	print('\n','  ','NULL COLLISION FREQUENCY =','%.3f' % TCFMAX1 ,' *(10**12/SEC)','\n')
+	# WRITE(6,111)  (TCF(L),L=500,9500,1000)
+	for L in range(500,9500+1,1000):
+		print('  ','#real COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)','\n')
+		print(3*' ','%.3f' % TCF[L],'\t')
+		if L==4500:
+			print('\n')
 	return                                                            
 	# end                                                               
