@@ -11,7 +11,7 @@ def MIXERC():
 	#COMMON/MIXPE/
 	# global conf.XPE,conf.YPE
 	#COMMON/MIXCN/
-	# global conf.XCP,conf.YRY,conf.YCP,YPP
+	# global conf.XCP,conf.YRY,conf.YCP,conf.YPP
 	#COMMON/COMPTIN/
 	# global conf.FRMFR,conf.FRMFC
 	#COMMON/GASN/
@@ -156,6 +156,7 @@ def MIXERC():
 							pass
 	# 10 CONTINUE
 	I=1
+	print(conf.XPE.shape,XP1.shape)
 	for J1 in range(1,3+1):
 		conf.IZ[I][J1]=IZ1[J1]
 		conf.AMZ[I][J1]=AMZ1[J1]
@@ -178,7 +179,7 @@ def MIXERC():
 			conf.XCP[1][J][M]=XC1[J][M]
 			conf.YRY[1][J][M]=YR1[J][M]
 			conf.YCP[1][J][M]=YC1[J][M]
-			YPP[1][J][M]=YPP1[J][M]
+			conf.YPP[1][J][M]=YPP1[J][M]
 	for J in range(1,3+1):
 		for K in range(1,45+1):
 			conf.FRMFR[1][J][K]=FFAR1[J][K]
@@ -208,7 +209,7 @@ def MIXERC():
 			conf.XCP[2][J][M]=XC2[J][M]
 			conf.YRY[2][J][M]=YR2[J][M]
 			conf.YCP[2][J][M]=YC2[J][M]
-			YPP[2][J][M]=YPP2[J][M]
+			conf.YPP[2][J][M]=YPP2[J][M]
 	for J in range(1,3+1):
 		for K in range(1,45+1):
 			conf.FRMFR[2][J][K]=FFAR2[J][K]
@@ -238,7 +239,7 @@ def MIXERC():
 			conf.XCP[3][J][M]=XC3[J][M]
 			conf.YRY[3][J][M]=YR3[J][M]
 			conf.YCP[3][J][M]=YC3[J][M]
-			YPP[3][J][M]=YPP3[J][M]
+			conf.YPP[3][J][M]=YPP3[J][M]
 	for J in range(1,3+1):
 		for K in range(1,45+1):
 			conf.FRMFR[3][J][K]=FFAR3[J][K]
@@ -268,7 +269,7 @@ def MIXERC():
 			conf.XCP[4][J][M]=XC4[J][M]
 			conf.YRY[4][J][M]=YR4[J][M]
 			conf.YCP[4][J][M]=YC4[J][M]
-			YPP[4][J][M]=YPP4[J][M]
+			conf.YPP[4][J][M]=YPP4[J][M]
 	for J in range(1,3+1):
 		for K in range(1,45+1):
 			conf.FRMFR[4][J][K]=FFAR4[J][K]
@@ -298,7 +299,7 @@ def MIXERC():
 			conf.XCP[5][J][M]=XC5[J][M]
 			conf.YRY[5][J][M]=YR5[J][M]
 			conf.YCP[5][J][M]=YC5[J][M]
-			YPP[5][J][M]=YPP5[J][M] 
+			conf.YPP[5][J][M]=YPP5[J][M] 
 	for J in range(1,3+1):
 		for K in range(1,45+1):
 			conf.FRMFR[5][J][K]=FFAR5[J][K]
@@ -328,7 +329,7 @@ def MIXERC():
 			conf.XCP[6][J][M]=XC6[J][M]
 			conf.YRY[6][J][M]=YR6[J][M]
 			conf.YCP[6][J][M]=YC6[J][M]
-			YPP[6][J][M]=YPP6[J][M]
+			conf.YPP[6][J][M]=YPP6[J][M]
 	for J in range(1,3+1):
 		for K in range(1,45+1):
 			conf.FRMFR[6][J][K]=FFAR6[J][K]

@@ -1,12 +1,23 @@
+import numpy
+
 def MIXER():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)                                         
 	# CHARACTER*25 NAMEG,NAME1,NAME2,NAME3,NAME4,NAME5,NAME6
 	global AN1,AN2,AN3,AN4,AN5,AN6,AN
-	global FRAC#[6]              
+	AN1=conf.AN1
+	AN2=conf.AN2
+	AN3=conf.AN3
+	AN4=conf.AN4
+	AN5=conf.AN5
+	AN6=conf.AN6
+	AN=conf.AN
+	global FRAC#[6] 
+	FRAC=conf.FRAC             
 	# CHARACTER*50 DSCRPT,SCRP1(300),SCRP2(300),SCRP3(300),SCRP4(300),SCRP5(300),SCRP6(300)   
 	# CHARACTER*50 DSCRPTN,SCRPN1(10),SCRPN2(10),SCRPN3(10),SCRPN4(10),SCRPN5(10),SCRPN6(10)                          
 	global NGASN#[6] 
+	NGASN=conf.NGASN
 	global QELM#(20000)
 	global QSUM#(20000)
 	global QION#(6,20000)
@@ -40,7 +51,7 @@ def MIXER():
 	global ALIN6#(250)
 	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
 	global CONST1,CONST2,CONST3,CONST4,CONST5                  
-	global TMAX,SMALL,API,ESTART,THETA,PHI,
+	global TMAX,SMALL,API,ESTART,THETA,PHI
 	global TCFMAX#(10)
 	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE,NPLAST
 	global CF#(20000,512)
@@ -91,36 +102,316 @@ def MIXER():
 	global BET#[2000]
 	global GAM#(20000)
 	global VC,EMS                        
-	Q1(6,20000),Q2(6,20000),Q3(6,20000),Q4(6,20000),Q5(6,20000),Q6(6,20000)
-	E1[6],E2[6],E3[6],E4[6],E5[6],E6[6],EI1(250),EI2(250),EI3(250),EI4(250),EI5(250),EI6(250)
-	QATT(6,20000),EION[6]         
-	PEQEL1(6,20000),PEQEL2(6,20000),PEQEL3(6,20000),PEQEL4(6,20000),PEQEL5(6,20000),PEQEL6(6,20000)
-	PEQIN1(250,20000),PEQIN2(250,20000),PEQIN3(250,20000),  PEQIN4(250,20000),PEQIN5(250,20000),PEQIN6(250,20000)
-	PENFRA1(3,250),PENFRA2(3,250),PENFRA3(3,250),PENFRA4(3,250),PENFRA5(3,250),PENFRA6(3,250)
-	KIN1(250),KIN2(250),KIN3(250),KIN4(250),KIN5(250),KIN6(250)
-	KEL1[6],KEL2[6],KEL3[6],KEL4[6],KEL5[6],KEL6[6]
-	EION1(30),EION2(30),EION3(30),EION4(30),EION5(30),EION6(30)
-	QION1(30,20000),QION2(30,20000),QION3(30,20000),QION4(30,20000),QION5(30,20000),QION6(30,20000)
-	PEQION1(30,20000),PEQION2(30,20000),PEQION3(30,20000),PEQION4(30,20000),PEQION5(30,20000),PEQION6(30,20000)
-	LEGAS1(30),LEGAS2(30),LEGAS3(30),LEGAS4(30),LEGAS5(30),LEGAS6(30)
-	IESHEL1(30),IESHEL2(30),IESHEL3(30),IESHEL4(30),IESHEL5(30),IESHEL6(30) 
-	EB1(30),EB2(30),EB3(30),EB4(30),EB5(30),EB6(30)
-	NC01(30),NC02(30),NC03(30),NC04(30),NC05(30),NC06(30)
-	EC01(30),EC02(30),EC03(30),EC04(30),EC05(30),EC06(30)
-	NG11(30),NG12(30),NG13(30),NG14(30),NG15(30),NG16(30)
-	EG11(30),EG12(30),EG13(30),EG14(30),EG15(30),EG16(30)
-	NG21(30),NG22(30),NG23(30),NG24(30),NG25(30),NG26(30)
-	EG21(30),EG22(30),EG23(30),EG24(30),EG25(30),EG26(30)
-	WK1(30),WK2(30),WK3(30),WK4(30),WK5(30),WK6(30)
-	EFL1(30),EFL2(30),EFL3(30),EFL4(30),EFL5(30),EFL6(30)
-	IZBR1(250),IZBR2(250),IZBR3(250),IZBR4(250),IZBR5(250),IZBR6(250)
-	QATT1(8,20000),QATT2(8,20000),QATT3(8,20000),QATT4(8,20000),QATT5(8,20000),QATT6(8,20000) 
-	QNUL1(10,20000),QNUL2(10,20000),QNUL3(10,20000),QNUL4(10,20000),QNUL5(10,20000),QNUL6(10,20000),SCLN1(10),SCLN2(10),SCLN3(10),SCLN4(10),SCLN5(10),SCLN6(10)  
-	ESPLIT1(5,20),ESPLIT2(5,20),ESPLIT3(5,20),ESPLIT4(5,20),ESPLIT5(5,20),ESPLIT6(5,20)
+	QELM=conf.QELM
+	QSUM=conf.QSUM
+	QION=conf.QION
+	QIN1=conf.QIN1
+	QIN2=conf.QIN2
+	QIN3=conf.QIN3
+	QIN4=conf.QIN4
+	QIN5=conf.QIN5
+	QIN6=conf.QIN6
+	QSATT=conf.QSATT
+	E=conf.E
+	EROOT=conf.EROOT
+	QTOT=conf.QTOT
+	QREL=conf.QREL
+	QINEL=conf.QINEL
+	QEL=conf.QEL
+	NIN1=conf.NIN1
+	NIN2=conf.NIN2
+	NIN3=conf.NIN3
+	NIN4=conf.NIN4
+	NIN5=conf.NIN5
+	NIN6=conf.NIN6
+	LION=conf.LION
+	LIN1=conf.LIN1
+	LIN2=conf.LIN2
+	LIN3=conf.LIN3
+	LIN4=conf.LIN4
+	LIN5=conf.LIN5
+	LIN6=conf.LIN6
+	ALION=conf.ALION
+	ALIN1=conf.ALIN1
+	ALIN2=conf.ALIN2
+	ALIN3=conf.ALIN3
+	ALIN4=conf.ALIN4
+	ALIN5=conf.ALIN5
+	ALIN6=conf.ALIN6
+	NGAS=conf.NGAS
+	NSTEP=conf.NSTEP
+	NANISO=conf.NANISO
+	EFINAL=conf.EFINAL
+	ESTEP=conf.ESTEP
+	AKT=conf.AKT
+	ARY=conf.ARY
+	TEMPC=conf.TEMPC
+	TORR=conf.TORR
+	IPEN=conf.IPEN
+	CONST1=conf.CONST1	
+	CONST2=conf.CONST2	
+	CONST3=conf.CONST3	
+	CONST4=conf.CONST4	
+	CONST5=conf.CONST5                  
+	TMAX=conf.TMAX
+	SMALL=conf.SMALL
+	API=conf.API
+	ESTART=conf.ESTART
+	THETA=conf.THETA
+	PHI=conf.PHI
+	TCFMAX=conf.TCFMAX
+	TCFMAX1=conf.TCFMAX1
+	RSTART=conf.RSTART
+	EFIELD=conf.EFIELD
+	ETHRM=conf.ETHRM
+	ECUT=conf.ECUT
+	NDELTA=conf.NDELTA
+	IMIP=conf.IMIP
+	IWRITE=conf.IWRITE
+	NPLAST=conf.NPLAST
+	CF=conf.CF
+	EIN=conf.EIN
+	TCF=conf.TCF
+	IARRY=conf.IARRY
+	RGAS=conf.RGAS
+	IPN=conf.IPN
+	WPL=conf.WPL
+	IZBR=conf.IZBR
+	IPLAST=conf.IPLAST
+	PENFRA=conf.PENFRA
+	CFN=conf.CFN
+	TCFN=conf.TCFN
+	SCLENUL=conf.SCLENUL
+	PSCT=conf.PSCT
+	ANGCT=conf.ANGCT
+	INDEX=conf.INDEX
+	NISO=conf.NISO
+	FCION=conf.FCION
+	FCATT=conf.FCATT
+	NEGAS=conf.NEGAS
+	LEGAS=conf.LEGAS
+	IESHELL=conf.IESHELL
+	VAN1=conf.VAN1
+	VAN2=conf.VAN2
+	VAN3=conf.VAN3
+	VAN4=conf.VAN4
+	VAN5=conf.VAN5
+	VAN6=conf.VAN6
+	VAN=conf.VAN
+	IECASC=conf.IECASC
+	DOUBLE=conf.DOUBLE
+	CMINIXSC=conf.CMINIXSC
+	CMINEXSC=conf.CMINEXSC
+	ECLOSS=conf.ECLOSS
+	WPLN=conf.WPLN
+	ICOUNT=conf.ICOUNT
+	AVPFRAC=conf.AVPFRAC
+	NC0=conf.NC0
+	EC0=conf.EC0
+	NG1=conf.NG1
+	EG1=conf.EG1
+	NG2=conf.NG2
+	EG2=conf.EG2
+	WKLM=conf.WKLM
+	EFL=conf.EFL
+	LCMP=conf.LCMP
+	LCFLG=conf.LCFLG
+	LRAY=conf.LRAY
+	LRFLG=conf.LRFLG
+	LPAP=conf.LPAP
+	LPFLG=conf.LPFLG
+	LBRM=conf.LBRM
+	LBFLG=conf.LBFLG
+	LPEFLG=conf.LPEFLG
+	NAMEG=conf.NAMEG
+	NGEXC1=conf.NGEXC1
+	NGEXC2=conf.NGEXC2
+	NGEXC3=conf.NGEXC3
+	NGEXC4=conf.NGEXC4
+	NGEXC5=conf.NGEXC5
+	NGEXC6=conf.NGEXC6
+	IDG1=conf.IDG1
+	IDG2=conf.IDG2
+	IDG3=conf.IDG3
+	IDG4=conf.IDG4
+	IDG5=conf.IDG5
+	IDG6=conf.IDG6      
+	DSCRPT=conf.DSCRPT
+	DSCRPTN=conf.DSCRPTN
+	ESPLIT=conf.ESPLIT
+	IONMODEL=conf.IONMODEL
+	BET=conf.BET
+	GAM=conf.GAM
+	VC=conf.VC
+	EMS=conf.EMS
+	Q1=numpy.zeros((6+1,20000+1))
+	Q2=numpy.zeros((6+1,20000+1))
+	Q3=numpy.zeros((6+1,20000+1))
+	Q4=numpy.zeros((6+1,20000+1))
+	Q5=numpy.zeros((6+1,20000+1))
+	Q6=numpy.zeros((6+1,20000+1))
+	E1=numpy.zeros((6+1))
+	E2=numpy.zeros((6+1))
+	E3=numpy.zeros((6+1))
+	E4=numpy.zeros((6+1))
+	E5=numpy.zeros((6+1))
+	E6=numpy.zeros((6+1))
+	EI1=numpy.zeros((250+1))
+	EI2=numpy.zeros((250+1))
+	EI3=numpy.zeros((250+1))
+	EI4=numpy.zeros((250+1))
+	EI5=numpy.zeros((250+1))
+	EI6=numpy.zeros((250+1))
+	QATT=numpy.zeros((6+1,20000+1))
+	EION=numpy.zeros((6+1))
+	PEQEL1=numpy.zeros((6+1,20000+1))
+	PEQEL2=numpy.zeros((6+1,20000+1))
+	PEQEL3=numpy.zeros((6+1,20000+1))
+	PEQEL4=numpy.zeros((6+1,20000+1))
+	PEQEL5=numpy.zeros((6+1,20000+1))
+	PEQEL6=numpy.zeros((6+1,20000+1))
+	PEQIN1=numpy.zeros((250+1,20000+1))
+	PEQIN2=numpy.zeros((250+1,20000+1))
+	PEQIN3=numpy.zeros((250+1,20000+1))
+	PEQIN4=numpy.zeros((250+1,20000+1))
+	PEQIN5=numpy.zeros((250+1,20000+1))
+	PEQIN6=numpy.zeros((250+1,20000+1))
+	PENFRA1=numpy.zeros((3+1,250+1))
+	PENFRA2=numpy.zeros((3+1,250+1))
+	PENFRA3=numpy.zeros((3+1,250+1))
+	PENFRA4=numpy.zeros((3+1,250+1))
+	PENFRA5=numpy.zeros((3+1,250+1))
+	PENFRA6=numpy.zeros((3+1,250+1))
+	KIN1=numpy.zeros((250+1))
+	KIN2=numpy.zeros((250+1))
+	KIN3=numpy.zeros((250+1))
+	KIN4=numpy.zeros((250+1))
+	KIN5=numpy.zeros((250+1))
+	KIN6=numpy.zeros((250+1))
+	KEL1=numpy.zeros((6+1))
+	KEL2=numpy.zeros((6+1))
+	KEL3=numpy.zeros((6+1))
+	KEL4=numpy.zeros((6+1))
+	KEL5=numpy.zeros((6+1))
+	KEL6=numpy.zeros((6+1))
+	EION1=numpy.zeros((30+1))
+	EION2=numpy.zeros((30+1))
+	EION3=numpy.zeros((30+1))
+	EION4=numpy.zeros((30+1))
+	EION5=numpy.zeros((30+1))
+	EION6=numpy.zeros((30+1))
+	QION1=numpy.zeros((30+1,20000+1))
+	QION2=numpy.zeros((30+1,20000+1))
+	QION3=numpy.zeros((30+1,20000+1))
+	QION4=numpy.zeros((30+1,20000+1))
+	QION5=numpy.zeros((30+1,20000+1))
+	QION6=numpy.zeros((30+1,20000+1))
+	PEQION1=numpy.zeros((30+1,20000+1))
+	PEQION2=numpy.zeros((30+1,20000+1))
+	PEQION3=numpy.zeros((30+1,20000+1))
+	PEQION4=numpy.zeros((30+1,20000+1))
+	PEQION5=numpy.zeros((30+1,20000+1))
+	PEQION6=numpy.zeros((30+1,20000+1))
+	LEGAS1=numpy.zeros((30+1))
+	LEGAS2=numpy.zeros((30+1))
+	LEGAS3=numpy.zeros((30+1))
+	LEGAS4=numpy.zeros((30+1))
+	LEGAS5=numpy.zeros((30+1))
+	LEGAS6=numpy.zeros((30+1))
+	IESHEL1=numpy.zeros((30+1))
+	IESHEL2=numpy.zeros((30+1))
+	IESHEL3=numpy.zeros((30+1))
+	IESHEL4=numpy.zeros((30+1))
+	IESHEL5=numpy.zeros((30+1))
+	IESHEL6=numpy.zeros((30+1))
+	EB1=numpy.zeros((30+1))
+	EB2=numpy.zeros((30+1))
+	EB3=numpy.zeros((30+1))
+	EB4=numpy.zeros((30+1))
+	EB5=numpy.zeros((30+1))
+	EB6=numpy.zeros((30+1))
+	NC01=numpy.zeros((30+1))
+	NC02=numpy.zeros((30+1))
+	NC03=numpy.zeros((30+1))
+	NC04=numpy.zeros((30+1))
+	NC05=numpy.zeros((30+1))
+	NC06=numpy.zeros((30+1))
+	EC01=numpy.zeros((30+1))
+	EC02=numpy.zeros((30+1))
+	EC03=numpy.zeros((30+1))
+	EC04=numpy.zeros((30+1))
+	EC05=numpy.zeros((30+1))
+	EC06=numpy.zeros((30+1))
+	NG11=numpy.zeros((30+1))
+	NG12=numpy.zeros((30+1))
+	NG13=numpy.zeros((30+1))
+	NG14=numpy.zeros((30+1))
+	NG15=numpy.zeros((30+1))
+	NG16=numpy.zeros((30+1))
+	EG11=numpy.zeros((30+1))
+	EG12=numpy.zeros((30+1))
+	EG13=numpy.zeros((30+1))
+	EG14=numpy.zeros((30+1))
+	EG15=numpy.zeros((30+1))
+	EG16=numpy.zeros((30+1))
+	NG21=numpy.zeros((30+1))
+	NG22=numpy.zeros((30+1))
+	NG23=numpy.zeros((30+1))
+	NG24=numpy.zeros((30+1))
+	NG25=numpy.zeros((30+1))
+	NG26=numpy.zeros((30+1))
+	EG21=numpy.zeros((30+1))
+	EG22=numpy.zeros((30+1))
+	EG23=numpy.zeros((30+1))
+	EG24=numpy.zeros((30+1))
+	EG25=numpy.zeros((30+1))
+	EG26=numpy.zeros((30+1))
+	WK1=numpy.zeros((30+1))
+	WK2=numpy.zeros((30+1))
+	WK3=numpy.zeros((30+1))
+	WK4=numpy.zeros((30+1))
+	WK5=numpy.zeros((30+1))
+	WK6=numpy.zeros((30+1))
+	EFL1=numpy.zeros((30+1))
+	EFL2=numpy.zeros((30+1))
+	EFL3=numpy.zeros((30+1))
+	EFL4=numpy.zeros((30+1))
+	EFL5=numpy.zeros((30+1))
+	EFL6=numpy.zeros((30+1))
+	IZBR1=numpy.zeros((250+1))
+	IZBR2=numpy.zeros((250+1))
+	IZBR3=numpy.zeros((250+1))
+	IZBR4=numpy.zeros((250+1))
+	IZBR5=numpy.zeros((250+1))
+	IZBR6=numpy.zeros((250+1))
+	QATT1=numpy.zeros((8+1,20000+1))
+	QATT2=numpy.zeros((8+1,20000+1))
+	QATT3=numpy.zeros((8+1,20000+1))
+	QATT4=numpy.zeros((8+1,20000+1))
+	QATT5=numpy.zeros((8+1,20000+1))
+	QATT6=numpy.zeros((8+1,20000+1))
+	QNUL1=numpy.zeros((10+1,20000+1))
+	QNUL2=numpy.zeros((10+1,20000+1))
+	QNUL3=numpy.zeros((10+1,20000+1))
+	QNUL4=numpy.zeros((10+1,20000+1))
+	QNUL5=numpy.zeros((10+1,20000+1))
+	QNUL6=numpy.zeros((10+1,20000+1))
+	SCLN1=numpy.zeros((10+1))
+	SCLN2=numpy.zeros((10+1))
+	SCLN3=numpy.zeros((10+1))
+	SCLN4=numpy.zeros((10+1))
+	SCLN5=numpy.zeros((10+1))
+	SCLN6=numpy.zeros((10+1))
+	ESPLIT1=numpy.zeros((5+1,20+1))
+	ESPLIT2=numpy.zeros((5+1,20+1))
+	ESPLIT3=numpy.zeros((5+1,20+1))
+	ESPLIT4=numpy.zeros((5+1,20+1))
+	ESPLIT5=numpy.zeros((5+1,20+1))
+	ESPLIT6=numpy.zeros((5+1,20+1))
 	#                                                                       
 	#  ---------------------------------------------------------------------
 	#                                                                       
-	#     def MIXER FILLS ARRAYS OF COLLISION FREQUENCY              
+	#     SUBROUTINE MIXER FILLS ARRAYS OF COLLISION FREQUENCY              
 	#     CAN HAVE A MIXTURE OF UP TO 6 GASES                               
 	#                                                                       
 	#     MOD: STORE COUNTING IONISATION X-SECTION IN ARRAY CMINIXSC[6]
@@ -831,7 +1122,7 @@ def MIXER():
 						L=7                                                        
 						IARRY[NP]=L
 						IZBR[NP]=0      
-						DSCRPT[NP]=SCRP2(2+KION)     
+						DSCRPT[NP]=SCRP2[2+KION]
 						PENFRA[1][NP]=0.0 
 						PENFRA[2][NP]=0.0
 						PENFRA[3][NP]=0.0       
@@ -2053,23 +2344,21 @@ def MIXER():
 					#WRITE(6,776) CF[IE][IL],IE,IL,IARRY(IL),EIN(IL),E[IE] 
 						print(' WARNING NEGATIVE COLLISION FREQUENCY =',CF[IE,IL],' IE =',IE,' IL =',IL,' IARRY=',IARRY[IL],' EIN=',EIN[IL],' ENERGY=',E[IE])                                              
 				for IL in range(1,IPLAST):
-				  if(TCF[IE]== 0.00):
-				  	CF[IE][IL]=0.00  #2390
-				  else:                                    
-				  	CF[IE][IL]=CF[IE][IL]/TCF[IE]                                                                                          
-					  620 CONTINUE                                                          
+					if(TCF[IE]== 0.00):
+						CF[IE][IL]=0.00  #2390
+					else:                                    
+						CF[IE][IL]=CF[IE][IL]/TCF[IE]                                                                                          
 				for IL in range(2,IPLAST):
 					CF[IE][IL]=CF[IE][IL]+CF[IE][IL-1]                                   
-					                   
 				# FIX ROUNDING ERRORS AT HIGHEST VALUE
 				CF[IE][IPLAST]=1.00
 				#
 				#     FCATT[IE]=FCATT[IE]*EROOT[IE]
 				#     FCION[IE]=FCION[IE]*EROOT[IE]                                     
 				#     TCF[IE]=TCF[IE]*EROOT[IE]   
-				FCATT[IE]=FCATT[IE]*1.0D-10  
-				FCION[IE]=FCION[IE]*1.0D-10                                       
-				TCF[IE]=TCF[IE]*1.0D-10   
+				FCATT[IE]=FCATT[IE]*1.0e-10  
+				FCION[IE]=FCION[IE]*1.0e-10                                       
+				TCF[IE]=TCF[IE]*1.0e-10   
 				# CALCULATION OF NULL COLLISION FREQUENCIES
 				NP=0
 				NPLAST=0
@@ -2104,14 +2393,14 @@ def MIXER():
 						CFN[IE][NP]=QNUL4[J][IE]*VAN4*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL5 > 0):
-					DO 635 J=1,NUL5
-					NP=NP+1
-					SCLENUL[NP]=SCLN5[J]
-					DSCRPTN[NP]=SCRPN5[J]
-					635  CFN[IE][NP]=QNUL5[J][IE]*VAN5*SCLENUL[NP]*BET[IE]
+					for J in range(1,NUL5):
+						NP=NP+1
+						SCLENUL[NP]=SCLN5[J]
+						DSCRPTN[NP]=SCRPN5[J]
+						CFN[IE][NP]=QNUL5[J][IE]*VAN5*SCLENUL[NP]*BET[IE]
 				# endif
 				if(NUL6 > 0):
-					Dfor J in range(1,NUL6):
+					for J in range(1,NUL6):
 						NP=NP+1
 						SCLENUL[NP]=SCLN6[J]
 						DSCRPTN[NP]=SCRPN6[J]
@@ -2264,8 +2553,148 @@ def MIXER():
 			else:
 			    for J in range(1,NIN6):
 					QSUM[I]=QSUM[I]+QIN6[J][I]*AN6                                     
-			##                                                                       
+			##
+			conf.QELM=QELM
+			conf.QSUM=QSUM
+			conf.QION=QION
+			conf.QIN1=QIN1
+			conf.QIN2=QIN2
+			conf.QIN3=QIN3
+			conf.QIN4=QIN4
+			conf.QIN5=QIN5
+			conf.QIN6=QIN6
+			conf.QSATT=QSATT
+			conf.E=E
+			conf.EROOT=EROOT
+			conf.QTOT=QTOT
+			conf.QREL=QREL
+			conf.QINEL=QINEL
+			conf.QEL=QEL
+			conf.NIN1=NIN1
+			conf.NIN2=NIN2
+			conf.NIN3=NIN3
+			conf.NIN4=NIN4
+			conf.NIN5=NIN5
+			conf.NIN6=NIN6
+			conf.LION=LION
+			conf.LIN1=LIN1
+			conf.LIN2=LIN2
+			conf.LIN3=LIN3
+			conf.LIN4=LIN4
+			conf.LIN5=LIN5
+			conf.LIN6=LIN6
+			conf.ALION=ALION
+			conf.ALIN1=ALIN1
+			conf.ALIN2=ALIN2
+			conf.ALIN3=ALIN3
+			conf.ALIN4=ALIN4
+			conf.ALIN5=ALIN5
+			conf.ALIN6=ALIN6
+			conf.NGAS=NGAS
+			conf.NSTEP=NSTEP
+			conf.NANISO=NANISO
+			conf.EFINAL=EFINAL
+			conf.ESTEP=ESTEP
+			conf.AKT=AKT
+			conf.ARY=ARY
+			conf.TEMPC=TEMPC
+			conf.TORR=TORR
+			conf.IPEN=IPEN
+			conf.CONST1=CONST1	
+			conf.CONST2=CONST2	
+			conf.CONST3=CONST3	
+			conf.CONST4=CONST4	
+			conf.CONST5=CONST5                  
+			conf.TMAX=TMAX
+			conf.SMALL=SMALL
+			conf.API=API
+			conf.ESTART=ESTART
+			conf.THETA=THETA
+			conf.PHI=PHI
+			conf.TCFMAX=TCFMAX
+			conf.TCFMAX1=TCFMAX1
+			conf.RSTART=RSTART
+			conf.EFIELD=EFIELD
+			conf.ETHRM=ETHRM
+			conf.ECUT=ECUT
+			conf.NDELTA=NDELTA
+			conf.IMIP=IMIP
+			conf.IWRITE=IWRITE
+			conf.NPLAST=NPLAST
+			conf.CF=CF
+			conf.EIN=EIN
+			conf.TCF=TCF
+			conf.IARRY=IARRY
+			conf.RGAS=RGAS
+			conf.IPN=IPN
+			conf.WPL=WPL
+			conf.IZBR=IZBR
+			conf.IPLAST=IPLAST
+			conf.PENFRA=PENFRA
+			conf.CFN=CFN
+			conf.TCFN=TCFN
+			conf.SCLENUL=SCLENUL
+			conf.PSCT=PSCT
+			conf.ANGCT=ANGCT
+			conf.INDEX=INDEX
+			conf.NISO=NISO
+			conf.FCION=FCION
+			conf.FCATT=FCATT
+			conf.NEGAS=NEGAS
+			conf.LEGAS=LEGAS
+			conf.IESHELL=IESHELL
+			conf.VAN1=VAN1
+			conf.VAN2=VAN2
+			conf.VAN3=VAN3
+			conf.VAN4=VAN4
+			conf.VAN5=VAN5
+			conf.VAN6=VAN6
+			conf.VAN=VAN
+			conf.IECASC=IECASC
+			conf.DOUBLE=DOUBLE
+			conf.CMINIXSC=CMINIXSC
+			conf.CMINEXSC=CMINEXSC
+			conf.ECLOSS=ECLOSS
+			conf.WPLN=WPLN
+			conf.ICOUNT=ICOUNT
+			conf.AVPFRAC=AVPFRAC
+			conf.NC0=NC0
+			conf.EC0=EC0
+			conf.NG1=NG1
+			conf.EG1=EG1
+			conf.NG2=NG2
+			conf.EG2=EG2
+			conf.WKLM=WKLM
+			conf.EFL=EFL
+			conf.LCMP=LCMP
+			conf.LCFLG=LCFLG
+			conf.LRAY=LRAY
+			conf.LRFLG=LRFLG
+			conf.LPAP=LPAP
+			conf.LPFLG=LPFLG
+			conf.LBRM=LBRM
+			conf.LBFLG=LBFLG
+			conf.LPEFLG=LPEFLG
+			conf.NAMEG=NAMEG
+			conf.NGEXC1=NGEXC1
+			conf.NGEXC2=NGEXC2
+			conf.NGEXC3=NGEXC3
+			conf.NGEXC4=NGEXC4
+			conf.NGEXC5=NGEXC5
+			conf.NGEXC6=NGEXC6
+			conf.IDG1=IDG1
+			conf.IDG2=IDG2
+			conf.IDG3=IDG3
+			conf.IDG4=IDG4
+			conf.IDG5=IDG5
+			conf.IDG6      =IDG6      
+			conf.DSCRPT=DSCRPT
+			conf.DSCRPTN=DSCRPTN
+			conf.ESPLIT=ESPLIT
+			conf.IONMODEL=IONMODEL
+			conf.BET=BET
+			conf.GAM=GAM
+			conf.VC=VC
+			conf.EMS=EMS                                                                      
 			return                                                            
 		# end 
-
-	##COMMENT: end subroutine
