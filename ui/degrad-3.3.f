@@ -783,6 +783,7 @@ C
     6 INDEX(I)=0                                               
 C                                                                       
 C   CALL GAS CROSS-SECTIONS 
+	  PRINT *,VIRIAL1,VIRIAL2,VIRIAL3,"  VIRIAL   "
       CALL GASMIX(NGASN(1),Q1,QIN1,NIN1,E1,EI1,NAME1,VIRIAL1,EB1,
      /PEQEL1,PEQIN1,PENFRA1,KEL1,KIN1,QION1,PEQION1,EION1,NION1,QATT1,
      /NATT1,QNUL1,NUL1,SCLN1,NC01,EC01,WK1,EFL1,NG11,EG11,NG21,EG21,
