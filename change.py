@@ -354,8 +354,8 @@ def f_to_py(content,map_list,math_list,arrays):
 #    output = adjust_ifs(output)
     return output
 
-fname='Gasn.py'
-foutname='Gasn1.py'
+fname='temp_array.py'
+foutname='temp_array1.py'
 arrays=['A','D','V','B','Z']
 content = file2list(fname)
 output = f_to_py(content,map_list_gas,math_list,arrays)

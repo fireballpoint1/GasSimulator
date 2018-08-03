@@ -2400,8 +2400,8 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       for NL in range(1,NIN):
             for I in range(1,20000):
                   if(EG[I]> EIN[NL]):
-                  IOFFN(NL)=I-1 
-                  break
+                        IOFFN[NL]=I-1 
+                        break
                   # endif
       #
       SCRPT[1]='                                                  '
@@ -2550,7 +2550,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   QION[1][I]=0.0
                   PEQION[1][I]=0.50 
                   if(NANISO == 2):
-                  PEQION[1][I]=0.00                            
+                        PEQION[1][I]=0.00                            
                   if(EN <= EION[1]):
                         # GO TO 223  
                         pass
@@ -2610,7 +2610,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                     J=NION2                                                          
                               A=(YEN2[J]-YEN2[J-1])/(XEN2[J]-XEN2[J-1])                       
                               B=(XEN2[J-1]*YEN2[J]-XEN2[J]*YEN2[J-1])/(XEN2[J-1]-XEN2[J])     
-                              QION[2][I]=(A*EN+B)*1.0D-16
+                              QION[2][I]=(A*EN+B)*1.0e-16
                               if(QION[2][I]< 0.0):
                                     QION[2][I]=0.0
                               flag3222=0
@@ -2732,7 +2732,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                     break
                         # 2251 CONTINUE
                         if(flag2252):
-                        # J=NL1S
+                              J=NL1S
                         # 2252 
                         A=(YL1S[J]-YL1S[J-1])/(XL1S[J]-XL1S[J-1])
                         B=(XL1S[J-1]*YL1S[J]-XL1S[J]*YL1S[J-1])/(XL1S[J-1]-XL1S[J])
@@ -2785,7 +2785,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                               # 240 
                               A=(YENC[J]-YENC[J-1])/(XENI[J]-XENI[J-1])
                               B=(XENI[J-1]*YENC[J]-XENI[J]*YENC[J-1])/(XENI[J-1]-XENI[J])
-                              Q[5][I]=(A*EN+B)*1.0D-16
+                              Q[5][I]=(A*EN+B)*1.0e-16
                               flag250=0
                               # USE BORN-BETHE X-SECTION ABOVE XENI[NIDATA] EV
                         # 241 
@@ -3017,7 +3017,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                   # IF ENERGY GT X2P8[N2P8] EV SCALE BY 1/E
                                                             if(flag3292):
                                                                   # 3291 
-                                                                  QIN[7][I]=Y2P8[N2P8]*(X2P8[N2P8]/EN)*1.0D-18*PSCALE
+                                                                  QIN[7][I]=Y2P8[N2P8]*(X2P8[N2P8]/EN)*1.0e-18*PSCALE
                                                             # 3292 
                                                             if(EN <= (2.0*EIN[7])):
                                                                   pass
@@ -3075,7 +3075,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                               # IF ENERGY GT X2P6[N2P6] EV SCALE BY 1/E
                                                                         if(flag3352):
                                                                               # 3351 
-                                                                              QIN[9][I]=Y2P6[N2P6]*(X2P6[N2P6]/EN)*1.0D-18*PSCALE
+                                                                              QIN[9][I]=Y2P6[N2P6]*(X2P6[N2P6]/EN)*1.0e-18*PSCALE
                                                                         # 3352 
                                                                         if(EN <= (2.0*EIN[9])):
                                                                               pass
@@ -3181,7 +3181,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                       flag347=1
                                                                                                       for J in range(2,N2P2):
                                                                                                             if(EN <= X2P2[J]):
-                                                                                                                  GO TO 347
+                                                                                                                  flag347=0
                                                                                                       if(flag347):
                                                                                                             J=N2P2
                                                                                                       # 347 
@@ -3222,7 +3222,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                             # IF ENERGY GT X2P1[N2P1] EV SCALE BY 1/E
                                                                                                       if(flag3502):
                                                                                                             # 3501 
-                                                                                                            QIN[14][I]=Y2P1[N2P1]*(X2P1[N2P1]/EN)*1.0D-18*PSCALE
+                                                                                                            QIN[14][I]=Y2P1[N2P1]*(X2P1[N2P1]/EN)*1.0e-18*PSCALE
                                                                                                       # 3502 
                                                                                                       if(EN <= (2.0*EIN[14])):
                                                                                                             pass
@@ -3359,9 +3359,9 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                     else:
                                                                                                                                           flag365=1
                                                                                                                                           for J in range(2,N3D4):
-                                                                                                                                          if(EN <= X3D4[J]):
-                                                                                                                                                flag365=0
-                                                                                                                                                break
+                                                                                                                                                if(EN <= X3D4[J]):
+                                                                                                                                                      flag365=0
+                                                                                                                                                      break
                                                                                                                                           if(flag365):
                                                                                                                                                 J=N3D4
                                                                                                                                           # 365 
@@ -3462,9 +3462,9 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                             else:
                                                                                                                                                                   flag377=1
                                                                                                                                                                   for J in range(2,N3D1P):
-                                                                                                                                                                  if(EN <= X3D1P[J]):
-                                                                                                                                                                        flag377=0
-                                                                                                                                                                        break
+                                                                                                                                                                        if(EN <= X3D1P[J]):
+                                                                                                                                                                              flag377=0
+                                                                                                                                                                              break
                                                                                                                                                                   if(flag377):
                                                                                                                                                                         J=N3D1P
                                                                                                                                                                   # 377 
@@ -3564,9 +3564,9 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                                     else:
                                                                                                                                                                                           flag389=1
                                                                                                                                                                                           for J in range(2,N3S1PPP):
-                                                                                                                                                                                          if(EN <= X3S1PPP[J]):
-                                                                                                                                                                                                flag389=0
-                                                                                                                                                                                                break
+                                                                                                                                                                                                if(EN <= X3S1PPP[J]):
+                                                                                                                                                                                                      flag389=0
+                                                                                                                                                                                                      break
                                                                                                                                                                                           if(flag389):
                                                                                                                                                                                                 J=N3S1PPP
                                                                                                                                                                                           # 389 
