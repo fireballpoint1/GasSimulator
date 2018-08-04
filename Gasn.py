@@ -18597,124 +18597,157 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             if(NANISO == 2):
                   PEQION[10][I]=0.0                                  
             if(EN <= EION[10]):
-                  GO TO 28
-            DO 26 J=2,NKSHC                                                  
-            if(EN <= XKSHC[J]:
-            ) GO TO 27                                    
-            26 CONTINUE                                                          
-            J=NKSHC                                                           
-            27 A=(YKSHC[J]-YKSHC[J-1])/(XKSHC[J]-XKSHC[J-1])                    
-            B=(XKSHC[J-1]*YKSHC[J]-XKSHC[J]*YKSHC[J-1])/(XKSHC[J-1]-XKSHC[J])
-            QION[10][I]=1.0D-16*(A*EN+B) 
-            if(EN <= (2.0*EION[10]:
-            )) GO TO 28
-            PEQION[10][I]=PEQEL[2][(I-IOFFION[10])]
-            # OXYGEN K-SHELL IONISATION
-            28 QION[11][I]=0.0 
+                  pass
+            else:
+                  flag27=1
+                  for J in range(2,NKSHC):
+                        if(EN <= XKSHC[J]):
+                              flag27=0
+                              break
+                  if(flag27):
+                        J=NKSHC                                                           
+                  # 27 
+                  A=(YKSHC[J]-YKSHC[J-1])/(XKSHC[J]-XKSHC[J-1])                    
+                  B=(XKSHC[J-1]*YKSHC[J]-XKSHC[J]*YKSHC[J-1])/(XKSHC[J-1]-XKSHC[J])
+                  QION[10][I]=1.0e-16*(A*EN+B) 
+                  if(EN <= (2.0*EION[10])):
+                        pass
+                  else:
+                        PEQION[10][I]=PEQEL[2][(I-IOFFION[10])]
+                  # OXYGEN K-SHELL IONISATION
+            # 28 
+            QION[11][I]=0.0 
             PEQION[11][I]=0.5  
             if(NANISO == 2):
-            PEQION[11][I]=0.0                                  
-            if(EN <= EION[11]:
-            ) GO TO 301
-            DO 29 J=2,NKSHO                                                  
-            if(EN <= XKSHO[J]:
-            ) GO TO 30                                    
-            29 CONTINUE                                                          
-            J=NKSHO                                                           
-            30 A=(YKSHO[J]-YKSHO[J-1])/(XKSHO[J]-XKSHO[J-1])                    
-            B=(XKSHO[J-1]*YKSHO[J]-XKSHO[J]*YKSHO[J-1])/(XKSHO[J-1]-XKSHO[J])
-            # SCALING FACTOR 2 FOR NUMBER OF OXYGENS PER MOLECULE
-            QION[11][I]=2.0D-16*(A*EN+B) 
-            if(EN <= (2.0*EION[11]:
-            )) GO TO 301
-            PEQION[11][I]=PEQEL[2][(I-IOFFION[11])]
-            #
-            # FIX CO2+ X-SECTION FOR SPLIT INTO CO2+ EXCITED STATES
-            301 QION[1][I]=QION[1][I]-QION[2][I]-QION[3][I]
+                  PEQION[11][I]=0.0                                  
+            if(EN <= EION[11]):
+                  pass
+            else:
+                  for J in range(2,NKSHO):
+                        if(EN <= XKSHO[J]):
+                              flag30=0
+                              break
+                  if(flag30):
+                        J=NKSHO                                                           
+                  # 30 
+                  A=(YKSHO[J]-YKSHO[J-1])/(XKSHO[J]-XKSHO[J-1])                    
+                  B=(XKSHO[J-1]*YKSHO[J]-XKSHO[J]*YKSHO[J-1])/(XKSHO[J-1]-XKSHO[J])
+                  # SCALING FACTOR 2 FOR NUMBER OF OXYGENS PER MOLECULE
+                  QION[11][I]=2.0e-16*(A*EN+B) 
+                  if(EN <= (2.0*EION[11])):
+                        pass
+                  else:
+                        PEQION[11][I]=PEQEL[2][(I-IOFFION[11])]
+                  #
+                  # FIX CO2+ X-SECTION FOR SPLIT INTO CO2+ EXCITED STATES
+            # 301 
+            QION[1][I]=QION[1][I]-QION[2][I]-QION[3][I]
             # ATTACHMENT                                                            
             Q[4][I]=0.0                                                        
-            if(EN <= XATT[1]:
-            ) GO TO 40
-            if(EN > XATT[NATT1]:
-            ) GO TO 33                                 
-            DO 31  J=2,NATT1                                                  
-            if(EN <= XATT[J]:
-            ) GO TO 32                                        
-            31 CONTINUE                                                          
-            J=NATT1                                                          
-            32 A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])                         
-            B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
-            Q[4][I]=1.0D-16*(A*EN+B)
-            GO TO 40
-            33 Q[4][I]=YATT[NATT1]*(XATT[NATT1]/EN)**3*1.e-16
-            #
-            40 Q[5][I]=0.0                                                     
+            if(EN <= XATT[1]):
+                  pass
+            else:
+                  flag40=1
+                  flag32=1
+                  if(EN > XATT[NATT1]):
+                        pass
+                  else:
+                        for J in range(2,NATT1):
+                              if(EN <= XATT[J]):
+                                    flag32=0
+                                    break
+                        if(flag32):
+                              J=NATT1                                                          
+                        # 32 
+                        A=(YATT[J]-YATT[J-1])/(XATT[J]-XATT[J-1])                         
+                        B=(XATT[J-1]*YATT[J]-XATT[J]*YATT[J-1])/(XATT[J-1]-XATT[J])       
+                        Q[4][I]=1.0e-16*(A*EN+B)
+                        flag40=0
+                  # 33
+                  if(flag40): 
+                        Q[4][I]=YATT[NATT1]*(XATT[NATT1]/EN)**3*1.e-16
+                  #
+            # 40 
+            Q[5][I]=0.0                                                     
             Q[6][I]=0.0   
             # ----------------------------------------------------------------------
             #  QUADRUPOLE BORN ROTATIONAL STATES (GERJUOY AND STEIN)
             # ----------------------------------------------------------------------
             # SUPERELASTIC ROTATION
-            DO 51 K=2,60,2
-            AJ=float[K]
-            L=(K/2)+1
-            PEQIN(K,I)=0.5
-            if(NANISO == 2):
-            PEQIN(K,I)=0.0
-            if(EN < (4.0*abs(EIN[K]:
-            ))) GO TO 50
-            if(NANISO > 0):
-            PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      50 CONTINUE
-            51 QIN(K,I)=PJ[L]*QBK*math.sqrt(1.0-EIN[K]/EN)*AJ*(AJ-1.0)/((2.0*AJ+1.0)*(2.0*AJ-1.0))
+            for K in range(2,60+1,2-1): 
+                  AJ=float[K]
+                  L=(K/2)+1
+                  PEQIN[K][I]=0.5
+                  if(NANISO == 2):
+                        PEQIN[K][I]=0.0
+                  if(EN < (4.0*abs(EIN[K]))):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[K][I]=PEQEL[2][(I-IOFFN[K])]      
+                  # 50 CONTINUE
+                  # 51 
+                  QIN[K][I]=PJ[L]*QBK*math.sqrt(1.0-EIN[K]/EN)*AJ*(AJ-1.0)/((2.0*AJ+1.0)*(2.0*AJ-1.0))
             # ROTATION                 
-            DO 52 K=1,59,2
-            QIN(K,I)=0.0
-            PEQIN(K,I)=0.5
-            if(NANISO == 2):
-            PEQIN(K,I)=0.0
-            if(EN <= EIN[K]:
-            ) GO TO 52
-            AJ=float[K-1]
-            L=(K+1)/2
-            QIN(K,I)=PJ[L]*QBK*math.sqrt(1.0-EIN[K]/EN)*(AJ+2.0)*(AJ+1.0)/((2.0*AJ+3.0)*(2.0*AJ+1.0))
-            if(EN < (4.0*abs(EIN[K]:
-            ))) GO TO 52
-            if(NANISO > 0):
-            PEQIN(K,I)=PEQEL[2][(I-IOFFN[K]))]      52 CONTINUE
+            for K in range(1,59+1,2-1):
+                  QIN[K][I]=0.0
+                  PEQIN[K][I]=0.5
+                  if(NANISO == 2):
+                        PEQIN[K][I]=0.0
+                  if(EN <= EIN[K]):
+                        continue
+                  AJ=float[K-1]
+                  L=(K+1)/2
+                  QIN[K][I]=PJ[L]*QBK*math.sqrt(1.0-EIN[K]/EN)*(AJ+2.0)*(AJ+1.0)/((2.0*AJ+3.0)*(2.0*AJ+1.0))
+                  if(EN < (4.0*abs(EIN[K]))):
+                        continue
+                  if(NANISO > 0):
+                        PEQIN[K][I]=PEQEL[2][(I-IOFFN[K])]      
+                  # 52 CONTINUE
             # BORN (1/E) FALL OFF IN ROTATONAL X-SEC ABOVE 6.0 EV .
             if(EN < 6.0):
-            GO TO 80
-            DO 70 K=1,60
-            QIN(K,I)=QIN(K,I)*6.0/EN
-            70 CONTINUE
-            80 CONTINUE   
+                  pass
+            else:
+                  for K in range(1,60):
+                        QIN[K][I]=QIN[K][I]*6.0/EN
+                  # 70 CONTINUE
+            # 80 CONTINUE   
             #                                                                        
             #  SUPERELASTIC V2  B# end MODE                                            
             QIN[61][I]=0.0 
             PEQIN[61][I]=0.50
             if(NANISO == 2):
-            PEQIN[61][I]=0.00
+                  PEQIN[61][I]=0.00
             if(EN <= 0.0):
-            GO TO 150
-            EFAC=math.sqrt(1.0-(EIN[61]/EN))
-            QIN[61][I]=AMPV2*math.log((EFAC+1.0)/(EFAC-1.0))/EN 
-            if((EN+EIN[62]:
-            ) > XV2(NV2)) GO TO 125                   
-            DO 110 J=2,NV2                                                    
-            if((EN+EIN[62]:
-            ) <= XV2[J]) GOTO 120                               
-            110 CONTINUE                                                          
-            J=NV2                                                             
-            120 A=(YV2[J]-YV2[J-1])/(XV2[J]-XV2[J-1])                     
-            B=(XV2[J-1]*YV2[J]-XV2[J]*YV2[J-1])/(XV2[J-1]-XV2[J]) 
-            QIN[61][I]=QIN[61][I]+(EN+EIN[62])*(A*(EN+EIN[62])+B)/EN
-            GO TO 126
-            125 QIN[61][I]=QIN[61][I]+YV2(NV2)*XV2(NV2)*(EN+EIN[62])/(EN*EN)
-            126 QIN[61][I]=QIN[61][I]*APOPV2/DEGV2*1.e-16
-            if(EN < (3.0*abs(EIN[61]:
-            ))) GO TO 150
-            if(NANISO > 0):
-            PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
-            # V2  B# end MODE                                                             
+                  pass
+            else:
+                  flag126=1
+                  EFAC=math.sqrt(1.0-(EIN[61]/EN))
+                  QIN[61][I]=AMPV2*math.log((EFAC+1.0)/(EFAC-1.0))/EN 
+                  if((EN+EIN[62]) > XV2[NV2]):
+                        pass
+                  else:
+                        flag120=1
+                        for J in range(2,NV2):
+                              if((EN+EIN[62]) <= XV2[J]):
+                                    flag120=0
+                                    break
+                        if(flag120):
+                              J=NV2                                                             
+                        # 120 
+                        A=(YV2[J]-YV2[J-1])/(XV2[J]-XV2[J-1])                     
+                        B=(XV2[J-1]*YV2[J]-XV2[J]*YV2[J-1])/(XV2[J-1]-XV2[J]) 
+                        QIN[61][I]=QIN[61][I]+(EN+EIN[62])*(A*(EN+EIN[62])+B)/EN
+                        flag126=0
+                  if(flag126): 
+                        QIN[61][I]=QIN[61][I]+YV2[NV2]*XV2[NV2]*(EN+EIN[62])/(EN*EN)
+                  # 126 
+                  QIN[61][I]=QIN[61][I]*APOPV2/DEGV2*1.e-16
+                  if(EN < (3.0*abs(EIN[61]:
+                  ))) GO TO 150
+                  if(NANISO > 0):
+                  PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
+                  # V2  B# end MODE                                                             
             150 QIN[62][I]=0.0                        
             PEQIN[62][I]=0.50
             if(NANISO == 2):
@@ -18723,7 +18756,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             ) GO TO 200 
             EFAC=math.sqrt(1.0-(EIN[62]/EN))
             QIN[62][I]=AMPV2*math.log((1.0+EFAC)/(1.0-EFAC))/EN
-            if(EN > XV2(NV2):
+            if(EN > XV2[NV2]:
             ) GO TO 175                    
             DO 160 J=2,NV2                                                    
             if(EN <= XV2[J]:
@@ -18734,7 +18767,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             B=(XV2[J-1]*YV2[J]-XV2[J]*YV2[J-1])/(XV2[J-1]-XV2[J]) 
             QIN[62][I]=QIN[62][I]+(A*EN+B)
             GO TO 176
-            175 QIN[62][I]=QIN[62][I]+YV2(NV2)*XV2(NV2)/EN
+            175 QIN[62][I]=QIN[62][I]+YV2[NV2]*XV2[NV2]/EN
             176 QIN[62][I]=QIN[62][I]*APOPGS*1.e-16
             if(EN < (3.0*EIN[62]:
             )) GO TO 200
@@ -18801,7 +18834,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             if(EN <= 0.0):
             GO TO 350   
             if((EN+EIN[66]:
-            ) > XV1(NV1)) GO TO 325                           
+            ) > XV1[NV1]) GO TO 325                           
             DO 310 J=2,NV1                                                    
             if((EN+EIN[66]:
             ) <= XV1[J]) GOTO 320                               
@@ -18811,7 +18844,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             B=(XV1[J-1]*YV1[J]-XV1[J]*YV1[J-1])/(XV1[J-1]-XV1[J]) 
             QIN[65][I]=(EN+EIN[66])*(A*(EN+EIN[66])+B)/EN
             GO TO 326
-            325 QIN[65][I]=YV1(NV1)*XV1(NV1)*(EN+EIN[66])/(EN*EN)
+            325 QIN[65][I]=YV1[NV1]*XV1[NV1]*(EN+EIN[66])/(EN*EN)
             326 QIN[65][I]=QIN[65][I]*APOPV1/DEGV1*1.e-16   
             if(EN < (3.0*abs(EIN[65]:
             ))) GO TO 350
@@ -18825,7 +18858,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             PEQIN[66][I]=0.00
             if(EN <= EIN[66]:
             ) GO TO 400              
-            if(EN > XV1(NV1):
+            if(EN > XV1[NV1]:
             ) GO TO 375                         
             DO 360 J=2,NV1                                                    
             if(EN <= XV1[J]:
@@ -18836,7 +18869,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             B=(XV1[J-1]*YV1[J]-XV1[J]*YV1[J-1])/(XV1[J-1]-XV1[J]) 
             QIN[66][I]=(A*EN+B)
             GO TO 376 
-            375 QIN[66][I]=YV1(NV1)*XV1(NV1)/EN
+            375 QIN[66][I]=YV1[NV1]*XV1[NV1]/EN
             376 QIN[66][I]=QIN[66][I]*APOPGS*1.e-16
             if(EN < (3.0*EIN[66]:
             )) GO TO 400
@@ -18904,7 +18937,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             EFAC=math.sqrt(1.0-(EIN[69]/EN))
             QIN[69][I]=AMPV3*math.log((EFAC+1.0)/(EFAC-1.0))/EN    
             if((EN+EIN[70]:
-            ) > XV3(NV3)) GO TO 525                
+            ) > XV3[NV3]) GO TO 525                
             DO 510 J=2,NV3                                                    
             if((EN+EIN[70]:
             ) <= XV3[J]) GOTO 520                               
@@ -18914,7 +18947,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             B=(XV3[J-1]*YV3[J]-XV3[J]*YV3[J-1])/(XV3[J-1]-XV3[J]) 
             QIN[69][I]=QIN[69][I]+(EN+EIN[70])*(A*(EN+EIN[70])+B)/EN
             GO TO 526
-            525 QIN[69][I]=QIN[69][I]+YV3(NV3)*XV3(NV3)*(EN+EIN[70])/(EN*EN)
+            525 QIN[69][I]=QIN[69][I]+YV3[NV3]*XV3[NV3]*(EN+EIN[70])/(EN*EN)
             526 QIN[69][I]=QIN[69][I]*APOPV3/DEGV3*1.e-16
             if(EN < (3.0*abs(EIN[69]:
             )))  GO TO 550
@@ -18929,7 +18962,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             ) GO TO 600 
             EFAC=math.sqrt(1.0-(EIN[70]/EN))
             QIN[70][I]=AMPV3*math.log((1.0+EFAC)/(1.0-EFAC))/EN  
-            if(EN > XV3(NV3):
+            if(EN > XV3[NV3]:
             ) GO TO 575                  
             DO 560 J=2,NV3                                                    
             if(EN <= XV3[J]:
@@ -18940,7 +18973,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             B=(XV3[J-1]*YV3[J]-XV3[J]*YV3[J-1])/(XV3[J-1]-XV3[J]) 
             QIN[70][I]=QIN[70][I]+(A*EN+B)
             GO TO 576
-            575 QIN[70][I]=QIN[70][I]+YV3(NV3)*XV3(NV3)/EN
+            575 QIN[70][I]=QIN[70][I]+YV3[NV3]*XV3[NV3]/EN
             576 QIN[70][I]=QIN[70][I]*APOPGS*1.e-16
             if(EN < (3.0*EIN[70]:
             )) GO TO 600
@@ -20179,17 +20212,17 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             # SUM ROTATION 
             SUMR=0.0
             DO 1450 K=1,60
-            SUMR=SUMR+QIN(K,I)
+            SUMR=SUMR+QIN[K][I]
             1450 CONTINUE   
             # SUM VIBRATION 
             SUMV=0.0
             DO 1455 K=61,79 
-            SUMV=SUMV+QIN(K,I)
+            SUMV=SUMV+QIN[K][I]
             1455 CONTINUE  
             # SUM DIPOLE +TRIPLET EXCITATION  
             SUME=0.0
             DO 1460 K=80,144 
-            SUME=SUME+QIN(K,I)
+            SUME=SUME+QIN[K][I]
             1460 CONTINUE  
             # SUM TRIPLET EXCITATION
             SUMTRP=QIN[90][I]+QIN[99][I]+QIN(144,I)
