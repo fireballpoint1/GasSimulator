@@ -18743,1458 +18743,1769 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         QIN[61][I]=QIN[61][I]+YV2[NV2]*XV2[NV2]*(EN+EIN[62])/(EN*EN)
                   # 126 
                   QIN[61][I]=QIN[61][I]*APOPV2/DEGV2*1.e-16
-                  if(EN < (3.0*abs(EIN[61]:
-                  ))) GO TO 150
-                  if(NANISO > 0):
-                  PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
+                  if(EN < (3.0*abs(EIN[61]))):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
                   # V2  B# end MODE                                                             
-            150 QIN[62][I]=0.0                        
+            # 150 
+            QIN[62][I]=0.0                        
             PEQIN[62][I]=0.50
             if(NANISO == 2):
-            PEQIN[62][I]=0.00
-            if(EN <= EIN[62]:
-            ) GO TO 200 
-            EFAC=math.sqrt(1.0-(EIN[62]/EN))
-            QIN[62][I]=AMPV2*math.log((1.0+EFAC)/(1.0-EFAC))/EN
-            if(EN > XV2[NV2]:
-            ) GO TO 175                    
-            DO 160 J=2,NV2                                                    
-            if(EN <= XV2[J]:
-            ) GO TO 170                                      
-            160 CONTINUE                                                          
-            J=NV2                                                             
-            170 A=(YV2[J]-YV2[J-1])/(XV2[J]-XV2[J-1])                     
-            B=(XV2[J-1]*YV2[J]-XV2[J]*YV2[J-1])/(XV2[J-1]-XV2[J]) 
-            QIN[62][I]=QIN[62][I]+(A*EN+B)
-            GO TO 176
-            175 QIN[62][I]=QIN[62][I]+YV2[NV2]*XV2[NV2]/EN
-            176 QIN[62][I]=QIN[62][I]*APOPGS*1.e-16
-            if(EN < (3.0*EIN[62]:
-            )) GO TO 200
-            if(NANISO > 0):
-            PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]
-            #     
-            #  SUPERELASTIC 2V2 B# end MODE HARMONIC                                               
-            200 CONTINUE                                                          
+                  PEQIN[62][I]=0.00
+            if(EN <= EIN[62]):
+                  pass
+            else:
+                  flag176=1
+                  EFAC=math.sqrt(1.0-(EIN[62]/EN))
+                  QIN[62][I]=AMPV2*math.log((1.0+EFAC)/(1.0-EFAC))/EN
+                  if(EN > XV2[NV2]):
+                        pass
+                  else:
+                        flag170=1
+                        for J in range(2,NV2):
+                              if(EN <= XV2[J]):
+                                    flag170=0
+                                    break
+                        if(flag170):
+                              J=NV2                                                             
+                        # 170 
+                        A=(YV2[J]-YV2[J-1])/(XV2[J]-XV2[J-1])                     
+                        B=(XV2[J-1]*YV2[J]-XV2[J]*YV2[J-1])/(XV2[J-1]-XV2[J]) 
+                        QIN[62][I]=QIN[62][I]+(A*EN+B)
+                        flag176=0
+                  if(flag176): 
+                        QIN[62][I]=QIN[62][I]+YV2[NV2]*XV2[NV2]/EN
+                  # 176 
+                  QIN[62][I]=QIN[62][I]*APOPGS*1.e-16
+                  if(EN < (3.0*EIN[62])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]
+                  #     
+                  #  SUPERELASTIC 2V2 B# end MODE HARMONIC                                               
+            # 200 CONTINUE                                                          
             QIN[63][I]=0.0  
             PEQIN[63][I]=0.50
             if(NANISO == 2):
-            PEQIN[63][I]=0.00
+                  PEQIN[63][I]=0.00
             if(EN <= 0.0):
-            GO TO 250                 
-            if((EN+EIN[64]:
-            ) > X2V2(N2V2)) GO TO 225                       
-            DO 210 J=2,N2V2                                                   
-            if((EN+EIN[64]:
-            ) <= X2V2[J]) GOTO 220                              
-            210 CONTINUE                                                          
-            J=N2V2                                                            
-            220 A=(Y2V2[J]-Y2V2[J-1])/(X2V2[J]-X2V2[J-1])                     
-            B=(X2V2[J-1]*Y2V2[J]-X2V2[J]*Y2V2[J-1])/(X2V2[J-1]-X2V2[J]) 
-            QIN[63][I]=(EN+EIN[64])*(A*(EN+EIN[64])+B)/EN
-            GO TO 226
-            225 QIN[63][I]=Y2V2(N2V2)*X2V2(N2V2)*(EN+EIN[64])/(EN*EN)
-            226 QIN[63][I]=QIN[63][I]*APOP2V2/DEG2V2*1.e-16      
-            if(EN < (3.0*abs(EIN[63]:
-            ))) GO TO 250
-            if(NANISO > 0):
-            PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])]          
-            #  2V2 B# end MODE HARMONIC                                               
-            250 CONTINUE                                                          
+                  pass
+            else:
+                  flag226=1
+                  if((EN+EIN[64]) > X2V2[N2V2]):
+                        pass
+                  else:
+                        flag220=1
+                        for J in range(2,N2V2):                                                   
+                              if((EN+EIN[64]) <= X2V2[J]):
+                                    flag220=0
+                                    break                              
+                        if(flag220):
+                              J=N2V2                                                            
+                        # 220 
+                        A=(Y2V2[J]-Y2V2[J-1])/(X2V2[J]-X2V2[J-1])                     
+                        B=(X2V2[J-1]*Y2V2[J]-X2V2[J]*Y2V2[J-1])/(X2V2[J-1]-X2V2[J]) 
+                        QIN[63][I]=(EN+EIN[64])*(A*(EN+EIN[64])+B)/EN
+                        flag226=0
+                  if(flag226):
+                        QIN[63][I]=Y2V2[N2V2]*X2V2[N2V2]*(EN+EIN[64])/(EN*EN)
+                  # 226 
+                  QIN[63][I]=QIN[63][I]*APOP2V2/DEG2V2*1.e-16      
+                  if(EN < (3.0*abs(EIN[63]))):
+                        pass
+                  if(NANISO > 0):
+                        PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])]          
+                  #  2V2 B# end MODE HARMONIC                                               
+            # 250 CONTINUE                                                          
             QIN[64][I]=0.0  
             PEQIN[64][I]=0.50
             if(NANISO == 2):
-            PEQIN[64][I]=0.00
-            if(EN <= EIN[64]:
-            ) GO TO 300       
-            if(EN > X2V2(N2V2):
-            ) GO TO 275                                
-            DO 260 J=2,N2V2                                                   
-            if(EN <= X2V2[J]:
-            ) GOTO 270                                       
-            260 CONTINUE                                                          
-            J=N2V2                                                            
-            270 A=(Y2V2[J]-Y2V2[J-1])/(X2V2[J]-X2V2[J-1])                     
-            B=(X2V2[J-1]*Y2V2[J]-X2V2[J]*Y2V2[J-1])/(X2V2[J-1]-X2V2[J]) 
-            QIN[64][I]=(A*EN+B)
-            GO TO 276
-            275 QIN[64][I]=Y2V2(N2V2)*X2V2(N2V2)/EN  
-            276 QIN[64][I]=QIN[64][I]*APOPGS*1.e-16  
-            if(EN < (3.0*EIN[64]:
-            )) GO TO 300
-            if(NANISO > 0):
-            PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])]                
-            #  
-            # SUPERELASTIC V1 SYMMETRIC STRETCH                                
-            300 CONTINUE                                                          
+                  PEQIN[64][I]=0.00
+            if(EN <= EIN[64]):
+                  pass
+            else:
+                  flag270=1
+                  flag276=1
+                  if(EN > X2V2[N2V2]):
+                        pass
+                  else:
+                        for J in range(2,N2V2):
+                              if(EN <= X2V2[J]):
+                                    flag270=0
+                                    break
+                        if(flag270):
+                              J=N2V2                                                            
+                        # 270 
+                        A=(Y2V2[J]-Y2V2[J-1])/(X2V2[J]-X2V2[J-1])                     
+                        B=(X2V2[J-1]*Y2V2[J]-X2V2[J]*Y2V2[J-1])/(X2V2[J-1]-X2V2[J]) 
+                        QIN[64][I]=(A*EN+B)
+                        flag276=0
+                  if(flag276):
+                        QIN[64][I]=Y2V2[N2V2]*X2V2[N2V2]/EN  
+                  # 276 
+                  QIN[64][I]=QIN[64][I]*APOPGS*1.e-16  
+                  if(EN < (3.0*EIN[64])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])]                
+                  #  
+                  # SUPERELASTIC V1 SYMMETRIC STRETCH                                
+            # 300 CONTINUE                                                          
             QIN[65][I]=0.0  
             PEQIN[65][I]=0.50
             if(NANISO == 2):
-            PEQIN[65][I]=0.00
+                  PEQIN[65][I]=0.00
             if(EN <= 0.0):
-            GO TO 350   
-            if((EN+EIN[66]:
-            ) > XV1[NV1]) GO TO 325                           
-            DO 310 J=2,NV1                                                    
-            if((EN+EIN[66]:
-            ) <= XV1[J]) GOTO 320                               
-            310 CONTINUE                                                          
-            J=NV1                                                             
-            320 A=(YV1[J]-YV1[J-1])/(XV1[J]-XV1[J-1])                     
-            B=(XV1[J-1]*YV1[J]-XV1[J]*YV1[J-1])/(XV1[J-1]-XV1[J]) 
-            QIN[65][I]=(EN+EIN[66])*(A*(EN+EIN[66])+B)/EN
-            GO TO 326
-            325 QIN[65][I]=YV1[NV1]*XV1[NV1]*(EN+EIN[66])/(EN*EN)
-            326 QIN[65][I]=QIN[65][I]*APOPV1/DEGV1*1.e-16   
-            if(EN < (3.0*abs(EIN[65]:
-            ))) GO TO 350
-            if(NANISO > 0):
-            PEQIN[65][I]=PEQEL[2][(I-IOFFN(65))]               
-            # V1 SYMMETRIC STRETCH                                                 
-            350 CONTINUE                                                          
+                  pass
+            else:
+                  if((EN+EIN[66]) > XV1[NV1]):
+                        pass
+                  else:
+                        flag320=1
+                        for J in range(2,NV1):
+                              if((EN+EIN[66]) <= XV1[J]):
+                                    flag320=0
+                                    break                               
+                        if(flag320):
+                              J=NV1                                                             
+                        # 320 
+                        A=(YV1[J]-YV1[J-1])/(XV1[J]-XV1[J-1])                     
+                        B=(XV1[J-1]*YV1[J]-XV1[J]*YV1[J-1])/(XV1[J-1]-XV1[J]) 
+                        QIN[65][I]=(EN+EIN[66])*(A*(EN+EIN[66])+B)/EN
+                        flag326=0
+                  if(flag326):
+                        QIN[65][I]=YV1[NV1]*XV1[NV1]*(EN+EIN[66])/(EN*EN)
+                  # 326 
+                  QIN[65][I]=QIN[65][I]*APOPV1/DEGV1*1.e-16   
+                  if(EN < (3.0*abs(EIN[65]))):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[65][I]=PEQEL[2][(I-IOFFN[65])]               
+                  # V1 SYMMETRIC STRETCH                                                 
+            # 350 CONTINUE                                                          
             QIN[66][I]=0.0  
             PEQIN[66][I]=0.50
             if(NANISO == 2):
-            PEQIN[66][I]=0.00
-            if(EN <= EIN[66]:
-            ) GO TO 400              
-            if(EN > XV1[NV1]:
-            ) GO TO 375                         
-            DO 360 J=2,NV1                                                    
-            if(EN <= XV1[J]:
-            ) GOTO 370                                       
-            360 CONTINUE                                                          
-            J=NV1                                                             
-            370 A=(YV1[J]-YV1[J-1])/(XV1[J]-XV1[J-1])                     
-            B=(XV1[J-1]*YV1[J]-XV1[J]*YV1[J-1])/(XV1[J-1]-XV1[J]) 
-            QIN[66][I]=(A*EN+B)
-            GO TO 376 
-            375 QIN[66][I]=YV1[NV1]*XV1[NV1]/EN
-            376 QIN[66][I]=QIN[66][I]*APOPGS*1.e-16
-            if(EN < (3.0*EIN[66]:
-            )) GO TO 400
-            if(NANISO > 0):
-            PEQIN[66][I]=PEQEL[2][(I-IOFFN(66))]             
-            #  
-            # SUPERELASTIC 3V2 + V12                                                
-            400 CONTINUE                                                          
+                  PEQIN[66][I]=0.00
+            if(EN <= EIN[66]):
+                  pass
+            else:
+                  flag376=1
+                  if(EN > XV1[NV1]):
+                        pass
+                  else:
+                        flag370=1
+                        for J in range(2,NV1):
+                              if(EN <= XV1[J]):
+                                    flag370=0
+                                    break                                       
+                        if(flag370):
+                              J=NV1                                                             
+                        # 370 
+                        A=(YV1[J]-YV1[J-1])/(XV1[J]-XV1[J-1])                     
+                        B=(XV1[J-1]*YV1[J]-XV1[J]*YV1[J-1])/(XV1[J-1]-XV1[J]) 
+                        QIN[66][I]=(A*EN+B)
+                        flag376=0 
+                  if(flag376):
+                        QIN[66][I]=YV1[NV1]*XV1[NV1]/EN
+                  # 376 
+                  QIN[66][I]=QIN[66][I]*APOPGS*1.e-16
+                  if(EN < (3.0*EIN[66])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[66][I]=PEQEL[2][(I-IOFFN[66])]             
+                  #  
+                  # SUPERELASTIC 3V2 + V12                                                
+            # 400 CONTINUE                                                          
             QIN[67][I]=0.0  
             PEQIN[67][I]=0.50
             if(NANISO == 2):
-            PEQIN[67][I]=0.00
+                  PEQIN[67][I]=0.00
             if(EN <= 0.0):
-            GO TO 450 
-            if((EN+EIN[68]:
-            ) > X3V2(N3V2)) GO TO 425                         
-            DO 410 J=2,N3V2                                                   
-            if((EN+EIN[68]:
-            ) <= X3V2[J]) GOTO 420                              
-            410 CONTINUE                                                          
-            J=N3V2                                                            
-            420 A=(Y3V2[J]-Y3V2[J-1])/(X3V2[J]-X3V2[J-1])                     
-            B=(X3V2[J-1]*Y3V2[J]-X3V2[J]*Y3V2[J-1])/(X3V2[J-1]-X3V2[J])
-            QIN[67][I]=(EN+EIN[68])*(A*(EN+EIN[68])+B)/EN
-            GO TO 426
-            425 QIN[67][I]=Y3V2(N3V2)*X3V2(N3V2)*(EN+EIN[68])/(EN*EN) 
-            426 QIN[67][I]=QIN[67][I]*APOP3V2/DEG3V2*1.e-16  
-            if(EN < (3.0*abs(EIN[68]:
-            ))) GO TO 450
-            if(NANISO > 0):
-            PEQIN[67][I]=PEQEL[2][(I-IOFFN(67))]                
-            # 3V2 + V12                                                             
-            450 CONTINUE                                                          
+                  pass
+            else:
+                  if((EN+EIN[68]> X3V2[N3V2])):
+                        pass
+                  else:
+                        flag420=1
+                        for J in range(2,N3V2):
+                              if((EN+EIN[68]<= X3V2[J])):
+                                    flag420=0
+                                    break                              
+                        # 410 CONTINUE                 
+                        if(flag420):                                         
+                              J=N3V2                                                            
+                        # 420 
+                        A=(Y3V2[J]-Y3V2[J-1])/(X3V2[J]-X3V2[J-1])                     
+                        B=(X3V2[J-1]*Y3V2[J]-X3V2[J]*Y3V2[J-1])/(X3V2[J-1]-X3V2[J])
+                        QIN[67][I]=(EN+EIN[68])*(A*(EN+EIN[68])+B)/EN
+                        flag426=0
+                  if(flag426):
+                        QIN[67][I]=Y3V2[N3V2]*X3V2[N3V2]*(EN+EIN[68])/(EN*EN) 
+                  # 426
+                  QIN[67][I]=QIN[67][I]*APOP3V2/DEG3V2*1.e-16  
+                  if(EN < (3.0*abs(EIN[68]))):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[67][I]=PEQEL[2][(I-IOFFN[67])]                
+                  # 3V2 + V12                                                             
+            # 450 CONTINUE                                                          
             QIN[68][I]=0.0  
             PEQIN[68][I]=0.50
             if(NANISO == 2):
-            PEQIN[68][I]=0.00
-            if(EN <= EIN[68]:
-            ) GO TO 500
-            if(EN > X3V2(N3V2):
-            ) GO TO 475                              
-            DO 460 J=2,N3V2                                                   
-            if(EN <= X3V2[J]:
-            ) GOTO 470                                       
-            460 CONTINUE                                                          
-            J=N3V2                                                            
-            470 A=(Y3V2[J]-Y3V2[J-1])/(X3V2[J]-X3V2[J-1])                     
-            B=(X3V2[J-1]*Y3V2[J]-X3V2[J]*Y3V2[J-1])/(X3V2[J-1]-X3V2[J]) 
-            QIN[68][I]=(A*EN+B)  
-            GO TO 476
-            475 QIN[68][I]=Y3V2(N3V2)*X3V2(N3V2)/EN
-            476 QIN[68][I]=QIN[68][I]*APOPGS*1.e-16
-            if(EN < (3.0*EIN[68]:
-            )) GO TO 500
-            if(NANISO > 0):
-            PEQIN[68][I]=PEQEL[2][(I-IOFFN(68))]               
-            #
-            #  SUPERELASTIC V3 ASYMMETRIC STRETCH                                                     
-            500 QIN[69][I]=0.0  
+                  PEQIN[68][I]=0.00
+            if(EN <= EIN[68]):
+                  pass
+            else:
+                  if(EN > X3V2[N3V2]):
+                        pass
+                  else:
+                        flag470=1
+                        for J in range(2,N3V2):
+                              if(EN <= X3V2[J]):
+                                    flag470=0
+                                    break                                       
+                        # 460 CONTINUE   
+                        if(flag470):                                                       
+                              J=N3V2                                                            
+                        # 470 
+                        A=(Y3V2[J]-Y3V2[J-1])/(X3V2[J]-X3V2[J-1])                     
+                        B=(X3V2[J-1]*Y3V2[J]-X3V2[J]*Y3V2[J-1])/(X3V2[J-1]-X3V2[J]) 
+                        QIN[68][I]=(A*EN+B)  
+                        flag476=0
+                  if(flag476):
+                        QIN[68][I]=Y3V2[N3V2]*X3V2[N3V2]/EN
+                  # 476 
+                  QIN[68][I]=QIN[68][I]*APOPGS*1.e-16
+                  if(EN < (3.0*EIN[68])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[68][I]=PEQEL[2][(I-IOFFN[68])]               
+                  #
+                  #  SUPERELASTIC V3 ASYMMETRIC STRETCH                                                     
+            # 500 
+            QIN[69][I]=0.0  
             PEQIN[69][I]=0.50
             if(NANISO == 2):
-            PEQIN[69][I]=0.00
+                  PEQIN[69][I]=0.00
             if(EN <= 0.0):
-            GO TO 550
-            EFAC=math.sqrt(1.0-(EIN[69]/EN))
-            QIN[69][I]=AMPV3*math.log((EFAC+1.0)/(EFAC-1.0))/EN    
-            if((EN+EIN[70]:
-            ) > XV3[NV3]) GO TO 525                
-            DO 510 J=2,NV3                                                    
-            if((EN+EIN[70]:
-            ) <= XV3[J]) GOTO 520                               
-            510 CONTINUE                                                          
-            J=NV3                                                             
-            520 A=(YV3[J]-YV3[J-1])/(XV3[J]-XV3[J-1])                     
-            B=(XV3[J-1]*YV3[J]-XV3[J]*YV3[J-1])/(XV3[J-1]-XV3[J]) 
-            QIN[69][I]=QIN[69][I]+(EN+EIN[70])*(A*(EN+EIN[70])+B)/EN
-            GO TO 526
-            525 QIN[69][I]=QIN[69][I]+YV3[NV3]*XV3[NV3]*(EN+EIN[70])/(EN*EN)
-            526 QIN[69][I]=QIN[69][I]*APOPV3/DEGV3*1.e-16
-            if(EN < (3.0*abs(EIN[69]:
-            )))  GO TO 550
-            if(NANISO > 0):
-            PEQIN[69][I]=PEQEL[2][(I-IOFFN(69))]
-            # V3  ASYMMETRIC STRETCH                                                    
-            550 QIN[70][I]=0.0  
+                  pass
+            else:
+                  EFAC=math.sqrt(1.0-(EIN[69]/EN))
+                  QIN[69][I]=AMPV3*math.log((EFAC+1.0)/(EFAC-1.0))/EN    
+                  if((EN+EIN[70] > XV3[NV3])):
+                        pass
+                  else:
+                        flag520=1
+                        for J in range(2,NV3):
+                              if((EN+EIN[70] <= XV3[J])):
+                                    flag520=0
+                                    break
+                        # 510 CONTINUE     
+                        if(flag520):                                                     
+                              J=NV3                                                             
+                        # 520 
+                        A=(YV3[J]-YV3[J-1])/(XV3[J]-XV3[J-1])                     
+                        B=(XV3[J-1]*YV3[J]-XV3[J]*YV3[J-1])/(XV3[J-1]-XV3[J]) 
+                        QIN[69][I]=QIN[69][I]+(EN+EIN[70])*(A*(EN+EIN[70])+B)/EN
+                        flag526=0
+                  if(flag526):
+                        QIN[69][I]=QIN[69][I]+YV3[NV3]*XV3[NV3]*(EN+EIN[70])/(EN*EN)
+                  # 526 
+                  QIN[69][I]=QIN[69][I]*APOPV3/DEGV3*1.e-16
+                  if(EN < (3.0*abs(EIN[69]))):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[69][I]=PEQEL[2][(I-IOFFN[69])]
+                  # V3  ASYMMETRIC STRETCH                                                    
+            # 550 
+            QIN[70][I]=0.0  
             PEQIN[70][I]=0.50
             if(NANISO == 2):
-            PEQIN[70][I]=0.00
-            if(EN <= EIN[70]:
-            ) GO TO 600 
-            EFAC=math.sqrt(1.0-(EIN[70]/EN))
-            QIN[70][I]=AMPV3*math.log((1.0+EFAC)/(1.0-EFAC))/EN  
-            if(EN > XV3[NV3]:
-            ) GO TO 575                  
-            DO 560 J=2,NV3                                                    
-            if(EN <= XV3[J]:
-            ) GO TO 570                                      
-            560 CONTINUE                                                          
-            J=NV3                                                             
-            570 A=(YV3[J]-YV3[J-1])/(XV3[J]-XV3[J-1])                     
-            B=(XV3[J-1]*YV3[J]-XV3[J]*YV3[J-1])/(XV3[J-1]-XV3[J]) 
-            QIN[70][I]=QIN[70][I]+(A*EN+B)
-            GO TO 576
-            575 QIN[70][I]=QIN[70][I]+YV3[NV3]*XV3[NV3]/EN
-            576 QIN[70][I]=QIN[70][I]*APOPGS*1.e-16
-            if(EN < (3.0*EIN[70]:
-            )) GO TO 600
-            if(NANISO > 0):
-            PEQIN[70][I]=PEQEL[2][(I-IOFFN(70))]
-            #     
-            #  4V2 + 2V1 + V12V2  POLYAD 3                                                 
-            600 CONTINUE                                                          
+                  PEQIN[70][I]=0.00
+            if(EN <= EIN[70]):
+                  pass
+            else:
+                  flag576=1
+                  EFAC=math.sqrt(1.0-(EIN[70]/EN))
+                  QIN[70][I]=AMPV3*math.log((1.0+EFAC)/(1.0-EFAC))/EN  
+                  if(EN > XV3[NV3]):
+                        pass
+                  else:
+                        flag570=1
+                        for J in range(2,NV3):
+                              if(EN <= XV3[J]):
+                                    flag570=0
+                                    break
+                        if(flag570):
+                              J=NV3                                                             
+                        # 570 
+                        A=(YV3[J]-YV3[J-1])/(XV3[J]-XV3[J-1])                     
+                        B=(XV3[J-1]*YV3[J]-XV3[J]*YV3[J-1])/(XV3[J-1]-XV3[J]) 
+                        QIN[70][I]=QIN[70][I]+(A*EN+B)
+                        flag576=0
+                  if(flag576):
+                        QIN[70][I]=QIN[70][I]+YV3[NV3]*XV3[NV3]/EN
+                  # 576 
+                  QIN[70][I]=QIN[70][I]*APOPGS*1.e-16
+                  if(EN < (3.0*EIN[70])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[70][I]=PEQEL[2][(I-IOFFN[70])]
+                  #     
+                  #  4V2 + 2V1 + V12V2  POLYAD 3                                                 
+            # 600 CONTINUE                                                          
             QIN[71][I]=0.0  
             PEQIN[71][I]=0.50
             if(NANISO == 2):
-            PEQIN[71][I]=0.00
-            if(EN <= EIN[71]:
-            ) GO TO 650 
-            if(EN > XVPD3(NPD3):
-            ) GO TO 625                                  
-            DO 610 J=2,NPD3                                                   
-            if(EN <= XVPD3[J]:
-            ) GOTO 620                                       
-            610 CONTINUE                                                          
-            J=NPD3                                                           
-            620 A=(YVPD3[J]-YVPD3[J-1])/(XVPD3[J]-XVPD3[J-1])                     
-            B=(XVPD3[J-1]*YVPD3[J]-XVPD3[J]*YVPD3[J-1])/(XVPD3[J-1]-XVPD3[J]) 
-            QIN[71][I]=(A*EN+B)*1.e-16             
-            GO TO 626
-            625 QIN[71][I]=YVPD3(NPD3)*XVPD3(NPD3)/EN*1.e-16       
-            626 if(EN < (3.0*EIN[71])) GO TO 650
-            if(NANISO > 0):
-            PEQIN[71][I]=PEQEL[2][(I-IOFFN(71))]
-            #                                      
-            #       3V2V1  + 2V1V2                                                   
-            650 CONTINUE                                                          
+                  PEQIN[71][I]=0.00
+            if(EN <= EIN[71]):
+                  pass
+            else:
+                  if(EN > XVPD3[NPD3]):
+                        pass
+                  else:
+                        flag20=1
+                        for J in range(2,NPD3):
+                              if(EN <= XVPD3[J]):
+                                    flag20=0
+                                    break
+                        if(flag20):
+                              J=NPD3                                                           
+                        # 620 
+                        A=(YVPD3[J]-YVPD3[J-1])/(XVPD3[J]-XVPD3[J-1])                     
+                        B=(XVPD3[J-1]*YVPD3[J]-XVPD3[J]*YVPD3[J-1])/(XVPD3[J-1]-XVPD3[J]) 
+                        QIN[71][I]=(A*EN+B)*1.e-16             
+                        flag626=0
+                  if(flag626):
+                        QIN[71][I]=YVPD3[NPD3]*XVPD3[NPD3]/EN*1.e-16       
+                  # 626 
+                  if(EN < (3.0*EIN[71])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[71][I]=PEQEL[2][(I-IOFFN[71])]
+                  #                                      
+                  #       3V2V1  + 2V1V2                                                   
+            # 650 CONTINUE                                                          
             QIN[72][I]=0.0  
             PEQIN[72][I]=0.50
             if(NANISO == 2):
-            PEQIN[72][I]=0.00
-            if(EN <= EIN[72]:
-            ) GO TO 700                         
-            if(EN > XV130(NV130):
-            ) GO TO 675              
-            DO 660 J=2,NV130                                                  
-            if(EN <= XV130[J]:
-            ) GOTO 670                                       
-            660 CONTINUE                                                          
-            J=NV130                                                           
-            670 A=(YV130[J]-YV130[J-1])/(XV130[J]-XV130[J-1])                     
-            B=(XV130[J-1]*YV130[J]-XV130[J]*YV130[J-1])/(XV130[J-1]-XV130[J]) 
-            QIN[72][I]=(A*EN+B)*1.e-16       
-            GO TO 676
-            675 QIN[72][I]=YV130(NV130)*XV130(NV130)/EN*1.e-16   
-            676 if(EN < (3.0*EIN[72])) GO TO 700
-            if(NANISO > 0):
-            PEQIN[72][I]=PEQEL[2][(I-IOFFN(72))]
-            #                                      
-            #   POLYAD 4                                                                    
-            700 CONTINUE                                                          
+                  PEQIN[72][I]=0.00
+            if(EN <= EIN[72]):
+                  pass
+            else:
+                  flag676=1
+                  if(EN > XV130[NV130]):
+                        pass
+                  else:
+                        flag670=1
+                        for J in range(2,NV130):
+                              if(EN <= XV130[J]):
+                                    flag670=0
+                                    break                                       
+                        if(flag670):
+                              J=NV130                                                           
+                        # 670 
+                        A=(YV130[J]-YV130[J-1])/(XV130[J]-XV130[J-1])                     
+                        B=(XV130[J-1]*YV130[J]-XV130[J]*YV130[J-1])/(XV130[J-1]-XV130[J]) 
+                        QIN[72][I]=(A*EN+B)*1.e-16       
+                        flag676=0
+                  if(flag676):
+                        QIN[72][I]=YV130[NV130]*XV130[NV130]/EN*1.e-16   
+                  # 676 
+                  if(EN < (3.0*EIN[72])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[72][I]=PEQEL[2][(I-IOFFN[72])]
+                  #                                      
+                  #   POLYAD 4                                                                    
+            # 700 CONTINUE                                                          
             QIN[73][I]=0.0  
             PEQIN[73][I]=0.50
             if(NANISO == 2):
-            PEQIN[73][I]=0.00
-            if(EN <= EIN[73]:
-            ) GO TO 750                   
-            if(EN > XVPD4(NPD4):
-            ) GO TO 725                    
-            DO 710 J=2,NPD4                                                   
-            if(EN <= XVPD4[J]:
-            ) GOTO 720                                       
-            710 CONTINUE                                                          
-            J=NPD4                                                            
-            720 A=(YVPD4[J]-YVPD4[J-1])/(XVPD4[J]-XVPD4[J-1])                     
-            B=(XVPD4[J-1]*YVPD4[J]-XVPD4[J]*YVPD4[J-1])/(XVPD4[J-1]-XVPD4[J]) 
-            QIN[73][I]=(A*EN+B)*1.e-16      
-            GO TO 726
-            725 QIN[73][I]=YVPD4(NPD4)*XVPD4(NPD4)/EN*1.e-16     
-            726 if(EN < (3.0*EIN[73])) GO TO 750
-            if(NANISO > 0):
-            PEQIN[73][I]=PEQEL[2][(I-IOFFN(73))]
-            #
-            #  PLOYAD 5     
-            750 CONTINUE                                                          
+                  PEQIN[73][I]=0.00
+            if(EN <= EIN[73]):
+                  pass
+            else:
+                  flag726=1
+                  if(EN > XVPD4[NPD4]):
+                        pass
+                  else:
+                        flag720=1
+                        for J in range(2,NPD4):                                                   
+                              if(EN <= XVPD4[J]):
+                                    flag720=0
+                                    break
+                        if(flag720):
+                              J=NPD4                                                            
+                        # 720 
+                        A=(YVPD4[J]-YVPD4[J-1])/(XVPD4[J]-XVPD4[J-1])                     
+                        B=(XVPD4[J-1]*YVPD4[J]-XVPD4[J]*YVPD4[J-1])/(XVPD4[J-1]-XVPD4[J]) 
+                        QIN[73][I]=(A*EN+B)*1.e-16      
+                        flag726=0
+                  if(flag726):
+                        QIN[73][I]=YVPD4[NPD4]*XVPD4[NPD4]/EN*1.e-16     
+                  # 726 
+                  if(EN < (3.0*EIN[73])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[73][I]=PEQEL[2][(I-IOFFN[73])]
+                  #
+                  #  PLOYAD 5     
+            # 750 CONTINUE                                                          
             QIN[74][I]=0.0  
             PEQIN[74][I]=0.50
             if(NANISO == 2):
-            PEQIN[74][I]=0.00
-            if(EN <= EIN[74]:
-            ) GO TO 800
-            if(EN > XVPD5(NPD5):
-            ) GO TO 775                          
-            DO 760 J=2,NPD5                                                   
-            if(EN <= XVPD5[J]:
-            ) GOTO 770                                       
-            760 CONTINUE                                                          
-            J=NPD5                                                            
-            770 A=(YVPD5[J]-YVPD5[J-1])/(XVPD5[J]-XVPD5[J-1])                     
-            B=(XVPD5[J-1]*YVPD5[J]-XVPD5[J]*YVPD5[J-1])/(XVPD5[J-1]-XVPD5[J]) 
-            QIN[74][I]=(A*EN+B)*1.e-16  
-            GO TO 799
-            775 QIN[74][I]=YVPD5(NPD5)*XVPD5(NPD5)/EN*1.e-16
-            799 if(EN < (3.0*EIN[74])) GO TO 800
-            if(NANISO > 0):
-            PEQIN[74][I]=PEQEL[2][(I-IOFFN(74))]
-            #                                              
-            #   POLYAD 6                                                                    
-            800 CONTINUE                                                          
+                  PEQIN[74][I]=0.00
+            if(EN <= EIN[74]):
+                  pass
+            else:
+                  flag770=1
+                  flag779=1
+                  if(EN > XVPD5[NPD5]):
+                        pass
+                  else:
+                        for J in range(2,NPD5):
+                              if(EN <= XVPD5[J]):
+                                    flag770=0
+                                    break                                       
+                        # 760 CONTINUE                 
+                        if(flag770):                                         
+                              J=NPD5                                                            
+                        # 770 
+                        A=(YVPD5[J]-YVPD5[J-1])/(XVPD5[J]-XVPD5[J-1])                     
+                        B=(XVPD5[J-1]*YVPD5[J]-XVPD5[J]*YVPD5[J-1])/(XVPD5[J-1]-XVPD5[J]) 
+                        QIN[74][I]=(A*EN+B)*1.e-16  
+                        flag799=0
+                  if(flag779):
+                        QIN[74][I]=YVPD5[NPD5]*XVPD5[NPD5]/EN*1.e-16
+                  # 799 
+                  if(EN < (3.0*EIN[74])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[74][I]=PEQEL[2][(I-IOFFN[74])]
+                  #                                              
+                  #   POLYAD 6                                                                    
+            # 800 CONTINUE                                                          
             QIN[75][I]=0.0  
             PEQIN[75][I]=0.50
             if(NANISO == 2):
-            PEQIN[75][I]=0.00
-            if(EN <= EIN[75]:
-            ) GO TO 850                
-            if(EN > XVPD6(NPD6):
-            ) GO TO 825                       
-            DO 810 J=2,NPD6                                                   
-            if(EN <= XVPD6[J]:
-            ) GOTO 820                                       
-            810 CONTINUE                                                          
-            J=NPD6                                                            
-            820 A=(YVPD6[J]-YVPD6[J-1])/(XVPD6[J]-XVPD6[J-1])                     
-            B=(XVPD6[J-1]*YVPD6[J]-XVPD6[J]*YVPD6[J-1])/(XVPD6[J-1]-XVPD6[J]) 
-            QIN[75][I]=(A*EN+B)*1.e-16 
-            GO TO 826
-            825 QIN[75][I]=YVPD6(NPD6)*XVPD6(NPD6)/EN*1.e-16
-            826 if(EN < (3.0*EIN[75]))  GO TO 850
-            if(NANISO > 0):
-            PEQIN[75][I]=PEQEL[2][(I-IOFFN(75))]
-            #                                             
-            #   POLYAD 7                                                                    
-            850 CONTINUE                                                          
+                  PEQIN[75][I]=0.00
+            if(EN <= EIN[75]):
+                  pass
+            else:
+                  flag826=1
+                  if(EN > XVPD6[NPD6]):
+                        pass
+                  else:
+                        flag820=1
+                        for J in range(2,NPD6):
+                              if(EN <= XVPD6[J]):
+                                    flag820=0
+                                    break                                       
+                        # 810 CONTINUE                                                          
+                        if(flag820):
+                              J=NPD6                                                            
+                        # 820 
+                        A=(YVPD6[J]-YVPD6[J-1])/(XVPD6[J]-XVPD6[J-1])                     
+                        B=(XVPD6[J-1]*YVPD6[J]-XVPD6[J]*YVPD6[J-1])/(XVPD6[J-1]-XVPD6[J]) 
+                        QIN[75][I]=(A*EN+B)*1.e-16 
+                        flag826=0
+                  if(flag826):
+                        QIN[75][I]=YVPD6[NPD6]*XVPD6[NPD6]/EN*1.e-16
+                  # 826 
+                  if(EN < (3.0*EIN[75])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[75][I]=PEQEL[2][(I-IOFFN[75])]
+                  #                                             
+                  #   POLYAD 7                                                                    
+            # 850 CONTINUE                                                          
             QIN[76][I]=0.0  
             PEQIN[76][I]=0.50
             if(NANISO == 2):
-            PEQIN[76][I]=0.00
-            if(EN <= EIN[76]:
-            ) GO TO 900                
-            if(EN > XVPD7(NPD7):
-            ) GO TO 875                       
-            DO 860 J=2,NPD7                                                   
-            if(EN <= XVPD7[J]:
-            ) GOTO 870                                       
-            860 CONTINUE                                                          
-            J=NPD7                                                            
-            870 A=(YVPD7[J]-YVPD7[J-1])/(XVPD7[J]-XVPD7[J-1])                     
-            B=(XVPD7[J-1]*YVPD7[J]-XVPD7[J]*YVPD7[J-1])/(XVPD7[J-1]-XVPD7[J]) 
-            QIN[76][I]=(A*EN+B)*1.e-16 
-            GO TO 876
-            875 QIN[76][I]=YVPD7(NPD7)*XVPD7(NPD7)/EN*1.e-16
-            876 if(EN < (3.0*EIN[76])) GO TO 900
-            if(NANISO > 0):
-            PEQIN[76][I]=PEQEL[2][(I-IOFFN(76))]
-            #                                              
-            #   POLYAD 8                                                                    
-            900 CONTINUE                                                          
+                  PEQIN[76][I]=0.00
+            if(EN <= EIN[76]):
+                  pass
+            else:
+                  flag876=1
+                  if(EN > XVPD7[NPD7]):
+                        pass
+                  else:
+                        flag870=1
+                        DO 860 J=2,NPD7                                                   
+                              if(EN <= XVPD7[J]):
+                                    flag870=0
+                                    break
+                        # 860 CONTINUE                                                          
+                        if(flag870):
+                              J=NPD7                                                            
+                        # 870 
+                        A=(YVPD7[J]-YVPD7[J-1])/(XVPD7[J]-XVPD7[J-1])                     
+                        B=(XVPD7[J-1]*YVPD7[J]-XVPD7[J]*YVPD7[J-1])/(XVPD7[J-1]-XVPD7[J]) 
+                        QIN[76][I]=(A*EN+B)*1.e-16 
+                        flag876=0
+                  if(flag876):
+                        QIN[76][I]=YVPD7[NPD7]*XVPD7[NPD7]/EN*1.e-16
+                  # 876 
+                  if(EN < (3.0*EIN[76])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[76][I]=PEQEL[2][(I-IOFFN[76])]
+                  #                                              
+                  #   POLYAD 8                                                                    
+            # 900 CONTINUE                                                          
             QIN[77][I]=0.0  
             PEQIN[77][I]=0.50
             if(NANISO == 2):
-            PEQIN[77][I]=0.00
-            if(EN <= EIN[77]:
-            ) GO TO 950                
-            if(EN > XVPD8(NPD8):
-            ) GO TO 925                       
-            DO 910 J=2,NPD8                                                   
-            if(EN <= XVPD8[J]:
-            ) GOTO 920                                       
-            910 CONTINUE                                                          
-            J=NPD8                                                            
-            920 A=(YVPD8[J]-YVPD8[J-1])/(XVPD8[J]-XVPD8[J-1])                     
-            B=(XVPD8[J-1]*YVPD8[J]-XVPD8[J]*YVPD8[J-1])/(XVPD8[J-1]-XVPD8[J]) 
-            QIN[77][I]=(A*EN+B)*1.e-16
-            GO TO 926
-            925 QIN[77][I]=YVPD8(NPD8)*XVPD8(NPD8)/EN*1.e-16
-            926 if(EN < (3.0*EIN[77]))  GO TO 950
-            if(NANISO > 0):
-            PEQIN[77][I]=PEQEL[2][(I-IOFFN(77))]
-            #                                               
-            #   POLYAD 9                                                                    
-            950 CONTINUE                                                          
+                  PEQIN[77][I]=0.00
+            if(EN <= EIN[77]):
+                  pass
+            else:
+                  flag926=1
+                  if(EN > XVPD8[NPD8]):
+                        pass
+                  else:
+                        flag920=1
+                        DO 910 J=2,NPD8                                                   
+                        if(EN <= XVPD8[J]):
+                              flag920=0
+                              break
+                        if(flag920):
+                              J=NPD8                                                            
+                        # 920 
+                        A=(YVPD8[J]-YVPD8[J-1])/(XVPD8[J]-XVPD8[J-1])                     
+                        B=(XVPD8[J-1]*YVPD8[J]-XVPD8[J]*YVPD8[J-1])/(XVPD8[J-1]-XVPD8[J]) 
+                        QIN[77][I]=(A*EN+B)*1.e-16
+                        flag926=0
+                  if(flag926):
+                        QIN[77][I]=YVPD8[NPD8]*XVPD8[NPD8]/EN*1.e-16
+                  # 926 
+                  if(EN < (3.0*EIN[77])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[77][I]=PEQEL[2][(I-IOFFN[77])]
+                  #                                               
+                  #   POLYAD 9                                                                    
+            # 950 CONTINUE                                                          
             QIN[78][I]=0.0  
             PEQIN[78][I]=0.50
             if(NANISO == 2):
-            PEQIN[78][I]=0.00
-            if(EN <= EIN[78]:
-            ) GO TO 1000               
-            if(EN > XVPD9(NPD9):
-            ) GO TO 975                       
-            DO 960 J=2,NPD9                                                   
-            if(EN <= XVPD9[J]:
-            ) GOTO 970                                       
-            960 CONTINUE                                                          
-            J=NPD9                                                            
-            970 A=(YVPD9[J]-YVPD9[J-1])/(XVPD9[J]-XVPD9[J-1])                     
-            B=(XVPD9[J-1]*YVPD9[J]-XVPD9[J]*YVPD9[J-1])/(XVPD9[J-1]-XVPD9[J]) 
-            QIN[78][I]=(A*EN+B)*1.e-16     
-            GO TO 976 
-            975 QIN[78][I]=YVPD9(NPD9)*XVPD9(NPD9)/EN*1.e-16
-            976 if(EN < (3.0*EIN[78])) GO TO 1000
-            if(NANISO > 0):
-            PEQIN[78][I]=PEQEL[2][(I-IOFFN(78))]
-            #                                          
-            #   SUM OF HIGHER POLYADS                                                       
-            1000 CONTINUE                                                          
+                  PEQIN[78][I]=0.00
+            if(EN <= EIN[78]):
+                  pass
+            else:
+                  flag976=1
+                  if(EN > XVPD9[NPD9]):
+                        pass
+                  else:
+                        flag970=1
+                        for J in range(2,NPD9):
+                              if(EN <= XVPD9[J]):
+                                    flag970=0
+                                    break                                       
+                        if(flag970):
+                              J=NPD9                                                            
+                        # 970 
+                        A=(YVPD9[J]-YVPD9[J-1])/(XVPD9[J]-XVPD9[J-1])                     
+                        B=(XVPD9[J-1]*YVPD9[J]-XVPD9[J]*YVPD9[J-1])/(XVPD9[J-1]-XVPD9[J]) 
+                        QIN[78][I]=(A*EN+B)*1.e-16     
+                        flag976=0 
+                  if(flag976):
+                        QIN[78][I]=YVPD9[NPD9]*XVPD9[NPD9]/EN*1.e-16
+                  # 976 
+                  if(EN < (3.0*EIN[78])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[78][I]=PEQEL[2][(I-IOFFN[78])]
+                  #                                          
+                  #   SUM OF HIGHER POLYADS                                                       
+            # 1000 CONTINUE                                                          
             QIN[79][I]=0.0   
             PEQIN[79][I]=0.50
             if(NANISO == 2):
-            PEQIN[79][I]=0.00
-            if(EN <= EIN[79]:
-            ) GO TO 1080               
-            if(EN > XVPDH(NPDH):
-            ) GO TO 1005                       
-            DO 1001 J=2,NPDH                                                  
-            if(EN <= XVPDH[J]:
-            ) GOTO 1002                                      
-            1001 CONTINUE                                                          
-            J=NPDH                                                            
-            1002 A=(YVPDH[J]-YVPDH[J-1])/(XVPDH[J]-XVPDH[J-1])                     
-            B=(XVPDH[J-1]*YVPDH[J]-XVPDH[J]*YVPDH[J-1])/(XVPDH[J-1]-XVPDH[J]) 
-            QIN[79][I]=(A*EN+B)*1.e-16       
-            GO TO 1006
-            1005 QIN[79][I]=YVPDH(NPDH)*XVPDH(NPDH)/EN*1.e-16   
-            1006 if(EN < (3.0*EIN[79])) GO TO 1080
-            if(NANISO > 0):
-            PEQIN[79][I]=PEQEL[2][(I-IOFFN(79))]
-            #  1DELu  6.50ev                      
-            1080 CONTINUE                                                          
+                  PEQIN[79][I]=0.00
+            if(EN <= EIN[79]):
+                  pass
+            else:
+                  flag1006=1
+                  if(EN > XVPDH[NPDH]):
+                        pass
+                  else:
+                        flag1002=1
+                        for J in range(2,NPDH):
+                              if(EN <= XVPDH[J]):
+                                    flag1002=0
+                                    break
+                        if(flag1002):
+                              J=NPDH                                                            
+                        # 1002 
+                        A=(YVPDH[J]-YVPDH[J-1])/(XVPDH[J]-XVPDH[J-1])                     
+                        B=(XVPDH[J-1]*YVPDH[J]-XVPDH[J]*YVPDH[J-1])/(XVPDH[J-1]-XVPDH[J]) 
+                        QIN[79][I]=(A*EN+B)*1.e-16       
+                        flag1006=0
+                  if(flag1006):
+                        QIN[79][I]=YVPDH[NPDH]*XVPDH[NPDH]/EN*1.e-16   
+                  # 1006 
+                  if(EN < (3.0*EIN[79])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[79][I]=PEQEL[2][(I-IOFFN[79])]
+                  #  1DELu  6.50ev                      
+            # 1080 CONTINUE                                                          
             QIN[80][I]=0.0  
             PEQIN[80][I]=0.5
             if(NANISO == 2):
-            PEQIN[80][I]=0.0  
-            if(EN <= EIN[80]:
-            ) GO TO 1081 
-            QIN[80][I]=.0000698/(EIN[80]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[80]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[80]+E[3])*1.0192
-            if(QIN[80][I]:
-            < 0.0) QIN[80][I]=0.0
-            if(EN <= (2.0*EIN[80]:
-            )) GO TO 1081  
-            if(NANISO > 0):
-            PEQIN[80][I]=PEQEL[2][(I-IOFFN(80))]               
-            # 1DELu 6.75 ev                                                        
-            1081 CONTINUE                                                          
+                  PEQIN[80][I]=0.0  
+            if(EN <= EIN[80]):
+                  pass
+            else:
+                  QIN[80][I]=.0000698/(EIN[80]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[80]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[80]+E[3])*1.0192
+                  if(QIN[80][I]< 0.0):
+                        QIN[80][I]=0.0
+                  if(EN <= (2.0*EIN[80])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[80][I]=PEQEL[2][(I-IOFFN[80])]               
+                  # 1DELu 6.75 ev                                                        
+            # 1081 CONTINUE                                                          
             QIN[81][I]=0.0   
             PEQIN[81][I]=0.5  
             if(NANISO == 2):
-            PEQIN[81][I]=0.0                                  
-            if(EN <= EIN[81]:
-            ) GO TO 1082                            
-            QIN[81][I]=.0000630/(EIN[81]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[81]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[81]+E[3])*1.0185
-            if(QIN[81][I]:
-            < 0.0) QIN[81][I]=0.0
-            if(EN <= (2.0*EIN[81]:
-            )) GO TO 1082
-            if(NANISO > 0):
-            PEQIN[81][I]=PEQEL[2][(I-IOFFN(81))]           
-            #   1DELu  7.00ev                                            
-            1082 CONTINUE                                                          
+                  PEQIN[81][I]=0.0                                  
+            if(EN <= EIN[81]):
+                  pass
+            else:
+                  QIN[81][I]=.0000630/(EIN[81]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[81]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[81]+E[3])*1.0185
+                  if(QIN[81][I]< 0.0):
+                        QIN[81][I]=0.0
+                  if(EN <= (2.0*EIN[81])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[81][I]=PEQEL[2][(I-IOFFN[81])]           
+                  #   1DELu  7.00ev                                            
+            # 1082 CONTINUE                                                          
             QIN[82][I]=0.0
             PEQIN[82][I]=0.5 
             if(NANISO == 2):
-            PEQIN[82][I]=0.0                                 
-            if(EN <= EIN[82]:
-            ) GO TO 1083
-            QIN[82][I]=.0000758/(EIN[82]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[82]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[82]+E[3])*1.0179
-            if(QIN[82][I]:
-            < 0.0) QIN[82][I]=0.0
-            if(EN <= (2.0*EIN[82]:
-            )) GO TO 1083
-            if(NANISO > 0):
-            PEQIN[82][I]=PEQEL[2][(I-IOFFN(82))] 
-            #   1DELu 7.25ev
-            1083 CONTINUE                                                          
+                  PEQIN[82][I]=0.0                                 
+            if(EN <= EIN[82]):
+                  pass
+            else:
+                  QIN[82][I]=.0000758/(EIN[82]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[82]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[82]+E[3])*1.0179
+                  if(QIN[82][I]< 0.0):
+                        QIN[82][I]=0.0
+                  if(EN <= (2.0*EIN[82])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[82][I]=PEQEL[2][(I-IOFFN[82])] 
+                  #   1DELu 7.25ev
+            # 1083 CONTINUE                                                          
             QIN[83][I]=0.0
             PEQIN[83][I]=0.5
             if(NANISO == 2):
-            PEQIN[83][I]=0.0                                  
-            if(EN <= EIN[83]:
-            ) GO TO 1084
-            QIN[83][I]=.0001638/(EIN[83]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[83]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[83]+E[3])*1.0172
-            if(QIN[83][I]:
-            < 0.0) QIN[83][I]=0.0
-            if(EN <= (2.0*EIN[83]:
-            )) GO TO 1084
-            if(NANISO > 0):
-            PEQIN[83][I]=PEQEL[2][(I-IOFFN(83))]       
-            # 1DELu  7.5ev   
-            1084 CONTINUE                                                          
+                  PEQIN[83][I]=0.0                                  
+            if(EN <= EIN[83]):
+                  pass
+            else:
+                  QIN[83][I]=.0001638/(EIN[83]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[83]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[83]+E[3])*1.0172
+                  if(QIN[83][I]< 0.0):
+                        QIN[83][I]=0.0
+                  if(EN <= (2.0*EIN[83])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[83][I]=PEQEL[2][(I-IOFFN[83])]       
+                  # 1DELu  7.5ev   
+            # 1084 CONTINUE                                                          
             QIN[84][I]=0.0 
             PEQIN[84][I]=0.5
             if(NANISO == 2):
-            PEQIN[84][I]=0.0                                  
-            if(EN <= EIN[84]:
-            ) GO TO 1085
-            QIN[84][I]=.0003356/(EIN[84]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[84]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[84]+E[3])*1.0167
-            if(QIN[84][I]:
-            < 0.0) QIN[84][I]=0.0
-            if(EN <= (2.0*EIN[84]:
-            )) GO TO 1085   
-            if(NANISO > 0):
-            PEQIN[84][I]=PEQEL[2][(I-IOFFN(84))]           
-            #  1DELu 7.75ev                                
-            1085 CONTINUE           
+                  PEQIN[84][I]=0.0                                  
+            if(EN <= EIN[84]):
+                  pass
+            else:
+                  QIN[84][I]=.0003356/(EIN[84]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[84]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[84]+E[3])*1.0167
+                  if(QIN[84][I]< 0.0):
+                        QIN[84][I]=0.0
+                  if(EN <= (2.0*EIN[84])):
+                        pass
+                  else;
+                        if(NANISO > 0):
+                              PEQIN[84][I]=PEQEL[2][(I-IOFFN[84])]           
+                  #  1DELu 7.75ev                                
+            # 1085 CONTINUE           
             QIN[85][I]=0.0
             PEQIN[85][I]=0.5
             if(NANISO == 2):
-            PEQIN[85][I]=0.0                              
-            if(EN <= EIN[85]:
-            ) GO TO 1086
-            QIN[85][I]=.0007378/(EIN[85]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[85]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[85]+E[3])*1.0161
-            if(QIN[85][I]:
-            < 0.0) QIN[85][I]=0.0
-            if(EN <= (2.0*EIN[85]:
-            )) GO TO 1086
-            if(NANISO > 0):
-            PEQIN[85][I]=PEQEL[2][(I-IOFFN(85))] 
-            #  1DELu 8.0ev   
-            1086 CONTINUE                                                          
+                  PEQIN[85][I]=0.0                              
+            if(EN <= EIN[85]):
+                  pass
+            else:
+                  QIN[85][I]=.0007378/(EIN[85]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[85]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[85]+E[3])*1.0161
+                  if(QIN[85][I]< 0.0):
+                        QIN[85][I]=0.0
+                  if(EN <= (2.0*EIN[85])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[85][I]=PEQEL[2][(I-IOFFN[85])] 
+                  #  1DELu 8.0ev   
+            # 1086 CONTINUE                                                          
             QIN[86][I]=0.0
             PEQIN[86][I]=0.5
             if(NANISO == 2):
-            PEQIN[86][I]=0.0                              
-            if(EN <= EIN[86]:
-            ) GO TO 1087
-            QIN[86][I]=.001145/(EIN[86]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[86]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[86]+E[3])*1.0156
-            if(QIN[86][I]:
-            < 0.0) QIN[86][I]=0.0
-            if(EN <= (2.0*EIN[86]:
-            )) GO TO 1087
-            if(NANISO > 0):
-            PEQIN[86][I]=PEQEL[2][(I-IOFFN(86))] 
-            # 1DELu 8.25ev    
-            1087 CONTINUE                                                          
+                  PEQIN[86][I]=0.0                              
+            if(EN <= EIN[86]):
+                  pass
+            else:
+                  QIN[86][I]=.001145/(EIN[86]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[86]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[86]+E[3])*1.0156
+                  if(QIN[86][I]< 0.0):
+                        QIN[86][I]=0.0
+                  if(EN <= (2.0*EIN[86])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[86][I]=PEQEL[2][(I-IOFFN[86])] 
+                  # 1DELu 8.25ev    
+            # 1087 CONTINUE                                                          
             QIN[87][I]=0.0
             PEQIN[87][I]=0.5
             if(NANISO == 2):
-            PEQIN[87][I]=0.0                              
-            if(EN <= EIN[87]:
-            ) GO TO 1088
-            QIN[87][I]=.001409/(EIN[87]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[87]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[87]+E[3])*1.0152
-            if(QIN[85][I]:
-            < 0.0) QIN[87][I]=0.0
-            if(EN <= (2.0*EIN[87]:
-            )) GO TO 1088
-            if(NANISO > 0):
-            PEQIN[87][I]=PEQEL[2][(I-IOFFN(87))] 
-            #  1DELu 8.50ev   
-            1088 CONTINUE                                                          
+                  PEQIN[87][I]=0.0                              
+            if(EN <= EIN[87]):
+                  pass
+            else:
+                  QIN[87][I]=.001409/(EIN[87]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[87]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[87]+E[3])*1.0152
+                  if(QIN[85][I]< 0.0):
+                        QIN[87][I]=0.0
+                  if(EN <= (2.0*EIN[87])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[87][I]=PEQEL[2][(I-IOFFN[87])] 
+                  #  1DELu 8.50ev   
+            # 1088 CONTINUE                                                          
             QIN[88][I]=0.0
             PEQIN[88][I]=0.5
             if(NANISO == 2):
-            PEQIN[88][I]=0.0                              
-            if(EN <= EIN[88]:
-            ) GO TO 1089
-            QIN[88][I]=.001481/(EIN[88]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[88]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[88]+E[3])*1.0147
-            if(QIN[88][I]:
-            < 0.0) QIN[88][I]=0.0
-            if(EN <= (2.0*EIN[88]:
-            )) GO TO 1089
-            if(NANISO > 0):
-            PEQIN[88][I]=PEQEL[2][(I-IOFFN(88))] 
-            # 1DELu 8.75ev   
-            1089 CONTINUE                                                          
+                  PEQIN[88][I]=0.0                              
+            if(EN <= EIN[88]):
+                  pass
+            else:
+                  QIN[88][I]=.001481/(EIN[88]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[88]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[88]+E[3])*1.0147
+                  if(QIN[88][I]< 0.0):
+                        QIN[88][I]=0.0
+                  if(EN <= (2.0*EIN[88])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[88][I]=PEQEL[2][(I-IOFFN[88])] 
+                  # 1DELu 8.75ev   
+            # 1089 CONTINUE                                                          
             QIN[89][I]=0.0
             PEQIN[89][I]=0.5
             if(NANISO == 2):
-            PEQIN[89][I]=0.0                              
-            if(EN <= EIN[89]:
-            ) GO TO 1090
-            QIN[89][I]=.000859/(EIN[89]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[89]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[89]+E[3])*1.0143
-            if(QIN[89][I]:
-            < 0.0) QIN[89][I]=0.0
-            if(EN <= (2.0*EIN[89]:
-            )) GO TO 1090
-            if(NANISO > 0):
-            PEQIN[89][I]=PEQEL[2][(I-IOFFN(89))] 
-            # TRIPLET
-            1090 CONTINUE                                                          
+                  PEQIN[89][I]=0.0                              
+            if(EN <= EIN[89]):
+                  pass
+            else:
+                  QIN[89][I]=.000859/(EIN[89]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[89]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[89]+E[3])*1.0143
+                  if(QIN[89][I]< 0.0):
+                        QIN[89][I]=0.0
+                  if(EN <= (2.0*EIN[89])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[89][I]=PEQEL[2][(I-IOFFN[89])] 
+                  # TRIPLET
+            # 1090 CONTINUE                                                          
             QIN[90][I]=0.0
             PEQIN[90][I]=0.5
             if(NANISO == 2):
-            PEQIN[90][I]=0.0                              
-            if(EN <= EIN[90]:
-            ) GO TO 1091
-            if(EN > XTRP1(NTRP1):
-            ) GO TO 2083
-            DO 2081 J=2,NTRP1
-            if(EN <= (XTRP1[J]:
-            )) GO TO 2082
-            2081 CONTINUE
-            J=NTRP1
-            2082 A=(YTRP1[J]-YTRP1[J-1])/(XTRP1[J]-XTRP1[J-1])
-            B=(XTRP1[J-1]*YTRP1[J]-XTRP1[J]*YTRP1[J-1])/(XTRP1[J-1]-XTRP1[J])
-            QIN[90][I]=(A*EN+B)*1.e-16                
-            GO TO 2084
-            # SCALE BY 1/E**2 ABOVE XTRP1(NTRP1) EV
-            2083 QIN[90][I]=YTRP1(NTRP1)*(XTRP1(NTRP1)/EN)**2*1.e-16                
-            2084 if(EN <= (2.0*EIN[90])) GO TO 1091
-            if(NANISO > 0):
-            PEQIN[90][I]=PEQEL[2][(I-IOFFN(90))] 
-            #  1PIg  8.90ev                                            
-            1091 CONTINUE                                                          
+                  PEQIN[90][I]=0.0                              
+            if(EN <= EIN[90]):
+                  pass
+            else:
+                  if(EN > XTRP1[NTRP1]):
+                        pass
+                  else:
+                        DO 2081 J=2,NTRP1
+                        if(EN <= (XTRP1[J])):
+                              flag2082=0
+                              break
+                        else:
+                              J=NTRP1
+                        # 2082 
+                        A=(YTRP1[J]-YTRP1[J-1])/(XTRP1[J]-XTRP1[J-1])
+                        B=(XTRP1[J-1]*YTRP1[J]-XTRP1[J]*YTRP1[J-1])/(XTRP1[J-1]-XTRP1[J])
+                        QIN[90][I]=(A*EN+B)*1.e-16                
+                        flag2084=0
+                        # SCALE BY 1/E**2 ABOVE XTRP1[NTRP1] EV
+                  if(flag2084):
+                        QIN[90][I]=YTRP1[NTRP1]*(XTRP1[NTRP1]/EN)**2*1.e-16                
+                  # 2084 
+                  if(EN <= (2.0*EIN[90])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[90][I]=PEQEL[2][(I-IOFFN[90])] 
+                  #  1PIg  8.90ev                                            
+            # 1091 CONTINUE                                                          
             QIN[91][I]=0.0
             PEQIN[91][I]=0.5
             if(NANISO == 2):
-            PEQIN[91][I]=0.0                              
-            if(EN <= EIN[91]:
-            ) GO TO 1092
-            QIN[91][I]=.001687/(EIN[91]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[91]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[91]+E[3])*1.0140
-            if(QIN[91][I]:
-            < 0.0) QIN[91][I]=0.0
-            if(EN <= (2.0*EIN[91]:
-            )) GO TO 1092
-            if(NANISO > 0):
-            PEQIN[91][I]=PEQEL[2][(I-IOFFN(91))] 
-            #  1PIg 9.15ev   
-            1092 CONTINUE                                                          
+                  PEQIN[91][I]=0.0                              
+            if(EN <= EIN[91]):
+                  pass
+            else;
+                  QIN[91][I]=.001687/(EIN[91]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[91]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[91]+E[3])*1.0140
+                  if(QIN[91][I]< 0.0):
+                        QIN[91][I]=0.0
+                  if(EN <= (2.0*EIN[91])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[91][I]=PEQEL[2][(I-IOFFN[91])] 
+                  #  1PIg 9.15ev   
+            # 1092 CONTINUE                                                          
             QIN[92][I]=0.0
             PEQIN[92][I]=0.5
             if(NANISO == 2):
-            PEQIN[92][I]=0.0                              
-            if(EN <= EIN[92]:
-            ) GO TO 1093
-            QIN[92][I]=.002115/(EIN[92]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[92]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[92]+E[3])*1.0137
-            if(QIN[92][I]:
-            < 0.0) QIN[92][I]=0.0
-            if(EN <= (2.0*EIN[92]:
-            )) GO TO 1093
-            if(NANISO > 0):
-            PEQIN[92][I]=PEQEL[2][(I-IOFFN(92))] 
-            #  1PIg  9.4ev   
-            1093 CONTINUE                                                          
+                  PEQIN[92][I]=0.0                              
+            if(EN <= EIN[92]):
+                  pass
+            else:
+                  QIN[92][I]=.002115/(EIN[92]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[92]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[92]+E[3])*1.0137
+                  if(QIN[92][I]< 0.0):
+                        QIN[92][I]=0.0
+                  if(EN <= (2.0*EIN[92])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[92][I]=PEQEL[2][(I-IOFFN[92])] 
+                  #  1PIg  9.4ev   
+            # 1093 CONTINUE                                                          
             QIN[93][I]=0.0
             PEQIN[93][I]=0.5
             if(NANISO == 2):
-            PEQIN[93][I]=0.0                              
-            if(EN <= EIN[93]:
-            ) GO TO 1094
-            QIN[93][I]=.001920/(EIN[93]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[93]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[93]+E[3])*1.0133
-            if(QIN[93][I]:
-            < 0.0) QIN[93][I]=0.0
-            if(EN <= (2.0*EIN[93]:
-            )) GO TO 1094
-            if(NANISO > 0):
-            PEQIN[93][I]=PEQEL[2][(I-IOFFN(93))] 
-            #  1PIg  9.65ev   
-            1094 CONTINUE                                                          
+                  PEQIN[93][I]=0.0                              
+            if(EN <= EIN[93]):
+                  pass
+            else:
+                  QIN[93][I]=.001920/(EIN[93]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[93]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[93]+E[3])*1.0133
+                  if(QIN[93][I]< 0.0):
+                        QIN[93][I]=0.0
+                  if(EN <= (2.0*EIN[93])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[93][I]=PEQEL[2][(I-IOFFN[93])] 
+                  #  1PIg  9.65ev   
+            # 1094 CONTINUE                                                          
             QIN[94][I]=0.0
             PEQIN[94][I]=0.5
             if(NANISO == 2):
-            PEQIN[94][I]=0.0                              
-            if(EN <= EIN[94]:
-            ) GO TO 1095
-            QIN[94][I]=.001180/(EIN[94]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[94]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[94]+E[3])*1.0130
-            if(QIN[94][I]:
-            < 0.0) QIN[94][I]=0.0
-            if(EN <= (2.0*EIN[94]:
-            )) GO TO 1095
-            if(NANISO > 0):
-            PEQIN[94][I]=PEQEL[2][(I-IOFFN(94))] 
-            #  1PIg  9.9ev   
-            1095 CONTINUE                                                          
+                  PEQIN[94][I]=0.0                              
+            if(EN <= EIN[94]):
+                  pass
+            else:
+                  QIN[94][I]=.001180/(EIN[94]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[94]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[94]+E[3])*1.0130
+                  if(QIN[94][I]< 0.0):
+                        QIN[94][I]=0.0
+                  if(EN <= (2.0*EIN[94])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[94][I]=PEQEL[2][(I-IOFFN[94])] 
+                  #  1PIg  9.9ev   
+            # 1095 CONTINUE                                                          
             QIN[95][I]=0.0
             PEQIN[95][I]=0.5
             if(NANISO == 2):
-            PEQIN[95][I]=0.0                              
-            if(EN <= EIN[95]:
-            ) GO TO 1096
-            QIN[95][I]=.000683/(EIN[95]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[95]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[95]+E[3])*1.0126
-            if(QIN[95][I]:
-            < 0.0) QIN[95][I]=0.0
-            if(EN <= (2.0*EIN[95]:
-            )) GO TO 1096
-            if(NANISO > 0):
-            PEQIN[95][I]=PEQEL[2][(I-IOFFN(95))] 
-            #  1PIg 10.15ev   
-            1096 CONTINUE                                                          
+                  PEQIN[95][I]=0.0                              
+            if(EN <= EIN[95]):
+                  pass
+            else:
+                  QIN[95][I]=.000683/(EIN[95]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[95]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[95]+E[3])*1.0126
+                  if(QIN[95][I]< 0.0):
+                        QIN[95][I]=0.0
+                  if(EN <= (2.0*EIN[95])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[95][I]=PEQEL[2][(I-IOFFN[95])] 
+                  #  1PIg 10.15ev   
+            # 1096 CONTINUE                                                          
             QIN[96][I]=0.0
             PEQIN[96][I]=0.5
             if(NANISO == 2):
-            PEQIN[96][I]=0.0                              
-            if(EN <= EIN[96]:
-            ) GO TO 1097
-            QIN[96][I]=.000456/(EIN[96]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[96]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[96]+E[3])*1.0123
-            if(QIN[96][I]:
-            < 0.0) QIN[96][I]=0.0
-            if(EN <= (2.0*EIN[96]:
-            )) GO TO 1097
-            if(NANISO > 0):
-            PEQIN[96][I]=PEQEL[2][(I-IOFFN(96))] 
-            #   RA:AU  10.7ev                                                     
-            1097 CONTINUE                                                          
+                  PEQIN[96][I]=0.0                              
+            if(EN <= EIN[96]):
+                  pass
+            else:
+                  QIN[96][I]=.000456/(EIN[96]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[96]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[96]+E[3])*1.0123
+                  if(QIN[96][I]< 0.0):
+                        QIN[96][I]=0.0
+                  if(EN <= (2.0*EIN[96])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[96][I]=PEQEL[2][(I-IOFFN[96])] 
+                  #   RA:AU  10.7ev                                                     
+            # 1097 CONTINUE                                                          
             QIN[97][I]=0.0
             PEQIN[97][I]=0.5
             if(NANISO == 2):
-            PEQIN[97][I]=0.0                              
-            if(EN <= EIN[97]:
-            ) GO TO 1098
-            QIN[97][I]=.004361/(EIN[97]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[97]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[97]+E[3])
-            if(QIN[97][I]:
-            < 0.0) QIN[97][I]=0.0
-            if(EN <= (2.0*EIN[97]:
-            )) GO TO 1098
-            if(NANISO > 0):
-            PEQIN[97][I]=PEQEL[2][(I-IOFFN(97))] 
-            #  1SIGu+'  1SIGu+  C'   11.048ev                               
-            1098 CONTINUE                                                          
+                  PEQIN[97][I]=0.0                              
+            if(EN <= EIN[97]):
+                  pass
+            else:
+                  QIN[97][I]=.004361/(EIN[97]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[97]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[97]+E[3])
+                  if(QIN[97][I]< 0.0):
+                        QIN[97][I]=0.0
+                  if(EN <= (2.0*EIN[97])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[97][I]=PEQEL[2][(I-IOFFN[97])] 
+                  #  1SIGu+'  1SIGu+  C'   11.048ev                               
+            # 1098 CONTINUE                                                          
             QIN[98][I]=0.0
             PEQIN[98][I]=0.5
             if(NANISO == 2):
-            PEQIN[98][I]=0.0                              
-            if(EN <= EIN[98]:
-            ) GO TO 1099
-            QIN[98][I]=.1718/(EIN[98]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[98]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[98]+E[3])
-            if(QIN[98][I]:
-            < 0.0) QIN[98][I]=0.0
-            if(EN <= (2.0*EIN[98]:
-            )) GO TO 1099
-            if(NANISO > 0):
-            PEQIN[98][I]=PEQEL[2][(I-IOFFN(98))] 
-            #  TRIPLET                                                                
-            1099 CONTINUE                                                          
+                  PEQIN[98][I]=0.0                              
+            if(EN <= EIN[98]):
+                  pass
+            else:
+                  QIN[98][I]=.1718/(EIN[98]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[98]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[98]+E[3])
+                  if(QIN[98][I]< 0.0):
+                        QIN[98][I]=0.0
+                  if(EN <= (2.0*EIN[98])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[98][I]=PEQEL[2][(I-IOFFN[98])] 
+                  #  TRIPLET                                                                
+            # 1099 CONTINUE                                                          
             QIN[99][I]=0.0
             PEQIN[99][I]=0.5
             if(NANISO == 2):
-            PEQIN[99][I]=0.0                              
-            if(EN <= EIN[99]:
-            ) GO TO 1100
-            if(EN > XTRP2(NTRP2):
-            ) GO TO 2093
-            DO 2091 J=2,NTRP2
-            if(EN <= (XTRP2[J]:
-            )) GO TO 2092
-            2091 CONTINUE
-            J=NTRP2
-            2092 A=(YTRP2[J]-YTRP2[J-1])/(XTRP2[J]-XTRP2[J-1])
-            B=(XTRP2[J-1]*YTRP2[J]-XTRP2[J]*YTRP2[J-1])/(XTRP2[J-1]-XTRP2[J])
-            QIN[99][I]=(A*EN+B)*1.e-16             
-            GO TO 2094
-            # SCALE BY 1/E**2 ABOVE XTRP2(NTRP2) EV
-            2093 QIN[99][I]=YTRP2(NTRP2)*(XTRP2(NTRP2)/EN)**2*1.e-16           
-            2094 if(EN <= (2.0*EIN[99])) GO TO 1100
-            if(NANISO > 0):
-            PEQIN[99][I]=PEQEL[2][(I-IOFFN(99))] 
-            # 1PIu  11.385ev                                                  
-            1100 CONTINUE                                                          
-            QIN(100,I)=0.0
-            PEQIN(100,I)=0.5
+                  PEQIN[99][I]=0.0                              
+            if(EN <= EIN[99]):
+                  pass
+            else:
+                  if(EN > XTRP2[NTRP2]):
+                        pass
+                  else:
+                        for J in range(2,NTRP2):
+                              if(EN <= (XTRP2[J])):
+                                    flag2092=0
+                                    break
+                        if(flag2092):
+                              J=NTRP2
+                        # 2092 
+                        A=(YTRP2[J]-YTRP2[J-1])/(XTRP2[J]-XTRP2[J-1])
+                        B=(XTRP2[J-1]*YTRP2[J]-XTRP2[J]*YTRP2[J-1])/(XTRP2[J-1]-XTRP2[J])
+                        QIN[99][I]=(A*EN+B)*1.e-16             
+                        flag2094=0
+                        # SCALE BY 1/E**2 ABOVE XTRP2[NTRP2] EV
+                  if(flag2094):
+                        QIN[99][I]=YTRP2[NTRP2]*(XTRP2[NTRP2]/EN)**2*1.e-16           
+                  # 2094 
+                  if(EN <= (2.0*EIN[99])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[99][I]=PEQEL[2][(I-IOFFN[99])] 
+                  # 1PIu  11.385ev                                                  
+            # 1100 CONTINUE                                                          
+            QIN[100][I]=0.0
+            PEQIN[100][I]=0.5
             if(NANISO == 2):
-            PEQIN(100,I)=0.0                              
-            if(EN <= EIN(100):
-            ) GO TO 1101
-            QIN(100,I)=.06242/(EIN(100)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(100)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(100)+E[3])
-            if(QIN(100,I):
-            < 0.0) QIN(100,I)=0.0
-            if(EN <= (2.0*EIN(100):
-            )) GO TO 1101
-            if(NANISO > 0):
-            PEQIN(100,I)=PEQEL[2][(I-IOFFN(100)]) 
-            #  RYDBERG  11.543ev                                                  
-            1101 CONTINUE                                                          
-            QIN(101,I)=0.0
-            PEQIN(101,I)=0.5
+                  PEQIN[100][I]=0.0                              
+            if(EN <= EIN[100]):
+                  pass
+            else:
+                  QIN[100][I]=.06242/(EIN[100]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[100]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[100]+E[3])
+                  if(QIN[100][I]< 0.0):
+                        QIN[100][I]=0.0
+                  if(EN <= (2.0*EIN[100])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[100][I]=PEQEL[2][(I-IOFFN[100])]
+                  #  RYDBERG  11.543ev                                                  
+            # 1101 CONTINUE                                                          
+            QIN[101][I]=0.0
+            PEQIN[101][I]=0.5
             if(NANISO == 2):
-            PEQIN(101,I)=0.0                              
-            if(EN <= EIN(101):
-            ) GO TO 1102 
-            QIN(101,I)=.01852/(EIN(101)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(101)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(101)+E[3])
-            if(QIN(101,I):
-            < 0.0) QIN(101,I)=0.0
-            if(EN <= (2.0*EIN(101):
-            )) GO TO 1102
-            if(NANISO > 0):
-            PEQIN(101,I)=PEQEL[2][(I-IOFFN(101)]) 
-            #   RYDBERG 11.608ev                                               
-            1102 CONTINUE                                                          
-            QIN(102,I)=0.0
-            PEQIN(102,I)=0.5
+                  PEQIN[101][I]=0.0                              
+            if(EN <= EIN[101]):
+                  pass
+            else:
+                  QIN[101][I]=.01852/(EIN[101]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[101]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[101]+E[3])
+                  if(QIN[101][I]< 0.0):
+                        QIN[101][I]=0.0
+                  if(EN <= (2.0*EIN[101])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[101][I]=PEQEL[2][(I-IOFFN[101])]
+                  #   RYDBERG 11.608ev                                               
+            # 1102 CONTINUE                                                          
+            QIN[102][I]=0.0
+            PEQIN[102][I]=0.5
             if(NANISO == 2):
-            PEQIN(102,I)=0.0                              
-            if(EN <= EIN(102):
-            ) GO TO 1103 
-            QIN(102,I)=.01125/(EIN(102)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(102)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(102)+E[3])
-            if(QIN(102,I):
-            < 0.0) QIN(102,I)=0.0
-            if(EN <= (2.0*EIN(102):
-            )) GO TO 1103
-            if(NANISO > 0):
-            PEQIN(102,I)=PEQEL[2][(I-IOFFN(102)]) 
-            #   RYDBERG 11.683ev                    
-            1103 CONTINUE                                                          
-            QIN(103,I)=0.0
-            PEQIN(103,I)=0.5
+                  PEQIN[102][I]=0.0                              
+            if(EN <= EIN[102]):
+                  pass
+
+            else:
+                  QIN[102][I]=.01125/(EIN[102]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[102]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[102]+E[3])
+                  if(QIN[102][I]< 0.0):
+                        QIN[102][I]=0.0
+                  if(EN <= (2.0*EIN[102])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[102][I]=PEQEL[2][(I-IOFFN[102])] 
+                  #   RYDBERG 11.683ev                    
+            # 1103 CONTINUE                                                          
+            QIN[103][I]=0.0
+            PEQIN[103][I]=0.5
             if(NANISO == 2):
-            PEQIN(103,I)=0.0                              
-            if(EN <= EIN(103):
-            ) GO TO 1104 
-            QIN(103,I)=.01535/(EIN(103)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(103)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(103)+E[3])
-            if(QIN(103,I):
-            < 0.0) QIN(103,I)=0.0
-            if(EN <= (2.0*EIN(103):
-            )) GO TO 1104
-            if(NANISO > 0):
-            PEQIN(103,I)=PEQEL[2][(I-IOFFN(103)]) 
-            #   RYDBERG  11.758ev                                             
-            1104 CONTINUE                                                          
-            QIN(104,I)=0.0
-            PEQIN(104,I)=0.5
+                  PEQIN[103][I]=0.0                              
+            if(EN <= EIN[103]):
+                  pass
+            else:
+                  QIN[103][I]=.01535/(EIN[103]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[103]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[103]+E[3])
+                  if(QIN[103][I]< 0.0):
+                        QIN[103][I]=0.0
+                  if(EN <= (2.0*EIN[103])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[103][I]=PEQEL[2][(I-IOFFN[103])]
+                  #   RYDBERG  11.758ev                                             
+            # 1104 CONTINUE                                                          
+            QIN[104][I]=0.0
+            PEQIN[104][I]=0.5
             if(NANISO == 2):
-            PEQIN(104,I)=0.0                              
-            if(EN <= EIN(104):
-            ) GO TO 1105 
-            QIN(104,I)=.01009/(EIN(104)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(104)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(104)+E[3])
-            if(QIN(104,I):
-            < 0.0) QIN(104,I)=0.0
-            if(EN <= (2.0*EIN(104):
-            )) GO TO 1105
-            if(NANISO > 0):
-            PEQIN(104,I)=PEQEL[2][(I-IOFFN(104)]) 
-            #   RYDBERG  11.826ev                                               
-            1105 CONTINUE                                                          
-            QIN(105,I)=0.0
-            PEQIN(105,I)=0.5
+                  PEQIN[104][I]=0.0                              
+            if(EN <= EIN[104]):
+                  pass
+            else:
+                  QIN[104][I]=.01009/(EIN[104]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[104]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[104]+E[3])
+                  if(QIN[104][I]< 0.0):
+                        QIN[104][I]=0.0
+                  if(EN <= (2.0*EIN[104])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[104][I]=PEQEL[2][(I-IOFFN[104])]
+                  #   RYDBERG  11.826ev                                               
+            # 1105 CONTINUE                                                          
+            QIN[105][I]=0.0
+            PEQIN[105][I]=0.5
             if(NANISO == 2):
-            PEQIN(105,I)=0.0                              
-            if(EN <= EIN(105):
-            ) GO TO 1106 
-            QIN(105,I)=.01940/(EIN(105)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(105)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(105)+E[3])
-            if(QIN(105,I):
-            < 0.0) QIN(105,I)=0.0
-            if(EN <= (2.0*EIN(105):
-            )) GO TO 1106
-            if(NANISO > 0):
-            PEQIN(105,I)=PEQEL[2][(I-IOFFN(105)]) 
-            #   RYDBERG  11.971ev                                               
-            1106 CONTINUE                                                          
-            QIN(106,I)=0.0
-            PEQIN(106,I)=0.5
+                  PEQIN[105][I]=0.0                              
+            if(EN <= EIN[105]):
+                  pass
+            else:
+                  QIN[105][I]=.01940/(EIN[105]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[105]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[105]+E[3])
+                  if(QIN[105][I]< 0.0):
+                        QIN[105][I]=0.0
+                  if(EN <= (2.0*EIN[105])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[105][I]=PEQEL[2][(I-IOFFN[105])] 
+                  #   RYDBERG  11.971ev                                               
+            # 1106 CONTINUE                                                          
+            QIN[106][I]=0.0
+            PEQIN[106][I]=0.5
             if(NANISO == 2):
-            PEQIN(106,I)=0.0                              
-            if(EN <= EIN(106):
-            ) GO TO 1107 
-            QIN(106,I)=.03817/(EIN(106)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(106)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(106)+E[3])
-            if(QIN(106,I):
-            < 0.0) QIN(106,I)=0.0
-            if(EN <= (2.0*EIN(106):
-            )) GO TO 1107
-            if(NANISO > 0):
-            PEQIN(106,I)=PEQEL[2][(I-IOFFN(106)]) 
+                  PEQIN[106][I]=0.0                              
+            if(EN <= EIN[106]):
+                  pass
+            else:
+                  QIN[106][I]=.03817/(EIN[106]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[106]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[106]+E[3])
+                  if(QIN[106][I]< 0.0):
+                        QIN[106][I]=0.0
+                  if(EN <= (2.0*EIN[106])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[106][I]=PEQEL[2][(I-IOFFN[106])] 
             #  RYDBERG  12.142ev                                                
-            1107 CONTINUE                                                          
-            QIN(107,I)=0.0
-            PEQIN(107,I)=0.5
+            # 1107 CONTINUE                                                          
+            QIN[107][I]=0.0
+            PEQIN[107][I]=0.5
             if(NANISO == 2):
-            PEQIN(107,I)=0.0                              
-            if(EN <= EIN(107):
-            ) GO TO 1108 
-            QIN(107,I)=.05814/(EIN(107)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(107)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(107)+E[3])
-            if(QIN(107,I):
-            < 0.0) QIN(107,I)=0.0
-            if(EN <= (2.0*EIN(107):
-            )) GO TO 1108
-            if(NANISO > 0):
-            PEQIN(107,I)=PEQEL[2][(I-IOFFN(107)]) 
-            #  RYDBERG  12.301ev                                                 
-            1108 CONTINUE                                                          
-            QIN(108,I)=0.0
-            PEQIN(108,I)=0.5
+                  PEQIN[107][I]=0.0                              
+            if(EN <= EIN[107]):
+                  pass
+            else:
+                  QIN[107][I]=.05814/(EIN[107]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[107]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[107]+E[3])
+                  if(QIN[107][I]< 0.0):
+                        QIN[107][I]=0.0
+                  if(EN <= (2.0*EIN[107])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[107][I]=PEQEL[2][(I-IOFFN[107])]
+                  #  RYDBERG  12.301ev                                                 
+            # 1108 CONTINUE                                                          
+            QIN[108][I]=0.0
+            PEQIN[108][I]=0.5
             if(NANISO == 2):
-            PEQIN(108,I)=0.0                              
-            if(EN <= EIN(108):
-            ) GO TO 1109 
-            QIN(108,I)=.04769/(EIN(108)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(108)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(108)+E[3])
-            if(QIN(108,I):
-            < 0.0) QIN(108,I)=0.0
-            if(EN <= (2.0*EIN(108):
-            )) GO TO 1109
-            if(NANISO > 0):
-            PEQIN(108,I)=PEQEL[2][(I-IOFFN(108)]) 
-            #  RYDBERG   12.469ev                                               
-            1109 CONTINUE                                                          
-            QIN(109,I)=0.0
-            PEQIN(109,I)=0.5
+                  PEQIN[108][I]=0.0                              
+            if(EN <= EIN[108]):
+                  pass
+            else:
+                  QIN[108][I]=.04769/(EIN[108]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[108]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[108]+E[3])
+                  if(QIN[108][I]< 0.0):
+                        QIN[108][I]=0.0
+                  if(EN <= (2.0*EIN[108])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[108][I]=PEQEL[2][(I-IOFFN[108])] 
+                  #  RYDBERG   12.469ev                                               
+            # 1109 CONTINUE                                                          
+            QIN[109][I]=0.0
+            PEQIN[109][I]=0.5
             if(NANISO == 2):
-            PEQIN(109,I)=0.0                              
-            if(EN <= EIN(109):
-            ) GO TO 1110 
-            QIN(109,I)=.09315/(EIN(109)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(109)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(109)+E[3])
-            if(QIN(109,I):
-            < 0.0) QIN(109,I)=0.0
-            if(EN <= (2.0*EIN(109):
-            )) GO TO 1110
-            if(NANISO > 0):
-            PEQIN(109,I)=PEQEL[2][(I-IOFFN(109)]) 
-            #  RYDBERG 12.627ev                                                  
-            1110 CONTINUE                                                          
-            QIN(110,I)=0.0
-            PEQIN(110,I)=0.5
+                  PEQIN[109][I]=0.0                              
+            if(EN <= EIN[109]):
+                  pass
+            else:
+                  QIN[109][I]=.09315/(EIN[109]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[109]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[109]+E[3])
+                  if(QIN[109][I]< 0.0):
+                        QIN[109][I]=0.0
+                  if(EN <= (2.0*EIN[109])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[109][I]=PEQEL[2][(I-IOFFN[109])] 
+                  #  RYDBERG 12.627ev                                                  
+            # 1110 CONTINUE                                                          
+            QIN[110][I]=0.0
+            PEQIN[110][I]=0.5
             if(NANISO == 2):
-            PEQIN(110,I)=0.0                              
-            if(EN <= EIN(110):
-            ) GO TO 1111 
-            QIN(110,I)=.06305/(EIN(110)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(110)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(110)+E[3])
-            if(QIN(110,I):
-            < 0.0) QIN(110,I)=0.0
-            if(EN <= (2.0*EIN(110):
-            )) GO TO 1111
-            if(NANISO > 0):
-            PEQIN(110,I)=PEQEL[2][(I-IOFFN(110)]) 
+                  PEQIN[110][I]=0.0                              
+            if(EN <= EIN[110]):
+                  pass
+            else:
+                  QIN[110][I]=.06305/(EIN[110]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[110]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[110]+E[3])
+                  if(QIN[110][I]< 0.0):
+                        QIN[110][I]=0.0
+                  if(EN <= (2.0*EIN[110])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[110][I]=PEQEL[2][(I-IOFFN[110])] 
             #  CONTINUUM  12.75ev                                                   
-            1111 CONTINUE                                                          
-            QIN(111,I)=0.0
-            PEQIN(111,I)=0.5
+            # 1111 CONTINUE                                                          
+            QIN[111][I]=0.0
+            PEQIN[111][I]=0.5
             if(NANISO == 2):
-            PEQIN(111,I)=0.0                              
-            if(EN <= EIN(111):
-            ) GO TO 1112 
-            QIN(111,I)=.02477/(EIN(111)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(111)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(111)+E[3])
-            if(QIN(111,I):
-            < 0.0) QIN(111,I)=0.0
-            if(EN <= (2.0*EIN(111):
-            )) GO TO 1112
-            if(NANISO > 0):
-            PEQIN(111,I)=PEQEL[2][(I-IOFFN(111)]) 
-            #  RYDBERG  12.901ev                                                      
-            1112 CONTINUE                                                          
-            QIN(112,I)=0.0
-            PEQIN(112,I)=0.5
+                  PEQIN[111][I]=0.0                              
+            if(EN <= EIN[111]):
+                  pass
+            else:
+                  QIN[111][I]=.02477/(EIN[111]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[111]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[111]+E[3])
+                  if(QIN[111][I]< 0.0):
+                        QIN[111][I]=0.0
+                  if(EN <= (2.0*EIN[111])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[111][I]=PEQEL[2][(I-IOFFN[111])] 
+                  #  RYDBERG  12.901ev                                                      
+            # 1112 CONTINUE                                                          
+            QIN[112][I]=0.0
+            PEQIN[112][I]=0.5
             if(NANISO == 2):
-            PEQIN(112,I)=0.0                              
-            if(EN <= EIN(112):
-            ) GO TO 1113 
-            QIN(112,I)=.06231/(EIN(112)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(112)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(112)+E[3])
-            if(QIN(112,I):
-            < 0.0) QIN(112,I)=0.0
-            if(EN <= (2.0*EIN(112):
-            )) GO TO 1113
-            if(NANISO > 0):
-            PEQIN(112,I)=PEQEL[2][(I-IOFFN(112)]) 
-            #  SUM RYDBERGS 13.01ev                                                    
-            1113 CONTINUE                                                          
-            QIN(113,I)=0.0
-            PEQIN(113,I)=0.5
+                  PEQIN[112][I]=0.0                              
+            if(EN <= EIN[112]):
+                  pass
+            else:
+                  QIN[112][I]=.06231/(EIN[112]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[112]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[112]+E[3])
+                  if(QIN[112][I]< 0.0):
+                        QIN[112][I]=0.0
+                  if(EN <= (2.0*EIN[112])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[112][I]=PEQEL[2][(I-IOFFN[112])] 
+                  #  SUM RYDBERGS 13.01ev                                                    
+            # 1113 CONTINUE                                                          
+            QIN[113][I]=0.0
+            PEQIN[113][I]=0.5
             if(NANISO == 2):
-            PEQIN(113,I)=0.0                              
-            if(EN <= EIN(113):
-            ) GO TO 1114 
-            QIN(113,I)=.06696/(EIN(113)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(113)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(113)+E[3])
-            if(QIN(113,I):
-            < 0.0) QIN(113,I)=0.0
-            if(EN <= (2.0*EIN(113):
-            )) GO TO 1114
-            if(NANISO > 0):
-            PEQIN(113,I)=PEQEL[2][(I-IOFFN(113)]) 
-            #  SUM RYDBERGS 13.15ev                                                    
-            1114 CONTINUE                                                          
-            QIN(114,I)=0.0
-            PEQIN(114,I)=0.5
+                  PEQIN[113][I]=0.0                              
+            if(EN <= EIN[113]):
+                  pass
+            else:
+                  QIN[113][I]=.06696/(EIN[113]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[113]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[113]+E[3])
+                  if(QIN[113][I]< 0.0):
+                        QIN[113][I]=0.0
+                  if(EN <= (2.0*EIN[113])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[113][I]=PEQEL[2][(I-IOFFN[113])] 
+                  #  SUM RYDBERGS 13.15ev                                                    
+            # 1114 CONTINUE                                                          
+            QIN[114][I]=0.0
+            PEQIN[114][I]=0.5
             if(NANISO == 2):
-            PEQIN(114,I)=0.0                              
-            if(EN <= EIN(114):
-            ) GO TO 1115 
-            QIN(114,I)=.09451/(EIN(114)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(114)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(114)+E[3])
-            if(QIN(114,I):
-            < 0.0) QIN(114,I)=0.0
-            if(EN <= (2.0*EIN(114):
-            )) GO TO 1115
-            if(NANISO > 0):
-            PEQIN(114,I)=PEQEL[2][(I-IOFFN(114)]) 
-            #  SUM RYDBERGS  13.28ev                                                   
-            1115 CONTINUE                                                          
-            QIN(115,I)=0.0
-            PEQIN(115,I)=0.5
+                  PEQIN[114][I]=0.0                              
+            if(EN <= EIN[114]):
+                  pass
+            else:
+                  QIN[114][I]=.09451/(EIN[114]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[114]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[114]+E[3])
+                  if(QIN[114][I]< 0.0):
+                        QIN[114][I]=0.0
+                  if(EN <= (2.0*EIN[114])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[114][I]=PEQEL[2][(I-IOFFN[114])] 
+                  #  SUM RYDBERGS  13.28ev                                                   
+            # 1115 CONTINUE                                                          
+            QIN[115][I]=0.0
+            PEQIN[115][I]=0.5
             if(NANISO == 2):
-            PEQIN(115,I)=0.0                              
-            if(EN <= EIN(115):
-            ) GO TO 1116 
-            QIN(115,I)=.04986/(EIN(115)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(115)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(115)+E[3])
-            if(QIN(115,I):
-            < 0.0) QIN(115,I)=0.0
-            if(EN <= (2.0*EIN(115):
-            )) GO TO 1116
-            if(NANISO > 0):
-            PEQIN(115,I)=PEQEL[2][(I-IOFFN(115)]) 
-            #  SUM RYDBERGS  13.39ev                                                  
-            1116 CONTINUE                                                          
-            QIN(116,I)=0.0
-            PEQIN(116,I)=0.5
+                  PEQIN[115][I]=0.0                              
+            if(EN <= EIN[115]):
+                  pass
+            else:
+                  QIN[115][I]=.04986/(EIN[115]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[115]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[115]+E[3])
+                  if(QIN[115][I]< 0.0):
+                        QIN[115][I]=0.0
+                  if(EN <= (2.0*EIN[115])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[115][I]=PEQEL[2][(I-IOFFN[115])]
+                  #  SUM RYDBERGS  13.39ev                                                  
+            # 1116 CONTINUE                                                          
+            QIN[116][I]=0.0
+            PEQIN[116][I]=0.5
             if(NANISO == 2):
-            PEQIN(116,I)=0.0                              
-            if(EN <= EIN(116):
-            ) GO TO 1117 
-            QIN(116,I)=.09029/(EIN(116)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(116)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(116)+E[3])
-            if(QIN(116,I):
-            < 0.0) QIN(116,I)=0.0
-            if(EN <= (2.0*EIN(116):
-            )) GO TO 1117
-            if(NANISO > 0):
-            PEQIN(116,I)=PEQEL[2][(I-IOFFN(116)]) 
-            #  SUM RYDBERGS   13.51ev                                                 
-            1117 CONTINUE                                                          
-            QIN(117,I)=0.0
-            PEQIN(117,I)=0.5
+                  PEQIN[116][I]=0.0                              
+            if(EN <= EIN[116]):
+                  pass
+            else:
+                  QIN[116][I]=.09029/(EIN[116]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[116]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[116]+E[3])
+                  if(QIN[116][I]< 0.0):
+                        QIN[116][I]=0.0
+                  if(EN <= (2.0*EIN[116])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[116][I]=PEQEL[2][(I-IOFFN[116])]
+                  #  SUM RYDBERGS   13.51ev                                                 
+            # 1117 CONTINUE                                                          
+            QIN[117][I]=0.0
+            PEQIN[117][I]=0.5
             if(NANISO == 2):
-            PEQIN(117,I)=0.0                              
-            if(EN <= EIN(117):
-            ) GO TO 1118 
-            QIN(117,I)=.07431/(EIN(117)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(117)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(117)+E[3])
-            if(QIN(117,I):
-            < 0.0) QIN(117,I)=0.0
-            if(EN <= (2.0*EIN(117):
-            )) GO TO 1118
-            if(NANISO > 0):
-            PEQIN(117,I)=PEQEL[2][(I-IOFFN(117)]) 
-            #  SUM RYDBERGS   13.68ev                                               
-            1118 CONTINUE                                                          
-            QIN(118,I)=0.0
-            PEQIN(118,I)=0.5
+                  PEQIN[117][I]=0.0                              
+            if(EN <= EIN[117]):
+                  pass
+            else:
+                  QIN[117][I]=.07431/(EIN[117]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[117]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[117]+E[3])
+                  if(QIN[117][I]< 0.0):
+                        QIN[117][I]=0.0
+                  if(EN <= (2.0*EIN[117])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[117][I]=PEQEL[2][(I-IOFFN[117])] 
+                  #  SUM RYDBERGS   13.68ev                                               
+            # 1118 CONTINUE                                                          
+            QIN[118][I]=0.0
+            PEQIN[118][I]=0.5
             if(NANISO == 2):
-            PEQIN(118,I)=0.0                              
-            if(EN <= EIN(118):
-            ) GO TO 1119 
-            QIN(118,I)=.15625/(EIN(118)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(118)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(118)+E[3])
-            if(QIN(118,I):
-            < 0.0) QIN(118,I)=0.0
-            if(EN <= (2.0*EIN(118):
-            )) GO TO 1119
-            if(NANISO > 0):
-            PEQIN(118,I)=PEQEL[2][(I-IOFFN(118)]) 
-            #  NEUTRAL DISSOCIATION 13.78ev                                            
-            1119 CONTINUE                                                          
-            QIN(119,I)=0.0
-            PEQIN(119,I)=0.5
+                  PEQIN[118][I]=0.0                              
+            if(EN <= EIN[118]):
+                  pass
+            else:
+                  QIN[118][I]=.15625/(EIN[118]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[118]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[118]+E[3])
+                  if(QIN[118][I]< 0.0):
+                        QIN[118][I]=0.0
+                  if(EN <= (2.0*EIN[118])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[118][I]=PEQEL[2][(I-IOFFN[118])] 
+                  #  NEUTRAL DISSOCIATION 13.78ev                                            
+            # 1119 CONTINUE                                                          
+            QIN[119][I]=0.0
+            PEQIN[119][I]=0.5
             if(NANISO == 2):
-            PEQIN(119,I)=0.0                              
-            if(EN <= EIN(119):
-            ) GO TO 1120 
-            QIN(119,I)=.08084/(EIN(119)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(119)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(119)+E[3])*1.0075
-            if(QIN(119,I):
-            < 0.0) QIN(119,I)=0.0
-            if(EN <= (2.0*EIN(119):
-            )) GO TO 1120
-            if(NANISO > 0):
-            PEQIN(119,I)=PEQEL[2][(I-IOFFN(119)]) 
-            #  NEUTRAL DISSOCIATION  14.0ev                                            
-            1120 CONTINUE                                                          
-            QIN(120,I)=0.0
-            PEQIN(120,I)=0.5
+                  PEQIN[119][I]=0.0                              
+            if(EN <= EIN[119]):
+                  pass
+            else:
+                  QIN[119][I]=.08084/(EIN[119]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[119]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[119]+E[3])*1.0075
+                  if(QIN[119][I]< 0.0):
+                        QIN[119][I]=0.0
+                  if(EN <= (2.0*EIN[119])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[119][I]=PEQEL[2][(I-IOFFN[119])]
+                  #  NEUTRAL DISSOCIATION  14.0ev                                            
+            # 1120 CONTINUE                                                          
+            QIN[120][I]=0.0
+            PEQIN[120][I]=0.5
             if(NANISO == 2):
-            PEQIN(120,I)=0.0                              
-            if(EN <= EIN(120):
-            ) GO TO 1121 
-            QIN(120,I)=.02662/(EIN(120)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(120)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(120)+E[3])*1.0089
-            if(QIN(120,I):
-            < 0.0) QIN(120,I)=0.0
-            if(EN <= (2.0*EIN(120):
-            )) GO TO 1121
-            if(NANISO > 0):
-            PEQIN(120,I)=PEQEL[2][(I-IOFFN(120)]) 
-            #  NEUTRAL DISSOCIATION  14.25ev 
-            1121 CONTINUE                                                          
-            QIN(121,I)=0.0
-            PEQIN(121,I)=0.5
+                  PEQIN[120][I]=0.0                              
+            if(EN <= EIN[120]):
+                  pass
+            else:
+                  QIN[120][I]=.02662/(EIN[120]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[120]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[120]+E[3])*1.0089
+                  if(QIN[120][I]< 0.0):
+                        QIN[120][I]=0.0
+                  if(EN <= (2.0*EIN[120])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[120][I]=PEQEL[2][(I-IOFFN[120])] 
+                  #  NEUTRAL DISSOCIATION  14.25ev 
+            # 1121 CONTINUE                                                          
+            QIN[121][I]=0.0
+            PEQIN[121][I]=0.5
             if(NANISO == 2):
-            PEQIN(121,I)=0.0                              
-            if(EN <= EIN(121):
-            ) GO TO 1122 
-            QIN(121,I)=.01062/(EIN(121)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(121)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(121)+E[3])*1.0088
-            if(QIN(121,I):
-            < 0.0) QIN(121,I)=0.0
-            if(EN <= (2.0*EIN(121):
-            )) GO TO 1122
-            if(NANISO > 0):
-            PEQIN(121,I)=PEQEL[2][(I-IOFFN(121)]) 
-            #   NEUTRAL DISSOCIATION  14.5ev 
-            1122 CONTINUE                                                          
-            QIN(122,I)=0.0
-            PEQIN(122,I)=0.5
+                  PEQIN[121][I]=0.0                              
+            if(EN <= EIN[121]):
+                  pass
+            else:
+                  QIN[121][I]=.01062/(EIN[121]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[121]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[121]+E[3])*1.0088
+                  if(QIN[121][I]< 0.0):
+                        QIN[121][I]=0.0
+                  if(EN <= (2.0*EIN[121])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[121][I]=PEQEL[2][(I-IOFFN[121])]
+                  #   NEUTRAL DISSOCIATION  14.5ev 
+            # 1122 CONTINUE                                                          
+            QIN[122][I]=0.0
+            PEQIN[122][I]=0.5
             if(NANISO == 2):
-            PEQIN(122,I)=0.0                              
-            if(EN <= EIN(122):
-            ) GO TO 1123 
-            QIN(122,I)=.00644/(EIN(122)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(122)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(122)+E[3])*1.0086
-            if(QIN(122,I):
-            < 0.0) QIN(122,I)=0.0
-            if(EN <= (2.0*EIN(122):
-            )) GO TO 1123
-            if(NANISO > 0):
-            PEQIN(122,I)=PEQEL[2][(I-IOFFN(122)]) 
-            #  NEUTRAL DISSOCIATION  14.75ev  
-            1123 CONTINUE                                                          
-            QIN(123,I)=0.0
-            PEQIN(123,I)=0.5
+                  PEQIN[122][I]=0.0                              
+            if(EN <= EIN[122]):
+                  pass
+            else:
+                  QIN[122][I]=.00644/(EIN[122]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[122]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[122]+E[3])*1.0086
+                  if(QIN[122][I]< 0.0):
+                        QIN[122][I]=0.0
+                  if(EN <= (2.0*EIN[122])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[122][I]=PEQEL[2][(I-IOFFN[122]) 
+                  #  NEUTRAL DISSOCIATION  14.75ev  
+            # 1123 CONTINUE                                                          
+            QIN[123][I]=0.0
+            PEQIN[123][I]=0.5
             if(NANISO == 2):
-            PEQIN(123,I)=0.0                              
-            if(EN <= EIN(123):
-            ) GO TO 1124 
-            QIN(123,I)=.00485/(EIN(123)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(123)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(123)+E[3])*1.0085
-            if(QIN(123,I):
-            < 0.0) QIN(123,I)=0.0
-            if(EN <= (2.0*EIN(123):
-            )) GO TO 1124
-            if(NANISO > 0):
-            PEQIN(123,I)=PEQEL[2][(I-IOFFN(123)]) 
-            #  NEUTRAL DISSOCIATION  15.0ev 
-            1124 CONTINUE                                                          
-            QIN(124,I)=0.0
-            PEQIN(124,I)=0.5
+                  PEQIN[123]I]=0.0                              
+            if(EN <= EIN[123]):
+                  pass
+            else:
+                  QIN[123][I]=.00485/(EIN[123]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[123]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[123]+E[3])*1.0085
+                  if(QIN[123][I]< 0.0):
+                        QIN[123][I]=0.0
+                  if(EN <= (2.0*EIN[123])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[123][I]=PEQEL[2][(I-IOFFN[123])] 
+                  #  NEUTRAL DISSOCIATION  15.0ev 
+            # 1124 CONTINUE                                                          
+            QIN[124][I]=0.0
+            PEQIN[124][I]=0.5
             if(NANISO == 2):
-            PEQIN(124,I)=0.0                              
-            if(EN <= EIN(124):
-            ) GO TO 1125 
-            QIN(124,I)=.00880/(EIN(124)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(124)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(124)+E[3])*1.0083
-            if(QIN(124,I):
-            < 0.0) QIN(124,I)=0.0
-            if(EN <= (2.0*EIN(124):
-            )) GO TO 1125
-            if(NANISO > 0):
-            PEQIN(124,I)=PEQEL[2][(I-IOFFN(124)]) 
-            #  NEUTRAL DISSOCIATION  15.25ev 
-            1125 CONTINUE                                                          
-            QIN(125,I)=0.0
-            PEQIN(125,I)=0.5
+                  PEQIN[124][I]=0.0                              
+            if(EN <= EIN[124]):
+                  pass
+            else:
+                  QIN[124][I]=.00880/(EIN[124]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[124]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[124]+E[3])*1.0083
+                  if(QIN[124][I]< 0.0):
+                        QIN[124][I]=0.0
+                  if(EN <= (2.0*EIN[124])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[124][I]=PEQEL[2][(I-IOFFN[124])]
+                  #  NEUTRAL DISSOCIATION  15.25ev 
+            # 1125 CONTINUE                                                          
+            QIN[125][I]=0.0
+            PEQIN[125][I]=0.5
             if(NANISO == 2):
-            PEQIN(125,I)=0.0                              
-            if(EN <= EIN(125):
-            ) GO TO 1126 
-            QIN(125,I)=.01522/(EIN(125)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(125)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(125)+E[3])*1.0082
-            if(QIN(125,I):
-            < 0.0) QIN(125,I)=0.0
-            if(EN <= (2.0*EIN(125):
-            )) GO TO 1126
-            if(NANISO > 0):
-            PEQIN(125,I)=PEQEL[2][(I-IOFFN(125)]) 
-            #  NEUTRAL DISSOCIATION  15.5ev 
-            1126 CONTINUE                                                          
-            QIN(126,I)=0.0
-            PEQIN(126,I)=0.5
+                  PEQIN[125][I]=0.0                              
+            if(EN <= EIN[125]):
+                  pass
+            else:
+                  QIN[125][I]=.01522/(EIN[125]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[125]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[125]+E[3])*1.0082
+                  if(QIN[125][I]< 0.0):
+                        QIN[125][I]=0.0
+                  if(EN <= (2.0*EIN[125])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[125][I]=PEQEL[2][(I-IOFFN[125])] 
+                  #  NEUTRAL DISSOCIATION  15.5ev 
+            # 1126 CONTINUE                                                          
+            QIN[126][I]=0.0
+            PEQIN[126][I]=0.5
             if(NANISO == 2):
-            PEQIN(126,I)=0.0                              
-            if(EN <= EIN(126):
-            ) GO TO 1127 
-            QIN(126,I)=.01683/(EIN(126)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(126)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(126)+E[3])*1.0081
-            if(QIN(126,I):
-            < 0.0) QIN(126,I)=0.0
-            if(EN <= (2.0*EIN(126):
-            )) GO TO 1127
-            if(NANISO > 0):
-            PEQIN(126,I)=PEQEL[2][(I-IOFFN(126)]) 
-            #  NEUTRAL DISSOCIATION  15.75ev 
-            1127 CONTINUE                                                          
-            QIN(127,I)=0.0
-            PEQIN(127,I)=0.5
+                  PEQIN[126][I]=0.0                              
+            if(EN <= EIN[126]):
+                  pass
+            else:
+                  QIN[126][I]=.01683/(EIN[126]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[126]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[126]+E[3])*1.0081
+                  if(QIN[126][I]< 0.0):
+                        QIN[126][I]=0.0
+                  if(EN <= (2.0*EIN[126])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[126][I]=PEQEL[2][(I-IOFFN[126])] 
+                  #  NEUTRAL DISSOCIATION  15.75ev 
+            # 1127 CONTINUE                                                          
+            QIN[127][I]=0.0
+            PEQIN[127][I]=0.5
             if(NANISO == 2):
-            PEQIN(127,I)=0.0                              
-            if(EN <= EIN(127):
-            ) GO TO 1128 
-            QIN(127,I)=.02135/(EIN(127)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(127)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(127)+E[3])*1.0079
-            if(QIN(127,I):
-            < 0.0) QIN(127,I)=0.0
-            if(EN <= (2.0*EIN(127):
-            )) GO TO 1128
-            if(NANISO > 0):
-            PEQIN(127,I)=PEQEL[2][(I-IOFFN(127)])  
-            #  NEUTRAL DISSOCIATION  16.0ev 
-            1128 CONTINUE                                                          
-            QIN(128,I)=0.0
-            PEQIN(128,I)=0.5
+                  PEQIN[127][I]=0.0                              
+            if(EN <= EIN[127]):
+                  pass
+            else:
+                  QIN[127][I]=.02135/(EIN[127]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[127]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[127]+E[3])*1.0079
+                  if(QIN[127][I]< 0.0):
+                        QIN[127][I]=0.0
+                  if(EN <= (2.0*EIN[127])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[127][I]=PEQEL[2][(I-IOFFN[127])] 
+                  #  NEUTRAL DISSOCIATION  16.0ev 
+            # 1128 CONTINUE                                                          
+            QIN[128][I]=0.0
+            PEQIN[128][I]=0.5
             if(NANISO == 2):
-            PEQIN(128,I)=0.0                              
-            if(EN <= EIN(128):
-            ) GO TO 1129 
-            QIN(128,I)=.03232/(EIN(128)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(128)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(128)+E[3])*1.0078
-            if(QIN(128,I):
-            < 0.0) QIN(128,I)=0.0
-            if(EN <= (2.0*EIN(128):
-            )) GO TO 1129
-            if(NANISO > 0):
-            PEQIN(128,I)=PEQEL[2][(I-IOFFN(128)]) 
-            # NEUTRAL DISSOCIATION  16.25ev 
-            1129 CONTINUE                                                          
-            QIN(129,I)=0.0
-            PEQIN(129,I)=0.5
+                  PEQIN[128][I]=0.0                              
+            if(EN <= EIN[128]):
+                  pass
+            else:
+                  QIN[128][I]=.03232/(EIN[128]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[128]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[128]+E[3])*1.0078
+                  if(QIN[128][I]< 0.0):
+                        QIN[128][I]=0.0
+                  if(EN <= (2.0*EIN[128])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[128][I]=PEQEL[2][(I-IOFFN[128])]
+                  # NEUTRAL DISSOCIATION  16.25ev 
+            # 1129 CONTINUE                                                          
+            QIN[129][I]=0.0
+            PEQIN[129][I]=0.5
             if(NANISO == 2):
-            PEQIN(129,I)=0.0                              
-            if(EN <= EIN(129):
-            ) GO TO 1130 
-            QIN(129,I)=.02534/(EIN(129)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(129)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(129)+E[3])*1.0077
-            if(QIN(129,I):
-            < 0.0) QIN(129,I)=0.0
-            if(EN <= (2.0*EIN(129):
-            )) GO TO 1130
-            if(NANISO > 0):
-            PEQIN(129,I)=PEQEL[2][(I-IOFFN(129)]) 
-            #  NEUTRAL DISSOCIATION  16.5ev 
-            1130 CONTINUE                                                          
-            QIN(130,I)=0.0
-            PEQIN(130,I)=0.5
+                  PEQIN[129][I]=0.0                              
+            if(EN <= EIN[129]):
+                  pass
+            else:
+                  QIN[129][I]=.02534/(EIN[129]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[129]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[129]+E[3])*1.0077
+                  if(QIN[129][I]< 0.0):
+                        QIN[129][I]=0.0
+                  if(EN <= (2.0*EIN[129])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[129][I]=PEQEL[2][(I-IOFFN[129])] 
+                  #  NEUTRAL DISSOCIATION  16.5ev 
+            # 1130 CONTINUE                                                          
+            QIN[130][I]=0.0
+            PEQIN[130][I]=0.5
             if(NANISO == 2):
-            PEQIN(130,I)=0.0                              
-            if(EN <= EIN(130):
-            ) GO TO 1131 
-            QIN(130,I)=.01433/(EIN(130)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(130)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(130)+E[3])*1.0076
-            if(QIN(130,I):
-            < 0.0) QIN(130,I)=0.0
-            if(EN <= (2.0*EIN(130):
-            )) GO TO 1131
-            if(NANISO > 0):
-            PEQIN(130,I)=PEQEL[2][(I-IOFFN(130)]) 
-            # NEUTRAL DISSOCIATION  16.75ev 
-            1131 CONTINUE                                                          
-            QIN(131,I)=0.0
-            PEQIN(131,I)=0.5
+                  PEQIN[130][I]=0.0                              
+            if(EN <= EIN[130]):
+                  pass
+            else:
+                  QIN[130][I]=.01433/(EIN[130]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[130]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[130]+E[3])*1.0076
+                  if(QIN[130][I]< 0.0):
+                        QIN[130][I]=0.0
+                  if(EN <= (2.0*EIN[130])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[130][I]=PEQEL[2][(I-IOFFN[130])]
+                  # NEUTRAL DISSOCIATION  16.75ev 
+            # 1131 CONTINUE                                                          
+            QIN[131][I]=0.0
+            PEQIN[131][I]=0.5
             if(NANISO == 2):
-            PEQIN(131,I)=0.0                              
-            if(EN <= EIN(131):
-            ) GO TO 1132 
-            QIN(131,I)=.00965/(EIN(131)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(131)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(131)+E[3])*1.0075
-            if(QIN(131,I):
-            < 0.0) QIN(131,I)=0.0
-            if(EN <= (2.0*EIN(131):
-            )) GO TO 1132
-            if(NANISO > 0):
-            PEQIN(131,I)=PEQEL[2][(I-IOFFN(131)]) 
-            #  NEUTRAL DISSOCIATION  17.0ev 
-            1132 CONTINUE                                                          
-            QIN(132,I)=0.0
-            PEQIN(132,I)=0.5
+                  PEQIN[131][I]=0.0                              
+            if(EN <= EIN[131]):
+                  pass
+            else:
+                  QIN[131][I]=.00965/(EIN[131]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[131]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[131]+E[3])*1.0075
+                  if(QIN[131][I]< 0.0):
+                        QIN[131][I]=0.0
+                  if(EN <= (2.0*EIN[131])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[131][I]=PEQEL[2][(I-IOFFN[131])]
+                  #  NEUTRAL DISSOCIATION  17.0ev 
+            # 1132 CONTINUE                                                          
+            QIN[132][I]=0.0
+            PEQIN[132][I]=0.5
             if(NANISO == 2):
-            PEQIN(132,I)=0.0                              
-            if(EN <= EIN(132):
-            ) GO TO 1133 
-            QIN(132,I)=.01481/(EIN(132)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(132)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(132)+E[3])*1.0074
-            if(QIN(132,I):
-            < 0.0) QIN(132,I)=0.0
-            if(EN <= (2.0*EIN(132):
-            )) GO TO 1133 
-            if(NANISO > 0):
-            PEQIN(132,I)=PEQEL[2][(I-IOFFN(132)]) 
-            #  NEUTRAL DISSOCIATION  17.25ev 
-            1133 CONTINUE                                                          
-            QIN(133,I)=0.0
-            PEQIN(133,I)=0.5
+                  PEQIN[132][I]=0.0                              
+            if(EN <= EIN[132]):
+                  pass
+            else:
+                  QIN[132][I]=.01481/(EIN[132]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[132]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[132]+E[3])*1.0074
+                  if(QIN[132][I]< 0.0):
+                        QIN[132][I]=0.0
+                  if(EN <= (2.0*EIN[132])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[132][I]=PEQEL[2][(I-IOFFN[132])] 
+                  #  NEUTRAL DISSOCIATION  17.25ev 
+            # 1133 CONTINUE                                                          
+            QIN[133][I]=0.0
+            PEQIN[133][I]=0.5
             if(NANISO == 2):
-            PEQIN(133,I)=0.0                              
-            if(EN <= EIN(133):
-            ) GO TO 1134 
-            QIN(133,I)=.01148/(EIN(133)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(133)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(133)+E[3])*1.0072
-            if(QIN(133,I):
-            < 0.0) QIN(133,I)=0.0
-            if(EN <= (2.0*EIN(133):
-            )) GO TO 1134
-            if(NANISO > 0):
-            PEQIN(133,I)=PEQEL[2][(I-IOFFN(133)]) 
-            #  NEUTRAL DISSOCIATION  17.5ev 
-            1134 CONTINUE                                                          
-            QIN(134,I)=0.0
-            PEQIN(134,I)=0.5
+                  PEQIN[133][I]=0.0                              
+            if(EN <= EIN[133]):
+                  pass
+            else:
+                  QIN[133][I]=.01148/(EIN[133]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[133]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[133]+E[3])*1.0072
+                  if(QIN[133][I]< 0.0):
+                        QIN[133][I]=0.0
+                  if(EN <= (2.0*EIN[133])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[133][I]=PEQEL[2][(I-IOFFN[133])]
+                  #  NEUTRAL DISSOCIATION  17.5ev 
+            # 1134 CONTINUE                                                          
+            QIN[134][I]=0.0
+            PEQIN[134][I]=0.5
             if(NANISO == 2):
-            PEQIN(134,I)=0.0                              
-            if(EN <= EIN(134):
-            ) GO TO 1135 
-            QIN(134,I)=.00885/(EIN(134)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(134)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(134)+E[3])*1.0071
-            if(QIN(134,I):
-            < 0.0) QIN(134,I)=0.0
-            if(EN <= (2.0*EIN(134):
-            )) GO TO 1135
-            if(NANISO > 0):
-            PEQIN(134,I)=PEQEL[2][(I-IOFFN(134)]) 
-            # NEUTRAL DISSOCIATION  17.75ev 
-            1135 CONTINUE                                                          
-            QIN(135,I)=0.0
-            PEQIN(135,I)=0.5
+                  PEQIN[134][I]=0.0                              
+            if(EN <= EIN[134]):
+                  pass
+            else:
+                  QIN[134][I]=.00885/(EIN[134]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[134]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[134]+E[3])*1.0071
+                  if(QIN[134][I]< 0.0):
+                        QIN[134][I]=0.0
+                  if(EN <= (2.0*EIN[134])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                        PEQIN[134][I]=PEQEL[2][(I-IOFFN[134])] 
+                  # NEUTRAL DISSOCIATION  17.75ev 
+            # 1135 CONTINUE                                                          
+            QIN[135][I]=0.0
+            PEQIN[135][I]=0.5
             if(NANISO == 2):
-            PEQIN(135,I)=0.0                              
-            if(EN <= EIN(135):
-            ) GO TO 1136 
-            QIN(135,I)=.00931/(EIN(135)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(135)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(135)+E[3])*1.0070
-            if(QIN(135,I):
-            < 0.0) QIN(135,I)=0.0
-            if(EN <= (2.0*EIN(135):
-            )) GO TO 1136
-            if(NANISO > 0):
-            PEQIN(135,I)=PEQEL[2][(I-IOFFN(135)]) 
-            # NEUTRAL DISSOCIATION  18.00ev 
-            1136 CONTINUE                                                          
-            QIN(136,I)=0.0
-            PEQIN(136,I)=0.5
+                  PEQIN[135][I]=0.0                              
+            if(EN <= EIN[135]):
+                  pass
+            else:
+                  QIN[135][I]=.00931/(EIN[135]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[135]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[135]+E[3])*1.0070
+                  if(QIN[135][I]< 0.0):
+                        QIN[135][I]=0.0
+                  if(EN <= (2.0*EIN[135])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[135][I]=PEQEL[2][(I-IOFFN[135])]
+                  # NEUTRAL DISSOCIATION  18.00ev 
+            # 1136 CONTINUE                                                          
+            QIN[136][I]=0.0
+            PEQIN[136][I]=0.5
             if(NANISO == 2):
-            PEQIN(136,I)=0.0                              
-            if(EN <= EIN(136):
-            ) GO TO 1137 
-            QIN(136,I)=.00666/(EIN(136)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(136)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(136)+E[3])*1.0069
-            if(QIN(136,I):
-            < 0.0) QIN(136,I)=0.0
-            if(EN <= (2.0*EIN(136):
-            )) GO TO 1137
-            if(NANISO > 0):
-            PEQIN(136,I)=PEQEL[2][(I-IOFFN(136)]) 
-            # NEUTRAL DISSOCIATION  18.25ev 
-            1137 CONTINUE                                                          
-            QIN(137,I)=0.0
-            PEQIN(137,I)=0.5
+                  PEQIN[136][I]=0.0                              
+            if(EN <= EIN[136]):
+                  pass
+            else:
+                  QIN[136][I]=.00666/(EIN[136]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[136]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[136]+E[3])*1.0069
+                  if(QIN[136][I]< 0.0):
+                        QIN[136][I]=0.0
+                  if(EN <= (2.0*EIN[136])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[136][I]=PEQEL[2][(I-IOFFN[136])]
+                  # NEUTRAL DISSOCIATION  18.25ev 
+            # 1137 CONTINUE                                                          
+            QIN[137][I]=0.0
+            PEQIN[137][I]=0.5
             if(NANISO == 2):
-            PEQIN(137,I)=0.0                              
-            if(EN <= EIN(137):
-            ) GO TO 1138 
-            QIN(137,I)=.00443/(EIN(137)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(137)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(137)+E[3])*1.0068
-            if(QIN(137,I):
-            < 0.0) QIN(137,I)=0.0
-            if(EN <= (2.0*EIN(137):
-            )) GO TO 1138
-            if(NANISO > 0):
-            PEQIN(137,I)=PEQEL[2][(I-IOFFN(137)]) 
-            # NEUTRAL DISSOCIATION  18.50ev 
-            1138 CONTINUE                                                          
-            QIN(138,I)=0.0
-            PEQIN(138,I)=0.5
+                  PEQIN[137][I]=0.0                              
+            if(EN <= EIN[137]):
+                  pass
+            else:
+                  QIN[137][I]=.00443/(EIN[137]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[137]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[137]+E[3])*1.0068
+                  if(QIN[137][I]< 0.0):
+                        QIN[137][I]=0.0
+                  if(EN <= (2.0*EIN[137])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[137][I]=PEQEL[2][(I-IOFFN[137])] 
+                  # NEUTRAL DISSOCIATION  18.50ev 
+            # 1138 CONTINUE                                                          
+            QIN[138][I]=0.0
+            PEQIN[138][I]=0.5
             if(NANISO == 2):
-            PEQIN(138,I)=0.0                              
-            if(EN <= EIN(138):
-            ) GO TO 1139 
-            QIN(138,I)=.00371/(EIN(138)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(138)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(138)+E[3])*1.0068
-            if(QIN(138,I):
-            < 0.0) QIN(138,I)=0.0
-            if(EN <= (2.0*EIN(138):
-            )) GO TO 1139
-            if(NANISO > 0):
-            PEQIN(138,I)=PEQEL[2][(I-IOFFN(138)]) 
-            # NEUTRAL DISSOCIATION  18.75ev 
-            1139 CONTINUE                                                          
-            QIN(139,I)=0.0
-            PEQIN(139,I)=0.5
+                  PEQIN[138][I]=0.0                              
+            if(EN <= EIN[138]):
+                  pass
+            else:
+                  QIN[138][I]=.00371/(EIN[138]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[138]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[138]+E[3])*1.0068
+                  if(QIN[138][I]< 0.0):
+                        QIN[138][I]=0.0
+                  if(EN <= (2.0*EIN[138])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[138][I]=PEQEL[2][(I-IOFFN[138])]
+                  # NEUTRAL DISSOCIATION  18.75ev 
+            # 1139 CONTINUE                                                          
+            QIN[139][I]=0.0
+            PEQIN[139][I]=0.5
             if(NANISO == 2):
-            PEQIN(139,I)=0.0                              
-            if(EN <= EIN(139):
-            ) GO TO 1140 
-            QIN(139,I)=.00344/(EIN(139)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(139)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(139)+E[3])*1.0067
-            if(QIN(139,I):
-            < 0.0) QIN(139,I)=0.0
-            if(EN <= (2.0*EIN(139):
-            )) GO TO 1140
-            if(NANISO > 0):
-            PEQIN(139,I)=PEQEL[2][(I-IOFFN(139)]) 
-            # NEUTRAL DISSOCIATION  19.00ev 
-            1140 CONTINUE                                                          
-            QIN(140,I)=0.0
-            PEQIN(140,I)=0.5
+                  PEQIN[139][I]=0.0                              
+            if(EN <= EIN[139]):
+                  pass
+            else:
+                  QIN[139][I]=.00344/(EIN[139]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[139]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[139]+E[3])*1.0067
+                  if(QIN[139][I]< 0.0):
+                        QIN[139][I]=0.0
+                  if(EN <= (2.0*EIN[139])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[139][I]=PEQEL[2][(I-IOFFN[139])]
+                  # NEUTRAL DISSOCIATION  19.00ev 
+            # 1140 CONTINUE                                                          
+            QIN[140][I]=0.0
+            PEQIN[140][I]=0.5
             if(NANISO == 2):
-            PEQIN(140,I)=0.0                              
-            if(EN <= EIN(140):
-            ) GO TO 1141 
-            QIN(140,I)=.00356/(EIN(140)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(140)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(140)+E[3])*1.0066
-            if(QIN(140,I):
-            < 0.0) QIN(140,I)=0.0
-            if(EN <= (2.0*EIN(140):
-            )) GO TO 1141
-            if(NANISO > 0):
-            PEQIN(140,I)=PEQEL[2][(I-IOFFN(140)]) 
-            # NEUTRAL DISSOCIATION  19.25ev 
-            1141 CONTINUE                                                          
-            QIN(141,I)=0.0
-            PEQIN(141,I)=0.5
+                  PEQIN[140][I]=0.0                              
+            if(EN <= EIN[140]):
+                  pass
+            else:
+                  QIN[140][I]=.00356/(EIN[140]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[140]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[140]+E[3])*1.0066
+                  if(QIN[140][I]< 0.0):
+                        QIN[140][I]=0.0
+                  if(EN <= (2.0*EIN[140])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[140][I]=PEQEL[2][(I-IOFFN[140]) 
+                  # NEUTRAL DISSOCIATION  19.25ev 
+            # 1141 CONTINUE                                                          
+            QIN[141][I]=0.0
+            PEQIN[141][I]=0.5
             if(NANISO == 2):
-            PEQIN(141,I)=0.0                              
-            if(EN <= EIN(141):
-            ) GO TO 1142 
-            QIN(141,I)=.00530/(EIN(141)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(141)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(141)+E[3])*1.0065
-            if(QIN(141,I):
-            < 0.0) QIN(141,I)=0.0
-            if(EN <= (2.0*EIN(141):
-            )) GO TO 1142
-            if(NANISO > 0):
-            PEQIN(141,I)=PEQEL[2][(I-IOFFN(141)]) 
-            # NEUTRAL DISSOCIATION  19.50ev 
+                  PEQIN[141][I]=0.0                              
+            if(EN <= EIN[141]):
+                  pass
+            else:
+                  QIN[141][I]=.00530/(EIN[141]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[141]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[141]+E[3])*1.0065
+                  if(QIN[141][I]:
+                  < 0.0) QIN[141][I]=0.0
+                  if(EN <= (2.0*EIN[141]:
+                  )) GO TO 1142
+                  if(NANISO > 0):
+                  PEQIN[141][I]=PEQEL[2][(I-IOFFN[141]) 
+                  # NEUTRAL DISSOCIATION  19.50ev 
             1142 CONTINUE                                                          
-            QIN(142,I)=0.0
-            PEQIN(142,I)=0.5
+            QIN[142][I]=0.0
+            PEQIN[142][I]=0.5
             if(NANISO == 2):
-            PEQIN(142,I)=0.0                              
-            if(EN <= EIN(142):
+            PEQIN[142][I]=0.0                              
+            if(EN <= EIN[142]:
             ) GO TO 1143 
-            QIN(142,I)=.00621/(EIN(142)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(142)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(142)+E[3])*1.0064
-            if(QIN(142,I):
-            < 0.0) QIN(142,I)=0.0
-            if(EN <= (2.0*EIN(142):
+            QIN[142][I]=.00621/(EIN[142]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[142]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[142]+E[3])*1.0064
+            if(QIN[142][I]:
+            < 0.0) QIN[142][I]=0.0
+            if(EN <= (2.0*EIN[142]:
             )) GO TO 1143
             if(NANISO > 0):
-            PEQIN(142,I)=PEQEL[2][(I-IOFFN(142)]) 
+            PEQIN[142][I]=PEQEL[2][(I-IOFFN[142]) 
             # NEUTRAL DISSOCIATION  19.75ev 
             1143 CONTINUE                                                          
-            QIN(143,I)=0.0
-            PEQIN(143,I)=0.5
+            QIN[143][I]=0.0
+            PEQIN[143][I]=0.5
             if(NANISO == 2):
-            PEQIN(143,I)=0.0                              
-            if(EN <= EIN(143):
+            PEQIN[143][I]=0.0                              
+            if(EN <= EIN[143]:
             ) GO TO 1144 
-            QIN(143,I)=.00619/(EIN(143)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(143)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(143)+E[3])*1.0070
-            if(QIN(143,I):
-            < 0.0) QIN(143,I)=0.0
-            if(EN <= (2.0*EIN(143):
+            QIN[143][I]=.00619/(EIN[143]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[143]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[143]+E[3])*1.0070
+            if(QIN[143][I]:
+            < 0.0) QIN[143][I]=0.0
+            if(EN <= (2.0*EIN[143]:
             )) GO TO 1144
             if(NANISO > 0):
-            PEQIN(143,I)=PEQEL[2][(I-IOFFN(143)]) 
+            PEQIN[143][I]=PEQEL[2][(I-IOFFN[143]) 
             #  TRIPLET SUM OF HIGH LYING TRIPLETS                                         
             1144 CONTINUE                                                          
-            QIN(144,I)=0.0
-            PEQIN(144,I)=0.5
+            QIN[144][I]=0.0
+            PEQIN[144][I]=0.5
             if(NANISO == 2):
-            PEQIN(144,I)=0.0                              
-            if(EN <= EIN(144):
+            PEQIN[144][I]=0.0                              
+            if(EN <= EIN[144]:
             ) GO TO 1145 
-            QIN(144,I)=3.6000/(EIN(144)*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN(144)))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN(144)+E[3])      
-            if(QIN(144,I):
-            < 0.0) QIN(144,I)=0.0
+            QIN[144][I]=3.6000/(EIN[144]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[144]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[144]+E[3])      
+            if(QIN[144][I]:
+            < 0.0) QIN[144][I]=0.0
             if(EN > 60.0):
-            QIN(144,I)=QIN(144,I)*math.sqrt(60.0/EN)
-            if(EN <= (2.0*EIN(144):
+            QIN[144][I]=QIN[144][I]*math.sqrt(60.0/EN)
+            if(EN <= (2.0*EIN[144]:
             )) GO TO 1145
             if(NANISO > 0):
-            PEQIN(144,I)=PEQEL[2][(I-IOFFN(144)])  
+            PEQIN[144][I]=PEQEL[2][(I-IOFFN[144])  
             #
             1145 CONTINUE
             # LOAD BREMSSTRAHLUNG X-SECTIONS
-            QIN(145,I)=0.0
-            QIN(146,I)=0.0
+            QIN[145][I]=0.0
+            QIN[146][I]=0.0
             if(EN <= 1000.):
             GO TO 1440
             DO 1410 J=2,NBREM
@@ -20206,8 +20517,8 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
             A1=(math.log(Z8T[J])-math.log(Z8T[J-1]))/(EBRM[J]-EBRM[J-1])
             B1=(math.log(Z8T[J])*EBRM[J-1]-math.log(Z8T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
-            QIN(145,I)=math.exp(A*EN+B)*1.e-24
-            QIN(146,I)=math.exp(A1*EN+B1)*2.e-24
+            QIN[145][I]=math.exp(A*EN+B)*1.e-24
+            QIN[146][I]=math.exp(A1*EN+B1)*2.e-24
             1440 CONTINUE
             # SUM ROTATION 
             SUMR=0.0
@@ -20225,7 +20536,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             SUME=SUME+QIN[K][I]
             1460 CONTINUE  
             # SUM TRIPLET EXCITATION
-            SUMTRP=QIN[90][I]+QIN[99][I]+QIN(144,I)
+            SUMTRP=QIN[90][I]+QIN[99][I]+QIN[144][I]
             # GET SUM DIPOLE
             SUME=SUME-SUMTRP
             SUMEXC=SUME+SUMTRP
