@@ -762,7 +762,7 @@
                               F8=numpy.sin(PHI0)                                                     
                               F9=numpy.cos(PHI0)                                                     
                               if(E < EI):
-                              EI=0.00                                              
+                                    EI=0.00                                              
                               ARG1=1.00-S1*EI/E                                                
                               ARG1=max(ARG1,SMALL)                                            
                               D=1.00-F3*math.sqrt(ARG1)                                            
@@ -775,64 +775,66 @@
                               U=(S1-1.00)*(S1-1.00)/ARG1                                      
                               CSQD=F3*F3                                                        
                               if(F3 < 0.00 and CSQD > U):
-                              F6=-1.00*F6                        
+                                    F6=-1.00*F6                        
                               F5=numpy.sin(THETA)                                                    
                               DCZ2=min(DCZ2,1.00)                                            
                               ARGZ=math.sqrt(DCX2*DCX2+DCY2*DCY2)
+                              flag190=0
                               if(ARGZ == 0.00):
-                              :
-                              DCZ1=F6         
-                              DCX1=F9*F5                             
-                              DCY1=F8*F5 
-                              if(NTMPFLG == 1):
-                              :
-                              # USE FREE KINEMATICS FOR IONISATION SECONDARY ANGLES
-                              F5S=F5*math.sqrt(E1/ES(NCLTMP))
-                              if(F5S > 1.0):
-                              F5S=1.0
-                              THSEC=numpy.arcsin(F5S)
-                              F5S=numpy.sin(THSEC)
-                              F6S=numpy.cos(THSEC)
-                              if(F6 < 0.0):
-                              F6S=-F6S
-                              PHIS=PHI0+API   
-                              if(PHIS > F4):
-                              PHIS=PHI0-F4
-                              F8S=numpy.sin(PHIS)
-                              F9S=numpy.cos(PHIS)
-                              DCZ[NCLTMP]=F6S
-                              DCX(NCLTMP)=F9S*F5S
-                              DCY(NCLTMP)=F8S*F5S
-                              NTMPFLG=0
-                              # endif
-                              GO TO 190
+                                    DCZ1=F6         
+                                    DCX1=F9*F5                             
+                                    DCY1=F8*F5 
+                                    if(NTMPFLG == 1):
+                                          # USE FREE KINEMATICS FOR IONISATION SECONDARY ANGLES
+                                          F5S=F5*math.sqrt(E1/ES[NCLTMP])
+                                          if(F5S > 1.0):
+                                                F5S=1.0
+                                          THSEC=numpy.arcsin(F5S)
+                                          F5S=numpy.sin(THSEC)
+                                          F6S=numpy.cos(THSEC)
+                                          if(F6 < 0.0):
+                                                F6S=-F6S
+                                          PHIS=PHI0+API   
+                                          if(PHIS > F4):
+                                                PHIS=PHI0-F4
+                                          F8S=numpy.sin(PHIS)
+                                          F9S=numpy.cos(PHIS)
+                                          DCZ[NCLTMP]=F6S
+                                          DCX[NCLTMP]=F9S*F5S
+                                          DCY[NCLTMP]=F8S*F5S
+                                          NTMPFLG=0
+                                    # endif
+                                    flag190=1
                               # endif                                            
-                              DCZ1=DCZ2*F6+ARGZ*F5*F8                                           
-                              DCY1=DCY2*F6+(F5/ARGZ)*(DCX2*F9-DCY2*DCZ2*F8)                     
-                              DCX1=DCX2*F6-(F5/ARGZ)*(DCY2*F9+DCX2*DCZ2*F8)
-                              if(NTMPFLG == 1):
-                              :
-                              # USE FREE KINEMATICS FOR IONISATION SECONDARY ANGLES
-                              F5S=F5*math.sqrt(E1/ES(NCLTMP))
-                              if(F5S > 1.0):
-                              F5S=1.0            
-                              THSEC=numpy.arcsin(F5S)
-                              F5S=numpy.sin(THSEC)
-                              F6S=numpy.cos(THSEC)
-                              if(F6 < 0.0):
-                              F6S=-F6S
-                              PHIS=PHI0+API   
-                              if(PHIS > F4):
-                              PHIS=PHI0-F4
-                              F8S=numpy.sin(PHIS)
-                              F9S=numpy.cos(PHIS)
-                              DCZ[NCLTMP]=DCZ2*F6S+ARGZ*F5S*F8S                               
-                              DCY[NCLTMP]=DCY2*F6S+(F5S/ARGZ)*(DCX2*F9S-DCY2*DCZ2*F8S)        
-                              DCX[NCLTMP]=DCX2*F6S-(F5S/ARGZ)*(DCY2*F9S+DCX2*DCZ2*F8S)
-                              NTMPFLG=0
-                              # endif 
+                              if(flag190):
+                                    # GO TO 190
+                                    pass
+                              else:
+                                    DCZ1=DCZ2*F6+ARGZ*F5*F8                                           
+                                    DCY1=DCY2*F6+(F5/ARGZ)*(DCX2*F9-DCY2*DCZ2*F8)                     
+                                    DCX1=DCX2*F6-(F5/ARGZ)*(DCY2*F9+DCX2*DCZ2*F8)
+                                    if(NTMPFLG == 1):
+                                          # USE FREE KINEMATICS FOR IONISATION SECONDARY ANGLES
+                                          F5S=F5*math.sqrt(E1/ES[NCLTMP])
+                                          if(F5S > 1.0):
+                                                F5S=1.0            
+                                          THSEC=numpy.arcsin(F5S)
+                                          F5S=numpy.sin(THSEC)
+                                          F6S=numpy.cos(THSEC)
+                                          if(F6 < 0.0):
+                                                F6S=-F6S
+                                          PHIS=PHI0+API   
+                                          if(PHIS > F4):
+                                                PHIS=PHI0-F4
+                                          F8S=numpy.sin(PHIS)
+                                          F9S=numpy.cos(PHIS)
+                                          DCZ[NCLTMP]=DCZ2*F6S+ARGZ*F5S*F8S                               
+                                          DCY[NCLTMP]=DCY2*F6S+(F5S/ARGZ)*(DCX2*F9S-DCY2*DCZ2*F8S)        
+                                          DCX[NCLTMP]=DCX2*F6S-(F5S/ARGZ)*(DCY2*F9S+DCX2*DCZ2*F8S)
+                                          NTMPFLG=0
+                                    # endif 
 
-                  190 CONTINUE 
+                  # 190 CONTINUE 
                   # TEST IF ELECTRON IS THERMALISED
                   if(E1 > ETHRM):
                         flag1=1
@@ -857,12 +859,12 @@
                   #     if(NELEC == 1 and NCLUS == 0) GO TO 210 
                   #
                   if(NELEC == (NCLUS+1)) :
-                  #       WRITE(6,884) NELEC,NCLUS,NEGION,J11
-                  # 884 FORMAT(' NELEC=',I6,' NCLUS=',I6,' NEGION=',I3,' J11=',I6)
-                  # LAST ELECTRON IN CLUSTER DO STATISTICS OVER PRIMARY CLUSTER
-                  CALL STATS(J11,J1)
-                  # GO TO 210
-                  GO TO 210
+                        #       WRITE(6,884) NELEC,NCLUS,NEGION,J11
+                        # 884 FORMAT(' NELEC=',I6,' NCLUS=',I6,' NEGION=',I3,' J11=',I6)
+                        # LAST ELECTRON IN CLUSTER DO STATISTICS OVER PRIMARY CLUSTER
+                        STATS(J11,J1)
+                        # GO TO 210
+                        GO TO 210
                   # endif
                   if(NELEC < (NCLUS+1)) :
                         # GET NEW IONISATION ELECTRON FROM STORE
