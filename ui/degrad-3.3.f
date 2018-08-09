@@ -863,7 +863,15 @@ C
       IARRY(NP)=L 
       IZBR(NP)=0
       DSCRPT(NP)=SCRP1(2)  
+      PRINT *,NAMEG(1)
+      CALL SLEEP(2)
+      PRINT *,NAME1
       NAMEG(1)=NAME1
+      CALL SLEEP(5)
+      PRINT *,NAMEG(1)
+      CALL SLEEP(2)
+      PRINT *,NAME1
+      PAUSE 1
       PENFRA(1,NP)=0.0
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
@@ -2591,7 +2599,10 @@ C
   899 QSUM(I)=QSUM(I)+QIN6(J,I)*AN6                                     
 C                                                                       
  900  CONTINUE                                                          
-C                                                                       
+C   
+	PRINT *,E(I)
+	WRITE(6,4556)
+ 4556 FORMAT('MIXER############################################')	                                                                    
       RETURN                                                            
       END 
       SUBROUTINE GASMIX(NGS,Q,QIN,NIN,E,EI,NAME,VIRL,EB,
@@ -2609,6 +2620,10 @@ C
      /NG2(30),EG2(30),IZBR(250),LEGAS(30),IESHELL(30)
       DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
 C 
+      PRINT *,E(I)
+	  WRITE(6,4556)
+ 4556 FORMAT('GASMIX############################################')	                                                                    
+
       GO TO (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
      /21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
      /41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,    
@@ -22760,6 +22775,9 @@ C CALCULATE AND STORE ENERGY GRID FOR XRAYS BETAS OR PARTICLES
        E(I)=EHALF+ESTEP*AJ
        GAM(I)=(EMS+E(I))/EMS
   203  BET(I)=DSQRT(1.0D0-1.0D0/(GAM(I)*GAM(I)))
+       PRINT *,E(I)
+	   WRITE(6,4556)
+ 4556 FORMAT('SETUP############################################')
       ELSE IF(EFINAL.GT.20000.0.AND.EFINAL.LE.140000.) THEN
        ESTEP=1.0
        EHALF=0.5
@@ -22777,6 +22795,9 @@ C CALCULATE AND STORE ENERGY GRID FOR XRAYS BETAS OR PARTICLES
        E(I)=16000.0+AJ*ESTEP1
        GAM(I)=(EMS+E(I))/EMS
   232  BET(I)=DSQRT(1.0D0-1.0D0/(GAM(I)*GAM(I)))
+       PRINT *,E(I)
+	   WRITE(6,4556)
+ ! 4556 FORMAT('SETUP############################################')
       ELSE
        ESTEP=1.0
        EHALF=0.5
@@ -22799,6 +22820,9 @@ C CALCULATE AND STORE ENERGY GRID FOR XRAYS BETAS OR PARTICLES
        AJ=DFLOAT(I-16000)
        E(I)=92000.0+AJ*ESTEP2
        GAM(I)=(EMS+E(I))/EMS
+       PRINT *,E(I)
+	   WRITE(6,4556)
+ ! 4556 FORMAT('SETUP############################################')
   235  BET(I)=DSQRT(1.0D0-1.0D0/(GAM(I)*GAM(I)))
       ENDIF
 C  RADIANS PER PICOSECOND                                        
@@ -22810,7 +22834,9 @@ C   METRES PER PICOSECOND
   999 WRITE(6,87) NGAS,(J,NGASN(J),FRAC(J),J=1,6) 
    87 FORMAT(3(/),4X,' ERROR IN GAS INPUT : NGAS=',I5,6(/,2X,' N=',I3,' 
      /NGAS=',I5,' FRAC=',F8.3))                                         
-   99 LAST=1                                                            
+   99 LAST=1  
+	  	                                                                    
+
       RETURN                                                            
       END                                                               
       SUBROUTINE OUTPUT                                                 
@@ -45431,7 +45457,10 @@ C  SAVE COMPUTE TIME
       DIMENSION Z18T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)                          
       CHARACTER*25 NAME                
-C  ENERGY                                       
+C  ENERGY  
+      PRINT *,EG(1),EG(2)
+      WRITE(6,4556)    
+
       DATA XEN/1.00,1.20,1.50,1.70,2.00,2.50,3.00,4.00,5.00,6.00,
      /7.00,8.00,9.00,10.0,11.0,12.0,13.0,14.0,15.0,16.0,
      /18.0,20.0,25.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,
@@ -46012,7 +46041,8 @@ C        TOTAL OSCILLATOR SUM FOR EXCITED STATES F=0.860
 C-----------------------------------------------------------------      
 C                                                                       
 C  PARAMETERS OF PHASE SHIFT ANALYSIS.                                  
-C                                                                       
+C 
+
       APOL=11.08                                                        
       LMAX=100                                                          
       AA=-1.459                                                         
@@ -46331,7 +46361,9 @@ C
       SCRPT(56)=' EXC HIGH   J=1 RESONANT           ELEVEL= 15.660 '
       SCRPT(57)=' BREMSSTRAHLUNG FROM ARGON ATOM                   '
 C
-C     EN=-ESTEP/2.0   
+C     EN=-ESTEP/2.0
+      PRINT *,EG(1),EG(2)
+      WRITE(6,4556)    
       DO 900 I=1,NSTEP
       EN=EG(I)
 C     EN=EN+ESTEP
@@ -46348,7 +46380,12 @@ C     EN=EN+ESTEP
       AK=DSQRT(EN/ARY)
       AK2=AK*AK
       AK3=AK2*AK  
-      AK4=AK3*AK                                                
+      AK4=AK3*AK  
+      IF(I<10)THEN   
+      PRINT *,I,EN,AK,DLOG(AK)   
+      WRITE(6,4556) 
+ 4556  FORMAT(/,' ###############################################',/)
+      ENDIF
       AN0=-AA*AK*(1.0+(4.0*APOL/3.0)*AK2*DLOG(AK))-(API*APOL/3.0)*AK2+ 
      /DD*AK3+FF*AK4                                                     
       AN1=(API/15.0)*APOL*AK2-A1*AK3                                    
@@ -63743,7 +63780,16 @@ C  SAVE COMPUTE TIME
       DIMENSION Z6T(25),Z8T(25),EBRM(25)
       CHARACTER*50 SCRPT(300),SCRPTN(10)                                
       CHARACTER*25 NAME 
-C ELASTIC +ROTATIONAL                                                
+C ELASTIC +ROTATIONAL    
+
+
+	!   WRITE(6,4557)
+	!   PRINT *,KEL
+	!   WRITE(6,4557)     
+	!   PRINT *,SHAPE(KEL)
+	!   WRITE(6,4557)     
+ ! 4557 FORMAT('GAS12arguments==========================')
+
       DATA XEN/1.D-6,.001,.002,.004,.007,.010,.014,.020,.030,.040,     
      /0.05,0.06,0.08,0.10,.125,.150,.175,0.20,0.25,0.30,                
      /0.35,0.40,0.50,0.60,0.70,0.85,1.00,1.25,1.50,1.70,                
@@ -64709,7 +64755,11 @@ C------------------------------------------------------
       SCRPT(162)=' BREMSSTRAHLUNG FROM OXYGEN ATOMS                 '
 C     EN=-ESTEP/2.0
       DO 9000 I=1,NSTEP   
-      EN=EG(I)                                                   
+      EN=EG(I) 
+      IF(I<100)THEN
+      WRITE(6,4558) EN        
+ 4558 FORMAT('line 64752 EN= ',D12.3)  
+ 	  ENDIF                                      
 C     EN=EN+ESTEP 
       GAMMA1=(EMASS2+2.0D0*EN)/EMASS2
       GAMMA2=GAMMA1*GAMMA1
@@ -65007,6 +65057,11 @@ C SUPERELASTIC ROTATION
       IF(EN.LT.(4.0*DABS(EIN(K)))) GO TO 50
       IF(NANISO.GT.0) PEQIN(K,I)=PEQEL(2,(I-IOFFN(K)))
    50 CONTINUE
+      IF(K<10 .AND. I<100)THEN
+      PRINT *,K,1.0-EIN(K)/EN,EIN(K),EN
+      WRITE(6,4556)
+      ENDIF
+ 4556 FORMAT('GAS12FUNCTION~~~~~~~~~~~~~')
    51 QIN(K,I)=PJ(L)*QBK*DSQRT(1.0-EIN(K)/EN)*AJ*(AJ-1.0)/((2.0*AJ+1.0)*
      /(2.0*AJ-1.0))
 C ROTATION                 
@@ -65088,6 +65143,13 @@ C  SUPERELASTIC 2V2 BEND MODE HARMONIC
   225 QIN(63,I)=Y2V2(N2V2)*X2V2(N2V2)*(EN+EIN(64))/(EN*EN)
   226 QIN(63,I)=QIN(63,I)*APOP2V2/DEG2V2*1.D-16      
       IF(EN.LT.(3.0*DABS(EIN(63)))) GO TO 250
+      ! IF(I.LE.5)THEN
+      ! PRINT *,I-IOFFN(63),I,IOFFN(63)
+      ! ENDIF
+      ! IF(NANISO.GT.0) THEN
+      ! PRINT *,I-IOFFN(63),I,IOFFN(63)
+      ! CALL SLEEP(5)
+      ! ENDIF         
       IF(NANISO.GT.0) PEQIN(63,I)=PEQEL(2,(I-IOFFN(63)))          
 C  2V2 BEND MODE HARMONIC                                               
   250 CONTINUE                                                          

@@ -67,14 +67,14 @@ WB=0
 BTHETA=0
 BMAG=0
 #COMMONIONC
-DOUBLE=numpy.zeros((6,20000+1))
+DOUBLE=numpy.zeros((6+1,20000+1))
 CMINIXSC=numpy.zeros((6+1))
 CMINEXSC=numpy.zeros((6+1))
 ECLOSS=numpy.zeros((6+1))
 
 WPLN=numpy.zeros((6+1))
 ICOUNT=0
-AVPFRAC=numpy.zeros((3,6+1))
+AVPFRAC=numpy.zeros((3+1,6+1))
 #COMMONMRATIO
 VAN1=0
 VAN2=0
@@ -341,7 +341,7 @@ LPFLG=0.0
 LBRM=0.0
 LBFLG=0.0
 LPEFLG=0.0
-NAMEG=numpy.zeros((6+1),dtype=str)
+NAMEG=numpy.chararray((6+1),itemsize=25+1)
 NGEXC1=0
 NGEXC2=0
 NGEXC3=0
@@ -354,7 +354,13 @@ IDG3=0
 IDG4=0
 IDG5=0
 IDG6=0
-DSCRPT=numpy.zeros((512+1))
-DSCRPTN=numpy.zeros((60+1))
+DSCRPT=numpy.chararray((512+1),itemsize=50+1)
+DSCRPTN=numpy.chararray((60+1),itemsize=50+1)
 ESPLIT=numpy.zeros((512+1,20+1))
 IONMODEL=numpy.zeros((512+1))
+################# Gasn.py ###############
+EG=numpy.zeros((20000+1))
+QT1=numpy.zeros((20000+1))
+QT2=numpy.zeros((20000+1))
+QT3=numpy.zeros((20000+1))
+QT4=numpy.zeros((20000+1))

@@ -20,5 +20,15 @@ class TestSetup(unittest.TestCase):
 		print("output",output,Setup.NGAS)
 		self.assertEqual(out,output)
 
+class TestGas12(unittest.TestCase):
+	def test_whole_func(self):
+		# input arguments
+		Q=numpy.zeros((6+1,20000+1))
+		QIN=numpy.zeros((250+1,20000+1))
+		NIN=0
+		E=numpy.zeros((6+1))
+
+
+
 if __name__ == '__main__':
 	unittest.main()	

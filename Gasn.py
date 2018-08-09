@@ -1,4 +1,6 @@
 import math
+import sys
+import conf
 import numpy
 def GAS1(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN):
       # IMPLICIT #real*8 (A-H,O-Z)
@@ -1819,7 +1821,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       TEMPC=conf.TEMPC
       TORR=conf.TORR
       IPEN=conf.IPEN
-      EG=conf.EG
+      EG=conf.E
       EROOT=conf.EROOT
       QT1=conf.QT1
       QT2=conf.QT2
@@ -1827,34 +1829,34 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QT4=conf.QT4
       DEN=conf.DEN
       # DIMENSION 
-      QATT=numpy.zeros((8+1,20000+1))
-      QNULL=numpy.zeros((10+1,20000+1))
-      SCLN=numpy.zeros((10+1))
-      ESPLIT=numpy.zeros((5+1,20+1))
-      PEQEL=numpy.zeros((620000+1))
-      PEQIN=numpy.zeros((50+1,20000+1))
-      KIN=numpy.zeros((250+1))
-      KEL=numpy.zeros((6+1))
-      QION=numpy.zeros((30+1,20000+1))
-      PEQION=numpy.zeros((30+1,20000+1))
-      EION=numpy.zeros((30+1))
-      EOBY=numpy.zeros((30+1))
-      NC0=numpy.zeros((30+1))
-      EC0=numpy.zeros((30+1))
-      WKLM=numpy.zeros((30+1))
-      EFL=numpy.zeros((30+1))
-      NG1=numpy.zeros((30+1))
-      EG1=numpy.zeros((30+1))
-      NG2=numpy.zeros((30+1))
-      EG2=numpy.zeros((30+1))
-      IZBR=numpy.zeros((250+1))
-      LEGAS=numpy.zeros((30+1))
-      ISHELL=numpy.zeros((30+1))
+      QATT=numpy.reshape(QATT,(8+1,20000+1))
+      QNULL=numpy.reshape(QNULL,(10+1,20000+1))
+      SCLN=numpy.reshape(SCLN,(10+1))
+      ESPLIT=numpy.reshape(ESPLIT,(5+1,20+1))
+      PEQEL=numpy.reshape(PEQEL,(6+1,20000+1))
+      PEQIN=numpy.reshape(PEQIN,(250+1,20000+1))
+      KIN=numpy.reshape(KIN,(250+1))
+      KEL=numpy.reshape(KEL,(6+1))
+      QION=numpy.reshape(QION,(30+1,20000+1))
+      PEQION=numpy.reshape(PEQION,(30+1,20000+1))
+      EION=numpy.reshape(EION,(30+1))
+      EOBY=numpy.reshape(EOBY,(30+1))
+      NC0=numpy.reshape(NC0,(30+1))
+      EC0=numpy.reshape(EC0,(30+1))
+      WKLM=numpy.reshape(WKLM,(30+1))
+      EFL=numpy.reshape(EFL,(30+1))
+      NG1=numpy.reshape(NG1,(30+1))
+      EG1=numpy.reshape(EG1,(30+1))
+      NG2=numpy.reshape(NG2,(30+1))
+      EG2=numpy.reshape(EG2,(30+1))
+      IZBR=numpy.reshape(IZBR,(250+1))
+      LEGAS=numpy.reshape(LEGAS,(30+1))
+      ISHELL=numpy.reshape(ISHELL,(30+1))
       Q=numpy.zeros((6+1,20000+1))
-      QIN=numpy.zeros((250+1,20000+1))
-      E=numpy.zeros((6+1))
-      EIN=numpy.zeros((250+1))
-      PENFRA=numpy.zeros((3+1,250+1))
+      QIN=numpy.reshape(QIN,(250+1,20000+1))
+      E=numpy.reshape(E,(6+1))
+      EIN=numpy.reshape(EIN,(250+1))
+      PENFRA=numpy.reshape(PENFRA,(3+1,250+1))
       XEN=numpy.zeros((117+1))
       YSEC=numpy.zeros((117+1))
       YEL=numpy.zeros((117+1))
@@ -1962,7 +1964,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       SCRPT=numpy.chararray((300+1),itemsize=50+1)
       SCRPTN=numpy.chararray((10+1),itemsize=50+1)
       # CHARACTER*25 
-      NAME=numpy.zeros((25+1),type=str)
+      NAME=numpy.zeros((25+1),dtype=str)
       #  ENERGY                                       
       XEN=[0]+[1.00,1.20,1.50,1.70,2.00,2.50,3.00,4.00,5.00,6.00,7.00,8.00,9.00,10.0,11.0,12.0,13.0,14.0,15.0,16.0,18.0,20.0,25.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.,125.,150.,200.,250.,300.,350.,400.,500.,600.,700.,800.,1000.,1500.,2000.,3000.,4000.,5000.,6000.,8000.,10000.,15000.,20000.,40000.,60000.,80000.,1.E5,1.25E5,1.5E5,1.75E5,2.E5,2.5E5,3.E5,3.5E5,4.E5,4.5E5,5.0E5,6.0E5,7.0E5,8.0E5,9.0E5,1.0E6,1.25E6,1.5E6,1.75E6,2.0E6,2.5E6,3.0E6,3.5E6,4.0E6,4.5E6,5.0E6,6.0E6,7.0E6,8.0E6,9.0E6,1.0E7,1.25E7,1.5E7,1.75E7,2.0E7,2.5E7,3.0E7,3.5E7,4.0E7,4.5E7,5.0E7,6.0E7,7.0E7,8.0E7,9.0E7,1.0E8,1.25E8,1.5E8,1.75E8,2.0E8,2.5E8,3.0E8,3.5E8,4.0E8,4.5E8,5.0E8,6.0E8,7.0E8,8.0E8,9.0E8,1.0E9]
       # ELASTIC MOMENTUM TRANSFER
@@ -2181,14 +2183,14 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       IONMODEL=0
       #
       NBREM=25
-      for J in range(1,NIN):
+      for J in range(1,NIN+1):
             IZBR[J]=0
       # 6 CONTINUE
       IZBR[45]=18
       #
-      for J in range(1,6):
+      for J in range(1,6+1):
             KEL[J]=NANISO
-      for J in range(1,NIN):
+      for J in range(1,NIN+1):
             KIN[J]=NANISO
       #      
       NDATA=117
@@ -2325,8 +2327,8 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       NG2[7]=2
       EG2[7]=220.
       #
-      for J in range(1,NION):
-            for I in range(1,20000):
+      for J in range(1,NION+1):
+            for I in range(1,20000+1):
                   if(EG[I]> EION[J]):
                         IOFFION[J]=I-1
                         break
@@ -2382,7 +2384,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       #**********************************************************************
       # ENTER PENNING TRANSFER FRACTION FOR EACH LEVEL
       # USE TRANSFER FRACTION IN RANGE BETWEEN 0.0 AND 0.2 FOR MOST MIXTURES
-      for NL in range(1,NIN):
+      for NL in range(1,NIN+1):
             PENFRA[1][NL]=0.2
             # PENNING TRANSFER DISTANCE MICRONS
             PENFRA[2][NL]=1.0
@@ -2392,13 +2394,13 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       if(IPEN == 0):
             pass
       else:
-            for KDUM in range(1,NIN):
+            for KDUM in range(1,NIN+1):
                   if(PENFRA[1][KDUM] == 0.0):
                         continue
                   print(' GAS = %s ENERGY LEVEL = %.4f EV.\n PENNING PROBABILITY =%.3f ABS.LENGTH =%.2f DECAY TIME =%.1f\n'%(NAME,EIN[KDUM],PENFRA[1][KDUM],PENFRA[2][KDUM],PENFRA[3][KDUM]))
       # 4 
-      for NL in range(1,NIN):
-            for I in range(1,20000):
+      for NL in range(1,NIN+1):
+            for I in range(1,20000+1):
                   if(EG[I]> EIN[NL]):
                         IOFFN[NL]=I-1 
                         break
@@ -2465,68 +2467,11 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       SCRPT[56]=' EXC HIGH   J=1 RESONANT           ELEVEL= 15.660 '
       SCRPT[57]=' BREMSSTRAHLUNG FROM ARGON ATOM                   '
       #
-      #     EN=-ESTEP/2.0   
-      for I in range(1,NSTEP):
-            EN=EG[I]
-            #     EN=EN+ESTEP
-            if(EN > EIN[1]):
-                  GAMMA1=(EMASS2+2.00*EN)/EMASS2
-                  GAMMA2=GAMMA1*GAMMA1
-                  BETA=math.sqrt(1.00-1.00/GAMMA2)
-                  BETA2=BETA*BETA
-            # endif
-            if(EN > 1.0):
-                  # GO TO 100                                           
-                  pass
-            else:
-                  if(EN == 0.0):
-                        QELA=7.491E-16
-                  if(EN == 0.0):
-                        QMOM=7.491E-16
-                  if(EN == 0.0):
-                        GOTO200()                                           
-                  AK=math.sqrt(EN/ARY)
-                  AK2=AK*AK
-                  AK3=AK2*AK  
-                  AK4=AK3*AK                                                
-                  AN0=-AA*AK*(1.0+(4.0*APOL/3.0)*AK2*math.log(AK))-(API*APOL/3.0)*AK2+ DD*AK3+FF*AK4                                                     
-                  AN1=(API/15.0)*APOL*AK2-A1*AK3                                    
-                  AN2=API*APOL*AK2/105.0                                            
-                  AN0=math.atan(AN0)                                                    
-                  AN1=math.atan(AN1)                                                    
-                  AN2=math.atan(AN2)
-                  ANHIGH=AN2                                                    
-                  SUM=(numpy.sin(AN0-AN1))**2                                            
-                  SUM=SUM+2.0*(numpy.sin(AN1-AN2))**2
-                  SIGEL=(numpy.sin(AN0))**2+3.0*(numpy.sin(AN1))**2                           
-                  for J in range(2,LMAX-1):
-                        ANLOW=ANHIGH                                                  
-                        SUMI=6.0/((2.0*J+5.0)*(2.0*J+3.0)*(2.0*J+1.0)*(2.0*J-1.0))        
-                        SUM=SUM+(J+1.0)*(numpy.sin(math.atan(API*APOL*AK2*SUMI)))**2
-                        ANHIGH=math.atan(API*APOL*AK2/((2.0*J+5.0)*(2.0*J+3.0)*(2.0*J+1.0)))
-                        SIGEL=SIGEL+(2.0*J+1.0)*(numpy.sin(ANLOW))**2             
-                  QELA=SIGEL*4.0*PIR2/AK2                                           
-                  QMOM=SUM*4.0*PIR2/AK2   
-                  GOTO200()                                                         
-            # 100 CONTINUE       
-            flag120=1      
-            for J in range(2,NDATA):
-                  if(EN <= XEN[J]):
-                        flag120=0
-                        break
-                  # 110 CONTINUE
-            if(flag120):
-                  J=NDATA
-            A=(YEL[J]-YEL[J-1])/(XEN[J]-XEN[J-1])
-            B=(XEN[J-1]*YEL[J]-XEN[J]*YEL[J-1])/(XEN[J-1]-XEN[J])
-            QELA=(A*EN+B)*1.0e-16                             
-            A=(YSEC[J]-YSEC[J-1])/(XEN[J]-XEN[J-1])                         
-            B=(XEN[J-1]*YSEC[J]-XEN[J]*YSEC[J-1])/(XEN[J-1]-XEN[J])         
-            QMOM=(A*EN+B)*1.0E-16  
-            def GOTO200():
+      #     EN=-ESTEP/2.0 
+      def GOTO200():
                   PQ1=0.5+(QELA-QMOM)/QELA
                   flag202=1
-                  for J in range(2,NEPSI):
+                  for J in range(2,NEPSI+1):
                         if(EN <= XEPS[J]):
                               flag202=0
                               break
@@ -2560,7 +2505,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                               pass
                         else:
                               flag220=1                           
-                              for J in range(2,NI):
+                              for J in range(2,NI+1):
                                     if(EN <= XENI[J]):
                                           flag220=0
                                           break                                       
@@ -2601,7 +2546,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                               pass
                         else:
                               flag3220=1
-                              for J in range(2,NION2):
+                              for J in range(2,NION2+1):
                                     if(EN <= XEN2[J]):
                                           flag3220=0
                                           break
@@ -2643,7 +2588,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                               pass
                         else:
                               flag4220=1
-                              for J in range(2,NION3):
+                              for J in range(2,NION3+1):
                                     if(EN <= XEN3[J]):
                                           flag4220=0
                                           break                                      
@@ -2682,7 +2627,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag2232=1
-                        for J in range(2,NL3S):
+                        for J in range(2,NL3S+1):
                               if(EN <= XL3S[J]):
                                     flag2232=0
                                     break
@@ -2704,7 +2649,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag2242=1
-                        for J in range(2,NL2S):
+                        for J in range(2,NL2S+1):
                               if(EN <= XL2S[J]):
                                     flag2242=0
                                     break
@@ -2726,7 +2671,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag2252=1
-                        for J in range(2,NL1S):
+                        for J in range(2,NL1S+1):
                               if(EN <= XL1S[J]):
                                     flag2252=0
                                     break
@@ -2748,7 +2693,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:    
                         flag2262=1  
-                        for J in range(2,NKSH):
+                        for J in range(2,NKSH+1):
                               if(EN <= XKSH[J]):
                                     flag2262=0
                                     break
@@ -2776,7 +2721,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         else:
                               flag250=1
                               flag240=1
-                              for J in range(2,NIDATA):
+                              for J in range(2,NIDATA+1):
                                     if(EN <= XENI[J]):
                                           flag240=0
                                           break
@@ -2806,7 +2751,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   #      
                   Q[6][I]=0.0                                                        
                   #                                                                       
-                  for NL in range(1,NIN):
+                  for NL in range(1,NIN+1):
                         QIN[NL][I]=0.0
                         PEQIN[NL][I]=0.50
                         if(NANISO == 2):
@@ -2823,7 +2768,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                               pass
                         else:
                               flag311=1                         
-                              for J in range(2,N1S5):
+                              for J in range(2,N1S5+1):
                                     if(EN <= X1S5[J]):
                                           flag311=0
                                           break
@@ -2855,7 +2800,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                     pass
                               else:
                                     flag314=1
-                                    for J in range(2,N1S4):                                                   
+                                    for J in range(2,N1S4+1):                                                   
                                           if(EN <= X1S4[J]):
                                                 flag314=0
                                                 break
@@ -2885,7 +2830,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                           pass
                                     else:
                                           flag317=1
-                                          for J in range(2,N1S3):
+                                          for J in range(2,N1S3+1):
                                                 if(EN <= X1S3[J]):
                                                       flag317=0
                                                       break
@@ -2914,7 +2859,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                 pass
                                           else:
                                                 flag320=1
-                                                for J in range(2,N1S2):                                                   
+                                                for J in range(2,N1S2+1):                                                   
                                                       if(EN <= X1S2[J]):
                                                             flag320=0
                                                             break                                      
@@ -2945,7 +2890,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                       pass
                                                 else:
                                                       flag323=1
-                                                      for J in range(2,N2P10):
+                                                      for J in range(2,N2P10+1):
                                                             if(EN <= X2P10[J]):
                                                                   flag323=0
                                                                   break
@@ -2974,7 +2919,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                             pass
                                                       else:
                                                             flag326=1
-                                                            for J in range(2,N2P9):
+                                                            for J in range(2,N2P9+1):
                                                                   if(EN <= X2P9[J]):
                                                                         flag326=0
                                                                         break
@@ -3003,7 +2948,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                   pass
                                                             else:
                                                                   flag329=1
-                                                                  for J in range(2,N2P8):
+                                                                  for J in range(2,N2P8+1):
                                                                         if(EN <= X2P8[J]):
                                                                               flag329=0
                                                                               break
@@ -3032,7 +2977,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                         pass
                                                                   else:
                                                                         flag332=1
-                                                                        for J in range(2,N2P7):
+                                                                        for J in range(2,N2P7+1):
                                                                               if(EN <= X2P7[J]):
                                                                                     flag332=0
                                                                                     break
@@ -3061,7 +3006,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                               pass
                                                                         else:
                                                                               flag335=1
-                                                                              for J in range(2,N2P6):
+                                                                              for J in range(2,N2P6+1):
                                                                                     if(EN <= X2P6[J]):
                                                                                           flag335=0
                                                                                           break
@@ -3090,7 +3035,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                     pass
                                                                               else:
                                                                                     flag338=1
-                                                                                    for J in range(2,N2P5):
+                                                                                    for J in range(2,N2P5+1):
                                                                                           if(EN <= X2P5[J]):
                                                                                                 flag338=0
                                                                                     if(flag338):
@@ -3119,7 +3064,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                           pass
                                                                                     else:
                                                                                           flag341=1
-                                                                                          for J in range(2,N2P4):
+                                                                                          for J in range(2,N2P4+1):
                                                                                                 if(EN <= X2P4[J]):
                                                                                                       flag341=0
                                                                                                       break
@@ -3149,7 +3094,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                 pass
                                                                                           else:
                                                                                                 flag344=1
-                                                                                                for J in range(2,N2P3):
+                                                                                                for J in range(2,N2P3+1):
                                                                                                       if(EN <= X2P3[J]):
                                                                                                             flag344=0
                                                                                                             break
@@ -3179,7 +3124,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                       pass
                                                                                                 else:
                                                                                                       flag347=1
-                                                                                                      for J in range(2,N2P2):
+                                                                                                      for J in range(2,N2P2+1):
                                                                                                             if(EN <= X2P2[J]):
                                                                                                                   flag347=0
                                                                                                       if(flag347):
@@ -3208,7 +3153,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                             pass
                                                                                                       else:
                                                                                                             flag350=1
-                                                                                                            for J in range(2,N2P1):
+                                                                                                            for J in range(2,N2P1+1):
                                                                                                                   if(EN <= X2P1[J]):
                                                                                                                         flag350=0
                                                                                                                         break
@@ -3238,7 +3183,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                   pass
                                                                                                             else:
                                                                                                                   flag353=1
-                                                                                                                  for J in range(2,N3D6):
+                                                                                                                  for J in range(2,N3D6+1):
                                                                                                                         if(EN <= X3D6[J]):
                                                                                                                               flag353=0
                                                                                                                               break
@@ -3268,7 +3213,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                         pass
                                                                                                                   else:
                                                                                                                         flag356=1
-                                                                                                                        for J in range(2,N3D5):
+                                                                                                                        for J in range(2,N3D5+1):
                                                                                                                               if(EN <= X3D5[J]):
                                                                                                                                     flag356=0
                                                                                                                                     break
@@ -3299,7 +3244,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                               pass
                                                                                                                         else:
                                                                                                                               flag359=1
-                                                                                                                              for J in range(2,N3D3):
+                                                                                                                              for J in range(2,N3D3+1):
                                                                                                                                     if(EN <= X3D3[J]):
                                                                                                                                           flag359=0
                                                                                                                                           break
@@ -3328,7 +3273,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                               if(EN > X3D4P[N3D4P]):
                                                                                                                                     pass
                                                                                                                               else:
-                                                                                                                                    for J in range(2,N3D4P):
+                                                                                                                                    for J in range(2,N3D4P+1):
                                                                                                                                           if(EN <= X3D4P[J]):
                                                                                                                                                 flag362=0
                                                                                                                                                 break
@@ -3358,7 +3303,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                           pass
                                                                                                                                     else:
                                                                                                                                           flag365=1
-                                                                                                                                          for J in range(2,N3D4):
+                                                                                                                                          for J in range(2,N3D4+1):
                                                                                                                                                 if(EN <= X3D4[J]):
                                                                                                                                                       flag365=0
                                                                                                                                                       break
@@ -3388,7 +3333,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                 pass
                                                                                                                                           else:
                                                                                                                                                 flag368=1
-                                                                                                                                                for J in range(2,N3D1PP):
+                                                                                                                                                for J in range(2,N3D1PP+1):
                                                                                                                                                       if(EN <= X3D1PP[J]):
                                                                                                                                                             flag368=0
                                                                                                                                                             break
@@ -3418,7 +3363,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                       pass
                                                                                                                                                 else:
                                                                                                                                                       flag371=1
-                                                                                                                                                      for J in range(2,N2S5):
+                                                                                                                                                      for J in range(2,N2S5+1):
                                                                                                                                                             if(EN <= X2S5[J]):
                                                                                                                                                                   flag371=0
                                                                                                                                                                   break
@@ -3461,7 +3406,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                   pass
                                                                                                                                                             else:
                                                                                                                                                                   flag377=1
-                                                                                                                                                                  for J in range(2,N3D1P):
+                                                                                                                                                                  for J in range(2,N3D1P+1):
                                                                                                                                                                         if(EN <= X3D1P[J]):
                                                                                                                                                                               flag377=0
                                                                                                                                                                               break
@@ -3503,7 +3448,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                               pass
                                                                                                                                                                         else:
                                                                                                                                                                               flag383=1
-                                                                                                                                                                              for J in range(2,N3S1PPPP):
+                                                                                                                                                                              for J in range(2,N3S1PPPP+1):
                                                                                                                                                                                     if(EN <= X3S1PPPP[J]):
                                                                                                                                                                                           flag383=0
                                                                                                                                                                                           break
@@ -3534,7 +3479,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                                     pass
                                                                                                                                                                               else:
                                                                                                                                                                                     flag386=1
-                                                                                                                                                                                    for J in range(2,N3S1PP):
+                                                                                                                                                                                    for J in range(2,N3S1PP+1):
                                                                                                                                                                                           if(EN <= X3S1PP[J]):
                                                                                                                                                                                                 flag386=0
                                                                                                                                                                                                 break
@@ -3563,7 +3508,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                                           pass
                                                                                                                                                                                     else:
                                                                                                                                                                                           flag389=1
-                                                                                                                                                                                          for J in range(2,N3S1PPP):
+                                                                                                                                                                                          for J in range(2,N3S1PPP+1):
                                                                                                                                                                                                 if(EN <= X3S1PPP[J]):
                                                                                                                                                                                                       flag389=0
                                                                                                                                                                                                       break
@@ -3592,7 +3537,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                                           if(EN > X2S3[N2S3]):
                                                                                                                                                                                                 pass
                                                                                                                                                                                           else:
-                                                                                                                                                                                                for J in range(2,N2S3):
+                                                                                                                                                                                                for J in range(2,N2S3+1):
                                                                                                                                                                                                       if(EN <= X2S3[J]):
                                                                                                                                                                                                             flag392=0
                                                                                                                                                                                                             break
@@ -3804,6 +3749,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                                                                                                                                                                                                                                                                                                 pass
                                                                                                                                                                                                                                                                                           else:
                                                                                                                                                                                                                                                                                                 PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
+                        globals().update(locals())
                   # 413 CONTINUE
                   # BREMSSTRAHLUNG X-SECTION
                   QIN[45][I]=0.0
@@ -3811,7 +3757,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag415=1
-                        for J in range(2,NBREM):
+                        for J in range(2,NBREM+1):
                               if(EN <= EBRM[J]):
                                     flag415=0
                                     break
@@ -3832,10 +3778,71 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   #    /'%.3f' %,' Q1S2 =','%.3f' %,/,'S1 =','%.3f' %,' P2=','%.3f' %,' D3 =','%.3f' %,
                   #    /' QTOT=','%.3f' %)  
                   #  TOTAL X-SECTION
-                  Q[1][I]=QELA+Q1SSUM+QPSSUM+QDSSUM+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QIN[45][I]
+                  Q[1][I]=QELA+Q1SSUM+QPSSUM+QDSSUM+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QIN[45][I]  
+      for I in range(1,NSTEP+1):
+            EN=EG[I]
+            #     EN=EN+ESTEP
+            if(EN > EIN[1]):
+                  GAMMA1=(EMASS2+2.00*EN)/EMASS2
+                  GAMMA2=GAMMA1*GAMMA1
+                  BETA=math.sqrt(1.00-1.00/GAMMA2)
+                  BETA2=BETA*BETA
+            # endif
+            if(EN > 1.0):
+                  # GO TO 100                                           
+                  pass
+            else:
+                  if(EN == 0.0):
+                        QELA=7.491E-16
+                  if(EN == 0.0):
+                        QMOM=7.491E-16
+                  if(EN == 0.0):
+                        GOTO200()
+                  # print(EN,ARY)                                           
+                  AK=math.sqrt(EN/ARY)
+                  AK2=AK*AK
+                  AK3=AK2*AK  
+                  AK4=AK3*AK      
+                  # print(AK)
+                  # sys.exit()                                          
+                  AN0=-AA*AK*(1.0+(4.0*APOL/3.0)*AK2*math.log(AK))-(API*APOL/3.0)*AK2+ DD*AK3+FF*AK4                                                     
+                  AN1=(API/15.0)*APOL*AK2-A1*AK3                                    
+                  AN2=API*APOL*AK2/105.0                                            
+                  AN0=math.atan(AN0)                                                    
+                  AN1=math.atan(AN1)                                                    
+                  AN2=math.atan(AN2)
+                  ANHIGH=AN2                                                    
+                  SUM=(numpy.sin(AN0-AN1))**2                                            
+                  SUM=SUM+2.0*(numpy.sin(AN1-AN2))**2
+                  SIGEL=(numpy.sin(AN0))**2+3.0*(numpy.sin(AN1))**2                           
+                  for J in range(2,LMAX-1+1):
+                        ANLOW=ANHIGH                                                  
+                        SUMI=6.0/((2.0*J+5.0)*(2.0*J+3.0)*(2.0*J+1.0)*(2.0*J-1.0))        
+                        SUM=SUM+(J+1.0)*(numpy.sin(math.atan(API*APOL*AK2*SUMI)))**2
+                        ANHIGH=math.atan(API*APOL*AK2/((2.0*J+5.0)*(2.0*J+3.0)*(2.0*J+1.0)))
+                        SIGEL=SIGEL+(2.0*J+1.0)*(numpy.sin(ANLOW))**2             
+                  QELA=SIGEL*4.0*PIR2/AK2                                           
+                  QMOM=SUM*4.0*PIR2/AK2   
+                  GOTO200()                                                         
+            # 100 CONTINUE       
+            flag120=1      
+            for J in range(2,NDATA+1):
+                  if(EN <= XEN[J]):
+                        flag120=0
+                        break
+                  # 110 CONTINUE
+            if(flag120):
+                  J=NDATA
+            A=(YEL[J]-YEL[J-1])/(XEN[J]-XEN[J-1])
+            B=(XEN[J-1]*YEL[J]-XEN[J]*YEL[J-1])/(XEN[J-1]-XEN[J])
+            QELA=(A*EN+B)*1.0e-16                             
+            A=(YSEC[J]-YSEC[J-1])/(XEN[J]-XEN[J-1])                         
+            B=(XEN[J-1]*YSEC[J]-XEN[J]*YSEC[J-1])/(XEN[J-1]-XEN[J])         
+            QMOM=(A*EN+B)*1.0E-16  
+            GOTO200()
       # 900 CONTINUE                                                          
       # SAVE COMPUTE TIME
-      for K in range(1,NIN):
+      for K in range(1,NIN+1):
             if(EFINAL <= EIN[K]):
                   NIN=K-1
                   break
@@ -3859,7 +3866,7 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       conf.TEMPC=TEMPC
       conf.TORR=TORR
       conf.IPEN=IPEN
-      conf.EG=EG
+      conf.E=EG
       conf.EROOT=EROOT
       conf.QT1=QT1
       conf.QT2=QT2
@@ -17427,7 +17434,7 @@ def GAS11(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQI
       return                                                            
       # end    
 '''
-def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT, QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)     
+def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT, QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN):
       # IMPLICIT #real*8 (A-H,O-Z)
       # IMPLICIT #integer*8 (I-N)                                         
       global ECHARG,EMASS,AMU,PIR2                                
@@ -17448,7 +17455,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       TEMPC=conf.TEMPC
       TORR=conf.TORR
       IPEN=conf.IPEN
-      EG=conf.EG
+      EG=conf.E
       EROOT=conf.EROOT
       QT1=conf.QT1
       QT2=conf.QT2
@@ -17456,34 +17463,34 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       QT4=conf.QT4
       DEN=conf.DEN
       
-      QATT=numpy.zeros((8+1,20000+1))
-      QNULL=numpy.zeros((10+1,20000+1))
-      SCLN=numpy.zeros((10+1))
-      ESPLIT=numpy.zeros((5+1,20+1))
-      PEQEL=numpy.zeros((620000+1))
-      PEQIN=numpy.zeros((50+1,20000+1))
-      KIN=numpy.zeros((250+1))
-      KEL=numpy.zeros((6+1))
-      QION=numpy.zeros((30+1,20000+1))
-      PEQION=numpy.zeros((30+1,20000+1))
-      EION=numpy.zeros((30+1))
-      EOBY=numpy.zeros((30+1))
-      NC0=numpy.zeros((30+1))
-      EC0=numpy.zeros((30+1))
-      WKLM=numpy.zeros((30+1))
-      EFL=numpy.zeros((30+1))
-      NG1=numpy.zeros((30+1))
-      EG1=numpy.zeros((30+1))
-      NG2=numpy.zeros((30+1))
-      EG2=numpy.zeros((30+1))
-      # IZBR=numpy.zeros((250+1))
-      LEGAS=numpy.zeros((30+1))
-      ISHELL=numpy.zeros((30+1))
+      QATT=numpy.reshape(QATT,(8+1,20000+1))
+      QNULL=numpy.reshape(QNULL,(10+1,20000+1))
+      SCLN=numpy.reshape(SCLN,(10+1))
+      ESPLIT=numpy.reshape(ESPLIT,(5+1,20+1))
+      PEQEL=numpy.reshape(PEQEL,(6+1,20000+1))
+      PEQIN=numpy.reshape(PEQIN,(250+1,20000+1))
+      KIN=numpy.reshape(KIN,(250+1))
+      KEL=numpy.reshape(KEL,(6+1))
+      QION=numpy.reshape(QION,(30+1,20000+1))
+      PEQION=numpy.reshape(PEQION,(30+1,20000+1))
+      EION=numpy.reshape(EION,(30+1))
+      EOBY=numpy.reshape(EOBY,(30+1))
+      NC0=numpy.reshape(NC0,(30+1))
+      EC0=numpy.reshape(EC0,(30+1))
+      WKLM=numpy.reshape(WKLM,(30+1))
+      EFL=numpy.reshape(EFL,(30+1))
+      NG1=numpy.reshape(NG1,(30+1))
+      EG1=numpy.reshape(EG1,(30+1))
+      NG2=numpy.reshape(NG2,(30+1))
+      EG2=numpy.reshape(EG2,(30+1))
+      IZBR=numpy.reshape(IZBR,(250+1))
+      LEGAS=numpy.reshape(LEGAS,(30+1))
+      ISHELL=numpy.reshape(ISHELL,(30+1))
       Q=numpy.zeros((6+1,20000+1))
-      QIN=numpy.zeros((250+1,20000+1))
-      E=numpy.zeros((6+1))
-      EIN=numpy.zeros((250+1))
-      PENFRA=numpy.zeros((3+1,250+1))
+      QIN=numpy.reshape(QIN,(250+1,20000+1))
+      E=numpy.reshape(E,(6+1))
+      EIN=numpy.reshape(EIN,(250+1))
+      PENFRA=numpy.reshape(PENFRA,(3+1,250+1))
       PJ=numpy.zeros((220+1))
       XEN=numpy.zeros((158+1))
       YMOM=numpy.zeros((158+1))
@@ -17552,78 +17559,78 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       Z6T=numpy.zeros((25+1))
       Z8T=numpy.zeros((25+1))
       EBRM=numpy.zeros((25+1))
-      CHARACTER*50 SCRPT(300),SCRPTN[10]                                
-      CHARACTER*25 NAME 
+      # CHARACTER*50 SCRPT(300),SCRPTN[10]                                
+      # CHARACTER*25 NAME 
       # ELASTIC +ROTATIONAL                                                
-      XEN=[1.e-6,.001,.002,.004,.007,.010,.014,.020,.030,.040,     0.05,0.06,0.08,0.10,.125,.150,.175,0.20,0.25,0.30,                0.35,0.40,0.50,0.60,0.70,0.85,1.00,1.25,1.50,1.70,                1.90,2.10,2.30,2.50,2.80,3.00,3.30,3.60,3.80,4.00,                4.50,5.00,5.50,6.00,7.00,8.00,10.0,12.0,15.0,17.0,                20.0,25.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.,120.,150.,170.,200.,250.,300.,350.,400.,450.,500.,600.,700.,800.,900.,1000.,1500.,2000.,3000.,4000.,5000.,6000.,8000.,1.0e4,1.25e4,1.5e4,1.75e4,2.0e4,2.5e4,3.0e4,3.5e4,4.0e4,4.5e4,5.0e4,6.0e4,7.0e4,8.0e4,9.0e4,1.0e5,1.25e5,1.5e5,1.75e5,2.0e5,2.5e5,3.0e5,3.5e5,4.0e5,4.5e5,5.0e5,6.0e5,7.0e5,8.0e5,9.0e5,1.0e6,1.25e6,1.5e6,1.75e6,2.0e6,2.5e6,3.0e6,3.5e6,4.0e6,4.5e6,5.0e6,6.0e6,7.0e6,8.0e6,9.0e6,1.0e7,1.25e7,1.5e7,1.75e7,2.0e7,2.5e7,3.0e7,3.5e7,4.0e7,4.5e7,5.0e7,6.0e7,7.0e7,8.0e7,9.0e7,1.0e8,1.25e8,1.5e8,1.75e8,2.0e8,2.5e8,3.0e8,3.5e8,4.0e8,4.5e8,5.0e8,6.0e8,7.0e8,8.0e8,9.0e8,1.0e9]
+      XEN=[0]+[1.e-6,.001,.002,.004,.007,.010,.014,.020,.030,.040,     0.05,0.06,0.08,0.10,.125,.150,.175,0.20,0.25,0.30,                0.35,0.40,0.50,0.60,0.70,0.85,1.00,1.25,1.50,1.70,                1.90,2.10,2.30,2.50,2.80,3.00,3.30,3.60,3.80,4.00,                4.50,5.00,5.50,6.00,7.00,8.00,10.0,12.0,15.0,17.0,                20.0,25.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.,120.,150.,170.,200.,250.,300.,350.,400.,450.,500.,600.,700.,800.,900.,1000.,1500.,2000.,3000.,4000.,5000.,6000.,8000.,1.0e4,1.25e4,1.5e4,1.75e4,2.0e4,2.5e4,3.0e4,3.5e4,4.0e4,4.5e4,5.0e4,6.0e4,7.0e4,8.0e4,9.0e4,1.0e5,1.25e5,1.5e5,1.75e5,2.0e5,2.5e5,3.0e5,3.5e5,4.0e5,4.5e5,5.0e5,6.0e5,7.0e5,8.0e5,9.0e5,1.0e6,1.25e6,1.5e6,1.75e6,2.0e6,2.5e6,3.0e6,3.5e6,4.0e6,4.5e6,5.0e6,6.0e6,7.0e6,8.0e6,9.0e6,1.0e7,1.25e7,1.5e7,1.75e7,2.0e7,2.5e7,3.0e7,3.5e7,4.0e7,4.5e7,5.0e7,6.0e7,7.0e7,8.0e7,9.0e7,1.0e8,1.25e8,1.5e8,1.75e8,2.0e8,2.5e8,3.0e8,3.5e8,4.0e8,4.5e8,5.0e8,6.0e8,7.0e8,8.0e8,9.0e8,1.0e9]
       # GROUND STATE AND BEND MODE ELASTIC + ROTATION.  MOMENTUM TRANSFER
       #  AT 293.15 KELVIN     
-      YMOM=[148.,148.,146.,141.,134.,128.,119.,109.,95.0,85.0,      76.5,69.5,59.0,52.5,47.5,41.0,36.0,30.0,22.0,16.2, 12.8,10.6,8.20,6.45,5.35,4.30,3.90,3.65,3.60,3.65,                3.75,3.85,4.00,4.20,4.60,4.90,5.30,5.80,6.00,6.00,                5.50,5.10,5.00,5.20,6.10,7.30,8.80,9.80,10.5,10.5,                9.80,8.50,7.00,5.10,4.00,3.50,3.10,2.90,2.70,2.50,2.20,1.88,1.67,1.50,1.25,1.04,.832,.682,.571,.486,.367,.287,.232,.192,.161,.0819,.0501,.0247,.0149,.0100, .00721,.00430,.00288,.00192,.00138,.00105,8.23e-4,5.5e-4,3.96e-4,3.0e-4,2.36e-4,1.91e-4,1.59e-4,1.15e-4,8.73e-5,6.90e-5,5.62e-5,4.68e-5,3.19e-5,2.34e-5,1.81e-5,1.45e-5,1.00e-5,7.48e-6,5.86e-6,4.75e-6,3.95e-6,3.36e-6,2.54e-6,2.00e-6,1.63e-6,1.37e-6,1.16e-6,8.32e-7,6.28e-7,4.94e-7,4.00e-7,2.80e-7,2.08e-7,1.62e-7,1.30e-7,1.06e-7,8.89e-8,6.51e-8,4.98e-8,3.95e-8,3.21e-8,2.66e-8,1.79e-8,1.29e-8,9.73e-9,7.63e-9,5.06e-9,3.61e-9,2.71e-9,2.11e-9,1.69e-9,1.38e-9,9.79e-10,7.28e-10,5.63e-10,4.48e-10,3.65e-10,2.35e-10,1.64e-10,1.21e-10,9.27e-11,5.95e-11,4.13e-11,3.04e-11,2.33e-11,1.84e-11,1.49e-11,1.03e-11,7.61e-12,5.83e-12,4.60e-12,3.73e-12]
+      YMOM=[0]+[148.,148.,146.,141.,134.,128.,119.,109.,95.0,85.0,      76.5,69.5,59.0,52.5,47.5,41.0,36.0,30.0,22.0,16.2, 12.8,10.6,8.20,6.45,5.35,4.30,3.90,3.65,3.60,3.65,                3.75,3.85,4.00,4.20,4.60,4.90,5.30,5.80,6.00,6.00,                5.50,5.10,5.00,5.20,6.10,7.30,8.80,9.80,10.5,10.5,                9.80,8.50,7.00,5.10,4.00,3.50,3.10,2.90,2.70,2.50,2.20,1.88,1.67,1.50,1.25,1.04,.832,.682,.571,.486,.367,.287,.232,.192,.161,.0819,.0501,.0247,.0149,.0100, .00721,.00430,.00288,.00192,.00138,.00105,8.23e-4,5.5e-4,3.96e-4,3.0e-4,2.36e-4,1.91e-4,1.59e-4,1.15e-4,8.73e-5,6.90e-5,5.62e-5,4.68e-5,3.19e-5,2.34e-5,1.81e-5,1.45e-5,1.00e-5,7.48e-6,5.86e-6,4.75e-6,3.95e-6,3.36e-6,2.54e-6,2.00e-6,1.63e-6,1.37e-6,1.16e-6,8.32e-7,6.28e-7,4.94e-7,4.00e-7,2.80e-7,2.08e-7,1.62e-7,1.30e-7,1.06e-7,8.89e-8,6.51e-8,4.98e-8,3.95e-8,3.21e-8,2.66e-8,1.79e-8,1.29e-8,9.73e-9,7.63e-9,5.06e-9,3.61e-9,2.71e-9,2.11e-9,1.69e-9,1.38e-9,9.79e-10,7.28e-10,5.63e-10,4.48e-10,3.65e-10,2.35e-10,1.64e-10,1.21e-10,9.27e-11,5.95e-11,4.13e-11,3.04e-11,2.33e-11,1.84e-11,1.49e-11,1.03e-11,7.61e-12,5.83e-12,4.60e-12,3.73e-12]
       # GROUND STATE AND BEND MODE ELASTIC + ROTATION.  AT 293.15 KELVIN     
-      YEL=[148.,148.,146.,141.,135.,129.,120.,110.,96.0,86.0,      77.5,70.5,60.0,53.5,48.5,42.0,37.0,31.5,24.8,20.4, 17.4,15.5,13.0,10.7,9.20,7.50,6.30,5.30,4.65,4.46,                4.45,4.45,4.60,4.75,5.10,5.55,6.80,7.90,8.50,7.80,                6.25,6.15,6.60,7.10,8.20,9.60,11.5,13.1,14.0,14.2,                14.3,14.4,14.0,12.2,10.4,9.20,8.20,7.75,7.40,7.00,6.25,5.50,5.10,4.75,4.25,3.85,3.56,3.24,2.99,2.77,2.42,2.16,1.95,1.78,1.63,1.16,.907,.630,.484,.393,.331,.252,.204,.165,.139,.120,.106,.0865,.0731,.0636,.0565,.0509,.0465,.0398,.0350,.0317,.0286,.0264,.0224,.0197,.0178,.0164,.0145,.0132,.0123,.0116,.0111,.0107,.0101,.00967,.00937,.00915,.00897,.00868,.00849,.00837,.00829,.00818,.00812,.00808,.00805,.00803,.00801,.00799,.00798,.00797,.00797,.007965,.007957,.007954,.007951,.007951,.007948,.007948,.007948,.007948,.007946,.007945,20*.007945]
+      YEL=[0]+[148.,148.,146.,141.,135.,129.,120.,110.,96.0,86.0,      77.5,70.5,60.0,53.5,48.5,42.0,37.0,31.5,24.8,20.4, 17.4,15.5,13.0,10.7,9.20,7.50,6.30,5.30,4.65,4.46,                4.45,4.45,4.60,4.75,5.10,5.55,6.80,7.90,8.50,7.80,                6.25,6.15,6.60,7.10,8.20,9.60,11.5,13.1,14.0,14.2,                14.3,14.4,14.0,12.2,10.4,9.20,8.20,7.75,7.40,7.00,6.25,5.50,5.10,4.75,4.25,3.85,3.56,3.24,2.99,2.77,2.42,2.16,1.95,1.78,1.63,1.16,.907,.630,.484,.393,.331,.252,.204,.165,.139,.120,.106,.0865,.0731,.0636,.0565,.0509,.0465,.0398,.0350,.0317,.0286,.0264,.0224,.0197,.0178,.0164,.0145,.0132,.0123,.0116,.0111,.0107,.0101,.00967,.00937,.00915,.00897,.00868,.00849,.00837,.00829,.00818,.00812,.00808,.00805,.00803,.00801,.00799,.00798,.00797,.00797,.007965,.007957,.007954,.007951,.007951,.007948,.007948,.007948,.007948,.007946,.007945,*20*[.007945]]
       # ELASTIC FOR BEND MODE VIBRATIONS.   MOMENTUM TRANSFER     
-      YVBMOM=[148.,148.,146.,141.,134.,128.,119.,109.,95.0,85.0,    76.5,69.5,59.0,53.5,50.0,46.5,45.5,45.0,43.0,37.0, 28.5,22.5,16.0,11.5,8.95,6.80,5.80,5.05,4.80,4.65,                4.65,4.70,4.80,5.00,5.35,5.65,6.00,6.20,6.20,6.10, 5.50,5.10,5.00,5.20,6.10,7.30,8.80,9.80,10.5,10.5,                9.80,8.50,7.00,5.10,4.00,3.50,3.10,2.90,2.70,2.50,2.20,1.88,1.67,1.50,1.25,1.04,.832,.682,.571,.486,.367,.287,.232,.192,.161,.0819,.0501,.0247,.0149,.0100, .00721,.00430,.00288,.00192,.00138,.00105,8.23e-4,5.5e-4,3.96e-4,3.0e-4,2.36e-4,1.91e-4,1.59e-4,1.15e-4,8.73e-5,6.90e-5,5.62e-5,4.68e-5,3.19e-5,2.34e-5,1.81e-5,1.45e-5,1.00e-5,7.48e-6,5.86e-6,4.75e-6,3.95e-6,3.36e-6,2.54e-6,2.00e-6,1.63e-6,1.37e-6,1.16e-6,8.32e-7,6.28e-7,4.94e-7,4.00e-7,2.80e-7,2.08e-7,1.62e-7,1.30e-7,1.06e-7,8.89e-8,6.51e-8,4.98e-8,3.95e-8,3.21e-8,2.66e-8,1.79e-8,1.29e-8,9.73e-9,7.63e-9,5.06e-9,3.61e-9,2.71e-9,2.11e-9,1.69e-9,1.38e-9,9.79e-10,7.28e-10,5.63e-10,4.48e-10,3.65e-10,2.35e-10,1.64e-10,1.21e-10,9.27e-11,5.95e-11,4.13e-11,3.04e-11,2.33e-11,1.84e-11,1.49e-11,1.03e-11,7.61e-12,5.83e-12,4.60e-12,3.73e-12]
+      YVBMOM=[0]+[148.,148.,146.,141.,134.,128.,119.,109.,95.0,85.0,    76.5,69.5,59.0,53.5,50.0,46.5,45.5,45.0,43.0,37.0, 28.5,22.5,16.0,11.5,8.95,6.80,5.80,5.05,4.80,4.65,                4.65,4.70,4.80,5.00,5.35,5.65,6.00,6.20,6.20,6.10, 5.50,5.10,5.00,5.20,6.10,7.30,8.80,9.80,10.5,10.5,                9.80,8.50,7.00,5.10,4.00,3.50,3.10,2.90,2.70,2.50,2.20,1.88,1.67,1.50,1.25,1.04,.832,.682,.571,.486,.367,.287,.232,.192,.161,.0819,.0501,.0247,.0149,.0100, .00721,.00430,.00288,.00192,.00138,.00105,8.23e-4,5.5e-4,3.96e-4,3.0e-4,2.36e-4,1.91e-4,1.59e-4,1.15e-4,8.73e-5,6.90e-5,5.62e-5,4.68e-5,3.19e-5,2.34e-5,1.81e-5,1.45e-5,1.00e-5,7.48e-6,5.86e-6,4.75e-6,3.95e-6,3.36e-6,2.54e-6,2.00e-6,1.63e-6,1.37e-6,1.16e-6,8.32e-7,6.28e-7,4.94e-7,4.00e-7,2.80e-7,2.08e-7,1.62e-7,1.30e-7,1.06e-7,8.89e-8,6.51e-8,4.98e-8,3.95e-8,3.21e-8,2.66e-8,1.79e-8,1.29e-8,9.73e-9,7.63e-9,5.06e-9,3.61e-9,2.71e-9,2.11e-9,1.69e-9,1.38e-9,9.79e-10,7.28e-10,5.63e-10,4.48e-10,3.65e-10,2.35e-10,1.64e-10,1.21e-10,9.27e-11,5.95e-11,4.13e-11,3.04e-11,2.33e-11,1.84e-11,1.49e-11,1.03e-11,7.61e-12,5.83e-12,4.60e-12,3.73e-12]
       # ELASTIC FOR BEND MODE VIBRATIONS.      
-      YVBEL=[148.,148.,146.,141.,135.,129.,120.,110.,96.0,86.0,     77.5,70.5,60.0,54.5,51.1,47.6,46.8,47.2,48.5,46.6, 38.7,32.9,25.4,19.1,15.4,11.9,9.37,7.33,6.20,5.68,                5.52,5.43,5.52,5.65,5.93,6.40,7.70,8.44,8.78,7.93,     6.25,6.15,6.60,7.10,8.20,9.60,11.5,13.1,14.0,14.2,                14.3,14.4,14.0,12.2,10.4,9.20,8.20,7.75,7.40,7.00,6.25,5.50,5.10,4.75,4.25,3.85,3.56,3.24,2.99,2.77,2.42,2.16,1.95,1.78,1.63,1.16,.907,.630,.484,.393,.331,.252,.204,.165,.139,.120,.106,.0865,.0731,.0636,.0565,.0509,.0465,.0398,.0350,.0317,.0286,.0264,.0224,.0197,.0178,.0164,.0145,.0132,.0123,.0116,.0111,.0107,.0101,.00967,.00937,.00915,.00897,.00868,.00849,.00837,.00829,.00818,.00812,.00808,.00805,.00803,.00801,.00799,.00798,.00797,.00797,.007965,.007957,.007954,.007951,.007951,.007948,.007948,.007948,.007948,.007946,.007945,20*.007945]
+      YVBEL=[0]+[148.,148.,146.,141.,135.,129.,120.,110.,96.0,86.0,     77.5,70.5,60.0,54.5,51.1,47.6,46.8,47.2,48.5,46.6, 38.7,32.9,25.4,19.1,15.4,11.9,9.37,7.33,6.20,5.68,                5.52,5.43,5.52,5.65,5.93,6.40,7.70,8.44,8.78,7.93,     6.25,6.15,6.60,7.10,8.20,9.60,11.5,13.1,14.0,14.2,                14.3,14.4,14.0,12.2,10.4,9.20,8.20,7.75,7.40,7.00,6.25,5.50,5.10,4.75,4.25,3.85,3.56,3.24,2.99,2.77,2.42,2.16,1.95,1.78,1.63,1.16,.907,.630,.484,.393,.331,.252,.204,.165,.139,.120,.106,.0865,.0731,.0636,.0565,.0509,.0465,.0398,.0350,.0317,.0286,.0264,.0224,.0197,.0178,.0164,.0145,.0132,.0123,.0116,.0111,.0107,.0101,.00967,.00937,.00915,.00897,.00868,.00849,.00837,.00829,.00818,.00812,.00808,.00805,.00803,.00801,.00799,.00798,.00797,.00797,.007965,.007957,.007954,.007951,.007951,.007948,.007948,.007948,.007948,.007946,.007945,*20*[.007945]]
       # EPSILON FOR ELASTIC ANGULAR DISTRIBUTION
       # EPSILON= 1.0-YEPS
-      YEPS=[1.0,.99999,.9999,.999,.98889,.98838,.98751,.98637,.98437,.98256,.98065,.97873,.97500,.97197,.96908,.96429,.95947,.92864,.83162,.69698,.61559,.54634,.47845,.44409,.41864,.40901,.46393,.55266,.66891,.73158,.76665,.79940,.80584,.82736,.85357,.82540,.67623,.61361,.57544,.66197,.82116,.74722,.64577,.61117,.62691,.64971,.65638,.63267,.63530,.62080,.54823,.42904,.32703,.24494,.21449,.21081,.20872,.20537,.19735,.19081,.18652,.17814,.16660,.15748,.14114,.12395,.099839,.085294,.074236,.065563,.052933,.044215,.037873,.033074,.029321,.018575,.013522,.008720,.006419,.005074,.00419,.00311,.00247,.00196,.001619,.001393,.001209,.000954,7.917e-4,6.736e-4,5.847e-4,5.164e-4,4.637e-4,3.818e-4,3.224e-4,2.758e-4,2.454e-4,2.182e-4,1.701e-4,1.385e-4,1.162e-4,9.92e-5,7.50e-5,6.02e-5,4.96e-5,4.19e-5,3.58e-5,3.12e-5,2.44e-5,1.97e-5,1.63e-5,1.37e-5,1.17e-5,8.44e-6,6.34e-6,4.95e-6,3.98e-6,2.74e-6,2.00e-6,1.53e-6,1.21e-6,9.78e-7,8.09e-7,5.79e-7,4.36e-7,3.39e-7,2.72e-7,2.23e-7,1.46e-7,1.026e-7,7.610e-8,5.868e-8,3.796e-8,2.652e-8,1.955e-8,1.499e-8,1.186e-8,9.60e-9,6.65e-9,4.87e-9,3.71e-9,2.91e-9,2.35e-9,1.48e-9,1.01e-9,7.34e-10,5.55e-10,3.48e-10,2.38e-10,1.72e-10,1.30e-10,1.02e-10,8.2e-11,5.6e-11,4.0e-11,3.0e-11,2.4e-11,1.9e-11]
+      YEPS=[0]+[1.0,.99999,.9999,.999,.98889,.98838,.98751,.98637,.98437,.98256,.98065,.97873,.97500,.97197,.96908,.96429,.95947,.92864,.83162,.69698,.61559,.54634,.47845,.44409,.41864,.40901,.46393,.55266,.66891,.73158,.76665,.79940,.80584,.82736,.85357,.82540,.67623,.61361,.57544,.66197,.82116,.74722,.64577,.61117,.62691,.64971,.65638,.63267,.63530,.62080,.54823,.42904,.32703,.24494,.21449,.21081,.20872,.20537,.19735,.19081,.18652,.17814,.16660,.15748,.14114,.12395,.099839,.085294,.074236,.065563,.052933,.044215,.037873,.033074,.029321,.018575,.013522,.008720,.006419,.005074,.00419,.00311,.00247,.00196,.001619,.001393,.001209,.000954,7.917e-4,6.736e-4,5.847e-4,5.164e-4,4.637e-4,3.818e-4,3.224e-4,2.758e-4,2.454e-4,2.182e-4,1.701e-4,1.385e-4,1.162e-4,9.92e-5,7.50e-5,6.02e-5,4.96e-5,4.19e-5,3.58e-5,3.12e-5,2.44e-5,1.97e-5,1.63e-5,1.37e-5,1.17e-5,8.44e-6,6.34e-6,4.95e-6,3.98e-6,2.74e-6,2.00e-6,1.53e-6,1.21e-6,9.78e-7,8.09e-7,5.79e-7,4.36e-7,3.39e-7,2.72e-7,2.23e-7,1.46e-7,1.026e-7,7.610e-8,5.868e-8,3.796e-8,2.652e-8,1.955e-8,1.499e-8,1.186e-8,9.60e-9,6.65e-9,4.87e-9,3.71e-9,2.91e-9,2.35e-9,1.48e-9,1.01e-9,7.34e-10,5.55e-10,3.48e-10,2.38e-10,1.72e-10,1.30e-10,1.02e-10,8.2e-11,5.6e-11,4.0e-11,3.0e-11,2.4e-11,1.9e-11]
       #      
       # V(010)  BEND MODE  ( ANALYTICAL DIPOLE FUNCTION AT THRESHOLD)
       # ABOVE 70EV SCALED BY 1/E
-      XV2=[.08275,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0,15.0,20.0,30.0,50.0,70.0]
-      YV2=[0.00,0.00,0.24,0.48,1.29,1.70,1.70,1.17,0.74,0.42,0.01,0.08,0.05,0.08,0.12,0.07,.001]
+      XV2=[0]+[.08275,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0,15.0,20.0,30.0,50.0,70.0]
+      YV2=[0]+[0.00,0.00,0.24,0.48,1.29,1.70,1.70,1.17,0.74,0.42,0.01,0.08,0.05,0.08,0.12,0.07,.001]
       # V(020)  BEND MODE HARMONIC  RESONANCE    ABOVE 70EV SCALED BY 1/E
-      X2V2=[.15937,0.18,0.50,1.00,2.00,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0,15.0,20.0,30.0,50.0,70.0]
-      Y2V2=[0.00,0.02,0.01,.003,.025,0.09,0.31,0.44,0.56,0.49,0.35,0.17,0.08,0.10,0.02,.008,.015,.008,.001]
+      X2V2=[0]+[.15937,0.18,0.50,1.00,2.00,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0,15.0,20.0,30.0,50.0,70.0]
+      Y2V2=[0]+[0.00,0.02,0.01,.003,.025,0.09,0.31,0.44,0.56,0.49,0.35,0.17,0.08,0.10,0.02,.008,.015,.008,.001]
       # V(100) SYMMETRIC STRETCH                ABOVE 70EV SCALED BY 1/E   
-      XV1=[.17211,0.18,0.20,0.23,0.25,0.30,0.40,0.50,0.60,1.00,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0,15.0,20.0,30.0,50.0,70.0]
-      YV1=[0.00,.475,.790,0.91,0.91,0.82,0.58,0.43,0.34,0.32,0.38,0.66,0.89,1.27,1.32,1.04,0.53,0.18,.084,.075,            .077,.030,.009,.030,.008,.001]
+      XV1=[0]+[.17211,0.18,0.20,0.23,0.25,0.30,0.40,0.50,0.60,1.00,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0,15.0,20.0,30.0,50.0,70.0]
+      YV1=[0]+[0.00,.475,.790,0.91,0.91,0.82,0.58,0.43,0.34,0.32,0.38,0.66,0.89,1.27,1.32,1.04,0.53,0.18,.084,.075,            .077,.030,.009,.030,.008,.001]
       # V(030) + V(110)                          ABOVE 10EV SCALED BY 1/E  
-      X3V2=[.251,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
-      Y3V2=[0.00,0.00,0.01,0.17,0.36,0.58,0.58,0.36,0.17,0.01,.001]
+      X3V2=[0]+[.251,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
+      Y3V2=[0]+[0.00,0.00,0.01,0.17,0.36,0.58,0.58,0.36,0.17,0.01,.001]
       # V(001) ASYMMETRIC STRETCH  (ANALYTICAL DIPOLE FUNCTION AT THRESHOLD)
       # ABOVE 10EV SCALED BY 1/E 
-      XV3=[.29126,2.00,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0]
-      YV3=[0.00,0.00,.002,.005,.010,.005,.002,.001,.001,.001,.001]
+      XV3=[0]+[.29126,2.00,3.00,3.50,3.80,4.00,4.50,5.00,6.00,8.00,10.0]
+      YV3=[0]+[0.00,0.00,.002,.005,.010,.005,.002,.001,.001,.001,.001]
       # V(040) + V(120) + V(200)  POLYAD 3        ABOVE 10EV SCALED BY 1/E
-      XVPD3=[.335,0.35,0.50,0.80,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]
-      YVPD3=[0.00,0.09,.035,0.02,0.02,0.02,0.21,0.43,0.70,0.70,0.43,0.21,0.05,.020]
+      XVPD3=[0]+[.335,0.35,0.50,0.80,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]
+      YVPD3=[0]+[0.00,0.09,.035,0.02,0.02,0.02,0.21,0.43,0.70,0.70,0.43,0.21,0.05,.020]
       #  V(130) + V(210)                          ABOVE 20EV SCALED BY 1/E  
-      XV130=[0.422,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0,20.0]               
-      YV130=[0.00,0.00,.005,0.10,0.22,0.35,0.35,0.22,0.10,.025,.005,.002]
+      XV130=[0]+[0.422,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0,20.0]               
+      YV130=[0]+[0.00,0.00,.005,0.10,0.22,0.35,0.35,0.22,0.10,.025,.005,.002]
       #  POLYAD 4                                ABOVE 10EV SCALED BY 1/E
-      XVPD4=[0.505,0.55,0.65,1.00,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]          
-      YVPD4=[0.00,.0017,.0005,.0001,.0001,.005,0.12,0.24,0.40,0.40,0.24,0.13,0.01,.001]
+      XVPD4=[0]+[0.505,0.55,0.65,1.00,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]          
+      YVPD4=[0]+[0.00,.0017,.0005,.0001,.0001,.005,0.12,0.24,0.40,0.40,0.24,0.13,0.01,.001]
       #  POLYAD 5                                ABOVE 10EV SCALED BY 1/E 
-      XVPD5=[0.685,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
-      YVPD5=[0.00,0.00,.003,0.07,0.14,0.24,0.24,0.14,0.08,.006,.001]
+      XVPD5=[0]+[0.685,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
+      YVPD5=[0]+[0.00,0.00,.003,0.07,0.14,0.24,0.24,0.14,0.08,.006,.001]
       #  POLYAD 6                                ABOVE 10EV SCALED BY 1/E 
-      XVPD6=[0.825,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
-      YVPD6=[0.00,0.00,.001,0.05,0.10,0.16,0.16,0.10,0.05,.004,.001]
+      XVPD6=[0]+[0.825,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
+      YVPD6=[0]+[0.00,0.00,.001,0.05,0.10,0.16,0.16,0.10,0.05,.004,.001]
       #  POLYAD 7                                ABOVE 10EV SCALED BY 1/E
-      XVPD7=[0.995,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
-      YVPD7=[0.00,0.00,.001,0.03,0.06,0.10,0.10,0.06,0.03,.003,.001]
+      XVPD7=[0]+[0.995,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
+      YVPD7=[0]+[0.00,0.00,.001,0.03,0.06,0.10,0.10,0.06,0.03,.003,.001]
       #  POLYAD 8                                ABOVE 10EV SCALED BY 1/E
-      XVPD8=[1.160,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
-      YVPD8=[0.00,0.00,.001,0.03,0.06,0.10,0.10,0.06,0.03,.003,.001]
+      XVPD8=[0]+[1.160,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
+      YVPD8=[0]+[0.00,0.00,.001,0.03,0.06,0.10,0.10,0.06,0.03,.003,.001]
       #  POLYAD 9                                ABOVE 10EV SCALED BY 1/E
-      XVPD9=[1.320,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
-      YVPD9=[0.00,0.00,.001,0.03,0.06,0.10,0.10,0.06,0.03,.003,.001]
+      XVPD9=[0]+[1.320,2.00,2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0]                         
+      YVPD9=[0]+[0.00,0.00,.001,0.03,0.06,0.10,0.10,0.06,0.03,.003,.001]
       #  SUM HIGHER POLYADS                      ABOVE 10EV SCALED BY 1/E
-      XVPDH=[2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0] 
-      YVPDH=[0.00,0.01,0.36,0.58,0.58,0.36,0.16,.045,.001]
+      XVPDH=[0]+[2.50,3.00,3.50,3.80,4.00,4.50,5.00,6.00,10.0] 
+      YVPDH=[0]+[0.00,0.01,0.36,0.58,0.58,0.36,0.16,.045,.001]
       # FROM RAP AND BRIGLIA ( SCALED BY 1.031 FROM INCREASE IN CO2
       #                              IONISATION X-SEC)
       # ABOVE 10EV SCALED BY 1/E**3
-      XATT=[3.30,3.40,3.50,3.60,3.70,3.80,3.90,4.00,4.10,4.20,4.30,4.40,4.50,4.60,4.70,4.80,4.90,5.00,5.10,5.20,5.30,5.40,5.50,5.60,5.70,5.80,5.90,6.00,6.10,6.20,6.30,6.40,6.50,6.60,6.70,6.80,6.90,7.00,7.10,7.20,  7.30,7.40,7.50,7.60,7.70,7.80,7.90,8.00,8.10,8.20, 8.30,8.40,8.50,8.60,8.70,8.80,8.90,9.00,9.10,9.20, 9.30,9.40,9.50,9.60,9.70,9.80,9.90,10.0]
-      YATT=[.0,1.81e-5,6.35e-5,1.45e-4,2.81e-4,5.44e-4,8.43e-4,1.09e-3,1.32e-3,1.45e-3,1.53e-3,1.40e-3,1.25e-3,1.01e-3,7.98e-4,6.17e-4,4.54e-4,2.91e-4,2.00e-4,1.36e-4,9.98e-5,6.35e-5,2.72e-5,1.81e-5,9.07e-6,1.00e-6,9.07e-6,1.81e-5,2.72e-5,4.54e-5,6.35e-5,1.09e-4,1.45e-4,2.08e-4,2.99e-4,3.99e-4,5.44e-4,9.25e-4,9.25e-4,1.18e-3,1.49e-3,1.84e-3,2.23e-3,2.75e-3,3.22e-3,3.68e-3,4.08e-3,4.37e-3,4.41e-3,4.26e-3,3.92e-3,3.46e-3,2.92e-3,2.22e-3,1.77e-3,1.40e-3,1.05e-3,8.07e-4,6.35e-4,4.99e-4,3.80e-4,2.99e-4,2.36e-4,1.81e-4,1.36e-4,1.09e-4,8.17e-5,1.00e-6]
+      XATT=[0]+[3.30,3.40,3.50,3.60,3.70,3.80,3.90,4.00,4.10,4.20,4.30,4.40,4.50,4.60,4.70,4.80,4.90,5.00,5.10,5.20,5.30,5.40,5.50,5.60,5.70,5.80,5.90,6.00,6.10,6.20,6.30,6.40,6.50,6.60,6.70,6.80,6.90,7.00,7.10,7.20,  7.30,7.40,7.50,7.60,7.70,7.80,7.90,8.00,8.10,8.20, 8.30,8.40,8.50,8.60,8.70,8.80,8.90,9.00,9.10,9.20, 9.30,9.40,9.50,9.60,9.70,9.80,9.90,10.0]
+      YATT=[0]+[.0,1.81e-5,6.35e-5,1.45e-4,2.81e-4,5.44e-4,8.43e-4,1.09e-3,1.32e-3,1.45e-3,1.53e-3,1.40e-3,1.25e-3,1.01e-3,7.98e-4,6.17e-4,4.54e-4,2.91e-4,2.00e-4,1.36e-4,9.98e-5,6.35e-5,2.72e-5,1.81e-5,9.07e-6,1.00e-6,9.07e-6,1.81e-5,2.72e-5,4.54e-5,6.35e-5,1.09e-4,1.45e-4,2.08e-4,2.99e-4,3.99e-4,5.44e-4,9.25e-4,9.25e-4,1.18e-3,1.49e-3,1.84e-3,2.23e-3,2.75e-3,3.22e-3,3.68e-3,4.08e-3,4.37e-3,4.41e-3,4.26e-3,3.92e-3,3.46e-3,2.92e-3,2.22e-3,1.77e-3,1.40e-3,1.05e-3,8.07e-4,6.35e-4,4.99e-4,3.80e-4,2.99e-4,2.36e-4,1.81e-4,1.36e-4,1.09e-4,8.17e-5,1.00e-6]
       # USE 1/EN**2 EXTRAPOLATION ABOVE 30EV
-      XTRP1=[8.89,10.0,11.0,12.0,13.0,15.0,17.0,20.0,23.0,27.0,30.0]
-      YTRP1=[0.00,.110,.201,.231,.248,.270,.275,.248,.206,.151,.122]
+      XTRP1=[0]+[8.89,10.0,11.0,12.0,13.0,15.0,17.0,20.0,23.0,27.0,30.0]
+      YTRP1=[0]+[0.00,.110,.201,.231,.248,.270,.275,.248,.206,.151,.122]
       #  USE 1/E**2 EXTRAPOLATION ABOVE 36EV
-      XTRP2=[11.3,12.0,13.0,14.0,16.0,18.0,21.0,24.0,28.0,31.0,36.0]
-      YTRP2=[0.00,.322,.662,.772,.873,.919,.919,.873,.689,.562,.417]
+      XTRP2=[0]+[11.3,12.0,13.0,14.0,16.0,18.0,21.0,24.0,28.0,31.0,36.0]
+      YTRP2=[0]+[0.00,.322,.662,.772,.873,.919,.919,.873,.689,.562,.417]
       # IONISATION VALUES ABOVE 1KEV GENERATED BY BORN BETHE IN SUB)   
       # FROM RAPP, LINDSAY AND RIEKE ALSO BB THEORY
       #C    XION/13.776,14.5,15.0,15.5,16.0,16.5,17.0,17.5,18.0,18.5,
@@ -17738,14 +17745,14 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       IONMODEL=0  
       #
       NBREM=25
-      for J in range(1,NIN):
+      for J in range(1,NIN+1):
             IZBR[J]=0
       IZBR[145]=6
       IZBR[146]=8
       #
-      for J in range(1,6):
+      for J in range(1,6+1):
             KEL[J]=NANISO
-      for J in range(1,NIN):
+      for J in range(1,NIN+1):
             KIN[J]=NANISO
       #                 
       NEL=158                                                           
@@ -17798,14 +17805,14 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       EION[11]=532.0
       # OPAL AND BEATY       
       #     DO 90 JK=1,9
-      for JK in range(1,11):
+      for JK in range(1,11+1):
             EOBY[JK]=EION[JK]*EOBFAC
             EOBY[JK]=13.8
       # OPAL BEATY FOR CARBON AND OXYGEN K-SHELLS
       #     EOBY[10]=200.0
       #     EOBY[11]=375.0
       #
-      for JK in range(1,9):
+      for JK in range(1,9+1):
             LEGAS[JK]=0
             ISHELL[JK]=0
             NC0[JK]=0
@@ -17846,8 +17853,8 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       NG2[11]=2
       EG2[11]=5.0
       #     
-      for J in range(1,NION):
-            for I in range(1,NASIZE):
+      for J in range(1,NION+1):
+            for I in range(1,NASIZE+1):
                   if(EG[I]> EION[J]):
                         IOFFION[J]=I-1
                   break
@@ -17865,17 +17872,17 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       #--------------------------------------------------------------------- 
       # CALC FRACTIONAL POPULATION DENSITY OF ROTATIONAL STATES
       PJ[1]=1.0
-      for L in range(2,31 ):
+      for L in range(2,31 +1):
             J=(2*L)-2
             PJ[L]=(2*J+1)*math.exp(-J*(J+1)*B0/AKT)
       SUM=0.0
-      for L in range(1,31):
+      for L in range(1,31+1):
             SUM=SUM+PJ[L]
-      for L in range(1,31):
+      for L in range(1,31+1):
             PJ[L]=PJ[L]/SUM
       #--------------------------------------------------------------------- 
       # CALC ROTATIONAL TRANSITION ENERGIES
-      for 6 K in range(1,59,2 ):
+      for K in range(1,59+1,2-1 +1):
             EIN[K]=B0*(4*K+2)
             EIN[K+1]=-EIN[K]   
       EIN[61]  = -0.08275                                               
@@ -17965,8 +17972,8 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       EIN[145] = 0.0
       EIN[146] = 0.0      
       #  OFFSET ENERGY FOR EXCITATION LEVELS ANGULAR DISTRIBUTION
-      for NL in range(1,144):
-            for I= in range(,NASIZE):
+      for NL in range(1,144+1):
+            for I in range(1,NASIZE+1):
                   if(EG[I]> abs(EIN[NL])):
                         IOFFN[NL]=I-1
                         break
@@ -17975,11 +17982,11 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       #***********************************************************************
       # ENTER PENNING TRANSFER FRACTION FOR EACH LEVEL
       # FIRST 81 LEVELS UNLIKELY TO HAVE ENOUGH ENERGY
-      for K in range(1,81):
-            for L in range(1,3):
+      for K in range(1,81+1):
+            for L in range(1,3+1):
                   PENFRA[L][K]=0.0
       # PENNING TRANSFER FRACTION FOR LEVELS 
-      for K in range(82,NIN):
+      for K in range(82,NIN+1):
             PENFRA[1][K]=0.0
             # PENNING TRANSFER DISTANCE IN MICRONS
             PENFRA[2][K]=1.0
@@ -17990,7 +17997,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             # GO TO 9
             pass
       else:
-            for KDUM in range(82,NIN):
+            for KDUM in range(82,NIN+1):
                   if(PENFRA[1][KDUM] == 0.0):
                         # GO TO 8
                         break
@@ -18022,7 +18029,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       APOPV1=APOPV1/SUM
       APOP3V2=APOP3V2/SUM
       APOPV3=APOPV3/SUM
-      APB# end=APOPV2+APOP2V2+APOP3V2
+      APBEND=APOPV2+APOP2V2+APOP3V2
       #     WRITE(6,865) APOPGS,APOPV2,APOP2V2,APOPV1,APOP3V2,APOPV3,APB# end
       # 865 print(' APOPGS=',F8.6,' APOPV2=',F8.6,' APOP2V2=',F8.6,' APOPV1='
       #    /,F8.6,' APOP3V2=',F8.6,' APOPV3=',F8.6,/,' APB# end=',F12.10)
@@ -18202,8 +18209,9 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       SCRPT[161]=' BREMSSTRAHLUNG FROM CARBON ATOM                  '
       SCRPT[162]=' BREMSSTRAHLUNG FROM OXYGEN ATOMS                 '
       #     EN=-ESTEP/2.0
-      for I in range(1,NSTEP):
-            EN=EG[I]                                                   
+      for I in range(1,NSTEP+1):
+            EN=EG[I]       
+            # print("GASN EN=",EN)                                            
             #     EN=EN+ESTEP 
             GAMMA1=(EMASS2+2.00*EN)/EMASS2
             GAMMA2=GAMMA1*GAMMA1
@@ -18220,7 +18228,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             else:
                   # endif  
                   flag15=1                                                           
-                  for J in range(2,NEL):
+                  for J in range(2,NEL+1):
                         if(EN <= XEN[J]):
                               flag15=0
                               break
@@ -18300,7 +18308,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag22         
-                        for J in range(2,NION1):
+                        for J in range(2,NION1+1):
                               if(EN <= XION1[J]):
                                     flag22=0
                                     break                                   
@@ -18334,7 +18342,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XION2[NION2]):
                         pass
                   else:
-                        for J in range(2,NION2):
+                        for J in range(2,NION2+1):
                               if(EN <= XION2[J]):
                                     flag1027=0
                                     break
@@ -18368,7 +18376,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag1032=1
-                        for J in range(2,NION3):
+                        for J in range(2,NION3+1):
                               if(EN <= XION3[J]):
                                     flag1032=0
                                     break
@@ -18402,7 +18410,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag1037=1
-                        for J in range(2,NION4):
+                        for J in range(2,NION4+1):
                               if(EN <= XION4[J]):
                                     flag1037=0
                                     break
@@ -18437,7 +18445,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag1042=1
-                        for J in range(2,NION5):
+                        for J in range(2,NION5+1):
                               if(EN <= XION5[J]):
                                     flag1042=0
                                     break
@@ -18472,7 +18480,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XION6[NION6]):
                         pass
                   else:             
-                        for J in range(2,NION6):
+                        for J in range(2,NION6+1):
                               if(EN <= XION6[J]):
                                     flag1047=0
                                     break
@@ -18505,7 +18513,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag1052=1
-                        for J in range(2,NION7):                                                
+                        for J in range(2,NION7+1):                                                
                               if(EN <= XION7[J]):
                                     flag1052=0
                                     break
@@ -18538,7 +18546,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag1057=1
-                        for J in range(2,NION8):                                                
+                        for J in range(2,NION8+1):                                                
                               if(EN <= XION8[J]):
                                     flag1057=0
                                     break
@@ -18571,7 +18579,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XION9[NION9]):
                         pass
                   else:
-                        for J in range(2,NION9):                                                
+                        for J in range(2,NION9+1):                                                
                               if(EN <= XION9[J]):
                                     flag1062=0
                                     break
@@ -18600,7 +18608,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   pass
             else:
                   flag27=1
-                  for J in range(2,NKSHC):
+                  for J in range(2,NKSHC+1):
                         if(EN <= XKSHC[J]):
                               flag27=0
                               break
@@ -18623,7 +18631,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             if(EN <= EION[11]):
                   pass
             else:
-                  for J in range(2,NKSHO):
+                  for J in range(2,NKSHO+1):
                         if(EN <= XKSHO[J]):
                               flag30=0
                               break
@@ -18652,7 +18660,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XATT[NATT1]):
                         pass
                   else:
-                        for J in range(2,NATT1):
+                        for J in range(2,NATT1+1):
                               if(EN <= XATT[J]):
                                     flag32=0
                                     break
@@ -18674,8 +18682,8 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             #  QUADRUPOLE BORN ROTATIONAL STATES (GERJUOY AND STEIN)
             # ----------------------------------------------------------------------
             # SUPERELASTIC ROTATION
-            for K in range(2,60+1,2-1): 
-                  AJ=float[K]
+            for K in range(2,60+1,2-1+1): 
+                  AJ=float(K)
                   L=(K/2)+1
                   PEQIN[K][I]=0.5
                   if(NANISO == 2):
@@ -18684,31 +18692,34 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[K][I]=PEQEL[2][(I-IOFFN[K])]      
+                              # print("line 18695 ",K,I,I-IOFFN[K])
+                              PEQIN[K][I]=PEQEL[2][int(I-IOFFN[K])]      
                   # 50 CONTINUE
                   # 51 
-                  QIN[K][I]=PJ[L]*QBK*math.sqrt(1.0-EIN[K]/EN)*AJ*(AJ-1.0)/((2.0*AJ+1.0)*(2.0*AJ-1.0))
+                  # print("index",K,1.0-EIN[K]/EN,EIN[K],EN)
+                  QIN[K][I]=PJ[int(L)]*QBK*math.sqrt(1.0-EIN[K]/EN)*AJ*(AJ-1.0)/((2.0*AJ+1.0)*(2.0*AJ-1.0))
             # ROTATION                 
-            for K in range(1,59+1,2-1):
+            for K in range(1,59+1,2-1+1):
                   QIN[K][I]=0.0
                   PEQIN[K][I]=0.5
                   if(NANISO == 2):
                         PEQIN[K][I]=0.0
                   if(EN <= EIN[K]):
                         continue
-                  AJ=float[K-1]
+                  AJ=float(K-1)
                   L=(K+1)/2
-                  QIN[K][I]=PJ[L]*QBK*math.sqrt(1.0-EIN[K]/EN)*(AJ+2.0)*(AJ+1.0)/((2.0*AJ+3.0)*(2.0*AJ+1.0))
+                  # print("line 18710 QIN[",K,"][",I,"]=",QIN[K][I]," PJ[",L,"]= "," EIN[",K,"]=",EIN[K])
+                  QIN[K][I]=PJ[int(L)]*QBK*math.sqrt(1.0-EIN[K]/EN)*(AJ+2.0)*(AJ+1.0)/((2.0*AJ+3.0)*(2.0*AJ+1.0))
                   if(EN < (4.0*abs(EIN[K]))):
                         continue
                   if(NANISO > 0):
-                        PEQIN[K][I]=PEQEL[2][(I-IOFFN[K])]      
+                        PEQIN[K][I]=PEQEL[2][int(I-IOFFN[K])]      
                   # 52 CONTINUE
             # BORN (1/E) FALL OFF IN ROTATONAL X-SEC ABOVE 6.0 EV .
             if(EN < 6.0):
                   pass
             else:
-                  for K in range(1,60):
+                  for K in range(1,60+1):
                         QIN[K][I]=QIN[K][I]*6.0/EN
                   # 70 CONTINUE
             # 80 CONTINUE   
@@ -18728,7 +18739,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag120=1
-                        for J in range(2,NV2):
+                        for J in range(2,NV2+1):
                               if((EN+EIN[62]) <= XV2[J]):
                                     flag120=0
                                     break
@@ -18747,7 +18758,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[61][I]=PEQEL[2][(I-IOFFN[61])]
+                              PEQIN[61][I]=PEQEL[2][int(I-IOFFN[61])]
                   # V2  B# end MODE                                                             
             # 150 
             QIN[62][I]=0.0                        
@@ -18764,7 +18775,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag170=1
-                        for J in range(2,NV2):
+                        for J in range(2,NV2+1):
                               if(EN <= XV2[J]):
                                     flag170=0
                                     break
@@ -18783,7 +18794,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[62][I]=PEQEL[2][(I-IOFFN[62])]
+                              PEQIN[62][I]=PEQEL[2][int(I-IOFFN[62])]
                   #     
                   #  SUPERELASTIC 2V2 B# end MODE HARMONIC                                               
             # 200 CONTINUE                                                          
@@ -18799,7 +18810,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag220=1
-                        for J in range(2,N2V2):                                                   
+                        for J in range(2,N2V2+1):                                                   
                               if((EN+EIN[64]) <= X2V2[J]):
                                     flag220=0
                                     break                              
@@ -18816,9 +18827,11 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   QIN[63][I]=QIN[63][I]*APOP2V2/DEG2V2*1.e-16      
                   if(EN < (3.0*abs(EIN[63]))):
                         pass
-                  if(NANISO > 0):
-                        PEQIN[63][I]=PEQEL[2][(I-IOFFN[63])]          
-                  #  2V2 B# end MODE HARMONIC                                               
+                  else:
+                        if(NANISO > 0):
+                              # print("line 18829 ",I-IOFFN[63],I,IOFFN[63])
+                              PEQIN[63][I]=PEQEL[2][int(I-IOFFN[63])]          
+                        #  2V2 B# end MODE HARMONIC                                               
             # 250 CONTINUE                                                          
             QIN[64][I]=0.0  
             PEQIN[64][I]=0.50
@@ -18832,7 +18845,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > X2V2[N2V2]):
                         pass
                   else:
-                        for J in range(2,N2V2):
+                        for J in range(2,N2V2+1):
                               if(EN <= X2V2[J]):
                                     flag270=0
                                     break
@@ -18851,7 +18864,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[64][I]=PEQEL[2][(I-IOFFN[64])]                
+                              PEQIN[64][I]=PEQEL[2][int(I-IOFFN[64])]                
                   #  
                   # SUPERELASTIC V1 SYMMETRIC STRETCH                                
             # 300 CONTINUE                                                          
@@ -18866,7 +18879,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag320=1
-                        for J in range(2,NV1):
+                        for J in range(2,NV1+1):
                               if((EN+EIN[66]) <= XV1[J]):
                                     flag320=0
                                     break                               
@@ -18885,7 +18898,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[65][I]=PEQEL[2][(I-IOFFN[65])]               
+                              PEQIN[65][I]=PEQEL[2][int(I-IOFFN[65])]               
                   # V1 SYMMETRIC STRETCH                                                 
             # 350 CONTINUE                                                          
             QIN[66][I]=0.0  
@@ -18900,7 +18913,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag370=1
-                        for J in range(2,NV1):
+                        for J in range(2,NV1+1):
                               if(EN <= XV1[J]):
                                     flag370=0
                                     break                                       
@@ -18919,7 +18932,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[66][I]=PEQEL[2][(I-IOFFN[66])]             
+                              PEQIN[66][I]=PEQEL[2][int(I-IOFFN[66])]             
                   #  
                   # SUPERELASTIC 3V2 + V12                                                
             # 400 CONTINUE                                                          
@@ -18934,7 +18947,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag420=1
-                        for J in range(2,N3V2):
+                        for J in range(2,N3V2+1):
                               if((EN+EIN[68]<= X3V2[J])):
                                     flag420=0
                                     break                              
@@ -18954,7 +18967,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[67][I]=PEQEL[2][(I-IOFFN[67])]                
+                              PEQIN[67][I]=PEQEL[2][int(I-IOFFN[67])]                
                   # 3V2 + V12                                                             
             # 450 CONTINUE                                                          
             QIN[68][I]=0.0  
@@ -18968,7 +18981,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag470=1
-                        for J in range(2,N3V2):
+                        for J in range(2,N3V2+1):
                               if(EN <= X3V2[J]):
                                     flag470=0
                                     break                                       
@@ -18988,7 +19001,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[68][I]=PEQEL[2][(I-IOFFN[68])]               
+                              PEQIN[68][I]=PEQEL[2][int(I-IOFFN[68])]               
                   #
                   #  SUPERELASTIC V3 ASYMMETRIC STRETCH                                                     
             # 500 
@@ -19005,7 +19018,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag520=1
-                        for J in range(2,NV3):
+                        for J in range(2,NV3+1):
                               if((EN+EIN[70] <= XV3[J])):
                                     flag520=0
                                     break
@@ -19025,7 +19038,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[69][I]=PEQEL[2][(I-IOFFN[69])]
+                              PEQIN[69][I]=PEQEL[2][int(I-IOFFN[69])]
                   # V3  ASYMMETRIC STRETCH                                                    
             # 550 
             QIN[70][I]=0.0  
@@ -19042,7 +19055,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag570=1
-                        for J in range(2,NV3):
+                        for J in range(2,NV3+1):
                               if(EN <= XV3[J]):
                                     flag570=0
                                     break
@@ -19061,7 +19074,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[70][I]=PEQEL[2][(I-IOFFN[70])]
+                              PEQIN[70][I]=PEQEL[2][int(I-IOFFN[70])]
                   #     
                   #  4V2 + 2V1 + V12V2  POLYAD 3                                                 
             # 600 CONTINUE                                                          
@@ -19076,7 +19089,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag20=1
-                        for J in range(2,NPD3):
+                        for J in range(2,NPD3+1):
                               if(EN <= XVPD3[J]):
                                     flag20=0
                                     break
@@ -19094,7 +19107,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[71][I]=PEQEL[2][(I-IOFFN[71])]
+                              PEQIN[71][I]=PEQEL[2][int(I-IOFFN[71])]
                   #                                      
                   #       3V2V1  + 2V1V2                                                   
             # 650 CONTINUE                                                          
@@ -19110,7 +19123,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag670=1
-                        for J in range(2,NV130):
+                        for J in range(2,NV130+1):
                               if(EN <= XV130[J]):
                                     flag670=0
                                     break                                       
@@ -19128,7 +19141,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[72][I]=PEQEL[2][(I-IOFFN[72])]
+                              PEQIN[72][I]=PEQEL[2][int(I-IOFFN[72])]
                   #                                      
                   #   POLYAD 4                                                                    
             # 700 CONTINUE                                                          
@@ -19144,7 +19157,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag720=1
-                        for J in range(2,NPD4):                                                   
+                        for J in range(2,NPD4+1):                                                   
                               if(EN <= XVPD4[J]):
                                     flag720=0
                                     break
@@ -19162,7 +19175,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[73][I]=PEQEL[2][(I-IOFFN[73])]
+                              PEQIN[73][I]=PEQEL[2][int(I-IOFFN[73])]
                   #
                   #  PLOYAD 5     
             # 750 CONTINUE                                                          
@@ -19178,7 +19191,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XVPD5[NPD5]):
                         pass
                   else:
-                        for J in range(2,NPD5):
+                        for J in range(2,NPD5+1):
                               if(EN <= XVPD5[J]):
                                     flag770=0
                                     break                                       
@@ -19197,7 +19210,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[74][I]=PEQEL[2][(I-IOFFN[74])]
+                              PEQIN[74][I]=PEQEL[2][int(I-IOFFN[74])]
                   #                                              
                   #   POLYAD 6                                                                    
             # 800 CONTINUE                                                          
@@ -19213,7 +19226,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag820=1
-                        for J in range(2,NPD6):
+                        for J in range(2,NPD6+1):
                               if(EN <= XVPD6[J]):
                                     flag820=0
                                     break                                       
@@ -19232,7 +19245,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[75][I]=PEQEL[2][(I-IOFFN[75])]
+                              PEQIN[75][I]=PEQEL[2][int(I-IOFFN[75])]
                   #                                             
                   #   POLYAD 7                                                                    
             # 850 CONTINUE                                                          
@@ -19248,7 +19261,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag870=1
-                        DO 860 J=2,NPD7                                                   
+                        for J in range(2,NPD7+1):
                               if(EN <= XVPD7[J]):
                                     flag870=0
                                     break
@@ -19267,7 +19280,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[76][I]=PEQEL[2][(I-IOFFN[76])]
+                              PEQIN[76][I]=PEQEL[2][int(I-IOFFN[76])]
                   #                                              
                   #   POLYAD 8                                                                    
             # 900 CONTINUE                                                          
@@ -19283,10 +19296,10 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag920=1
-                        DO 910 J=2,NPD8                                                   
-                        if(EN <= XVPD8[J]):
-                              flag920=0
-                              break
+                        for J in range(2,NPD8+1):
+                              if(EN <= XVPD8[J]):
+                                    flag920=0
+                                    break
                         if(flag920):
                               J=NPD8                                                            
                         # 920 
@@ -19301,7 +19314,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[77][I]=PEQEL[2][(I-IOFFN[77])]
+                              PEQIN[77][I]=PEQEL[2][int(I-IOFFN[77])]
                   #                                               
                   #   POLYAD 9                                                                    
             # 950 CONTINUE                                                          
@@ -19317,7 +19330,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag970=1
-                        for J in range(2,NPD9):
+                        for J in range(2,NPD9+1):
                               if(EN <= XVPD9[J]):
                                     flag970=0
                                     break                                       
@@ -19335,7 +19348,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[78][I]=PEQEL[2][(I-IOFFN[78])]
+                              PEQIN[78][I]=PEQEL[2][int(I-IOFFN[78])]
                   #                                          
                   #   SUM OF HIGHER POLYADS                                                       
             # 1000 CONTINUE                                                          
@@ -19351,7 +19364,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         flag1002=1
-                        for J in range(2,NPDH):
+                        for J in range(2,NPDH+1):
                               if(EN <= XVPDH[J]):
                                     flag1002=0
                                     break
@@ -19369,7 +19382,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[79][I]=PEQEL[2][(I-IOFFN[79])]
+                              PEQIN[79][I]=PEQEL[2][int(I-IOFFN[79])]
                   #  1DELu  6.50ev                      
             # 1080 CONTINUE                                                          
             QIN[80][I]=0.0  
@@ -19386,7 +19399,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[80][I]=PEQEL[2][(I-IOFFN[80])]               
+                              PEQIN[80][I]=PEQEL[2][int(I-IOFFN[80])]               
                   # 1DELu 6.75 ev                                                        
             # 1081 CONTINUE                                                          
             QIN[81][I]=0.0   
@@ -19403,7 +19416,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[81][I]=PEQEL[2][(I-IOFFN[81])]           
+                              PEQIN[81][I]=PEQEL[2][int(I-IOFFN[81])]           
                   #   1DELu  7.00ev                                            
             # 1082 CONTINUE                                                          
             QIN[82][I]=0.0
@@ -19420,7 +19433,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[82][I]=PEQEL[2][(I-IOFFN[82])] 
+                              PEQIN[82][I]=PEQEL[2][int(I-IOFFN[82])] 
                   #   1DELu 7.25ev
             # 1083 CONTINUE                                                          
             QIN[83][I]=0.0
@@ -19437,7 +19450,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[83][I]=PEQEL[2][(I-IOFFN[83])]       
+                              PEQIN[83][I]=PEQEL[2][int(I-IOFFN[83])]       
                   # 1DELu  7.5ev   
             # 1084 CONTINUE                                                          
             QIN[84][I]=0.0 
@@ -19452,9 +19465,9 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         QIN[84][I]=0.0
                   if(EN <= (2.0*EIN[84])):
                         pass
-                  else;
+                  else:
                         if(NANISO > 0):
-                              PEQIN[84][I]=PEQEL[2][(I-IOFFN[84])]           
+                              PEQIN[84][I]=PEQEL[2][int(I-IOFFN[84])]           
                   #  1DELu 7.75ev                                
             # 1085 CONTINUE           
             QIN[85][I]=0.0
@@ -19471,7 +19484,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[85][I]=PEQEL[2][(I-IOFFN[85])] 
+                              PEQIN[85][I]=PEQEL[2][int(I-IOFFN[85])] 
                   #  1DELu 8.0ev   
             # 1086 CONTINUE                                                          
             QIN[86][I]=0.0
@@ -19488,7 +19501,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[86][I]=PEQEL[2][(I-IOFFN[86])] 
+                              PEQIN[86][I]=PEQEL[2][int(I-IOFFN[86])] 
                   # 1DELu 8.25ev    
             # 1087 CONTINUE                                                          
             QIN[87][I]=0.0
@@ -19505,7 +19518,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[87][I]=PEQEL[2][(I-IOFFN[87])] 
+                              PEQIN[87][I]=PEQEL[2][int(I-IOFFN[87])] 
                   #  1DELu 8.50ev   
             # 1088 CONTINUE                                                          
             QIN[88][I]=0.0
@@ -19522,7 +19535,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[88][I]=PEQEL[2][(I-IOFFN[88])] 
+                              PEQIN[88][I]=PEQEL[2][int(I-IOFFN[88])] 
                   # 1DELu 8.75ev   
             # 1089 CONTINUE                                                          
             QIN[89][I]=0.0
@@ -19539,7 +19552,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[89][I]=PEQEL[2][(I-IOFFN[89])] 
+                              PEQIN[89][I]=PEQEL[2][int(I-IOFFN[89])] 
                   # TRIPLET
             # 1090 CONTINUE                                                          
             QIN[90][I]=0.0
@@ -19552,10 +19565,10 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XTRP1[NTRP1]):
                         pass
                   else:
-                        DO 2081 J=2,NTRP1
-                        if(EN <= (XTRP1[J])):
-                              flag2082=0
-                              break
+                        for J in range(2,NTRP1+1):
+                              if(EN <= (XTRP1[J])):
+                                    flag2082=0
+                                    break
                         else:
                               J=NTRP1
                         # 2082 
@@ -19571,7 +19584,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[90][I]=PEQEL[2][(I-IOFFN[90])] 
+                              PEQIN[90][I]=PEQEL[2][int(I-IOFFN[90])] 
                   #  1PIg  8.90ev                                            
             # 1091 CONTINUE                                                          
             QIN[91][I]=0.0
@@ -19580,7 +19593,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   PEQIN[91][I]=0.0                              
             if(EN <= EIN[91]):
                   pass
-            else;
+            else:
                   QIN[91][I]=.001687/(EIN[91]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[91]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[91]+E[3])*1.0140
                   if(QIN[91][I]< 0.0):
                         QIN[91][I]=0.0
@@ -19588,7 +19601,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[91][I]=PEQEL[2][(I-IOFFN[91])] 
+                              PEQIN[91][I]=PEQEL[2][int(I-IOFFN[91])] 
                   #  1PIg 9.15ev   
             # 1092 CONTINUE                                                          
             QIN[92][I]=0.0
@@ -19605,7 +19618,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[92][I]=PEQEL[2][(I-IOFFN[92])] 
+                              PEQIN[92][I]=PEQEL[2][int(I-IOFFN[92])] 
                   #  1PIg  9.4ev   
             # 1093 CONTINUE                                                          
             QIN[93][I]=0.0
@@ -19622,7 +19635,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[93][I]=PEQEL[2][(I-IOFFN[93])] 
+                              PEQIN[93][I]=PEQEL[2][int(I-IOFFN[93])] 
                   #  1PIg  9.65ev   
             # 1094 CONTINUE                                                          
             QIN[94][I]=0.0
@@ -19639,7 +19652,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[94][I]=PEQEL[2][(I-IOFFN[94])] 
+                              PEQIN[94][I]=PEQEL[2][int(I-IOFFN[94])] 
                   #  1PIg  9.9ev   
             # 1095 CONTINUE                                                          
             QIN[95][I]=0.0
@@ -19656,7 +19669,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[95][I]=PEQEL[2][(I-IOFFN[95])] 
+                              PEQIN[95][I]=PEQEL[2][int(I-IOFFN[95])] 
                   #  1PIg 10.15ev   
             # 1096 CONTINUE                                                          
             QIN[96][I]=0.0
@@ -19673,7 +19686,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[96][I]=PEQEL[2][(I-IOFFN[96])] 
+                              PEQIN[96][I]=PEQEL[2][int(I-IOFFN[96])] 
                   #   RA:AU  10.7ev                                                     
             # 1097 CONTINUE                                                          
             QIN[97][I]=0.0
@@ -19690,7 +19703,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[97][I]=PEQEL[2][(I-IOFFN[97])] 
+                              PEQIN[97][I]=PEQEL[2][int(I-IOFFN[97])] 
                   #  1SIGu+'  1SIGu+  C'   11.048ev                               
             # 1098 CONTINUE                                                          
             QIN[98][I]=0.0
@@ -19707,7 +19720,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[98][I]=PEQEL[2][(I-IOFFN[98])] 
+                              PEQIN[98][I]=PEQEL[2][int(I-IOFFN[98])] 
                   #  TRIPLET                                                                
             # 1099 CONTINUE                                                          
             QIN[99][I]=0.0
@@ -19720,7 +19733,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN > XTRP2[NTRP2]):
                         pass
                   else:
-                        for J in range(2,NTRP2):
+                        for J in range(2,NTRP2+1):
                               if(EN <= (XTRP2[J])):
                                     flag2092=0
                                     break
@@ -19739,7 +19752,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[99][I]=PEQEL[2][(I-IOFFN[99])] 
+                              PEQIN[99][I]=PEQEL[2][int(I-IOFFN[99])] 
                   # 1PIu  11.385ev                                                  
             # 1100 CONTINUE                                                          
             QIN[100][I]=0.0
@@ -20119,6 +20132,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             # 1122 CONTINUE                                                          
             QIN[122][I]=0.0
             PEQIN[122][I]=0.5
+            # print(QIN.shape)
             if(NANISO == 2):
                   PEQIN[122][I]=0.0                              
             if(EN <= EIN[122]):
@@ -20131,13 +20145,13 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[122][I]=PEQEL[2][(I-IOFFN[122]) 
+                              PEQIN[122][I]=PEQEL[2][(I-IOFFN[122])]
                   #  NEUTRAL DISSOCIATION  14.75ev  
-            # 1123 CONTINUE                                                          
-            QIN[123][I]=0.0
-            PEQIN[123][I]=0.5
+            # 1123 CONTINUE  
+            QIN[123][I]= 0.0
+            PEQIN[123][I]= 0.5
             if(NANISO == 2):
-                  PEQIN[123]I]=0.0                              
+                  PEQIN[123][I]=0.0                              
             if(EN <= EIN[123]):
                   pass
             else:
@@ -20148,7 +20162,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[123][I]=PEQEL[2][(I-IOFFN[123])] 
+                              PEQIN[123][I]=PEQEL[2][I-IOFFN[123]] 
                   #  NEUTRAL DISSOCIATION  15.0ev 
             # 1124 CONTINUE                                                          
             QIN[124][I]=0.0
@@ -20335,7 +20349,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                        PEQIN[134][I]=PEQEL[2][(I-IOFFN[134])] 
+                              PEQIN[134][I]=PEQEL[2][(I-IOFFN[134])] 
                   # NEUTRAL DISSOCIATION  17.75ev 
             # 1135 CONTINUE                                                          
             QIN[135][I]=0.0
@@ -20437,7 +20451,7 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         pass
                   else:
                         if(NANISO > 0):
-                              PEQIN[140][I]=PEQEL[2][(I-IOFFN[140]) 
+                              PEQIN[140][I]=PEQEL[2][(I-IOFFN[140])]
                   # NEUTRAL DISSOCIATION  19.25ev 
             # 1141 CONTINUE                                                          
             QIN[141][I]=0.0
@@ -20448,93 +20462,104 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   pass
             else:
                   QIN[141][I]=.00530/(EIN[141]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[141]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[141]+E[3])*1.0065
-                  if(QIN[141][I]:
-                  < 0.0) QIN[141][I]=0.0
-                  if(EN <= (2.0*EIN[141]:
-                  )) GO TO 1142
-                  if(NANISO > 0):
-                  PEQIN[141][I]=PEQEL[2][(I-IOFFN[141]) 
+                  if(QIN[141][I]< 0.0):
+                        QIN[141][I]=0.0
+                  if(EN <= (2.0*EIN[141])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[141][I]=PEQEL[2][(I-IOFFN[141])] 
                   # NEUTRAL DISSOCIATION  19.50ev 
-            1142 CONTINUE                                                          
+            # 1142 CONTINUE                                                          
             QIN[142][I]=0.0
             PEQIN[142][I]=0.5
             if(NANISO == 2):
-            PEQIN[142][I]=0.0                              
-            if(EN <= EIN[142]:
-            ) GO TO 1143 
-            QIN[142][I]=.00621/(EIN[142]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[142]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[142]+E[3])*1.0064
-            if(QIN[142][I]:
-            < 0.0) QIN[142][I]=0.0
-            if(EN <= (2.0*EIN[142]:
-            )) GO TO 1143
-            if(NANISO > 0):
-            PEQIN[142][I]=PEQEL[2][(I-IOFFN[142]) 
-            # NEUTRAL DISSOCIATION  19.75ev 
-            1143 CONTINUE                                                          
+                  PEQIN[142][I]=0.0                              
+            if(EN <= EIN[142]):
+                  pass
+            else:
+                  QIN[142][I]=.00621/(EIN[142]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[142]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[142]+E[3])*1.0064
+                  if(QIN[142][I]< 0.0):
+                        QIN[142][I]=0.0
+                  if(EN <= (2.0*EIN[142])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[142][I]=PEQEL[2][(I-IOFFN[142])]
+                  # NEUTRAL DISSOCIATION  19.75ev 
+            # 1143 CONTINUE                                                          
             QIN[143][I]=0.0
             PEQIN[143][I]=0.5
             if(NANISO == 2):
-            PEQIN[143][I]=0.0                              
-            if(EN <= EIN[143]:
-            ) GO TO 1144 
-            QIN[143][I]=.00619/(EIN[143]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[143]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[143]+E[3])*1.0070
-            if(QIN[143][I]:
-            < 0.0) QIN[143][I]=0.0
-            if(EN <= (2.0*EIN[143]:
-            )) GO TO 1144
-            if(NANISO > 0):
-            PEQIN[143][I]=PEQEL[2][(I-IOFFN[143]) 
-            #  TRIPLET SUM OF HIGH LYING TRIPLETS                                         
-            1144 CONTINUE                                                          
+                  PEQIN[143][I]=0.0                              
+            if(EN <= EIN[143]):
+                  pass
+            else:
+                  QIN[143][I]=.00619/(EIN[143]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[143]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[143]+E[3])*1.0070
+                  if(QIN[143][I]< 0.0):
+                        QIN[143][I]=0.0
+                  if(EN <= (2.0*EIN[143])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[143][I]=PEQEL[2][(I-IOFFN[143])]
+                  #  TRIPLET SUM OF HIGH LYING TRIPLETS                                         
+            # 1144 CONTINUE                                                          
             QIN[144][I]=0.0
             PEQIN[144][I]=0.5
             if(NANISO == 2):
-            PEQIN[144][I]=0.0                              
-            if(EN <= EIN[144]:
-            ) GO TO 1145 
-            QIN[144][I]=3.6000/(EIN[144]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[144]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[144]+E[3])      
-            if(QIN[144][I]:
-            < 0.0) QIN[144][I]=0.0
-            if(EN > 60.0):
-            QIN[144][I]=QIN[144][I]*math.sqrt(60.0/EN)
-            if(EN <= (2.0*EIN[144]:
-            )) GO TO 1145
-            if(NANISO > 0):
-            PEQIN[144][I]=PEQEL[2][(I-IOFFN[144])  
-            #
-            1145 CONTINUE
+                  PEQIN[144][I]=0.0                              
+            if(EN <= EIN[144]):
+                  pass
+            else:
+                  QIN[144][I]=3.6000/(EIN[144]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[144]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+EIN[144]+E[3])      
+                  if(QIN[144][I]< 0.0):
+                        QIN[144][I]=0.0
+                  if(EN > 60.0):
+                        QIN[144][I]=QIN[144][I]*math.sqrt(60.0/EN)
+                  if(EN <= (2.0*EIN[144])):
+                        pass
+                  else:
+                        if(NANISO > 0):
+                              PEQIN[144][I]=PEQEL[2][(I-IOFFN[144])]
+                  #
+            # 1145 CONTINUE
             # LOAD BREMSSTRAHLUNG X-SECTIONS
             QIN[145][I]=0.0
             QIN[146][I]=0.0
             if(EN <= 1000.):
-            GO TO 1440
-            DO 1410 J=2,NBREM
-            if(EN <= EBRM[J]:
-            ) GO TO 1420
-            1410 CONTINUE
-            J=NBREM
-            1420 A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
-            B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
-            A1=(math.log(Z8T[J])-math.log(Z8T[J-1]))/(EBRM[J]-EBRM[J-1])
-            B1=(math.log(Z8T[J])*EBRM[J-1]-math.log(Z8T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
-            QIN[145][I]=math.exp(A*EN+B)*1.e-24
-            QIN[146][I]=math.exp(A1*EN+B1)*2.e-24
-            1440 CONTINUE
+                  pass
+            else:
+                  flag1420=1
+                  for J in range(2,NBREM+1):
+                        if(EN <= EBRM[J]):
+                              flag1420=0
+                              break
+                  if(flag1420):
+                        J=NBREM
+                  # 1420 
+                  A=(math.log(Z6T[J])-math.log(Z6T[J-1]))/(EBRM[J]-EBRM[J-1])
+                  B=(math.log(Z6T[J])*EBRM[J-1]-math.log(Z6T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+                  A1=(math.log(Z8T[J])-math.log(Z8T[J-1]))/(EBRM[J]-EBRM[J-1])
+                  B1=(math.log(Z8T[J])*EBRM[J-1]-math.log(Z8T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+                  QIN[145][I]=math.exp(A*EN+B)*1.e-24
+                  QIN[146][I]=math.exp(A1*EN+B1)*2.e-24
+            # 1440 CONTINUE
             # SUM ROTATION 
             SUMR=0.0
-            DO 1450 K=1,60
-            SUMR=SUMR+QIN[K][I]
-            1450 CONTINUE   
+            for K in range(1,60+1):
+                  SUMR=SUMR+QIN[K][I]
+            # 1450 CONTINUE   
             # SUM VIBRATION 
             SUMV=0.0
-            DO 1455 K=61,79 
-            SUMV=SUMV+QIN[K][I]
-            1455 CONTINUE  
+            for K in range(61,79+1):
+                  SUMV=SUMV+QIN[K][I]
+            # 1455 CONTINUE  
             # SUM DIPOLE +TRIPLET EXCITATION  
             SUME=0.0
-            DO 1460 K=80,144 
-            SUME=SUME+QIN[K][I]
-            1460 CONTINUE  
+            for K in range(80,144+1):
+                  SUME=SUME+QIN[K][I]
+            # 1460 CONTINUE  
             # SUM TRIPLET EXCITATION
             SUMTRP=QIN[90][I]+QIN[99][I]+QIN[144][I]
             # GET SUM DIPOLE
@@ -20542,9 +20567,9 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             SUMEXC=SUME+SUMTRP
             # SUM IONISATION
             SUMION=0.0
-            DO 1470 K=1,11
-            SUMION=SUMION+QION(K,I)
-            1470 CONTINUE
+            for K in range(1,11+1):
+                  SUMION=SUMION+QION[K][I]
+            # 1470 CONTINUE
             # GET CORRECT ELASTIC X-SECTION
             Q[2][I]=Q[2][I]-SUMR
             # Q[1][I] TOTAL USED FOR INprintION ONLY          
@@ -20552,18 +20577,39 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             #     WRITE(6,991) EN,SUME,SUMTRP,SUMEXC,SUMION,Q[1][I]  
             # 991 print(' EN=','%.4f' % ,' SUMDIPOLE=','%.4f' % ,' SUM TRIPLT=','%.4f' % ,
             #    //,'    SUMEXC=','%.4f' % ,' SUMION=','%.4f' % ,' TOT=','%.4f' % )  
-            9000 CONTINUE                                                          
+            # 9000 CONTINUE                                                          
       #                                                                       
       #     SAVE ON COMPUTING TIME                                            
       #
-      DO 2000 K=1,74                                                    
-      J=145-K   
-      if(EFINAL <= EIN[J]:
-      ) NIN=J-1
-      2000 CONTINUE
+      for K in range(1,74+1):
+            J=145-K   
+            if(EFINAL <= EIN[J]):
+                  NIN=J-1
+            # 2000 CONTINUE
       if(EFINAL > 1000.):
-      NIN=146
-      #                                                                
+            NIN=146
+      #       
+      conf.ECHARG=ECHARG
+      conf.EMASS=EMASS
+      conf.AMU=AMU
+      conf.PIR2=PIR2
+      conf.NGAS=NGAS
+      conf.NSTEP=NSTEP
+      conf.NANISO=NANISO
+      conf.EFINAL=EFINAL
+      conf.ESTEP=ESTEP
+      conf.AKT=AKT
+      conf.ARY=ARY
+      conf.TEMPC=TEMPC
+      conf.TORR=TORR
+      conf.IPEN=IPEN
+      conf.E=EG
+      conf.EROOT=EROOT
+      conf.QT1=QT1
+      conf.QT2=QT2
+      conf.QT3=QT3
+      conf.QT4=QT4
+      conf.DEN=DEN                                                         
       return                                                            
       # end     
 '''      

@@ -1,5 +1,6 @@
 import numpy
 # from degrad1 import *
+import conf
 from Setup import *
 from Gasmixc import *
 from Mixerc import *
@@ -9,13 +10,36 @@ from Mipcalc import *
 from Density import *
 from Cascdat import *
 from Mixer import *
+from Fldist import *
+from Montefe import *
 import sys
 def DEGRADE():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
 	global TMAX,SMALL,API,ESTART,THETA,PHI
+	TMAX=conf.TMAX
+	SMALL=conf.SMALL
+	API=conf.API
+	ESTART=conf.ESTART
+	THETA=conf.THETA
+	PHI=conf.PHI
 	global TCFMAX #array size 10
-	global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NEVENT,IMIP,IWRITE,EOVB,WB,BTHETA,BMAG
+	TCFMAX=conf.TCFMAX
+	# global 
+	TCFMAX1=conf.TCFMAX1
+	RSTART=conf.RSTART
+	EFIELD=conf.EFIELD
+	ETHRM=conf.ETHRM
+	ECUT=conf.ECUT
+	NEVENT=conf.NEVENT
+	IMIP=conf.IMIP
+	IWRITE=conf.IWRITE
+	EOVB=conf.EOVB
+	WB=conf.WB
+	BTHETA=conf.BTHETA
+	BMAG=conf.BMAG
+
+
 	LAST=0
 	LAST=SETUP(LAST)
 	if(LAST == 1):
@@ -31,7 +55,7 @@ def DEGRADE():
 		MIPCALC()
 	# if MIP OR ELECTRON BEAM SKIP DIRECT CASCADE CALCULATION
 	if(IMIP <= 2):
-		PASSING	
+		pass
 	else:
 		ICON=IMIP-2
 		#  ICON=1 XRAY,   ICON=2 BETA DECAY , ICON=3 DOUBLE BETA DECAY  
@@ -53,7 +77,29 @@ def DEGRADE():
 	STATS2()
 	OUTPUT()
 	DEGRADE()
+	conf.TCFMAX1=TCFMAX1
+	conf.RSTART=RSTART
+	conf.EFIELD=EFIELD
+	conf.ETHRM=ETHRM
+	conf.ECUT=ECUT
+	conf.NEVENT=NEVENT
+	conf.IMIP=IMIP
+	conf.IWRITE=IWRITE
+	conf.EOVB=EOVB
+	conf.WB=WB
+	conf.BTHETA=BTHETA
+	conf.BMAG=BMAG
+	conf.TMAX=TMAX
+	conf.SMALL=SMALL
+	conf.API=API
+	conf.ESTART=ESTART
+	conf.THETA=THETA
+	conf.PHI=PHI
+	conf.TCFMAX=TCFMAX
+
 	sys.exit()
     # end
+
+
 
 DEGRADE()
