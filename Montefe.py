@@ -1,48 +1,332 @@
-      def MONTEFE():                                                
+import conf
+import numpy
+import math 
+import sys
+def MONTEFE():                                                
       # IMPLICIT #real*8 (A-H,O-Z)
       # IMPLICIT #integer*8 (I-N)                                         
-      COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
-      COMMON/INPT1/NDVEC
-      COMMON/CNSTS1/CONST1,CONST2,CONST3,CONST4,CONST5                  
-      COMMON/SETP/TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX(10),TCFMAX1,
-      /RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                    
-      COMMON/LARGE/CF(20000,512),EIN(512),TCF(20000),IARRY(512),
-      /RGAS(512),IPN(512),WPL(512),IZBR(512),IPLAST,PENFRA[3,512]
-      COMMON/LARGEN/CFN(20000,60),TCFN(20000),SCLENUL(60),NPLAST
-      COMMON/OUTPT/ICOLL(30),NETOT,NPRIME,TMAX1,TIME(300),NNULL,
-      /NITOT,ICOLN(512),ICOLNN(60),NREAL,NEXCTOT 
-      COMMON/RLTVY/BET(20000),GAM(20000),VC,EMS
-      COMMON/STTS/XST(150000),YST(150000),ZST(150000),TST(150000),
-      /TTIME(150000),NFGF(150000),NFGPP(150000),NFGBR(150000),NELEC,
-      /NEGION,EST1,EST2
-      COMMON/STEXC/XSTEXC(150000),YSTEXC(150000),ZSTEXC(150000),
-      /TSTEXC(150000),NSTEXC
-      COMMON/STEXCNUL/XSTN(150000),YSTN(150000),ZSTN(150000),
-      /TSTN(150000),IDNUL(150000),NEXCNUL
-      COMMON/IONC/DOUBLE(6,20000),CMINIXSC[6],CMINEXSC[6],ECLOSS[6],
-      /WPLN[6],ICOUNT,AVPFRAC(3,6) 
-      COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),
-      /EG2(512),WKLM(512),DSTFL(512)
-      COMMON/IONMOD/ESPLIT(512,20),IONMODEL(512)
-      COMMON/ANIS/PSCT(20000,512),ANGCT(20000,512),INDEX(512),NISO
-      COMMON/CASRS/ECAS(400),XCAS(400),YCAS(400),ZCAS(400),DRXS(400),
-      /DRYS(400),DRZS(400),TT1(400),NFLGF(400),NFLGPP(400),IEVNTL
-      COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
-      COMMON/BREMG/EBRGAM(10),BRnumpy.cosX(10),BRnumpy.cosY(10),BRnumpy.cosZ[10],
-      /BRX(10),BRY(10),BRZ[10],BRT(10),EBRTOT[6],NBREM[6]
-      COMMON/CASRSB/ECASB[400],XCASB[400],YCASB[400],ZCASB[400],
-      /DRXB[400],DRYB[400],DRZB[400],TTB1(400),NFLGFB[400],NFLGPPB[400],
-      /IEVNTLB
-      COMMON/CASRSE/ECASE(400),XCASE(400),YCASE(400),ZCASE(400),
-      /DRXCE(400),DRYCE(400),DRZCE(400),TCASE(400),
-      /NFLGFE(400),NFLGPPE(400),IEVENTE
-      COMMON/ECASC/NEGAS(512),LEGAS(512),IESHELL(512),IECASC
-      COMMON/IDEXC/NGEXC1,NGEXC2,NGEXC3,NGEXC4,NGEXC5,NGEXC6,
-      /IDG1,IDG2,IDG3,IDG4,IDG5,IDG6
-      DIMENSION XS(150000),YS(150000),ZS(150000),TS(150000),ES(150000),
-      /DCX(150000),DCY(150000),DCZ[150000],
-      /NFLGFC(150000),NFLGPPC(150000),NFLGBRMC(150000)
-      DIMENSION TEMP(20000)
+      # global /INPT/
+      global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+      # global /INPT1/
+      global NDVEC
+      # global /CNSTS1/
+      global CONST1,CONST2,CONST3,CONST4,CONST5                  
+      # global /SETP/
+      global TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX#(10)
+      global TCFMAX1,RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE                    
+      # global /LARGE/
+      global CF#(20000,512)
+      global EIN#(512)
+      global TCF#(20000)
+      global IARRY#(512),
+      global RGAS#(512)
+      global IPN#(512)
+      global WPL#(512)
+      global IZBR#(512)
+      global IPLAST,PENFRA#[3,512]
+      # global /LARGEN/
+      global CFN#(20000,60),
+      global TCFN#(20000)
+      global SCLENUL#(60)
+      global NPLAST
+      # global /OUTPT/
+      global ICOLL#(30)
+      global NETOT,NPRIME,TMAX1,TIME#(300)
+      global NNULL,NITOT,ICOLN#(512)
+      global ICOLNN#(60)
+      global NREAL,NEXCTOT 
+      # global /RLTVY/
+      global BET#(20000)
+      global GAM#(20000)
+      global VC,EMS
+      # global /STTS/
+      global XST#(150000)
+      global YST#(150000)
+      global ZST#(150000)
+      global TST#(150000),
+      global TTIME#(150000)
+      global NFGF#(150000)
+      global NFGPP#(150000)
+      global NFGBR#(150000)
+      global NELEC,NEGION,EST1,EST2
+      # global /STEXC/
+      global XSTEXC#(150000)
+      global YSTEXC#(150000)
+      global ZSTEXC#(150000),
+      global TSTEXC#(150000)
+      global NSTEXC
+      # global /STEXCNUL/
+      global XSTN#(150000)
+      global YSTN#(150000)
+      global ZSTN#(150000),
+      global TSTN#(150000)
+      global IDNUL#(150000)
+      global NEXCNUL
+      # global /IONC/
+      global DOUBLE#(6,20000)
+      global CMINIXSC#[6]
+      global CMINEXSC#[6]
+      global ECLOSS#[6],
+      global WPLN#[6]
+      global ICOUNT,AVPFRAC#(3,6) 
+      # global /IONFL/
+      global NC0#(512)
+      global EC0#(512)
+      global NG1#(512)
+      global EG1#(512)
+      global NG2#(512),
+      global EG2#(512)
+      global WKLM#(512)
+      global DSTFL#(512)
+      # global /IONMOD/
+      global ESPLIT#(512,20)
+      global IONMODEL#(512)
+      # global /ANIS/
+      global PSCT#(20000,512)
+      global ANGCT#(20000,512)
+      global INDEX#(512)
+      global NISO
+      # global /CASRS/
+      global ECAS#(400)
+      global XCAS#(400)
+      global YCAS#(400)
+      global ZCAS#(400)
+      global DRXS#(400),
+      global DRYS#(400)
+      global DRZS#(400)
+      global TT1#(400)
+      global NFLGF#(400)
+      global NFLGPP#(400)
+      global IEVNTL
+      # global /COMP/
+      global LCMPLCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
+      # global /BREMG/
+      global EBRGAM#(10)
+      global BRDCOSX#(10)
+      global BRDCOSY#(10)
+      global BRDCOSZ#[10],
+      global BRX#(10)
+      global BRY#(10)
+      global BRZ#[10]
+      global BRT#(10)
+      global EBRTOT#[6]
+      global NBREM#[6]
+      # global /CASRSB/
+      global ECASB#[400]
+      global XCASB#[400]
+      global YCASB#[400]
+      global ZCASB#[400],
+      global DRXB#[400]
+      global DRYB#[400]
+      global DRZB#[400]
+      global TTB1#(400)
+      global NFLGFB#[400]
+      global NFLGPPB#[400],
+      global IEVNTLB
+      # global /CASRSE/
+      global ECASE#(400)
+      global XCASE#(400)
+      global YCASE#(400)
+      global ZCASE#(400),
+      global DRXCE#(400)
+      global DRYCE#(400)
+      global DRZCE#(400)
+      global TCASE#(400),
+      global NFLGFE#(400)
+      global NFLGPPE#(400)
+      global IEVENTE
+      # global /ECASC/
+      global NEGAS#(512)
+      global LEGAS#(512)
+      global IESHELL#(512)
+      global IECASC
+      # global /IDEXC/
+      global NGEXC1,NGEXC2,NGEXC3,NGEXC4,NGEXC5,NGEXC6,IDG1,IDG2,IDG3,IDG4,IDG5,IDG6
+      NGAS=conf.NGAS
+      NSTEP=conf.NSTEP
+      NANISO=conf.NANISO
+      EFINAL=conf.EFINAL
+      ESTEP=conf.ESTEP
+      AKT=conf.AKT
+      ARY=conf.ARY
+      TEMPC=conf.TEMPC
+      TORR=conf.TORR
+      IPEN=conf.IPEN
+      NDVEC=conf.NDVEC
+      CONST1=conf.CONST1
+      CONST2=conf.CONST2
+      CONST3=conf.CONST3
+      CONST4=conf.CONST4
+      CONST5=conf.CONST5                  
+      TMAX=conf.TMAX
+      SMALL=conf.SMALL
+      API=conf.API
+      ESTART=conf.ESTART
+      THETA=conf.THETA
+      PHI=conf.PHI
+      TCFMAX=conf.TCFMAX
+      TCFMAX1=conf.TCFMAX1
+      RSTART=conf.RSTART
+      EFIELD=conf.EFIELD
+      ETHRM=conf.ETHRM
+      ECUT=conf.ECUT
+      NDELTA=conf.NDELTA
+      IMIP=conf.IMIP
+      IWRITE=conf.IWRITE                    
+      CF=conf.CF
+      EIN=conf.EIN
+      TCF=conf.TCF
+      IARRY=conf.IARRY
+      RGAS=conf.RGAS
+      IPN=conf.IPN
+      WPL=conf.WPL
+      IZBR=conf.IZBR
+      IPLAST=conf.IPLAST
+      PENFRA=conf.PENFRA
+      CFN=conf.CFN
+      TCFN=conf.TCFN
+      SCLENUL=conf.SCLENUL
+      NPLAST=conf.NPLAST
+      ICOLL=conf.ICOLL
+      NETOT=conf.NETOT
+      NPRIME=conf.NPRIME
+      TMAX1=conf.TMAX1
+      TIME=conf.TIME
+      NNULL=conf.NNULL
+      NITOT=conf.NITOT
+      ICOLN=conf.ICOLN
+      ICOLNN=conf.ICOLNN
+      NREAL=conf.NREAL
+      NEXCTOT =conf.NEXCTOT 
+      BET=conf.BET
+      GAM=conf.GAM
+      VC=conf.VC
+      EMS=conf.EMS
+      XST=conf.XST
+      YST=conf.YST
+      ZST=conf.ZST
+      TST=conf.TST
+      TTIME=conf.TTIME
+      NFGF=conf.NFGF
+      NFGPP=conf.NFGPP
+      NFGBR=conf.NFGBR
+      NELEC=conf.NELEC
+      NEGION=conf.NEGION
+      EST1=conf.EST1
+      EST2=conf.EST2
+      XSTEXC=conf.XSTEXC
+      YSTEXC=conf.YSTEXC
+      ZSTEXC=conf.ZSTEXC
+      TSTEXC=conf.TSTEXC
+      NSTEXC=conf.NSTEXC
+      XSTN=conf.XSTN
+      YSTN=conf.YSTN
+      ZSTN=conf.ZSTN
+      TSTN=conf.TSTN
+      IDNUL=conf.IDNUL
+      NEXCNUL=conf.NEXCNUL
+      DOUBLE=conf.DOUBLE
+      CMINIXSC=conf.CMINIXSC
+      CMINEXSC=conf.CMINEXSC
+      ECLOSS=conf.ECLOSS
+      WPLN=conf.WPLN
+      ICOUNT=conf.ICOUNT
+      AVPFRAC=conf.AVPFRAC
+      NC0=conf.NC0
+      EC0=conf.EC0
+      NG1=conf.NG1
+      EG1=conf.EG1
+      NG2=conf.NG2
+      EG2=conf.EG2
+      WKLM=conf.WKLM
+      DSTFL=conf.DSTFL
+      ESPLIT=conf.ESPLIT
+      IONMODEL=conf.IONMODEL
+      PSCT=conf.PSCT
+      ANGCT=conf.ANGCT
+      INDEX=conf.INDEX
+      NISO=conf.NISO
+      ECAS=conf.ECAS
+      XCAS=conf.XCAS
+      YCAS=conf.YCAS
+      ZCAS=conf.ZCAS
+      DRXS=conf.DRXS
+      DRYS=conf.DRYS
+      DRZS=conf.DRZS
+      TT1=conf.TT1
+      NFLGF=conf.NFLGF
+      NFLGPP=conf.NFLGPP
+      IEVNTL=conf.IEVNTL
+      LCMPLCFLG=conf.LCMPLCFLG
+      LRAY=conf.LRAY
+      LRFLG=conf.LRFLG
+      LPAP=conf.LPAP
+      LPFLG=conf.LPFLG
+      LBRM=conf.LBRM
+      LBFLG=conf.LBFLG
+      LPEFLG=conf.LPEFLG
+      EBRGAM=conf.EBRGAM
+      BRDCOSX=conf.BRDCOSX
+      BRDCOSY=conf.BRDCOSY
+      BRDCOSZ=conf.BRDCOSZ
+      BRX=conf.BRX
+      BRY=conf.BRY
+      BRZ=conf.BRZ
+      BRT=conf.BRT
+      EBRTOT=conf.EBRTOT
+      NBREM=conf.NBREM
+      ECASB=conf.ECASB
+      XCASB=conf.XCASB
+      YCASB=conf.YCASB
+      ZCASB=conf.ZCASB
+      DRXB=conf.DRXB
+      DRYB=conf.DRYB
+      DRZB=conf.DRZB
+      TTB1=conf.TTB1
+      NFLGFB=conf.NFLGFB
+      NFLGPPB=conf.NFLGPPB
+      IEVNTLB=conf.IEVNTLB
+      ECASE=conf.ECASE
+      XCASE=conf.XCASE
+      YCASE=conf.YCASE
+      ZCASE=conf.ZCASE
+      DRXCE=conf.DRXCE
+      DRYCE=conf.DRYCE
+      DRZCE=conf.DRZCE
+      TCASE=conf.TCASE
+      NFLGFE=conf.NFLGFE
+      NFLGPPE=conf.NFLGPPE
+      IEVENTE=conf.IEVENTE
+      NEGAS=conf.NEGAS
+      LEGAS=conf.LEGAS
+      IESHELL=conf.IESHELL
+      IECASC=conf.IECASC
+      NGEXC1=conf.NGEXC1
+      NGEXC2=conf.NGEXC2
+      NGEXC3=conf.NGEXC3
+      NGEXC4=conf.NGEXC4
+      NGEXC5=conf.NGEXC5
+      NGEXC6=conf.NGEXC6
+      IDG1=conf.IDG1
+      IDG2=conf.IDG2
+      IDG3=conf.IDG3
+      IDG4=conf.IDG4
+      IDG5=conf.IDG5
+      IDG6=conf.IDG6
+      # DIMENSION 
+      XS=numpy.zeros((150000+1))
+      YS=numpy.zeros((150000+1))
+      ZS=numpy.zeros((150000+1))
+      TS=numpy.zeros((150000+1))
+      ES=numpy.zeros((150000+1))
+      DCX=numpy.zeros((150000+1))
+      DCY=numpy.zeros((150000+1))
+      DCZ=numpy.zeros((150000+1))
+      NFLGFC=numpy.zeros((150000+1))
+      NFLGPPC=numpy.zeros((150000+1))
+      NFLGBRMC=numpy.zeros((150000+1))
+      # DIMENSION 
+      TEMP=numpy.zeros((20000+1))
       #     DIMENSION ETEMP(1000)
       # ----------------------------------------------------------------------
       #      RELATIVISTIC VERSION SEPTEMBER 2013
@@ -69,11 +353,11 @@
       EMAX=0.00                                                      
       RDUM=RSTART                                                       
       CONST9=CONST3*0.010
-      for I in range(1,300):
+      for I in range(1,300+1):
             TIME[I]=0.00
-      for I in range(1,30):
+      for I in range(1,30+1):
             ICOLL[I]=0
-      for I in range(1,512):
+      for I in range(1,512+1):
             ICOLN[I]=0
       NREAL=0
       NNULL=0
@@ -90,7 +374,7 @@
       PHI1=PHI
       # CALCULATE MAXIMUM COLLISION FREQUENCY    
       TLIM=0.0 
-      for J in range(1,20000):
+      for J in range(1,20000+1):
             TEMP[J]=TCFN[J]+TCF[J] 
             if(TLIM < TEMP[J]):
                   TLIM=TEMP[J] 
@@ -98,7 +382,7 @@
       NEOVFL=0
       J1=0
       # START OF PRIMARY EVENT LOOP 
-      for J11 in range(1,NDELTA):
+      for J11 in range(1,NDELTA+1):
             J1=J1+1
             NPRIME=J1
             NGEXC1=0
@@ -139,7 +423,8 @@
                         #  SKIP IF BAD EVENT
                         if(IBAD1 == 1):
                               J1=J1-1
-                              GO TO 210
+                              flag1=0
+                              continue
                         # endif 
                   elif(IMIP == 1) :
                         # READ IN FIRST ELECTRON FROM MIP INTERACTION
@@ -162,7 +447,7 @@
                   NFLGHIGH=NFLGFF
                   # PUT REMAINDER OF ELECTRONS INTO CLUSTER STORE
                   ISDUM=0
-                  for IST in range(2,IEVNTL):
+                  for IST in range(2,IEVNTL+1):
                         ISDUM=ISDUM+1
                         XS[ISDUM]=XCAS[IST]
                         YS[ISDUM]=YCAS[IST]
@@ -192,7 +477,7 @@
                   #     AP=DCZ1*F2*DSQRT(E1)
                   GAM1=(EMS+E1)/EMS
                   BET1=math.sqrt(1.00-1.00/(GAM1*GAM1))
-                  AP=DCZ1*EFIELD*BET1*VC*1.0D-10
+                  AP=DCZ1*EFIELD*BET1*VC*1.0e-10
                   BP1=BP/GAM1              
                   E=E1+(AP+BP1*T)*T
                   if(E < 0.00):
@@ -311,7 +596,7 @@
                   IPT=IARRY[I]
                   ICOLL[IPT]=ICOLL[IPT]+1
                   ICOLN[I]=ICOLN[I]+1
-                  for KNGS in range(1,NGAS):
+                  for KNGS in range(1,NGAS+1):
                         if(IPT == (KNGS*5)-1):
                               break
                         # 141  CONTINUE
@@ -326,7 +611,7 @@
                   DCY1=EDCY
                   DCZ1=EDCZ
                   # RUN BREMSSTRAHLUNG GAMMA THROUGH CASCADE THEN STORE CONVERTED 
-                  # ELECTRONS IN COMMON/CASRSB/
+                  # ELECTRONS IN global /CASRSB/
                   #
                   BREMSCASC(J11,EGAMMA,X,Y,Z,ST,GDCX,GDCY,GDCZ,ILOW)
                   # BREMSSTRAHLUNG ENERGY TOO LOW TO IONISE
@@ -338,7 +623,7 @@
                         #  STORE BREMSSTRAHLUNG DATA IN CLUSTER STORE
                         # 
                         ETSUM=0.0     
-                        for KBR in range(1,IEVNTLB):
+                        for KBR in range(1,IEVNTLB+1):
                               NCLUS=NCLUS+1
                               if(NCLUS > 150000):
                                     print('   SUBROUTINE STOPPED . NCLUS=',NCLUS,' NREAL=',NREAL)
@@ -399,7 +684,7 @@
                                                 NLEFT=NCLUS-NELEC
                                                 # WRITE(6,992) NPRIME,NLEFT,NCLUS
                                                 # 992 
-                                                print('\n\n\n WARNING sys.exit()PED AFTER NPRIME=',NPRIME,' LAST PRIMARY HAS AT LEAST ',NLEFT,' SECONDARIES LEFT TO TRACK OUT OF ',NCLUS,' ELECTRONS ALREADY IN CLUSTER') 
+                                                print('\n\n\n WARNING STOPPED AFTER NPRIME=',NPRIME,' LAST PRIMARY HAS AT LEAST ',NLEFT,' SECONDARIES LEFT TO TRACK OUT OF ',NCLUS,' ELECTRONS ALREADY IN CLUSTER') 
                                                 sys.exit()                      
                                                 return                                                            
                                                 # end
@@ -505,7 +790,7 @@
                                                 # STORE CASCADE IN CLUSTER STORE
                                                 #
                                                 ETSUM=0.0
-                                                for KBR in range(1,IEVENTE):
+                                                for KBR in range(1,IEVENTE+1):
                                                       NCLUS=NCLUS+1
                                                       if(NCLUS > 150000):
                                                             print('   SUBROUTINE STOPPED . NCLUS=',NCLUS,' NREAL=',NREAL)
@@ -534,20 +819,20 @@
                                           pass
                                     else:
                                           if(EISTR > 30.0) :
-                                          #      WRITE(6,8891) EISTR
-                                          #8891  FORMAT(' EISTR=',D12.4)
-                                          # TEST IF FLUORESCENCE EMISSION
-                                          IFLTST=0:
-                                          if(WKLM[I]> 0.0) :
-                                                R9=random.uniform(RDUM)
-                                          if(R9 < WKLM[I]):
-                                                IFLTST=1
+                                                #      WRITE(6,8891) EISTR
+                                                #8891  FORMAT(' EISTR=',D12.4)
+                                                # TEST IF FLUORESCENCE EMISSION
+                                                IFLTST=0
+                                                if(WKLM[I]> 0.0):
+                                                      R9=random.uniform(RDUM)
+                                                if(R9 < WKLM[I]):
+                                                      IFLTST=1
                                           # endif
                                           if(IFLTST == 0):
                                                 # AUGER EMISSION WITHOUT FLUORESCENCE
                                                 NAUG=NC0[I]
                                                 EAVAUG=EC0[I]/float(NAUG)
-                                                for JFL in range(1,NC0[I]):
+                                                for JFL in range(1,NC0[I]+1):
                                                       NCLUS=NCLUS+1
                                                       XS[NCLUS]=X
                                                       YS[NCLUS]=Y
@@ -578,7 +863,7 @@
                                                 else:
                                                       NAUG=NG2[I]
                                                       EAVAUG=EG2[I]/float(NAUG)
-                                                      for JFL in range(1,NG2[I]):
+                                                      for JFL in range(1,NG2[I]+1):
                                                             NCLUS=NCLUS+1
                                                             XS[NCLUS]=X
                                                             YS[NCLUS]=Y
@@ -610,7 +895,7 @@
                                                       EAVAUG=EG1[I]/float(NAUG)
                                                       R9=random.uniform(RDUM)
                                                       DFL=-math.log(R9)*DSTFL[I]
-                                                      for JFL in range(1,NG1[I]):
+                                                      for JFL in range(1,NG1[I]+1):
                                                             NCLUS=NCLUS+1
                                                             R3=random.uniform(RDUM)
                                                             THEFL=numpy.arccos(1.0-2.00*R3)
@@ -840,49 +1125,237 @@
                         flag1=1
                         continue  
                   # STORE POSITION AND TIME OF ELECTRON AND COLLISION HISTORY
-                  191 CONTINUE
-                  K1=K1+1
-                  XST[K1]=X
-                  YST[K1]=Y
-                  ZST[K1]=Z
-                  TST[K1]=ST
-                  NFGF[K1]=NFLGFF
-                  NFGPP[K1]=NFLGPPP
-                  NFGBR[K1]=NFLGBRMM
-                  TTIME[K1]=ST-TLAST
-                  NELEC=NELEC+1
-                  NETOT=NETOT+1
-                  # 335  
-                  if(K1 == 150000):
-                        GO TO 889
-                  # CATCH SINGLE ELECTRON CLUSTER THAT WAS ATTACHED.
-                  #     if(NELEC == 1 and NCLUS == 0) GO TO 210 
-                  #
-                  if(NELEC == (NCLUS+1)) :
-                        #       WRITE(6,884) NELEC,NCLUS,NEGION,J11
-                        # 884 FORMAT(' NELEC=',I6,' NCLUS=',I6,' NEGION=',I3,' J11=',I6)
-                        # LAST ELECTRON IN CLUSTER DO STATISTICS OVER PRIMARY CLUSTER
-                        STATS(J11,J1)
-                        # GO TO 210
-                        GO TO 210
-                  # endif
-                  if(NELEC < (NCLUS+1)) :
-                        # GET NEW IONISATION ELECTRON FROM STORE
-                        X=XS[NELEC]
-                        Y=YS[NELEC]
-                        Z=ZS[NELEC]
-                        ST=TS[NELEC]
-                        NFLGFF=NFLGFC[NELEC]
-                        NFLGPPP=NFLGPPC[NELEC]
-                        NFLGBRMM=NFLGBRMC[NELEC]
-                        TLAST=TS[NELEC]
-                        E1=ES[NELEC]
-                        DCX1=DCX[NELEC]
-                        DCY1=DCY[NELEC]
-                        DCZ1=DCZ[NELEC]
-                        if(E1 < ETHRM):
-                              GO TO 191                       
-                        GO TO 1   
+                  # 191 CONTINUE
+                  flag191=1
+                  while(flag191):
+                        flag191=0
+                        K1=K1+1
+                        XST[K1]=X
+                        YST[K1]=Y
+                        ZST[K1]=Z
+                        TST[K1]=ST
+                        NFGF[K1]=NFLGFF
+                        NFGPP[K1]=NFLGPPP
+                        NFGBR[K1]=NFLGBRMM
+                        TTIME[K1]=ST-TLAST
+                        NELEC=NELEC+1
+                        NETOT=NETOT+1
+                        # 335  
+                        if(K1 == 150000):
+                              # GO TO 889
+                              # 889 
+                              NLEFT=NCLUS-NELEC
+                              # WRITE(6,992) NPRIME,NLEFT,NCLUS
+                              # 992 
+                              print(3*'\n',' WARNING STOPPED AFTER NPRIME= %d LAST PRIMARY HAS AT LEAST %d SECONDARIES LEFT TO TRACK OUT OF %d ELECTRONS ALREADY IN CLUSTER'%(NPRIME,NLEFT,NCLUS)) 
+                              # sys.exit()  
+                              # doing this if so that updating conf variables can be collapsed by indentation in sublime
+                              if(1):   
+                                    conf.NGAS=NGAS
+                                    conf.NSTEP=NSTEP
+                                    conf.NANISO=NANISO
+                                    conf.EFINAL=EFINAL
+                                    conf.ESTEP=ESTEP
+                                    conf.AKT=AKT
+                                    conf.ARY=ARY
+                                    conf.TEMPC=TEMPC
+                                    conf.TORR=TORR
+                                    conf.IPEN=IPEN
+                                    conf.NDVEC=NDVEC
+                                    conf.CONST1=CONST1
+                                    conf.CONST2=CONST2
+                                    conf.CONST3=CONST3
+                                    conf.CONST4=CONST4
+                                    conf.CONST5=CONST5
+                                    conf.TMAX=TMAX
+                                    conf.SMALL=SMALL
+                                    conf.API=API
+                                    conf.ESTART=ESTART
+                                    conf.THETA=THETA
+                                    conf.PHI=PHI
+                                    conf.TCFMAX=TCFMAX
+                                    conf.TCFMAX1=TCFMAX1
+                                    conf.RSTART=RSTART
+                                    conf.EFIELD=EFIELD
+                                    conf.ETHRM=ETHRM
+                                    conf.ECUT=ECUT
+                                    conf.NDELTA=NDELTA
+                                    conf.IMIP=IMIP
+                                    conf.IWRITE=IWRITE                    
+                                    conf.CF=CF
+                                    conf.EIN=EIN
+                                    conf.TCF=TCF
+                                    conf.IARRY=IARRY
+                                    conf.RGAS=RGAS
+                                    conf.IPN=IPN
+                                    conf.WPL=WPL
+                                    conf.IZBR=IZBR
+                                    conf.IPLAST=IPLAST
+                                    conf.PENFRA=PENFRA
+                                    conf.CFN=CFN
+                                    conf.TCFN=TCFN
+                                    conf.SCLENUL=SCLENUL
+                                    conf.NPLAST=NPLAST
+                                    conf.ICOLL=ICOLL
+                                    conf.NETOT=NETOT
+                                    conf.NPRIME=NPRIME
+                                    conf.TMAX1=TMAX1
+                                    conf.TIME=TIME
+                                    conf.NNULL=NNULL
+                                    conf.NITOT=NITOT
+                                    conf.ICOLN=ICOLN
+                                    conf.ICOLNN=ICOLNN
+                                    conf.NREAL=NREAL
+                                    conf.NEXCTOT =NEXCTOT 
+                                    conf.BET=BET
+                                    conf.GAM=GAM
+                                    conf.VC=VC
+                                    conf.EMS=EMS
+                                    conf.XST=XST
+                                    conf.YST=YST
+                                    conf.ZST=ZST
+                                    conf.TST=TST
+                                    conf.TTIME=TTIME
+                                    conf.NFGF=NFGF
+                                    conf.NFGPP=NFGPP
+                                    conf.NFGBR=NFGBR
+                                    conf.NELEC=NELEC
+                                    conf.NEGION=NEGION
+                                    conf.EST1=EST1
+                                    conf.EST2=EST2
+                                    conf.XSTEXC=XSTEXC
+                                    conf.YSTEXC=YSTEXC
+                                    conf.ZSTEXC=ZSTEXC
+                                    conf.TSTEXC=TSTEXC
+                                    conf.NSTEXC=NSTEXC
+                                    conf.XSTN=XSTN
+                                    conf.YSTN=YSTN
+                                    conf.ZSTN=ZSTN
+                                    conf.TSTN=TSTN
+                                    conf.IDNUL=IDNUL
+                                    conf.NEXCNUL=NEXCNUL
+                                    conf.DOUBLE=DOUBLE
+                                    conf.CMINIXSC=CMINIXSC
+                                    conf.CMINEXSC=CMINEXSC
+                                    conf.ECLOSS=ECLOSS
+                                    conf.WPLN=WPLN
+                                    conf.ICOUNT=ICOUNT
+                                    conf.AVPFRAC=AVPFRAC
+                                    conf.NC0=NC0
+                                    conf.EC0=EC0
+                                    conf.NG1=NG1
+                                    conf.EG1=EG1
+                                    conf.NG2=NG2
+                                    conf.EG2=EG2
+                                    conf.WKLM=WKLM
+                                    conf.DSTFL=DSTFL
+                                    conf.ESPLIT=ESPLIT
+                                    conf.IONMODEL=IONMODEL
+                                    conf.PSCT=PSCT
+                                    conf.ANGCT=ANGCT
+                                    conf.INDEX=INDEX
+                                    conf.NISO=NISO
+                                    conf.ECAS=ECAS
+                                    conf.XCAS=XCAS
+                                    conf.YCAS=YCAS
+                                    conf.ZCAS=ZCAS
+                                    conf.DRXS=DRXS
+                                    conf.DRYS=DRYS
+                                    conf.DRZS=DRZS
+                                    conf.TT1=TT1
+                                    conf.NFLGF=NFLGF
+                                    conf.NFLGPP=NFLGPP
+                                    conf.IEVNTL=IEVNTL
+                                    conf.LCMPLCFLG=LCMPLCFLG
+                                    conf.LRAY=LRAY
+                                    conf.LRFLG=LRFLG
+                                    conf.LPAP=LPAP
+                                    conf.LPFLG=LPFLG
+                                    conf.LBRM=LBRM
+                                    conf.LBFLG=LBFLG
+                                    conf.LPEFLG=LPEFLG
+                                    conf.EBRGAM=EBRGAM
+                                    conf.BRDCOSX=BRDCOSX
+                                    conf.BRDCOSY=BRDCOSY
+                                    conf.BRDCOSZ=BRDCOSZ
+                                    conf.BRX=BRX
+                                    conf.BRY=BRY
+                                    conf.BRZ=BRZ
+                                    conf.BRT=BRT
+                                    conf.EBRTOT=EBRTOT
+                                    conf.NBREM=NBREM
+                                    conf.ECASB=ECASB
+                                    conf.XCASB=XCASB
+                                    conf.YCASB=YCASB
+                                    conf.ZCASB=ZCASB
+                                    conf.DRXB=DRXB
+                                    conf.DRYB=DRYB
+                                    conf.DRZB=DRZB
+                                    conf.TTB1=TTB1
+                                    conf.NFLGFB=NFLGFB
+                                    conf.NFLGPPB=NFLGPPB
+                                    conf.IEVNTLB=IEVNTLB
+                                    conf.ECASE=ECASE
+                                    conf.XCASE=XCASE
+                                    conf.YCASE=YCASE
+                                    conf.ZCASE=ZCASE
+                                    conf.DRXCE=DRXCE
+                                    conf.DRYCE=DRYCE
+                                    conf.DRZCE=DRZCE
+                                    conf.TCASE=TCASE
+                                    conf.NFLGFE=NFLGFE
+                                    conf.NFLGPPE=NFLGPPE
+                                    conf.IEVENTE=IEVENTE
+                                    conf.NEGAS=NEGAS
+                                    conf.LEGAS=LEGAS
+                                    conf.IESHELL=IESHELL
+                                    conf.IECASC=IECASC
+                                    conf.NGEXC1=NGEXC1
+                                    conf.NGEXC2=NGEXC2
+                                    conf.NGEXC3=NGEXC3
+                                    conf.NGEXC4=NGEXC4
+                                    conf.NGEXC5=NGEXC5
+                                    conf.NGEXC6=NGEXC6
+                                    conf.IDG1=IDG1
+                                    conf.IDG2=IDG2
+                                    conf.IDG3=IDG3
+                                    conf.IDG4=IDG4
+                                    conf.IDG5=IDG5
+                                    conf.IDG6=IDG6                 
+                              return 
+
+                        # CATCH SINGLE ELECTRON CLUSTER THAT WAS ATTACHED.
+                        #     if(NELEC == 1 and NCLUS == 0) GO TO 210 
+                        #
+                        if(NELEC == (NCLUS+1)) :
+                              #       WRITE(6,884) NELEC,NCLUS,NEGION,J11
+                              # 884 FORMAT(' NELEC=',I6,' NCLUS=',I6,' NEGION=',I3,' J11=',I6)
+                              # LAST ELECTRON IN CLUSTER DO STATISTICS OVER PRIMARY CLUSTER
+                              STATS(J11,J1)
+                              # GO TO 210
+                              flag1=0
+                              flag210=1
+                              break
+                        # endif
+                        if(NELEC < (NCLUS+1)) :
+                              # GET NEW IONISATION ELECTRON FROM STORE
+                              X=XS[NELEC]
+                              Y=YS[NELEC]
+                              Z=ZS[NELEC]
+                              ST=TS[NELEC]
+                              NFLGFF=NFLGFC[NELEC]
+                              NFLGPPP=NFLGPPC[NELEC]
+                              NFLGBRMM=NFLGBRMC[NELEC]
+                              TLAST=TS[NELEC]
+                              E1=ES[NELEC]
+                              DCX1=DCX[NELEC]
+                              DCY1=DCY[NELEC]
+                              DCZ1=DCZ[NELEC]
+                              if(E1 < ETHRM):
+                                    flag191=1
+                                    continue
+                              flag1=1                       
+                              break
                   # endif
                   #  MAIN LOOP END    
                   # 210 CONTINUE
@@ -890,21 +1363,369 @@
                         break
       # RESET NUMBER OF EVENTS FOR BAD EVENTS
       if(IMIP > 2):
-      NDELTA=NDELTA-IBADTOT
+            NDELTA=NDELTA-IBADTOT
       #
-      WRITE(6,887) EMAX,NEOVFL
-      887 print(' EMAX=',D12.7,' NEOVFL=',I5)  
+      # WRITE(6,887) EMAX,NEOVFL
+      # 887 
+      print(' EMAX= %.7f NEOVFL= %d'%(EMAX,NEOVFL))  
       if(EMAX > EFINAL):
-      :
-      WRITE(6,989) EFINAL,EMAX
-      989 print('INCREASE ENERGY LIMIT FROM',D12.6,' EV TO AT LEAST',D12.6,
-      /' EV.')
-      sys.exit()
+            # WRITE(6,989) EFINAL,EMAX
+            # 989 
+            print('INCREASE ENERGY LIMIT FROM %.6f EV TO AT LEAST %.6f \n EV.'%(EFINAL,EMAX))
+            # sys.exit()
+            # doing if(1) so that updating conf variables can be collapsed by indentation in sublime
+            if(1):
+                  conf.NGAS=NGAS
+                  conf.NSTEP=NSTEP
+                  conf.NANISO=NANISO
+                  conf.EFINAL=EFINAL
+                  conf.ESTEP=ESTEP
+                  conf.AKT=AKT
+                  conf.ARY=ARY
+                  conf.TEMPC=TEMPC
+                  conf.TORR=TORR
+                  conf.IPEN=IPEN
+                  conf.NDVEC=NDVEC
+                  conf.CONST1=CONST1
+                  conf.CONST2=CONST2
+                  conf.CONST3=CONST3
+                  conf.CONST4=CONST4
+                  conf.CONST5=CONST5
+                  conf.TMAX=TMAX
+                  conf.SMALL=SMALL
+                  conf.API=API
+                  conf.ESTART=ESTART
+                  conf.THETA=THETA
+                  conf.PHI=PHI
+                  conf.TCFMAX=TCFMAX
+                  conf.TCFMAX1=TCFMAX1
+                  conf.RSTART=RSTART
+                  conf.EFIELD=EFIELD
+                  conf.ETHRM=ETHRM
+                  conf.ECUT=ECUT
+                  conf.NDELTA=NDELTA
+                  conf.IMIP=IMIP
+                  conf.IWRITE=IWRITE                    
+                  conf.CF=CF
+                  conf.EIN=EIN
+                  conf.TCF=TCF
+                  conf.IARRY=IARRY
+                  conf.RGAS=RGAS
+                  conf.IPN=IPN
+                  conf.WPL=WPL
+                  conf.IZBR=IZBR
+                  conf.IPLAST=IPLAST
+                  conf.PENFRA=PENFRA
+                  conf.CFN=CFN
+                  conf.TCFN=TCFN
+                  conf.SCLENUL=SCLENUL
+                  conf.NPLAST=NPLAST
+                  conf.ICOLL=ICOLL
+                  conf.NETOT=NETOT
+                  conf.NPRIME=NPRIME
+                  conf.TMAX1=TMAX1
+                  conf.TIME=TIME
+                  conf.NNULL=NNULL
+                  conf.NITOT=NITOT
+                  conf.ICOLN=ICOLN
+                  conf.ICOLNN=ICOLNN
+                  conf.NREAL=NREAL
+                  conf.NEXCTOT =NEXCTOT 
+                  conf.BET=BET
+                  conf.GAM=GAM
+                  conf.VC=VC
+                  conf.EMS=EMS
+                  conf.XST=XST
+                  conf.YST=YST
+                  conf.ZST=ZST
+                  conf.TST=TST
+                  conf.TTIME=TTIME
+                  conf.NFGF=NFGF
+                  conf.NFGPP=NFGPP
+                  conf.NFGBR=NFGBR
+                  conf.NELEC=NELEC
+                  conf.NEGION=NEGION
+                  conf.EST1=EST1
+                  conf.EST2=EST2
+                  conf.XSTEXC=XSTEXC
+                  conf.YSTEXC=YSTEXC
+                  conf.ZSTEXC=ZSTEXC
+                  conf.TSTEXC=TSTEXC
+                  conf.NSTEXC=NSTEXC
+                  conf.XSTN=XSTN
+                  conf.YSTN=YSTN
+                  conf.ZSTN=ZSTN
+                  conf.TSTN=TSTN
+                  conf.IDNUL=IDNUL
+                  conf.NEXCNUL=NEXCNUL
+                  conf.DOUBLE=DOUBLE
+                  conf.CMINIXSC=CMINIXSC
+                  conf.CMINEXSC=CMINEXSC
+                  conf.ECLOSS=ECLOSS
+                  conf.WPLN=WPLN
+                  conf.ICOUNT=ICOUNT
+                  conf.AVPFRAC=AVPFRAC
+                  conf.NC0=NC0
+                  conf.EC0=EC0
+                  conf.NG1=NG1
+                  conf.EG1=EG1
+                  conf.NG2=NG2
+                  conf.EG2=EG2
+                  conf.WKLM=WKLM
+                  conf.DSTFL=DSTFL
+                  conf.ESPLIT=ESPLIT
+                  conf.IONMODEL=IONMODEL
+                  conf.PSCT=PSCT
+                  conf.ANGCT=ANGCT
+                  conf.INDEX=INDEX
+                  conf.NISO=NISO
+                  conf.ECAS=ECAS
+                  conf.XCAS=XCAS
+                  conf.YCAS=YCAS
+                  conf.ZCAS=ZCAS
+                  conf.DRXS=DRXS
+                  conf.DRYS=DRYS
+                  conf.DRZS=DRZS
+                  conf.TT1=TT1
+                  conf.NFLGF=NFLGF
+                  conf.NFLGPP=NFLGPP
+                  conf.IEVNTL=IEVNTL
+                  conf.LCMPLCFLG=LCMPLCFLG
+                  conf.LRAY=LRAY
+                  conf.LRFLG=LRFLG
+                  conf.LPAP=LPAP
+                  conf.LPFLG=LPFLG
+                  conf.LBRM=LBRM
+                  conf.LBFLG=LBFLG
+                  conf.LPEFLG=LPEFLG
+                  conf.EBRGAM=EBRGAM
+                  conf.BRDCOSX=BRDCOSX
+                  conf.BRDCOSY=BRDCOSY
+                  conf.BRDCOSZ=BRDCOSZ
+                  conf.BRX=BRX
+                  conf.BRY=BRY
+                  conf.BRZ=BRZ
+                  conf.BRT=BRT
+                  conf.EBRTOT=EBRTOT
+                  conf.NBREM=NBREM
+                  conf.ECASB=ECASB
+                  conf.XCASB=XCASB
+                  conf.YCASB=YCASB
+                  conf.ZCASB=ZCASB
+                  conf.DRXB=DRXB
+                  conf.DRYB=DRYB
+                  conf.DRZB=DRZB
+                  conf.TTB1=TTB1
+                  conf.NFLGFB=NFLGFB
+                  conf.NFLGPPB=NFLGPPB
+                  conf.IEVNTLB=IEVNTLB
+                  conf.ECASE=ECASE
+                  conf.XCASE=XCASE
+                  conf.YCASE=YCASE
+                  conf.ZCASE=ZCASE
+                  conf.DRXCE=DRXCE
+                  conf.DRYCE=DRYCE
+                  conf.DRZCE=DRZCE
+                  conf.TCASE=TCASE
+                  conf.NFLGFE=NFLGFE
+                  conf.NFLGPPE=NFLGPPE
+                  conf.IEVENTE=IEVENTE
+                  conf.NEGAS=NEGAS
+                  conf.LEGAS=LEGAS
+                  conf.IESHELL=IESHELL
+                  conf.IECASC=IECASC
+                  conf.NGEXC1=NGEXC1
+                  conf.NGEXC2=NGEXC2
+                  conf.NGEXC3=NGEXC3
+                  conf.NGEXC4=NGEXC4
+                  conf.NGEXC5=NGEXC5
+                  conf.NGEXC6=NGEXC6
+                  conf.IDG1=IDG1
+                  conf.IDG2=IDG2
+                  conf.IDG3=IDG3
+                  conf.IDG4=IDG4
+                  conf.IDG5=IDG5
+                  conf.IDG6=IDG6
       # endif                                         
       return 
-      889 NLEFT=NCLUS-NELEC
-      WRITE(6,992) NPRIME,NLEFT,NCLUS
-      992 print(3(/),' WARNING sys.exit()PED AFTER NPRIME=',I6,' LAST PRIMARY HAS AT LEAST ',I6,' SECONDARIES LEFT TO TRACK OUT OF ',I6,' ELECTRONS ALREADY IN CLUSTER') 
-      sys.exit()                      
+      # 889 
+      NLEFT=NCLUS-NELEC
+      # WRITE(6,992) NPRIME,NLEFT,NCLUS
+      # 992 
+      print(3*'\n',' WARNING STOPPED AFTER NPRIME= %d LAST PRIMARY HAS AT LEAST %d SECONDARIES LEFT TO TRACK OUT OF %d ELECTRONS ALREADY IN CLUSTER'%(NPRIME,NLEFT,NCLUS)) 
+      # sys.exit()  
+      # doing this if so that updating conf variables can be collapsed by indentation in sublime
+      if(1):   
+            conf.NGAS=NGAS
+            conf.NSTEP=NSTEP
+            conf.NANISO=NANISO
+            conf.EFINAL=EFINAL
+            conf.ESTEP=ESTEP
+            conf.AKT=AKT
+            conf.ARY=ARY
+            conf.TEMPC=TEMPC
+            conf.TORR=TORR
+            conf.IPEN=IPEN
+            conf.NDVEC=NDVEC
+            conf.CONST1=CONST1
+            conf.CONST2=CONST2
+            conf.CONST3=CONST3
+            conf.CONST4=CONST4
+            conf.CONST5=CONST5
+            conf.TMAX=TMAX
+            conf.SMALL=SMALL
+            conf.API=API
+            conf.ESTART=ESTART
+            conf.THETA=THETA
+            conf.PHI=PHI
+            conf.TCFMAX=TCFMAX
+            conf.TCFMAX1=TCFMAX1
+            conf.RSTART=RSTART
+            conf.EFIELD=EFIELD
+            conf.ETHRM=ETHRM
+            conf.ECUT=ECUT
+            conf.NDELTA=NDELTA
+            conf.IMIP=IMIP
+            conf.IWRITE=IWRITE                    
+            conf.CF=CF
+            conf.EIN=EIN
+            conf.TCF=TCF
+            conf.IARRY=IARRY
+            conf.RGAS=RGAS
+            conf.IPN=IPN
+            conf.WPL=WPL
+            conf.IZBR=IZBR
+            conf.IPLAST=IPLAST
+            conf.PENFRA=PENFRA
+            conf.CFN=CFN
+            conf.TCFN=TCFN
+            conf.SCLENUL=SCLENUL
+            conf.NPLAST=NPLAST
+            conf.ICOLL=ICOLL
+            conf.NETOT=NETOT
+            conf.NPRIME=NPRIME
+            conf.TMAX1=TMAX1
+            conf.TIME=TIME
+            conf.NNULL=NNULL
+            conf.NITOT=NITOT
+            conf.ICOLN=ICOLN
+            conf.ICOLNN=ICOLNN
+            conf.NREAL=NREAL
+            conf.NEXCTOT =NEXCTOT 
+            conf.BET=BET
+            conf.GAM=GAM
+            conf.VC=VC
+            conf.EMS=EMS
+            conf.XST=XST
+            conf.YST=YST
+            conf.ZST=ZST
+            conf.TST=TST
+            conf.TTIME=TTIME
+            conf.NFGF=NFGF
+            conf.NFGPP=NFGPP
+            conf.NFGBR=NFGBR
+            conf.NELEC=NELEC
+            conf.NEGION=NEGION
+            conf.EST1=EST1
+            conf.EST2=EST2
+            conf.XSTEXC=XSTEXC
+            conf.YSTEXC=YSTEXC
+            conf.ZSTEXC=ZSTEXC
+            conf.TSTEXC=TSTEXC
+            conf.NSTEXC=NSTEXC
+            conf.XSTN=XSTN
+            conf.YSTN=YSTN
+            conf.ZSTN=ZSTN
+            conf.TSTN=TSTN
+            conf.IDNUL=IDNUL
+            conf.NEXCNUL=NEXCNUL
+            conf.DOUBLE=DOUBLE
+            conf.CMINIXSC=CMINIXSC
+            conf.CMINEXSC=CMINEXSC
+            conf.ECLOSS=ECLOSS
+            conf.WPLN=WPLN
+            conf.ICOUNT=ICOUNT
+            conf.AVPFRAC=AVPFRAC
+            conf.NC0=NC0
+            conf.EC0=EC0
+            conf.NG1=NG1
+            conf.EG1=EG1
+            conf.NG2=NG2
+            conf.EG2=EG2
+            conf.WKLM=WKLM
+            conf.DSTFL=DSTFL
+            conf.ESPLIT=ESPLIT
+            conf.IONMODEL=IONMODEL
+            conf.PSCT=PSCT
+            conf.ANGCT=ANGCT
+            conf.INDEX=INDEX
+            conf.NISO=NISO
+            conf.ECAS=ECAS
+            conf.XCAS=XCAS
+            conf.YCAS=YCAS
+            conf.ZCAS=ZCAS
+            conf.DRXS=DRXS
+            conf.DRYS=DRYS
+            conf.DRZS=DRZS
+            conf.TT1=TT1
+            conf.NFLGF=NFLGF
+            conf.NFLGPP=NFLGPP
+            conf.IEVNTL=IEVNTL
+            conf.LCMPLCFLG=LCMPLCFLG
+            conf.LRAY=LRAY
+            conf.LRFLG=LRFLG
+            conf.LPAP=LPAP
+            conf.LPFLG=LPFLG
+            conf.LBRM=LBRM
+            conf.LBFLG=LBFLG
+            conf.LPEFLG=LPEFLG
+            conf.EBRGAM=EBRGAM
+            conf.BRDCOSX=BRDCOSX
+            conf.BRDCOSY=BRDCOSY
+            conf.BRDCOSZ=BRDCOSZ
+            conf.BRX=BRX
+            conf.BRY=BRY
+            conf.BRZ=BRZ
+            conf.BRT=BRT
+            conf.EBRTOT=EBRTOT
+            conf.NBREM=NBREM
+            conf.ECASB=ECASB
+            conf.XCASB=XCASB
+            conf.YCASB=YCASB
+            conf.ZCASB=ZCASB
+            conf.DRXB=DRXB
+            conf.DRYB=DRYB
+            conf.DRZB=DRZB
+            conf.TTB1=TTB1
+            conf.NFLGFB=NFLGFB
+            conf.NFLGPPB=NFLGPPB
+            conf.IEVNTLB=IEVNTLB
+            conf.ECASE=ECASE
+            conf.XCASE=XCASE
+            conf.YCASE=YCASE
+            conf.ZCASE=ZCASE
+            conf.DRXCE=DRXCE
+            conf.DRYCE=DRYCE
+            conf.DRZCE=DRZCE
+            conf.TCASE=TCASE
+            conf.NFLGFE=NFLGFE
+            conf.NFLGPPE=NFLGPPE
+            conf.IEVENTE=IEVENTE
+            conf.NEGAS=NEGAS
+            conf.LEGAS=LEGAS
+            conf.IESHELL=IESHELL
+            conf.IECASC=IECASC
+            conf.NGEXC1=NGEXC1
+            conf.NGEXC2=NGEXC2
+            conf.NGEXC3=NGEXC3
+            conf.NGEXC4=NGEXC4
+            conf.NGEXC5=NGEXC5
+            conf.NGEXC6=NGEXC6
+            conf.IDG1=IDG1
+            conf.IDG2=IDG2
+            conf.IDG3=IDG3
+            conf.IDG4=IDG4
+            conf.IDG5=IDG5
+            conf.IDG6=IDG6                 
       return                                                            
       # end

@@ -12,6 +12,7 @@ from Cascdat import *
 from Mixer import *
 from Fldist import *
 from Montefe import *
+from Stats2 import *
 import sys
 def DEGRADE():
 	# IMPLICIT #real*8 (A-H,O-Z)
@@ -50,6 +51,7 @@ def DEGRADE():
 	MIXER()
 	# CALCULATE FLUORESCENCE ABSORPTION DISTANCES 
 	FLDIST()
+	print("DEGRAD 54 TCFMAX1=",conf.TCFMAX1)
 	PRINTER()
 	if(IMIP == 1):
 		MIPCALC()

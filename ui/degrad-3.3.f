@@ -863,15 +863,15 @@ C
       IARRY(NP)=L 
       IZBR(NP)=0
       DSCRPT(NP)=SCRP1(2)  
-      PRINT *,NAMEG(1)
-      CALL SLEEP(2)
-      PRINT *,NAME1
+      ! PRINT *,NAMEG(1)
+      ! CALL SLEEP(2)
+      ! PRINT *,NAME1
       NAMEG(1)=NAME1
-      CALL SLEEP(5)
-      PRINT *,NAMEG(1)
-      CALL SLEEP(2)
-      PRINT *,NAME1
-      PAUSE 1
+      ! CALL SLEEP(5)
+      ! PRINT *,NAMEG(1)
+      ! CALL SLEEP(2)
+      ! PRINT *,NAME1
+      ! PAUSE 1
       PENFRA(1,NP)=0.0
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
@@ -1002,7 +1002,9 @@ C
       DO 24 K=1,20
    24 ESPLIT(NP,K)=ESPLIT1(IONMODL1,K) 
    25 CONTINUE   
-   30 IF(EFINAL.LT.E1(4)) GO TO 40   
+   30 PRINT *,"MIXER inside 30"
+      ! CALL SLEEP(1)
+      IF(EFINAL.LT.E1(4)) GO TO 40   
       IF(NATT1.GT.1) GO TO 551                                   
       NP=NP+1
       IDG1=NP                                                           
@@ -1049,7 +1051,8 @@ C
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
   552 CONTINUE
-   40 IF(NIN1.EQ.0) GO TO 60                                           
+   40 PRINT *,"inside 40"
+      IF(NIN1.EQ.0) GO TO 60                                           
       DO 50 J=1,NIN1
       NP=NP+1
       IDG1=NP      
@@ -1118,6 +1121,8 @@ C
        INDEX(NP)=2 
       ENDIF 
 C
+	  PRINT *,E2
+	  PAUSE 1
       IF(IE.GT.1) GO TO 62                                     
       RGAS2=1.0D0+E2(2)/2.0D0                                           
       RGAS(NP)=RGAS2                                                    
@@ -1293,6 +1298,7 @@ C
       LEGAS(NP)=0
       IESHELL(NP)=0
       INDEX(NP)=0
+
       RGAS(NP)=RGAS2
       EIN(NP)=0.0D0
       IPN(NP)=-1
@@ -1607,7 +1613,8 @@ C
       IF(J.EQ.NIN3) CMINEXSC(3)=CMINEXSC(3)*AVPFRAC(1,3)   
   250 CONTINUE             
 C                  
-  260 IF(NGAS.EQ.3) GO TO 600  
+  260 PRINT *,"inside 260"
+      IF(NGAS.EQ.3) GO TO 600  
       NP=NP+1
       IDG4=NP      
       NEGAS(NP)=4
@@ -1770,7 +1777,8 @@ C
       DO 279 K=1,20
   279 ESPLIT(NP,K)=ESPLIT4(IONMODL4,K) 
   280 CONTINUE                                       
-  330 IF(EFINAL.LT.E4(4)) GO TO 340          
+  330 PRINT *,"Inside 330"
+      IF(EFINAL.LT.E4(4)) GO TO 340          
       IF(NATT4.GT.1) GO TO 581                           
       NP=NP+1
       IDG4=NP                                                           
@@ -1817,7 +1825,8 @@ C
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
   582 CONTINUE                                    
-  340 IF(NIN4.EQ.0) GO TO 360                                           
+  340 PRINT *,"inside 340"
+      IF(NIN4.EQ.0) GO TO 360                                           
       DO 350 J=1,NIN4 
       NP=NP+1
       IDG4=NP
@@ -2026,7 +2035,8 @@ C
       DO 379 K=1,20
   379 ESPLIT(NP,K)=ESPLIT5(IONMODL5,K) 
   380 CONTINUE
-  430 IF(EFINAL.LT.E5(4)) GO TO 440                 
+  430 PRINT *,"inside 430"
+      IF(EFINAL.LT.E5(4)) GO TO 440                 
       IF(NATT5.GT.1) GO TO 591                    
       NP=NP+1
       IDG5=NP                                                           
@@ -2278,7 +2288,8 @@ C
       DO 479 K=1,20
   479 ESPLIT(NP,K)=ESPLIT6(IONMODL6,K) 
   480 CONTINUE                                 
-  530 IF(EFINAL.LT.E6(4)) GO TO 540                  
+  530 PRINT *,"inside 530"
+      IF(EFINAL.LT.E6(4)) GO TO 540                  
       IF(NATT6.GT.1) GO TO 590                   
       NP=NP+1
       IDG6=NP                                                           
@@ -2375,7 +2386,8 @@ C
   550 CONTINUE                                                     
   560 CONTINUE     
 C                                                                       
-  600 CONTINUE                                                          
+  600 CONTINUE
+      PRINT *,"inside 600"                                                          
       IPLAST=NP  
 C ----------------------------------------------------------------      
 C   CAN INCREASE ARRAY SIZE UP TO 1740 IF MORE COMPLEX MIXTURES USED.
@@ -2389,7 +2401,9 @@ C --------------------------------------------------------------------
 C     CALCULATION OF TOTAL COLLISION FREQUENCY                          
 C --------------------------------------------------------------------- 
       TCF(IE)=0.0D0                                                     
-      DO 610 IL=1,IPLAST                                                
+      DO 610 IL=1,IPLAST        
+      ! PRINT *,"mixer 2395",IE,TCF[IE],CF[IE][IL]
+      ! CALL SLEEP(1)                                        
       TCF(IE)=TCF(IE)+CF(IE,IL)
       IF(CF(IE,IL).LT.0.0D0) WRITE(6,776) CF(IE,IL),IE,IL,IARRY(IL),EIN
      /(IL),E(IE) 
@@ -2523,8 +2537,17 @@ C 835 IF(TLIM.LT.TCFMAX(I)) TLIM=TCFMAX(I)
 C     TCFMAX1=TLIM  
       TLIM=0.0
       DO 835 I=1,20000
-  835 IF(TLIM.LT.TCF(I)) TLIM=TCF(I)
-      TCFMAX1=TLIM                                                    
+      
+      IF(TLIM.LT.TCF(I))THEN
+      ! PRINT *,TLIM,TCF(I)
+      TLIM=TCF(I)
+      ! CALL SLEEP(2)
+      ENDIF
+  835 CONTINUE
+      TCFMAX1=TLIM    
+      ! PRINT *,TCFMAX1
+      ! PAUSE 1
+ ! 1000 FORMAT('mixer 2529 TCFMAX1= ',D12.10)                                                   
 C -------------------------------------------------------------------   
 C   CROSS SECTION DATA FOR INTEGRALS IN  OUTPUT               
 C --------------------------------------------------------------------- 
@@ -35847,7 +35870,8 @@ C LOAD GENERAL DATA FOR CASCADE CALCULATIONS
   92  FORMAT('  BETA OR X-RAY PERPENDICULAR TO E-FIELD IN X-Y PLANE')  
   93  FORMAT('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS IN E-FIELD DIRECTION')
   94  FORMAT('  E-BEAM,BETA OR X-RAY ALONG Z-AXIS OPPOSITE TO E-FIELD DI
-     /RECTION')    
+     /RECTION')  
+      PRINT *, TCFMAX1 
   95  WRITE(6,96) TCFMAX1 
   96  FORMAT(/,2X,'NULL COLLISION FREQUENCY =',D10.3,' *(10**12/SEC)',/)
       WRITE(6,111)  (TCF(L),L=500,9500,1000)                            

@@ -2469,1316 +2469,1319 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       #
       #     EN=-ESTEP/2.0 
       def GOTO200():
-                  PQ1=0.5+(QELA-QMOM)/QELA
-                  flag202=1
-                  for J in range(2,NEPSI+1):
-                        if(EN <= XEPS[J]):
-                              flag202=0
-                              break
-                  if(flag202):
-                        J=NEPSI
-                  A=(YEPS[J]-YEPS[J-1])/(XEPS[J]-XEPS[J-1])
-                  B=(XEPS[J-1]*YEPS[J]-XEPS[J]*YEPS[J-1])/(XEPS[J-1]-XEPS[J])
-                  PQ2=A*EN+B
-                  # EPSILON =1-PQ2
-                  PQ2=1.00-PQ2
-                  if(NANISO == 0):
-                        PEQEL[2][I]=0.5
-                  if(NANISO == 1):
-                        PEQEL[2][I]=PQ1
-                  if(NANISO == 2):
-                        PEQEL[2][I]=PQ2
-                  Q[2][I]=QELA
-                  if(NANISO == 0):
-                        Q[2][I]=QMOM
-                  #   IONISATION FOR CHARGE =1                                               
-                  QION[1][I]=0.0
-                  PEQION[1][I]=0.50 
-                  if(NANISO == 2):
-                        PEQION[1][I]=0.00                            
-                  if(EN <= EION[1]):
-                        # GO TO 223  
+            PQ1=0.5+(QELA-QMOM)/QELA
+            flag202=1
+            for J in range(2,NEPSI+1):
+                  if(EN <= XEPS[J]):
+                        flag202=0
+                        break
+            if(flag202):
+                  J=NEPSI
+            A=(YEPS[J]-YEPS[J-1])/(XEPS[J]-XEPS[J-1])
+            B=(XEPS[J-1]*YEPS[J]-XEPS[J]*YEPS[J-1])/(XEPS[J-1]-XEPS[J])
+            PQ2=A*EN+B
+            # EPSILON =1-PQ2
+            PQ2=1.00-PQ2
+            if(NANISO == 0):
+                  PEQEL[2][I]=0.5
+            if(NANISO == 1):
+                  PEQEL[2][I]=PQ1
+            if(NANISO == 2):
+                  PEQEL[2][I]=PQ2
+            Q[2][I]=QELA
+            if(NANISO == 0):
+                  Q[2][I]=QMOM
+            #   IONISATION FOR CHARGE =1                                               
+            QION[1][I]=0.0
+            PEQION[1][I]=0.50 
+            if(NANISO == 2):
+                  PEQION[1][I]=0.00                            
+            if(EN <= EION[1]):
+                  # GO TO 223  
+                  pass
+            else:
+                  flag222=1
+                  if(EN > XENI[NIDATA]):
                         pass
                   else:
-                        flag222=1
-                        if(EN > XENI[NIDATA]):
-                              pass
-                        else:
-                              flag220=1                           
-                              for J in range(2,NI+1):
-                                    if(EN <= XENI[J]):
-                                          flag220=0
-                                          break                                       
-                              if(flag220):
-                                    J=NI                                                         
-                              A=(YEN1[J]-YEN1[J-1])/(XENI[J]-XENI[J-1])                       
-                              B=(XENI[J-1]*YEN1[J]-XENI[J]*YEN1[J-1])/(XENI[J-1]-XENI[J])     
-                              QION[1][I]=(A*EN+B)*1.0e-16
-                              flag222=0
-                              # USE BORN-BETHE X-SECTION ABOVE XENI[NIDATA] EV     
-                        # 221 
-                        if(flag222):
-                              X2=1.00/BETA2
-                              X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
-                              QION[1][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.9466
-                        # 222 CONTINUE                        
-                        # USE ANISOTROPIC SCATTERING FOR PRIMARY IONISATION ELECTRON FOR
-                        # ENERGIES ABOVE 2 * IONISATION ENERGY
-                        # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
-                        # IONISATION ENERGY
-                        flag223=1
-                        if(EN <= (2.0*EION[1])):
-                              flag223=0
-                        if(flag223):
-                              PEQION[1][I]=PEQEL[2][I-IOFFION[1]]
-                        #
-                        # IONISATION FOR CHARGE =2
-                  # 223 
-                  QION[2][I]=0.0
-                  PEQION[2][I]=0.50 
-                  if(NANISO == 2):
-                        PEQION[2][I]=0.00                            
-                  if(EN <= EION[2]):
+                        flag220=1                           
+                        for J in range(2,NI+1):
+                              if(EN <= XENI[J]):
+                                    flag220=0
+                                    break                                       
+                        if(flag220):
+                              J=NI                                                         
+                        A=(YEN1[J]-YEN1[J-1])/(XENI[J]-XENI[J-1])                       
+                        B=(XENI[J-1]*YEN1[J]-XENI[J]*YEN1[J-1])/(XENI[J-1]-XENI[J])     
+                        QION[1][I]=(A*EN+B)*1.0e-16
+                        flag222=0
+                        # USE BORN-BETHE X-SECTION ABOVE XENI[NIDATA] EV     
+                  # 221 
+                  if(flag222):
+                        X2=1.00/BETA2
+                        X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
+                        QION[1][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.9466
+                  # 222 CONTINUE                        
+                  # USE ANISOTROPIC SCATTERING FOR PRIMARY IONISATION ELECTRON FOR
+                  # ENERGIES ABOVE 2 * IONISATION ENERGY
+                  # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
+                  # IONISATION ENERGY
+                  flag223=1
+                  if(EN <= (2.0*EION[1])):
+                        flag223=0
+                  if(flag223):
+                        PEQION[1][I]=PEQEL[2][I-IOFFION[1]]
+                  #
+                  # IONISATION FOR CHARGE =2
+            # 223 
+            QION[2][I]=0.0
+            PEQION[2][I]=0.50 
+            if(NANISO == 2):
+                  PEQION[2][I]=0.00                            
+            if(EN <= EION[2]):
+                  pass
+            else:
+                  flag3222=1
+                  if(EN > XEN2[NION2]):
                         pass
                   else:
-                        flag3222=1
-                        if(EN > XEN2[NION2]):
-                              pass
-                        else:
-                              flag3220=1
-                              for J in range(2,NION2+1):
-                                    if(EN <= XEN2[J]):
-                                          flag3220=0
-                                          break
+                        flag3220=1
+                        for J in range(2,NION2+1):
+                              if(EN <= XEN2[J]):
+                                    flag3220=0
+                                    break
 
-                              if(flag3220):
-                                    J=NION2                                                          
-                              A=(YEN2[J]-YEN2[J-1])/(XEN2[J]-XEN2[J-1])                       
-                              B=(XEN2[J-1]*YEN2[J]-XEN2[J]*YEN2[J-1])/(XEN2[J-1]-XEN2[J])     
-                              QION[2][I]=(A*EN+B)*1.0e-16
-                              if(QION[2][I]< 0.0):
-                                    QION[2][I]=0.0
-                              flag3222=0
-                              # USE BORN-BETHE X-SECTION ABOVE XEN2[NION2] EV     
-                        if(flag3222):
-                              X2=1.00/BETA2
-                              X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
-                              QION[2][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.04448
-                        # 3222 CONTINUE                        
-                        # USE ANISOTROPIC SCATTERING FOR PRIMARY IONISATION ELECTRON FOR
-                        # ENERGIES ABOVE 2 * IONISATION ENERGY
-                        # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
-                        # IONISATION ENERGY
-                        if(EN <= (2.0*EION[2])):
-                              pass
-                        else:
-                              PEQION[2][I]=PEQEL[2][I-IOFFION[2]]
-                        #
-                        # IONISATION FOR CHARGE =3
-                  # 3223 
-                  QION[3][I]=0.0
-                  PEQION[3][I]=0.50 
-                  if(NANISO == 2):
-                        PEQION[3][I]=0.00                            
-                  if(EN <= EION[3]):
+                        if(flag3220):
+                              J=NION2                                                          
+                        A=(YEN2[J]-YEN2[J-1])/(XEN2[J]-XEN2[J-1])                       
+                        B=(XEN2[J-1]*YEN2[J]-XEN2[J]*YEN2[J-1])/(XEN2[J-1]-XEN2[J])     
+                        QION[2][I]=(A*EN+B)*1.0e-16
+                        if(QION[2][I]< 0.0):
+                              QION[2][I]=0.0
+                        flag3222=0
+                        # USE BORN-BETHE X-SECTION ABOVE XEN2[NION2] EV     
+                  if(flag3222):
+                        X2=1.00/BETA2
+                        X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
+                        QION[2][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.04448
+                  # 3222 CONTINUE                        
+                  # USE ANISOTROPIC SCATTERING FOR PRIMARY IONISATION ELECTRON FOR
+                  # ENERGIES ABOVE 2 * IONISATION ENERGY
+                  # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
+                  # IONISATION ENERGY
+                  if(EN <= (2.0*EION[2])):
                         pass
                   else:
-                        flag4222=1
-                        if(EN > XEN3[NION3]):
-                              pass
-                        else:
-                              flag4220=1
-                              for J in range(2,NION3+1):
-                                    if(EN <= XEN3[J]):
-                                          flag4220=0
-                                          break                                      
-                                    # 4210 CONTINUE    
-                              if(flag4220):                                                      
-                                    J=NION3                                                          
-                              # 4220 
-                              A=(YEN3[J]-YEN3[J-1])/(XEN3[J]-XEN3[J-1])                       
-                              B=(XEN3[J-1]*YEN3[J]-XEN3[J]*YEN3[J-1])/(XEN3[J-1]-XEN3[J])     
-                              QION[3][I]=(A*EN+B)*1.0e-16
-                              if(QION[3][I]< 0.0):
-                                    QION[3][I]=0.0
-                              flag4222=0
-                              # USE BORN-BETHE X-SECTION ABOVE XEN3[NION3] EV     
-                        if(flag4222):
-                              # 4221 
-                              X2=1.00/BETA2
-                              X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
-                              QION[3][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00987 
-                        # 4222 CONTINUE                        
-                        # USE ANISOTROPIC SCATTERING FOR PRIMARY IONISATION ELECTRON FOR
-                        # ENERGIES ABOVE 2 * IONISATION ENERGY
-                        # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
-                        # IONISATION ENERGY
-                        if(EN <= (2.0*EION[3])):
-                              pass
-                        else:
-                              PEQION[3][I]=PEQEL[2][I-IOFFION[3]]
-                        # CALCULATE L3 SHELL IONISATION
-                  # 4223 
-                  QION[4][I]=0.00
-                  PEQION[4][I]=0.5
-                  if(NANISO == 2):
-                        PEQION[4][I]=0.0
-                  if(EN <= EION[4]):
+                        PEQION[2][I]=PEQEL[2][I-IOFFION[2]]
+                  #
+                  # IONISATION FOR CHARGE =3
+            # 3223 
+            QION[3][I]=0.0
+            PEQION[3][I]=0.50 
+            if(NANISO == 2):
+                  PEQION[3][I]=0.00                            
+            if(EN <= EION[3]):
+                  pass
+            else:
+                  flag4222=1
+                  if(EN > XEN3[NION3]):
                         pass
                   else:
-                        flag2232=1
-                        for J in range(2,NL3S+1):
-                              if(EN <= XL3S[J]):
-                                    flag2232=0
+                        flag4220=1
+                        for J in range(2,NION3+1):
+                              if(EN <= XEN3[J]):
+                                    flag4220=0
+                                    break                                      
+                              # 4210 CONTINUE    
+                        if(flag4220):                                                      
+                              J=NION3                                                          
+                        # 4220 
+                        A=(YEN3[J]-YEN3[J-1])/(XEN3[J]-XEN3[J-1])                       
+                        B=(XEN3[J-1]*YEN3[J]-XEN3[J]*YEN3[J-1])/(XEN3[J-1]-XEN3[J])     
+                        QION[3][I]=(A*EN+B)*1.0e-16
+                        if(QION[3][I]< 0.0):
+                              QION[3][I]=0.0
+                        flag4222=0
+                        # USE BORN-BETHE X-SECTION ABOVE XEN3[NION3] EV     
+                  if(flag4222):
+                        # 4221 
+                        X2=1.00/BETA2
+                        X1=X2*math.log(BETA2/(1.00-BETA2))-1.00
+                        QION[3][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)*0.00987 
+                  # 4222 CONTINUE                        
+                  # USE ANISOTROPIC SCATTERING FOR PRIMARY IONISATION ELECTRON FOR
+                  # ENERGIES ABOVE 2 * IONISATION ENERGY
+                  # ANISOTROPIC ANGULAR DISTRIBUTION SAME AS ELASTIC AT ENERGY OFFSET BY
+                  # IONISATION ENERGY
+                  if(EN <= (2.0*EION[3])):
+                        pass
+                  else:
+                        PEQION[3][I]=PEQEL[2][I-IOFFION[3]]
+                  # CALCULATE L3 SHELL IONISATION
+            # 4223 
+            QION[4][I]=0.00
+            PEQION[4][I]=0.5
+            if(NANISO == 2):
+                  PEQION[4][I]=0.0
+            if(EN <= EION[4]):
+                  pass
+            else:
+                  flag2232=1
+                  for J in range(2,NL3S+1):
+                        if(EN <= XL3S[J]):
+                              flag2232=0
+                              break
+                  # 2231 CONTINUE
+                  if(flag2232):
+                        J=NL3S
+                  # 2232 
+                  A=(YL3S[J]-YL3S[J-1])/(XL3S[J]-XL3S[J-1])
+                  B=(XL3S[J-1]*YL3S[J]-XL3S[J]*YL3S[J-1])/(XL3S[J-1]-XL3S[J])
+                  QION[4][I]=(A*EN+B)*1.e-16
+                  PEQION[4][I]=PEQEL[2][I-IOFFION[4]]
+                  # CALCULATE L2 SHELL IONISATION
+            # 224 
+            QION[5][I]=0.00
+            PEQION[5][I]=0.5
+            if(NANISO == 2):
+                  PEQION[5][I]=0.0
+            if(EN <= EION[5]):
+                  pass
+            else:
+                  flag2242=1
+                  for J in range(2,NL2S+1):
+                        if(EN <= XL2S[J]):
+                              flag2242=0
+                              break
+                        # 2241 CONTINUE
+                  if(flag2242):
+                        J=NL2S
+                  # 2242 
+                  A=(YL2S[J]-YL2S[J-1])/(XL2S[J]-XL2S[J-1])
+                  B=(XL2S[J-1]*YL2S[J]-XL2S[J]*YL2S[J-1])/(XL2S[J-1]-XL2S[J])
+                  QION[5][I]=(A*EN+B)*1.e-16
+                  PEQION[5][I]=PEQEL[2][I-IOFFION[5]]
+                  # CALCULATE L1 SHELL IONISATION
+            # 225 
+            QION[6][I]=0.00
+            PEQION[6][I]=0.5
+            if(NANISO == 2):
+                  PEQION[6][I]=0.0
+            if(EN <= EION[6]):
+                  pass
+            else:
+                  flag2252=1
+                  for J in range(2,NL1S+1):
+                        if(EN <= XL1S[J]):
+                              flag2252=0
+                              break
+                  # 2251 CONTINUE
+                  if(flag2252):
+                        J=NL1S
+                  # 2252 
+                  A=(YL1S[J]-YL1S[J-1])/(XL1S[J]-XL1S[J-1])
+                  B=(XL1S[J-1]*YL1S[J]-XL1S[J]*YL1S[J-1])/(XL1S[J-1]-XL1S[J])
+                  QION[6][I]=(A*EN+B)*1.e-16
+                  PEQION[6][I]=PEQEL[2][I-IOFFION[6]]
+                  # CALCULATE K  SHELL IONISATION
+            # 226 
+            QION[7][I]=0.00
+            PEQION[7][I]=0.5
+            if(NANISO == 2):
+                  PEQION[7][I]=0.0
+            if(EN <= EION[7]):
+                  pass
+            else:    
+                  flag2262=1  
+                  for J in range(2,NKSH+1):
+                        if(EN <= XKSH[J]):
+                              flag2262=0
+                              break
+                  # 2261 CONTINUE
+                  if(flag2262):
+                        J=NKSH
+                  # 2262 
+                  A=(YKSH[J]-YKSH[J-1])/(XKSH[J]-XKSH[J-1])
+                  B=(XKSH[J-1]*YKSH[J]-XKSH[J]*YKSH[J-1])/(XKSH[J-1]-XKSH[J])
+                  QION[7][I]=(A*EN+B)*1.e-16
+                  PEQION[7][I]=PEQEL[2][I-IOFFION[7]]
+                  # ATTACHMENT
+            # 227 
+            Q[4][I]=0.0    
+            # COUNTING IONISATION        
+            Q[5][I]=0.0            
+            PEQEL[5][I]=0.50
+            if(NANISO == 2):
+                  PEQEL[5][I]=0.00
+            if(EN <= E[3]):
+                  pass
+            else:
+                  if(EN > XENI[NIDATA]):
+                        pass
+                  else:
+                        flag250=1
+                        flag240=1
+                        for J in range(2,NIDATA+1):
+                              if(EN <= XENI[J]):
+                                    flag240=0
                                     break
-                        # 2231 CONTINUE
-                        if(flag2232):
-                              J=NL3S
-                        # 2232 
-                        A=(YL3S[J]-YL3S[J-1])/(XL3S[J]-XL3S[J-1])
-                        B=(XL3S[J-1]*YL3S[J]-XL3S[J]*YL3S[J-1])/(XL3S[J-1]-XL3S[J])
-                        QION[4][I]=(A*EN+B)*1.e-16
-                        PEQION[4][I]=PEQEL[2][I-IOFFION[4]]
-                        # CALCULATE L2 SHELL IONISATION
-                  # 224 
-                  QION[5][I]=0.00
-                  PEQION[5][I]=0.5
+                        if(flag240):
+                              J=NIDATA
+                        # 240 
+                        A=(YENC[J]-YENC[J-1])/(XENI[J]-XENI[J-1])
+                        B=(XENI[J-1]*YENC[J]-XENI[J]*YENC[J-1])/(XENI[J-1]-XENI[J])
+                        Q[5][I]=(A*EN+B)*1.0e-16
+                        flag250=0
+                        # USE BORN-BETHE X-SECTION ABOVE XENI[NIDATA] EV
+                  # 241 
+                  if(flag250):
+                        Q[5][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)         
+            # 250 CONTINUE
+            # CORRECTION TO CHARGE STATE 1 2 AND 3 X-SECTION FOR K AND L SHELLS
+            # GIVES TOTAL IONISATION EQUAL TO OSCILLATOR SUM
+            QTEMP=QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]
+            if(Q[5][I]== 0.0):
+                  QCORR=1.0
+            else:
+                  QCORR=(Q[5][I]-QTEMP)/Q[5][I]
+            # endif
+            QION[1][I]=QION[1][I]*QCORR
+            QION[2][I]=QION[2][I]*QCORR
+            QION[3][I]=QION[3][I]*QCORR 
+            #      
+            Q[6][I]=0.0                                                        
+            #                                                                       
+            for NL in range(1,NIN+1):
+                  QIN[NL][I]=0.0
+                  PEQIN[NL][I]=0.50
                   if(NANISO == 2):
-                        PEQION[5][I]=0.0
-                  if(EN <= EION[5]):
-                        pass
-                  else:
-                        flag2242=1
-                        for J in range(2,NL2S+1):
-                              if(EN <= XL2S[J]):
-                                    flag2242=0
-                                    break
-                              # 2241 CONTINUE
-                        if(flag2242):
-                              J=NL2S
-                        # 2242 
-                        A=(YL2S[J]-YL2S[J-1])/(XL2S[J]-XL2S[J-1])
-                        B=(XL2S[J-1]*YL2S[J]-XL2S[J]*YL2S[J-1])/(XL2S[J-1]-XL2S[J])
-                        QION[5][I]=(A*EN+B)*1.e-16
-                        PEQION[5][I]=PEQEL[2][I-IOFFION[5]]
-                        # CALCULATE L1 SHELL IONISATION
-                  # 225 
-                  QION[6][I]=0.00
-                  PEQION[6][I]=0.5
-                  if(NANISO == 2):
-                        PEQION[6][I]=0.0
-                  if(EN <= EION[6]):
-                        pass
-                  else:
-                        flag2252=1
-                        for J in range(2,NL1S+1):
-                              if(EN <= XL1S[J]):
-                                    flag2252=0
-                                    break
-                        # 2251 CONTINUE
-                        if(flag2252):
-                              J=NL1S
-                        # 2252 
-                        A=(YL1S[J]-YL1S[J-1])/(XL1S[J]-XL1S[J-1])
-                        B=(XL1S[J-1]*YL1S[J]-XL1S[J]*YL1S[J-1])/(XL1S[J-1]-XL1S[J])
-                        QION[6][I]=(A*EN+B)*1.e-16
-                        PEQION[6][I]=PEQEL[2][I-IOFFION[6]]
-                        # CALCULATE K  SHELL IONISATION
-                  # 226 
-                  QION[7][I]=0.00
-                  PEQION[7][I]=0.5
-                  if(NANISO == 2):
-                        PEQION[7][I]=0.0
-                  if(EN <= EION[7]):
-                        pass
-                  else:    
-                        flag2262=1  
-                        for J in range(2,NKSH+1):
-                              if(EN <= XKSH[J]):
-                                    flag2262=0
-                                    break
-                        # 2261 CONTINUE
-                        if(flag2262):
-                              J=NKSH
-                        # 2262 
-                        A=(YKSH[J]-YKSH[J-1])/(XKSH[J]-XKSH[J-1])
-                        B=(XKSH[J-1]*YKSH[J]-XKSH[J]*YKSH[J-1])/(XKSH[J-1]-XKSH[J])
-                        QION[7][I]=(A*EN+B)*1.e-16
-                        PEQION[7][I]=PEQEL[2][I-IOFFION[7]]
-                        # ATTACHMENT
-                  # 227 
-                  Q[4][I]=0.0    
-                  # COUNTING IONISATION        
-                  Q[5][I]=0.0            
-                  PEQEL[5][I]=0.50
-                  if(NANISO == 2):
-                        PEQEL[5][I]=0.00
-                  if(EN <= E[3]):
-                        pass
-                  else:
-                        if(EN > XENI[NIDATA]):
-                              pass
-                        else:
-                              flag250=1
-                              flag240=1
-                              for J in range(2,NIDATA+1):
-                                    if(EN <= XENI[J]):
-                                          flag240=0
-                                          break
-                              if(flag240):
-                                    J=NIDATA
-                              # 240 
-                              A=(YENC[J]-YENC[J-1])/(XENI[J]-XENI[J-1])
-                              B=(XENI[J-1]*YENC[J]-XENI[J]*YENC[J-1])/(XENI[J-1]-XENI[J])
-                              Q[5][I]=(A*EN+B)*1.0e-16
-                              flag250=0
-                              # USE BORN-BETHE X-SECTION ABOVE XENI[NIDATA] EV
-                        # 241 
-                        if(flag250):
-                              Q[5][I]=CONST*(AM2*(X1-DEN[I]/2.0)+C*X2)         
-                  # 250 CONTINUE
-                  # CORRECTION TO CHARGE STATE 1 2 AND 3 X-SECTION FOR K AND L SHELLS
-                  # GIVES TOTAL IONISATION EQUAL TO OSCILLATOR SUM
-                  QTEMP=QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]
-                  if(Q[5][I]== 0.0):
-                        QCORR=1.0
-                  else:
-                        QCORR=(Q[5][I]-QTEMP)/Q[5][I]
+                        PEQIN[NL][I]=0.00
                   # endif
-                  QION[1][I]=QION[1][I]*QCORR
-                  QION[2][I]=QION[2][I]*QCORR
-                  QION[3][I]=QION[3][I]*QCORR 
-                  #      
-                  Q[6][I]=0.0                                                        
-                  #                                                                       
-                  for NL in range(1,NIN+1):
-                        QIN[NL][I]=0.0
-                        PEQIN[NL][I]=0.50
-                        if(NANISO == 2):
-                              PEQIN[NL][I]=0.00
-                        # endif
-                        # 251 CONTINUE
-                  # 1S5
-                  if(EN <= EIN[1]):
-                        # GO TO 413   
+                  # 251 CONTINUE
+            # 1S5
+            if(EN <= EIN[1]):
+                  # GO TO 413   
+                  pass
+            else:
+                  flag3112=1
+                  if(EN > X1S5[N1S5]):
                         pass
                   else:
-                        flag3112=1
-                        if(EN > X1S5[N1S5]):
+                        flag311=1                         
+                        for J in range(2,N1S5+1):
+                              if(EN <= X1S5[J]):
+                                    flag311=0
+                                    break
+                        if(flag311):
+                              J=N1S5                                                            
+                        # 311 
+                        A=(Y1S5[J]-Y1S5[J-1])/(X1S5[J]-X1S5[J-1])                         
+                        B=(X1S5[J-1]*Y1S5[J]-X1S5[J]*Y1S5[J-1])/(X1S5[J-1]-X1S5[J])      
+                        QIN[1][I]=(A*EN+B)*1.0e-18
+                        flag3112=0
+                        # IF ENERGY GT X1S5[N1S5] EV SCALE BY 1/E**3
+                  if(flag3112):
+                        # 3111 
+                        QIN[1][I]=Y1S5[N1S5]*(X1S5[N1S5]/EN)**3*1.0e-18     
+                  # 3112 
+                  if(EN <= (2.0*EIN[1])):
+                        # GO TO 312
+                        pass
+                  else:
+                        PEQIN[1][I]=PEQEL[2][(I-IOFFN[1])]
+                        # 1S4 F=0.0580
+                  # 312 
+                  if(EN <= EIN[2]):
+                        # GO TO 413
+                        pass
+                  else:
+                        flag3142=1
+                        if(EN > X1S4[N1S4]):
                               pass
                         else:
-                              flag311=1                         
-                              for J in range(2,N1S5+1):
-                                    if(EN <= X1S5[J]):
-                                          flag311=0
+                              flag314=1
+                              for J in range(2,N1S4+1):                                                   
+                                    if(EN <= X1S4[J]):
+                                          flag314=0
                                           break
-                              if(flag311):
-                                    J=N1S5                                                            
-                              # 311 
-                              A=(Y1S5[J]-Y1S5[J-1])/(X1S5[J]-X1S5[J-1])                         
-                              B=(X1S5[J-1]*Y1S5[J]-X1S5[J]*Y1S5[J-1])/(X1S5[J-1]-X1S5[J])      
-                              QIN[1][I]=(A*EN+B)*1.0e-18
-                              flag3112=0
-                              # IF ENERGY GT X1S5[N1S5] EV SCALE BY 1/E**3
-                        if(flag3112):
-                              # 3111 
-                              QIN[1][I]=Y1S5[N1S5]*(X1S5[N1S5]/EN)**3*1.0e-18     
-                        # 3112 
-                        if(EN <= (2.0*EIN[1])):
-                              # GO TO 312
+                              # 313 CONTINUE  
+                              if(flag314):                                                        
+                                    J=N1S4                                                            
+                              # 314 
+                              A=(Y1S4[J]-Y1S4[J-1])/(X1S4[J]-X1S4[J-1])                         
+                              B=(X1S4[J-1]*Y1S4[J]-X1S4[J]*Y1S4[J-1])/(X1S4[J-1]-X1S4[J])      
+                              QIN[2][I]=(A*EN+B)*1.0e-18
+                              flag3142=0
+                        if(flag3142):
+                              # 3141 
+                              QIN[2][I]=0.0580/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[2])
+                        # 3142 
+                        if(EN <= (2.0*EIN[2])):
+                              # GO TO 315
                               pass
                         else:
-                              PEQIN[1][I]=PEQEL[2][(I-IOFFN[1])]
-                              # 1S4 F=0.0580
-                        # 312 
-                        if(EN <= EIN[2]):
-                              # GO TO 413
+                              PEQIN[2][I]=PEQEL[2][(I-IOFFN[2])]# 1S3
+                        # 315 
+                        if(EN <= EIN[3]):
                               pass
                         else:
-                              flag3142=1
-                              if(EN > X1S4[N1S4]):
+                              flag3172=1
+                              if(EN > X1S3[N1S3]):
                                     pass
                               else:
-                                    flag314=1
-                                    for J in range(2,N1S4+1):                                                   
-                                          if(EN <= X1S4[J]):
-                                                flag314=0
+                                    flag317=1
+                                    for J in range(2,N1S3+1):
+                                          if(EN <= X1S3[J]):
+                                                flag317=0
                                                 break
-                                    # 313 CONTINUE  
-                                    if(flag314):                                                        
-                                          J=N1S4                                                            
-                                    # 314 
-                                    A=(Y1S4[J]-Y1S4[J-1])/(X1S4[J]-X1S4[J-1])                         
-                                    B=(X1S4[J-1]*Y1S4[J]-X1S4[J]*Y1S4[J-1])/(X1S4[J-1]-X1S4[J])      
-                                    QIN[2][I]=(A*EN+B)*1.0e-18
-                                    flag3142=0
-                              if(flag3142):
-                                    # 3141 
-                                    QIN[2][I]=0.0580/(EIN[2]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[2]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[2])
-                              # 3142 
-                              if(EN <= (2.0*EIN[2])):
-                                    # GO TO 315
+                                    if(flag317):                                      
+                                          J=N1S3                                                            
+                                    # 317 
+                                    A=(Y1S3[J]-Y1S3[J-1])/(X1S3[J]-X1S3[J-1])                         
+                                    B=(X1S3[J-1]*Y1S3[J]-X1S3[J]*Y1S3[J-1])/(X1S3[J-1]-X1S3[J])      
+                                    QIN[3][I]=(A*EN+B)*1.0e-18
+                                    flag3172=0
+                                    # IF ENERGY GT X1S3[N1S3] EV SCALE BY 1/E**3
+                              if(flag3172):
+                                    # 3171 
+                                    QIN[3][I]=Y1S3[N1S3]*(X1S3[N1S3]/EN)**3*1.e-18
+                              # 3172 
+                              if(EN <= (2.0*EIN[3])):
                                     pass
                               else:
-                                    PEQIN[2][I]=PEQEL[2][(I-IOFFN[2])]# 1S3
-                              # 315 
-                              if(EN <= EIN[3]):
+                                    PEQIN[3][I]=PEQEL[2][(I-IOFFN[3])]# 1S2  F=0.2260
+                              # 318 
+                              if(EN <= EIN[4]):
                                     pass
                               else:
-                                    flag3172=1
-                                    if(EN > X1S3[N1S3]):
+                                    flag3202=1
+                                    if(EN > X1S2[N1S2]):
                                           pass
                                     else:
-                                          flag317=1
-                                          for J in range(2,N1S3+1):
-                                                if(EN <= X1S3[J]):
-                                                      flag317=0
-                                                      break
-                                          if(flag317):                                      
-                                                J=N1S3                                                            
-                                          # 317 
-                                          A=(Y1S3[J]-Y1S3[J-1])/(X1S3[J]-X1S3[J-1])                         
-                                          B=(X1S3[J-1]*Y1S3[J]-X1S3[J]*Y1S3[J-1])/(X1S3[J-1]-X1S3[J])      
-                                          QIN[3][I]=(A*EN+B)*1.0e-18
-                                          flag3172=0
-                                          # IF ENERGY GT X1S3[N1S3] EV SCALE BY 1/E**3
-                                    if(flag3172):
-                                          # 3171 
-                                          QIN[3][I]=Y1S3[N1S3]*(X1S3[N1S3]/EN)**3*1.e-18
-                                    # 3172 
-                                    if(EN <= (2.0*EIN[3])):
+                                          flag320=1
+                                          for J in range(2,N1S2+1):                                                   
+                                                if(EN <= X1S2[J]):
+                                                      flag320=0
+                                                      break                                      
+                                          if(flag320):
+                                                J=N1S2                                                            
+                                          # 320 
+                                          A=(Y1S2[J]-Y1S2[J-1])/(X1S2[J]-X1S2[J-1])                         
+                                          B=(X1S2[J-1]*Y1S2[J]-X1S2[J]*Y1S2[J-1])/(X1S2[J-1]-X1S2[J])      
+                                          QIN[4][I]=(A*EN+B)*1.0e-18
+                                          flag3202=0
+                                    if(flag3202):
+                                          # 3201 
+                                          QIN[4][I]=0.2260/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[4])
+                                    # 3202 
+                                    if(EN <= (2.0*EIN[4])):
                                           pass
                                     else:
-                                          PEQIN[3][I]=PEQEL[2][(I-IOFFN[3])]# 1S2  F=0.2260
-                                    # 318 
-                                    if(EN <= EIN[4]):
+                                          PEQIN[4][I]=PEQEL[2][(I-IOFFN[4])]#         
+                                          # P STATES
+                                          #
+                                          # 2P10
+                                    # 321 
+                                    if(EN <= EIN[5]):
                                           pass
                                     else:
-                                          flag3202=1
-                                          if(EN > X1S2[N1S2]):
+                                          flag3232=1
+                                          if(EN > X2P10[N2P10]):
                                                 pass
                                           else:
-                                                flag320=1
-                                                for J in range(2,N1S2+1):                                                   
-                                                      if(EN <= X1S2[J]):
-                                                            flag320=0
-                                                            break                                      
-                                                if(flag320):
-                                                      J=N1S2                                                            
-                                                # 320 
-                                                A=(Y1S2[J]-Y1S2[J-1])/(X1S2[J]-X1S2[J-1])                         
-                                                B=(X1S2[J-1]*Y1S2[J]-X1S2[J]*Y1S2[J-1])/(X1S2[J-1]-X1S2[J])      
-                                                QIN[4][I]=(A*EN+B)*1.0e-18
-                                                flag3202=0
-                                          if(flag3202):
-                                                # 3201 
-                                                QIN[4][I]=0.2260/(EIN[4]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[4]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[4])
-                                          # 3202 
-                                          if(EN <= (2.0*EIN[4])):
+                                                flag323=1
+                                                for J in range(2,N2P10+1):
+                                                      if(EN <= X2P10[J]):
+                                                            flag323=0
+                                                            break
+                                                if(flag323):
+                                                      J=N2P10
+                                                # 323 
+                                                A=(Y2P10[J]-Y2P10[J-1])/(X2P10[J]-X2P10[J-1])                    
+                                                B=(X2P10[J-1]*Y2P10[J]-X2P10[J]*Y2P10[J-1])/(X2P10[J-1]-X2P10[J])
+                                                QIN[5][I]=(A*EN+B)*1.e-18*PSCALE
+                                                flag3232=0
+                                                # IF ENERGY GT X2P10(N2P10) EV SCALE BY 1/E**2
+                                          if(flag3232):
+                                                # 3231 
+                                                QIN[5][I]=Y2P10(N2P10)*(X2P10[N2P10]/EN)**2*1.0e-18*PSCALE
+                                          # 3232 
+                                          if(EN <= (2.0*EIN[5])):
                                                 pass
                                           else:
-                                                PEQIN[4][I]=PEQEL[2][(I-IOFFN[4])]#         
-                                                # P STATES
-                                                #
-                                                # 2P10
-                                          # 321 
-                                          if(EN <= EIN[5]):
+                                                PEQIN[5][I]=PEQEL[2][(I-IOFFN[5])]# 2P9
+                                          # 324 
+                                          if(EN <= EIN[6]):
                                                 pass
                                           else:
-                                                flag3232=1
-                                                if(EN > X2P10[N2P10]):
+                                                flag3262=1
+                                                if(EN > X2P9[N2P9]):
                                                       pass
                                                 else:
-                                                      flag323=1
-                                                      for J in range(2,N2P10+1):
-                                                            if(EN <= X2P10[J]):
-                                                                  flag323=0
+                                                      flag326=1
+                                                      for J in range(2,N2P9+1):
+                                                            if(EN <= X2P9[J]):
+                                                                  flag326=0
                                                                   break
-                                                      if(flag323):
-                                                            J=N2P10
-                                                      # 323 
-                                                      A=(Y2P10[J]-Y2P10[J-1])/(X2P10[J]-X2P10[J-1])                    
-                                                      B=(X2P10[J-1]*Y2P10[J]-X2P10[J]*Y2P10[J-1])/(X2P10[J-1]-X2P10[J])
-                                                      QIN[5][I]=(A*EN+B)*1.e-18*PSCALE
-                                                      flag3232=0
-                                                      # IF ENERGY GT X2P10(N2P10) EV SCALE BY 1/E**2
-                                                if(flag3232):
-                                                      # 3231 
-                                                      QIN[5][I]=Y2P10(N2P10)*(X2P10[N2P10]/EN)**2*1.0e-18*PSCALE
-                                                # 3232 
-                                                if(EN <= (2.0*EIN[5])):
+                                                      if(flag326):
+                                                            J=N2P9
+                                                      # 326 
+                                                      A=(Y2P9[J]-Y2P9[J-1])/(X2P9[J]-X2P9[J-1])                    
+                                                      B=(X2P9[J-1]*Y2P9[J]-X2P9[J]*Y2P9[J-1])/(X2P9[J-1]-X2P9[J])
+                                                      QIN[6][I]=(A*EN+B)*1.e-18*PSCALE
+                                                      flag3262=0
+                                                      # IF ENERGY GT X2P9[N2P9] EV SCALE BY 1/E**2
+                                                if(flag3262):
+                                                      # 3261 
+                                                      QIN[6][I]=Y2P9[N2P9]*(X2P9[N2P9]/EN)**2*1.0e-18*PSCALE
+                                                # 3262 
+                                                if(EN <= (2.0*EIN[6])):
                                                       pass
                                                 else:
-                                                      PEQIN[5][I]=PEQEL[2][(I-IOFFN[5])]# 2P9
-                                                # 324 
-                                                if(EN <= EIN[6]):
+                                                      PEQIN[6][I]=PEQEL[2][(I-IOFFN[6])]# 2P8
+                                                # 327 
+                                                if(EN <= EIN[7]):
                                                       pass
                                                 else:
-                                                      flag3262=1
-                                                      if(EN > X2P9[N2P9]):
+                                                      flag3292=1
+                                                      if(EN > X2P8[N2P8]):
                                                             pass
                                                       else:
-                                                            flag326=1
-                                                            for J in range(2,N2P9+1):
-                                                                  if(EN <= X2P9[J]):
-                                                                        flag326=0
+                                                            flag329=1
+                                                            for J in range(2,N2P8+1):
+                                                                  if(EN <= X2P8[J]):
+                                                                        flag329=0
                                                                         break
-                                                            if(flag326):
-                                                                  J=N2P9
-                                                            # 326 
-                                                            A=(Y2P9[J]-Y2P9[J-1])/(X2P9[J]-X2P9[J-1])                    
-                                                            B=(X2P9[J-1]*Y2P9[J]-X2P9[J]*Y2P9[J-1])/(X2P9[J-1]-X2P9[J])
-                                                            QIN[6][I]=(A*EN+B)*1.e-18*PSCALE
-                                                            flag3262=0
-                                                            # IF ENERGY GT X2P9[N2P9] EV SCALE BY 1/E**2
-                                                      if(flag3262):
-                                                            # 3261 
-                                                            QIN[6][I]=Y2P9[N2P9]*(X2P9[N2P9]/EN)**2*1.0e-18*PSCALE
-                                                      # 3262 
-                                                      if(EN <= (2.0*EIN[6])):
+                                                            if(flag329):
+                                                                  J=N2P8
+                                                            # 329 
+                                                            A=(Y2P8[J]-Y2P8[J-1])/(X2P8[J]-X2P8[J-1])                    
+                                                            B=(X2P8[J-1]*Y2P8[J]-X2P8[J]*Y2P8[J-1])/(X2P8[J-1]-X2P8[J])
+                                                            QIN[7][I]=(A*EN+B)*1.e-18*PSCALE
+                                                            flag3292=0
+                                                            # IF ENERGY GT X2P8[N2P8] EV SCALE BY 1/E
+                                                      if(flag3292):
+                                                            # 3291 
+                                                            QIN[7][I]=Y2P8[N2P8]*(X2P8[N2P8]/EN)*1.0e-18*PSCALE
+                                                      # 3292 
+                                                      if(EN <= (2.0*EIN[7])):
                                                             pass
                                                       else:
-                                                            PEQIN[6][I]=PEQEL[2][(I-IOFFN[6])]# 2P8
-                                                      # 327 
-                                                      if(EN <= EIN[7]):
+                                                            PEQIN[7][I]=PEQEL[2][(I-IOFFN[7])]# 2P7
+                                                      # 330 
+                                                      if(EN <= EIN[8]):
                                                             pass
                                                       else:
-                                                            flag3292=1
-                                                            if(EN > X2P8[N2P8]):
+                                                            flag3322=1
+                                                            if(EN > X2P7[N2P7]):
                                                                   pass
                                                             else:
-                                                                  flag329=1
-                                                                  for J in range(2,N2P8+1):
-                                                                        if(EN <= X2P8[J]):
-                                                                              flag329=0
+                                                                  flag332=1
+                                                                  for J in range(2,N2P7+1):
+                                                                        if(EN <= X2P7[J]):
+                                                                              flag332=0
                                                                               break
-                                                                  if(flag329):
-                                                                        J=N2P8
-                                                                  # 329 
-                                                                  A=(Y2P8[J]-Y2P8[J-1])/(X2P8[J]-X2P8[J-1])                    
-                                                                  B=(X2P8[J-1]*Y2P8[J]-X2P8[J]*Y2P8[J-1])/(X2P8[J-1]-X2P8[J])
-                                                                  QIN[7][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                  flag3292=0
-                                                                  # IF ENERGY GT X2P8[N2P8] EV SCALE BY 1/E
-                                                            if(flag3292):
-                                                                  # 3291 
-                                                                  QIN[7][I]=Y2P8[N2P8]*(X2P8[N2P8]/EN)*1.0e-18*PSCALE
-                                                            # 3292 
-                                                            if(EN <= (2.0*EIN[7])):
+                                                                  if(flag332):
+                                                                        J=N2P7
+                                                                  # 332 
+                                                                  A=(Y2P7[J]-Y2P7[J-1])/(X2P7[J]-X2P7[J-1])                    
+                                                                  B=(X2P7[J-1]*Y2P7[J]-X2P7[J]*Y2P7[J-1])/(X2P7[J-1]-X2P7[J])
+                                                                  QIN[8][I]=(A*EN+B)*1.e-18*PSCALE
+                                                                  flag3322=0
+                                                                  # IF ENERGY GT X2P7[N2P7] EV SCALE BY 1/E**2
+                                                            if(flag3322):
+                                                                  # 3321 
+                                                                  QIN[8][I]=Y2P7[N2P7]*(X2P7[N2P7]/EN)**2*1.0e-18*PSCALE
+                                                            # 3322 
+                                                            if(EN <= (2.0*EIN[8])):
                                                                   pass
                                                             else:
-                                                                  PEQIN[7][I]=PEQEL[2][(I-IOFFN[7])]# 2P7
-                                                            # 330 
-                                                            if(EN <= EIN[8]):
+                                                                  PEQIN[8][I]=PEQEL[2][(I-IOFFN[8])]# 2P6
+                                                            # 333 
+                                                            if(EN <= EIN[9]):
                                                                   pass
                                                             else:
-                                                                  flag3322=1
-                                                                  if(EN > X2P7[N2P7]):
+                                                                  flag3352=1
+                                                                  if(EN > X2P6[N2P6]):
                                                                         pass
                                                                   else:
-                                                                        flag332=1
-                                                                        for J in range(2,N2P7+1):
-                                                                              if(EN <= X2P7[J]):
-                                                                                    flag332=0
+                                                                        flag335=1
+                                                                        for J in range(2,N2P6+1):
+                                                                              if(EN <= X2P6[J]):
+                                                                                    flag335=0
                                                                                     break
-                                                                        if(flag332):
-                                                                              J=N2P7
-                                                                        # 332 
-                                                                        A=(Y2P7[J]-Y2P7[J-1])/(X2P7[J]-X2P7[J-1])                    
-                                                                        B=(X2P7[J-1]*Y2P7[J]-X2P7[J]*Y2P7[J-1])/(X2P7[J-1]-X2P7[J])
-                                                                        QIN[8][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                        flag3322=0
-                                                                        # IF ENERGY GT X2P7[N2P7] EV SCALE BY 1/E**2
-                                                                  if(flag3322):
-                                                                        # 3321 
-                                                                        QIN[8][I]=Y2P7[N2P7]*(X2P7[N2P7]/EN)**2*1.0e-18*PSCALE
-                                                                  # 3322 
-                                                                  if(EN <= (2.0*EIN[8])):
+                                                                        if(flag335):
+                                                                              J=N2P6
+                                                                        # 335 
+                                                                        A=(Y2P6[J]-Y2P6[J-1])/(X2P6[J]-X2P6[J-1])                    
+                                                                        B=(X2P6[J-1]*Y2P6[J]-X2P6[J]*Y2P6[J-1])/(X2P6[J-1]-X2P6[J])
+                                                                        QIN[9][I]=(A*EN+B)*1.e-18*PSCALE
+                                                                        flag3352=0
+                                                                        # IF ENERGY GT X2P6[N2P6] EV SCALE BY 1/E
+                                                                  if(flag3352):
+                                                                        # 3351 
+                                                                        QIN[9][I]=Y2P6[N2P6]*(X2P6[N2P6]/EN)*1.0e-18*PSCALE
+                                                                  # 3352 
+                                                                  if(EN <= (2.0*EIN[9])):
                                                                         pass
                                                                   else:
-                                                                        PEQIN[8][I]=PEQEL[2][(I-IOFFN[8])]# 2P6
-                                                                  # 333 
-                                                                  if(EN <= EIN[9]):
+                                                                        PEQIN[9][I]=PEQEL[2][(I-IOFFN[9])]# 2P5
+                                                                  # 336 
+                                                                  if(EN <= EIN[10]):
                                                                         pass
                                                                   else:
-                                                                        flag3352=1
-                                                                        if(EN > X2P6[N2P6]):
+                                                                        flag3382=1
+                                                                        if(EN > X2P5[N2P5]):
                                                                               pass
                                                                         else:
-                                                                              flag335=1
-                                                                              for J in range(2,N2P6+1):
-                                                                                    if(EN <= X2P6[J]):
-                                                                                          flag335=0
-                                                                                          break
-                                                                              if(flag335):
-                                                                                    J=N2P6
-                                                                              # 335 
-                                                                              A=(Y2P6[J]-Y2P6[J-1])/(X2P6[J]-X2P6[J-1])                    
-                                                                              B=(X2P6[J-1]*Y2P6[J]-X2P6[J]*Y2P6[J-1])/(X2P6[J-1]-X2P6[J])
-                                                                              QIN[9][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                              flag3352=0
-                                                                              # IF ENERGY GT X2P6[N2P6] EV SCALE BY 1/E
-                                                                        if(flag3352):
-                                                                              # 3351 
-                                                                              QIN[9][I]=Y2P6[N2P6]*(X2P6[N2P6]/EN)*1.0e-18*PSCALE
-                                                                        # 3352 
-                                                                        if(EN <= (2.0*EIN[9])):
+                                                                              flag338=1
+                                                                              for J in range(2,N2P5+1):
+                                                                                    if(EN <= X2P5[J]):
+                                                                                          flag338=0
+                                                                              if(flag338):
+                                                                                    J=N2P5
+                                                                              # 338 
+                                                                              A=(Y2P5[J]-Y2P5[J-1])/(X2P5[J]-X2P5[J-1])                    
+                                                                              B=(X2P5[J-1]*Y2P5[J]-X2P5[J]*Y2P5[J-1])/(X2P5[J-1]-X2P5[J])
+                                                                              QIN[10][I]=(A*EN+B)*1.e-18*PSCALE
+                                                                              flag3382=0
+                                                                              # IF ENERGY GT X2P5[N2P5] EV SCALE BY 1/E
+                                                                        if(flag3382):
+                                                                              # 3381 
+                                                                              QIN[10][I]=Y2P5[N2P5]*(X2P5[N2P5]/EN)*1.0e-18*PSCALE
+                                                                        # 3382 
+                                                                        if(EN <= (2.0*EIN[10])):
                                                                               pass
                                                                         else:
-                                                                              PEQIN[9][I]=PEQEL[2][(I-IOFFN[9])]# 2P5
-                                                                        # 336 
-                                                                        if(EN <= EIN[10]):
+                                                                              PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
+                                                                        # 2P4
+                                                                        # 339 
+                                                                        if(EN <= EIN[11]):
                                                                               pass
                                                                         else:
-                                                                              flag3382=1
-                                                                              if(EN > X2P5[N2P5]):
+                                                                              flag3412=1
+                                                                              if(EN > X2P4[N2P4]):
                                                                                     pass
                                                                               else:
-                                                                                    flag338=1
-                                                                                    for J in range(2,N2P5+1):
-                                                                                          if(EN <= X2P5[J]):
-                                                                                                flag338=0
-                                                                                    if(flag338):
-                                                                                          J=N2P5
-                                                                                    # 338 
-                                                                                    A=(Y2P5[J]-Y2P5[J-1])/(X2P5[J]-X2P5[J-1])                    
-                                                                                    B=(X2P5[J-1]*Y2P5[J]-X2P5[J]*Y2P5[J-1])/(X2P5[J-1]-X2P5[J])
-                                                                                    QIN[10][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                                    flag3382=0
-                                                                                    # IF ENERGY GT X2P5[N2P5] EV SCALE BY 1/E
-                                                                              if(flag3382):
-                                                                                    # 3381 
-                                                                                    QIN[10][I]=Y2P5[N2P5]*(X2P5[N2P5]/EN)*1.0e-18*PSCALE
-                                                                              # 3382 
-                                                                              if(EN <= (2.0*EIN[10])):
+                                                                                    flag341=1
+                                                                                    for J in range(2,N2P4+1):
+                                                                                          if(EN <= X2P4[J]):
+                                                                                                flag341=0
+                                                                                                break
+                                                                                    if(flag341):
+                                                                                          J=N2P4
+                                                                                    # 341 
+                                                                                    A=(Y2P4[J]-Y2P4[J-1])/(X2P4[J]-X2P4[J-1])                    
+                                                                                    B=(X2P4[J-1]*Y2P4[J]-X2P4[J]*Y2P4[J-1])/(X2P4[J-1]-X2P4[J])
+                                                                                    QIN[11][I]=(A*EN+B)*1.e-18*PSCALE
+                                                                                    flag3412=0
+                                                                                    # IF ENERGY GT X2P4[N2P4] EV SCALE BY 1/E**2
+                                                                              if(flag3412):
+                                                                                    # 3411 
+                                                                                    QIN[11][I]=Y2P4[N2P4]*(X2P4[N2P4]/EN)**2*1.0e-18*PSCALE
+                                                                              # 3412 
+                                                                              if(EN <= (2.0*EIN[11])):
                                                                                     pass
                                                                               else:
-                                                                                    PEQIN[10][I]=PEQEL[2][(I-IOFFN[10])]
-                                                                              # 2P4
-                                                                              # 339 
-                                                                              if(EN <= EIN[11]):
+                                                                                    PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
+                                                                              # 2P3
+                                                                              # 342 
+                                                                              if(EN <= EIN[12]):
                                                                                     pass
                                                                               else:
-                                                                                    flag3412=1
-                                                                                    if(EN > X2P4[N2P4]):
+                                                                                    flag3442=1
+                                                                                    if(EN > X2P3[N2P3]):
                                                                                           pass
                                                                                     else:
-                                                                                          flag341=1
-                                                                                          for J in range(2,N2P4+1):
-                                                                                                if(EN <= X2P4[J]):
-                                                                                                      flag341=0
+                                                                                          flag344=1
+                                                                                          for J in range(2,N2P3+1):
+                                                                                                if(EN <= X2P3[J]):
+                                                                                                      flag344=0
                                                                                                       break
-                                                                                          if(flag341):
-                                                                                                J=N2P4
-                                                                                          # 341 
-                                                                                          A=(Y2P4[J]-Y2P4[J-1])/(X2P4[J]-X2P4[J-1])                    
-                                                                                          B=(X2P4[J-1]*Y2P4[J]-X2P4[J]*Y2P4[J-1])/(X2P4[J-1]-X2P4[J])
-                                                                                          QIN[11][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                                          flag3412=0
-                                                                                          # IF ENERGY GT X2P4[N2P4] EV SCALE BY 1/E**2
-                                                                                    if(flag3412):
-                                                                                          # 3411 
-                                                                                          QIN[11][I]=Y2P4[N2P4]*(X2P4[N2P4]/EN)**2*1.0e-18*PSCALE
-                                                                                    # 3412 
-                                                                                    if(EN <= (2.0*EIN[11])):
+                                                                                          if(flag344):
+                                                                                                J=N2P3
+                                                                                          # 344 
+                                                                                          A=(Y2P3[J]-Y2P3[J-1])/(X2P3[J]-X2P3[J-1])                    
+                                                                                          B=(X2P3[J-1]*Y2P3[J]-X2P3[J]*Y2P3[J-1])/(X2P3[J-1]-X2P3[J])
+                                                                                          QIN[12][I]=(A*EN+B)*1.e-18*PSCALE
+                                                                                          flag3442=0
+                                                                                          # IF ENERGY GT X2P3[N2P3] EV SCALE BY 1/E
+                                                                                    if(flag3442):
+                                                                                          # 3441 
+                                                                                          QIN[12][I]=Y2P3[N2P3]*(X2P3[N2P3]/EN)*1.0e-18*PSCALE
+                                                                                    # 3442 
+                                                                                    if(EN <= (2.0*EIN[12])):
                                                                                           pass
                                                                                     else:
-                                                                                          PEQIN[11][I]=PEQEL[2][(I-IOFFN[11])]
-                                                                                    # 2P3
-                                                                                    # 342 
-                                                                                    if(EN <= EIN[12]):
+                                                                                          PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
+                                                                                          # 2P2
+                                                                                    # 345 
+                                                                                    if(EN <= EIN[13]):
                                                                                           pass
                                                                                     else:
-                                                                                          flag3442=1
-                                                                                          if(EN > X2P3[N2P3]):
+                                                                                          flag3472=1
+                                                                                          if(EN > X2P2[N2P2]):
                                                                                                 pass
                                                                                           else:
-                                                                                                flag344=1
-                                                                                                for J in range(2,N2P3+1):
-                                                                                                      if(EN <= X2P3[J]):
-                                                                                                            flag344=0
-                                                                                                            break
-                                                                                                if(flag344):
-                                                                                                      J=N2P3
-                                                                                                # 344 
-                                                                                                A=(Y2P3[J]-Y2P3[J-1])/(X2P3[J]-X2P3[J-1])                    
-                                                                                                B=(X2P3[J-1]*Y2P3[J]-X2P3[J]*Y2P3[J-1])/(X2P3[J-1]-X2P3[J])
-                                                                                                QIN[12][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                                                flag3442=0
-                                                                                                # IF ENERGY GT X2P3[N2P3] EV SCALE BY 1/E
-                                                                                          if(flag3442):
-                                                                                                # 3441 
-                                                                                                QIN[12][I]=Y2P3[N2P3]*(X2P3[N2P3]/EN)*1.0e-18*PSCALE
-                                                                                          # 3442 
-                                                                                          if(EN <= (2.0*EIN[12])):
+                                                                                                flag347=1
+                                                                                                for J in range(2,N2P2+1):
+                                                                                                      if(EN <= X2P2[J]):
+                                                                                                            flag347=0
+                                                                                                if(flag347):
+                                                                                                      J=N2P2
+                                                                                                # 347 
+                                                                                                A=(Y2P2[J]-Y2P2[J-1])/(X2P2[J]-X2P2[J-1])                    
+                                                                                                B=(X2P2[J-1]*Y2P2[J]-X2P2[J]*Y2P2[J-1])/(X2P2[J-1]-X2P2[J])
+                                                                                                QIN[13][I]=(A*EN+B)*1.e-18*PSCALE
+                                                                                                flag3472=0
+                                                                                                # IF ENERGY GT X2P2[N2P2] EV SCALE BY 1/E**2
+                                                                                          if(flag3472):
+                                                                                                # 3471 
+                                                                                                QIN[13][I]=Y2P2[N2P2]*(X2P2[N2P2]/EN)**2*1.0e-18*PSCALE
+                                                                                          # 3472 
+                                                                                          if(EN <= (2.0*EIN[13])):
                                                                                                 pass
                                                                                           else:
-                                                                                                PEQIN[12][I]=PEQEL[2][(I-IOFFN[12])]
-                                                                                                # 2P2
-                                                                                          # 345 
-                                                                                          if(EN <= EIN[13]):
+                                                                                                PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
+                                                                                          # 2P1
+                                                                                          # 348 
+                                                                                          if(EN <= EIN[14]):
                                                                                                 pass
                                                                                           else:
-                                                                                                flag3472=1
-                                                                                                if(EN > X2P2[N2P2]):
+                                                                                                flag3502=1
+                                                                                                if(EN > X2P1[N2P1]):
                                                                                                       pass
                                                                                                 else:
-                                                                                                      flag347=1
-                                                                                                      for J in range(2,N2P2+1):
-                                                                                                            if(EN <= X2P2[J]):
-                                                                                                                  flag347=0
-                                                                                                      if(flag347):
-                                                                                                            J=N2P2
-                                                                                                      # 347 
-                                                                                                      A=(Y2P2[J]-Y2P2[J-1])/(X2P2[J]-X2P2[J-1])                    
-                                                                                                      B=(X2P2[J-1]*Y2P2[J]-X2P2[J]*Y2P2[J-1])/(X2P2[J-1]-X2P2[J])
-                                                                                                      QIN[13][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                                                      flag3472=0
-                                                                                                      # IF ENERGY GT X2P2[N2P2] EV SCALE BY 1/E**2
-                                                                                                if(flag3472):
-                                                                                                      # 3471 
-                                                                                                      QIN[13][I]=Y2P2[N2P2]*(X2P2[N2P2]/EN)**2*1.0e-18*PSCALE
-                                                                                                # 3472 
-                                                                                                if(EN <= (2.0*EIN[13])):
-                                                                                                      pass
-                                                                                                else:
-                                                                                                      PEQIN[13][I]=PEQEL[2][(I-IOFFN[13])]
-                                                                                                # 2P1
-                                                                                                # 348 
-                                                                                                if(EN <= EIN[14]):
-                                                                                                      pass
-                                                                                                else:
+                                                                                                      flag350=1
+                                                                                                      for J in range(2,N2P1+1):
+                                                                                                            if(EN <= X2P1[J]):
+                                                                                                                  flag350=0
+                                                                                                                  break
+                                                                                                      if(flag350):
+                                                                                                            J=N2P1
+                                                                                                      # 350 
+                                                                                                      A=(Y2P1[J]-Y2P1[J-1])/(X2P1[J]-X2P1[J-1])                    
+                                                                                                      B=(X2P1[J-1]*Y2P1[J]-X2P1[J]*Y2P1[J-1])/(X2P1[J-1]-X2P1[J])
+                                                                                                      QIN[14][I]=(A*EN+B)*1.e-18*PSCALE
                                                                                                       flag3502=1
-                                                                                                      if(EN > X2P1[N2P1]):
+                                                                                                      # IF ENERGY GT X2P1[N2P1] EV SCALE BY 1/E
+                                                                                                if(flag3502):
+                                                                                                      # 3501 
+                                                                                                      QIN[14][I]=Y2P1[N2P1]*(X2P1[N2P1]/EN)*1.0e-18*PSCALE
+                                                                                                # 3502 
+                                                                                                if(EN <= (2.0*EIN[14])):
+                                                                                                      pass
+                                                                                                else:
+                                                                                                      PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
+                                                                                                # 3D6
+                                                                                                # 351 
+                                                                                                if(EN <= EIN[15]):
+                                                                                                      pass
+                                                                                                else:
+                                                                                                      flag3532=1
+                                                                                                      if(EN > X3D6[N3D6]):
                                                                                                             pass
                                                                                                       else:
-                                                                                                            flag350=1
-                                                                                                            for J in range(2,N2P1+1):
-                                                                                                                  if(EN <= X2P1[J]):
-                                                                                                                        flag350=0
+                                                                                                            flag353=1
+                                                                                                            for J in range(2,N3D6+1):
+                                                                                                                  if(EN <= X3D6[J]):
+                                                                                                                        flag353=0
                                                                                                                         break
-                                                                                                            if(flag350):
-                                                                                                                  J=N2P1
-                                                                                                            # 350 
-                                                                                                            A=(Y2P1[J]-Y2P1[J-1])/(X2P1[J]-X2P1[J-1])                    
-                                                                                                            B=(X2P1[J-1]*Y2P1[J]-X2P1[J]*Y2P1[J-1])/(X2P1[J-1]-X2P1[J])
-                                                                                                            QIN[14][I]=(A*EN+B)*1.e-18*PSCALE
-                                                                                                            flag3502=1
-                                                                                                            # IF ENERGY GT X2P1[N2P1] EV SCALE BY 1/E
-                                                                                                      if(flag3502):
-                                                                                                            # 3501 
-                                                                                                            QIN[14][I]=Y2P1[N2P1]*(X2P1[N2P1]/EN)*1.0e-18*PSCALE
-                                                                                                      # 3502 
-                                                                                                      if(EN <= (2.0*EIN[14])):
+                                                                                                            if(flag353):
+                                                                                                                  J=N3D6
+                                                                                                            # 353 
+                                                                                                            A=(Y3D6[J]-Y3D6[J-1])/(X3D6[J]-X3D6[J-1])                    
+                                                                                                            B=(X3D6[J-1]*Y3D6[J]-X3D6[J]*Y3D6[J-1])/(X3D6[J-1]-X3D6[J])
+                                                                                                            QIN[15][I]=(A*EN+B)*1.e-18
+                                                                                                            flag3532=0
+                                                                                                            # IF ENERGY GT X3D6[N3D6] EV SCALE BY 1/E**3
+                                                                                                      if(flag3532):
+                                                                                                            # 3531 
+                                                                                                            QIN[15][I]=Y3D6[N3D6]*(X3D6[N3D6]/EN)**3*1.0e-18
+                                                                                                      # 3532 
+                                                                                                      if(EN <= (2.0*EIN[15])):
                                                                                                             pass
                                                                                                       else:
-                                                                                                            PEQIN[14][I]=PEQEL[2][(I-IOFFN[14])]
-                                                                                                      # 3D6
-                                                                                                      # 351 
-                                                                                                      if(EN <= EIN[15]):
+                                                                                                            PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
+                                                                                                      # 3D5 F=0.0010 
+                                                                                                      # 354 
+                                                                                                      if(EN <= EIN[16]):
                                                                                                             pass
                                                                                                       else:
-                                                                                                            flag3532=1
-                                                                                                            if(EN > X3D6[N3D6]):
+                                                                                                            flag3562=1
+                                                                                                            if(EN > X3D5[N3D5]):
                                                                                                                   pass
                                                                                                             else:
-                                                                                                                  flag353=1
-                                                                                                                  for J in range(2,N3D6+1):
-                                                                                                                        if(EN <= X3D6[J]):
-                                                                                                                              flag353=0
+                                                                                                                  flag356=1
+                                                                                                                  for J in range(2,N3D5+1):
+                                                                                                                        if(EN <= X3D5[J]):
+                                                                                                                              flag356=0
                                                                                                                               break
-                                                                                                                  if(flag353):
-                                                                                                                        J=N3D6
-                                                                                                                  # 353 
-                                                                                                                  A=(Y3D6[J]-Y3D6[J-1])/(X3D6[J]-X3D6[J-1])                    
-                                                                                                                  B=(X3D6[J-1]*Y3D6[J]-X3D6[J]*Y3D6[J-1])/(X3D6[J-1]-X3D6[J])
-                                                                                                                  QIN[15][I]=(A*EN+B)*1.e-18
-                                                                                                                  flag3532=0
-                                                                                                                  # IF ENERGY GT X3D6[N3D6] EV SCALE BY 1/E**3
-                                                                                                            if(flag3532):
-                                                                                                                  # 3531 
-                                                                                                                  QIN[15][I]=Y3D6[N3D6]*(X3D6[N3D6]/EN)**3*1.0e-18
-                                                                                                            # 3532 
-                                                                                                            if(EN <= (2.0*EIN[15])):
+                                                                                                                  if(flag356):
+                                                                                                                        J=N3D5
+                                                                                                                  # 356 
+                                                                                                                  A=(Y3D5[J]-Y3D5[J-1])/(X3D5[J]-X3D5[J-1])                    
+                                                                                                                  B=(X3D5[J-1]*Y3D5[J]-X3D5[J]*Y3D5[J-1])/(X3D5[J-1]-X3D5[J])
+                                                                                                                  QIN[16][I]=(A*EN+B)*1.e-18
+                                                                                                                  flag3562=0
+                                                                                                            if(flag3562):
+                                                                                                                  # 3561 
+                                                                                                                  QIN[16][I]=0.0010/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[16])
+                                                                                                            if(QIN[16][I]< 0.0):
+                                                                                                                  QIN[16][I]=0.0
+                                                                                                            # 3562 
+                                                                                                            if(EN <= (2.0*EIN[16])):
                                                                                                                   pass
                                                                                                             else:
-                                                                                                                  PEQIN[15][I]=PEQEL[2][(I-IOFFN[15])]
-                                                                                                            # 3D5 F=0.0010 
-                                                                                                            # 354 
-                                                                                                            if(EN <= EIN[16]):
+                                                                                                                  PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
+                                                                                                            # 3D3
+                                                                                                            # 357 
+                                                                                                            if(EN <= EIN[17]):
                                                                                                                   pass
                                                                                                             else:
-                                                                                                                  flag3562=1
-                                                                                                                  if(EN > X3D5[N3D5]):
+                                                                                                                  flag3592=1
+                                                                                                                  if(EN > X3D3[N3D3]):
                                                                                                                         pass
                                                                                                                   else:
-                                                                                                                        flag356=1
-                                                                                                                        for J in range(2,N3D5+1):
-                                                                                                                              if(EN <= X3D5[J]):
-                                                                                                                                    flag356=0
+                                                                                                                        flag359=1
+                                                                                                                        for J in range(2,N3D3+1):
+                                                                                                                              if(EN <= X3D3[J]):
+                                                                                                                                    flag359=0
                                                                                                                                     break
-                                                                                                                        if(flag356):
-                                                                                                                              J=N3D5
-                                                                                                                        # 356 
-                                                                                                                        A=(Y3D5[J]-Y3D5[J-1])/(X3D5[J]-X3D5[J-1])                    
-                                                                                                                        B=(X3D5[J-1]*Y3D5[J]-X3D5[J]*Y3D5[J-1])/(X3D5[J-1]-X3D5[J])
-                                                                                                                        QIN[16][I]=(A*EN+B)*1.e-18
-                                                                                                                        flag3562=0
-                                                                                                                  if(flag3562):
-                                                                                                                        # 3561 
-                                                                                                                        QIN[16][I]=0.0010/(EIN[16]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[16]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[16])
-                                                                                                                  if(QIN[16][I]< 0.0):
-                                                                                                                        QIN[16][I]=0.0
-                                                                                                                  # 3562 
-                                                                                                                  if(EN <= (2.0*EIN[16])):
+                                                                                                                        if(flag359):
+                                                                                                                              J=N3D3
+                                                                                                                        # 359 
+                                                                                                                        A=(Y3D3[J]-Y3D3[J-1])/(X3D3[J]-X3D3[J-1])                    
+                                                                                                                        B=(X3D3[J-1]*Y3D3[J]-X3D3[J]*Y3D3[J-1])/(X3D3[J-1]-X3D3[J])
+                                                                                                                        QIN[17][I]=(A*EN+B)*1.e-18
+                                                                                                                        flag3592=0
+                                                                                                                        # IF ENERGY GT X3D3[N3D3] EV SCALE BY 1/E**3
+                                                                                                                  if(flag3592):
+                                                                                                                        # 3591 
+                                                                                                                        QIN[17][I]=Y3D3[N3D3]*(X3D3[N3D3]/EN)**3*1.0e-18
+                                                                                                                  # 3592 
+                                                                                                                  if(EN <= (2.0*EIN[17])):
                                                                                                                         pass
                                                                                                                   else:
-                                                                                                                        PEQIN[16][I]=PEQEL[2][(I-IOFFN[16])]
-                                                                                                                  # 3D3
-                                                                                                                  # 357 
-                                                                                                                  if(EN <= EIN[17]):
+                                                                                                                        PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
+                                                                                                                  # 3D4'
+                                                                                                                  # 360 
+                                                                                                                  if(EN <= EIN[18]):
                                                                                                                         pass
                                                                                                                   else:
-                                                                                                                        flag3592=1
-                                                                                                                        if(EN > X3D3[N3D3]):
+                                                                                                                        flag3622=1
+                                                                                                                        if(EN > X3D4P[N3D4P]):
                                                                                                                               pass
                                                                                                                         else:
-                                                                                                                              flag359=1
-                                                                                                                              for J in range(2,N3D3+1):
-                                                                                                                                    if(EN <= X3D3[J]):
-                                                                                                                                          flag359=0
+                                                                                                                              for J in range(2,N3D4P+1):
+                                                                                                                                    if(EN <= X3D4P[J]):
+                                                                                                                                          flag362=0
                                                                                                                                           break
-                                                                                                                              if(flag359):
-                                                                                                                                    J=N3D3
-                                                                                                                              # 359 
-                                                                                                                              A=(Y3D3[J]-Y3D3[J-1])/(X3D3[J]-X3D3[J-1])                    
-                                                                                                                              B=(X3D3[J-1]*Y3D3[J]-X3D3[J]*Y3D3[J-1])/(X3D3[J-1]-X3D3[J])
-                                                                                                                              QIN[17][I]=(A*EN+B)*1.e-18
-                                                                                                                              flag3592=0
-                                                                                                                              # IF ENERGY GT X3D3[N3D3] EV SCALE BY 1/E**3
-                                                                                                                        if(flag3592):
-                                                                                                                              # 3591 
-                                                                                                                              QIN[17][I]=Y3D3[N3D3]*(X3D3[N3D3]/EN)**3*1.0e-18
-                                                                                                                        # 3592 
-                                                                                                                        if(EN <= (2.0*EIN[17])):
+                                                                                                                              if(flag362):
+                                                                                                                                    J=N3D4P
+                                                                                                                              # 362 
+                                                                                                                              A=(Y3D4P[J]-Y3D4P[J-1])/(X3D4P[J]-X3D4P[J-1])                    
+                                                                                                                              B=(X3D4P[J-1]*Y3D4P[J]-X3D4P[J]*Y3D4P[J-1])/(X3D4P[J-1]-X3D4P[J])
+                                                                                                                              QIN[18][I]=(A*EN+B)*1.e-18
+                                                                                                                              flag3622=0
+                                                                                                                              # IF ENERGY GT X3D4P(N3D4P) EV SCALE BY 1/E**3
+                                                                                                                        if(flag3622):
+                                                                                                                              # 3621 
+                                                                                                                              QIN[18][I]=Y3D4P[N3D4P]*(X3D4P[N3D4P]/EN)**3*1.0e-18
+                                                                                                                        # 3622 
+                                                                                                                        if(EN <= (2.0*EIN[18])):
                                                                                                                               pass
                                                                                                                         else:
-                                                                                                                              PEQIN[17][I]=PEQEL[2][(I-IOFFN[17])]
-                                                                                                                        # 3D4'
-                                                                                                                        # 360 
-                                                                                                                        if(EN <= EIN[18]):
+                                                                                                                              PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
+                                                                                                                        # 3D4 
+                                                                                                                        # 363 
+                                                                                                                        if(EN <= EIN[19]):
                                                                                                                               pass
                                                                                                                         else:
-                                                                                                                              flag3622=1
-                                                                                                                              if(EN > X3D4P[N3D4P]):
-                                                                                                                                    pass
-                                                                                                                              else:
-                                                                                                                                    for J in range(2,N3D4P+1):
-                                                                                                                                          if(EN <= X3D4P[J]):
-                                                                                                                                                flag362=0
-                                                                                                                                                break
-                                                                                                                                    if(flag362):
-                                                                                                                                          J=N3D4P
-                                                                                                                                    # 362 
-                                                                                                                                    A=(Y3D4P[J]-Y3D4P[J-1])/(X3D4P[J]-X3D4P[J-1])                    
-                                                                                                                                    B=(X3D4P[J-1]*Y3D4P[J]-X3D4P[J]*Y3D4P[J-1])/(X3D4P[J-1]-X3D4P[J])
-                                                                                                                                    QIN[18][I]=(A*EN+B)*1.e-18
-                                                                                                                                    flag3622=0
-                                                                                                                                    # IF ENERGY GT X3D4P(N3D4P) EV SCALE BY 1/E**3
-                                                                                                                              if(flag3622):
-                                                                                                                                    # 3621 
-                                                                                                                                    QIN[18][I]=Y3D4P[N3D4P]*(X3D4P[N3D4P]/EN)**3*1.0e-18
-                                                                                                                              # 3622 
-                                                                                                                              if(EN <= (2.0*EIN[18])):
-                                                                                                                                    pass
-                                                                                                                              else:
-                                                                                                                                    PEQIN[18][I]=PEQEL[2][(I-IOFFN[18])]
-                                                                                                                              # 3D4 
-                                                                                                                              # 363 
-                                                                                                                              if(EN <= EIN[19]):
+                                                                                                                              flag365=1
+                                                                                                                              if(EN > X3D4[N3D4]):
                                                                                                                                     pass
                                                                                                                               else:
                                                                                                                                     flag365=1
-                                                                                                                                    if(EN > X3D4[N3D4]):
+                                                                                                                                    for J in range(2,N3D4+1):
+                                                                                                                                          if(EN <= X3D4[J]):
+                                                                                                                                                flag365=0
+                                                                                                                                                break
+                                                                                                                                    if(flag365):
+                                                                                                                                          J=N3D4
+                                                                                                                                    # 365 
+                                                                                                                                    A=(Y3D4[J]-Y3D4[J-1])/(X3D4[J]-X3D4[J-1])                    
+                                                                                                                                    B=(X3D4[J-1]*Y3D4[J]-X3D4[J]*Y3D4[J-1])/(X3D4[J-1]-X3D4[J])
+                                                                                                                                    QIN[19][I]=(A*EN+B)*1.e-18
+                                                                                                                                    flag3652=0
+                                                                                                                                    # IF ENERGY GT X3D4[N3D4] EV SCALE BY 1/E**2
+                                                                                                                              if(flag3652):
+                                                                                                                                    # 3651 
+                                                                                                                                    QIN[19][I]=Y3D4[N3D4]*(X3D4[N3D4]/EN)**2*1.0e-18
+                                                                                                                              # 3652 
+                                                                                                                              if(EN <= (2.0*EIN[19])):
+                                                                                                                                    pass
+                                                                                                                              else:
+                                                                                                                                    PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
+                                                                                                                                    # 3D1''
+                                                                                                                              # 366 
+                                                                                                                              if(EN <= EIN[20]):
+                                                                                                                                    pass
+                                                                                                                              else:
+                                                                                                                                    flag3682=1
+                                                                                                                                    if(EN > X3D1PP[N3D1PP]):
                                                                                                                                           pass
                                                                                                                                     else:
-                                                                                                                                          flag365=1
-                                                                                                                                          for J in range(2,N3D4+1):
-                                                                                                                                                if(EN <= X3D4[J]):
-                                                                                                                                                      flag365=0
+                                                                                                                                          flag368=1
+                                                                                                                                          for J in range(2,N3D1PP+1):
+                                                                                                                                                if(EN <= X3D1PP[J]):
+                                                                                                                                                      flag368=0
                                                                                                                                                       break
-                                                                                                                                          if(flag365):
-                                                                                                                                                J=N3D4
-                                                                                                                                          # 365 
-                                                                                                                                          A=(Y3D4[J]-Y3D4[J-1])/(X3D4[J]-X3D4[J-1])                    
-                                                                                                                                          B=(X3D4[J-1]*Y3D4[J]-X3D4[J]*Y3D4[J-1])/(X3D4[J-1]-X3D4[J])
-                                                                                                                                          QIN[19][I]=(A*EN+B)*1.e-18
-                                                                                                                                          flag3652=0
-                                                                                                                                          # IF ENERGY GT X3D4[N3D4] EV SCALE BY 1/E**2
-                                                                                                                                    if(flag3652):
-                                                                                                                                          # 3651 
-                                                                                                                                          QIN[19][I]=Y3D4[N3D4]*(X3D4[N3D4]/EN)**2*1.0e-18
-                                                                                                                                    # 3652 
-                                                                                                                                    if(EN <= (2.0*EIN[19])):
+                                                                                                                                          if(flag368):
+                                                                                                                                                J=N3D1PP
+                                                                                                                                          # 368 
+                                                                                                                                          A=(Y3D1PP[J]-Y3D1PP[J-1])/(X3D1PP[J]-X3D1PP[J-1])               
+                                                                                                                                          B=(X3D1PP[J-1]*Y3D1PP[J]-X3D1PP[J]*Y3D1PP[J-1])/(X3D1PP[J-1]-X3D1PP[J])
+                                                                                                                                          QIN[20][I]=(A*EN+B)*1.e-18
+                                                                                                                                          flag3682=0
+                                                                                                                                          # IF EN GT X3D1PP(N3D1PP) EV  SCALE BY 1/E**2
+                                                                                                                                    if(flag3682):
+                                                                                                                                          # 3681 
+                                                                                                                                          QIN[20][I]=Y3D1PP[N3D1PP]*(X3D1PP[N3D1PP]/EN)**2*1.0e-18
+                                                                                                                                    # 3682 
+                                                                                                                                    if(EN <= (2.0*EIN[20])):
                                                                                                                                           pass
                                                                                                                                     else:
-                                                                                                                                          PEQIN[19][I]=PEQEL[2][(I-IOFFN[19])]
-                                                                                                                                          # 3D1''
-                                                                                                                                    # 366 
-                                                                                                                                    if(EN <= EIN[20]):
+                                                                                                                                          PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
+                                                                                                                                    # 2S5 
+                                                                                                                                    # 369 
+                                                                                                                                    if(EN <= EIN[21]):
                                                                                                                                           pass
                                                                                                                                     else:
-                                                                                                                                          flag3682=1
-                                                                                                                                          if(EN > X3D1PP[N3D1PP]):
+                                                                                                                                          flag3712=1
+                                                                                                                                          if(EN > X2S5[N2S5]):
                                                                                                                                                 pass
                                                                                                                                           else:
-                                                                                                                                                flag368=1
-                                                                                                                                                for J in range(2,N3D1PP+1):
-                                                                                                                                                      if(EN <= X3D1PP[J]):
-                                                                                                                                                            flag368=0
+                                                                                                                                                flag371=1
+                                                                                                                                                for J in range(2,N2S5+1):
+                                                                                                                                                      if(EN <= X2S5[J]):
+                                                                                                                                                            flag371=0
                                                                                                                                                             break
-                                                                                                                                                if(flag368):
-                                                                                                                                                      J=N3D1PP
-                                                                                                                                                # 368 
-                                                                                                                                                A=(Y3D1PP[J]-Y3D1PP[J-1])/(X3D1PP[J]-X3D1PP[J-1])               
-                                                                                                                                                B=(X3D1PP[J-1]*Y3D1PP[J]-X3D1PP[J]*Y3D1PP[J-1])/(X3D1PP[J-1]-X3D1PP[J])
-                                                                                                                                                QIN[20][I]=(A*EN+B)*1.e-18
-                                                                                                                                                flag3682=0
-                                                                                                                                                # IF EN GT X3D1PP(N3D1PP) EV  SCALE BY 1/E**2
-                                                                                                                                          if(flag3682):
-                                                                                                                                                # 3681 
-                                                                                                                                                QIN[20][I]=Y3D1PP[N3D1PP]*(X3D1PP[N3D1PP]/EN)**2*1.0e-18
-                                                                                                                                          # 3682 
-                                                                                                                                          if(EN <= (2.0*EIN[20])):
-                                                                                                                                                pass
-                                                                                                                                          else:
-                                                                                                                                                PEQIN[20][I]=PEQEL[2][(I-IOFFN[20])]
-                                                                                                                                          # 2S5 
-                                                                                                                                          # 369 
-                                                                                                                                          if(EN <= EIN[21]):
-                                                                                                                                                pass
-                                                                                                                                          else:
-                                                                                                                                                flag3712=1
-                                                                                                                                                if(EN > X2S5[N2S5]):
-                                                                                                                                                      pass
-                                                                                                                                                else:
-                                                                                                                                                      flag371=1
-                                                                                                                                                      for J in range(2,N2S5+1):
-                                                                                                                                                            if(EN <= X2S5[J]):
-                                                                                                                                                                  flag371=0
-                                                                                                                                                                  break
-                                                                                                                                                      if(flag371):
-                                                                                                                                                            J=N2S5
+                                                                                                                                                if(flag371):
+                                                                                                                                                      J=N2S5
 
-                                                                                                                                                      # 371 
-                                                                                                                                                      A=(Y2S5[J]-Y2S5[J-1])/(X2S5[J]-X2S5[J-1])                    
-                                                                                                                                                      B=(X2S5[J-1]*Y2S5[J]-X2S5[J]*Y2S5[J-1])/(X2S5[J-1]-X2S5[J])
-                                                                                                                                                      QIN[21][I]=(A*EN+B)*1.e-18
-                                                                                                                                                      flag3712=0
-                                                                                                                                                      # IF EN GT X2S5[N2S5] EV   SCALE BY 1/E**2
-                                                                                                                                                if(flag3712):
-                                                                                                                                                      # 3711 
-                                                                                                                                                      QIN[21][I]=Y2S5[N2S5]*(X2S5[N2S5]/EN)**2*1.0e-18
-                                                                                                                                                # 3712 
-                                                                                                                                                if(EN <= (2.0*EIN[21])):
+                                                                                                                                                # 371 
+                                                                                                                                                A=(Y2S5[J]-Y2S5[J-1])/(X2S5[J]-X2S5[J-1])                    
+                                                                                                                                                B=(X2S5[J-1]*Y2S5[J]-X2S5[J]*Y2S5[J-1])/(X2S5[J-1]-X2S5[J])
+                                                                                                                                                QIN[21][I]=(A*EN+B)*1.e-18
+                                                                                                                                                flag3712=0
+                                                                                                                                                # IF EN GT X2S5[N2S5] EV   SCALE BY 1/E**2
+                                                                                                                                          if(flag3712):
+                                                                                                                                                # 3711 
+                                                                                                                                                QIN[21][I]=Y2S5[N2S5]*(X2S5[N2S5]/EN)**2*1.0e-18
+                                                                                                                                          # 3712 
+                                                                                                                                          if(EN <= (2.0*EIN[21])):
+                                                                                                                                                pass
+                                                                                                                                          else:
+                                                                                                                                                PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
+                                                                                                                                          # 2S4 F=0.0257
+                                                                                                                                          # 372 
+                                                                                                                                          if(EN <= EIN[22]):
+                                                                                                                                                pass
+                                                                                                                                          else:
+                                                                                                                                                QIN[22][I]=0.0257/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[22])
+                                                                                                                                                if(QIN[22][I]< 0.0):
+                                                                                                                                                      QIN[22][I]=0.0
+                                                                                                                                                if(EN <= (2.0*EIN[22])):
                                                                                                                                                       pass
                                                                                                                                                 else:
-                                                                                                                                                      PEQIN[21][I]=PEQEL[2][(I-IOFFN[21])]
-                                                                                                                                                # 2S4 F=0.0257
-                                                                                                                                                # 372 
-                                                                                                                                                if(EN <= EIN[22]):
+                                                                                                                                                      PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
+                                                                                                                                                # 3D1' 
+                                                                                                                                                # 375 
+                                                                                                                                                if(EN <= EIN[23]):
                                                                                                                                                       pass
                                                                                                                                                 else:
-                                                                                                                                                      QIN[22][I]=0.0257/(EIN[22]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[22]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[22])
-                                                                                                                                                      if(QIN[22][I]< 0.0):
-                                                                                                                                                            QIN[22][I]=0.0
-                                                                                                                                                      if(EN <= (2.0*EIN[22])):
+                                                                                                                                                      flag3772=1
+                                                                                                                                                      if(EN > X3D1P[N3D1P]):
                                                                                                                                                             pass
                                                                                                                                                       else:
-                                                                                                                                                            PEQIN[22][I]=PEQEL[2][(I-IOFFN[22])]
-                                                                                                                                                      # 3D1' 
-                                                                                                                                                      # 375 
-                                                                                                                                                      if(EN <= EIN[23]):
+                                                                                                                                                            flag377=1
+                                                                                                                                                            for J in range(2,N3D1P+1):
+                                                                                                                                                                  if(EN <= X3D1P[J]):
+                                                                                                                                                                        flag377=0
+                                                                                                                                                                        break
+                                                                                                                                                            if(flag377):
+                                                                                                                                                                  J=N3D1P
+                                                                                                                                                            # 377 
+                                                                                                                                                            A=(Y3D1P[J]-Y3D1P[J-1])/(X3D1P[J]-X3D1P[J-1])                    
+                                                                                                                                                            B=(X3D1P[J-1]*Y3D1P[J]-X3D1P[J]*Y3D1P[J-1])/(X3D1P[J-1]-X3D1P[J])
+                                                                                                                                                            QIN[23][I]=(A*EN+B)*1.e-18
+                                                                                                                                                            flag3772=0
+                                                                                                                                                            # IF EN GT X3D1P(N3D1P) EV  SCALE BY 1/E
+                                                                                                                                                      if(flag3772):
+                                                                                                                                                            # 3771 
+                                                                                                                                                            QIN[23][I]=Y3D1P[N3D1P]*(X3D1P[N3D1P]/EN)*1.0e-18
+                                                                                                                                                      # 3772 
+                                                                                                                                                      if(EN <= (2.0*EIN[23])):
                                                                                                                                                             pass
                                                                                                                                                       else:
-                                                                                                                                                            flag3772=1
-                                                                                                                                                            if(EN > X3D1P[N3D1P]):
+                                                                                                                                                            PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
+                                                                                                                                                      # 3D2  F=0.074
+                                                                                                                                                      # 378 
+                                                                                                                                                      if(EN <= EIN[24]):
+                                                                                                                                                            pass
+                                                                                                                                                      else:
+                                                                                                                                                            QIN[24][I]=0.0740/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[24])
+                                                                                                                                                            if(QIN[24][I]< 0.0):
+                                                                                                                                                                  QIN[24][I]=0.0
+                                                                                                                                                            if(EN <= (2.0*EIN[24])):
                                                                                                                                                                   pass
                                                                                                                                                             else:
-                                                                                                                                                                  flag377=1
-                                                                                                                                                                  for J in range(2,N3D1P+1):
-                                                                                                                                                                        if(EN <= X3D1P[J]):
-                                                                                                                                                                              flag377=0
-                                                                                                                                                                              break
-                                                                                                                                                                  if(flag377):
-                                                                                                                                                                        J=N3D1P
-                                                                                                                                                                  # 377 
-                                                                                                                                                                  A=(Y3D1P[J]-Y3D1P[J-1])/(X3D1P[J]-X3D1P[J-1])                    
-                                                                                                                                                                  B=(X3D1P[J-1]*Y3D1P[J]-X3D1P[J]*Y3D1P[J-1])/(X3D1P[J-1]-X3D1P[J])
-                                                                                                                                                                  QIN[23][I]=(A*EN+B)*1.e-18
-                                                                                                                                                                  flag3772=0
-                                                                                                                                                                  # IF EN GT X3D1P(N3D1P) EV  SCALE BY 1/E
-                                                                                                                                                            if(flag3772):
-                                                                                                                                                                  # 3771 
-                                                                                                                                                                  QIN[23][I]=Y3D1P[N3D1P]*(X3D1P[N3D1P]/EN)*1.0e-18
-                                                                                                                                                            # 3772 
-                                                                                                                                                            if(EN <= (2.0*EIN[23])):
+                                                                                                                                                                  PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
+                                                                                                                                                            # 3S1''''
+                                                                                                                                                            # 381 
+                                                                                                                                                            if(EN <= EIN[25]):
                                                                                                                                                                   pass
                                                                                                                                                             else:
-                                                                                                                                                                  PEQIN[23][I]=PEQEL[2][(I-IOFFN[23])]
-                                                                                                                                                            # 3D2  F=0.074
-                                                                                                                                                            # 378 
-                                                                                                                                                            if(EN <= EIN[24]):
-                                                                                                                                                                  pass
-                                                                                                                                                            else:
-                                                                                                                                                                  QIN[24][I]=0.0740/(EIN[24]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[24]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[24])
-                                                                                                                                                                  if(QIN[24][I]< 0.0):
-                                                                                                                                                                        QIN[24][I]=0.0
-                                                                                                                                                                  if(EN <= (2.0*EIN[24])):
+                                                                                                                                                                  flag3832=1
+                                                                                                                                                                  if(EN > X3S1PPPP[N3S1PPPP]):
                                                                                                                                                                         pass
                                                                                                                                                                   else:
-                                                                                                                                                                        PEQIN[24][I]=PEQEL[2][(I-IOFFN[24])]
-                                                                                                                                                                  # 3S1''''
-                                                                                                                                                                  # 381 
-                                                                                                                                                                  if(EN <= EIN[25]):
+                                                                                                                                                                        flag383=1
+                                                                                                                                                                        for J in range(2,N3S1PPPP+1):
+                                                                                                                                                                              if(EN <= X3S1PPPP[J]):
+                                                                                                                                                                                    flag383=0
+                                                                                                                                                                                    break
+                                                                                                                                                                                    break
+                                                                                                                                                                        if(flag383):
+                                                                                                                                                                              J=N3S1PPPP
+                                                                                                                                                                        # 383 
+                                                                                                                                                                        A=(Y3S1PPPP[J]-Y3S1PPPP[J-1])/(X3S1PPPP[J]-X3S1PPPP[J-1])         
+                                                                                                                                                                        B=(X3S1PPPP[J-1]*Y3S1PPPP[J]-X3S1PPPP[J]*Y3S1PPPP[J-1])/(X3S1PPPP[J-1]-X3S1PPPP[J])
+                                                                                                                                                                        QIN[25][I]=(A*EN+B)*1.e-18
+                                                                                                                                                                        flag3832=0
+                                                                                                                                                                        # IF EN GT X3S1PPPP(N3S1PPPP) EV  SCALE BY 1/E**3
+                                                                                                                                                                  if(flag3832):
+                                                                                                                                                                        # 3831 
+                                                                                                                                                                        QIN[25][I]=Y3S1PPPP[N3S1PPPP]*(X3S1PPPP[N3S1PPPP]/EN)**3*1.0e-18
+                                                                                                                                                                  # 3832 
+                                                                                                                                                                  if(EN <= (2.0*EIN[25])):
                                                                                                                                                                         pass
                                                                                                                                                                   else:
-                                                                                                                                                                        flag3832=1
-                                                                                                                                                                        if(EN > X3S1PPPP[N3S1PPPP]):
+                                                                                                                                                                        PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
+                                                                                                                                                                  # 3S1''  
+                                                                                                                                                                  # 384 
+                                                                                                                                                                  if(EN <= EIN[26]):
+                                                                                                                                                                        pass
+                                                                                                                                                                  else:
+                                                                                                                                                                        flag3862=1
+                                                                                                                                                                        if(EN > X3S1PP[N3S1PP]):
                                                                                                                                                                               pass
                                                                                                                                                                         else:
-                                                                                                                                                                              flag383=1
-                                                                                                                                                                              for J in range(2,N3S1PPPP+1):
-                                                                                                                                                                                    if(EN <= X3S1PPPP[J]):
-                                                                                                                                                                                          flag383=0
+                                                                                                                                                                              flag386=1
+                                                                                                                                                                              for J in range(2,N3S1PP+1):
+                                                                                                                                                                                    if(EN <= X3S1PP[J]):
+                                                                                                                                                                                          flag386=0
                                                                                                                                                                                           break
-                                                                                                                                                                                          break
-                                                                                                                                                                              if(flag383):
-                                                                                                                                                                                    J=N3S1PPPP
-                                                                                                                                                                              # 383 
-                                                                                                                                                                              A=(Y3S1PPPP[J]-Y3S1PPPP[J-1])/(X3S1PPPP[J]-X3S1PPPP[J-1])         
-                                                                                                                                                                              B=(X3S1PPPP[J-1]*Y3S1PPPP[J]-X3S1PPPP[J]*Y3S1PPPP[J-1])/(X3S1PPPP[J-1]-X3S1PPPP[J])
-                                                                                                                                                                              QIN[25][I]=(A*EN+B)*1.e-18
-                                                                                                                                                                              flag3832=0
-                                                                                                                                                                              # IF EN GT X3S1PPPP(N3S1PPPP) EV  SCALE BY 1/E**3
-                                                                                                                                                                        if(flag3832):
-                                                                                                                                                                              # 3831 
-                                                                                                                                                                              QIN[25][I]=Y3S1PPPP[N3S1PPPP]*(X3S1PPPP[N3S1PPPP]/EN)**3*1.0e-18
-                                                                                                                                                                        # 3832 
-                                                                                                                                                                        if(EN <= (2.0*EIN[25])):
+                                                                                                                                                                              if(flag386):
+                                                                                                                                                                                    J=N3S1PP
+                                                                                                                                                                              # 386 
+                                                                                                                                                                              A=(Y3S1PP[J]-Y3S1PP[J-1])/(X3S1PP[J]-X3S1PP[J-1])         
+                                                                                                                                                                              B=(X3S1PP[J-1]*Y3S1PP[J]-X3S1PP[J]*Y3S1PP[J-1])/(X3S1PP[J-1]-X3S1PP[J])
+                                                                                                                                                                              QIN[26][I]=(A*EN+B)*1.e-18
+                                                                                                                                                                              flag3862=0
+                                                                                                                                                                        # IF EN GT X3S1PP(N3S1PP) EV  SCALE BY 1/E**3
+                                                                                                                                                                        if(flag3862):
+                                                                                                                                                                              # 3861 
+                                                                                                                                                                              QIN[26][I]=Y3S1PP[N3S1PP]*(X3S1PP[N3S1PP]/EN)**3*1.0e-18
+                                                                                                                                                                        # 3862 
+                                                                                                                                                                        if(EN <= (2.0*EIN[26])):
                                                                                                                                                                               pass
                                                                                                                                                                         else:
-                                                                                                                                                                              PEQIN[25][I]=PEQEL[2][(I-IOFFN[25])]
-                                                                                                                                                                        # 3S1''  
-                                                                                                                                                                        # 384 
-                                                                                                                                                                        if(EN <= EIN[26]):
+                                                                                                                                                                              PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
+                                                                                                                                                                        # 3S1'''
+                                                                                                                                                                        # 387 
+                                                                                                                                                                        if(EN <= EIN[27]):
                                                                                                                                                                               pass
                                                                                                                                                                         else:
-                                                                                                                                                                              flag3862=1
-                                                                                                                                                                              if(EN > X3S1PP[N3S1PP]):
+                                                                                                                                                                              if(EN > X3S1PPP[N3S1PPP]):
                                                                                                                                                                                     pass
                                                                                                                                                                               else:
-                                                                                                                                                                                    flag386=1
-                                                                                                                                                                                    for J in range(2,N3S1PP+1):
-                                                                                                                                                                                          if(EN <= X3S1PP[J]):
-                                                                                                                                                                                                flag386=0
+                                                                                                                                                                                    flag389=1
+                                                                                                                                                                                    for J in range(2,N3S1PPP+1):
+                                                                                                                                                                                          if(EN <= X3S1PPP[J]):
+                                                                                                                                                                                                flag389=0
                                                                                                                                                                                                 break
-                                                                                                                                                                                    if(flag386):
-                                                                                                                                                                                          J=N3S1PP
-                                                                                                                                                                                    # 386 
-                                                                                                                                                                                    A=(Y3S1PP[J]-Y3S1PP[J-1])/(X3S1PP[J]-X3S1PP[J-1])         
-                                                                                                                                                                                    B=(X3S1PP[J-1]*Y3S1PP[J]-X3S1PP[J]*Y3S1PP[J-1])/(X3S1PP[J-1]-X3S1PP[J])
-                                                                                                                                                                                    QIN[26][I]=(A*EN+B)*1.e-18
-                                                                                                                                                                                    flag3862=0
-                                                                                                                                                                              # IF EN GT X3S1PP(N3S1PP) EV  SCALE BY 1/E**3
-                                                                                                                                                                              if(flag3862):
-                                                                                                                                                                                    # 3861 
-                                                                                                                                                                                    QIN[26][I]=Y3S1PP[N3S1PP]*(X3S1PP[N3S1PP]/EN)**3*1.0e-18
-                                                                                                                                                                              # 3862 
-                                                                                                                                                                              if(EN <= (2.0*EIN[26])):
+                                                                                                                                                                                    if(flag389):
+                                                                                                                                                                                          J=N3S1PPP
+                                                                                                                                                                                    # 389 
+                                                                                                                                                                                    A=(Y3S1PPP[J]-Y3S1PPP[J-1])/(X3S1PPP[J]-X3S1PPP[J-1])         
+                                                                                                                                                                                    B=(X3S1PPP[J-1]*Y3S1PPP[J]-X3S1PPP[J]*Y3S1PPP[J-1])/(X3S1PPP[J-1]-X3S1PPP[J])
+                                                                                                                                                                                    QIN[27][I]=(A*EN+B)*1.e-18
+                                                                                                                                                                                    flag3892=0
+                                                                                                                                                                                    # IF EN GT X3S1PPP(N3S1PPP) EV  SCALE BY 1/E
+                                                                                                                                                                              if(flag3892):
+                                                                                                                                                                                    # 3891 
+                                                                                                                                                                                    QIN[27][I]=Y3S1PPP[N3S1PPP]*(X3S1PPP[N3S1PPP]/EN)*1.0e-18
+                                                                                                                                                                              # 3892 
+                                                                                                                                                                              if(EN <= (2.0*EIN[27])):
                                                                                                                                                                                     pass
                                                                                                                                                                               else:
-                                                                                                                                                                                    PEQIN[26][I]=PEQEL[2][(I-IOFFN[26])]
-                                                                                                                                                                              # 3S1'''
-                                                                                                                                                                              # 387 
-                                                                                                                                                                              if(EN <= EIN[27]):
+                                                                                                                                                                                    PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
+                                                                                                                                                                              # 2S3 
+                                                                                                                                                                              # 390 
+                                                                                                                                                                              if(EN <= EIN[28]):
                                                                                                                                                                                     pass
                                                                                                                                                                               else:
-                                                                                                                                                                                    if(EN > X3S1PPP[N3S1PPP]):
+                                                                                                                                                                                    flag3922=1
+                                                                                                                                                                                    if(EN > X2S3[N2S3]):
                                                                                                                                                                                           pass
                                                                                                                                                                                     else:
-                                                                                                                                                                                          flag389=1
-                                                                                                                                                                                          for J in range(2,N3S1PPP+1):
-                                                                                                                                                                                                if(EN <= X3S1PPP[J]):
-                                                                                                                                                                                                      flag389=0
+                                                                                                                                                                                          for J in range(2,N2S3+1):
+                                                                                                                                                                                                if(EN <= X2S3[J]):
+                                                                                                                                                                                                      flag392=0
                                                                                                                                                                                                       break
-                                                                                                                                                                                          if(flag389):
-                                                                                                                                                                                                J=N3S1PPP
-                                                                                                                                                                                          # 389 
-                                                                                                                                                                                          A=(Y3S1PPP[J]-Y3S1PPP[J-1])/(X3S1PPP[J]-X3S1PPP[J-1])         
-                                                                                                                                                                                          B=(X3S1PPP[J-1]*Y3S1PPP[J]-X3S1PPP[J]*Y3S1PPP[J-1])/(X3S1PPP[J-1]-X3S1PPP[J])
-                                                                                                                                                                                          QIN[27][I]=(A*EN+B)*1.e-18
-                                                                                                                                                                                          flag3892=0
-                                                                                                                                                                                          # IF EN GT X3S1PPP(N3S1PPP) EV  SCALE BY 1/E
-                                                                                                                                                                                    if(flag3892):
-                                                                                                                                                                                          # 3891 
-                                                                                                                                                                                          QIN[27][I]=Y3S1PPP[N3S1PPP]*(X3S1PPP[N3S1PPP]/EN)*1.0e-18
-                                                                                                                                                                                    # 3892 
-                                                                                                                                                                                    if(EN <= (2.0*EIN[27])):
+                                                                                                                                                                                          if(flag392):
+                                                                                                                                                                                                J=N2S3
+                                                                                                                                                                                          # 392 
+                                                                                                                                                                                          A=(Y2S3[J]-Y2S3[J-1])/(X2S3[J]-X2S3[J-1])                    
+                                                                                                                                                                                          B=(X2S3[J-1]*Y2S3[J]-X2S3[J]*Y2S3[J-1])/(X2S3[J-1]-X2S3[J])
+                                                                                                                                                                                          QIN[28][I]=(A*EN+B)*1.e-18
+                                                                                                                                                                                          flag3922=0
+                                                                                                                                                                                          # IF EN GT X2S3[N2S3] EV  SCALE BY 1/E**2
+                                                                                                                                                                                    if(flag3922):
+                                                                                                                                                                                          # 3921 
+                                                                                                                                                                                          QIN[28][I]=Y2S3[N2S3]*(X2S3[N2S3]/EN)**2*1.0e-18
+                                                                                                                                                                                    # 3922 
+                                                                                                                                                                                    if(EN <= (2.0*EIN[28])):
                                                                                                                                                                                           pass
                                                                                                                                                                                     else:
-                                                                                                                                                                                          PEQIN[27][I]=PEQEL[2][(I-IOFFN[27])]
-                                                                                                                                                                                    # 2S3 
-                                                                                                                                                                                    # 390 
-                                                                                                                                                                                    if(EN <= EIN[28]):
+                                                                                                                                                                                          PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
+                                                                                                                                                                                    # 2S2  F=0.011
+                                                                                                                                                                                    # 393 
+                                                                                                                                                                                    if(EN <= EIN[29]):
                                                                                                                                                                                           pass
                                                                                                                                                                                     else:
-                                                                                                                                                                                          flag3922=1
-                                                                                                                                                                                          if(EN > X2S3[N2S3]):
+                                                                                                                                                                                          QIN[29][I]=0.0110/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[29])
+                                                                                                                                                                                          if(QIN[29][I]< 0.0):
+                                                                                                                                                                                                QIN[29][I]=0.0
+                                                                                                                                                                                          if(EN <= (2.0*EIN[29])):
                                                                                                                                                                                                 pass
                                                                                                                                                                                           else:
-                                                                                                                                                                                                for J in range(2,N2S3+1):
-                                                                                                                                                                                                      if(EN <= X2S3[J]):
-                                                                                                                                                                                                            flag392=0
-                                                                                                                                                                                                            break
-                                                                                                                                                                                                if(flag392):
-                                                                                                                                                                                                      J=N2S3
-                                                                                                                                                                                                # 392 
-                                                                                                                                                                                                A=(Y2S3[J]-Y2S3[J-1])/(X2S3[J]-X2S3[J-1])                    
-                                                                                                                                                                                                B=(X2S3[J-1]*Y2S3[J]-X2S3[J]*Y2S3[J-1])/(X2S3[J-1]-X2S3[J])
-                                                                                                                                                                                                QIN[28][I]=(A*EN+B)*1.e-18
-                                                                                                                                                                                                flag3922=0
-                                                                                                                                                                                                # IF EN GT X2S3[N2S3] EV  SCALE BY 1/E**2
-                                                                                                                                                                                          if(flag3922):
-                                                                                                                                                                                                # 3921 
-                                                                                                                                                                                                QIN[28][I]=Y2S3[N2S3]*(X2S3[N2S3]/EN)**2*1.0e-18
-                                                                                                                                                                                          # 3922 
-                                                                                                                                                                                          if(EN <= (2.0*EIN[28])):
+                                                                                                                                                                                                PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
+                                                                                                                                                                                          # 3S1' F=0.092
+                                                                                                                                                                                          # 396 
+                                                                                                                                                                                          if(EN <= EIN[30]):
                                                                                                                                                                                                 pass
                                                                                                                                                                                           else:
-                                                                                                                                                                                                PEQIN[28][I]=PEQEL[2][(I-IOFFN[28])]
-                                                                                                                                                                                          # 2S2  F=0.011
-                                                                                                                                                                                          # 393 
-                                                                                                                                                                                          if(EN <= EIN[29]):
-                                                                                                                                                                                                pass
-                                                                                                                                                                                          else:
-                                                                                                                                                                                                QIN[29][I]=0.0110/(EIN[29]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[29]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[29])
-                                                                                                                                                                                                if(QIN[29][I]< 0.0):
-                                                                                                                                                                                                      QIN[29][I]=0.0
-                                                                                                                                                                                                if(EN <= (2.0*EIN[29])):
+                                                                                                                                                                                                QIN[30][I]=0.0920/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[30])
+                                                                                                                                                                                                if(QIN[30][I]< 0.0):
+                                                                                                                                                                                                      QIN[30][I]=0.0
+                                                                                                                                                                                                if(EN <= (2.0*EIN[30])):
                                                                                                                                                                                                       pass
                                                                                                                                                                                                 else:
-                                                                                                                                                                                                      PEQIN[29][I]=PEQEL[2][(I-IOFFN[29])]
-                                                                                                                                                                                                # 3S1' F=0.092
-                                                                                                                                                                                                # 396 
-                                                                                                                                                                                                if(EN <= EIN[30]):
+                                                                                                                                                                                                      PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
+                                                                                                                                                                                                # 4D5 F=0.0019
+                                                                                                                                                                                                # 399 
+                                                                                                                                                                                                if(EN <= EIN[31]):
                                                                                                                                                                                                       pass
                                                                                                                                                                                                 else:
-                                                                                                                                                                                                      QIN[30][I]=0.0920/(EIN[30]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[30]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[30])
-                                                                                                                                                                                                      if(QIN[30][I]< 0.0):
-                                                                                                                                                                                                            QIN[30][I]=0.0
-                                                                                                                                                                                                      if(EN <= (2.0*EIN[30])):
+                                                                                                                                                                                                      QIN[31][I]=0.0019/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[31])
+                                                                                                                                                                                                      if(QIN[31][I]< 0.0):
+                                                                                                                                                                                                            QIN[31][I]=0.0
+                                                                                                                                                                                                      if(EN <= (2.0*EIN[31])):
                                                                                                                                                                                                             pass
                                                                                                                                                                                                       else:
-                                                                                                                                                                                                            PEQIN[30][I]=PEQEL[2][(I-IOFFN[30])]
-                                                                                                                                                                                                      # 4D5 F=0.0019
-                                                                                                                                                                                                      # 399 
-                                                                                                                                                                                                      if(EN <= EIN[31]):
+                                                                                                                                                                                                            PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
+                                                                                                                                                                                                      # 3S4 F=0.0144
+                                                                                                                                                                                                      # 400 
+                                                                                                                                                                                                      if(EN <= EIN[32]):
                                                                                                                                                                                                             pass
                                                                                                                                                                                                       else:
-                                                                                                                                                                                                            QIN[31][I]=0.0019/(EIN[31]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[31]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[31])
-                                                                                                                                                                                                            if(QIN[31][I]< 0.0):
-                                                                                                                                                                                                                  QIN[31][I]=0.0
-                                                                                                                                                                                                            if(EN <= (2.0*EIN[31])):
+                                                                                                                                                                                                            QIN[32][I]=0.0144/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[32])
+                                                                                                                                                                                                            if(QIN[32][I]< 0.0):
+                                                                                                                                                                                                                  QIN[32][I]=0.0
+                                                                                                                                                                                                            if(EN <= (2.0*EIN[32])):
                                                                                                                                                                                                                   pass
                                                                                                                                                                                                             else:
-                                                                                                                                                                                                                  PEQIN[31][I]=PEQEL[2][(I-IOFFN[31])]
-                                                                                                                                                                                                            # 3S4 F=0.0144
-                                                                                                                                                                                                            # 400 
-                                                                                                                                                                                                            if(EN <= EIN[32]):
+                                                                                                                                                                                                                  PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
+                                                                                                                                                                                                            # 4D2 F=0.0484
+                                                                                                                                                                                                            # 401 
+                                                                                                                                                                                                            if(EN <= EIN[33]):
                                                                                                                                                                                                                   pass
                                                                                                                                                                                                             else:
-                                                                                                                                                                                                                  QIN[32][I]=0.0144/(EIN[32]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[32]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[32])
-                                                                                                                                                                                                                  if(QIN[32][I]< 0.0):
-                                                                                                                                                                                                                        QIN[32][I]=0.0
-                                                                                                                                                                                                                  if(EN <= (2.0*EIN[32])):
+                                                                                                                                                                                                                  QIN[33][I]=0.0484/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[33])
+                                                                                                                                                                                                                  if(QIN[33][I]< 0.0):
+                                                                                                                                                                                                                        QIN[33][I]=0.0
+                                                                                                                                                                                                                  if(EN <= (2.0*EIN[33])):
                                                                                                                                                                                                                         pass
                                                                                                                                                                                                                   else:
-                                                                                                                                                                                                                        PEQIN[32][I]=PEQEL[2][(I-IOFFN[32])]
-                                                                                                                                                                                                                  # 4D2 F=0.0484
-                                                                                                                                                                                                                  # 401 
-                                                                                                                                                                                                                  if(EN <= EIN[33]):
+                                                                                                                                                                                                                        PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
+                                                                                                                                                                                                                  # 4S1' F=0.0209
+                                                                                                                                                                                                                  # 402 
+                                                                                                                                                                                                                  if(EN <= EIN[34]):
                                                                                                                                                                                                                         pass
                                                                                                                                                                                                                   else:
-                                                                                                                                                                                                                        QIN[33][I]=0.0484/(EIN[33]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[33]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[33])
-                                                                                                                                                                                                                        if(QIN[33][I]< 0.0):
-                                                                                                                                                                                                                              QIN[33][I]=0.0
-                                                                                                                                                                                                                        if(EN <= (2.0*EIN[33])):
+                                                                                                                                                                                                                        QIN[34][I]=0.0209/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[34])
+                                                                                                                                                                                                                        if(QIN[34][I]< 0.0):
+                                                                                                                                                                                                                              QIN[34][I]=0.0
+                                                                                                                                                                                                                        if(EN <= (2.0*EIN[34])):
                                                                                                                                                                                                                               pass
                                                                                                                                                                                                                         else:
-                                                                                                                                                                                                                              PEQIN[33][I]=PEQEL[2][(I-IOFFN[33])]
-                                                                                                                                                                                                                        # 4S1' F=0.0209
-                                                                                                                                                                                                                        # 402 
-                                                                                                                                                                                                                        if(EN <= EIN[34]):
+                                                                                                                                                                                                                              PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
+                                                                                                                                                                                                                        # 3S2  F=0.0220
+                                                                                                                                                                                                                        # 403 
+                                                                                                                                                                                                                        if(EN <= EIN[35]):
                                                                                                                                                                                                                               pass
                                                                                                                                                                                                                         else:
-                                                                                                                                                                                                                              QIN[34][I]=0.0209/(EIN[34]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[34]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[34])
-                                                                                                                                                                                                                              if(QIN[34][I]< 0.0):
-                                                                                                                                                                                                                                    QIN[34][I]=0.0
-                                                                                                                                                                                                                              if(EN <= (2.0*EIN[34])):
+                                                                                                                                                                                                                              QIN[35][I]=0.0220/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[35])
+                                                                                                                                                                                                                              if(QIN[35][I]< 0.0):
+                                                                                                                                                                                                                                    QIN[35][I]=0.0
+                                                                                                                                                                                                                              if(EN <= (2.0*EIN[35])):
                                                                                                                                                                                                                                     pass
                                                                                                                                                                                                                               else:
-                                                                                                                                                                                                                                    PEQIN[34][I]=PEQEL[2][(I-IOFFN[34])]
-                                                                                                                                                                                                                              # 3S2  F=0.0220
-                                                                                                                                                                                                                              # 403 
-                                                                                                                                                                                                                              if(EN <= EIN[35]):
+                                                                                                                                                                                                                                    PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
+                                                                                                                                                                                                                              # 5D5  F=0.0041
+                                                                                                                                                                                                                              # 404 
+                                                                                                                                                                                                                              if(EN <= EIN[36]):
                                                                                                                                                                                                                                     pass
                                                                                                                                                                                                                               else:
-                                                                                                                                                                                                                                    QIN[35][I]=0.0220/(EIN[35]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[35]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[35])
-                                                                                                                                                                                                                                    if(QIN[35][I]< 0.0):
-                                                                                                                                                                                                                                          QIN[35][I]=0.0
-                                                                                                                                                                                                                                    if(EN <= (2.0*EIN[35])):
+                                                                                                                                                                                                                                    QIN[36][I]=0.0041/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[36])
+                                                                                                                                                                                                                                    if(QIN[36][I]< 0.0):
+                                                                                                                                                                                                                                          QIN[36][I]=0.0
+                                                                                                                                                                                                                                    if(EN <= (2.0*EIN[36])):
                                                                                                                                                                                                                                           pass
                                                                                                                                                                                                                                     else:
-                                                                                                                                                                                                                                          PEQIN[35][I]=PEQEL[2][(I-IOFFN[35])]
-                                                                                                                                                                                                                                    # 5D5  F=0.0041
-                                                                                                                                                                                                                                    # 404 
-                                                                                                                                                                                                                                    if(EN <= EIN[36]):
+                                                                                                                                                                                                                                          PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
+                                                                                                                                                                                                                                    # 4S4  F=0.0426
+                                                                                                                                                                                                                                    # 405 
+                                                                                                                                                                                                                                    if(EN <= EIN[37]):
                                                                                                                                                                                                                                           pass
                                                                                                                                                                                                                                     else:
-                                                                                                                                                                                                                                          QIN[36][I]=0.0041/(EIN[36]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[36]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[36])
-                                                                                                                                                                                                                                          if(QIN[36][I]< 0.0):
-                                                                                                                                                                                                                                                QIN[36][I]=0.0
-                                                                                                                                                                                                                                          if(EN <= (2.0*EIN[36])):
+                                                                                                                                                                                                                                          QIN[37][I]=0.0426/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[37])
+                                                                                                                                                                                                                                          if(QIN[37][I]< 0.0):
+                                                                                                                                                                                                                                                QIN[37][I]=0.0
+                                                                                                                                                                                                                                          if(EN <= (2.0*EIN[37])):
                                                                                                                                                                                                                                                 pass
                                                                                                                                                                                                                                           else:
-                                                                                                                                                                                                                                                PEQIN[36][I]=PEQEL[2][(I-IOFFN[36])]
-                                                                                                                                                                                                                                          # 4S4  F=0.0426
-                                                                                                                                                                                                                                          # 405 
-                                                                                                                                                                                                                                          if(EN <= EIN[37]):
+                                                                                                                                                                                                                                                PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
+                                                                                                                                                                                                                                          # 5D2  F=0.0426
+                                                                                                                                                                                                                                          # 406 
+                                                                                                                                                                                                                                          if(EN <= EIN[38]):
                                                                                                                                                                                                                                                 pass
                                                                                                                                                                                                                                           else:
-                                                                                                                                                                                                                                                QIN[37][I]=0.0426/(EIN[37]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[37]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[37])
-                                                                                                                                                                                                                                                if(QIN[37][I]< 0.0):
-                                                                                                                                                                                                                                                      QIN[37][I]=0.0
-                                                                                                                                                                                                                                                if(EN <= (2.0*EIN[37])):
+                                                                                                                                                                                                                                                QIN[38][I]=0.0426/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[38])
+                                                                                                                                                                                                                                                if(QIN[38][I]< 0.0):
+                                                                                                                                                                                                                                                      QIN[38][I]=0.0
+                                                                                                                                                                                                                                                if(EN <= (2.0*EIN[38])):
                                                                                                                                                                                                                                                       pass
                                                                                                                                                                                                                                                 else:
-                                                                                                                                                                                                                                                      PEQIN[37][I]=PEQEL[2][(I-IOFFN[37])]
-                                                                                                                                                                                                                                                # 5D2  F=0.0426
-                                                                                                                                                                                                                                                # 406 
-                                                                                                                                                                                                                                                if(EN <= EIN[38]):
+                                                                                                                                                                                                                                                      PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
+                                                                                                                                                                                                                                                # 6D5  F=0.00075
+                                                                                                                                                                                                                                                # 407 
+                                                                                                                                                                                                                                                if(EN <= EIN[39]):
                                                                                                                                                                                                                                                       pass
                                                                                                                                                                                                                                                 else:
-                                                                                                                                                                                                                                                      QIN[38][I]=0.0426/(EIN[38]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[38]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[38])
-                                                                                                                                                                                                                                                      if(QIN[38][I]< 0.0):
-                                                                                                                                                                                                                                                            QIN[38][I]=0.0
-                                                                                                                                                                                                                                                      if(EN <= (2.0*EIN[38])):
+                                                                                                                                                                                                                                                      QIN[39][I]=.00075/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[39])
+                                                                                                                                                                                                                                                      if(QIN[39][I]< 0.0):
+                                                                                                                                                                                                                                                            QIN[39][I]=0.0
+                                                                                                                                                                                                                                                      if(EN <= (2.0*EIN[39])):
                                                                                                                                                                                                                                                             pass
                                                                                                                                                                                                                                                       else:
-                                                                                                                                                                                                                                                            PEQIN[38][I]=PEQEL[2][(I-IOFFN[38])]
-                                                                                                                                                                                                                                                      # 6D5  F=0.00075
-                                                                                                                                                                                                                                                      # 407 
-                                                                                                                                                                                                                                                      if(EN <= EIN[39]):
+                                                                                                                                                                                                                                                            PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
+                                                                                                                                                                                                                                                      # 5S1' F=0.00051
+                                                                                                                                                                                                                                                      # 408 
+                                                                                                                                                                                                                                                      if(EN <= EIN[40]):
                                                                                                                                                                                                                                                             pass
                                                                                                                                                                                                                                                       else:
-                                                                                                                                                                                                                                                            QIN[39][I]=.00075/(EIN[39]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[39]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[39])
-                                                                                                                                                                                                                                                            if(QIN[39][I]< 0.0):
-                                                                                                                                                                                                                                                                  QIN[39][I]=0.0
-                                                                                                                                                                                                                                                            if(EN <= (2.0*EIN[39])):
+                                                                                                                                                                                                                                                            QIN[40][I]=.00051/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[40])
+                                                                                                                                                                                                                                                            if(QIN[40][I]< 0.0):
+                                                                                                                                                                                                                                                                  QIN[40][I]=0.0
+                                                                                                                                                                                                                                                            if(EN <= (2.0*EIN[40])):
                                                                                                                                                                                                                                                                   pass
                                                                                                                                                                                                                                                             else:
-                                                                                                                                                                                                                                                                  PEQIN[39][I]=PEQEL[2][(I-IOFFN[39])]
-                                                                                                                                                                                                                                                            # 5S1' F=0.00051
-                                                                                                                                                                                                                                                            # 408 
-                                                                                                                                                                                                                                                            if(EN <= EIN[40]):
+                                                                                                                                                                                                                                                                  PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
+                                                                                                                                                                                                                                                            # 4S2  F=0.00074
+                                                                                                                                                                                                                                                            # 409 
+                                                                                                                                                                                                                                                            if(EN <= EIN[41]):
                                                                                                                                                                                                                                                                   pass
                                                                                                                                                                                                                                                             else:
-                                                                                                                                                                                                                                                                  QIN[40][I]=.00051/(EIN[40]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[40]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[40])
-                                                                                                                                                                                                                                                                  if(QIN[40][I]< 0.0):
-                                                                                                                                                                                                                                                                        QIN[40][I]=0.0
-                                                                                                                                                                                                                                                                  if(EN <= (2.0*EIN[40])):
+                                                                                                                                                                                                                                                                  QIN[41][I]=.00074/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[41])
+                                                                                                                                                                                                                                                                  if(QIN[41][I]< 0.0):
+                                                                                                                                                                                                                                                                        QIN[41][I]=0.0
+                                                                                                                                                                                                                                                                  if(EN <= (2.0*EIN[41])):
                                                                                                                                                                                                                                                                         pass
                                                                                                                                                                                                                                                                   else:
-                                                                                                                                                                                                                                                                        PEQIN[40][I]=PEQEL[2][(I-IOFFN[40])]
-                                                                                                                                                                                                                                                                  # 4S2  F=0.00074
-                                                                                                                                                                                                                                                                  # 409 
-                                                                                                                                                                                                                                                                  if(EN <= EIN[41]):
+                                                                                                                                                                                                                                                                        PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
+                                                                                                                                                                                                                                                                  # 5S4  F=0.0130 
+                                                                                                                                                                                                                                                                  # 410 
+                                                                                                                                                                                                                                                                  if(EN <= EIN[42]):
                                                                                                                                                                                                                                                                         pass
                                                                                                                                                                                                                                                                   else:
-                                                                                                                                                                                                                                                                        QIN[41][I]=.00074/(EIN[41]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[41]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[41])
-                                                                                                                                                                                                                                                                        if(QIN[41][I]< 0.0):
-                                                                                                                                                                                                                                                                              QIN[41][I]=0.0
-                                                                                                                                                                                                                                                                        if(EN <= (2.0*EIN[41])):
+                                                                                                                                                                                                                                                                        QIN[42][I]=0.0130/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[42])
+                                                                                                                                                                                                                                                                        if(QIN[42][I]< 0.0):
+                                                                                                                                                                                                                                                                              QIN[42][I]=0.0
+                                                                                                                                                                                                                                                                        if(EN <= (2.0*EIN[42])):
                                                                                                                                                                                                                                                                               pass
                                                                                                                                                                                                                                                                         else:
-                                                                                                                                                                                                                                                                              PEQIN[41][I]=PEQEL[2][(I-IOFFN[41])]
-                                                                                                                                                                                                                                                                        # 5S4  F=0.0130 
-                                                                                                                                                                                                                                                                        # 410 
-                                                                                                                                                                                                                                                                        if(EN <= EIN[42]):
+                                                                                                                                                                                                                                                                              PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
+                                                                                                                                                                                                                                                                        # 6D2  F=0.0290 
+                                                                                                                                                                                                                                                                        # 411 
+                                                                                                                                                                                                                                                                        if(EN <= EIN[43]):
                                                                                                                                                                                                                                                                               pass
                                                                                                                                                                                                                                                                         else:
-                                                                                                                                                                                                                                                                              QIN[42][I]=0.0130/(EIN[42]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[42]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[42])
-                                                                                                                                                                                                                                                                              if(QIN[42][I]< 0.0):
-                                                                                                                                                                                                                                                                                    QIN[42][I]=0.0
-                                                                                                                                                                                                                                                                              if(EN <= (2.0*EIN[42])):
+                                                                                                                                                                                                                                                                              QIN[43][I]=0.0290/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[43])
+                                                                                                                                                                                                                                                                              if(QIN[43][I]< 0.0):
+                                                                                                                                                                                                                                                                                    QIN[43][I]=0.0
+                                                                                                                                                                                                                                                                              if(EN <= (2.0*EIN[43])):
                                                                                                                                                                                                                                                                                     pass
                                                                                                                                                                                                                                                                               else:
-                                                                                                                                                                                                                                                                                    PEQIN[42][I]=PEQEL[2][(I-IOFFN[42])]
-                                                                                                                                                                                                                                                                              # 6D2  F=0.0290 
-                                                                                                                                                                                                                                                                              # 411 
-                                                                                                                                                                                                                                                                              if(EN <= EIN[43]):
+                                                                                                                                                                                                                                                                                    PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
+                                                                                                                                                                                                                                                                              # SUM HIGHER J=1 STATES F=0.1315
+                                                                                                                                                                                                                                                                              # 412 
+                                                                                                                                                                                                                                                                              if(EN <= EIN[44]):
                                                                                                                                                                                                                                                                                     pass
                                                                                                                                                                                                                                                                               else:
-                                                                                                                                                                                                                                                                                    QIN[43][I]=0.0290/(EIN[43]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[43]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[43])
-                                                                                                                                                                                                                                                                                    if(QIN[43][I]< 0.0):
-                                                                                                                                                                                                                                                                                          QIN[43][I]=0.0
-                                                                                                                                                                                                                                                                                    if(EN <= (2.0*EIN[43])):
+                                                                                                                                                                                                                                                                                    QIN[44][I]=0.1315/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[44])
+                                                                                                                                                                                                                                                                                    if(QIN[44][I]< 0.0):
+                                                                                                                                                                                                                                                                                          QIN[44][I]=0.0
+                                                                                                                                                                                                                                                                                    if(EN <= (2.0*EIN[44])):
                                                                                                                                                                                                                                                                                           pass
                                                                                                                                                                                                                                                                                     else:
-                                                                                                                                                                                                                                                                                          PEQIN[43][I]=PEQEL[2][(I-IOFFN[43])]
-                                                                                                                                                                                                                                                                                    # SUM HIGHER J=1 STATES F=0.1315
-                                                                                                                                                                                                                                                                                    # 412 
-                                                                                                                                                                                                                                                                                    if(EN <= EIN[44]):
-                                                                                                                                                                                                                                                                                          pass
-                                                                                                                                                                                                                                                                                    else:
-                                                                                                                                                                                                                                                                                          QIN[44][I]=0.1315/(EIN[44]*BETA2)*(math.log(BETA2*GAMMA2*EMASS2/(4.0*EIN[44]))-BETA2-DEN[I]/2.0)*BBCONST*EN/(EN+E[3]+EIN[44])
-                                                                                                                                                                                                                                                                                          if(QIN[44][I]< 0.0):
-                                                                                                                                                                                                                                                                                                QIN[44][I]=0.0
-                                                                                                                                                                                                                                                                                          if(EN <= (2.0*EIN[44])):
-                                                                                                                                                                                                                                                                                                pass
-                                                                                                                                                                                                                                                                                          else:
-                                                                                                                                                                                                                                                                                                PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
-                        globals().update(locals())
-                  # 413 CONTINUE
-                  # BREMSSTRAHLUNG X-SECTION
-                  QIN[45][I]=0.0
-                  if(EN <= 1000.):
-                        pass
-                  else:
-                        flag415=1
-                        for J in range(2,NBREM+1):
-                              if(EN <= EBRM[J]):
-                                    flag415=0
-                                    break
-                        if(flag415):
-                              J=NBREM
-                        # 415 
-                        A=(math.log(Z18T[J])-math.log(Z18T[J-1]))/(EBRM[J]-EBRM[J-1])
-                        B=(math.log(Z18T[J])*EBRM[J-1]-math.log(Z18T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
-                        QIN[45][I]=math.exp(A*EN+B)*1.e-24
-                  # 450 CONTINUE     
-                  Q1SSUM=QIN[1][I]+QIN[2][I]+QIN[3][I]+QIN[4][I] 
-                  QPSSUM=QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN[10][I]+QIN[11][I]+QIN[12][I]+QIN[13][I]+QIN[14][I]   
-                  QDSSUM=QIN[17][I]+QIN[18][I]+QIN[19][I]+QIN[20][I]+QIN[21][I]+QIN[22][I]+QIN[23][I]+QIN[24][I]+QIN[25][I]+QIN[26][I]+QIN[27][I]+QIN[28][I]+QIN[29][I]+QIN[30][I]+QIN[31][I]+QIN[32][I]+QIN[33][I]+QIN[34][I]+QIN[35][I]+QIN[36][I]+QIN[37][I]+QIN[38][I]+QIN[39][I]+QIN[40][I]+QIN[41][I]+QIN[42][I]+QIN[43][I]+QIN[44][I]+QIN[15][I]+QIN[16][I]
-                  TOTSUM=Q1SSUM+QPSSUM+QDSSUM    
-                  #     WRITE(6,997) EN,QIN[1][I],QIN[2][I],QIN[3][I],QIN[4][I],Q1SSUM,QPSSUM,
-                  #    /QDSSUM,TOTSUM
-                  # 997 print(' EN =',D12.5,' Q1S5 =','%.3f' %,' Q1S4 =','%.3f' %,' Q1S3 =',
-                  #    /'%.3f' %,' Q1S2 =','%.3f' %,/,'S1 =','%.3f' %,' P2=','%.3f' %,' D3 =','%.3f' %,
-                  #    /' QTOT=','%.3f' %)  
-                  #  TOTAL X-SECTION
-                  Q[1][I]=QELA+Q1SSUM+QPSSUM+QDSSUM+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QIN[45][I]  
+                                                                                                                                                                                                                                                                                          PEQIN[44][I]=PEQEL[2][(I-IOFFN[44])]
+                  globals().update(locals())
+            # 413 CONTINUE
+            # BREMSSTRAHLUNG X-SECTION
+            QIN[45][I]=0.0
+            if(EN <= 1000.):
+                  pass
+            else:
+                  flag415=1
+                  for J in range(2,NBREM+1):
+                        if(EN <= EBRM[J]):
+                              flag415=0
+                              break
+                  if(flag415):
+                        J=NBREM
+                  # 415 
+                  A=(math.log(Z18T[J])-math.log(Z18T[J-1]))/(EBRM[J]-EBRM[J-1])
+                  B=(math.log(Z18T[J])*EBRM[J-1]-math.log(Z18T[J-1])*EBRM[J])/(EBRM[J-1]-EBRM[J])
+                  QIN[45][I]=math.exp(A*EN+B)*1.e-24
+            # 450 CONTINUE     
+            Q1SSUM=QIN[1][I]+QIN[2][I]+QIN[3][I]+QIN[4][I] 
+            QPSSUM=QIN[5][I]+QIN[6][I]+QIN[7][I]+QIN[8][I]+QIN[9][I]+QIN[10][I]+QIN[11][I]+QIN[12][I]+QIN[13][I]+QIN[14][I]   
+            QDSSUM=QIN[17][I]+QIN[18][I]+QIN[19][I]+QIN[20][I]+QIN[21][I]+QIN[22][I]+QIN[23][I]+QIN[24][I]+QIN[25][I]+QIN[26][I]+QIN[27][I]+QIN[28][I]+QIN[29][I]+QIN[30][I]+QIN[31][I]+QIN[32][I]+QIN[33][I]+QIN[34][I]+QIN[35][I]+QIN[36][I]+QIN[37][I]+QIN[38][I]+QIN[39][I]+QIN[40][I]+QIN[41][I]+QIN[42][I]+QIN[43][I]+QIN[44][I]+QIN[15][I]+QIN[16][I]
+            TOTSUM=Q1SSUM+QPSSUM+QDSSUM    
+            #     WRITE(6,997) EN,QIN[1][I],QIN[2][I],QIN[3][I],QIN[4][I],Q1SSUM,QPSSUM,
+            #    /QDSSUM,TOTSUM
+            # 997 print(' EN =',D12.5,' Q1S5 =','%.3f' %,' Q1S4 =','%.3f' %,' Q1S3 =',
+            #    /'%.3f' %,' Q1S2 =','%.3f' %,/,'S1 =','%.3f' %,' P2=','%.3f' %,' D3 =','%.3f' %,
+            #    /' QTOT=','%.3f' %)  
+            #  TOTAL X-SECTION
+            Q[1][I]=QELA+Q1SSUM+QPSSUM+QDSSUM+QION[1][I]+QION[2][I]+QION[3][I]+QION[4][I]+QION[5][I]+QION[6][I]+QION[7][I]+QIN[45][I]  
+            globals().update(locals())
+            return 1
+      complete=0
       for I in range(1,NSTEP+1):
             EN=EG[I]
             #     EN=EN+ESTEP
@@ -3797,7 +3800,9 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                   if(EN == 0.0):
                         QMOM=7.491E-16
                   if(EN == 0.0):
-                        GOTO200()
+                        complete=GOTO200()
+                        if(complete):
+                              break
                   # print(EN,ARY)                                           
                   AK=math.sqrt(EN/ARY)
                   AK2=AK*AK
@@ -3823,7 +3828,9 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
                         SIGEL=SIGEL+(2.0*J+1.0)*(numpy.sin(ANLOW))**2             
                   QELA=SIGEL*4.0*PIR2/AK2                                           
                   QMOM=SUM*4.0*PIR2/AK2   
-                  GOTO200()                                                         
+                  complete=GOTO200()
+                  if(complete):
+                        break
             # 100 CONTINUE       
             flag120=1      
             for J in range(2,NDATA+1):
@@ -3842,16 +3849,19 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
             GOTO200()
       # 900 CONTINUE                                                          
       # SAVE COMPUTE TIME
-      for K in range(1,NIN+1):
-            if(EFINAL <= EIN[K]):
-                  NIN=K-1
-                  break
-            # endif
-            # 910 CONTINUE
-      # 911 CONTINUE
-      if(EFINAL > 1000.):
-            NIN=45
-      #   
+      if(complete):
+            pass
+      else:
+            for K in range(1,NIN+1):
+                  if(EFINAL <= EIN[K]):
+                        NIN=K-1
+                        break
+                  # endif
+                  # 910 CONTINUE
+            # 911 CONTINUE
+            if(EFINAL > 1000.):
+                  NIN=45
+            #   
       conf.ECHARG=ECHARG
       conf.EMASS=EMASS
       conf.AMU=AMU
@@ -3873,7 +3883,8 @@ def GAS2(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       conf.QT3=QT3
       conf.QT4=QT4
       conf.DEN=DEN
-      return                                                            
+      print("Gas2 NATT=",NATT)
+      return Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN
       # end 
 '''
 def GAS3(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY  ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN):
@@ -20604,13 +20615,52 @@ def GAS12(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQIO
       conf.TORR=TORR
       conf.IPEN=IPEN
       conf.E=EG
-      conf.EROOT=EROOT
+      conf.EROOT=EROOT 
       conf.QT1=QT1
       conf.QT2=QT2
       conf.QT3=QT3
       conf.QT4=QT4
       conf.DEN=DEN                                                         
-      return                                                            
+      # print("gasn  ----------- \n")
+      # print("Q ",Q)
+      # print("QIN ",QIN)
+      # print("NIN ",NIN)
+      # print("E ",E)
+      # print("EIN ",EIN)
+      # print("NAME ",NAME)
+      # print("VIRIAL ",VIRIAL)
+      # print("EOBY ",EOBY)
+      # print("PEQEL ",PEQEL)
+      # print("PEQIN ",PEQIN)
+      # print("PENFRA ",PENFRA)
+      # print("KEL ",KEL)
+      # print("KIN ",KIN)
+      # print("QION ",QION)
+      # print("PEQION ",PEQION)
+      # print("EION ",EION)
+      # print("NION ",NION)
+      # print("QATT ",QATT)
+      # print("NATT ",NATT)
+      # print(" QNULL ", QNULL)
+      # print("NNULL ",NNULL)
+      # print("SCLN ",SCLN)
+      # print("NC0 ",NC0)
+      # print("EC0 ",EC0)
+      # print("WKLM ",WKLM)
+      # print("EFL ",EFL)
+      # print("NG1 ",NG1)
+      # print("EG1 ",EG1)
+      # print("NG2 ",NG2)
+      # print("EG2 ",EG2)
+      # print("IZBR ",IZBR)
+      # print("LEGAS ",LEGAS)
+      # print("ISHELL ",ISHELL)
+      # print("IONMODEL ",IONMODEL)
+      # print("ESPLIT ",ESPLIT)
+      # print("SCRPT ",SCRPT)
+      # print("SCRPTN ",SCRPTN)
+      # print("\n--------------------------")
+      return Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT, QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT
       # end     
 '''      
 def GAS13(Q,QIN,NIN,E,EIN,NAME,VIRIAL,EOBY ,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WKLM,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,ISHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)    
