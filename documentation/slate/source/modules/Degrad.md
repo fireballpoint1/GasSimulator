@@ -29,6 +29,38 @@ We have language bindings in Shell, Fortran, and Python! You can view code in th
 
 This documentation page was created with [Slate](https://github.com/lord/slate). 
 
+# Progress Report
+
+## Tasks Completed
+* Converted all fortran code into python except functions listed in TO-DO
+* Distributed all subroutines into apt modules
+* Create an easy to use UI for input(both FORTRAN and python)
+* Hosted a prelimenary documentation of the python code. 
+* Implemented module wise documentation in slate framework
+* One successful run of Degrad (using a few wrappers)
+* A preliminary script to translate FORTRAN code
+
+## TO-DO
+* Translate MONTEFX,MONTEFA and GASn (except n=1,2,12) into python
+* Integrate UI for options to plot the data retrieved.
+* Create a more detailed documentation
+* Create more rigrous tests for all functions to facilitate documentation
+
+## How to Use
+* The instructions are provided [here](https://fireballpoint1.github.io/GasSimulator/?shell#using)
+
+## Code
+* [Link to Degrad modules](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Scripts/Python/degrad)
+* [Link to Documentation](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Documentation)
+* [Link to UI](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/UI)
+
+## History 
+* [Link to my daily commits](https://github.com/fireballpoint1/GasSimulator/commits/master)
+* [PR1 to main repo](https://github.com/UTA-REST/MAGBOLTZdev/pull/3)
+
+## Documentation
+The code documentation is available further in this page itself
+
 # Using
 
 Degrad is written in python3 and FORTRAN
@@ -155,14 +187,6 @@ def DEGRADE():
 ```
 
 This is the main function which calls all the subroutines.
-
-### HTTP Request
-
-```shell
-do something
-```
-
-`DELETE http://example.com/kittens/<ID>`
 
 ### Arguments
 

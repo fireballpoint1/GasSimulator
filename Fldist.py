@@ -1,5 +1,6 @@
 import numpy
 import conf
+from Abso import *
 def FLDIST():
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
@@ -20,9 +21,13 @@ def FLDIST():
 	EG2=conf.EG2
 	WKLM=conf.WKLM
 	EFL=conf.EFL
+	# print("------------------------------------------")
+	# print(EFL)
+	# print("------------------------------------------")
 	# CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY
 	for I in range(1,512+1):
 		EPH=EFL[I]
+		print("EPF=",EPH)
 		if(EPH == 0.0):
 			continue
 		JF=3

@@ -29,6 +29,38 @@ We have language bindings in Shell, Fortran, and Python! You can view code in th
 
 This documentation page was created with [Slate](https://github.com/lord/slate). 
 
+# Progress Report
+
+## Tasks Completed
+* Converted all fortran code into python except functions listed in TO-DO
+* Distributed all subroutines into apt modules
+* Create an easy to use UI for input(both FORTRAN and python)
+* Hosted a prelimenary documentation of the python code. 
+* Implemented module wise documentation in slate framework
+* One successful run of Degrad (using a few wrappers)
+* A preliminary script to translate FORTRAN code
+
+## TO-DO
+* Translate MONTEFX,MONTEFA and GASn (except n=1,2,12) into python
+* Integrate UI for options to plot the data retrieved.
+* Create a more detailed documentation
+* Create more rigrous tests for all functions to facilitate documentation
+
+## How to Use
+* The instructions are provided [here](https://fireballpoint1.github.io/GasSimulator/?shell#using)
+
+## Code
+* [Link to Degrad modules](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Scripts/Python/degrad)
+* [Link to Documentation](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Documentation)
+* [Link to UI](https://github.com/UTA-REST/MAGBOLTZdev/tree/master/UI)
+
+## History 
+* [Link to my daily commits](https://github.com/fireballpoint1/GasSimulator/commits/master)
+* [PR1 to main repo](https://github.com/UTA-REST/MAGBOLTZdev/pull/3)
+
+## Documentation
+The code documentation is available further in this page itself
+
 # Using
 
 Degrad is written in python3 and FORTRAN
@@ -156,14 +188,6 @@ def DEGRADE():
 
 This is the main function which calls all the subroutines.
 
-### HTTP Request
-
-```shell
-do something
-```
-
-`DELETE http://example.com/kittens/<ID>`
-
 ### Arguments
 
 Argument | Description
@@ -173,14 +197,27 @@ no arguments |
 ## MIXER()
 * The function fills arrays of collision frequency
 * Store counting ionisation X-Section in array CMINIXSC[6] at minimum ionising energy
+* Set angle cuts on angular distribution and renormalize forward scattering probability.
+* Can have a mixture of upto 6 gases.
+
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+### Pseudo Code
+
 * Initialisations 
+* Store couting ionisation X-Section in array `CMINIXSC` at minimum ionising energy.
 * Calculate and store energy grid(X-Ray,Beta or Particles)
-* If EFINAL <=20000
-* If EFINAL in range(20000,140000)
-* Else
+* Calls the Gasmix function which in turn calls the Gasn functions which are the characteristic functions for each gas to calculate gas cross-sections
+
 
 ```fortran
-        SUBROUTINE MIXER                                                  
+        SUBROUTINE MIXER
         IMPLICIT REAL*8 (A-H,O-Z)
         IMPLICIT INTEGER*8 (I-N)                                         
         CHARACTER*25 NAMEG,NAME1,NAME2,NAME3,NAME4,NAME5,NAME6
@@ -3166,183 +3203,4177 @@ def SETUP(LAST):
 	# end                                                               
 ```
 
-The SETUP() function does something
+The SETUP() function handles the gas inputs
 
 ### Arguments
 
-Argument  | Description
---------- | -----------
-LAST      | 1 -> end the program <br>
-		  | 0 -> keep the program running 
-# Kittens
+| Argument |          Description          |
+|----------|-------------------------------|
+| LAST     | 1 -> end the program          |
+|          | 0 -> keep the Program running |
+|          |                               |
 
-## Get All Kittens
+### Pseudo Code
 
-```ruby
-require 'kittn'
+* (Input Card 1)
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
+| Variables |                          Description                          |
+|-----------|---------------------------------------------------------------|
+| NGAS      | Number of Gases                                               |
+|           |                                                               |
+| NEVENT    | Event Number                                                  |
+|           |                                                               |
+| IMIP      | = 1 Mips Simulation  (dE/dX, Clusters)                        |
+|           | = 2 Electron Beam  (Total Absorption)                         |
+|           | = 3 X-ray                                                     |
+|           | = 4 Beta Decay                                                |
+|           | = 5 Double Beta Decay                                         |
+|           |                                                               |
+| NDVEC     | = 2 Mip X-ray or Beta in Random Direction                     |
+|           | = 1 Mip X-ray or Beta Direction Parallel to E-field (Z)       |
+|           | =-1 Mip X-ray or Beta Direction Anti Parallel to E-field (-z) |
+|           | = 0 Mip X-ray or Beta in Random Direction in X-y Plane        |
+|           |                                                               |
+| NSEED     | = 0 Uses Standard Seed Value = 54217137                       |
+|           | != 0 Uses Value of NSEED as Seed Value                        |
+|           |                                                               |
+| ESTART    | Starting energy of the chosen IMIP ( MIP                      |
+|           | electron,beta Decay or X-ray Energy in eV).                   |
+|           | Note Double Beta Decay Energy Is to Be Entered as the         |
+|           | Energy of Each Beta (0.5 Times Total Decay Energy)            |
+|           | (if X-ray Max Energy=2.0 MeV)                                 |
+|           |                                                               |
+| ETHRM     | Electrons Tracked Until They Fall to This Energy eV.          |
+|           | for Fast Calculation the Thermalisation Energy Should         |
+|           | Be Set to the Lowest Ionisation Potential in the Gas Mixture. |
+|           | for More Accurate Thermalisation Range the Thermalisation     |
+|           | Energy Should Be Set to the Lowest Excitation Energy in       |
+|           | Pure Noble Gases or to 2.0 eV for Mixtures With Molecular Gas |
+|           |                                                               |
+| ECUT      | For Mips only. Applies Energy Cut in eV to Give the           |
+|           | Maximum Allowed Primary Cluster Energy ( Should Be Set        |
+|           | to Less Than 10000 eV to Give Maximum Primary Cluster Size)   |
+|           | of Typically 400 Electrons                                    |
+|           |                                                               |
+
+* If number of gases is 0, then LAST =1 ( and end the program)
+* If X-Ray and Start energy ESTART > 3 MeV then stop program
+* Stop if event limit NEVENT exceeded
+  * non-MIPS Simulation:Limit for number of events = 10000 
+  * MIPS Simulation: Limit for number of events = 100000
+* Input Gas Identifiers (Input Card 2)
+
+
+| Variable | Number of Inputs | Input Type |               Description                |
+|----------|------------------|------------|------------------------------------------|
+| NGASN    |                6 | int        | Number to define which gas(between 1-80) |
+|          |                  |            | see Gas-List for identifying numbers     |
+|          |                  |            |                                          |
+|          |                  |            |                                          |
+
+* Input Gas Parameters (Input Card 3)
+
+
+| Variable | Number of Inputs | Input Type |              Description              |
+|----------|------------------|------------|---------------------------------------|
+| FRAC     |                6 | float .4f  | Percentage fraction of gas in mixture |
+|          |                  |            |                                       |
+| TEMPC    |                1 | float .4f  | Temperature of Gas in Centigrade      |
+|          |                  |            |                                       |
+| TORR     |                1 | float .4f  | Pressure of Gas in Torr               |
+|          |                  |            |                                       |
+
+* Input Field values (Input Card 4)
+
+| Variable | Input Type |                        Description                        |
+|----------|------------|-----------------------------------------------------------|
+| EFIELD   | float .3f  | Electric Field in Volts/cm                                |
+|          |            |                                                           |
+| BMAG     | float .3f  | Magnetic Field in Kilo Gauss                              |
+|          |            |                                                           |
+| BTHETA   | float .3f  | Angle between electric and magnetic fields in degrees     |
+|          |            |                                                           |
+| IWRITE   | int        | = 0 Standard Output                                       |
+|          |            | = 1 then                                                  |
+|          |            | Line 1: Output no. of electrons and no. of excitations    |
+|          |            | for each event                                            |
+|          |            | Line 2 : Output X,Y,Z and T for each thermalised electron |
+|          |            | = 2 then                                                  |
+|          |            | Line 1: Output no. of electrons and no. of excitations    |
+|          |            | for each event                                            |
+|          |            | Line 2: Outputs X,Y,Z and T for each thermalised electron |
+|          |            | Line 3: Outputs X,Y,Z and T for each excitation           |
+|          |            |                                                           |
+| IPEN     | int        | = 0 No Penning transfers                                  |
+|          |            | = 1 Penning transfers allowed                             |
+|          |            |                                                           |
+|          |            |                                                           |
+
+* (Input Card 5) 
+
+| Variable | Input type |                        Description                        |
+|----------|------------|-----------------------------------------------------------|
+| DETEFF   | float .3f  | Detection efficiency of photons. Used for calculation of  |
+|          |            | FANO factors for combined electron and photon detection   |
+|          |            | in pure noble gases (Between 0.0 - 100.0)                 |
+|          |            |                                                           |
+| EXCWGHT  | float .3f  | Weight given to excitation events in FANO calculation     |
+|          |            | with respect to ionisation. Typically 0.5 - 0.6           |
+|          |            | Use weight given by SQRT((Fele)/(Fexc))                   |
+|          |            | Fele = Electron FANO factor                               |
+|          |            | Fexc = Electron FANO factor                               |
+|          |            |                                                           |
+| KGAS     | int        | Gas identifier for which gas in mixture has Beta decayed. |
+|          |            | Identifier Numbers : NGAS1 etc.                           |
+|          |            |                                                           |
+| LGAS     | int        | If molecular gas : LGAS identifies the component atom in  |
+|          |            | the molecule which has Beta decayed :                     |
+|          |            | E.g. in CO2 1=Carbon 2=Oxygen                             |
+|          |            | in CF4 1=Carbon 2=Fluorine                                |
+|          |            |                                                           |
+| ICMP     | int        | =0 No Compton Scattering                                  |
+|          |            | =1 Include Compton Scattering                             |
+|          |            |                                                           |
+| IRAY     | int        | =0 No Rayleigh Scattering                                 |
+|          |            | =1 Include Rayleigh Scattering                            |
+|          |            |                                                           |
+| IPAP     | int        | =0 No pair production                                     |
+|          |            | =1 Include pair production                                |
+|          |            |                                                           |
+| IBRM     | int        | =0 No Bremsstrahlung                                      |
+|          |            | =1 Include Bremsstrahlung                                 |
+|          |            |                                                           |
+| IECASC   | int        | =0 Use parameterised cascade for 2nd to n^(th) generation |
+|          |            | of electron ionising collisions.                          |
+|          |            | =1 Use exact cascade for 2nd to nth generation of         |
+|          |            | electron ionising collisions.                             |
+|          |            |                                                           |## DENSITY()
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+### Pseudo Code
+* Initialize data arrays
+* Calculate Density Correction Array `DEN[20000+1]`
+
+```python
+def DENSITY():
+	#IMPLICIT #real*8 (A-H,O-Z)
+	#IMPLICIT #integer*8 (I-N)
+	global DEN #=[0 for x in range(20000)]
+	global AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC #=[0 for x in range(6)]
+	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+	global NGASN #=[0 for x in range[6]]
+	global BET#=[0 for x in range(2000)]
+	global GAM#=[0 for x in range(20000)]
+	global VC,EMS
+	###############################################
+	DEN=conf.DEN
+	AN1=conf.AN1
+	AN2=conf.AN2
+	AN3=conf.AN3
+	AN4=conf.AN4
+	AN5=conf.AN5
+	AN6=conf.AN6
+	AN=conf.AN
+	FRAC=conf.FRAC
+	NGAS=conf.NGAS
+	NSTEP=conf.NSTEP
+	NANISO=conf.NANISO
+	EFINAL=conf.EFINAL
+	ESTEP=conf.ESTEP
+	AKT=conf.AKT
+	ARY=conf.ARY
+	TEMPC=conf.TEMPC
+	TORR=conf.TORR
+	IPEN=conf.IPEN
+	NGASN=conf.NGASN
+	BET=conf.BET
+	GAM=conf.GAM
+	VC=conf.VC
+	EMS=conf.EMS
+	###############################################
+	AND=numpy.zeros(6+1)
+	EIAV=numpy.zeros(80+1)
+	X00=numpy.zeros(80+1)
+	X11=numpy.zeros(80+1)
+	AKS=numpy.zeros(80+1)
+	AAA=numpy.zeros(80+1)
+	JELEC=numpy.zeros(80+1)
+	# DENSITY EFFECT CONSTANTS
+	# EIAV ENERGY IN EV
+	# JELEC NUMBER OF ELECTRONS PER ATOM OR MOLECULE
+	EIAV=[0,115.0,188.0,41.8,41.8,137.0,352.0,482.0,41.7,45.4,47.1,48.3,85.0,0.0,71.6,95.0,82.0,0.0,0.0,0.0,0.0,19.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,128.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,48.3,*36*[0.0]]
+	# print(len(EIAV))
+	JELEC=[0,42,18,2,2,10,36,54,10,18,26,34,22,0,10,16,14,0,0,0,0,2,0,0,0,0,0,0,0,0,70,0,0,0,0,0,0,0,0,0,0,0,0,0,34]+36*[0]
+	X00=[0,1.70,1.7635,2.2017,2.2017,2.0735,1.7158,1.5630,1.6263,1.5090,1.4339,1.3788,1.6294,0.0,1.7952,1.7541,1.7378,0.0,0.0,0.0,0.0,1.8639,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.6,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.3788,*36*[0.0]]
+	X11=[0,4.00,4.4855,3.6122,3.6122,4.6421,5.0748,4.7371,3.9716,3.8726,3.8011,3.7524,4.1825,0.0,4.3437,4.3213,4.1323,0.0,0.0,0.0,0.0,3.2718,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.7524,*36*[0.0]]
+	AKS=[0,3.00,2.9618,5.8347,5.8347,3.5771,3.4051,2.7414,3.6257,3.6095,3.5920,3.4884,3.3227,0.0,3.5901,3.2913,3.2125,0.0,0.0,0.0,0.0,5.7273,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.4884,*36*[0.0]]
+	AAA=[0,.18551,.19714,.13443,.13443,.08064,.07446,.23314,.09253,0.09627,0.09916,.10852,.11768,0.0,.08101,.11778,.15349,0.0,0.0,0.0,0.0,.14092,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.177484,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.10852,*36*[0.0]]
+	#
+	API=numpy.arccos(-1.00)                                                 
+	EMS=510998.9280
+	RE=2.8179403267*(10**-13)
+	ALPH=137.035999074
+	ABZERO=273.150                                                   
+	ATMOS=760.00                                                     
+	#                                                                       
+	# DENSITY EFFECT CALCULATION
+	AND[1]=AN1
+	AND[2]=AN2
+	AND[3]=AN3
+	AND[4]=AN4
+	AND[5]=AN5
+	AND[6]=AN6
+	HSUM=0.0
+	SUM1=0.0
+	SUMDNOM=0.0
+	# print(NGAS)
+	for L1 in range(1,NGAS+1):
+		# print("E",EIAV[int(NGASN[L1])],NGASN[L1])
+		SUM1=SUM1+FRAC[L1]*float(JELEC[int(NGASN[L1])])*math.log(EIAV[int(NGASN[L1])]) 
+		SUMDNOM=SUMDNOM+FRAC[L1]*float(JELEC[int(NGASN[L1])])
+		HSUM=HSUM+AND[L1]*float(JELEC[int(NGASN[L1])])  #22385
+	EIBAR=math.exp(SUM1/SUMDNOM)
+	# PLASMA ENERGY
+	HWP1=math.sqrt(4.0*API*HSUM*RE**3)*ALPH*EMS
+	#
+	DELDEN=math.log(EIBAR/HWP1)
+	CBAR=1.0+2.0*DELDEN
+	flag=0   #SELF ADDED
+	if(NGAS == 1):  #22392
+ 		flag=1
+	# CALC X0 AND X1
+	if(CBAR < 10.0):
+		X0=1.6
+		X1=4.0
+	elif(CBAR >= 4.0 and CBAR < 10.5) :
+		X0=1.7
+		X1=4.0
+	elif(CBAR >= 10.5 and CBAR < 11.0) :
+		X0=1.8
+		X1=4.0
+	elif(CBAR >= 11.0 and CBAR < 11.5) :
+		X0=1.9
+		X1=4.0
+	elif(CBAR >= 11.5 and CBAR < 12.25) :
+		X0=2.0
+		X1=4.0
+	elif(CBAR >= 12.25 and CBAR < 13.804) :
+		X0=2.0
+		X1=5.0
+	else: 
+		X0=0.326*CBAR-1.5
+		X1=5.0
+	# endif
+	if(flag==1):
+		AKBAR=3.0
+		ABAR=(CBAR-2.0*math.log(10.00)*X0)/((X1-X0)**3)
+	elif(flag==0):
+		AKBAR=AKS[int(NGASN[1])]
+		X0=X00[int(NGASN[1])]
+		X1=X11[int(NGASN[1])]
+		ABAR=AAA[int(NGASN[1])]
+	else:
+		pass
+	# CORRECT X0 AND X1 FOR DENSITY CHANGE FROM 20C AND 760 TORR
+	# NB CORRECTION TO CBAR ALREADY DONE
+	DCOR=0.5*math.log10(TORR*293.15/(760.0*(TEMPC+ABZERO)))
+	X0=X0-DCOR
+	X1=X1-DCOR
+	# CALCULATE DENSITY CORRECTION FACTOR ARRAY DEN(20000)
+	AFC=2.0*math.log(10.00)
+	for I in range(1,20000+1):
+		BG=BET[I]*GAM[I]
+		X=math.log10(BG)
+		if(X < X0):
+			DEN[I]=0.0
+		elif(X > X0 and X < X1) :
+			DEN[I]=ABAR*math.exp(AKBAR*math.log(X1-X))+AFC*X-CBAR
+		else: 
+			DEN[I]=AFC*X-CBAR              
+		# endif
+		#     WRITE(6,99) DEN[I]
+		#  99 print(' DENSITY CORRECTION=',D12.5)
+	conf.DEN=DEN
+	conf.AN1=AN1
+	conf.AN2=AN2
+	conf.AN3=AN3
+	conf.AN4=AN4
+	conf.AN5=AN5
+	conf.AN6=AN6
+	conf.AN=AN
+	conf.FRAC=FRAC
+	conf.NGAS=NGAS
+	conf.NSTEP=NSTEP
+	conf.NANISO=NANISO
+	conf.EFINAL=EFINAL
+	conf.ESTEP=ESTEP
+	conf.AKT=AKT
+	conf.ARY=ARY
+	conf.TEMPC=TEMPC
+	conf.TORR=TORR
+	conf.IPEN=IPEN
+	conf.NGASN=NGASN
+	conf.BET=BET
+	conf.GAM=GAM
+	conf.VC=VC
+	conf.EMS=EMS	
+	return
+	# end
+```
+
+```fortran
+      SUBROUTINE DENSITY
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)
+      COMMON/DENS/DEN(20000)
+      COMMON/RATIO/AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC(6)
+      COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+      COMMON/GASN/NGASN(6)
+      COMMON/RLTVY/BET(20000),GAM(20000),VC,EMS
+      DIMENSION AND(6),EIAV(80),X00(80),X11(80),AKS(80),AAA(80),
+     /JELEC(80)
+C DENSITY EFFECT CONSTANTS
+C EIAV ENERGY IN EV
+C JELEC NUMBER OF ELECTRONS PER ATOM OR MOLECULE
+      DATA EIAV/115.0,188.0,41.8,41.8,137.0,352.0,482.0,41.7,45.4,47.1,
+     /48.3,85.0,0.0,71.6,95.0,82.0,0.0,0.0,0.0,0.0,
+     /19.2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,128.0,
+     /0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+     /0.0,0.0,0.0,48.3,
+     /36*0.0/
+      DATA JELEC/42,18,2,2,10,36,54,10,18,26,
+     /34,22,0,10,16,14,0,0,0,0,
+     /2,0,0,0,0,0,0,0,0,70,
+     /0,0,0,0,0,0,0,0,0,0,
+     /0,0,0,34,
+     /36*0/
+      DATA X00/1.70,1.7635,2.2017,2.2017,2.0735,1.7158,1.5630,1.6263,
+     /1.5090,1.4339,
+     /1.3788,1.6294,0.0,1.7952,1.7541,1.7378,0.0,0.0,0.0,0.0,
+     /1.8639,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.6,
+     /0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+     /0.0,0.0,0.0,1.3788,
+     /36*0.0/
+      DATA X11/4.00,4.4855,3.6122,3.6122,4.6421,5.0748,4.7371,3.9716,
+     /3.8726,3.8011,
+     /3.7524,4.1825,0.0,4.3437,4.3213,4.1323,0.0,0.0,0.0,0.0,
+     /3.2718,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,4.0,
+     /0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+     /0.0,0.0,0.0,3.7524,
+     /36*0.0/
+      DATA AKS/3.00,2.9618,5.8347,5.8347,3.5771,3.4051,2.7414,3.6257,
+     /3.6095,3.5920,
+     /3.4884,3.3227,0.0,3.5901,3.2913,3.2125,0.0,0.0,0.0,0.0,
+     /5.7273,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,3.0,
+     /0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+     /0.0,0.0,0.0,3.4884,
+     /36*0.0/
+      DATA AAA/.18551,.19714,.13443,.13443,.08064,.07446,.23314,.09253,
+     /0.09627,0.09916,
+     /.10852,.11768,0.0,.08101,.11778,.15349,0.0,0.0,0.0,0.0,
+     /.14092,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,.177484,
+     /0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+     /0.0,0.0,0.0,.10852,
+     /36*0.0/
+C
+      API=DACOS(-1.0D0)                                                 
+      EMS=510998.928D0
+      RE=2.8179403267D-13    
+      ALPH=137.035999074
+      ABZERO=273.15D0                                                   
+      ATMOS=760.0D0                                                     
+C                                                                       
+C DENSITY EFFECT CALCULATION
+      AND(1)=AN1
+      AND(2)=AN2
+      AND(3)=AN3
+      AND(4)=AN4
+      AND(5)=AN5
+      AND(6)=AN6
+      HSUM=0.0
+      SUM1=0.0
+      SUMDNOM=0.0
+      DO 120 L1=1,NGAS
+      SUM1=SUM1+FRAC(L1)*DFLOAT(JELEC(NGASN(L1)))*DLOG(EIAV(NGASN(L1))) 
+      SUMDNOM=SUMDNOM+FRAC(L1)*DFLOAT(JELEC(NGASN(L1)))
+  120 HSUM=HSUM+AND(L1)*DFLOAT(JELEC(NGASN(L1)))
+      EIBAR=DEXP(SUM1/SUMDNOM)
+C PLASMA ENERGY
+      HWP1=DSQRT(4.0*API*HSUM*RE**3)*ALPH*EMS
+C
+      DELDEN=DLOG(EIBAR/HWP1)
+      CBAR=1.0+2.0*DELDEN
+      IF(NGAS.EQ.1) GO TO 200
+C CALC X0 AND X1
+      IF(CBAR.LT.10.0) THEN
+      X0=1.6
+      X1=4.0
+      ELSE IF(CBAR.GE.4.0.AND.CBAR.LT.10.5) THEN
+      X0=1.7
+      X1=4.0
+      ELSE IF(CBAR.GE.10.5.AND.CBAR.LT.11.0) THEN
+      X0=1.8
+      X1=4.0
+      ELSE IF(CBAR.GE.11.0.AND.CBAR.LT.11.5) THEN
+      X0=1.9
+      X1=4.0
+      ELSE IF(CBAR.GE.11.5.AND.CBAR.LT.12.25) THEN
+      X0=2.0
+      X1=4.0
+      ELSE IF(CBAR.GE.12.25.AND.CBAR.LT.13.804) THEN
+      X0=2.0
+      X1=5.0
+      ELSE 
+      X0=0.326*CBAR-1.5
+      X1=5.0
+      ENDIF
+      AKBAR=3.0
+      ABAR=(CBAR-2.0*DLOG(10.0D0)*X0)/((X1-X0)**3)
+      GO TO 201
+  200 AKBAR=AKS(NGASN(1))
+      X0=X00(NGASN(1))
+      X1=X11(NGASN(1))
+      ABAR=AAA(NGASN(1))
+  201 CONTINUE
+C CORRECT X0 AND X1 FOR DENSITY CHANGE FROM 20C AND 760 TORR
+C NB CORRECTION TO CBAR ALREADY DONE
+      DCOR=0.5*DLOG10(TORR*293.15/(760.0*(TEMPC+ABZERO)))
+      X0=X0-DCOR
+      X1=X1-DCOR
+C CALCULATE DENSITY CORRECTION FACTOR ARRAY DEN(20000)
+      AFC=2.0*DLOG(10.0D0)
+      DO 236 I=1,20000
+      BG=BET(I)*GAM(I)
+      X=DLOG10(BG)
+      IF(X.LT.X0) THEN   
+       DEN(I)=0.0
+      ELSE IF(X.GT.X0.AND.X.LT.X1) THEN
+       DEN(I)=ABAR*DEXP(AKBAR*DLOG(X1-X))+AFC*X-CBAR
+      ELSE 
+       DEN(I)=AFC*X-CBAR              
+      ENDIF
+C     WRITE(6,99) DEN(I)
+C  99 FORMAT(' DENSITY CORRECTION=',D12.5)
+  236 CONTINUE
+      RETURN
+      END
+```## MIXERC()
+
+* Load photoelectric and compton X-Secs
+* Load initial shell occupancies for each gas
+* Load Energy Levels
+* Load Transition Probabilities Auger and Radiative
+* Load shake-off probabilities and energies
+
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+### Pseudo Code
+
+
+```python
+def MIXERC():
+	# IMPLICIT #real*8 (A-H,O-Z) 
+	# IMPLICIT #integer*8 (I-N)
+	# COMMON/INPT/
+	global NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+	#COMMON/MIXC/
+	# global conf.PRSH,conf.ESH,conf.AUG,conf.RAD,conf.PRSHBT,conf.IZ,conf.INIOCC,conf.ISHLMX,conf.AMZ 
+	#COMMON/MIXPE/
+	# global conf.XPE,conf.YPE
+	#COMMON/MIXCN/
+	# global conf.XCP,conf.YRY,conf.YCP,conf.YPP
+	#COMMON/COMPTIN/
+	# global conf.FRMFR,conf.FRMFC
+	#COMMON/GASN/
+	global NGASN
+	PRSH1=numpy.zeros((3+1,17+1,17+1))
+	PRSH2=numpy.zeros((3+1,17+1,17+1))
+	PRSH3=numpy.zeros((3+1,17+1,17+1))
+	PRSH4=numpy.zeros((3+1,17+1,17+1))
+	PRSH5=numpy.zeros((3+1,17+1,17+1))
+	PRSH6=numpy.zeros((3+1,17+1,17+1))
+	PRSHBT1=numpy.zeros((3+1,17+1))
+	PRSHBT2=numpy.zeros((3+1,17+1))
+	PRSHBT3=numpy.zeros((3+1,17+1))
+	PRSHBT4=numpy.zeros((3+1,17+1))
+	PRSHBT5=numpy.zeros((3+1,17+1))
+	PRSHBT6=numpy.zeros((3+1,17+1))
+	ESH1=numpy.zeros((3+1,17+1))
+	ESH2=numpy.zeros((3+1,17+1))
+	ESH3=numpy.zeros((3+1,17+1))
+	ESH4=numpy.zeros((3+1,17+1))
+	ESH5=numpy.zeros((3+1,17+1))
+	ESH6=numpy.zeros((3+1,17+1))
+	AUG1=numpy.zeros((3+1,17+1,17+1,17+1))
+	AUG2=numpy.zeros((3+1,17+1,17+1,17+1))
+	AUG3=numpy.zeros((3+1,17+1,17+1,17+1))
+	AUG4=numpy.zeros((3+1,17+1,17+1,17+1))
+	AUG5=numpy.zeros((3+1,17+1,17+1,17+1))
+	AUG6=numpy.zeros((3+1,17+1,17+1,17+1))
+	RAD1=numpy.zeros((3+1,17+1,17+1))
+	RAD2=numpy.zeros((3+1,17+1,17+1))
+	RAD3=numpy.zeros((3+1,17+1,17+1))
+	RAD4=numpy.zeros((3+1,17+1,17+1))
+	RAD5=numpy.zeros((3+1,17+1,17+1))
+	RAD6=numpy.zeros((3+1,17+1,17+1))
+	INIOCC1=numpy.zeros((3+1,17+1))
+	INIOCC2=numpy.zeros((3+1,17+1))
+	INIOCC3=numpy.zeros((3+1,17+1))
+	INIOCC4=numpy.zeros((3+1,17+1))
+	INIOCC5=numpy.zeros((3+1,17+1))
+	INIOCC6=numpy.zeros((3+1,17+1))
+	XP1=numpy.zeros((3+1,17+1,60+1))
+	YP1=numpy.zeros((3+1,17+1,60+1))
+	XP2=numpy.zeros((3+1,17+1,60+1))
+	YP2=numpy.zeros((3+1,17+1,60+1))
+	XP3=numpy.zeros((3+1,17+1,60+1))
+	YP3=numpy.zeros((3+1,17+1,60+1))
+	XP4=numpy.zeros((3+1,17+1,60+1))
+	YP4=numpy.zeros((3+1,17+1,60+1))
+	XP5=numpy.zeros((3+1,17+1,60+1))
+	YP5=numpy.zeros((3+1,17+1,60+1))
+	XP6=numpy.zeros((3+1,17+1,60+1))
+	YP6=numpy.zeros((3+1,17+1,60+1))
+	XC1=numpy.zeros((3+1,54+1))
+	YR1=numpy.zeros((3+1,54+1))
+	YC1=numpy.zeros((3+1,54+1))
+	YPP1=numpy.zeros((3+1,54+1))
+	XC2=numpy.zeros((3+1,54+1))
+	YR2=numpy.zeros((3+1,54+1))
+	YC2=numpy.zeros((3+1,54+1))
+	YPP2=numpy.zeros((3+1,54+1))
+	XC3=numpy.zeros((3+1,54+1))
+	YR3=numpy.zeros((3+1,54+1))
+	YC3=numpy.zeros((3+1,54+1))
+	YPP3=numpy.zeros((3+1,54+1))
+	XC4=numpy.zeros((3+1,54+1))
+	YR4=numpy.zeros((3+1,54+1))
+	YC4=numpy.zeros((3+1,54+1))
+	YPP4=numpy.zeros((3+1,54+1))
+	XC5=numpy.zeros((3+1,54+1))
+	YR5=numpy.zeros((3+1,54+1))
+	YC5=numpy.zeros((3+1,54+1))
+	YPP5=numpy.zeros((3+1,54+1))
+	XC6=numpy.zeros((3+1,54+1))
+	YR6=numpy.zeros((3+1,54+1))
+	YC6=numpy.zeros((3+1,54+1))
+	YPP6=numpy.zeros((3+1,54+1))
+	FFAC1=numpy.zeros((3+1,45+1))
+	FFAC2=numpy.zeros((3+1,45+1))
+	FFAC3=numpy.zeros((3+1,45+1))
+	FFAC4=numpy.zeros((3+1,45+1))
+	FFAC5=numpy.zeros((3+1,45+1))
+	FFAC6=numpy.zeros((3+1,45+1))
+	FFAR1=numpy.zeros((3+1,45+1))
+	FFAR2=numpy.zeros((3+1,45+1))
+	FFAR3=numpy.zeros((3+1,45+1))
+	FFAR4=numpy.zeros((3+1,45+1))
+	FFAR5=numpy.zeros((3+1,45+1))
+	FFAR6=numpy.zeros((3+1,45+1))
+	IZ1=numpy.zeros((3+1))
+	IZ2=numpy.zeros((3+1))
+	IZ3=numpy.zeros((3+1))
+	IZ4=numpy.zeros((3+1))
+	IZ5=numpy.zeros((3+1))
+	IZ6=numpy.zeros((3+1))
+	AMZ1=numpy.zeros((3+1))
+	AMZ2=numpy.zeros((3+1))
+	AMZ3=numpy.zeros((3+1))
+	AMZ4=numpy.zeros((3+1))
+	AMZ5=numpy.zeros((3+1))
+	AMZ6=numpy.zeros((3+1))
+
+	# LOAD PHOTOELECTRIC AND COMPTON X-SECS
+	# LOAD INITIAL SHELL OCCUPANCIES FOR EACH GAS
+	# LOAD ENERGY LEVELS
+	# LOAD TRANSITION PROBABILITIES AUGER AND RADIATIVE
+	# LOAD SHAKE OFF PROBABILITIES AND ENERGIES
+	for I in range(1,6+1):
+		for M in range(1,3+1):
+			conf.IZ[I][M]=0
+			conf.AMZ[I][M]=0.00
+			for J in range(1,17+1):
+				conf.ESH[I][M][J]=0.0
+				conf.INIOCC[I][M][J]=0
+				conf.PRSHBT[I][M][J]=0.0
+				for K in range(1,17+1):
+					conf.PRSH[I][M][J][K]=0.0
+					conf.RAD[I][M][J][K]=0.0
+					for L in range(1,17+1):
+						conf.AUG[I][M][J][K][L]=0.0
+	GASMIXC(conf.NGASN[1],PRSH1,PRSHBT1,ESH1,AUG1,RAD1,XP1,YP1,XC1,YR1,YC1,YPP1,FFAR1,FFAC1,IZ1,AMZ1,INIOCC1)
+	if(conf.NGAS == 1):
+		pass
+	else:
+		GASMIXC(conf.NGASN[2],PRSH2,PRSHBT2,ESH2,AUG2,RAD2,XP2,YP2,XC2,YR2,YC2,YPP2,FFAR2,FFAC2,IZ2,AMZ2,INIOCC2)
+		if(conf.NGAS == 2):
+			pass
+		else:
+			GASMIXC(conf.NGASN[3],PRSH3,PRSHBT3,ESH3,AUG3,RAD3,XP3,YP3,XC3,YR3,YC3,YPP3,FFAR3,FFAC3,IZ3,AMZ3,INIOCC3)
+			if(conf.NGAS == 3):
+				pass
+			else:
+				GASMIXC(conf.NGASN[4],PRSH4,PRSHBT4,ESH4,AUG4,RAD4,XP4,YP4,XC4,YR4,YC4,YPP4,FFAR4,FFAC4,IZ4,AMZ4,INIOCC4)
+				if(conf.NGAS == 4):
+					pass
+				else:
+					GASMIXC(conf.NGASN[5],PRSH5,PRSHBT5,ESH5,AUG5,RAD5,XP5,YP5,XC5,YR5,YC5,YPP5,FFAR5,FFAC5,IZ5,AMZ5,INIOCC5)
+					if(conf.NGAS == 5):
+						pass
+					else:
+						GASMIXC(conf.NGASN[6],PRSH6,PRSHBT6,ESH6,AUG6,RAD6,XP6,YP6,XC6,YR6,YC6,YPP6,FFAR6,FFAC6,IZ6,AMZ6,INIOCC6)
+						if(conf.NGAS == 6):
+							pass
+	# 10 CONTINUE
+	I=1
+	print(conf.XPE.shape,XP1.shape)
+	for J1 in range(1,3+1):
+		conf.IZ[I][J1]=IZ1[J1]
+		conf.AMZ[I][J1]=AMZ1[J1]
+		for J in range(1,17+1):
+			for M in range(1,60+1):
+				conf.XPE[1][J1][J][M]=XP1[J1][J][M]
+				conf.YPE[1][J1][J][M]=YP1[J1][J][M]
+			conf.ESH[I][J1][J]=ESH1[J1][J]
+			conf.INIOCC[I][J1][J]=INIOCC1[J1][J]
+			if(INIOCC1[J1][J]!= 0):
+				conf.ISHLMX[1][J1]=J
+			conf.PRSHBT[I][J1][J]=PRSHBT1[J1][J]
+			for K in range(1,17+1):
+				conf.PRSH[I][J1][J][K]=PRSH1[J1][J][K]
+				conf.RAD[I,J1,J,K]=RAD1[J1][J][K]
+				for L in range(1,17+1):
+					conf.AUG[I][J1][J][K][L]=AUG1[J1][J][K][L]
+	for J in range(1,3+1):
+		for M in range(1,54+1):
+			conf.XCP[1][J][M]=XC1[J][M]
+			conf.YRY[1][J][M]=YR1[J][M]
+			conf.YCP[1][J][M]=YC1[J][M]
+			conf.YPP[1][J][M]=YPP1[J][M]
+	for J in range(1,3+1):
+		for K in range(1,45+1):
+			conf.FRMFR[1][J][K]=FFAR1[J][K]
+			conf.FRMFC[1][J][K]=FFAC1[J][K]
+	if(conf.NGAS == 1):
+		return
+	I=2
+	for J1 in range(1,3+1):
+		conf.IZ[I][J1]=IZ2[J1]
+		conf.AMZ[I][J1]=AMZ2[J1]
+		for J in range(1,17+1):
+			for M in range(1,60+1):
+				conf.XPE[2][J1][J][M]=XP2[J1][J][M]
+				conf.YPE[2][J1][J][M]=YP2[J1][J][M]
+			conf.ESH[I][J1][J]=ESH2[J1][J]
+			conf.INIOCC[I][J1][J]=INIOCC2[J1][J]
+			if(INIOCC2[J1][J]!= 0):
+				conf.ISHLMX[2][J1]=J
+			conf.PRSHBT[I][J1][J]=PRSHBT2[J1][J]
+			for K in range(1,17+1):
+				conf.PRSH[I][J1][J][K]=PRSH2[J1][J][K]
+				conf.RAD[I,J1,J,K]=RAD2[J1][J][K]
+				for L in range(1,17+1):
+					conf.AUG[I][J1][J][K][L]=AUG2[J1][J][K][L]
+	for J in range(1,3+1):
+		for M in range(1,54+1):
+			conf.XCP[2][J][M]=XC2[J][M]
+			conf.YRY[2][J][M]=YR2[J][M]
+			conf.YCP[2][J][M]=YC2[J][M]
+			conf.YPP[2][J][M]=YPP2[J][M]
+	for J in range(1,3+1):
+		for K in range(1,45+1):
+			conf.FRMFR[2][J][K]=FFAR2[J][K]
+			conf.FRMFC[2][J][K]=FFAC2[J][K]
+	if(conf.NGAS == 2):
+		return
+	I=3
+	for J1 in range(1,3+1):
+		conf.IZ[I][J1]=IZ3[J1]
+		conf.AMZ[I][J1]=AMZ3[J1]
+		for J in range(1,17+1):
+			for M in range(1,60+1):
+				conf.XPE[3][J1][J][M]=XP3[J1][J][M]
+				conf.YPE[3][J1][J][M]=YP3[J1][J][M]
+			conf.ESH[I][J1][J]=ESH3[J1][J]
+			conf.INIOCC[I][J1][J]=INIOCC3[J1][J]
+			if(INIOCC3[J1][J]!= 0):
+				conf.ISHLMX[3][J1]=J
+			conf.PRSHBT[I][J1][J]=PRSHBT3[J1][J]
+			for K in range(1,17+1):
+				conf.PRSH[I][J1][J][K]=PRSH3[J1][J][K]
+				conf.RAD[I,J1,J,K]=RAD3[J1][J][K]
+				for L in range(1,17+1):
+					conf.AUG[I][J1][J][K][L]=AUG3[J1][J][K][L]
+	for J in range(1,3+1):
+		for M in range(1,54+1):
+			conf.XCP[3][J][M]=XC3[J][M]
+			conf.YRY[3][J][M]=YR3[J][M]
+			conf.YCP[3][J][M]=YC3[J][M]
+			conf.YPP[3][J][M]=YPP3[J][M]
+	for J in range(1,3+1):
+		for K in range(1,45+1):
+			conf.FRMFR[3][J][K]=FFAR3[J][K]
+			conf.FRMFC[3][J][K]=FFAC3[J][K]
+	if(conf.NGAS == 3):
+		return
+	I=4
+	for J1 in range(1,3+1):
+		conf.IZ[I][J1]=IZ4[J1]
+		conf.AMZ[I][J1]=AMZ4[J1]
+		for J in range(1,17+1):
+			for M in range(1,60+1):
+				conf.XPE[4][J1][J][M]=XP4[J1][J][M]
+				conf.YPE[4][J1][J][M]=YP4[J1][J][M]
+			conf.ESH[I][J1][J]=ESH4[J1][J]
+			conf.INIOCC[I][J1][J]=INIOCC4[J1][J]
+			if(INIOCC4[J1][J]!= 0):
+				conf.ISHLMX[4][J1]=J
+			conf.PRSHBT[I][J1][J]=PRSHBT4[J1][J]
+			for K in range(1,17+1):
+				conf.PRSH[I][J1][J][K]=PRSH4[J1][J][K]
+				conf.RAD[I,J1,J,K]=RAD4[J1][J][K]
+				for L in range(1,17+1):
+					conf.AUG[I][J1][J][K][L]=AUG4[J1][J][K][L]
+	for J in range(1,3+1):
+		for M in range(1,54+1):
+			conf.XCP[4][J][M]=XC4[J][M]
+			conf.YRY[4][J][M]=YR4[J][M]
+			conf.YCP[4][J][M]=YC4[J][M]
+			conf.YPP[4][J][M]=YPP4[J][M]
+	for J in range(1,3+1):
+		for K in range(1,45+1):
+			conf.FRMFR[4][J][K]=FFAR4[J][K]
+			conf.FRMFC[4][J][K]=FFAC4[J][K]
+	if(conf.NGAS == 4):
+		return
+	I=5
+	for J1 in range(1,3+1):
+		conf.IZ[I][J1]=IZ5[J1]
+		conf.AMZ[I][J1]=AMZ5[J1]
+		for J in range(1,17+1):
+			for M in range(1,60+1):
+				conf.XPE[5][J1][J][M]=XP5[J1][J][M]
+				conf.YPE[5][J1][J][M]=YP5[J1][J][M]
+			conf.ESH[I][J1][J]=ESH5[J1][J]
+			conf.INIOCC[I][J1][J]=INIOCC5[J1][J]
+			if(INIOCC5[J1][J]!= 0):
+				conf.ISHLMX[5][J1]=J
+			conf.PRSHBT[I][J1][J]=PRSHBT5[J1][J]
+			for K in range(1,17+1):
+				conf.PRSH[I][J1][J][K]=PRSH5[J1][J][K]
+				conf.RAD[I,J1,J,K]=RAD5[J1][J][K]
+				for L in range(1,17+1):
+					conf.AUG[I][J1][J][K][L]=AUG5[J1][J][K][L]
+	for J in range(1,3+1):
+		for M in range(1,54+1):
+			conf.XCP[5][J][M]=XC5[J][M]
+			conf.YRY[5][J][M]=YR5[J][M]
+			conf.YCP[5][J][M]=YC5[J][M]
+			conf.YPP[5][J][M]=YPP5[J][M] 
+	for J in range(1,3+1):
+		for K in range(1,45+1):
+			conf.FRMFR[5][J][K]=FFAR5[J][K]
+			conf.FRMFC[5][J][K]=FFAC5[J][K]
+	if(conf.NGAS == 5):
+		return
+	I=6
+	for J1 in range(1,3+1):
+		conf.IZ[I][J1]=IZ6[J1]
+		conf.AMZ[I][J1]=AMZ6[J1]
+		for J in range(1,17+1):
+			for M in range(1,60+1):
+				conf.XPE[6][J1][J][M]=XP6[J1][J][M]
+				conf.YPE[6][J1][J][M]=YP6[J1][J][M]
+			conf.ESH[I][J1][J]=ESH6[J1][J]
+			conf.INIOCC[I][J1][J]=INIOCC6[J1][J]
+			if(INIOCC6[J1][J]!= 0):
+				conf.ISHLMX[6][J1]=J
+			conf.PRSHBT[I][J1][J]=PRSHBT6[J1][J]
+			for K in range(1,17+1):
+				conf.PRSH[I][J1][J][K]=PRSH6[J1][J][K]
+				conf.RAD[I,J1,J,K]=RAD6[J1][J][K]
+				for L in range(1,17+1):
+					conf.AUG[I][J1][J][K][L]=AUG6[J1][J][K][L]
+	for J in range(1,3+1):
+		for M in range(1,54+1):
+			conf.XCP[6][J][M]=XC6[J][M]
+			conf.YRY[6][J][M]=YR6[J][M]
+			conf.YCP[6][J][M]=YC6[J][M]
+			conf.YPP[6][J][M]=YPP6[J][M]
+	for J in range(1,3+1):
+		for K in range(1,45+1):
+			conf.FRMFR[6][J][K]=FFAR6[J][K]
+			conf.FRMFC[6][J][K]=FFAC6[J][K]
+	if(conf.NGAS > 6):
+		print(' subroutine STOPPED: NGAS=',conf.NGAS,' IN MIXERC')
+		sys.exit()
+	# endif
+	# 1000 CONTINUE
+	return
+	# end
+```
+
+```fortran
+      SUBROUTINE MIXERC 
+      IMPLICIT REAL*8 (A-H,O-Z) 
+      IMPLICIT INTEGER*8 (I-N)
+      COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+      COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),
+     /RAD(6,3,17,17),PRSHBT(6,3,17),IZ(6,3),INIOCC(6,3,17),ISHLMX(6,3),
+     /AMZ(6,3) 
+      COMMON/MIXPE/XPE(6,3,17,60),YPE(6,3,17,60)
+      COMMON/MIXCN/XCP(6,3,54),YRY(6,3,54),YCP(6,3,54),YPP(6,3,54)
+      COMMON/COMPTIN/FRMFR(6,3,45),FRMFC(6,3,45)
+      COMMON/GASN/NGASN(6)
+      DIMENSION PRSH1(3,17,17),PRSH2(3,17,17),PRSH3(3,17,17),
+     /PRSH4(3,17,17),PRSH5(3,17,17),PRSH6(3,17,17)
+      DIMENSION PRSHBT1(3,17),PRSHBT2(3,17),PRSHBT3(3,17),PRSHBT4(3,17),
+     /PRSHBT5(3,17),PRSHBT6(3,17)
+      DIMENSION ESH1(3,17),ESH2(3,17),ESH3(3,17),ESH4(3,17),ESH5(3,17),
+     /ESH6(3,17)
+      DIMENSION AUG1(3,17,17,17),AUG2(3,17,17,17),AUG3(3,17,17,17),
+     /AUG4(3,17,17,17),AUG5(3,17,17,17),AUG6(3,17,17,17)
+      DIMENSION RAD1(3,17,17),RAD2(3,17,17),RAD3(3,17,17),RAD4(3,17,17),
+     /RAD5(3,17,17),RAD6(3,17,17)
+      DIMENSION INIOCC1(3,17),INIOCC2(3,17),INIOCC3(3,17),INIOCC4(3,17),
+     /INIOCC5(3,17),INIOCC6(3,17)
+      DIMENSION XP1(3,17,60),YP1(3,17,60),XP2(3,17,60),YP2(3,17,60),
+     /XP3(3,17,60),YP3(3,17,60),XP4(3,17,60),YP4(3,17,60),
+     /XP5(3,17,60),YP5(3,17,60),XP6(3,17,60),YP6(3,17,60)
+      DIMENSION XC1(3,54),YR1(3,54),YC1(3,54),YPP1(3,54),
+     /XC2(3,54),YR2(3,54),YC2(3,54),YPP2(3,54),
+     /XC3(3,54),YR3(3,54),YC3(3,54),YPP3(3,54),
+     /XC4(3,54),YR4(3,54),YC4(3,54),YPP4(3,54),
+     /XC5(3,54),YR5(3,54),YC5(3,54),YPP5(3,54),
+     /XC6(3,54),YR6(3,54),YC6(3,54),YPP6(3,54)
+      DIMENSION FFAC1(3,45),FFAC2(3,45),FFAC3(3,45),FFAC4(3,45),
+     /FFAC5(3,45),FFAC6(3,45)
+      DIMENSION FFAR1(3,45),FFAR2(3,45),FFAR3(3,45),FFAR4(3,45),
+     /FFAR5(3,45),FFAR6(3,45)
+      DIMENSION IZ1(3),IZ2(3),IZ3(3),IZ4(3),IZ5(3),IZ6(3)
+      DIMENSION AMZ1(3),AMZ2(3),AMZ3(3),AMZ4(3),AMZ5(3),AMZ6(3)
+C LOAD PHOTOELECTRIC AND COMPTON X-SECS
+C LOAD INITIAL SHELL OCCUPANCIES FOR EACH GAS
+C LOAD ENERGY LEVELS
+C LOAD TRANSITION PROBABILITIES AUGER AND RADIATIVE
+C LOAD SHAKE OFF PROBABILITIES AND ENERGIES
+      DO 1 I=1,6
+      DO 1 M=1,3
+      IZ(I,M)=0
+      AMZ(I,M)=0.0D0
+      DO 1 J=1,17
+      ESH(I,M,J)=0.0
+      INIOCC(I,M,J)=0
+      PRSHBT(I,M,J)=0.0
+      DO 1 K=1,17
+      PRSH(I,M,J,K)=0.0
+      RAD(I,M,J,K)=0.0
+      DO 1 L=1,17
+      AUG(I,M,J,K,L)=0.0
+    1 CONTINUE  
+      CALL GASMIXC(NGASN(1),PRSH1,PRSHBT1,ESH1,AUG1,RAD1,XP1,YP1,XC1,
+     /YR1,YC1,YPP1,FFAR1,FFAC1,IZ1,AMZ1,INIOCC1)
+      IF(NGAS.EQ.1) GO TO 10
+      CALL GASMIXC(NGASN(2),PRSH2,PRSHBT2,ESH2,AUG2,RAD2,XP2,YP2,XC2,
+     /YR2,YC2,YPP2,FFAR2,FFAC2,IZ2,AMZ2,INIOCC2)
+      IF(NGAS.EQ.2) GO TO 10
+      CALL GASMIXC(NGASN(3),PRSH3,PRSHBT3,ESH3,AUG3,RAD3,XP3,YP3,XC3,
+     /YR3,YC3,YPP3,FFAR3,FFAC3,IZ3,AMZ3,INIOCC3)
+      IF(NGAS.EQ.3) GO TO 10
+      CALL GASMIXC(NGASN(4),PRSH4,PRSHBT4,ESH4,AUG4,RAD4,XP4,YP4,XC4,
+     /YR4,YC4,YPP4,FFAR4,FFAC4,IZ4,AMZ4,INIOCC4)
+      IF(NGAS.EQ.4) GO TO 10
+      CALL GASMIXC(NGASN(5),PRSH5,PRSHBT5,ESH5,AUG5,RAD5,XP5,YP5,XC5,
+     /YR5,YC5,YPP5,FFAR5,FFAC5,IZ5,AMZ5,INIOCC5)
+      IF(NGAS.EQ.5) GO TO 10
+      CALL GASMIXC(NGASN(6),PRSH6,PRSHBT6,ESH6,AUG6,RAD6,XP6,YP6,XC6,
+     /YR6,YC6,YPP6,FFAR6,FFAC6,IZ6,AMZ6,INIOCC6)
+      IF(NGAS.EQ.6) GO TO 10
+   10 CONTINUE
+      I=1
+      DO 30 J1=1,3
+      IZ(I,J1)=IZ1(J1)
+      AMZ(I,J1)=AMZ1(J1)
+      DO 30 J=1,17
+      DO 20 M=1,60
+      XPE(1,J1,J,M)=XP1(J1,J,M)
+      YPE(1,J1,J,M)=YP1(J1,J,M)
+   20 CONTINUE
+      ESH(I,J1,J)=ESH1(J1,J)
+      INIOCC(I,J1,J)=INIOCC1(J1,J)
+      IF(INIOCC1(J1,J).NE.0) ISHLMX(1,J1)=J
+      PRSHBT(I,J1,J)=PRSHBT1(J1,J)
+      DO 30 K=1,17
+      PRSH(I,J1,J,K)=PRSH1(J1,J,K)
+      RAD(I,J1,J,K)=RAD1(J1,J,K)
+      DO 30 L=1,17
+      AUG(I,J1,J,K,L)=AUG1(J1,J,K,L)
+   30 CONTINUE
+      DO 35 J=1,3
+      DO 35 M=1,54
+      XCP(1,J,M)=XC1(J,M)
+      YRY(1,J,M)=YR1(J,M)
+      YCP(1,J,M)=YC1(J,M)
+      YPP(1,J,M)=YPP1(J,M)
+   35 CONTINUE
+      DO 40 J=1,3
+      DO 40 K=1,45
+      FRMFR(1,J,K)=FFAR1(J,K)
+   40 FRMFC(1,J,K)=FFAC1(J,K)
+      IF(NGAS.EQ.1) GO TO 1000
+      I=2
+      DO 60 J1=1,3
+      IZ(I,J1)=IZ2(J1)
+      AMZ(I,J1)=AMZ2(J1)
+      DO 60 J=1,17
+      DO 50 M=1,60
+      XPE(2,J1,J,M)=XP2(J1,J,M)
+      YPE(2,J1,J,M)=YP2(J1,J,M)
+   50 CONTINUE
+      ESH(I,J1,J)=ESH2(J1,J)
+      INIOCC(I,J1,J)=INIOCC2(J1,J)
+      IF(INIOCC2(J1,J).NE.0) ISHLMX(2,J1)=J
+      PRSHBT(I,J1,J)=PRSHBT2(J1,J)
+      DO 60 K=1,17
+      PRSH(I,J1,J,K)=PRSH2(J1,J,K)
+      RAD(I,J1,J,K)=RAD2(J1,J,K)
+      DO 60 L=1,17
+      AUG(I,J1,J,K,L)=AUG2(J1,J,K,L)
+   60 CONTINUE
+      DO 65 J=1,3
+      DO 65 M=1,54
+      XCP(2,J,M)=XC2(J,M)
+      YRY(2,J,M)=YR2(J,M)
+      YCP(2,J,M)=YC2(J,M)
+      YPP(2,J,M)=YPP2(J,M)
+   65 CONTINUE
+      DO 70 J=1,3
+      DO 70 K=1,45
+      FRMFR(2,J,K)=FFAR2(J,K)
+   70 FRMFC(2,J,K)=FFAC2(J,K)
+      IF(NGAS.EQ.2) GO TO 1000
+      I=3
+      DO 90 J1=1,3
+      IZ(I,J1)=IZ3(J1)
+      AMZ(I,J1)=AMZ3(J1)
+      DO 90 J=1,17
+      DO 80 M=1,60
+      XPE(3,J1,J,M)=XP3(J1,J,M)
+      YPE(3,J1,J,M)=YP3(J1,J,M)
+   80 CONTINUE
+      ESH(I,J1,J)=ESH3(J1,J)
+      INIOCC(I,J1,J)=INIOCC3(J1,J)
+      IF(INIOCC3(J1,J).NE.0) ISHLMX(3,J1)=J
+      PRSHBT(I,J1,J)=PRSHBT3(J1,J)
+      DO 90 K=1,17
+      PRSH(I,J1,J,K)=PRSH3(J1,J,K)
+      RAD(I,J1,J,K)=RAD3(J1,J,K)
+      DO 90 L=1,17
+      AUG(I,J1,J,K,L)=AUG3(J1,J,K,L)
+   90 CONTINUE
+      DO 95 J=1,3
+      DO 95 M=1,54
+      XCP(3,J,M)=XC3(J,M)
+      YRY(3,J,M)=YR3(J,M)
+      YCP(3,J,M)=YC3(J,M)
+      YPP(3,J,M)=YPP3(J,M)
+   95 CONTINUE
+      DO 100 J=1,3
+      DO 100 K=1,45
+      FRMFR(3,J,K)=FFAR3(J,K)
+  100 FRMFC(3,J,K)=FFAC3(J,K)
+      IF(NGAS.EQ.3) GO TO 1000
+      I=4
+      DO 120 J1=1,3
+      IZ(I,J1)=IZ4(J1)
+      AMZ(I,J1)=AMZ4(J1)
+      DO 120 J=1,17
+      DO 110 M=1,60
+      XPE(4,J1,J,M)=XP4(J1,J,M)
+      YPE(4,J1,J,M)=YP4(J1,J,M)
+  110 CONTINUE
+      ESH(I,J1,J)=ESH4(J1,J)
+      INIOCC(I,J1,J)=INIOCC4(J1,J)
+      IF(INIOCC4(J1,J).NE.0) ISHLMX(4,J1)=J
+      PRSHBT(I,J1,J)=PRSHBT4(J1,J)
+      DO 120 K=1,17
+      PRSH(I,J1,J,K)=PRSH4(J1,J,K)
+      RAD(I,J1,J,K)=RAD4(J1,J,K)
+      DO 120 L=1,17
+      AUG(I,J1,J,K,L)=AUG4(J1,J,K,L)
+  120 CONTINUE
+      DO 125 J=1,3
+      DO 125 M=1,54
+      XCP(4,J,M)=XC4(J,M)
+      YRY(4,J,M)=YR4(J,M)
+      YCP(4,J,M)=YC4(J,M)
+      YPP(4,J,M)=YPP4(J,M)
+  125 CONTINUE
+      DO 130 J=1,3
+      DO 130 K=1,45
+      FRMFR(4,J,K)=FFAR4(J,K)
+  130 FRMFC(4,J,K)=FFAC4(J,K)
+      IF(NGAS.EQ.4) GO TO 1000
+      I=5
+      DO 150 J1=1,3
+      IZ(I,J1)=IZ5(J1)
+      AMZ(I,J1)=AMZ5(J1)
+      DO 150 J=1,17
+      DO 140 M=1,60
+      XPE(5,J1,J,M)=XP5(J1,J,M)
+      YPE(5,J1,J,M)=YP5(J1,J,M)
+  140 CONTINUE
+      ESH(I,J1,J)=ESH5(J1,J)
+      INIOCC(I,J1,J)=INIOCC5(J1,J)
+      IF(INIOCC5(J1,J).NE.0) ISHLMX(5,J1)=J
+      PRSHBT(I,J1,J)=PRSHBT5(J1,J)
+      DO 150 K=1,17
+      PRSH(I,J1,J,K)=PRSH5(J1,J,K)
+      RAD(I,J1,J,K)=RAD5(J1,J,K)
+      DO 150 L=1,17
+      AUG(I,J1,J,K,L)=AUG5(J1,J,K,L)
+  150 CONTINUE
+      DO 155 J=1,3
+      DO 155 M=1,54
+      XCP(5,J,M)=XC5(J,M)
+      YRY(5,J,M)=YR5(J,M)
+      YCP(5,J,M)=YC5(J,M)
+      YPP(5,J,M)=YPP5(J,M) 
+  155 CONTINUE
+      DO 160 J=1,3
+      DO 160 K=1,45
+      FRMFR(5,J,K)=FFAR5(J,K)
+  160 FRMFC(5,J,K)=FFAC5(J,K)
+      IF(NGAS.EQ.5) GO TO 1000
+      I=6
+      DO 180 J1=1,3
+      IZ(I,J1)=IZ6(J1)
+      AMZ(I,J1)=AMZ6(J1)
+      DO 180 J=1,17
+      DO 170 M=1,60
+      XPE(6,J1,J,M)=XP6(J1,J,M)
+      YPE(6,J1,J,M)=YP6(J1,J,M)
+  170 CONTINUE
+      ESH(I,J1,J)=ESH6(J1,J)
+      INIOCC(I,J1,J)=INIOCC6(J1,J)
+      IF(INIOCC6(J1,J).NE.0) ISHLMX(6,J1)=J
+      PRSHBT(I,J1,J)=PRSHBT6(J1,J)
+      DO 180 K=1,17
+      PRSH(I,J1,J,K)=PRSH6(J1,J,K)
+      RAD(I,J1,J,K)=RAD6(J1,J,K)
+      DO 180 L=1,17
+      AUG(I,J1,J,K,L)=AUG6(J1,J,K,L)
+  180 CONTINUE 
+      DO 185 J=1,3
+      DO 185 M=1,54
+      XCP(6,J,M)=XC6(J,M)
+      YRY(6,J,M)=YR6(J,M)
+      YCP(6,J,M)=YC6(J,M)
+      YPP(6,J,M)=YPP6(J,M)
+  185 CONTINUE
+      DO 190 J=1,3
+      DO 190 K=1,45
+      FRMFR(6,J,K)=FFAR6(J,K)
+  190 FRMFC(6,J,K)=FFAC6(J,K)
+      IF(NGAS.GT.6) THEN
+       WRITE(6,99) NGAS
+   99 FORMAT(' PROGRAM STOPPED NGAS=',I3,' IN MIXERC')
+       STOP
+      ENDIF
+ 1000 CONTINUE
+      RETURN
+      END
+```
+
+
+## CASCDAT():
+* Initializes arrays with general atomic data.
+* All the arrays have been padded with an extra row in all dimensions to preserve the indexing from FORTRAN to python
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+```python
+def CASCDAT():
+	# IMPLICIT #real*8 (A-H,O-Z)
+	# IMPLICIT #integer*8 (I-N)
+	# CHARACTER*6 SCRPT(17),SCRPT1(17),SCR(17),SCR1(17)
+	SCRPT=numpy.zeros(17+1,dtype=str)
+	SCRPT1=numpy.zeros(17+1,dtype=str)
+	# SCR(17),SCR1(17)
+	# COMMON/GENCAS/
+	# global 
+	ELEV=conf.ELEV
+	NSDEG=conf.NSDEG
+	AA=conf.AA
+	BB=conf.BB
+	SCR=conf.SCR
+	SCR1=conf.SCR1
+	NSD=numpy.zeros(17+1)	
+	# GENERAL ATOMIC DATA
+	# adding an extra elemnt in front of arrays to maintain the indexing
+	NSD=[0]+[2,2,2,4,2,2,4,4,6,2,2,4,4,6,2,2,4]
+	SCRPT=[0]+[' K  ',' L1 ',' L2 ',' L3 ',' M1',' M2 ',' M3 ',' M4 ',' M5 ',' N1 ',' N2 ',' N3 ',' N4 ',' N5 ',' O1 ',' O2 ',' O3 ']
+	SCRPT1=[0]+[' 1s ',' 2s ',' 2p1/2',' 2p3/2',' 3s ',' 3p1/2',' 3p3/2',' 3d3/2',' 3d5/2',' 4s ',' 4p1/2',' 4p3/2',' 4d3/2',' 4d5/2',' 5s ',' 5p1/2',' 5p3/2']
+	AA=[0]+[0.0,0.0,0.25,0.25,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25]
+	BB=[0]+[1.5,1.5,1.25,1.25,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25]
+	ELEV=[13.598]+16*[0.0]+[24.587]+16*[0.0]+[54.7,5.4]+15*[0.0]+[111.5,9.3]+15*[0.0]+[188.0,12.6,4.70]+14*[0.0]+[
+	# CARBON
+	284.2,18.0,6.40]+14*[0.0]+[401.6,24.4,14.534,14.524]+13*[0.0]+[532.0,28.5,13.618,13.618]+13*[0.0]+[685.4,34.0,16.000,16.000]+13*[0.0]+[
+	# NEON
+	870.2,48.475,21.661,21.565]+13*[0.0]+[1070.8,63.5,30.65,30.81,5.1]+12*[0.0]+[1303.0,88.7,49.78,49.50,7.6]+12*[0.0]+[1559.6,117.8,72.95,72.55,10.6,6.0]+11*[0.0]+[1839.0,149.7,99.82,99.42,13.5,8.1]+11*[0.0]+[2145.5,189.0,136.0,135.0,16.1,10.5]+11*[0.0]+[2472.0,230.9,163.6,162.5,20.2,10.4]+11*[0.0]+[2822.4,270.0,202.0,200.0,24.5,12.9]+11*[0.0]+[
+	# ARGON
+	3205.9,326.3,250.6,248.4,29.239,15.937,15.760]+10*[0.0]+[3608.4,378.6,297.3,294.6,34.8,18.3,18.2]+10*[0.0]+[4038.5,438.4,349.7,346.2,44.3,25.4,25.3]+10*[0.0]+[4492.0,498.0,403.6,398.7,51.1,28.3,28.2]+10*[0.0]+[4966.0,560.9,460.2,453.8,58.7,32.6,32.5]+10*[0.0]+[5465.0,626.7,519.8,512.1,66.3,37.2,37.1]+10*[0.0]+[5989.0,696.0,583.8,574.1,74.1,42.2,42.1]+10*[0.0]+[6539.0,769.1,649.9,638.7,82.3,47.2,47.1]+10*[0.0]+[7112.0,844.6,719.9,706.8,91.3,52.7,52.6]+10*[0.0]+[7709.0,925.1,793.2,778.1,101.0,59.8,58.9]+10*[0.0]+[8333.0,1008.6,870.0,852.7,110.8,68.0,66.2]+10*[0.0]+[8979.0,1096.7,952.3,932.7,122.5,77.3,75.1]+10*[0.0]+[9659.0,1196.2,1044.9,1021.8,139.8,91.4,88.6,10.2,10.1]+8*[0.0]+[
+	# Z=31
+	10367.,1299.0,1143.2,1116.4,159.5,103.5,100.0,18.7,18.6]+8*[0.0]+[11103.,1414.6,1248.1,1217.0,180.1,124.9,120.8,29.8,29.2,14.3,7.9]+6*[0.0]+[11867.,1527.0,1359.1,1323.6,204.7,146.2,141.2,41.7,41.7,17.0,9.8]+6*[0.0]+[12658.,1652.0,1474.3,1433.9,229.6,166.5,160.7,55.5,54.6,20.1,9.8]+6*[0.0]+[13474.,1782.0,1596.0,1550.0,257.0,189.0,182.0,70.0,69.0,23.8,11.8]+6*[0.0]+[
+	# KR
+	14327.26,1921.0,1730.9,1678.4,292.8,222.2,214.4,95.0,93.8,27.5,14.666,13.9996]+5*[0.0]+[15200.,2065.,1864.0,1804.0,326.7,248.7,239.1,113.0,112.,30.5,16.3,15.3]+5*[0.0]+[16105.,2216.,2007.,1940.0,358.7,280.3,270.0,136.0,134.2,38.9,21.3,20.1]+5*[0.0]+[17038.,2373.,2156.,2080.0,392.0,310.6,298.8,157.7,155.8,43.8,24.4,23.1]+5*[0.0]+[17998.,2532.,2307.,2223.0,430.3,343.5,329.8,181.1,178.8,50.6,28.5,27.1]+5*[0.0]+[
+	# Z=41
+	18986.,2698.,2465.,2371.0,466.6,376.1,360.6,205.0,202.3,56.4,32.6,30.8]+5*[0.0]+[20000.,2866.,2625.,2520.0,506.3,411.6,394.0,231.1,227.9,63.2,37.6,35.5]+5*[0.0]+[21044.,3043.,2793.,2677.0,544.0,447.6,417.7,257.6,253.9,69.5,42.3,39.9]+5*[0.0]+[22117.,3224.,2967.,2838.0,586.1,483.5,461.4,284.2,280.0,75.0,46.3,43.2]+5*[0.0]+[23220.,3412.,3146.,3004.0,628.1,521.3,496.5,311.9,307.2,81.4,50.5,47.3]+5*[0.0]+[24350.,3604.,3330.,3173.0,671.6,559.9,532.3,340.5,335.2,87.1,55.7,50.9]+5*[0.0]+[25514.,3806.,3524.,3351.0,719.0,603.8,573.0,374.0,368.3,97.0,63.7,58.3]+5*[0.0]+[26711.,4018.,3727.,3538.,772.0,652.6,618.4,411.9,405.2,109.8,63.9,63.8,11.7,10.7]+3*[0.0]+[27940.,4238.,3938.,3730.,827.2,703.2,665.3,451.4,443.9,122.9,73.6,73.5,17.7,16.9]+3*[0.0]+[29200.,4465.,4156.,3929.,884.7,756.5,714.6,493.2,484.9,137.1,83.6,83.5,24.9,23.9]+3*[0.0]+[
+	# Z=51
+	30491.,4698.,4380.,4132.,946.0,812.7,766.4,537.5,528.2,153.2,95.6,95.5,33.3,32.1]+3*[0.0]+[31814.,4939.,4612.,4341.,1006.,870.8,820.0,583.4,573.,169.4,103.3,103.2,41.9,40.4]+3*[0.0]+[33169.,5188.,4852.,4557.,1072.,931.0,875.0,630.8,619.3,186.,123.0,122.9,50.6,48.9]+3*[0.0]+[
+	# XE
+	34561.,5453.,5107.,4786.,1148.7,1002.1,940.6,689.0,676.4,213.2,146.7,145.5,69.5,67.5,23.3,13.43,12.129843,35985.,5714.,5359.,5012.,1211.,1071.0,1003.0,740.5,726.6,232.3,172.4,161.3,79.8,77.5,23.7,14.2,12.6,37441.,5989.,5624.,5247.,1293.,1137.0,1063.0,795.7,780.5,253.5,192.0,178.6,92.6,89.9,30.3,17.0,14.8,38925.,6266.,5891.,5483.,1362.,1209.0,1128.0,853.0,836.0,274.7,205.8,196.0,105.3,102.5,34.3,19.3,16.8,40443.,6549.,6164.,5723.,1436.,1274.0,1187.0,902.4,883.8,291.0,223.2,206.5,109.0,107.0,37.2,19.8,17.0,41991.,6835.,6440.,5964.,1511.,1337.0,1242.0,948.3,928.8,304.5,236.3,217.6,115.1,115.0,37.4,21.0,20.9,43569.,7126.,6722.,6208.,1575.,1403.,1297.0,1003.3,980.4,319.2,243.3,224.6,120.5,120.4,37.5,21.1,21.0,
+	# Z=61
+	45184.,7428.,7013.,6459.,1650.,1471.,1357.,1052.0,1027.0,332.0,251.,231.,124.,123.,37.6,21.4,21.3,46834.,7737.,7312.,6716.,1723.,1541.,1420.,1110.9,1083.4,347.2,265.6,247.4,128.,127.,37.7,21.4,21.3,48519.,8052.,7617.,6977.,1800.,1614.,1481.,1158.6,1127.5,360.0,284.0,257.0,132.,127.7,37.8,22.0,21.9,50239.,8376.,7930.,7243.,1881.,1688.,1544.,1221.9,1189.6,378.6,286.0,271.0,143.,142.6,36.0,28.0,22.0,51996.,8708.,8252.,7514.,1968.,1768.,1611.,1276.9,1241.1,396.0,322.4,284.1,150.5,150.4,45.6,28.7,22.6,53789.,9046.,8581.,7790.,2047.,1842.,1676.,1333.,1292.6,414.2,333.5,293.2,153.6,153.5,48.9,29.5,23.3,55618.,9394.,8918.,8071.,2128.,1923.,1741.,1392.,1351.,432.4,343.5,308.2,160.1,160.0,49.3,30.8,24.1,57486.,9751.,9264.,8358.,2207.,2006.,1812.,1453.,1409.,449.8,366.2,320.2,167.6,167.5,50.6,31.4,24.7,59390.,10116.,9617.,8648.,2307.,2090.,1885.,1515.,1468.,470.9,385.9,332.6,175.5,175.4,54.7,31.8,25.0,61332.,10486.,9978.,8944.,2398.,2173.,1950.,1576.,1528.,480.5,388.7,339.7,191.2,182.4,55.0,32.5,25.8,
+	# Z=71
+	63314.,10870.,10349.,9244.,2491.,2264.,2024.,1639.,1589.,506.8,412.4,359.2,206.1,196.3,57.3,33.6,26.7,65351.,11271.,10739.,9561.,2601.,2365.,2108.,1716.,1662.,538.0,438.2,380.7,220.0,211.5,64.2,38.0,29.9,67416.,11682.,11136.,9881.,2708.,2469.,2194.,1793.,1735.,563.4,463.4,400.9,237.9,226.4,69.7,42.2,32.7,69525.,12100.,11544.,10207.,2820.,2575.,2281.,1872.,1809.,594.1,490.4,423.6,255.9,243.5,75.6,45.3,36.8,71676.,12527.,11959.,10535.,2932.,2682.,2367.,1949.,1883.,625.4,518.7,446.8,273.9,260.5,83.0,45.6,38.0,73871.,12968.,12385.,10871.,3049.,2792.,2457.,2031.,1960.,658.2,549.1,470.7,293.1,278.5,84.0,58.0,45.0,76111.,13419.,12824.,11215.,3174.,2909.,2551.,2116.,2040.,691.1,577.8,495.8,311.9,296.3,95.2,63.0,49.0,78395.,13880.,13273.,11564.,3296.,3027.,2645.,2202.,2122.,725.4,609.1,519.4,331.6,314.6,101.7,65.3,52.0,80725.,14353.,13734.,11919.,3425.,3148.,2743.,2291.,2206.,762.1,642.7,546.3,353.2,335.1,107.2,74.2,57.2]
+	ELEV=numpy.reshape(ELEV,(17,79))	
+	ELEV=numpy.r_[[numpy.zeros(ELEV.shape[1])],ELEV]
+	ELEV=numpy.c_[numpy.zeros(ELEV.shape[0]),ELEV]
+
+	# LOAD GENERAL DATA FOR CASCADE CALCULATIONS
+	for I in range(1,17+1):
+		NSDEG[I]=NSD[I]
+		SCR[I]=SCRPT[I]
+		SCR1[I]=SCRPT1[I]
+		for J in range(1,79+1):
+			ELEV[I][J]=ELEV[I][J]
+	conf.ELEV=ELEV
+	conf.NSDEG=NSDEG
+	conf.AA=AA
+	conf.BB=BB
+	conf.SCR=SCR
+	conf.SCR1=SCR1
+	return 
+	# end
+```
+
+```fortran
+      SUBROUTINE CASCDAT
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)
+      CHARACTER*6 SCRPT(17),SCRPT1(17),SCR(17),SCR1(17)
+      COMMON/GENCAS/ELEV(17,79),NSDEG(17),AA(17),BB(17),SCR,SCR1
+      DIMENSION NSD(17)
+      
+C GENERAL ATOMIC DATA
+      DATA NSD/2,2,2,4,2,2,4,4,6,2,2,4,4,6,2,2,4/
+      DATA SCRPT/' K  ',' L1 ',' L2 ',' L3 ',' M1',' M2 ',' M3 ',' M4 ',
+     /' M5 ',' N1 ',' N2 ',' N3 ',' N4 ',' N5 ',' O1 ',' O2 ',' O3 '/
+      DATA SCRPT1/' 1s ',' 2s ',' 2p1/2',' 2p3/2',' 3s ',' 3p1/2',' 3p3/
+     /2',' 3d3/2',' 3d5/2',' 4s ',' 4p1/2',' 4p3/2',' 4d3/2',' 4d5/2',' 
+     /5s ',' 5p1/2',' 5p3/2'/
+      DATA AA/0.0,0.0,0.25,0.25,0.0,0.25,0.25,0.50,0.50,0.0,0.25,0.25,
+     /0.50,0.50,0.0,0.25,0.25/
+      DATA BB/1.5,1.5,1.25,1.25,1.5,1.25,1.25,0.75,0.75,1.5,1.25,1.25,
+     /0.75,0.75,1.5,1.25,1.25/
+      DATA ELEV/13.598,16*0.0,24.587,16*0.0,54.7,5.4,15*0.0,
+     /111.5,9.3,15*0.0,
+     /188.0,12.6,4.70,14*0.0,
+C CARBON
+     /284.2,18.0,6.40,14*0.0,
+     /401.6,24.4,14.534,14.524,13*0.0,
+     /532.0,28.5,13.618,13.618,13*0.0,
+     /685.4,34.0,16.000,16.000,13*0.0,
+C NEON
+     /870.2,48.475,21.661,21.565,13*0.0,
+     /1070.8,63.5,30.65,30.81,5.1,12*0.0,
+     /1303.0,88.7,49.78,49.50,7.6,12*0.0,
+     /1559.6,117.8,72.95,72.55,10.6,6.0,11*0.0,
+     /1839.0,149.7,99.82,99.42,13.5,8.1,11*0.0,
+     /2145.5,189.0,136.0,135.0,16.1,10.5,11*0.0,
+     /2472.0,230.9,163.6,162.5,20.2,10.4,11*0.0,
+     /2822.4,270.0,202.0,200.0,24.5,12.9,11*0.0,
+C ARGON
+     /3205.9,326.3,250.6,248.4,29.239,15.937,15.760,10*0.0,
+     /3608.4,378.6,297.3,294.6,34.8,18.3,18.2,10*0.0,
+     /4038.5,438.4,349.7,346.2,44.3,25.4,25.3,10*0.0,
+     /4492.0,498.0,403.6,398.7,51.1,28.3,28.2,10*0.0,
+     /4966.0,560.9,460.2,453.8,58.7,32.6,32.5,10*0.0,
+     /5465.0,626.7,519.8,512.1,66.3,37.2,37.1,10*0.0,
+     /5989.0,696.0,583.8,574.1,74.1,42.2,42.1,10*0.0,
+     /6539.0,769.1,649.9,638.7,82.3,47.2,47.1,10*0.0,
+     /7112.0,844.6,719.9,706.8,91.3,52.7,52.6,10*0.0,
+     /7709.0,925.1,793.2,778.1,101.0,59.8,58.9,10*0.0,
+     /8333.0,1008.6,870.0,852.7,110.8,68.0,66.2,10*0.0,
+     /8979.0,1096.7,952.3,932.7,122.5,77.3,75.1,10*0.0,
+     /9659.0,1196.2,1044.9,1021.8,139.8,91.4,88.6,10.2,10.1,8*0.0,
+C Z=31
+     /10367.,1299.0,1143.2,1116.4,159.5,103.5,100.0,18.7,18.6,8*0.0,
+     /11103.,1414.6,1248.1,1217.0,180.1,124.9,120.8,29.8,29.2,14.3,7.9,
+     /6*0.0,
+     /11867.,1527.0,1359.1,1323.6,204.7,146.2,141.2,41.7,41.7,17.0,9.8,
+     /6*0.0,
+     /12658.,1652.0,1474.3,1433.9,229.6,166.5,160.7,55.5,54.6,20.1,9.8,
+     /6*0.0,
+     /13474.,1782.0,1596.0,1550.0,257.0,189.0,182.0,70.0,69.0,23.8,11.8,
+     /6*0.0,
+C KR
+     /14327.26,1921.0,1730.9,1678.4,292.8,222.2,214.4,95.0,93.8,27.5,
+     /14.666,13.9996,5*0.0,
+     /15200.,2065.,1864.0,1804.0,326.7,248.7,239.1,113.0,112.,30.5,16.3,
+     /15.3,5*0.0,
+     /16105.,2216.,2007.,1940.0,358.7,280.3,270.0,136.0,134.2,38.9,21.3,
+     /20.1,5*0.0,
+     /17038.,2373.,2156.,2080.0,392.0,310.6,298.8,157.7,155.8,43.8,24.4,
+     /23.1,5*0.0,
+     /17998.,2532.,2307.,2223.0,430.3,343.5,329.8,181.1,178.8,50.6,28.5,
+     /27.1,5*0.0,
+C Z=41
+     /18986.,2698.,2465.,2371.0,466.6,376.1,360.6,205.0,202.3,56.4,32.6,
+     /30.8,5*0.0,
+     /20000.,2866.,2625.,2520.0,506.3,411.6,394.0,231.1,227.9,63.2,37.6,
+     /35.5,5*0.0,
+     /21044.,3043.,2793.,2677.0,544.0,447.6,417.7,257.6,253.9,69.5,42.3,
+     /39.9,5*0.0,
+     /22117.,3224.,2967.,2838.0,586.1,483.5,461.4,284.2,280.0,75.0,46.3,
+     /43.2,5*0.0,
+     /23220.,3412.,3146.,3004.0,628.1,521.3,496.5,311.9,307.2,81.4,50.5,
+     /47.3,5*0.0,
+     /24350.,3604.,3330.,3173.0,671.6,559.9,532.3,340.5,335.2,87.1,55.7,
+     /50.9,5*0.0,
+     /25514.,3806.,3524.,3351.0,719.0,603.8,573.0,374.0,368.3,97.0,63.7,
+     /58.3,5*0.0,
+     /26711.,4018.,3727.,3538.,772.0,652.6,618.4,411.9,405.2,109.8,63.9,
+     /63.8,11.7,10.7,3*0.0,
+     /27940.,4238.,3938.,3730.,827.2,703.2,665.3,451.4,443.9,122.9,73.6,
+     /73.5,17.7,16.9,3*0.0,
+     /29200.,4465.,4156.,3929.,884.7,756.5,714.6,493.2,484.9,137.1,83.6,
+     /83.5,24.9,23.9,3*0.0,
+C Z=51
+     /30491.,4698.,4380.,4132.,946.0,812.7,766.4,537.5,528.2,153.2,95.6,
+     /95.5,33.3,32.1,3*0.0,
+     /31814.,4939.,4612.,4341.,1006.,870.8,820.0,583.4,573.,169.4,103.3,
+     /103.2,41.9,40.4,3*0.0,
+     /33169.,5188.,4852.,4557.,1072.,931.0,875.0,630.8,619.3,186.,123.0,
+     /122.9,50.6,48.9,3*0.0,
+C XE
+     /34561.,5453.,5107.,4786.,1148.7,1002.1,940.6,689.0,676.4,213.2,
+     /146.7,145.5,69.5,67.5,23.3,13.43,12.129843,
+     /35985.,5714.,5359.,5012.,1211.,1071.0,1003.0,740.5,726.6,232.3,
+     /172.4,161.3,79.8,77.5,23.7,14.2,12.6,
+     /37441.,5989.,5624.,5247.,1293.,1137.0,1063.0,795.7,780.5,253.5,
+     /192.0,178.6,92.6,89.9,30.3,17.0,14.8,
+     /38925.,6266.,5891.,5483.,1362.,1209.0,1128.0,853.0,836.0,274.7,
+     /205.8,196.0,105.3,102.5,34.3,19.3,16.8,
+     /40443.,6549.,6164.,5723.,1436.,1274.0,1187.0,902.4,883.8,291.0,
+     /223.2,206.5,109.0,107.0,37.2,19.8,17.0,
+     /41991.,6835.,6440.,5964.,1511.,1337.0,1242.0,948.3,928.8,304.5,
+     /236.3,217.6,115.1,115.0,37.4,21.0,20.9,
+     /43569.,7126.,6722.,6208.,1575.,1403.,1297.0,1003.3,980.4,319.2,
+     /243.3,224.6,120.5,120.4,37.5,21.1,21.0,
+C Z=61
+     /45184.,7428.,7013.,6459.,1650.,1471.,1357.,1052.0,1027.0,332.0,
+     /251.,231.,124.,123.,37.6,21.4,21.3,
+     /46834.,7737.,7312.,6716.,1723.,1541.,1420.,1110.9,1083.4,347.2,
+     /265.6,247.4,128.,127.,37.7,21.4,21.3,
+     /48519.,8052.,7617.,6977.,1800.,1614.,1481.,1158.6,1127.5,360.0,
+     /284.0,257.0,132.,127.7,37.8,22.0,21.9,
+     /50239.,8376.,7930.,7243.,1881.,1688.,1544.,1221.9,1189.6,378.6,
+     /286.0,271.0,143.,142.6,36.0,28.0,22.0,
+     /51996.,8708.,8252.,7514.,1968.,1768.,1611.,1276.9,1241.1,396.0,
+     /322.4,284.1,150.5,150.4,45.6,28.7,22.6,
+     /53789.,9046.,8581.,7790.,2047.,1842.,1676.,1333.,1292.6,414.2,
+     /333.5,293.2,153.6,153.5,48.9,29.5,23.3,
+     /55618.,9394.,8918.,8071.,2128.,1923.,1741.,1392.,1351.,432.4,
+     /343.5,308.2,160.1,160.0,49.3,30.8,24.1,
+     /57486.,9751.,9264.,8358.,2207.,2006.,1812.,1453.,1409.,449.8,
+     /366.2,320.2,167.6,167.5,50.6,31.4,24.7,
+     /59390.,10116.,9617.,8648.,2307.,2090.,1885.,1515.,1468.,470.9,
+     /385.9,332.6,175.5,175.4,54.7,31.8,25.0,
+     /61332.,10486.,9978.,8944.,2398.,2173.,1950.,1576.,1528.,480.5,
+     /388.7,339.7,191.2,182.4,55.0,32.5,25.8,
+C Z=71
+     /63314.,10870.,10349.,9244.,2491.,2264.,2024.,1639.,1589.,506.8,
+     /412.4,359.2,206.1,196.3,57.3,33.6,26.7,
+     /65351.,11271.,10739.,9561.,2601.,2365.,2108.,1716.,1662.,538.0,
+     /438.2,380.7,220.0,211.5,64.2,38.0,29.9,
+     /67416.,11682.,11136.,9881.,2708.,2469.,2194.,1793.,1735.,563.4,
+     /463.4,400.9,237.9,226.4,69.7,42.2,32.7,
+     /69525.,12100.,11544.,10207.,2820.,2575.,2281.,1872.,1809.,594.1,
+     /490.4,423.6,255.9,243.5,75.6,45.3,36.8,
+     /71676.,12527.,11959.,10535.,2932.,2682.,2367.,1949.,1883.,625.4,
+     /518.7,446.8,273.9,260.5,83.0,45.6,38.0,
+     /73871.,12968.,12385.,10871.,3049.,2792.,2457.,2031.,1960.,658.2,
+     /549.1,470.7,293.1,278.5,84.0,58.0,45.0,
+     /76111.,13419.,12824.,11215.,3174.,2909.,2551.,2116.,2040.,691.1,
+     /577.8,495.8,311.9,296.3,95.2,63.0,49.0,
+     /78395.,13880.,13273.,11564.,3296.,3027.,2645.,2202.,2122.,725.4,
+     /609.1,519.4,331.6,314.6,101.7,65.3,52.0,
+     /80725.,14353.,13734.,11919.,3425.,3148.,2743.,2291.,2206.,762.1,
+     /642.7,546.3,353.2,335.1,107.2,74.2,57.2/
+C LOAD GENERAL DATA FOR CASCADE CALCULATIONS
+      DO 1 I=1,17
+      NSDEG(I)=NSD(I)
+      SCR(I)=SCRPT(I)
+      SCR1(I)=SCRPT1(I)
+      PRINT *
+      DO 1 J=1,79
+    1 ELEV(I,J)=ELEV(I,J)
+      RETURN 
+      END
+```
+## GASMIX()
+
+* Based upon the gas identifier calls the gas cross section function GASn for the particular gas
+
+### Arguments
+
+| Argument |  Description   |
+|----------|----------------|
+| NGS      | Gas identifier |
+| Q        |                |
+| QIN      |                |
+| NIN      |                |
+| E        |                |
+| EI       |                |
+| NAME     |                |
+| VIRL     | Virial         |
+| EB       |                |
+| PEQEL    |                |
+| PEQIN    |                |
+| PENFRA   |                |
+| KEL      |                |
+| KIN      |                |
+| QION     |                |
+| PEQION   |                |
+| EION     |                |
+| NION     |                |
+| QATT     |                |
+| NATT     |                |
+| QNULL    |                |
+| NNULL    |                |
+| SCLN     |                |
+| NC0      |                |
+| EC0      |                |
+| WK       |                |
+| EFL      |                |
+| NG1      |                |
+| EG1      |                |
+| NG2      |                |
+| EG2      |                |
+| IZBR     |                |
+| LEGAS    |                |
+| IESHELL  |                |
+| IONMODEL |                |
+| ESPLIT   |                |
+| SCRPT    |                |
+| SCRPTN   |                |
+
+```python
+def GASMIX(NGS,Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN):
+	#IMPLICIT #real*8 (A-H,O-Z) 
+	# CHARACTER*25 
+	NAME=numpy.zeros(25+1,dtype=str)
+	# CHARACTER*50 
+	SCRPT=numpy.zeros(300+1,dtype=str)
+	SCRPTN=numpy.zeros(10+1,dtype=str)                       
+	E=numpy.zeros((6+1))
+	EI=numpy.zeros((250+1))
+	KIN=numpy.zeros((250+1))
+	Q=numpy.zeros((6+1,20000+1))
+	QIN=numpy.zeros((250+1,20000+1))
+	EION=numpy.zeros((30+1))
+	EB=numpy.zeros((30+1))   
+	QION=numpy.zeros((30+1,20000+1))      
+	PEQION=numpy.zeros((30+1,20000+1))
+	PEQEL=numpy.zeros((6+1,20000+1))
+	PEQIN=numpy.zeros((250+1,20000+1))
+	KEL=numpy.zeros((6+1))
+	PENFRA=numpy.zeros((3+1,250+1))
+	NC0=numpy.zeros((30+1))
+	EC0=numpy.zeros((30+1))
+	WK=numpy.zeros((30+1))
+	EFL=numpy.zeros((30+1))
+	NG1=numpy.zeros((30+1))
+	EG1=numpy.zeros((30+1))
+	NG2=numpy.zeros((30+1))
+	EG2=numpy.zeros((30+1))
+	IZBR=numpy.zeros((250+1))
+	LEGAS=numpy.zeros((30+1))
+	IESHELL=numpy.zeros((30+1))
+	QATT=numpy.zeros((8+1,20000+1))
+	QNULL=numpy.zeros((10+1,20000+1))
+	SCLN=numpy.zeros((10+1))
+	ESPLIT=numpy.zeros((5+1,20+1))
+	# 
+	#GO TO (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80) NGS
+
+	if(NGS==1):
+		NATT=GAS1(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		print(type(NATT))
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT
+	if(NGS==2):
+		Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT=GAS2(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		# print(GAS2(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN))
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT
+	if(NGS==3):
+		GAS3(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return  Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if(NGS==4):
+		GAS4(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT   
+	if (NGS==5):
+		GAS5(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==6):
+		GAS6(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==7):
+		GAS7(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==8):
+		GAS8(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==9):
+		GAS9(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==10):
+		GAS10(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==11):
+		GAS11(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT  
+	if (NGS==12):
+		Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT=GAS12(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		# print(GAS12(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN))
+		print("GASMIX gas12 natt type=",type(NATT))
+		return Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT
+	if (NGS==13):
+		GAS13(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==14):
+		GAS14(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==15):
+		GAS15(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==16):
+		GAS16(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==17):
+		GAS17(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==18):
+		GAS18(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==19):
+		GAS19(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==20):
+		GAS20(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==21):
+		GAS21(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==22):
+		GAS22(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==23):
+		GAS23(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==24):
+		GAS24(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==25):
+		GAS25(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==26):
+		GAS26(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==27):
+		GAS27(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==28):
+		GAS28(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==29):
+		GAS29(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KQION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==30):
+		GAS30(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==31):
+		GAS31(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==32):
+		GAS32(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==33):
+		GAS33(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==34):
+		GAS34(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==35):
+		GAS35(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==36):
+		GAS36(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==37):
+		GAS37(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==38):
+		GAS38(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==39):
+		GAS39(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==40):
+		GAS40(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==41):
+		GAS41(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==42):
+		GAS42(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==43):
+		GAS43(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==44):
+		GAS44(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==45):
+		GAS45(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==46):
+		GAS46(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==47):
+		GAS47(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==48):
+		GAS48(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==49):
+		GAS49(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==50):
+		GAS50(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==51):
+		GAS51(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==52):
+		GAS52(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==53):
+		GAS53(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==54):
+		GAS54(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==55):
+		GAS55(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==56):
+		GAS56(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==57):
+		GAS57(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==58):
+		GAS58(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==59):
+		GAS59(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==60):
+		GAS60(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==61):
+		GAS61(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==62):
+		GAS62(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==63):
+		GAS63(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==64):
+		GAS64(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==65):
+		GAS65(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==66):
+		GAS66(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==67):
+		GAS67(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==68):
+		GAS68(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==69):
+		GAS69(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==70):
+		GAS70(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==71):
+		GAS71(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==72):
+		GAS72(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==73):
+		GAS73(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==74):
+		GAS74(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==75):
+		GAS75(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==76):
+		GAS76(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==77):
+		GAS77(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==78):
+		GAS78(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==79):
+		GAS79(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+	if (NGS==80):
+		GAS80(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+		return   
+      # end 
+```
+```fortran
+      SUBROUTINE GASMIX(NGS,Q,QIN,NIN,E,EI,NAME,VIRL,EB,
+     /PEQEL,PEQIN,PENFRA,KEL,KIN,QION,PEQION,EION,NION,QATT,NATT,
+     /QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,NG1,EG1,NG2,EG2,IZBR,LEGAS,
+     /IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      IMPLICIT REAL*8 (A-H,O-Z) 
+      IMPLICIT INTEGER*8 (I-N)
+      CHARACTER*25 NAME       
+      CHARACTER*50 SCRPT(300),SCRPTN(10)                       
+      DIMENSION Q(6,20000),QIN(250,20000),E(6),EI(250),KIN(250)  
+      DIMENSION QION(30,20000),PEQION(30,20000),EION(30),EB(30)         
+      DIMENSION PEQEL(6,20000),PEQIN(250,20000),KEL(6),PENFRA(3,250)
+      DIMENSION NC0(30),EC0(30),WK(30),EFL(30),NG1(30),EG1(30),
+     /NG2(30),EG2(30),IZBR(250),LEGAS(30),IESHELL(30)
+      DIMENSION QATT(8,20000),QNULL(10,20000),SCLN(10),ESPLIT(5,20) 
+C 
+      PRINT *,E(I)
+	  WRITE(6,4556)
+ 4556 FORMAT('GASMIX############################################')	                                                                    
+
+      GO TO (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,
+     /21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
+     /41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,    
+     /61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80) NGS
+    1 CALL GAS1(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    2 CALL GAS2(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    3 CALL GAS3(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    4 CALL GAS4(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    5 CALL GAS5(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    6 CALL GAS6(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    7 CALL GAS7(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    8 CALL GAS8(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+    9 CALL GAS9(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   10 CALL GAS10(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   11 CALL GAS11(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   12 CALL GAS12(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   13 CALL GAS13(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   14 CALL GAS14(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   15 CALL GAS15(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   16 CALL GAS16(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   17 CALL GAS17(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   18 CALL GAS18(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   19 CALL GAS19(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   20 CALL GAS20(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   21 CALL GAS21(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   22 CALL GAS22(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   23 CALL GAS23(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   24 CALL GAS24(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   25 CALL GAS25(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   26 CALL GAS26(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   27 CALL GAS27(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   28 CALL GAS28(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   29 CALL GAS29(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   30 CALL GAS30(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   31 CALL GAS31(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   32 CALL GAS32(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   33 CALL GAS33(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   34 CALL GAS34(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   35 CALL GAS35(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   36 CALL GAS36(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   37 CALL GAS37(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   38 CALL GAS38(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   39 CALL GAS39(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   40 CALL GAS40(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   41 CALL GAS41(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   42 CALL GAS42(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   43 CALL GAS43(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   44 CALL GAS44(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   45 CALL GAS45(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   46 CALL GAS46(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   47 CALL GAS47(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   48 CALL GAS48(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   49 CALL GAS49(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   50 CALL GAS50(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   51 CALL GAS51(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   52 CALL GAS52(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   53 CALL GAS53(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   54 CALL GAS54(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   55 CALL GAS55(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   56 CALL GAS56(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   57 CALL GAS57(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   58 CALL GAS58(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   59 CALL GAS59(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   60 CALL GAS60(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   61 CALL GAS61(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   62 CALL GAS62(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   63 CALL GAS63(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   64 CALL GAS64(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   65 CALL GAS65(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   66 CALL GAS66(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   67 CALL GAS67(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   68 CALL GAS68(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   69 CALL GAS69(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   70 CALL GAS70(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   71 CALL GAS71(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   72 CALL GAS72(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   73 CALL GAS73(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   74 CALL GAS74(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   75 CALL GAS75(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   76 CALL GAS76(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   77 CALL GAS77(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   78 CALL GAS78(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   79 CALL GAS79(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+   80 CALL GAS80(Q,QIN,NIN,E,EI,NAME,VIRL,EB,PEQEL,PEQIN,PENFRA,KEL,KIN,
+     /QION,PEQION,EION,NION,QATT,NATT,QNULL,NNULL,SCLN,NC0,EC0,WK,EFL,
+     /NG1,EG1,NG2,EG2,IZBR,LEGAS,IESHELL,IONMODEL,ESPLIT,SCRPT,SCRPTN)
+      RETURN   
+      END 
+```
+## FLDIST()
+* Calculates fluorescence average absorption distance and loads into arrays
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+```fortran
+      SUBROUTINE FLDIST
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)
+      COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),
+     /EG2(512),WKLM(512),EFL(512)
+C CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY
+	  ! PRINT *,"INSIDE FLDIST"
+	  ! CALL SLEEP(2)
+      DO 1 I=1,512
+      EPH=EFL(I)
+      ! PRINT *,EPH
+      IF(EPH.EQ.0.0) GO TO 1
+      JF=3
+      ! PRINT *,IDUM
+      ! PAUSE 1
+      CALL ABSO(JF,EPH,IDUM,KDUM,LDUM,DIST)
+      EFL(I)=DIST
+    1 CONTINUE
+      RETURN
+      END
 ```
 
 ```python
-import kittn
+def FLDIST():
+	# IMPLICIT #real*8 (A-H,O-Z)
+	# IMPLICIT #integer*8 (I-N)
+	# COMMON/IONFL/
+	global NC0#(512)
+	global EC0#(512)
+	global NG1#(512)
+	global EG1#(512)
+	global NG2#(512)
+	global EG2#(512)
+	global WKLM#(512)
+	global EFL#(512)	
+	NC0=conf.NC0
+	EC0=conf.EC0
+	NG1=conf.NG1
+	EG1=conf.EG1
+	NG2=conf.NG2
+	EG2=conf.EG2
+	WKLM=conf.WKLM
+	EFL=conf.EFL
+	# CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY
+	for I in range(1,512+1):
+		EPH=EFL[I]
+		if(EPH == 0.0):
+			continue
+		JF=3
+		ABSO(JF,EPH,IDUM,KDUM,LDUM,DIST)
+		EFL[I]=DIST
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+	conf.NC0=NC0
+	conf.EC0=EC0
+	conf.NG1=NG1
+	conf.EG1=EG1
+	conf.NG2=NG2
+	conf.EG2=EG2
+	conf.WKLM=WKLM
+	conf.EFL=EFL
+	return
+	# end## ABSO()
+
+### Arguments
+| Argument |                    Description                    |
+|----------|---------------------------------------------------|
+| JF       |                                                   |
+| EPH      | For photon energy calculates interaction distance |
+|          | with Gas identity, KGAS.                          |
+|          | If compton rayleigh or pair production allowed    |
+|          | then calculates KGAS, LGAS                        |
+| ISHELL   | Absorption Shell                                  |
+| KGAS     | Gas Identity                                      |
+| LGAS     |                                                   |
+| DIST     | Absorption distance per event in metres           |
+|          |                                                   |
+
+### Pseudo Code
+
+```python
+def ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST):
+	# IMPLICIT #real*8 (A-H,O-Z)
+	# IMPLICIT #integer*8 (I-N)
+	def get_globals():
+		#COMMON/RATIO/
+		AN1=conf.AN1
+		AN2=conf.AN2
+		AN3=conf.AN3
+		AN4=conf.AN4
+		AN5=conf.AN5
+		AN6=conf.AN6
+		AN=conf.AN
+		FRAC=conf.FRAC#(6)  
+		#COMMON/COMP/=conf.#COMMON/COMP/
+		LCMP=conf.LCMP
+		LCFLG=conf.LCFLG
+		LRAY=conf.LRAY
+		LRFLG=conf.LRFLG
+		LPAP=conf.LPAP
+		LPFLG=conf.LPFLG
+		LBRM=conf.LBRM
+		LBFLG=conf.LBFLG
+		LPEFLG=conf.LPEFLG
+		#COMMON/ABBS/=conf.#COMMON/ABBS/
+		ABSXRAY=conf.ABSXRAY             
+		#COMMON/INPT/=conf.#COMMON/INPT/
+		NGAS=conf.NGAS
+		NSTEP=conf.NSTEP
+		NANISO=conf.NANISO
+		EFINAL=conf.EFINAL
+		ESTEP=conf.ESTEP
+		AKT=conf.AKT
+		ARY=conf.ARY
+		TEMPC=conf.TEMPC
+		TORR=conf.TORR
+		IPEN=conf.IPEN
+		#COMMON/MIXC/=conf.#COMMON/MIXC/
+		PRS=conf.PRSH#(6,3,17,17)
+		ESH=conf.ESH#(6,3,17)
+		AUG17=conf.AUG#(6,3,17,17,17)
+		RAD=conf.RAD#(6,3,17,17)
+		PRSHBT=conf.PRSHBT#(6,3,17)
+		IZ=conf.IZ#(6,3)
+		INIOCC=conf.INIOCC#(6,3,17)
+		ISHLMX=conf.ISHLMX#(6,3)
+		AMZ=conf.AMZ#(6,3)
+		#COMMON/MIXPE/=conf.#COMMON/MIXPE/
+		XPE=conf.XPE#(6,3,17,60)
+		YPE=conf.YPE#(6,3,17,60)
+		#COMMON/MIXCN/=conf.#COMMON/MIXCN/
+		XEN=conf.XEN#(6,3,54)
+		YRY=conf.YRY#(6,3,54)
+		YCP=conf.YCP#(6,3,54)
+		YPP=conf.YPP#(6,3,54)
+		globals().update(locals())
+	get_globals()
+	# DIMENSION 
+	XSEC=numpy.zeros((306+1))
+	XSECC=numpy.zeros((18+1))
+	XSECR=numpy.zeros((18+1))
+	XSECP=numpy.zeros((18+1))
+	ANGAS=numpy.zeros((6+1))
+	ABSL=numpy.zeros((306+1))
+	ABSLC=numpy.zeros((18+1))
+	ABSLR=numpy.zeros((18+1))
+	ABSLP=numpy.zeros((18+1))
+	XSUM=numpy.zeros((360+1))
+	def update_globals():
+		conf.AN1=AN1
+		conf.AN2=AN2
+		conf.AN3=AN3
+		conf.AN4=AN4
+		conf.AN5=AN5
+		conf.AN6=AN6
+		conf.AN=AN
+		conf.FRAC=FRAC
+		conf.LCMP=LCMP
+		conf.LCFLG=LCFLG
+		conf.LRAY=LRAY
+		conf.LRFLG=LRFLG
+		conf.LPAP=LPAP
+		conf.LPFLG=LPFLG
+		conf.LBRM=LBRM
+		conf.LBFLG=LBFLG
+		conf.LPEFLG=LPEFLG
+		conf.ABSXRAY=ABSXRAY
+		conf.NGAS=NGAS
+		conf.NSTEP=NSTEP
+		conf.NANISO=NANISO
+		conf.EFINAL=EFINAL
+		conf.ESTEP=ESTEP
+		conf.AKT=AKT
+		conf.ARY=ARY
+		conf.TEMPC=TEMPC
+		conf.TORR=TORR
+		conf.IPEN=IPEN
+		conf.PRSH=PRS
+		conf.ESH=ESH
+		conf.AUG=AUG17
+		conf.RAD=RAD
+		conf.PRSHBT=PRSHBT
+		conf.IZ=IZ
+		conf.INIOCC=INIOCC
+		conf.ISHLMX=ISHLMX
+		conf.AMZ=AMZ
+		conf.XPE=XPE
+		conf.YPE=YPE
+		conf.XEN=XEN
+		conf.YRY=YRY
+		conf.YCP=YCP
+		conf.YPP=YPP
+	#******************************************************************
+	# FOR PHOTON ENERGY EPH CALCULATES INTERACTION DISTANCE WITH
+	#  GAS IDENTITY,KGAS . IF MOLECULAR GAS ALSO IDENTIFIES THE 
+	#  ATOMIC COMPONENT OF THE MOLECULE  LGAS. 
+	#  IF PHOTOELECTRIC ABSORPTION CALCULATES ABSORPTION SHELL, ISHELL
+	# AND SETS PHOTOELECTRIC FLAG,LPEFLG=1. 
+	# IF COMPTON RAYLEIGH OR PAIR PRODUCTION ALLOWED : CALCULATES
+	# KGAS , LGAS AND SETS COMPTON RAYLEIGH OR PAIR PRODUCTION FLAGS.
+	#****************************************************************** 
+	ANGAS[1]=AN1
+	ANGAS[2]=AN2
+	ANGAS[3]=AN3
+	ANGAS[4]=AN4
+	ANGAS[5]=AN5
+	ANGAS[6]=AN6
+	LCFLG=0
+	LRFLG=0
+	LPFLG=0
+	LPEFLG=0
+	# CALCULATE PE X-SECTION FOR EACH GAS AND FIND ABS LENGTH 
+	EPHLG=math.log(EPH)
+	IPT=0
+	for I in range(1,NGAS+1):
+		for J1 in range(1,3+1):
+			for J in range(1,17+1):
+				IPT=IPT+1
+				XSEC[IPT]=0.0
+				ABSL[IPT]=0.0
+				if(J > ISHLMX(I,J1)):
+					# GO TO 1
+					continue
+				if(EPHLG < XPE[I][J1][J][1]):
+					# GO TO 1
+					continue
+				for K in range(2,60+1):
+					if(EPHLG <= XPE[I][J1][J][K]) :
+						A=(YPE[I][J1][J][K]-YPE[I][J1][J][K-1])/(XPE[I][J1][J][K]-XPE[I][J1][J][K-1])
+						B=(XPE[I][J1][J][K-1]*YPE[I][J1][J][K]-XPE[I][J1][J][K]*YPE[I][J1][J][K-1])/(XPE[I][J1][J][K-1]-XPE[I][J1][J][K])
+						XSEC[IPT]=math.exp(A*EPHLG+B)
+						ABSL[IPT]=XSEC[IPT]*ANGAS[I]
+						break
+					# endif
+	# CALCULATE COMPTON X-SECTION FOR EACH GAS AND FIND ABS LENGTH
+	IPT=0
+	for I in range(1,NGAS+1):
+		for J1 in range(1,3+1):
+			IPT=IPT+1
+			XSECC[IPT]=0.0
+			ABSLC[IPT]=0.0
+			# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+			if(JF == 3 or JF == 2):
+				# GO TO 30
+				continue
+			# ONLY USE PE X-SECTION
+			if(LCMP != 1):
+				# GO TO 30
+				continue
+			if(EPHLG < XEN[I][J1][1]):
+				# GO TO 30
+				continue
+			for K in range(2,54+1):
+				if(EPHLG <= XEN[I][J1][K]) :
+					A=(YCP[I][J1][K]-YCP[I][J1][K-1])/(XEN[I][J1][K]-XEN[I][J1][K-1])
+					B=(XEN[I][J1][K-1]*YCP[I][J1][K]-XEN[I][J1][K]*YCP[I][J1][K-1])/(XEN[I][J1][K-1]-XEN[I][J1][K])
+					XSECC[IPT]=math.exp(A*EPHLG+B)
+					ABSLC[IPT]=XSECC[IPT]*ANGAS[I]
+					# GO TO 30 
+					break
+				# endif
+			# 30 CONTINUE
+	# CALCULATE RAYLEIGH X-SECTION FOR EACH GAS AND FIND ABS LENGTH
+	IPT=0
+	for I in range(1,NGAS+1):
+		for J1 in range(1,3+1):
+			IPT=IPT+1
+			XSECR[IPT]=0.0
+			ABSLR[IPT]=0.0
+			# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+			if(JF == 3 or JF == 2):
+				# GO TO 40
+				continue
+			if(LRAY != 1):
+				# GO TO 40
+				continue
+			if(EPHLG < XEN[I][J1][1]):
+				# GO TO 40
+				continue
+			for K in range(2,54+1):
+				if(EPHLG <= XEN[I][J1][K]) :
+					A=(YRY[I][J1][K]-YRY[I][J1][K-1])/(XEN[I][J1][K]-XEN[I][J1][K-1])
+					B=(XEN[I][J1][K-1]*YRY[I][J1][K]-XEN[I][J1][K]*YRY[I][J1][K-1])/(XEN[I][J1][K-1]-XEN[I][J1][K])
+					XSECR[IPT]=math.exp(A*EPHLG+B)
+					ABSLR[IPT]=XSECR[IPT]*ANGAS[I]
+					# GO TO 40
+					break
+				# endif
+			# 40 CONTINUE   
+	# CALCULATE PAIR PRODUCTION X-SECTION FOR EACH GAS AND FIND ABS LENGTH 
+	IPT=0
+	for I in range(1,NGAS+1):
+		for J1 in range(1,3+1):
+			IPT=IPT+1
+			XSECP[IPT]=0.0
+			ABSLP[IPT]=0.0
+			# USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+			if(JF == 3 or JF == 2):
+				# GO TO 50
+				continue
+			if(LPAP != 1):
+				# GO TO 50
+				continue
+			if(EPHLG < XEN[I][J1][1]):
+				# GO TO 50
+				continue
+			for K in range(2,54+1):
+				if(EPHLG <= XEN[I][J1][K]) :
+					A=(YPP[I][J1][K]-YPP[I][J1][K-1])/(XEN[I][J1][K]-XEN[I][J1][K-1])
+					B=(XEN[I][J1][K-1]*YPP[I][J1][K]-XEN[I][J1][K]*YPP[I][J1][K-1])/(XEN[I][J1][K-1]-XEN[I][J1][K])
+					XSECP[IPT]=math.exp(A*EPHLG+B)
+					ABSLP[IPT]=XSECP[IPT]*ANGAS[I]
+					# GO TO 50
+					break
+				# endif
+				# 49 CONTINUE
+			# 50 CONTINUE   
+	# FORM CUMULATIVE SUMS 
+	IFIN=NGAS*17*3
+	for J in range(2,IFIN+1):
+		XSEC[J]=XSEC[J]+XSEC[J-1]
+		ABSL[J]=ABSL[J]+ABSL[J-1]
+	IFINR=NGAS*3
+	for J in range(2,IFINR+1):
+		XSECC[J]=XSECC[J]+XSECC[J-1]
+		ABSLC[J]=ABSLC[J]+ABSLC[J-1]
+		XSECR[J]=XSECR[J]+XSECR[J-1]
+		ABSLR[J]=ABSLR[J]+ABSLR[J-1]
+		XSECP[J]=XSECP[J]+XSECP[J-1]
+		ABSLP[J]=ABSLP[J]+ABSLP[J-1]
+	# TOTAL X-SECTION
+	XSECT=XSEC[IFIN]+XSECC[IFINR]+XSECR[IFINR]+XSECP[IFINR]
+	# TOTAL ABS LENGTH
+	ABSTOT=ABSL[IFIN]+ABSLR[IFINR]+ABSLC[IFINR]+ABSLP[IFINR]
+	# CALCULATE ABSORPTION DISTANCE IN METRES AND RETURN
+	if(JF == 3):
+		DIST=1.0/(ABSTOT*100.0)
+		return
+	# endif
+	# CALCULATE ABSORPTION DISTANCE IN MICRONS
+	if(JF == -1):
+		if(ABSTOT > 0.0):
+			ABSXRAY=1.0e4/ABSTOT
+		if(ABSTOT == 0.0):
+			ABSXRAY=1.0e15
+		return
+	# endif
+	if(ABSTOT == 0.0):
+		# PHOTON TOO LOW ENERGY TO IONISE SET ISHELL=-1
+		ISHELL=-1
+		return
+	# endif
+	# NORMALISE TO 1 
+	for J in range(1,IFIN+1):
+		XSEC[J]=XSEC[J]/XSECT
+	for J in range(1,IFINR+1):
+		XSECC[J]=XSECC[J]/XSECT
+		XSECR[J]=XSECR[J]/XSECT
+		XSECP[J]=XSECP[J]/XSECT
+	# FORM SUM X-SECTION FOR SAMPLING ARRAY 
+	# P.E.
+	for J in range(1,IFIN+1):
+		XSUM[J]=XSEC[J]
+	IEND=IFIN
+	if(LCMP != 1):
+		# GO TO 145 
+		pass
+	else:
+		# COMPTON
+		ISTART=IFIN+1
+		IEND=IFIN+IFINR
+		for J in range(ISTART,IEND+1):
+			XSUM[J]=XSUM[ISTART-1]+XSECC[J-ISTART+1] 
+	# 145 
+	if(LRAY != 1):
+		# GO TO 155
+		pass
+	else:
+		# RAYLEIGH
+		if(LCMP == 0):
+			ISTART=IFIN+1
+			IEND=IFIN+IFINR
+		elif(LCMP == 1) :
+			ISTART=IFIN+IFINR+1
+			IEND=IFIN+IFINR+IFINR
+		# endif
+		for J in range(ISTART,IEND+1):
+			XSUM[J]=XSUM[ISTART-1]+XSECR[J-ISTART+1]
+	# 155 
+	if(LPAP != 1):
+		# GO TO 165
+		pass
+	else:
+		# PAIR PRODUCTION
+		if(LCMP == 0 and LRAY == 0):
+			ISTART=IFIN+1
+			IEND=IFIN+IFINR
+		elif(LCMP == 0 and LRAY == 1) :
+			ISTART=IFIN+IFINR+1
+			IEND=IFIN+IFINR+IFINR
+		elif(LCMP == 1 and LRAY == 0) :
+			ISTART=IFIN+IFINR+1
+			IEND=IFIN+IFINR+IFINR
+		elif(LCMP == 1 and LRAY == 1) :
+			ISTART=IFIN+IFINR+IFINR+1
+			IEND=ISTART+IFINR+IFINR+IFINR
+		else: 
+			print(' ERROR IN FUNCTION ABSO FLAG NOT CORRECT')
+			sys.exit()
+		# endif
+		for J in range(ISTART,IEND+1):
+			XSUM[J]=XSUM[ISTART-1]+XSECP[J-ISTART+1]
+	# 165 CONTINUE 
+	# FIND GAS AND SHELL
+	R1=DRAND48(RDUM)
+	for J in range(1,IEND+1):
+		if(XSUM[J]< R1):
+			# GO TO 4
+			continue
+		ID=J
+		# GO TO 5
+		break
+	# 4 CONTINUE
+	# LOCATE GAS AND SHELL
+	# 5 
+	flag200=0
+	IPET=NGAS*3*17
+	if(ID > IPET):
+		# GO TO 22
+		pass
+	else:
+		# PHOTO ELECTRIC
+		LPEFLG=1
+		if(ID <= 51):
+			KGAS=1
+			if(ID <= 17):
+				LGAS=1
+				ISHELL=ID
+			elif(ID <= 34) :
+				LGAS=2
+				ISHELL=ID-17
+			else:
+				LGAS=3
+				ISHELL=ID-34
+			# endif
+			# GO TO 12		
+		elif(ID <= 102) :
+			KGAS=2
+			if(ID <= 68):
+				LGAS=1
+				ISHELL=ID-51
+			elif(ID <= 85) :
+				LGAS=2
+				ISHELL=ID-68
+			else:
+				LGAS=3
+				ISHELL=ID-85
+			# endif
+			# GO TO 12
+		elif(ID <= 153) :
+			KGAS=3
+			if(ID <= 119):
+				LGAS=1
+				ISHELL=ID-102
+			elif(ID <= 136) :
+				LGAS=2
+				ISHELL=ID-119
+			else:
+				LGAS=3
+				ISHELL=ID-136
+			# endif
+			# GO TO 12
+		elif(ID <= 204) :
+			KGAS=4
+			if(ID <= 170):
+				LGAS=1
+				ISHELL=ID-153
+			elif(ID <= 187) :
+				LGAS=2
+				ISHELL=ID-170
+			else:
+				LGAS=3
+				ISHELL=ID-187
+			# endif
+			# GO TO 12
+		elif(ID <= 255) :
+			KGAS=5
+			if(ID <= 221):
+				LGAS=1
+				ISHELL=ID-204
+			elif(ID <= 238) :
+				LGAS=2
+				ISHELL=ID-221
+			else:
+				LGAS=3
+				ISHELL=ID-238
+			# endif
+			# GO TO 12
+		else: 
+			KGAS=6
+			if(ID <= 272):
+				LGAS=1
+				ISHELL=ID-255
+			elif(ID <= 289) :
+				LGAS=2
+				ISHELL=ID-272
+			else:
+				LGAS=3
+				ISHELL=ID-289
+			# endif
+		# endif
+		# 12 CONTINUE
+		flag200=1
+		# COMPTON RAYLEIGH OR PAIR PRODUCTION
+	# 22 
+	if(flag200):
+		pass
+	else:
+		ISHELL=0
+		if(ID <= (IPET+IFINR)) :
+			# COMPTON RAYLEIGH OR PAIR PRODUCTION.   SET :  FLAG KGAS LGAS
+			if(LCMP == 1):
+				LCFLG=1
+			if(LCMP == 0 and LRAY == 1):
+				LRFLG=1
+			if(LCMP == 0 and LRAY == 0):
+				LPFLG=1
+			if(ID <= IPET+3):
+				KGAS=1
+				LGAS=ID-IPET
+			elif(ID <= IPET+6) :
+				KGAS=2
+				LGAS=ID-IPET-3
+			elif(ID <= IPET+9) : 
+				KGAS=3
+				LGAS=ID-IPET-6 
+			elif(ID <= IPET+12) :
+				KGAS=4
+				LGAS=ID-IPET-9
+			elif(ID <= IPET+15) :
+				KGAS=5
+				LGAS=ID-IPET-12
+			else:
+				KGAS=6
+				LGAS=ID-IPET-15
+		# endif
+		elif (ID <= IPET+2*IFINR) :
+			if(LRAY == 1):
+				LRFLG=1
+			if(LRAY == 0 and LPAP == 1):
+				LPFLG=1
+			if(ID <= IPET+IFINR+3):
+				KGAS=1
+				LGAS=ID-IPET-IFINR
+			elif(ID <= IPET+IFINR+6) :
+				KGAS=2
+				LGAS=ID-IPET-IFINR-3
+			elif(ID <= IPET+IFINR+9) : 
+				KGAS=3
+				LGAS=ID-IPET-IFINR-6
+			elif(ID <= IPET+IFINR+12) :
+				KGAS=4
+				LGAS=ID-IPET-IFINR-9
+			elif(ID <= IPET+IFINR+15) :
+				KGAS=5
+				LGAS=ID-IPET-IFINR-12
+			else:
+				KGAS=6
+				LGAS=ID-IPET-IFINR-15
+			# endif
+		else: 
+			LPFLG=1
+			if(ID <= IPET+3*IFINR):
+				KGAS=1
+				LGAS=ID-IPET-IFINR-IFINR
+			elif(ID <= IPET+IFINR+IFINR+6) :
+				KGAS=2
+				LGAS=ID-IPET-IFINR-IFINR-3
+			elif(ID <= IPET+IFINR+IFINR+9) : 
+				KGAS=3
+				LGAS=ID-IPET-IFINR-IFINR-6
+			elif(ID <= IPET+IFINR+IFINR+12) :
+				KGAS=4
+				LGAS=ID-IPET-IFINR-IFINR-9
+			elif(ID <= IPET+IFINR+IFINR+15) :
+				KGAS=5
+				LGAS=ID-IPET-IFINR-IFINR-12
+			else:
+				KGAS=6
+				LGAS=ID-IPET-IFINR-IFINR-15
+			# endif
+		# endif
+		if(ID > (IPET+54)) :
+			print(' IDENTifIER IN FUNCTION ABSO IS GT LIMIT ID=',ID,'\n    def STOPPED:')
+			sys.exit()
+		# endif
+	# 200 CONTINUE
+	# CALCULATE ABSORPTION DISTANCE PER EVENT IN METRES
+	R1=DRAND48(RDUM)  
+	DIST=-math.log(R1)/(ABSTOT*100.0)
+	return
+	# end
 ```
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
+```fortran
+      SUBROUTINE ABSO(JF,EPH,ISHELL,KGAS,LGAS,DIST)
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)
+      COMMON/RATIO/AN1,AN2,AN3,AN4,AN5,AN6,AN,FRAC(6)  
+      COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG
+      COMMON/ABBS/ABSXRAY             
+      COMMON/INPT/NGAS,NSTEP,NANISO,EFINAL,ESTEP,AKT,ARY,TEMPC,TORR,IPEN
+      COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),
+     /RAD(6,3,17,17),PRSHBT(6,3,17),IZ(6,3),INIOCC(6,3,17),ISHLMX(6,3),
+     /AMZ(6,3)
+      COMMON/MIXPE/XPE(6,3,17,60),YPE(6,3,17,60)
+      COMMON/MIXCN/XEN(6,3,54),YRY(6,3,54),YCP(6,3,54),YPP(6,3,54)
+      DIMENSION XSEC(306),XSECC(18),XSECR(18),XSECP(18),
+     /ANGAS(6),ABSL(306),ABSLC(18),ABSLR(18),ABSLP(18),XSUM(360)
+C******************************************************************
+C FOR PHOTON ENERGY EPH CALCULATES INTERACTION DISTANCE WITH
+C  GAS IDENTITY,KGAS . IF MOLECULAR GAS ALSO IDENTIFIES THE 
+C  ATOMIC COMPONENT OF THE MOLECULE  LGAS. 
+C  IF PHOTOELECTRIC ABSORPTION CALCULATES ABSORPTION SHELL, ISHELL
+C AND SETS PHOTOELECTRIC FLAG,LPEFLG=1. 
+C IF COMPTON RAYLEIGH OR PAIR PRODUCTION ALLOWED THEN CALCULATES
+C KGAS , LGAS AND SETS COMPTON RAYLEIGH OR PAIR PRODUCTION FLAGS.
+C****************************************************************** 
+      ANGAS(1)=AN1
+      ANGAS(2)=AN2
+      ANGAS(3)=AN3
+      ANGAS(4)=AN4
+      ANGAS(5)=AN5
+      ANGAS(6)=AN6
+      LCFLG=0
+      LRFLG=0
+      LPFLG=0
+      LPEFLG=0
+C CALCULATE PE X-SECTION FOR EACH GAS AND FIND ABS LENGTH 
+      EPHLG=DLOG(EPH)
+      IPT=0
+      DO 1 I=1,NGAS
+      DO 1 J1=1,3
+      DO 1 J=1,17
+      IPT=IPT+1
+      XSEC(IPT)=0.0
+      ABSL(IPT)=0.0
+      IF(J.GT.ISHLMX(I,J1)) GO TO 1
+      IF(EPHLG.LT.XPE(I,J1,J,1)) GO TO 1
+      DO 11 K=2,60 
+      IF(EPHLG.LE.XPE(I,J1,J,K)) THEN
+       A=(YPE(I,J1,J,K)-YPE(I,J1,J,K-1))/(XPE(I,J1,J,K)-XPE(I,J1,J,K-1))
+       B=(XPE(I,J1,J,K-1)*YPE(I,J1,J,K)-XPE(I,J1,J,K)*YPE(I,J1,J,K-1))/
+     /(XPE(I,J1,J,K-1)-XPE(I,J1,J,K))
+       XSEC(IPT)=DEXP(A*EPHLG+B)
+       ABSL(IPT)=XSEC(IPT)*ANGAS(I)
+       GO TO 1
+      ENDIF
+   11 CONTINUE
+    1 CONTINUE
+C CALCULATE COMPTON X-SECTION FOR EACH GAS AND FIND ABS LENGTH
+      IPT=0
+      DO 30 I=1,NGAS
+      DO 30 J1=1,3   
+      IPT=IPT+1
+      XSECC(IPT)=0.0
+      ABSLC(IPT)=0.0
+C USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+      IF(JF.EQ.3.OR.JF.EQ.2) GO TO 30
+C ONLY USE PE X-SECTION
+      IF(LCMP.NE.1) GO TO 30
+      IF(EPHLG.LT.XEN(I,J1,1)) GO TO 30
+      DO 29 K=2,54
+      IF(EPHLG.LE.XEN(I,J1,K)) THEN
+       A=(YCP(I,J1,K)-YCP(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
+       B=(XEN(I,J1,K-1)*YCP(I,J1,K)-XEN(I,J1,K)*YCP(I,J1,K-1))/
+     /(XEN(I,J1,K-1)-XEN(I,J1,K))
+       XSECC(IPT)=DEXP(A*EPHLG+B)
+       ABSLC(IPT)=XSECC(IPT)*ANGAS(I)
+       GO TO 30 
+      ENDIF
+   29 CONTINUE
+   30 CONTINUE
+C CALCULATE RAYLEIGH X-SECTION FOR EACH GAS AND FIND ABS LENGTH
+      IPT=0
+      DO 40 I=1,NGAS
+      DO 40 J1=1,3   
+      IPT=IPT+1
+      XSECR(IPT)=0.0
+      ABSLR(IPT)=0.0
+C USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+      IF(JF.EQ.3.OR.JF.EQ.2) GO TO 40
+      IF(LRAY.NE.1) GO TO 40
+      IF(EPHLG.LT.XEN(I,J1,1)) GO TO 40
+      DO 39 K=2,54
+      IF(EPHLG.LE.XEN(I,J1,K)) THEN
+       A=(YRY(I,J1,K)-YRY(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
+       B=(XEN(I,J1,K-1)*YRY(I,J1,K)-XEN(I,J1,K)*YRY(I,J1,K-1))/
+     /(XEN(I,J1,K-1)-XEN(I,J1,K))
+       XSECR(IPT)=DEXP(A*EPHLG+B)
+       ABSLR(IPT)=XSECR(IPT)*ANGAS(I)
+       GO TO 40
+      ENDIF
+   39 CONTINUE
+   40 CONTINUE   
+C CALCULATE PAIR PRODUCTION X-SECTION FOR EACH GAS AND FIND ABS LENGTH 
+      IPT=0
+      DO 50 I=1,NGAS
+      DO 50 J1=1,3
+      IPT=IPT+1
+      XSECP(IPT)=0.0
+      ABSLP(IPT)=0.0
+C USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE 
+      IF(JF.EQ.3.OR.JF.EQ.2) GO TO 50
+      IF(LPAP.NE.1) GO TO 50
+      IF(EPHLG.LT.XEN(I,J1,1)) GO TO 50
+      DO 49 K=2,54
+      IF(EPHLG.LE.XEN(I,J1,K)) THEN
+       A=(YPP(I,J1,K)-YPP(I,J1,K-1))/(XEN(I,J1,K)-XEN(I,J1,K-1))
+       B=(XEN(I,J1,K-1)*YPP(I,J1,K)-XEN(I,J1,K)*YPP(I,J1,K-1))/
+     /(XEN(I,J1,K-1)-XEN(I,J1,K))
+       XSECP(IPT)=DEXP(A*EPHLG+B)
+       ABSLP(IPT)=XSECP(IPT)*ANGAS(I)
+       GO TO 50
+      ENDIF
+   49 CONTINUE
+   50 CONTINUE   
+C FORM CUMULATIVE SUMS 
+      IFIN=NGAS*17*3
+      DO 2 J=2,IFIN
+      XSEC(J)=XSEC(J)+XSEC(J-1)
+      ABSL(J)=ABSL(J)+ABSL(J-1)
+    2 CONTINUE 
+      IFINR=NGAS*3
+      DO 110 J=2,IFINR
+      XSECC(J)=XSECC(J)+XSECC(J-1)
+      ABSLC(J)=ABSLC(J)+ABSLC(J-1)
+      XSECR(J)=XSECR(J)+XSECR(J-1)
+      ABSLR(J)=ABSLR(J)+ABSLR(J-1)
+      XSECP(J)=XSECP(J)+XSECP(J-1)
+      ABSLP(J)=ABSLP(J)+ABSLP(J-1)
+  110 CONTINUE 
+C TOTAL X-SECTION
+      XSECT=XSEC(IFIN)+XSECC(IFINR)+XSECR(IFINR)+XSECP(IFINR)
+C TOTAL ABS LENGTH
+      ABSTOT=ABSL(IFIN)+ABSLR(IFINR)+ABSLC(IFINR)+ABSLP(IFINR)
+C CALCULATE ABSORPTION DISTANCE IN METRES AND RETURN
+      IF(JF.EQ.3) THEN
+       DIST=1.0/(ABSTOT*100.0)
+       RETURN
+      ENDIF
+C CALCULATE ABSORPTION DISTANCE IN MICRONS
+      IF(JF.EQ.-1) THEN 
+       IF(ABSTOT.GT.0.0) ABSXRAY=1.0D4/ABSTOT
+       IF(ABSTOT.EQ.0.0) ABSXRAY=1.0D15
+       RETURN
+      ENDIF
+      IF(ABSTOT.EQ.0.0) THEN
+C PHOTON TOO LOW ENERGY TO IONISE SET ISHELL=-1
+       ISHELL=-1
+       RETURN
+      ENDIF
+C NORMALISE TO 1 
+      DO 3 J=1,IFIN
+      XSEC(J)=XSEC(J)/XSECT
+    3 CONTINUE
+      DO 120 J=1,IFINR
+      XSECC(J)=XSECC(J)/XSECT
+      XSECR(J)=XSECR(J)/XSECT
+      XSECP(J)=XSECP(J)/XSECT
+  120 CONTINUE
+C FORM SUM X-SECTION FOR SAMPLING ARRAY 
+C P.E.
+      DO 130 J=1,IFIN
+      XSUM(J)=XSEC(J)
+  130 CONTINUE
+      IEND=IFIN
+      IF(LCMP.NE.1) GO TO 145 
+C COMPTON
+      ISTART=IFIN+1
+      IEND=IFIN+IFINR
+      DO 140 J=ISTART,IEND
+      XSUM(J)=XSUM(ISTART-1)+XSECC(J-ISTART+1) 
+  140 CONTINUE
+  145 IF(LRAY.NE.1) GO TO 155
+C RAYLEIGH
+      IF(LCMP.EQ.0) THEN 
+       ISTART=IFIN+1
+       IEND=IFIN+IFINR
+       ELSE IF(LCMP.EQ.1) THEN
+       ISTART=IFIN+IFINR+1
+       IEND=IFIN+IFINR+IFINR
+      ENDIF
+      DO 150 J=ISTART,IEND
+      XSUM(J)=XSUM(ISTART-1)+XSECR(J-ISTART+1)
+  150 CONTINUE
+  155 IF(LPAP.NE.1) GO TO 165
+C PAIR PRODUCTION
+      IF(LCMP.EQ.0.AND.LRAY.EQ.0) THEN
+       ISTART=IFIN+1
+       IEND=IFIN+IFINR
+      ELSE IF(LCMP.EQ.0.AND.LRAY.EQ.1) THEN
+       ISTART=IFIN+IFINR+1
+       IEND=IFIN+IFINR+IFINR
+      ELSE IF(LCMP.EQ.1.AND.LRAY.EQ.0) THEN
+       ISTART=IFIN+IFINR+1
+       IEND=IFIN+IFINR+IFINR
+      ELSE IF(LCMP.EQ.1.AND.LRAY.EQ.1) THEN
+       ISTART=IFIN+IFINR+IFINR+1
+       IEND=ISTART+IFINR+IFINR+IFINR
+      ELSE 
+       WRITE(6,998)
+  998  FORMAT(' ERROR IN SUBROUTINE ABSO FLAG NOT CORRECT')
+       STOP
+      ENDIF
+      DO 160 J=ISTART,IEND
+      XSUM(J)=XSUM(ISTART-1)+XSECP(J-ISTART+1)
+  160 CONTINUE
+  165 CONTINUE 
+C FIND GAS AND SHELL
+      R1=drand48(RDUM)
+      DO 4 J=1,IEND
+      IF(XSUM(J).LT.R1) GO TO 4
+       ID=J
+       GO TO 5
+    4 CONTINUE
+C LOCATE GAS AND SHELL
+    5 IPET=NGAS*3*17
+      IF(ID.GT.IPET) GO TO 22
+C PHOTO ELECTRIC
+      LPEFLG=1
+      IF(ID.LE.51) THEN
+       KGAS=1
+       IF(ID.LE.17) THEN
+        LGAS=1
+        ISHELL=ID
+       ELSE IF(ID.LE.34) THEN
+        LGAS=2
+        ISHELL=ID-17
+       ELSE
+        LGAS=3
+        ISHELL=ID-34
+       ENDIF
+       GO TO 12
+      ELSE IF(ID.LE.102) THEN
+       KGAS=2
+       IF(ID.LE.68) THEN
+        LGAS=1
+        ISHELL=ID-51
+       ELSE IF(ID.LE.85) THEN
+        LGAS=2
+        ISHELL=ID-68
+       ELSE
+        LGAS=3
+        ISHELL=ID-85
+       ENDIF
+       GO TO 12
+      ELSE IF(ID.LE.153) THEN
+       KGAS=3
+       IF(ID.LE.119) THEN
+        LGAS=1
+        ISHELL=ID-102
+       ELSE IF(ID.LE.136) THEN
+        LGAS=2
+        ISHELL=ID-119
+       ELSE
+        LGAS=3
+        ISHELL=ID-136
+       ENDIF
+       GO TO 12
+      ELSE IF(ID.LE.204) THEN
+       KGAS=4
+       IF(ID.LE.170) THEN
+        LGAS=1
+        ISHELL=ID-153
+       ELSE IF(ID.LE.187) THEN
+        LGAS=2
+        ISHELL=ID-170
+       ELSE
+        LGAS=3
+        ISHELL=ID-187
+       ENDIF
+       GO TO 12
+      ELSE IF(ID.LE.255) THEN
+       KGAS=5
+       IF(ID.LE.221) THEN
+        LGAS=1
+        ISHELL=ID-204
+       ELSE IF(ID.LE.238) THEN
+        LGAS=2
+        ISHELL=ID-221
+       ELSE
+        LGAS=3
+        ISHELL=ID-238
+       ENDIF
+       GO TO 12
+      ELSE 
+       KGAS=6
+       IF(ID.LE.272) THEN
+        LGAS=1
+        ISHELL=ID-255
+       ELSE IF(ID.LE.289) THEN
+        LGAS=2
+        ISHELL=ID-272
+       ELSE
+        LGAS=3
+        ISHELL=ID-289
+       ENDIF
+      ENDIF
+   12 CONTINUE
+      GO TO 200
+C COMPTON RAYLEIGH OR PAIR PRODUCTION
+   22 ISHELL=0
+      IF(ID.LE.(IPET+IFINR)) THEN
+C COMPTON RAYLEIGH OR PAIR PRODUCTION.   SET :  FLAG KGAS LGAS
+       IF(LCMP.EQ.1) LCFLG=1
+       IF(LCMP.EQ.0.AND.LRAY.EQ.1) LRFLG=1
+       IF(LCMP.EQ.0.AND.LRAY.EQ.0) LPFLG=1
+       IF(ID.LE.IPET+3) THEN
+        KGAS=1
+        LGAS=ID-IPET
+       ELSE IF(ID.LE.IPET+6) THEN
+        KGAS=2
+        LGAS=ID-IPET-3
+       ELSE IF(ID.LE.IPET+9) THEN 
+        KGAS=3
+        LGAS=ID-IPET-6 
+       ELSE IF(ID.LE.IPET+12) THEN
+        KGAS=4
+        LGAS=ID-IPET-9
+       ELSE IF(ID.LE.IPET+15) THEN
+        KGAS=5
+        LGAS=ID-IPET-12
+       ELSE
+        KGAS=6
+        LGAS=ID-IPET-15
+       ENDIF
+      ELSE IF (ID.LE.IPET+2*IFINR) THEN
+       IF(LRAY.EQ.1) LRFLG=1
+       IF(LRAY.EQ.0.AND.LPAP.EQ.1) LPFLG=1
+       IF(ID.LE.IPET+IFINR+3) THEN
+        KGAS=1
+        LGAS=ID-IPET-IFINR
+       ELSE IF(ID.LE.IPET+IFINR+6) THEN
+        KGAS=2
+        LGAS=ID-IPET-IFINR-3
+       ELSE IF(ID.LE.IPET+IFINR+9) THEN 
+        KGAS=3
+        LGAS=ID-IPET-IFINR-6
+       ELSE IF(ID.LE.IPET+IFINR+12) THEN
+        KGAS=4
+        LGAS=ID-IPET-IFINR-9
+       ELSE IF(ID.LE.IPET+IFINR+15) THEN
+        KGAS=5
+        LGAS=ID-IPET-IFINR-12
+       ELSE
+        KGAS=6
+        LGAS=ID-IPET-IFINR-15
+       ENDIF
+      ELSE 
+       LPFLG=1
+       IF(ID.LE.IPET+3*IFINR) THEN
+        KGAS=1
+        LGAS=ID-IPET-IFINR-IFINR
+       ELSE IF(ID.LE.IPET+IFINR+IFINR+6) THEN
+        KGAS=2
+        LGAS=ID-IPET-IFINR-IFINR-3
+       ELSE IF(ID.LE.IPET+IFINR+IFINR+9) THEN 
+        KGAS=3
+        LGAS=ID-IPET-IFINR-IFINR-6
+       ELSE IF(ID.LE.IPET+IFINR+IFINR+12) THEN
+        KGAS=4
+        LGAS=ID-IPET-IFINR-IFINR-9
+       ELSE IF(ID.LE.IPET+IFINR+IFINR+15) THEN
+        KGAS=5
+        LGAS=ID-IPET-IFINR-IFINR-12
+       ELSE
+        KGAS=6
+        LGAS=ID-IPET-IFINR-IFINR-15
+       ENDIF
+      ENDIF
+      IF(ID.GT.(IPET+54)) THEN
+       WRITE(6,999) ID
+  999 FORMAT(' IDENTIFIER IN SUBROUTINE ABSO IS GT LIMIT ID=',I5,/,'    
+     /PROGRAM STOPPED')
+       STOP
+      ENDIF
+  200 CONTINUE
+C CALCULATE ABSORPTION DISTANCE PER EVENT IN METRES
+      R1=drand48(RDUM)  
+      DIST=-DLOG(R1)/(ABSTOT*100.0)
+      RETURN
+      END
+```## STATS2()
+* Calculates averages over total number of events(DELTAS).
+* Calculates the FANO factors `F0,F1,F2,F3`
+* Calculates FANO factors for excitation
+* Calculates Peak FANO factors
+
+### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| NONE     | -           |
+|          |             |
+
+
+### Pseudo Code
+
+
+```python
+import conf
+import numpy
+import sys
+def STATS2():
+	# IMPLICIT #real*8 (A-H,O-Z)
+	# IMPLICIT #integer*8 (I-N)   
+	# COMMON/INPT2/
+	KGAS=conf.KGAS
+	LGAS=conf.LGAS
+	DETEFF=conf.DETEFF
+	EXCWGHT=conf.EXCWGHT                            
+	# COMMON/SETP/=conf.# COMMON/SETP/
+	TMAX=conf.TMAX
+	SMALL=conf.SMALL
+	API=conf.API
+	ESTART=conf.ESTART
+	THETA=conf.THETA
+	PHI=conf.PHI
+	TCFMAX=conf.TCFMAX
+	TCFMAX1=conf.TCFMAX1
+	RSTART=conf.RSTART
+	EFIELD=conf.EFIELD
+	ETHRM=conf.ETHRM
+	ECUT=conf.ECUT
+	NDELTA=conf.NDELTA
+	IMIP=conf.IMIP
+	IWRITE  =conf.IWRITE  
+	# COMMON/CLUS/=conf.# COMMON/CLUS/
+	XAV=conf.XAV
+	YAV=conf.YAV
+	ZAV=conf.ZAV
+	TAV=conf.TAV
+	XYAV=conf.XYAV
+	XYZAV=conf.XYZAV
+	DX=conf.DX
+	DY=conf.DY
+	DZ=conf.DZ
+	DT=conf.DT
+	DXY=conf.DXY
+	DXYZ=conf.DXYZ
+	NCL=conf.NCL
+	FARX1=conf.FARX1
+	FARY1=conf.FARY1
+	FARZ1=conf.FARZ1
+	FARXY1=conf.FARXY1
+	RMAX1=conf.RMAX1
+	TSUM=conf.TSUM
+	XNEG=conf.XNEG
+	YNEG=conf.YNEG
+	ZNEG=conf.ZNEG
+	EDELTA=conf.EDELTA
+	EDELTA2=conf.EDELTA2
+	NCLEXC=conf.NCLEXC
+	# COMMON/PRIM3=conf.# COMMON/PRIM3
+	MSUM=conf.MSUM
+	MCOMP=conf.MCOMP
+	MRAYL=conf.MRAYL
+	MPAIR=conf.MPAIR
+	MPHOT=conf.MPHOT
+	MVAC=conf.MVAC
+	# COMMON/FANO/=conf.# COMMON/FANO/
+	AFAN1=conf.AFAN1
+	AFAN2=conf.AFAN2
+	AFAN3=conf.AFAN3
+	AFAN4=conf.AFAN4
+	ASKEW=conf.ASKEW
+	AKURT=conf.AKURT
+	AFAN1EXC=conf.AFAN1EXC
+	AFAN2EXC=conf.AFAN2EXC
+	AFAN3EXC=conf.AFAN3EXC
+	AFAN4EXC=conf.AFAN4EXC
+	ASKEWEXC=conf.ASKEWEXC
+	AKURTEXC=conf.AKURTEXC
+	AFAN1TOT=conf.AFAN1TOT
+	AFAN2TOT=conf.AFAN2TOT
+	AFAN3TOT=conf.AFAN3TOT
+	AFAN4TOT=conf.AFAN4TOT
+	ASKEWTOT=conf.ASKEWTOT
+	AKURTTOT=conf.AKURTTOT
+	AFAN1TOF=conf.AFAN1TOF
+	AFAN2TOF=conf.AFAN2TOF
+	AFAN3TOF=conf.AFAN3TOF
+	AFAN4TOF=conf.AFAN4TOF
+	ASKEWTOF=conf.ASKEWTOF
+	AKURTTOF=conf.AKURTTOF
+	# COMMON/FANOE/=conf.# COMMON/FANOE/
+	AFAN1E=conf.AFAN1E
+	AFAN2E=conf.AFAN2E
+	AFAN3E=conf.AFAN3E
+	AFAN4E=conf.AFAN4E
+	ASKEWE=conf.ASKEWE
+	AKURTE=conf.AKURTE
+	AFAN1EXCE=conf.AFAN1EXCE
+	AFAN2EXCE=conf.AFAN2EXCE
+	AFAN3EXCE=conf.AFAN3EXCE
+	AFAN4EXCE=conf.AFAN4EXCE
+	ASKEWEXCE=conf.ASKEWEXCE
+	AKURTEXCE=conf.AKURTEXCE
+	AFAN1TOTE=conf.AFAN1TOTE
+	AFAN2TOTE=conf.AFAN2TOTE
+	AFAN3TOTE=conf.AFAN3TOTE
+	AFAN4TOTE=conf.AFAN4TOTE
+	ASKEWTOTE=conf.ASKEWTOTE
+	AKURTTOTE=conf.AKURTTOTE
+	AFAN1TOFE=conf.AFAN1TOFE
+	AFAN2TOFE=conf.AFAN2TOFE
+	AFAN3TOFE=conf.AFAN3TOFE
+	AFAN4TOFE=conf.AFAN4TOFE
+	ASKEWTOFE=conf.ASKEWTOFE
+	AKURTTOFE=conf.AKURTTOFE
+	NFE=conf.NFE
+	# COMMON/RNGE/=conf.# COMMON/RNGE/
+	XBAR=conf.XBAR
+	YBAR=conf.YBAR
+	ZBAR=conf.ZBAR
+	TBAR=conf.TBAR
+	XYBAR=conf.XYBAR
+	XYZBAR=conf.XYZBAR
+	DXBAR=conf.DXBAR
+	DYBAR=conf.DYBAR
+	DZBAR=conf.DZBAR
+	DTBAR=conf.DTBAR
+	DXYBAR=conf.DXYBAR
+	DXYZBAR=conf.DXYZBAR
+	XMAX=conf.XMAX
+	YMAX=conf.YMAX
+	ZMAX=conf.ZMAX
+	XYMAX=conf.XYMAX
+	RMAX=conf.RMAX
+	SUMTT=conf.SUMTT
+	XNEG1=conf.XNEG1
+	YNEG1=conf.YNEG1
+	ZNEG1=conf.ZNEG1
+	FARXBAR=conf.FARXBAR
+	FARYBAR=conf.FARYBAR
+	FARZBAR=conf.FARZBAR
+	FARXYBAR=conf.FARXYBAR
+	RMAXBAR=conf.RMAXBAR
+	EBAR=conf.EBAR
+	EBAR2=conf.EBAR2    
+	# COMMON/PRIM1/=conf.# COMMON/PRIM1/
+	AVRAYL=conf.AVRAYL
+	AVCOMP=conf.AVCOMP
+	AVPAIR=conf.AVPAIR
+	AVPHOTO=conf.AVPHOTO
+	# COMMON/PRIM2/=conf.# COMMON/PRIM2/
+	CMPDST=conf.CMPDST
+	RYLDST=conf.RYLDST
+	#      
+	#-----------------------------------------------------------------------
+	#   CALCULATES AVERAGES OVER TOTAL NUMBER OF DELTAS
+	#   CALCULATES FANO FACTORS FO,F1,F2 AND F3
+	#  CALCULATES FANO FACTORS FOR EXCITATION 
+	#  INCLUDED MODIFICATION TO CALCULATE ESCAPE PEAK FANO FACTORS 
+	#-----------------------------------------------------------------------
+	# 
+	ANCL1=0.00
+	ANCL2=0.00
+	ANCL3=0.00
+	ANCL4=0.00
+	ANCL1E=0.00
+	ANCL2E=0.00
+	ANCL3E=0.00
+	ANCL4E=0.00
+	ANCL1EXC=0.00
+	ANCL2EXC=0.00
+	ANCL3EXC=0.00
+	ANCL4EXC=0.00
+	ANCL1EXCE=0.00
+	ANCL2EXCE=0.00
+	ANCL3EXCE=0.00
+	ANCL4EXCE=0.00
+	ANCL1TOT=0.00
+	ANCL2TOT=0.00
+	ANCL3TOT=0.00
+	ANCL4TOT=0.00
+	ANCL1TOTE=0.00
+	ANCL2TOTE=0.00
+	ANCL3TOTE=0.00
+	ANCL4TOTE=0.00
+	ANCL1TOF=0.00
+	ANCL2TOF=0.00
+	ANCL3TOF=0.00
+	ANCL4TOF=0.00
+	ANCL1TOFE=0.00
+	ANCL2TOFE=0.00
+	ANCL3TOFE=0.00
+	ANCL4TOFE=0.00
+	ATOTR=0.00
+	ATOTC=0.00
+	ATOTP=0.00
+	ATOTPE=0.00
+	NF=0
+	NFE=0
+	DETFRAC=DETEFF*0.01
+	if(DETEFF == 0.0):
+		# WRITE(6,99) 
+		# 99  
+		print(2*'\n',' WARNING EXCITATION DETECTION EFFICIENCY WAS ZERO NOW  SET TO 1.0 % ',2*'\n')
+		DETFRAC=0.01
+	# endif
+	for I in range(1,NDELTA+1):
+		flag5=0
+		NCLUS=NCL[I]
+		NEXC=NCLEXC[I]
+		if(IMIP == 1):
+			# GO TO 11 
+			pass
+		else:
+			if(MPAIR[I]> 2) :
+				# WRITE(6,991) MPAIR[I],I
+				# 991 
+				print(' ERROR IN STATS2 MPAIR GT 2 = %d EVENT NO= %d'%(MPAIR[I],I))
+				sys.exit()
+			# endif
+			if(MPAIR[I]> 0):
+				flag5=1
+				break
+			#  REMOVE EXTRA ELECTRON FOR CONSISTENCY IN CLUSTER DEF FOR DELTAS      
+		# 11 
+		flag8=0
+		if(flag5):
+			pass
+		else:
+			NCLUS1=NCLUS   
+			if(IMIP == 2):
+				NCLUS1=NCLUS-1
+			ANC1=float(NCLUS1)
+			ANCL1=ANCL1+ANC1
+			ANCL2=ANCL2+ANC1*ANC1
+			ANCL3=ANCL3+ANC1*ANC1*ANC1
+			ANCL4=ANCL4+ANC1*ANC1*ANC1*ANC1
+			NTEMP=0
+			for K in range(1,NEXC+1):
+				R1=DRAND48(RDUM)
+				if(R1 < DETFRAC):
+					NTEMP=NTEMP+1
+				# 1 CONTINUE
+			ANC1EXC=float(NEXC)
+			ANCL1EXC=ANCL1EXC+ANC1EXC
+			ANCL2EXC=ANCL2EXC+ANC1EXC*ANC1EXC
+			ANCL3EXC=ANCL3EXC+ANC1EXC*ANC1EXC*ANC1EXC
+			ANCL4EXC=ANCL4EXC+ANC1EXC*ANC1EXC*ANC1EXC*ANC1EXC
+			ANCTOT=ANC1+float(NTEMP)*EXCWGHT
+			ANCL1TOT=ANCL1TOT+ANCTOT
+			ANCL2TOT=ANCL2TOT+ANCTOT*ANCTOT
+			ANCL3TOT=ANCL3TOT+ANCTOT*ANCTOT*ANCTOT
+			ANCL4TOT=ANCL4TOT+ANCTOT*ANCTOT*ANCTOT*ANCTOT
+			ANCTOF=ANC1+float(NEXC)*EXCWGHT
+			ANCL1TOF=ANCL1TOF+ANCTOF
+			ANCL2TOF=ANCL2TOF+ANCTOF*ANCTOF
+			ANCL3TOF=ANCL3TOF+ANCTOF*ANCTOF*ANCTOF
+			ANCL4TOF=ANCL4TOF+ANCTOF*ANCTOF*ANCTOF*ANCTOF
+			NF=NF+1
+			flag8=1
+			#  REMOVE EXTRA ELECTRON FOR CONSISTENCY IN CLUSTER DEF FOR DELTAS      
+		# 5 
+		if(flag8):
+			pass
+		else:
+			NCLUS1=NCLUS   
+			if(IMIP == 2):
+				NCLUS1=NCLUS-1
+			ANC1=float(NCLUS1)
+			ANCL1E=ANCL1E+ANC1
+			ANCL2E=ANCL2E+ANC1*ANC1
+			ANCL3E=ANCL3E+ANC1*ANC1*ANC1
+			ANCL4E=ANCL4E+ANC1*ANC1*ANC1*ANC1
+			NTEMP=0
+			for K in range(1,NEXC+1):
+				R1=DRAND48(RDUM)
+				if(R1 < DETFRAC):
+					NTEMP=NTEMP+1
+				# 6 CONTINUE
+			ANC1EXC=float(NEXC)
+			ANCL1EXCE=ANCL1EXCE+ANC1EXC
+			ANCL2EXCE=ANCL2EXCE+ANC1EXC*ANC1EXC
+			ANCL3EXCE=ANCL3EXCE+ANC1EXC*ANC1EXC*ANC1EXC
+			ANCL4EXCE=ANCL4EXCE+ANC1EXC*ANC1EXC*ANC1EXC*ANC1EXC
+			ANCTOT=ANC1+float(NTEMP)*EXCWGHT
+			ANCL1TOTE=ANCL1TOTE+ANCTOT
+			ANCL2TOTE=ANCL2TOTE+ANCTOT*ANCTOT
+			ANCL3TOTE=ANCL3TOTE+ANCTOT*ANCTOT*ANCTOT
+			ANCL4TOTE=ANCL4TOTE+ANCTOT*ANCTOT*ANCTOT*ANCTOT
+			ANCTOF=ANC1+float(NEXC)*EXCWGHT
+			ANCL1TOFE=ANCL1TOFE+ANCTOF
+			ANCL2TOFE=ANCL2TOFE+ANCTOF*ANCTOF
+			ANCL3TOFE=ANCL3TOFE+ANCTOF*ANCTOF*ANCTOF
+			ANCL4TOFE=ANCL4TOFE+ANCTOF*ANCTOF*ANCTOF*ANCTOF
+			NFE=NFE+1
+		# 8 
+		if(IMIP == 3) :
+			ATOTR=ATOTR+MRAYL[I]
+			ATOTC=ATOTC+MCOMP[I]
+			ATOTP=ATOTP+MPAIR[I]
+			ATOTPE=ATOTPE+MPHOT[I]
+		# endif
+	# 10 CONTINUE
+	# CALCULATE FANO FACTORS
+	ANF=float(NF)
+	ANF1=ANF*ANF
+	if(ANF1 == 0.0):
+		ANF1=1.00
+	AFAN1=ANCL1/ANF
+	AFAN1EXC=ANCL1EXC/ANF
+	AFAN1TOT=ANCL1TOT/ANF
+	AFAN1TOF=ANCL1TOF/ANF
+	AFAN2=math.sqrt((ANF*ANCL2-ANCL1*ANCL1)/ANF1)
+	AFAN2EXC=math.sqrt((ANF*ANCL2EXC-ANCL1EXC*ANCL1EXC)/ANF1)
+	AFAN2TOT=math.sqrt((ANF*ANCL2TOT-ANCL1TOT*ANCL1TOT)/ANF1)
+	AFAN2TOF=math.sqrt((ANF*ANCL2TOF-ANCL1TOF*ANCL1TOF)/ANF1)
+	AFAN3=(ANCL3-3.00*AFAN1*ANCL2+2.00*ANCL1*AFAN1*AFAN1)/ANF
+	AFAN3EXC=(ANCL3EXC-3.00*AFAN1EXC*ANCL2EXC+2.00*ANCL1EXC*AFAN1EXC*AFAN1EXC)/ANF
+	AFAN3TOT=(ANCL3TOT-3.00*AFAN1TOT*ANCL2TOT+2.00*ANCL1TOT*AFAN1TOT*AFAN1TOT)/ANF
+	AFAN3TOF=(ANCL3TOF-3.00*AFAN1TOF*ANCL2TOF+2.00*ANCL1TOF*AFAN1TOF*AFAN1TOF)/ANF
+	AFAN4=(ANCL4-4.00*AFAN1*ANCL3+6.00*AFAN1*AFAN1*ANCL2-3.00*AFAN1*AFAN1*AFAN1*ANCL1)/ANF
+	AFAN4=AFAN4-3.00*AFAN2*AFAN2*AFAN2*AFAN2
+	AFAN4EXC=(ANCL4EXC-4.00*AFAN1EXC*ANCL3EXC+6.00*AFAN1EXC*AFAN1EXC*ANCL2EXC-3.00*AFAN1EXC*AFAN1EXC*AFAN1EXC*ANCL1EXC)/ANF
+	AFAN4EXC=AFAN4EXC-3.00*AFAN2EXC*AFAN2EXC*AFAN2EXC*AFAN2EXC
+	AFAN4TOT=(ANCL4TOT-4.00*AFAN1TOT*ANCL3TOT+6.00*AFAN1TOT*AFAN1TOT*ANCL2TOT-3.00*AFAN1TOT*AFAN1TOT*AFAN1TOT*ANCL1TOT)/ANF
+	AFAN4TOT=AFAN4TOT-3.00*AFAN2TOT*AFAN2TOT*AFAN2TOT*AFAN2TOT
+	AFAN4TOF=(ANCL4TOF-4.00*AFAN1TOF*ANCL3TOF+6.00*AFAN1TOF*AFAN1TOF*ANCL2TOF-3.00*AFAN1TOF*AFAN1TOF*AFAN1TOF*ANCL1TOF)/ANF
+	AFAN4TOF=AFAN4TOF-3.00*AFAN2TOF*AFAN2TOF*AFAN2TOF*AFAN2TOF
+	ASKEW=AFAN3/(AFAN2**3)
+	AKURT=AFAN4/(AFAN2**4)
+	AFAN3=AFAN3/AFAN1
+	AFAN4=AFAN4/AFAN1
+	ASKEWEXC=AFAN3EXC/(AFAN2EXC**3)
+	AKURTEXC=AFAN4EXC/(AFAN2EXC**4)
+	AFAN3EXC=AFAN3EXC/AFAN1EXC
+	AFAN4EXC=AFAN4EXC/AFAN1EXC
+	ASKEWTOT=AFAN3TOT/(AFAN2TOT**3)
+	AKURTTOT=AFAN4TOT/(AFAN2TOT**4)
+	AFAN3TOT=AFAN3TOT/AFAN1TOT
+	AFAN4TOT=AFAN4TOT/AFAN1TOT
+	ASKEWTOF=AFAN3TOF/(AFAN2TOF**3)
+	AKURTTOF=AFAN4TOF/(AFAN2TOF**4)
+	AFAN3TOF=AFAN3TOF/AFAN1TOF
+	AFAN4TOF=AFAN4TOF/AFAN1TOF
+	# CALCULATE FANO FACTORS FOR ESCAPE PEAK
+	ANFE=float(NFE)
+	ANF1E=ANFE*ANFE
+	if(ANF1E == 0.0):
+		ANF1E=1.00
+	AFAN1E=ANCL1E/ANFE
+	AFAN1EXCE=ANCL1EXCE/ANFE
+	AFAN1TOTE=ANCL1TOTE/ANFE
+	AFAN1TOFE=ANCL1TOFE/ANFE
+	AFAN2E=math.sqrt((ANFE*ANCL2E-ANCL1E*ANCL1E)/ANF1E)
+	AFAN2EXCE=math.sqrt((ANFE*ANCL2EXCE-ANCL1EXCE*ANCL1EXCE)/ANF1E)
+	AFAN2TOTE=math.sqrt((ANFE*ANCL2TOTE-ANCL1TOTE*ANCL1TOTE)/ANF1E)
+	AFAN2TOFE=math.sqrt((ANFE*ANCL2TOFE-ANCL1TOFE*ANCL1TOFE)/ANF1E)
+	AFAN3E=(ANCL3E-3.00*AFAN1E*ANCL2E+2.00*ANCL1E*AFAN1E*AFAN1E)/ANFE
+	AFAN3EXCE=(ANCL3EXCE-3.00*AFAN1EXCE*ANCL2EXCE+2.00*ANCL1EXCE*AFAN1EXCE*AFAN1EXCE)/ANFE
+	AFAN3TOTE=(ANCL3TOTE-3.00*AFAN1TOTE*ANCL2TOTE+2.00*ANCL1TOTE*AFAN1TOTE*AFAN1TOTE)/ANFE
+	AFAN3TOFE=(ANCL3TOFE-3.00*AFAN1TOFE*ANCL2TOFE+2.00*ANCL1TOFE*AFAN1TOFE*AFAN1TOFE)/ANFE
+	AFAN4E=(ANCL4E-4.00*AFAN1E*ANCL3E+6.00*AFAN1E*AFAN1E*ANCL2E-3.00*AFAN1E*AFAN1E*AFAN1E*ANCL1E)/ANFE
+	AFAN4E=AFAN4E-3.00*AFAN2E*AFAN2E*AFAN2E*AFAN2E
+	AFAN4EXCE=(ANCL4EXCE-4.00*AFAN1EXCE*ANCL3EXCE+6.00*AFAN1EXCE*AFAN1EXCE*ANCL2EXCE-3.00*AFAN1EXCE*AFAN1EXCE*AFAN1EXCE*ANCL1EXCE)/ANFE
+	AFAN4EXCE=AFAN4EXCE-3.00*AFAN2EXCE*AFAN2EXCE*AFAN2EXCE*AFAN2EXCE
+	AFAN4TOTE=(ANCL4TOTE-4.00*AFAN1TOTE*ANCL3TOTE+6.00*AFAN1TOTE*AFAN1TOTE*ANCL2TOTE-3.00*AFAN1TOTE*AFAN1TOTE*AFAN1TOTE*ANCL1TOTE)/ANFE
+	AFAN4TOTE=AFAN4TOTE-3.00*AFAN2TOTE*AFAN2TOTE*AFAN2TOTE*AFAN2TOTE
+	AFAN4TOFE=(ANCL4TOFE-4.00*AFAN1TOFE*ANCL3TOFE+6.00*AFAN1TOFE*AFAN1TOFE*ANCL2TOFE-3.00*AFAN1TOFE*AFAN1TOFE*AFAN1TOFE*ANCL1TOFE)/ANFE
+	AFAN4TOFE=AFAN4TOFE-3.00*AFAN2TOFE*AFAN2TOFE*AFAN2TOFE*AFAN2TOFE
+	ASKEWE=AFAN3E/(AFAN2E**3)
+	AKURTE=AFAN4E/(AFAN2E**4)
+	AFAN3E=AFAN3E/AFAN1E
+	AFAN4E=AFAN4E/AFAN1E
+	ASKEWEXCE=AFAN3EXCE/(AFAN2EXCE**3)
+	AKURTEXCE=AFAN4EXCE/(AFAN2EXCE**4)
+	AFAN3EXCE=AFAN3EXCE/AFAN1EXCE
+	AFAN4EXCE=AFAN4EXCE/AFAN1EXCE
+	ASKEWTOTE=AFAN3TOTE/(AFAN2TOTE**3)
+	AKURTTOTE=AFAN4TOTE/(AFAN2TOTE**4)
+	AFAN3TOTE=AFAN3TOTE/AFAN1TOTE
+	AFAN4TOTE=AFAN4TOTE/AFAN1TOTE
+	ASKEWTOFE=AFAN3TOFE/(AFAN2TOFE**3)
+	AKURTTOFE=AFAN4TOFE/(AFAN2TOFE**4)
+	AFAN3TOFE=AFAN3TOFE/AFAN1TOFE
+	AFAN4TOFE=AFAN4TOFE/AFAN1TOFE
+	# CALCULATE AVERAGES OVER TOTAL NUMBER OF DELTAS 
+	XBAR=0.00
+	YBAR=0.00
+	ZBAR=0.00 
+	TBAR=0.00
+	XYBAR=0.00
+	XYZBAR=0.00
+	DXBAR=0.00
+	DYBAR=0.00
+	DZBAR=0.00
+	DTBAR=0.00
+	DXYBAR=0.00
+	DXYZBAR=0.00
+	FARXBAR=0.00
+	FARYBAR=0.00
+	FARZBAR=0.00
+	FARXYBAR=0.00
+	RMAXBAR=0.00
+	XMAX=0.00
+	YMAX=0.00
+	ZMAX=0.00
+	XYMAX=0.00
+	RMAX=0.00
+	SUMTT=0.00
+	XNEGSUM=0.00
+	YNEGSUM=0.00
+	ZNEGSUM=0.00
+	EBAR=0.00
+	EBAR2=0.00
+	for I in range(1,NDELTA+1):
+		XBAR=XBAR+XAV[I]
+		YBAR=YBAR+YAV[I]
+		ZBAR=ZBAR+ZAV[I]
+		TBAR=TBAR+TAV[I]
+		XYBAR=XYBAR+XYAV[I]
+		XYZBAR=XYZBAR+XYZAV[I]
+		DXBAR=DXBAR+DX[I]
+		DYBAR=DYBAR+DY[I]
+		DZBAR=DZBAR+DZ[I]
+		DTBAR=DTBAR+DT[I]
+		DXYBAR=DXYBAR+DXY[I]
+		DXYZBAR=DXYZBAR+DXYZ[I]
+		SUMTT=SUMTT+TSUM[I]
+		FARXBAR=FARXBAR+FARX1[I]
+		if(FARX1[I]> XMAX):
+			XMAX=FARX1[I]
+		FARYBAR=FARYBAR+FARY1[I]
+		if(FARY1[I]> YMAX):
+			YMAX=FARY1[I]
+		FARZBAR=FARZBAR+FARZ1[I]
+		if(FARZ1[I]> ZMAX):
+			ZMAX=FARZ1[I]
+		FARXYBAR=FARXYBAR+FARXY1[I]
+		if(FARXY1[I]> XYMAX):
+			XYMAX=FARXY1[I]
+		RMAXBAR=RMAXBAR+RMAX1[I]
+		if(RMAX1[I]> RMAX):
+			RMAX=RMAX1[I]
+		XNEGSUM=XNEGSUM+XNEG[I]
+		YNEGSUM=YNEGSUM+YNEG[I]
+		ZNEGSUM=ZNEGSUM+ZNEG[I]
+		EBAR=EBAR+EDELTA[I]
+		EBAR2=EBAR2+EDELTA2[I]
+	# 20 CONTINUE
+	ANDELTA=float(NDELTA)
+	XBAR=XBAR/ANDELTA
+	YBAR=YBAR/ANDELTA
+	ZBAR=ZBAR/ANDELTA
+	TBAR=TBAR/ANDELTA
+	XYBAR=XYBAR/ANDELTA
+	XYZBAR=XYZBAR/ANDELTA
+	DXBAR=DXBAR/ANDELTA
+	DYBAR=DYBAR/ANDELTA
+	DZBAR=DZBAR/ANDELTA
+	DTBAR=DTBAR/ANDELTA
+	DXYBAR=DXYBAR/ANDELTA
+	DXYZBAR=DXYZBAR/ANDELTA
+	FARXBAR=FARXBAR/ANDELTA
+	FARYBAR=FARYBAR/ANDELTA
+	FARZBAR=FARZBAR/ANDELTA
+	FARXYBAR=FARXYBAR/ANDELTA
+	RMAXBAR=RMAXBAR/ANDELTA
+	XNEG1=XNEGSUM/ANDELTA
+	YNEG1=YNEGSUM/ANDELTA
+	ZNEG1=ZNEGSUM/ANDELTA
+	EBAR=EBAR/ANDELTA
+	EBAR2=EBAR2/ANDELTA
+	if(IMIP == 3):
+		AVRAYL=ATOTR/ANDELTA
+		AVCOMP=ATOTC/ANDELTA
+		AVPAIR=ATOTP/ANDELTA
+		AVPHOTO=ATOTPE/ANDELTA
+	# endif
+	if(IMIP == 3):
+		for I in range(1,10+1):
+			RYLDST[I]=0.0
+			CMPDST[I]=0.0
+		# 29  CONTINUE
+		for I in range(1,NDELTA+1):
+			if(MRAYL[I]>= 10 or MRAYL[I] < 1):
+				# GO TO 30
+				pass
+			else:
+				RYLDST[MRAYL[I]]=RYLDST[MRAYL[I]]+1.0
+			# 30  CONTINUE
+			if(MCOMP[I]>= 10 or MCOMP[I] < 1):
+				# GO TO 31
+				pass
+			else:
+				CMPDST[MCOMP[I]]=CMPDST[MCOMP[I]]+1.0
+			# 31  CONTINUE
+		# 32  CONTINUE
+		for I in range(1,10+1):
+			RYLDST[I]=RYLDST[I]/ANDELTA
+			CMPDST[I]=CMPDST[I]/ANDELTA
+		# 33  CONTINUE
+	# endif
+	if(1):
+		conf.KGAS=KGAS
+		conf.LGAS=LGAS
+		conf.DETEFF=DETEFF
+		conf.EXCWGHT=EXCWGHT
+		conf.TMAX=TMAX
+		conf.SMALL=SMALL
+		conf.API=API
+		conf.ESTART=ESTART
+		conf.THETA=THETA
+		conf.PHI=PHI
+		conf.TCFMAX=TCFMAX
+		conf.TCFMAX1=TCFMAX1
+		conf.RSTART=RSTART
+		conf.EFIELD=EFIELD
+		conf.ETHRM=ETHRM
+		conf.ECUT=ECUT
+		conf.NDELTA=NDELTA
+		conf.IMIP=IMIP
+		conf.IWRITE  =IWRITE  
+		conf.XAV=XAV
+		conf.YAV=YAV
+		conf.ZAV=ZAV
+		conf.TAV=TAV
+		conf.XYAV=XYAV
+		conf.XYZAV=XYZAV
+		conf.DX=DX
+		conf.DY=DY
+		conf.DZ=DZ
+		conf.DT=DT
+		conf.DXY=DXY
+		conf.DXYZ=DXYZ
+		conf.NCL=NCL
+		conf.FARX1=FARX1
+		conf.FARY1=FARY1
+		conf.FARZ1=FARZ1
+		conf.FARXY1=FARXY1
+		conf.RMAX1=RMAX1
+		conf.TSUM=TSUM
+		conf.XNEG=XNEG
+		conf.YNEG=YNEG
+		conf.ZNEG=ZNEG
+		conf.EDELTA=EDELTA
+		conf.EDELTA2=EDELTA2
+		conf.NCLEXC=NCLEXC
+		conf.MSUM=MSUM
+		conf.MCOMP=MCOMP
+		conf.MRAYL=MRAYL
+		conf.MPAIR=MPAIR
+		conf.MPHOT=MPHOT
+		conf.MVAC=MVAC
+		conf.AFAN1=AFAN1
+		conf.AFAN2=AFAN2
+		conf.AFAN3=AFAN3
+		conf.AFAN4=AFAN4
+		conf.ASKEW=ASKEW
+		conf.AKURT=AKURT
+		conf.AFAN1EXC=AFAN1EXC
+		conf.AFAN2EXC=AFAN2EXC
+		conf.AFAN3EXC=AFAN3EXC
+		conf.AFAN4EXC=AFAN4EXC
+		conf.ASKEWEXC=ASKEWEXC
+		conf.AKURTEXC=AKURTEXC
+		conf.AFAN1TOT=AFAN1TOT
+		conf.AFAN2TOT=AFAN2TOT
+		conf.AFAN3TOT=AFAN3TOT
+		conf.AFAN4TOT=AFAN4TOT
+		conf.ASKEWTOT=ASKEWTOT
+		conf.AKURTTOT=AKURTTOT
+		conf.AFAN1TOF=AFAN1TOF
+		conf.AFAN2TOF=AFAN2TOF
+		conf.AFAN3TOF=AFAN3TOF
+		conf.AFAN4TOF=AFAN4TOF
+		conf.ASKEWTOF=ASKEWTOF
+		conf.AKURTTOF=AKURTTOF
+		conf.AFAN1E=AFAN1E
+		conf.AFAN2E=AFAN2E
+		conf.AFAN3E=AFAN3E
+		conf.AFAN4E=AFAN4E
+		conf.ASKEWE=ASKEWE
+		conf.AKURTE=AKURTE
+		conf.AFAN1EXCE=AFAN1EXCE
+		conf.AFAN2EXCE=AFAN2EXCE
+		conf.AFAN3EXCE=AFAN3EXCE
+		conf.AFAN4EXCE=AFAN4EXCE
+		conf.ASKEWEXCE=ASKEWEXCE
+		conf.AKURTEXCE=AKURTEXCE
+		conf.AFAN1TOTE=AFAN1TOTE
+		conf.AFAN2TOTE=AFAN2TOTE
+		conf.AFAN3TOTE=AFAN3TOTE
+		conf.AFAN4TOTE=AFAN4TOTE
+		conf.ASKEWTOTE=ASKEWTOTE
+		conf.AKURTTOTE=AKURTTOTE
+		conf.AFAN1TOFE=AFAN1TOFE
+		conf.AFAN2TOFE=AFAN2TOFE
+		conf.AFAN3TOFE=AFAN3TOFE
+		conf.AFAN4TOFE=AFAN4TOFE
+		conf.ASKEWTOFE=ASKEWTOFE
+		conf.AKURTTOFE=AKURTTOFE
+		conf.NFE=NFE
+		conf.XBAR=XBAR
+		conf.YBAR=YBAR
+		conf.ZBAR=ZBAR
+		conf.TBAR=TBAR
+		conf.XYBAR=XYBAR
+		conf.XYZBAR=XYZBAR
+		conf.DXBAR=DXBAR
+		conf.DYBAR=DYBAR
+		conf.DZBAR=DZBAR
+		conf.DTBAR=DTBAR
+		conf.DXYBAR=DXYBAR
+		conf.DXYZBAR=DXYZBAR
+		conf.XMAX=XMAX
+		conf.YMAX=YMAX
+		conf.ZMAX=ZMAX
+		conf.XYMAX=XYMAX
+		conf.RMAX=RMAX
+		conf.SUMTT=SUMTT
+		conf.XNEG1=XNEG1
+		conf.YNEG1=YNEG1
+		conf.ZNEG1=ZNEG1
+		conf.FARXBAR=FARXBAR
+		conf.FARYBAR=FARYBAR
+		conf.FARZBAR=FARZBAR
+		conf.FARXYBAR=FARXYBAR
+		conf.RMAXBAR=RMAXBAR
+		conf.EBAR=EBAR
+		conf.EBAR2    =EBAR2
+		conf.AVRAYL=AVRAYL
+		conf.AVCOMP=AVCOMP
+		conf.AVPAIR=AVPAIR
+		conf.AVPHOTO=AVPHOTO
+		conf.CMPDST=CMPDST
+		conf.RYLDST=RYLDST
+	return
+	# end
+	# DOUBLE PRECISION FUNCTION
+	def DMAX0(IA,IB):
+		#integer *8 IA,IB
+		if(IA < IB):
+			return IB
+		else:
+			return IA
+		# endif
+		return
+	# end
+	# DOUBLE PRECISION FUNCTION
+	def DMIN0(IA,IB):
+		#integer*8 IA,IB,IONE
+		IONE=1
+		if(IA > IB):
+			return IB
+		elif(IA < IONE):
+			return IONE
+		else: 
+			return IA
+	# end 
+	# DOUBLE PRECISION FUNCTION
+	def DRAND48(DUMMY):
+		# *-----------------------------------------------------------------------
+		# *   RNDM2  - returns double precision random numbers by calling RM48.
+		# *   (Last changed on  5/ 2/00.)
+		# *-----------------------------------------------------------------------
+		# implicit none
+		#integer NVEC
+		# PARAMETER(NVEC=1000)
+		NVEC=1000
+		# DOUBLE PRECISION
+		float(RVEC[NVEC])
+		float(DUMMY)
+		#integer IVEC
+		IVEC=0
+		RVEC,IVEC
+		globals().update(locals())
+		# *** Now generate random number between 0 and one.
+		if(IVEC == 0 or IVEC >= NVEC):
+			RM48(RVEC,NVEC)
+			IVEC=1
+		else:
+			IVEC=IVEC+1
+		# endif
+		# *** Assign result.
+		# DRAND48=RVEC[IVEC]
+		return RVEC[IVEC]
+	# end
+	#CCCCCCC
+	# *0
+	# * $Id: rm48.F,v 1.2 1996/12/12 16:32:06 cernlib Exp $
+	# *
+	# * $Log: rm48.F,v $
+	# * Revision 1.2  1996/12/12 16:32:06  cernlib
+	# * Variables ONE and ZERO added to SAVE statement, courtesy R.Veenhof
+	# *
+	# * Revision 1.1.1.1  1996/04/01 15:02:55  mclareni
+	# * Mathlib gen
+	# *
+	# *
+	# *#include "gen/pilot.h"
 ```
 
-```javascript
-const kittn = require('kittn');
+```fortran
+      SUBROUTINE STATS2
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT INTEGER*8 (I-N)   
+      COMMON/INPT2/KGAS,LGAS,DETEFF,EXCWGHT                            
+      COMMON/SETP/TMAX,SMALL,API,ESTART,THETA,PHI,TCFMAX(10),TCFMAX1,
+     /RSTART,EFIELD,ETHRM,ECUT,NDELTA,IMIP,IWRITE  
+      COMMON/CLUS/XAV(100000),YAV(100000),ZAV(100000),TAV(100000),
+     /XYAV(100000),XYZAV(100000),DX(100000),DY(100000),DZ(100000),
+     /DT(100000),DXY(100000),DXYZ(100000),NCL(100000),FARX1(100000)
+     /,FARY1(100000),FARZ1(100000),FARXY1(100000),RMAX1(100000),
+     /TSUM(100000),XNEG(100000),
+     /YNEG(100000),ZNEG(100000),EDELTA(100000),EDELTA2(100000),
+     /NCLEXC(100000)
+      COMMON/PRIM3/MSUM(10000),MCOMP(10000),MRAYL(10000),MPAIR(10000),
+     /MPHOT(10000),MVAC(10000)
+      COMMON/FANO/AFAN1,AFAN2,AFAN3,AFAN4,ASKEW,AKURT,AFAN1EXC,AFAN2EXC,
+     /AFAN3EXC,AFAN4EXC,ASKEWEXC,AKURTEXC,AFAN1TOT,AFAN2TOT,AFAN3TOT,
+     /AFAN4TOT,ASKEWTOT,AKURTTOT,AFAN1TOF,AFAN2TOF,AFAN3TOF,AFAN4TOF,
+     /ASKEWTOF,AKURTTOF
+      COMMON/FANOE/AFAN1E,AFAN2E,AFAN3E,AFAN4E,ASKEWE,AKURTE,AFAN1EXCE,
+     /AFAN2EXCE,AFAN3EXCE,AFAN4EXCE,ASKEWEXCE,AKURTEXCE,AFAN1TOTE,
+     /AFAN2TOTE,AFAN3TOTE,AFAN4TOTE,ASKEWTOTE,AKURTTOTE,AFAN1TOFE,
+     /AFAN2TOFE,AFAN3TOFE,AFAN4TOFE,ASKEWTOFE,AKURTTOFE,NFE
+      COMMON/RNGE/XBAR,YBAR,ZBAR,TBAR,XYBAR,XYZBAR,DXBAR,DYBAR,DZBAR,
+     /DTBAR,DXYBAR,DXYZBAR,XMAX,YMAX,ZMAX,XYMAX,RMAX,SUMTT,XNEG1,YNEG1,
+     /ZNEG1,FARXBAR,FARYBAR,FARZBAR,FARXYBAR,RMAXBAR,EBAR,EBAR2    
+      COMMON/PRIM1/AVRAYL,AVCOMP,AVPAIR,AVPHOTO
+      COMMON/PRIM2/CMPDST(10),RYLDST(10)
+C      
+C-----------------------------------------------------------------------
+C   CALCULATES AVERAGES OVER TOTAL NUMBER OF DELTAS
+C   CALCULATES FANO FACTORS FO,F1,F2 AND F3
+C  CALCULATES FANO FACTORS FOR EXCITATION 
+C  INCLUDED MODIFICATION TO CALCULATE ESCAPE PEAK FANO FACTORS 
+C-----------------------------------------------------------------------
+C 
+      ANCL1=0.0D0
+      ANCL2=0.0D0
+      ANCL3=0.0D0
+      ANCL4=0.0D0
+      ANCL1E=0.0D0
+      ANCL2E=0.0D0
+      ANCL3E=0.0D0
+      ANCL4E=0.0D0
+      ANCL1EXC=0.0D0
+      ANCL2EXC=0.0D0
+      ANCL3EXC=0.0D0
+      ANCL4EXC=0.0D0
+      ANCL1EXCE=0.0D0
+      ANCL2EXCE=0.0D0
+      ANCL3EXCE=0.0D0
+      ANCL4EXCE=0.0D0
+      ANCL1TOT=0.0D0
+      ANCL2TOT=0.0D0
+      ANCL3TOT=0.0D0
+      ANCL4TOT=0.0D0
+      ANCL1TOTE=0.0D0
+      ANCL2TOTE=0.0D0
+      ANCL3TOTE=0.0D0
+      ANCL4TOTE=0.0D0
+      ANCL1TOF=0.0D0
+      ANCL2TOF=0.0D0
+      ANCL3TOF=0.0D0
+      ANCL4TOF=0.0D0
+      ANCL1TOFE=0.0D0
+      ANCL2TOFE=0.0D0
+      ANCL3TOFE=0.0D0
+      ANCL4TOFE=0.0D0
+      ATOTR=0.0D0
+      ATOTC=0.0D0
+      ATOTP=0.0D0
+      ATOTPE=0.0D0
+      NF=0
+      NFE=0
+      DETFRAC=DETEFF*0.01
+      IF(DETEFF.EQ.0.0) THEN
+       WRITE(6,99) 
+   99  FORMAT(2/,' WARNING EXCITATION DETECTION EFFICIENCY WAS ZERO NOW 
+     / SET TO 1.0 % ',2/)
+       DETFRAC=0.01
+      ENDIF
+      DO 10 I=1,NDELTA
+      NCLUS=NCL(I)
+      NEXC=NCLEXC(I)
+      IF(IMIP.EQ.1) GO TO 11 
+      IF(MPAIR(I).GT.2) THEN
+       WRITE(6,991) MPAIR(I),I
+  991 FORMAT(' ERROR IN STATS2 MPAIR GT 2 =',I9,' EVENT NO=',I6)
+       STOP
+      ENDIF
+      IF(MPAIR(I).GT.0) GO TO 5
+C  REMOVE EXTRA ELECTRON FOR CONSISTENCY IN CLUSTER DEF FOR DELTAS      
+   11 NCLUS1=NCLUS   
+      IF(IMIP.EQ.2) NCLUS1=NCLUS-1
+      ANC1=DFLOAT(NCLUS1)
+      ANCL1=ANCL1+ANC1
+      ANCL2=ANCL2+ANC1*ANC1
+      ANCL3=ANCL3+ANC1*ANC1*ANC1
+      ANCL4=ANCL4+ANC1*ANC1*ANC1*ANC1
+      NTEMP=0
+      DO 1 K=1,NEXC
+      R1=drand48(RDUM)
+      IF(R1.LT.DETFRAC) NTEMP=NTEMP+1
+    1 CONTINUE
+      ANC1EXC=DFLOAT(NEXC)
+      ANCL1EXC=ANCL1EXC+ANC1EXC
+      ANCL2EXC=ANCL2EXC+ANC1EXC*ANC1EXC
+      ANCL3EXC=ANCL3EXC+ANC1EXC*ANC1EXC*ANC1EXC
+      ANCL4EXC=ANCL4EXC+ANC1EXC*ANC1EXC*ANC1EXC*ANC1EXC
+      ANCTOT=ANC1+DFLOAT(NTEMP)*EXCWGHT
+      ANCL1TOT=ANCL1TOT+ANCTOT
+      ANCL2TOT=ANCL2TOT+ANCTOT*ANCTOT
+      ANCL3TOT=ANCL3TOT+ANCTOT*ANCTOT*ANCTOT
+      ANCL4TOT=ANCL4TOT+ANCTOT*ANCTOT*ANCTOT*ANCTOT
+      ANCTOF=ANC1+DFLOAT(NEXC)*EXCWGHT
+      ANCL1TOF=ANCL1TOF+ANCTOF
+      ANCL2TOF=ANCL2TOF+ANCTOF*ANCTOF
+      ANCL3TOF=ANCL3TOF+ANCTOF*ANCTOF*ANCTOF
+      ANCL4TOF=ANCL4TOF+ANCTOF*ANCTOF*ANCTOF*ANCTOF
+      NF=NF+1
+      GO TO 8
+C  REMOVE EXTRA ELECTRON FOR CONSISTENCY IN CLUSTER DEF FOR DELTAS      
+    5 NCLUS1=NCLUS   
+      IF(IMIP.EQ.2) NCLUS1=NCLUS-1
+      ANC1=DFLOAT(NCLUS1)
+      ANCL1E=ANCL1E+ANC1
+      ANCL2E=ANCL2E+ANC1*ANC1
+      ANCL3E=ANCL3E+ANC1*ANC1*ANC1
+      ANCL4E=ANCL4E+ANC1*ANC1*ANC1*ANC1
+      NTEMP=0
+      DO 6 K=1,NEXC
+      R1=drand48(RDUM)
+      IF(R1.LT.DETFRAC) NTEMP=NTEMP+1
+    6 CONTINUE
+      ANC1EXC=DFLOAT(NEXC)
+      ANCL1EXCE=ANCL1EXCE+ANC1EXC
+      ANCL2EXCE=ANCL2EXCE+ANC1EXC*ANC1EXC
+      ANCL3EXCE=ANCL3EXCE+ANC1EXC*ANC1EXC*ANC1EXC
+      ANCL4EXCE=ANCL4EXCE+ANC1EXC*ANC1EXC*ANC1EXC*ANC1EXC
+      ANCTOT=ANC1+DFLOAT(NTEMP)*EXCWGHT
+      ANCL1TOTE=ANCL1TOTE+ANCTOT
+      ANCL2TOTE=ANCL2TOTE+ANCTOT*ANCTOT
+      ANCL3TOTE=ANCL3TOTE+ANCTOT*ANCTOT*ANCTOT
+      ANCL4TOTE=ANCL4TOTE+ANCTOT*ANCTOT*ANCTOT*ANCTOT
+      ANCTOF=ANC1+DFLOAT(NEXC)*EXCWGHT
+      ANCL1TOFE=ANCL1TOFE+ANCTOF
+      ANCL2TOFE=ANCL2TOFE+ANCTOF*ANCTOF
+      ANCL3TOFE=ANCL3TOFE+ANCTOF*ANCTOF*ANCTOF
+      ANCL4TOFE=ANCL4TOFE+ANCTOF*ANCTOF*ANCTOF*ANCTOF
+      NFE=NFE+1
+    8 IF(IMIP.EQ.3) THEN
+      ATOTR=ATOTR+MRAYL(I)
+      ATOTC=ATOTC+MCOMP(I)
+      ATOTP=ATOTP+MPAIR(I)
+      ATOTPE=ATOTPE+MPHOT(I)
+      ENDIF
+   10 CONTINUE
+C CALCULATE FANO FACTORS
+      ANF=DFLOAT(NF)
+      ANF1=ANF*ANF
+      IF(ANF1.EQ.0.0) ANF1=1.0D0
+      AFAN1=ANCL1/ANF
+      AFAN1EXC=ANCL1EXC/ANF
+      AFAN1TOT=ANCL1TOT/ANF
+      AFAN1TOF=ANCL1TOF/ANF
+      AFAN2=DSQRT((ANF*ANCL2-ANCL1*ANCL1)/ANF1)
+      AFAN2EXC=DSQRT((ANF*ANCL2EXC-ANCL1EXC*ANCL1EXC)/ANF1)
+      AFAN2TOT=DSQRT((ANF*ANCL2TOT-ANCL1TOT*ANCL1TOT)/ANF1)
+      AFAN2TOF=DSQRT((ANF*ANCL2TOF-ANCL1TOF*ANCL1TOF)/ANF1)
+      AFAN3=(ANCL3-3.0D0*AFAN1*ANCL2+2.0D0*ANCL1*AFAN1*AFAN1)/ANF
+      AFAN3EXC=(ANCL3EXC-3.0D0*AFAN1EXC*ANCL2EXC+2.0D0*ANCL1EXC*AFAN1EXC
+     /*AFAN1EXC)/ANF
+      AFAN3TOT=(ANCL3TOT-3.0D0*AFAN1TOT*ANCL2TOT+2.0D0*ANCL1TOT*AFAN1TOT
+     /*AFAN1TOT)/ANF
+      AFAN3TOF=(ANCL3TOF-3.0D0*AFAN1TOF*ANCL2TOF+2.0D0*ANCL1TOF*AFAN1TOF
+     /*AFAN1TOF)/ANF
+      AFAN4=(ANCL4-4.0D0*AFAN1*ANCL3+6.0D0*AFAN1*AFAN1*ANCL2-3.0D0*AFAN1
+     /*AFAN1*AFAN1*ANCL1)/ANF
+      AFAN4=AFAN4-3.0D0*AFAN2*AFAN2*AFAN2*AFAN2
+      AFAN4EXC=(ANCL4EXC-4.0D0*AFAN1EXC*ANCL3EXC+6.0D0*AFAN1EXC*AFAN1EXC
+     /*ANCL2EXC-3.0D0*AFAN1EXC*AFAN1EXC*AFAN1EXC*ANCL1EXC)/ANF
+      AFAN4EXC=AFAN4EXC-3.0D0*AFAN2EXC*AFAN2EXC*AFAN2EXC*AFAN2EXC
+      AFAN4TOT=(ANCL4TOT-4.0D0*AFAN1TOT*ANCL3TOT+6.0D0*AFAN1TOT*AFAN1TOT
+     /*ANCL2TOT-3.0D0*AFAN1TOT*AFAN1TOT*AFAN1TOT*ANCL1TOT)/ANF
+      AFAN4TOT=AFAN4TOT-3.0D0*AFAN2TOT*AFAN2TOT*AFAN2TOT*AFAN2TOT
+      AFAN4TOF=(ANCL4TOF-4.0D0*AFAN1TOF*ANCL3TOF+6.0D0*AFAN1TOF*AFAN1TOF
+     /*ANCL2TOF-3.0D0*AFAN1TOF*AFAN1TOF*AFAN1TOF*ANCL1TOF)/ANF
+      AFAN4TOF=AFAN4TOF-3.0D0*AFAN2TOF*AFAN2TOF*AFAN2TOF*AFAN2TOF
+      ASKEW=AFAN3/(AFAN2**3)
+      AKURT=AFAN4/(AFAN2**4)
+      AFAN3=AFAN3/AFAN1
+      AFAN4=AFAN4/AFAN1
+      ASKEWEXC=AFAN3EXC/(AFAN2EXC**3)
+      AKURTEXC=AFAN4EXC/(AFAN2EXC**4)
+      AFAN3EXC=AFAN3EXC/AFAN1EXC
+      AFAN4EXC=AFAN4EXC/AFAN1EXC
+      ASKEWTOT=AFAN3TOT/(AFAN2TOT**3)
+      AKURTTOT=AFAN4TOT/(AFAN2TOT**4)
+      AFAN3TOT=AFAN3TOT/AFAN1TOT
+      AFAN4TOT=AFAN4TOT/AFAN1TOT
+      ASKEWTOF=AFAN3TOF/(AFAN2TOF**3)
+      AKURTTOF=AFAN4TOF/(AFAN2TOF**4)
+      AFAN3TOF=AFAN3TOF/AFAN1TOF
+      AFAN4TOF=AFAN4TOF/AFAN1TOF
+C CALCULATE FANO FACTORS FOR ESCAPE PEAK
+      ANFE=DFLOAT(NFE)
+      ANF1E=ANFE*ANFE
+      IF(ANF1E.EQ.0.0) ANF1E=1.0D0
+      AFAN1E=ANCL1E/ANFE
+      AFAN1EXCE=ANCL1EXCE/ANFE
+      AFAN1TOTE=ANCL1TOTE/ANFE
+      AFAN1TOFE=ANCL1TOFE/ANFE
+      AFAN2E=DSQRT((ANFE*ANCL2E-ANCL1E*ANCL1E)/ANF1E)
+      AFAN2EXCE=DSQRT((ANFE*ANCL2EXCE-ANCL1EXCE*ANCL1EXCE)/ANF1E)
+      AFAN2TOTE=DSQRT((ANFE*ANCL2TOTE-ANCL1TOTE*ANCL1TOTE)/ANF1E)
+      AFAN2TOFE=DSQRT((ANFE*ANCL2TOFE-ANCL1TOFE*ANCL1TOFE)/ANF1E)
+      AFAN3E=(ANCL3E-3.0D0*AFAN1E*ANCL2E+2.0D0*ANCL1E*AFAN1E*AFAN1E)/
+     /ANFE
+      AFAN3EXCE=(ANCL3EXCE-3.0D0*AFAN1EXCE*ANCL2EXCE+2.0D0*ANCL1EXCE*
+     /AFAN1EXCE*AFAN1EXCE)/ANFE
+      AFAN3TOTE=(ANCL3TOTE-3.0D0*AFAN1TOTE*ANCL2TOTE+2.0D0*ANCL1TOTE*
+     /AFAN1TOTE*AFAN1TOTE)/ANFE
+      AFAN3TOFE=(ANCL3TOFE-3.0D0*AFAN1TOFE*ANCL2TOFE+2.0D0*ANCL1TOFE*
+     /AFAN1TOFE*AFAN1TOFE)/ANFE
+      AFAN4E=(ANCL4E-4.0D0*AFAN1E*ANCL3E+6.0D0*AFAN1E*AFAN1E*ANCL2E-
+     /3.0D0*AFAN1E*AFAN1E*AFAN1E*ANCL1E)/ANFE
+      AFAN4E=AFAN4E-3.0D0*AFAN2E*AFAN2E*AFAN2E*AFAN2E
+      AFAN4EXCE=(ANCL4EXCE-4.0D0*AFAN1EXCE*ANCL3EXCE+6.0D0*AFAN1EXCE*
+     /AFAN1EXCE*ANCL2EXCE-3.0D0*AFAN1EXCE*AFAN1EXCE*AFAN1EXCE*
+     /ANCL1EXCE)/ANFE
+      AFAN4EXCE=AFAN4EXCE-3.0D0*AFAN2EXCE*AFAN2EXCE*AFAN2EXCE*AFAN2EXCE
+      AFAN4TOTE=(ANCL4TOTE-4.0D0*AFAN1TOTE*ANCL3TOTE+6.0D0*AFAN1TOTE*
+     /AFAN1TOTE*ANCL2TOTE-3.0D0*AFAN1TOTE*AFAN1TOTE*AFAN1TOTE*ANCL1TOTE)
+     //ANFE
+      AFAN4TOTE=AFAN4TOTE-3.0D0*AFAN2TOTE*AFAN2TOTE*AFAN2TOTE*AFAN2TOTE
+      AFAN4TOFE=(ANCL4TOFE-4.0D0*AFAN1TOFE*ANCL3TOFE+6.0D0*AFAN1TOFE*
+     /AFAN1TOFE*ANCL2TOFE-3.0D0*AFAN1TOFE*AFAN1TOFE*AFAN1TOFE*ANCL1TOFE)
+     //ANFE
+      AFAN4TOFE=AFAN4TOFE-3.0D0*AFAN2TOFE*AFAN2TOFE*AFAN2TOFE*AFAN2TOFE
+      ASKEWE=AFAN3E/(AFAN2E**3)
+      AKURTE=AFAN4E/(AFAN2E**4)
+      AFAN3E=AFAN3E/AFAN1E
+      AFAN4E=AFAN4E/AFAN1E
+      ASKEWEXCE=AFAN3EXCE/(AFAN2EXCE**3)
+      AKURTEXCE=AFAN4EXCE/(AFAN2EXCE**4)
+      AFAN3EXCE=AFAN3EXCE/AFAN1EXCE
+      AFAN4EXCE=AFAN4EXCE/AFAN1EXCE
+      ASKEWTOTE=AFAN3TOTE/(AFAN2TOTE**3)
+      AKURTTOTE=AFAN4TOTE/(AFAN2TOTE**4)
+      AFAN3TOTE=AFAN3TOTE/AFAN1TOTE
+      AFAN4TOTE=AFAN4TOTE/AFAN1TOTE
+      ASKEWTOFE=AFAN3TOFE/(AFAN2TOFE**3)
+      AKURTTOFE=AFAN4TOFE/(AFAN2TOFE**4)
+      AFAN3TOFE=AFAN3TOFE/AFAN1TOFE
+      AFAN4TOFE=AFAN4TOFE/AFAN1TOFE
+C CALCULATE AVERAGES OVER TOTAL NUMBER OF DELTAS 
+      XBAR=0.0D0
+      YBAR=0.0D0
+      ZBAR=0.0D0 
+      TBAR=0.0D0
+      XYBAR=0.0D0
+      XYZBAR=0.0D0
+      DXBAR=0.0D0
+      DYBAR=0.0D0
+      DZBAR=0.0D0
+      DTBAR=0.0D0
+      DXYBAR=0.0D0
+      DXYZBAR=0.0D0
+      FARXBAR=0.0D0
+      FARYBAR=0.0D0
+      FARZBAR=0.0D0
+      FARXYBAR=0.0D0
+      RMAXBAR=0.0D0
+      XMAX=0.0D0
+      YMAX=0.0D0
+      ZMAX=0.0D0
+      XYMAX=0.0D0
+      RMAX=0.0D0
+      SUMTT=0.0D0
+      XNEGSUM=0.0D0
+      YNEGSUM=0.0D0
+      ZNEGSUM=0.0D0
+      EBAR=0.0D0
+      EBAR2=0.0D0
+      DO 20 I=1,NDELTA
+      XBAR=XBAR+XAV(I)
+      YBAR=YBAR+YAV(I)
+      ZBAR=ZBAR+ZAV(I)
+      TBAR=TBAR+TAV(I)
+      XYBAR=XYBAR+XYAV(I)
+      XYZBAR=XYZBAR+XYZAV(I)
+      DXBAR=DXBAR+DX(I)
+      DYBAR=DYBAR+DY(I)
+      DZBAR=DZBAR+DZ(I)
+      DTBAR=DTBAR+DT(I)
+      DXYBAR=DXYBAR+DXY(I)
+      DXYZBAR=DXYZBAR+DXYZ(I)
+      SUMTT=SUMTT+TSUM(I)
+      FARXBAR=FARXBAR+FARX1(I)
+      IF(FARX1(I).GT.XMAX) XMAX=FARX1(I)
+      FARYBAR=FARYBAR+FARY1(I)
+      IF(FARY1(I).GT.YMAX) YMAX=FARY1(I)
+      FARZBAR=FARZBAR+FARZ1(I)
+      IF(FARZ1(I).GT.ZMAX) ZMAX=FARZ1(I)
+      FARXYBAR=FARXYBAR+FARXY1(I)
+      IF(FARXY1(I).GT.XYMAX) XYMAX=FARXY1(I)
+      RMAXBAR=RMAXBAR+RMAX1(I)
+      IF(RMAX1(I).GT.RMAX) RMAX=RMAX1(I)
+      XNEGSUM=XNEGSUM+XNEG(I)
+      YNEGSUM=YNEGSUM+YNEG(I)
+      ZNEGSUM=ZNEGSUM+ZNEG(I)
+      EBAR=EBAR+EDELTA(I)
+      EBAR2=EBAR2+EDELTA2(I)
+   20 CONTINUE
+      ANDELTA=DFLOAT(NDELTA)
+      XBAR=XBAR/ANDELTA
+      YBAR=YBAR/ANDELTA
+      ZBAR=ZBAR/ANDELTA
+      TBAR=TBAR/ANDELTA
+      XYBAR=XYBAR/ANDELTA
+      XYZBAR=XYZBAR/ANDELTA
+      DXBAR=DXBAR/ANDELTA
+      DYBAR=DYBAR/ANDELTA
+      DZBAR=DZBAR/ANDELTA
+      DTBAR=DTBAR/ANDELTA
+      DXYBAR=DXYBAR/ANDELTA
+      DXYZBAR=DXYZBAR/ANDELTA
+      FARXBAR=FARXBAR/ANDELTA
+      FARYBAR=FARYBAR/ANDELTA
+      FARZBAR=FARZBAR/ANDELTA
+      FARXYBAR=FARXYBAR/ANDELTA
+      RMAXBAR=RMAXBAR/ANDELTA
+      XNEG1=XNEGSUM/ANDELTA
+      YNEG1=YNEGSUM/ANDELTA
+      ZNEG1=ZNEGSUM/ANDELTA
+      EBAR=EBAR/ANDELTA
+      EBAR2=EBAR2/ANDELTA
+      IF(IMIP.EQ.3) THEN
+      AVRAYL=ATOTR/ANDELTA
+      AVCOMP=ATOTC/ANDELTA
+      AVPAIR=ATOTP/ANDELTA
+      AVPHOTO=ATOTPE/ANDELTA
+      ENDIF
+      IF(IMIP.EQ.3) THEN
+       DO 29 I=1,10
+       RYLDST(I)=0.0
+       CMPDST(I)=0.0
+   29  CONTINUE
+       DO 32 I=1,NDELTA
+       IF(MRAYL(I).GE.10.OR.MRAYL(I).LT.1) GO TO 30
+       RYLDST(MRAYL(I))=RYLDST(MRAYL(I))+1.0
+   30  CONTINUE
+       IF(MCOMP(I).GE.10.OR.MCOMP(I).LT.1) GO TO 31
+       CMPDST(MCOMP(I))=CMPDST(MCOMP(I))+1.0
+   31  CONTINUE
+   32  CONTINUE
+       DO 33 I=1,10
+       RYLDST(I)=RYLDST(I)/ANDELTA
+       CMPDST(I)=CMPDST(I)/ANDELTA
+   33  CONTINUE
+      ENDIF
+      RETURN
+      END
+      DOUBLE PRECISION FUNCTION DMAX0(IA,IB)
+      INTEGER *8 IA,IB
+      IF(IA.LT.IB) THEN
+       DMAX0=IB
+      ELSE
+       DMAX0=IA
+      ENDIF
+      RETURN
+      END
+      DOUBLE PRECISION FUNCTION DMIN0(IA,IB)
+      INTEGER*8 IA,IB,IONE
+      IONE=1
+      IF(IA.GT.IB) THEN
+       DMIN0=IB
+      ELSE IF(IA.LT.IONE) THEN
+       DMIN0=IONE
+      ELSE 
+       DMIN0=IA
+      ENDIF
+      RETURN
+      END 
+      DOUBLE PRECISION FUNCTION drand48(DUMMY)
+*-----------------------------------------------------------------------
+*   RNDM2  - Returns double precision random numbers by calling RM48.
+*   (Last changed on  5/ 2/00.)
+*-----------------------------------------------------------------------
+       implicit none
+       INTEGER NVEC
+       PARAMETER(NVEC=1000)
+       DOUBLE PRECISION RVEC(NVEC),DUMMY
+       INTEGER IVEC
+       DATA IVEC/0/
+       SAVE RVEC,IVEC
+*** Now generate random number between 0 and one.
+       IF(IVEC.EQ.0.OR.IVEC.GE.NVEC)THEN
+            CALL RM48(RVEC,NVEC)
+            IVEC=1
+       ELSE
+            IVEC=IVEC+1
+       ENDIF
+*** Assign result.
+       drand48=RVEC(IVEC)
+       END
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
 ```
+# Contribute to Documentation
 
-> The above command returns JSON structured like this:
+## Modules
+All the modules are documented in separate markdown files in the modules directory.
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
+### Module Structure
 
-This endpoint retrieves all kittens.
+The function module is written in markdown.<br>
+It consists of a brief pseudo code and the fortran as well as the python code for that module
 
-### HTTP Request
+## Tangling
 
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+`tangle.sh` is a bash script that builds a final index.html file which is then reflected in the documentation
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — The sequence of files in `tangle.sh` matters
 </aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
+```bash
+rm ../index.html.md
+cat Degrad.md > ../index.html.md
+cat Mixer.md >> ../index.html.md
+cat Setup.md >> ../index.html.md
+cat Density.md >> ../index.html.md
+cat Tail.md >> ../index.html.md
 ```
 
-```python
-import kittn
+<aside class="warning">The directory structure is to be preserved for the framework to work properly. </aside>
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+<aside class="success">Build documentation using <code>sh tangle.sh</code></aside>
 
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
 
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
-
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint deletes a specific kitten.
-
-### HTTP Request
-
-`DELETE http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to delete
 

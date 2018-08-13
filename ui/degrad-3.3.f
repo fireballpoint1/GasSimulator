@@ -1122,8 +1122,7 @@ C
       ENDIF 
 C
       IF(IE.GT.1) GO TO 62  
-      PRINT *,"DIDNT COME HERE"                                   
-      PAUSE 1
+      
       RGAS2=1.0D0+E2(2)/2.0D0                                           
       RGAS(NP)=RGAS2                                                    
       EIN(NP)=0.0D0                                                     
@@ -1262,7 +1261,8 @@ C
       DO 79 K=1,20
    79 ESPLIT(NP,K)=ESPLIT2(IONMODL2,K) 
    80 CONTINUE                                  
-  130 IF(EFINAL.LT.E2(4)) GO TO 140    
+  130 PRINT *,"inside 130"
+  	  IF(EFINAL.LT.E2(4)) GO TO 140    
       IF(NATT2.GT.1) GO TO 561       
       NP=NP+1
       IDG2=NP                                                           
@@ -1288,8 +1288,8 @@ C
       PENFRA(3,NP)=0.0        
       GO TO 140
   561 DO 562 JJ=1,NATT2
-  	  PRINT *,"came here line 1290"
-  	  PAUSE 1
+  	  ! PRINT *,"came here line 1290"
+  	  ! PAUSE 1
       NP=NP+1
       IDG2=NP
       CF(IE,NP)=QATT2(JJ,IE)*VAN2*BET(IE)
@@ -1313,8 +1313,7 @@ C
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
   562 CONTINUE                                 
-  140 PRINT *,"NIN2 ",NIN2
-  	  IF(NIN2.EQ.0) GO TO 160                                           
+  140 IF(NIN2.EQ.0) GO TO 160                                           
       DO 150 J=1,NIN2
       NP=NP+1
       IDG2=NP    
@@ -1523,7 +1522,8 @@ C
       DO 179 K=1,20
   179 ESPLIT(NP,K)=ESPLIT3(IONMODL3,K) 
   180 CONTINUE                                        
-  230 IF(EFINAL.LT.E3(4)) GO TO 240      
+  230 PRINT *,"inside 230"
+  	  IF(EFINAL.LT.E3(4)) GO TO 240      
       IF(NATT3.GT.1) GO TO 571                               
       NP=NP+1
       IDG3=NP                                                           
@@ -32779,10 +32779,15 @@ C NO MORE TRANSITIONS POSSIBLE
       COMMON/IONFL/NC0(512),EC0(512),NG1(512),EG1(512),NG2(512),
      /EG2(512),WKLM(512),EFL(512)
 C CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY
+	  ! PRINT *,"INSIDE FLDIST"
+	  ! CALL SLEEP(2)
       DO 1 I=1,512
       EPH=EFL(I)
+      ! PRINT *,EPH
       IF(EPH.EQ.0.0) GO TO 1
       JF=3
+      ! PRINT *,IDUM
+      ! PAUSE 1
       CALL ABSO(JF,EPH,IDUM,KDUM,LDUM,DIST)
       EFL(I)=DIST
     1 CONTINUE
