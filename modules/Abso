@@ -1,0 +1,958 @@
+<h2 id='abso'>ABSO()</h2><h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>JF</td>
+<td></td>
+</tr>
+<tr>
+<td>EPH</td>
+<td>For photon energy calculates interaction distance</td>
+</tr>
+<tr>
+<td></td>
+<td>with Gas identity, KGAS.</td>
+</tr>
+<tr>
+<td></td>
+<td>If compton rayleigh or pair production allowed</td>
+</tr>
+<tr>
+<td></td>
+<td>then calculates KGAS, LGAS</td>
+</tr>
+<tr>
+<td>ISHELL</td>
+<td>Absorption Shell</td>
+</tr>
+<tr>
+<td>KGAS</td>
+<td>Gas Identity</td>
+</tr>
+<tr>
+<td>LGAS</td>
+<td></td>
+</tr>
+<tr>
+<td>DIST</td>
+<td>Absorption distance per event in metres</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='pseudo-code'>Pseudo Code</h3><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">ABSO</span><span class="p">(</span><span class="n">JF</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">DIST</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="k">def</span> <span class="nf">get_globals</span><span class="p">():</span>
+        <span class="c">#COMMON/RATIO/</span>
+        <span class="n">AN1</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN1</span>
+        <span class="n">AN2</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN2</span>
+        <span class="n">AN3</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN3</span>
+        <span class="n">AN4</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN4</span>
+        <span class="n">AN5</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN5</span>
+        <span class="n">AN6</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN6</span>
+        <span class="n">AN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN</span>
+        <span class="n">FRAC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">FRAC</span><span class="c">#(6)  </span>
+        <span class="c">#COMMON/COMP/=conf.#COMMON/COMP/</span>
+        <span class="n">LCMP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LCMP</span>
+        <span class="n">LCFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LCFLG</span>
+        <span class="n">LRAY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LRAY</span>
+        <span class="n">LRFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LRFLG</span>
+        <span class="n">LPAP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LPAP</span>
+        <span class="n">LPFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LPFLG</span>
+        <span class="n">LBRM</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LBRM</span>
+        <span class="n">LBFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LBFLG</span>
+        <span class="n">LPEFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LPEFLG</span>
+        <span class="c">#COMMON/ABBS/=conf.#COMMON/ABBS/</span>
+        <span class="n">ABSXRAY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ABSXRAY</span>             
+        <span class="c">#COMMON/INPT/=conf.#COMMON/INPT/</span>
+        <span class="n">NGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NGAS</span>
+        <span class="n">NSTEP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NSTEP</span>
+        <span class="n">NANISO</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NANISO</span>
+        <span class="n">EFINAL</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EFINAL</span>
+        <span class="n">ESTEP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ESTEP</span>
+        <span class="n">AKT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AKT</span>
+        <span class="n">ARY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ARY</span>
+        <span class="n">TEMPC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TEMPC</span>
+        <span class="n">TORR</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TORR</span>
+        <span class="n">IPEN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IPEN</span>
+        <span class="c">#COMMON/MIXC/=conf.#COMMON/MIXC/</span>
+        <span class="n">PRS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">PRSH</span><span class="c">#(6,3,17,17)</span>
+        <span class="n">ESH</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ESH</span><span class="c">#(6,3,17)</span>
+        <span class="n">AUG17</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AUG</span><span class="c">#(6,3,17,17,17)</span>
+        <span class="n">RAD</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">RAD</span><span class="c">#(6,3,17,17)</span>
+        <span class="n">PRSHBT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">PRSHBT</span><span class="c">#(6,3,17)</span>
+        <span class="n">IZ</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IZ</span><span class="c">#(6,3)</span>
+        <span class="n">INIOCC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">INIOCC</span><span class="c">#(6,3,17)</span>
+        <span class="n">ISHLMX</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ISHLMX</span><span class="c">#(6,3)</span>
+        <span class="n">AMZ</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AMZ</span><span class="c">#(6,3)</span>
+        <span class="c">#COMMON/MIXPE/=conf.#COMMON/MIXPE/</span>
+        <span class="n">XPE</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">XPE</span><span class="c">#(6,3,17,60)</span>
+        <span class="n">YPE</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">YPE</span><span class="c">#(6,3,17,60)</span>
+        <span class="c">#COMMON/MIXCN/=conf.#COMMON/MIXCN/</span>
+        <span class="n">XEN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">XEN</span><span class="c">#(6,3,54)</span>
+        <span class="n">YRY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">YRY</span><span class="c">#(6,3,54)</span>
+        <span class="n">YCP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">YCP</span><span class="c">#(6,3,54)</span>
+        <span class="n">YPP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">YPP</span><span class="c">#(6,3,54)</span>
+        <span class="nb">globals</span><span class="p">()</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">locals</span><span class="p">())</span>
+    <span class="n">get_globals</span><span class="p">()</span>
+    <span class="c"># DIMENSION </span>
+    <span class="n">XSEC</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">306</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">XSECC</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">18</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">XSECR</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">18</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">XSECP</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">18</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">ANGAS</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">6</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">ABSL</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">306</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">ABSLC</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">18</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">ABSLR</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">18</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">ABSLP</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">18</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">XSUM</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">360</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">update_globals</span><span class="p">():</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN1</span><span class="o">=</span><span class="n">AN1</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN2</span><span class="o">=</span><span class="n">AN2</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN3</span><span class="o">=</span><span class="n">AN3</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN4</span><span class="o">=</span><span class="n">AN4</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN5</span><span class="o">=</span><span class="n">AN5</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN6</span><span class="o">=</span><span class="n">AN6</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AN</span><span class="o">=</span><span class="n">AN</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">FRAC</span><span class="o">=</span><span class="n">FRAC</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LCMP</span><span class="o">=</span><span class="n">LCMP</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LCFLG</span><span class="o">=</span><span class="n">LCFLG</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LRAY</span><span class="o">=</span><span class="n">LRAY</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LRFLG</span><span class="o">=</span><span class="n">LRFLG</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LPAP</span><span class="o">=</span><span class="n">LPAP</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LPFLG</span><span class="o">=</span><span class="n">LPFLG</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LBRM</span><span class="o">=</span><span class="n">LBRM</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LBFLG</span><span class="o">=</span><span class="n">LBFLG</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">LPEFLG</span><span class="o">=</span><span class="n">LPEFLG</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">ABSXRAY</span><span class="o">=</span><span class="n">ABSXRAY</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">NGAS</span><span class="o">=</span><span class="n">NGAS</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">NSTEP</span><span class="o">=</span><span class="n">NSTEP</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">NANISO</span><span class="o">=</span><span class="n">NANISO</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">EFINAL</span><span class="o">=</span><span class="n">EFINAL</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">ESTEP</span><span class="o">=</span><span class="n">ESTEP</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AKT</span><span class="o">=</span><span class="n">AKT</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">ARY</span><span class="o">=</span><span class="n">ARY</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">TEMPC</span><span class="o">=</span><span class="n">TEMPC</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">TORR</span><span class="o">=</span><span class="n">TORR</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">IPEN</span><span class="o">=</span><span class="n">IPEN</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">PRSH</span><span class="o">=</span><span class="n">PRS</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">ESH</span><span class="o">=</span><span class="n">ESH</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AUG</span><span class="o">=</span><span class="n">AUG17</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">RAD</span><span class="o">=</span><span class="n">RAD</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">PRSHBT</span><span class="o">=</span><span class="n">PRSHBT</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">IZ</span><span class="o">=</span><span class="n">IZ</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">INIOCC</span><span class="o">=</span><span class="n">INIOCC</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">ISHLMX</span><span class="o">=</span><span class="n">ISHLMX</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">AMZ</span><span class="o">=</span><span class="n">AMZ</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">XPE</span><span class="o">=</span><span class="n">XPE</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">YPE</span><span class="o">=</span><span class="n">YPE</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">XEN</span><span class="o">=</span><span class="n">XEN</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">YRY</span><span class="o">=</span><span class="n">YRY</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">YCP</span><span class="o">=</span><span class="n">YCP</span>
+        <span class="n">conf</span><span class="o">.</span><span class="n">YPP</span><span class="o">=</span><span class="n">YPP</span>
+    <span class="c">#******************************************************************</span>
+    <span class="c"># FOR PHOTON ENERGY EPH CALCULATES INTERACTION DISTANCE WITH</span>
+    <span class="c">#  GAS IDENTITY,KGAS . IF MOLECULAR GAS ALSO IDENTIFIES THE </span>
+    <span class="c">#  ATOMIC COMPONENT OF THE MOLECULE  LGAS. </span>
+    <span class="c">#  IF PHOTOELECTRIC ABSORPTION CALCULATES ABSORPTION SHELL, ISHELL</span>
+    <span class="c"># AND SETS PHOTOELECTRIC FLAG,LPEFLG=1. </span>
+    <span class="c"># IF COMPTON RAYLEIGH OR PAIR PRODUCTION ALLOWED : CALCULATES</span>
+    <span class="c"># KGAS , LGAS AND SETS COMPTON RAYLEIGH OR PAIR PRODUCTION FLAGS.</span>
+    <span class="c">#****************************************************************** </span>
+    <span class="n">ANGAS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">AN1</span>
+    <span class="n">ANGAS</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">AN2</span>
+    <span class="n">ANGAS</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">=</span><span class="n">AN3</span>
+    <span class="n">ANGAS</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">=</span><span class="n">AN4</span>
+    <span class="n">ANGAS</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">=</span><span class="n">AN5</span>
+    <span class="n">ANGAS</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">=</span><span class="n">AN6</span>
+    <span class="n">LCFLG</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">LRFLG</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">LPFLG</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">LPEFLG</span><span class="o">=</span><span class="mi">0</span>
+    <span class="c"># CALCULATE PE X-SECTION FOR EACH GAS AND FIND ABS LENGTH </span>
+    <span class="n">EPHLG</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">EPH</span><span class="p">)</span>
+    <span class="n">IPT</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">J1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">17</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="o">+</span><span class="mi">1</span>
+                <span class="n">XSEC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="n">ABSL</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">J</span> <span class="o">&gt;</span> <span class="n">ISHLMX</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">)):</span>
+                    <span class="c"># GO TO 1</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;</span> <span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                    <span class="c"># GO TO 1</span>
+                    <span class="k">continue</span>
+                <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">60</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;=</span> <span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="p">])</span> <span class="p">:</span>
+                        <span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">YPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                        <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">YPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">*</span><span class="n">YPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">XPE</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">J</span><span class="p">][</span><span class="n">K</span><span class="p">])</span>
+                        <span class="n">XSEC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span>
+                        <span class="n">ABSL</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">XSEC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">[</span><span class="n">I</span><span class="p">]</span>
+                        <span class="k">break</span>
+                    <span class="c"># endif</span>
+    <span class="c"># CALCULATE COMPTON X-SECTION FOR EACH GAS AND FIND ABS LENGTH</span>
+    <span class="n">IPT</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">J1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">XSECC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="n">ABSLC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="c"># USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE </span>
+            <span class="k">if</span><span class="p">(</span><span class="n">JF</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">JF</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="c"># GO TO 30</span>
+                <span class="k">continue</span>
+            <span class="c"># ONLY USE PE X-SECTION</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c"># GO TO 30</span>
+                <span class="k">continue</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;</span> <span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="c"># GO TO 30</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">54</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;=</span> <span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">])</span> <span class="p">:</span>
+                    <span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YCP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">YCP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">YCP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">*</span><span class="n">YCP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">])</span>
+                    <span class="n">XSECC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span>
+                    <span class="n">ABSLC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">XSECC</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">[</span><span class="n">I</span><span class="p">]</span>
+                    <span class="c"># GO TO 30 </span>
+                    <span class="k">break</span>
+                <span class="c"># endif</span>
+            <span class="c"># 30 CONTINUE</span>
+    <span class="c"># CALCULATE RAYLEIGH X-SECTION FOR EACH GAS AND FIND ABS LENGTH</span>
+    <span class="n">IPT</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">J1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">XSECR</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="n">ABSLR</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="c"># USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE </span>
+            <span class="k">if</span><span class="p">(</span><span class="n">JF</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">JF</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="c"># GO TO 40</span>
+                <span class="k">continue</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LRAY</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c"># GO TO 40</span>
+                <span class="k">continue</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;</span> <span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="c"># GO TO 40</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">54</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;=</span> <span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">])</span> <span class="p">:</span>
+                    <span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YRY</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">YRY</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">YRY</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">*</span><span class="n">YRY</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">])</span>
+                    <span class="n">XSECR</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span>
+                    <span class="n">ABSLR</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">XSECR</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">[</span><span class="n">I</span><span class="p">]</span>
+                    <span class="c"># GO TO 40</span>
+                    <span class="k">break</span>
+                <span class="c"># endif</span>
+            <span class="c"># 40 CONTINUE   </span>
+    <span class="c"># CALCULATE PAIR PRODUCTION X-SECTION FOR EACH GAS AND FIND ABS LENGTH </span>
+    <span class="n">IPT</span><span class="o">=</span><span class="mi">0</span>
+    <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">J1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">XSECP</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="n">ABSLP</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="c"># USE ONLY PE X-SECTION FOR SECOND STAGE FLUORESCENCE </span>
+            <span class="k">if</span><span class="p">(</span><span class="n">JF</span> <span class="o">==</span> <span class="mi">3</span> <span class="ow">or</span> <span class="n">JF</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="c"># GO TO 50</span>
+                <span class="k">continue</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LPAP</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="c"># GO TO 50</span>
+                <span class="k">continue</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;</span> <span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="c"># GO TO 50</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">54</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">EPHLG</span> <span class="o">&lt;=</span> <span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">])</span> <span class="p">:</span>
+                    <span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YPP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">YPP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">YPP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">]</span><span class="o">*</span><span class="n">YPP</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">XEN</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="n">J1</span><span class="p">][</span><span class="n">K</span><span class="p">])</span>
+                    <span class="n">XSECP</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span>
+                    <span class="n">ABSLP</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">=</span><span class="n">XSECP</span><span class="p">[</span><span class="n">IPT</span><span class="p">]</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">[</span><span class="n">I</span><span class="p">]</span>
+                    <span class="c"># GO TO 50</span>
+                    <span class="k">break</span>
+                <span class="c"># endif</span>
+                <span class="c"># 49 CONTINUE</span>
+            <span class="c"># 50 CONTINUE   </span>
+    <span class="c"># FORM CUMULATIVE SUMS </span>
+    <span class="n">IFIN</span><span class="o">=</span><span class="n">NGAS</span><span class="o">*</span><span class="mi">17</span><span class="o">*</span><span class="mi">3</span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">IFIN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">XSEC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSEC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">XSEC</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ABSL</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">ABSL</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">ABSL</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">IFINR</span><span class="o">=</span><span class="n">NGAS</span><span class="o">*</span><span class="mi">3</span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">XSECC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSECC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">XSECC</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ABSLC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">ABSLC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">ABSLC</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">XSECR</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSECR</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">XSECR</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ABSLR</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">ABSLR</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">ABSLR</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">XSECP</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSECP</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">XSECP</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">ABSLP</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">ABSLP</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">+</span><span class="n">ABSLP</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># TOTAL X-SECTION</span>
+    <span class="n">XSECT</span><span class="o">=</span><span class="n">XSEC</span><span class="p">[</span><span class="n">IFIN</span><span class="p">]</span><span class="o">+</span><span class="n">XSECC</span><span class="p">[</span><span class="n">IFINR</span><span class="p">]</span><span class="o">+</span><span class="n">XSECR</span><span class="p">[</span><span class="n">IFINR</span><span class="p">]</span><span class="o">+</span><span class="n">XSECP</span><span class="p">[</span><span class="n">IFINR</span><span class="p">]</span>
+    <span class="c"># TOTAL ABS LENGTH</span>
+    <span class="n">ABSTOT</span><span class="o">=</span><span class="n">ABSL</span><span class="p">[</span><span class="n">IFIN</span><span class="p">]</span><span class="o">+</span><span class="n">ABSLR</span><span class="p">[</span><span class="n">IFINR</span><span class="p">]</span><span class="o">+</span><span class="n">ABSLC</span><span class="p">[</span><span class="n">IFINR</span><span class="p">]</span><span class="o">+</span><span class="n">ABSLP</span><span class="p">[</span><span class="n">IFINR</span><span class="p">]</span>
+    <span class="c"># CALCULATE ABSORPTION DISTANCE IN METRES AND RETURN</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">JF</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="n">DIST</span><span class="o">=</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">ABSTOT</span><span class="o">*</span><span class="mf">100.0</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="c"># endif</span>
+    <span class="c"># CALCULATE ABSORPTION DISTANCE IN MICRONS</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">JF</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ABSTOT</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="n">ABSXRAY</span><span class="o">=</span><span class="mf">1.0e4</span><span class="o">/</span><span class="n">ABSTOT</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ABSTOT</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="n">ABSXRAY</span><span class="o">=</span><span class="mf">1.0e15</span>
+        <span class="k">return</span>
+    <span class="c"># endif</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">ABSTOT</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+        <span class="c"># PHOTON TOO LOW ENERGY TO IONISE SET ISHELL=-1</span>
+        <span class="n">ISHELL</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="k">return</span>
+    <span class="c"># endif</span>
+    <span class="c"># NORMALISE TO 1 </span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFIN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">XSEC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSEC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">/</span><span class="n">XSECT</span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">XSECC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSECC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">/</span><span class="n">XSECT</span>
+        <span class="n">XSECR</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSECR</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">/</span><span class="n">XSECT</span>
+        <span class="n">XSECP</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSECP</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">/</span><span class="n">XSECT</span>
+    <span class="c"># FORM SUM X-SECTION FOR SAMPLING ARRAY </span>
+    <span class="c"># P.E.</span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFIN</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">XSUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSEC</span><span class="p">[</span><span class="n">J</span><span class="p">]</span>
+    <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c"># GO TO 145 </span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># COMPTON</span>
+        <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ISTART</span><span class="p">,</span><span class="n">IEND</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">XSUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSUM</span><span class="p">[</span><span class="n">ISTART</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">XSECC</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="n">ISTART</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> 
+    <span class="c"># 145 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LRAY</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c"># GO TO 155</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># RAYLEIGH</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="c"># endif</span>
+        <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ISTART</span><span class="p">,</span><span class="n">IEND</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">XSUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSUM</span><span class="p">[</span><span class="n">ISTART</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">XSECR</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="n">ISTART</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># 155 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LPAP</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c"># GO TO 165</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># PAIR PRODUCTION</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">LRAY</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">LRAY</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">LRAY</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">LRAY</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">1</span>
+            <span class="n">IEND</span><span class="o">=</span><span class="n">ISTART</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="k">print</span><span class="p">(</span><span class="s">' ERROR IN FUNCTION ABSO FLAG NOT CORRECT'</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+        <span class="c"># endif</span>
+        <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ISTART</span><span class="p">,</span><span class="n">IEND</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">XSUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="n">XSUM</span><span class="p">[</span><span class="n">ISTART</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">XSECP</span><span class="p">[</span><span class="n">J</span><span class="o">-</span><span class="n">ISTART</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c"># 165 CONTINUE </span>
+    <span class="c"># FIND GAS AND SHELL</span>
+    <span class="n">R1</span><span class="o">=</span><span class="n">DRAND48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IEND</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">XSUM</span><span class="p">[</span><span class="n">J</span><span class="p">]</span><span class="o">&lt;</span> <span class="n">R1</span><span class="p">):</span>
+            <span class="c"># GO TO 4</span>
+            <span class="k">continue</span>
+        <span class="n">ID</span><span class="o">=</span><span class="n">J</span>
+        <span class="c"># GO TO 5</span>
+        <span class="k">break</span>
+    <span class="c"># 4 CONTINUE</span>
+    <span class="c"># LOCATE GAS AND SHELL</span>
+    <span class="c"># 5 </span>
+    <span class="n">flag200</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">IPET</span><span class="o">=</span><span class="n">NGAS</span><span class="o">*</span><span class="mi">3</span><span class="o">*</span><span class="mi">17</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&gt;</span> <span class="n">IPET</span><span class="p">):</span>
+        <span class="c"># GO TO 22</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># PHOTO ELECTRIC</span>
+        <span class="n">LPEFLG</span><span class="o">=</span><span class="mi">1</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">51</span><span class="p">):</span>
+            <span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">17</span><span class="p">):</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">34</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">17</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">34</span>
+            <span class="c"># endif</span>
+            <span class="c"># GO TO 12      </span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">102</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">68</span><span class="p">):</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">51</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">85</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">68</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">85</span>
+            <span class="c"># endif</span>
+            <span class="c"># GO TO 12</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">153</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">119</span><span class="p">):</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">102</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">136</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">119</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">136</span>
+            <span class="c"># endif</span>
+            <span class="c"># GO TO 12</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">204</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">170</span><span class="p">):</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">153</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">187</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">170</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">187</span>
+            <span class="c"># endif</span>
+            <span class="c"># GO TO 12</span>
+        <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">255</span><span class="p">)</span> <span class="p">:</span>
+            <span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">221</span><span class="p">):</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">204</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">238</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">221</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">238</span>
+            <span class="c"># endif</span>
+            <span class="c"># GO TO 12</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">272</span><span class="p">):</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">255</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="mi">289</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">272</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="mi">289</span>
+            <span class="c"># endif</span>
+        <span class="c"># endif</span>
+        <span class="c"># 12 CONTINUE</span>
+        <span class="n">flag200</span><span class="o">=</span><span class="mi">1</span>
+        <span class="c"># COMPTON RAYLEIGH OR PAIR PRODUCTION</span>
+    <span class="c"># 22 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">flag200</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ISHELL</span><span class="o">=</span><span class="mi">0</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="p">))</span> <span class="p">:</span>
+            <span class="c"># COMPTON RAYLEIGH OR PAIR PRODUCTION.   SET :  FLAG KGAS LGAS</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">LCFLG</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">LRAY</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">LRFLG</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">LRAY</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                <span class="n">LPFLG</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="mi">3</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span> <span class="p">:</span> 
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="mi">6</span> 
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">12</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="mi">9</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="mi">12</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="mi">15</span>
+        <span class="c"># endif</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">IFINR</span><span class="p">)</span> <span class="p">:</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LRAY</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">LRFLG</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">LRAY</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">LPAP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">LPFLG</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">3</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span> <span class="p">:</span> 
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">6</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">12</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">9</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">12</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">15</span>
+            <span class="c"># endif</span>
+        <span class="k">else</span><span class="p">:</span> 
+            <span class="n">LPFLG</span><span class="o">=</span><span class="mi">1</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">IFINR</span><span class="p">):</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">3</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">9</span><span class="p">)</span> <span class="p">:</span> 
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">6</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">12</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">9</span>
+            <span class="k">elif</span><span class="p">(</span><span class="n">ID</span> <span class="o">&lt;=</span> <span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="mi">15</span><span class="p">)</span> <span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">12</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span>
+                <span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="mi">15</span>
+            <span class="c"># endif</span>
+        <span class="c"># endif</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">ID</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">IPET</span><span class="o">+</span><span class="mi">54</span><span class="p">))</span> <span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">' IDENTifIER IN FUNCTION ABSO IS GT LIMIT ID='</span><span class="p">,</span><span class="n">ID</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">    def STOPPED:'</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+        <span class="c"># endif</span>
+    <span class="c"># 200 CONTINUE</span>
+    <span class="c"># CALCULATE ABSORPTION DISTANCE PER EVENT IN METRES</span>
+    <span class="n">R1</span><span class="o">=</span><span class="n">DRAND48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span>  
+    <span class="n">DIST</span><span class="o">=-</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">R1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">ABSTOT</span><span class="o">*</span><span class="mf">100.0</span><span class="p">)</span>
+    <span class="k">return</span>
+    <span class="c"># end</span>
+</code></pre><pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">JF</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">DIST</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">RATIO</span><span class="p">/</span><span class="n">AN1</span><span class="p">,</span><span class="n">AN2</span><span class="p">,</span><span class="n">AN3</span><span class="p">,</span><span class="n">AN4</span><span class="p">,</span><span class="n">AN5</span><span class="p">,</span><span class="n">AN6</span><span class="p">,</span><span class="n">AN</span><span class="p">,</span><span class="n">FRAC</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">  
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COMP</span><span class="p">/</span><span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">ABBS</span><span class="p">/</span><span class="n">ABSXRAY</span><span class="w">             
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">INPT</span><span class="p">/</span><span class="n">NGAS</span><span class="p">,</span><span class="n">NSTEP</span><span class="p">,</span><span class="n">NANISO</span><span class="p">,</span><span class="n">EFINAL</span><span class="p">,</span><span class="n">ESTEP</span><span class="p">,</span><span class="n">AKT</span><span class="p">,</span><span class="n">ARY</span><span class="p">,</span><span class="n">TEMPC</span><span class="p">,</span><span class="n">TORR</span><span class="p">,</span><span class="n">IPEN</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">MIXC</span><span class="p">/</span><span class="n">PRSH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">ESH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">AUG</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">RAD</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">PRSHBT</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">IZ</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">INIOCC</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">ISHLMX</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">AMZ</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">MIXPE</span><span class="p">/</span><span class="n">XPE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">60</span><span class="p">),</span><span class="n">YPE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">MIXCN</span><span class="p">/</span><span class="n">XEN</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">54</span><span class="p">),</span><span class="n">YRY</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">54</span><span class="p">),</span><span class="n">YCP</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">54</span><span class="p">),</span><span class="n">YPP</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">54</span><span class="p">)</span><span class="w">
+      </span><span class="k">DIMENSION</span><span class="w"> </span><span class="n">XSEC</span><span class="p">(</span><span class="mi">306</span><span class="p">),</span><span class="n">XSECC</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span><span class="n">XSECR</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span><span class="n">XSECP</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="n">ABSL</span><span class="p">(</span><span class="mi">306</span><span class="p">),</span><span class="n">ABSLC</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span><span class="n">ABSLR</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span><span class="n">ABSLP</span><span class="p">(</span><span class="mi">18</span><span class="p">),</span><span class="n">XSUM</span><span class="p">(</span><span class="mi">360</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="o">******************************************************************</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">EPH</span><span class="w"> </span><span class="n">CALCULATES</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> </span><span class="n">DISTANCE</span><span class="w"> </span><span class="n">WITH</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">GAS</span><span class="w"> </span><span class="n">IDENTITY</span><span class="p">,</span><span class="n">KGAS</span><span class="w"> </span><span class="err">.</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="n">MOLECULAR</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">ALSO</span><span class="w"> </span><span class="n">IDENTIFIES</span><span class="w"> </span><span class="n">THE</span><span class="w"> 
+</span><span class="n">C</span><span class="w">  </span><span class="n">ATOMIC</span><span class="w"> </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">THE</span><span class="w"> </span><span class="n">MOLECULE</span><span class="w">  </span><span class="n">LGAS</span><span class="err">.</span><span class="w"> 
+</span><span class="n">C</span><span class="w">  </span><span class="k">IF</span><span class="w"> </span><span class="n">PHOTOELECTRIC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">CALCULATES</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">SHELL</span><span class="p">,</span><span class="w"> </span><span class="n">ISHELL</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">SETS</span><span class="w"> </span><span class="n">PHOTOELECTRIC</span><span class="w"> </span><span class="n">FLAG</span><span class="p">,</span><span class="n">LPEFLG</span><span class="o">=</span><span class="mf">1.</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">OR</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w"> </span><span class="n">ALLOWED</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">CALCULATES</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">KGAS</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">LGAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">SETS</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">OR</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w"> </span><span class="n">FLAGS</span><span class="err">.</span><span class="w">
+</span><span class="n">C</span><span class="o">******************************************************************</span><span class="w"> 
+      </span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">AN1</span><span class="w">
+      </span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">AN2</span><span class="w">
+      </span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">=</span><span class="n">AN3</span><span class="w">
+      </span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">=</span><span class="n">AN4</span><span class="w">
+      </span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span><span class="o">=</span><span class="n">AN5</span><span class="w">
+      </span><span class="n">ANGAS</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="o">=</span><span class="n">AN6</span><span class="w">
+      </span><span class="n">LCFLG</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">LRFLG</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">LPFLG</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">LPEFLG</span><span class="o">=</span><span class="mi">0</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">EACH</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">FIND</span><span class="w"> </span><span class="nb">ABS</span><span class="w"> </span><span class="n">LENGTH</span><span class="w"> 
+      </span><span class="n">EPHLG</span><span class="o">=</span><span class="n">DLOG</span><span class="p">(</span><span class="n">EPH</span><span class="p">)</span><span class="w">
+      </span><span class="n">IPT</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">J1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">17</span><span class="w">
+      </span><span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="mi">+1</span><span class="w">
+      </span><span class="n">XSEC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ABSL</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">J</span><span class="ow">.GT.</span><span class="n">ISHLMX</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">))</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LT.</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">60</span><span class="w"> 
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LE.</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">YPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/(</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))</span><span class="w">
+       </span><span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">*</span><span class="n">YPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">*</span><span class="n">YPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/</span><span class="w">
+     </span><span class="p">/(</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">-</span><span class="n">XPE</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">J</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w">
+       </span><span class="n">XSEC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">DEXP</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span><span class="w">
+       </span><span class="n">ABSL</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">XSEC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+   </span><span class="mi">11</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+    </span><span class="mi">1</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">EACH</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">FIND</span><span class="w"> </span><span class="nb">ABS</span><span class="w"> </span><span class="n">LENGTH</span><span class="w">
+      </span><span class="n">IPT</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">30</span><span class="w"> </span><span class="n">J1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="w">   
+      </span><span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="mi">+1</span><span class="w">
+      </span><span class="n">XSECC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ABSLC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="k">ONLY</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">SECOND</span><span class="w"> </span><span class="n">STAGE</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> 
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">JF</span><span class="ow">.EQ.</span><span class="mf">3.</span><span class="n">OR</span><span class="ow">.JF.</span><span class="n">EQ</span><span class="mf">.2</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">30</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">ONLY</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.NE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">30</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LT.</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">30</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">29</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">54</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LE.</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YCP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">YCP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))</span><span class="w">
+       </span><span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">*</span><span class="n">YCP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">*</span><span class="n">YCP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/</span><span class="w">
+     </span><span class="p">/(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w">
+       </span><span class="n">XSECC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">DEXP</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span><span class="w">
+       </span><span class="n">ABSLC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">XSECC</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">30</span><span class="w"> 
+      </span><span class="k">ENDIF</span><span class="w">
+   </span><span class="mi">29</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+   </span><span class="mi">30</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">EACH</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">FIND</span><span class="w"> </span><span class="nb">ABS</span><span class="w"> </span><span class="n">LENGTH</span><span class="w">
+      </span><span class="n">IPT</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="n">J1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="w">   
+      </span><span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="mi">+1</span><span class="w">
+      </span><span class="n">XSECR</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ABSLR</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="k">ONLY</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">SECOND</span><span class="w"> </span><span class="n">STAGE</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> 
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">JF</span><span class="ow">.EQ.</span><span class="mf">3.</span><span class="n">OR</span><span class="ow">.JF.</span><span class="n">EQ</span><span class="mf">.2</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">40</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LRAY</span><span class="ow">.NE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">40</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LT.</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">40</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">39</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">54</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LE.</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YRY</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">YRY</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))</span><span class="w">
+       </span><span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">*</span><span class="n">YRY</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">*</span><span class="n">YRY</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/</span><span class="w">
+     </span><span class="p">/(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w">
+       </span><span class="n">XSECR</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">DEXP</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span><span class="w">
+       </span><span class="n">ABSLR</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">XSECR</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">40</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+   </span><span class="mi">39</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+   </span><span class="mi">40</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">   
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">EACH</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">FIND</span><span class="w"> </span><span class="nb">ABS</span><span class="w"> </span><span class="n">LENGTH</span><span class="w"> 
+      </span><span class="n">IPT</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">50</span><span class="w"> </span><span class="n">J1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="w">
+      </span><span class="n">IPT</span><span class="o">=</span><span class="n">IPT</span><span class="mi">+1</span><span class="w">
+      </span><span class="n">XSECP</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ABSLP</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="k">ONLY</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">SECOND</span><span class="w"> </span><span class="n">STAGE</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> 
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">JF</span><span class="ow">.EQ.</span><span class="mf">3.</span><span class="n">OR</span><span class="ow">.JF.</span><span class="n">EQ</span><span class="mf">.2</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">50</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LPAP</span><span class="ow">.NE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">50</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LT.</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">50</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">49</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="mi">54</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPHLG</span><span class="ow">.LE.</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">YPP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">YPP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))</span><span class="w">
+       </span><span class="n">B</span><span class="o">=</span><span class="p">(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">*</span><span class="n">YPP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="o">*</span><span class="n">YPP</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">))/</span><span class="w">
+     </span><span class="p">/(</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="mi">-1</span><span class="p">)</span><span class="o">-</span><span class="n">XEN</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J1</span><span class="p">,</span><span class="n">K</span><span class="p">))</span><span class="w">
+       </span><span class="n">XSECP</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">DEXP</span><span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">EPHLG</span><span class="o">+</span><span class="n">B</span><span class="p">)</span><span class="w">
+       </span><span class="n">ABSLP</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">=</span><span class="n">XSECP</span><span class="p">(</span><span class="n">IPT</span><span class="p">)</span><span class="o">*</span><span class="n">ANGAS</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">50</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+   </span><span class="mi">49</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+   </span><span class="mi">50</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">   
+</span><span class="n">C</span><span class="w"> </span><span class="n">FORM</span><span class="w"> </span><span class="n">CUMULATIVE</span><span class="w"> </span><span class="n">SUMS</span><span class="w"> 
+      </span><span class="n">IFIN</span><span class="o">=</span><span class="n">NGAS</span><span class="o">*</span><span class="mi">17</span><span class="o">*</span><span class="mi">3</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">IFIN</span><span class="w">
+      </span><span class="n">XSEC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSEC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">XSEC</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+      </span><span class="n">ABSL</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">ABSL</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">ABSL</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+    </span><span class="mi">2</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w"> 
+      </span><span class="n">IFINR</span><span class="o">=</span><span class="n">NGAS</span><span class="o">*</span><span class="mi">3</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">110</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">IFINR</span><span class="w">
+      </span><span class="n">XSECC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSECC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">XSECC</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+      </span><span class="n">ABSLC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">ABSLC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">ABSLC</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+      </span><span class="n">XSECR</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSECR</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">XSECR</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+      </span><span class="n">ABSLR</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">ABSLR</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">ABSLR</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+      </span><span class="n">XSECP</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSECP</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">XSECP</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+      </span><span class="n">ABSLP</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">ABSLP</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">+</span><span class="n">ABSLP</span><span class="p">(</span><span class="n">J</span><span class="mi">-1</span><span class="p">)</span><span class="w">
+  </span><span class="mi">110</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">TOTAL</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w">
+      </span><span class="n">XSECT</span><span class="o">=</span><span class="n">XSEC</span><span class="p">(</span><span class="n">IFIN</span><span class="p">)</span><span class="o">+</span><span class="n">XSECC</span><span class="p">(</span><span class="n">IFINR</span><span class="p">)</span><span class="o">+</span><span class="n">XSECR</span><span class="p">(</span><span class="n">IFINR</span><span class="p">)</span><span class="o">+</span><span class="n">XSECP</span><span class="p">(</span><span class="n">IFINR</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">TOTAL</span><span class="w"> </span><span class="nb">ABS</span><span class="w"> </span><span class="n">LENGTH</span><span class="w">
+      </span><span class="n">ABSTOT</span><span class="o">=</span><span class="n">ABSL</span><span class="p">(</span><span class="n">IFIN</span><span class="p">)</span><span class="o">+</span><span class="n">ABSLR</span><span class="p">(</span><span class="n">IFINR</span><span class="p">)</span><span class="o">+</span><span class="n">ABSLC</span><span class="p">(</span><span class="n">IFINR</span><span class="p">)</span><span class="o">+</span><span class="n">ABSLP</span><span class="p">(</span><span class="n">IFINR</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">DISTANCE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">METRES</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">JF</span><span class="ow">.EQ.</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">DIST</span><span class="o">=</span><span class="mf">1.0</span><span class="p">/(</span><span class="n">ABSTOT</span><span class="o">*</span><span class="mf">100.0</span><span class="p">)</span><span class="w">
+       </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">DISTANCE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">MICRONS</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">JF</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ABSTOT</span><span class="ow">.GT.</span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="n">ABSXRAY</span><span class="o">=</span><span class="mf">1.0D4</span><span class="p">/</span><span class="n">ABSTOT</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ABSTOT</span><span class="ow">.EQ.</span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="n">ABSXRAY</span><span class="o">=</span><span class="mf">1.0D15</span><span class="w">
+       </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ABSTOT</span><span class="ow">.EQ.</span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">TOO</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">IONISE</span><span class="w"> </span><span class="n">SET</span><span class="w"> </span><span class="n">ISHELL</span><span class="o">=</span><span class="mi">-1</span><span class="w">
+       </span><span class="n">ISHELL</span><span class="o">=</span><span class="mi">-1</span><span class="w">
+       </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">NORMALISE</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w"> 
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFIN</span><span class="w">
+      </span><span class="n">XSEC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSEC</span><span class="p">(</span><span class="n">J</span><span class="p">)/</span><span class="n">XSECT</span><span class="w">
+    </span><span class="mi">3</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">120</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFINR</span><span class="w">
+      </span><span class="n">XSECC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSECC</span><span class="p">(</span><span class="n">J</span><span class="p">)/</span><span class="n">XSECT</span><span class="w">
+      </span><span class="n">XSECR</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSECR</span><span class="p">(</span><span class="n">J</span><span class="p">)/</span><span class="n">XSECT</span><span class="w">
+      </span><span class="n">XSECP</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSECP</span><span class="p">(</span><span class="n">J</span><span class="p">)/</span><span class="n">XSECT</span><span class="w">
+  </span><span class="mi">120</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">FORM</span><span class="w"> </span><span class="nb">SUM</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">SECTION</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">SAMPLING</span><span class="w"> </span><span class="n">ARRAY</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">P</span><span class="ow">.E.</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">130</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFIN</span><span class="w">
+      </span><span class="n">XSUM</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSEC</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="w">
+  </span><span class="mi">130</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.NE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">145</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">COMPTON</span><span class="w">
+      </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="mi">+1</span><span class="w">
+      </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">140</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="n">ISTART</span><span class="p">,</span><span class="n">IEND</span><span class="w">
+      </span><span class="n">XSUM</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSUM</span><span class="p">(</span><span class="n">ISTART</span><span class="mi">-1</span><span class="p">)</span><span class="o">+</span><span class="n">XSECC</span><span class="p">(</span><span class="n">J</span><span class="o">-</span><span class="n">ISTART</span><span class="mi">+1</span><span class="p">)</span><span class="w"> 
+  </span><span class="mi">140</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+  </span><span class="mi">145</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">LRAY</span><span class="ow">.NE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">155</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+       </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="mi">+1</span><span class="w">
+       </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+1</span><span class="w">
+       </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">150</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="n">ISTART</span><span class="p">,</span><span class="n">IEND</span><span class="w">
+      </span><span class="n">XSUM</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSUM</span><span class="p">(</span><span class="n">ISTART</span><span class="mi">-1</span><span class="p">)</span><span class="o">+</span><span class="n">XSECR</span><span class="p">(</span><span class="n">J</span><span class="o">-</span><span class="n">ISTART</span><span class="mi">+1</span><span class="p">)</span><span class="w">
+  </span><span class="mi">150</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+  </span><span class="mi">155</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">LPAP</span><span class="ow">.NE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">165</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mf">0.</span><span class="n">AND</span><span class="ow">.LRAY.</span><span class="n">EQ</span><span class="mf">.0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="mi">+1</span><span class="w">
+       </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mf">0.</span><span class="n">AND</span><span class="ow">.LRAY.</span><span class="n">EQ</span><span class="mf">.1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+1</span><span class="w">
+       </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mf">1.</span><span class="n">AND</span><span class="ow">.LRAY.</span><span class="n">EQ</span><span class="mf">.0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+1</span><span class="w">
+       </span><span class="n">IEND</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mf">1.</span><span class="n">AND</span><span class="ow">.LRAY.</span><span class="n">EQ</span><span class="mf">.1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">ISTART</span><span class="o">=</span><span class="n">IFIN</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+1</span><span class="w">
+       </span><span class="n">IEND</span><span class="o">=</span><span class="n">ISTART</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> 
+       </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">998</span><span class="p">)</span><span class="w">
+  </span><span class="mi">998</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' ERROR IN SUBROUTINE ABSO FLAG NOT CORRECT'</span><span class="p">)</span><span class="w">
+       </span><span class="k">STOP</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">160</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="n">ISTART</span><span class="p">,</span><span class="n">IEND</span><span class="w">
+      </span><span class="n">XSUM</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="n">XSUM</span><span class="p">(</span><span class="n">ISTART</span><span class="mi">-1</span><span class="p">)</span><span class="o">+</span><span class="n">XSECP</span><span class="p">(</span><span class="n">J</span><span class="o">-</span><span class="n">ISTART</span><span class="mi">+1</span><span class="p">)</span><span class="w">
+  </span><span class="mi">160</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+  </span><span class="mi">165</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">FIND</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">SHELL</span><span class="w">
+      </span><span class="n">R1</span><span class="o">=</span><span class="n">drand48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IEND</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">XSUM</span><span class="p">(</span><span class="n">J</span><span class="p">)</span><span class="ow">.LT.</span><span class="n">R1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">4</span><span class="w">
+       </span><span class="n">ID</span><span class="o">=</span><span class="n">J</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">5</span><span class="w">
+    </span><span class="mi">4</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOCATE</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">SHELL</span><span class="w">
+    </span><span class="mi">5</span><span class="w"> </span><span class="n">IPET</span><span class="o">=</span><span class="n">NGAS</span><span class="o">*</span><span class="mi">3</span><span class="o">*</span><span class="mi">17</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.GT.</span><span class="n">IPET</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">22</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">PHOTO</span><span class="w"> </span><span class="n">ELECTRIC</span><span class="w">
+      </span><span class="n">LPEFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">51</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">17</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">34</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-17</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-34</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">12</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">102</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">68</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-51</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">85</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-68</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-85</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">12</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">153</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">119</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-102</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">136</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-119</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-136</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">12</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">204</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">170</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-153</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">187</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-170</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-187</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">12</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">221</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-204</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">238</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-221</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-238</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">12</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> 
+       </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">272</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-255</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="mi">289</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-272</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">ISHELL</span><span class="o">=</span><span class="n">ID</span><span class="mi">-289</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+   </span><span class="mi">12</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">OR</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w">
+   </span><span class="mi">22</span><span class="w"> </span><span class="n">ISHELL</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="p">(</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">OR</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="err">.</span><span class="w">   </span><span class="n">SET</span><span class="w"> </span><span class="p">:</span><span class="w">  </span><span class="n">FLAG</span><span class="w"> </span><span class="n">KGAS</span><span class="w"> </span><span class="n">LGAS</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">LCFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mf">0.</span><span class="n">AND</span><span class="ow">.LRAY.</span><span class="n">EQ</span><span class="mf">.1</span><span class="p">)</span><span class="w"> </span><span class="n">LRFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mf">0.</span><span class="n">AND</span><span class="ow">.LRAY.</span><span class="n">EQ</span><span class="mf">.0</span><span class="p">)</span><span class="w"> </span><span class="n">LPFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+3</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+6</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="mi">-3</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+9</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="mi">-6</span><span class="w"> 
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+12</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="mi">-9</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+15</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="mi">-12</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="mi">-15</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+2</span><span class="o">*</span><span class="n">IFINR</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">LRAY</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">LRFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">LRAY</span><span class="ow">.EQ.</span><span class="mf">0.</span><span class="n">AND</span><span class="ow">.LPAP.</span><span class="n">EQ</span><span class="mf">.1</span><span class="p">)</span><span class="w"> </span><span class="n">LPFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+3</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+6</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-3</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+9</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-6</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+12</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-9</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+15</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-12</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-15</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> 
+       </span><span class="n">LPFLG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="mi">+3</span><span class="o">*</span><span class="n">IFINR</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">1</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+6</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">2</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-3</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+9</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">3</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-6</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+12</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">4</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-9</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.LE.</span><span class="n">IPET</span><span class="o">+</span><span class="n">IFINR</span><span class="o">+</span><span class="n">IFINR</span><span class="mi">+15</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">5</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-12</span><span class="w">
+       </span><span class="k">ELSE</span><span class="w">
+        </span><span class="n">KGAS</span><span class="o">=</span><span class="mi">6</span><span class="w">
+        </span><span class="n">LGAS</span><span class="o">=</span><span class="n">ID</span><span class="o">-</span><span class="n">IPET</span><span class="o">-</span><span class="n">IFINR</span><span class="o">-</span><span class="n">IFINR</span><span class="mi">-15</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ID</span><span class="ow">.GT.</span><span class="p">(</span><span class="n">IPET</span><span class="mi">+54</span><span class="p">))</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">999</span><span class="p">)</span><span class="w"> </span><span class="n">ID</span><span class="w">
+  </span><span class="mi">999</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' IDENTIFIER IN SUBROUTINE ABSO IS GT LIMIT ID='</span><span class="p">,</span><span class="l">I5</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="s1">'    
+     /PROGRAM STOPPED'</span><span class="p">)</span><span class="w">
+       </span><span class="k">STOP</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+  </span><span class="mi">200</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">DISTANCE</span><span class="w"> </span><span class="n">PER</span><span class="w"> </span><span class="n">EVENT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">METRES</span><span class="w">
+      </span><span class="n">R1</span><span class="o">=</span><span class="n">drand48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span><span class="w">  
+      </span><span class="n">DIST</span><span class="o">=-</span><span class="n">DLOG</span><span class="p">(</span><span class="n">R1</span><span class="p">)/(</span><span class="n">ABSTOT</span><span class="o">*</span><span class="mf">100.0</span><span class="p">)</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w">
+</span></code></pre>

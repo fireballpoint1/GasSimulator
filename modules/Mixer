@@ -2,13 +2,33 @@
 <ul>
 <li>The function fills arrays of collision frequency</li>
 <li>Store counting ionisation X-Section in array CMINIXSC[6] at minimum ionising energy</li>
-<li>Initialisations </li>
-<li>Calculate and store energy grid(X-Ray,Beta or Particles)</li>
-<li>If EFINAL &lt;=20000</li>
-<li>If EFINAL in range(20000,140000)</li>
-<li>Else</li>
+<li>Set angle cuts on angular distribution and renormalize forward scattering probability.</li>
+<li>Can have a mixture of upto 6 gases.</li>
 </ul>
-<pre class="highlight fortran tab-fortran"><code><span class="w">        </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">MIXER</span><span class="w">                                                  
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NONE</td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='pseudo-code'>Pseudo Code</h3>
+<ul>
+<li>Initialisations </li>
+<li>Store couting ionisation X-Section in array <code>CMINIXSC</code> at minimum ionising energy.</li>
+<li>Calculate and store energy grid(X-Ray,Beta or Particles)</li>
+<li>Calls the Gasmix function which in turn calls the Gasn functions which are the characteristic functions for each gas to calculate gas cross-sections</li>
+</ul>
+<pre class="highlight fortran tab-fortran"><code><span class="w">        </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">MIXER</span><span class="w">
         </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
         </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">                                         
         </span><span class="kt">CHARACTER</span><span class="o">*</span><span class="mi">25</span><span class="w"> </span><span class="n">NAMEG</span><span class="p">,</span><span class="n">NAME1</span><span class="p">,</span><span class="n">NAME2</span><span class="p">,</span><span class="n">NAME3</span><span class="p">,</span><span class="n">NAME4</span><span class="p">,</span><span class="n">NAME5</span><span class="p">,</span><span class="n">NAME6</span><span class="w">

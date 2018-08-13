@@ -122,9 +122,6 @@ Make sure you're in the same directory as the file you're executing.
   <span class="c"># end</span>
 </code></pre>
 <p>This is the main function which calls all the subroutines.</p>
-<h3 id='http-request'>HTTP Request</h3><pre class="highlight shell tab-shell"><code><span class="k">do </span>something
-</code></pre>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
 <h3 id='arguments'>Arguments</h3>
 <table><thead>
 <tr>

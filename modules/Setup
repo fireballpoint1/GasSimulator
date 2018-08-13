@@ -852,10 +852,572 @@
 </thead><tbody>
 <tr>
 <td>LAST</td>
-<td>1 -&gt; end the program <br></td>
+<td>1 -&gt; end the program</td>
 </tr>
 <tr>
 <td></td>
-<td>0 -&gt; keep the program running</td>
+<td>0 -&gt; keep the Program running</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='pseudo-code'>Pseudo Code</h3>
+<ul>
+<li>(Input Card 1)</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Variables</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NGAS</td>
+<td>Number of Gases</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NEVENT</td>
+<td>Event Number</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IMIP</td>
+<td>= 1 Mips Simulation  (dE/dX, Clusters)</td>
+</tr>
+<tr>
+<td></td>
+<td>= 2 Electron Beam  (Total Absorption)</td>
+</tr>
+<tr>
+<td></td>
+<td>= 3 X-ray</td>
+</tr>
+<tr>
+<td></td>
+<td>= 4 Beta Decay</td>
+</tr>
+<tr>
+<td></td>
+<td>= 5 Double Beta Decay</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NDVEC</td>
+<td>= 2 Mip X-ray or Beta in Random Direction</td>
+</tr>
+<tr>
+<td></td>
+<td>= 1 Mip X-ray or Beta Direction Parallel to E-field (Z)</td>
+</tr>
+<tr>
+<td></td>
+<td>=-1 Mip X-ray or Beta Direction Anti Parallel to E-field (-z)</td>
+</tr>
+<tr>
+<td></td>
+<td>= 0 Mip X-ray or Beta in Random Direction in X-y Plane</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>NSEED</td>
+<td>= 0 Uses Standard Seed Value = 54217137</td>
+</tr>
+<tr>
+<td></td>
+<td>!= 0 Uses Value of NSEED as Seed Value</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ESTART</td>
+<td>Starting energy of the chosen IMIP ( MIP</td>
+</tr>
+<tr>
+<td></td>
+<td>electron,beta Decay or X-ray Energy in eV).</td>
+</tr>
+<tr>
+<td></td>
+<td>Note Double Beta Decay Energy Is to Be Entered as the</td>
+</tr>
+<tr>
+<td></td>
+<td>Energy of Each Beta (0.5 Times Total Decay Energy)</td>
+</tr>
+<tr>
+<td></td>
+<td>(if X-ray Max Energy=2.0 MeV)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ETHRM</td>
+<td>Electrons Tracked Until They Fall to This Energy eV.</td>
+</tr>
+<tr>
+<td></td>
+<td>for Fast Calculation the Thermalisation Energy Should</td>
+</tr>
+<tr>
+<td></td>
+<td>Be Set to the Lowest Ionisation Potential in the Gas Mixture.</td>
+</tr>
+<tr>
+<td></td>
+<td>for More Accurate Thermalisation Range the Thermalisation</td>
+</tr>
+<tr>
+<td></td>
+<td>Energy Should Be Set to the Lowest Excitation Energy in</td>
+</tr>
+<tr>
+<td></td>
+<td>Pure Noble Gases or to 2.0 eV for Mixtures With Molecular Gas</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ECUT</td>
+<td>For Mips only. Applies Energy Cut in eV to Give the</td>
+</tr>
+<tr>
+<td></td>
+<td>Maximum Allowed Primary Cluster Energy ( Should Be Set</td>
+</tr>
+<tr>
+<td></td>
+<td>to Less Than 10000 eV to Give Maximum Primary Cluster Size)</td>
+</tr>
+<tr>
+<td></td>
+<td>of Typically 400 Electrons</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>If number of gases is 0, then LAST =1 ( and end the program)</li>
+<li>If X-Ray and Start energy ESTART &gt; 3 MeV then stop program</li>
+<li>Stop if event limit NEVENT exceeded
+
+<ul>
+<li>non-MIPS Simulation:Limit for number of events = 10000 </li>
+<li>MIPS Simulation: Limit for number of events = 100000</li>
+</ul></li>
+<li>Input Gas Identifiers (Input Card 2)</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Variable</th>
+<th>Number of Inputs</th>
+<th>Input Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NGASN</td>
+<td>6</td>
+<td>int</td>
+<td>Number to define which gas(between 1-80)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>see Gas-List for identifying numbers</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Input Gas Parameters (Input Card 3)</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Variable</th>
+<th>Number of Inputs</th>
+<th>Input Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>FRAC</td>
+<td>6</td>
+<td>float .4f</td>
+<td>Percentage fraction of gas in mixture</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TEMPC</td>
+<td>1</td>
+<td>float .4f</td>
+<td>Temperature of Gas in Centigrade</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TORR</td>
+<td>1</td>
+<td>float .4f</td>
+<td>Pressure of Gas in Torr</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>Input Field values (Input Card 4)</li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Variable</th>
+<th>Input Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>EFIELD</td>
+<td>float .3f</td>
+<td>Electric Field in Volts/cm</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BMAG</td>
+<td>float .3f</td>
+<td>Magnetic Field in Kilo Gauss</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>BTHETA</td>
+<td>float .3f</td>
+<td>Angle between electric and magnetic fields in degrees</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IWRITE</td>
+<td>int</td>
+<td>= 0 Standard Output</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>= 1 then</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Line 1: Output no. of electrons and no. of excitations</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>for each event</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Line 2 : Output X,Y,Z and T for each thermalised electron</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>= 2 then</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Line 1: Output no. of electrons and no. of excitations</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>for each event</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Line 2: Outputs X,Y,Z and T for each thermalised electron</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Line 3: Outputs X,Y,Z and T for each excitation</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IPEN</td>
+<td>int</td>
+<td>= 0 No Penning transfers</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>= 1 Penning transfers allowed</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+
+<ul>
+<li>(Input Card 5) </li>
+</ul>
+
+<table><thead>
+<tr>
+<th>Variable</th>
+<th>Input type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>DETEFF</td>
+<td>float .3f</td>
+<td>Detection efficiency of photons. Used for calculation of</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>FANO factors for combined electron and photon detection</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>in pure noble gases (Between 0.0 - 100.0)</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>EXCWGHT</td>
+<td>float .3f</td>
+<td>Weight given to excitation events in FANO calculation</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>with respect to ionisation. Typically 0.5 - 0.6</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Use weight given by SQRT((Fele)/(Fexc))</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Fele = Electron FANO factor</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Fexc = Electron FANO factor</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>KGAS</td>
+<td>int</td>
+<td>Gas identifier for which gas in mixture has Beta decayed.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>Identifier Numbers : NGAS1 etc.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LGAS</td>
+<td>int</td>
+<td>If molecular gas : LGAS identifies the component atom in</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>the molecule which has Beta decayed :</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>E.g. in CO2 1=Carbon 2=Oxygen</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>in CF4 1=Carbon 2=Fluorine</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ICMP</td>
+<td>int</td>
+<td>=0 No Compton Scattering</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>=1 Include Compton Scattering</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IRAY</td>
+<td>int</td>
+<td>=0 No Rayleigh Scattering</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>=1 Include Rayleigh Scattering</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IPAP</td>
+<td>int</td>
+<td>=0 No pair production</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>=1 Include pair production</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IBRM</td>
+<td>int</td>
+<td>=0 No Bremsstrahlung</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>=1 Include Bremsstrahlung</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>IECASC</td>
+<td>int</td>
+<td>=0 Use parameterised cascade for 2nd to n^(th) generation</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>of electron ionising collisions.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>=1 Use exact cascade for 2nd to nth generation of</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>electron ionising collisions.</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 </tbody></table>

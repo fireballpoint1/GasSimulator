@@ -1,0 +1,80 @@
+<h2 id='fldist'>FLDIST()</h2>
+<ul>
+<li>Calculates fluorescence average absorption distance and loads into arrays</li>
+</ul>
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NONE</td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">FLDIST</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONFL</span><span class="p">/</span><span class="n">NC0</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">EC0</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">NG1</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">EG1</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">NG2</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EG2</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">WKLM</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">EFL</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> </span><span class="n">AVERAGE</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">DISTANCE</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">LOAD</span><span class="w"> </span><span class="n">INTO</span><span class="w"> </span><span class="n">ARRAY</span><span class="w">
+      </span><span class="c1">! PRINT *,"INSIDE FLDIST"</span><span class="w">
+      </span><span class="c1">! CALL SLEEP(2)</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">I</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">512</span><span class="w">
+      </span><span class="n">EPH</span><span class="o">=</span><span class="n">EFL</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="w">
+      </span><span class="c1">! PRINT *,EPH</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">EPH</span><span class="ow">.EQ.</span><span class="mf">0.0</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="n">JF</span><span class="o">=</span><span class="mi">3</span><span class="w">
+      </span><span class="c1">! PRINT *,IDUM</span><span class="w">
+      </span><span class="c1">! PAUSE 1</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">JF</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">IDUM</span><span class="p">,</span><span class="n">KDUM</span><span class="p">,</span><span class="n">LDUM</span><span class="p">,</span><span class="n">DIST</span><span class="p">)</span><span class="w">
+      </span><span class="n">EFL</span><span class="p">(</span><span class="n">I</span><span class="p">)</span><span class="o">=</span><span class="n">DIST</span><span class="w">
+    </span><span class="mi">1</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w">
+</span></code></pre><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">FLDIST</span><span class="p">():</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="c"># COMMON/IONFL/</span>
+    <span class="k">global</span> <span class="n">NC0</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">EC0</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">NG1</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">EG1</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">NG2</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">EG2</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">WKLM</span><span class="c">#(512)</span>
+    <span class="k">global</span> <span class="n">EFL</span><span class="c">#(512)    </span>
+    <span class="n">NC0</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NC0</span>
+    <span class="n">EC0</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EC0</span>
+    <span class="n">NG1</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NG1</span>
+    <span class="n">EG1</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EG1</span>
+    <span class="n">NG2</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NG2</span>
+    <span class="n">EG2</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EG2</span>
+    <span class="n">WKLM</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">WKLM</span>
+    <span class="n">EFL</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EFL</span>
+    <span class="c"># CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY</span>
+    <span class="k">for</span> <span class="n">I</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">512</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">EPH</span><span class="o">=</span><span class="n">EFL</span><span class="p">[</span><span class="n">I</span><span class="p">]</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">EPH</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="n">JF</span><span class="o">=</span><span class="mi">3</span>
+        <span class="n">ABSO</span><span class="p">(</span><span class="n">JF</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">IDUM</span><span class="p">,</span><span class="n">KDUM</span><span class="p">,</span><span class="n">LDUM</span><span class="p">,</span><span class="n">DIST</span><span class="p">)</span>
+        <span class="n">EFL</span><span class="p">[</span><span class="n">I</span><span class="p">]</span><span class="o">=</span><span class="n">DIST</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">NC0</span><span class="o">=</span><span class="n">NC0</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EC0</span><span class="o">=</span><span class="n">EC0</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NG1</span><span class="o">=</span><span class="n">NG1</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EG1</span><span class="o">=</span><span class="n">EG1</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NG2</span><span class="o">=</span><span class="n">NG2</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EG2</span><span class="o">=</span><span class="n">EG2</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">WKLM</span><span class="o">=</span><span class="n">WKLM</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EFL</span><span class="o">=</span><span class="n">EFL</span>
+    <span class="k">return</span>
+    <span class="c"># end</span>
+</code></pre>
