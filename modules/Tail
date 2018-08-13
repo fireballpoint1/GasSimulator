@@ -1,4 +1,4 @@
-<h1 id='documentation'>Documentation</h1><h2 id='modules'>Modules</h2>
+<h1 id='contribute-to-documentation'>Contribute to Documentation</h1><h2 id='modules'>Modules</h2>
 <p>All the modules are documented in separate markdown files in the modules directory.</p>
 <h3 id='module-structure'>Module Structure</h3>
 <p>The function module is written in markdown.<br>
@@ -16,6 +16,6 @@ cat Setup.md &gt;&gt; ../index.html.md
 cat Density.md &gt;&gt; ../index.html.md
 cat Tail.md &gt;&gt; ../index.html.md
 </code></pre>
-<aside class="warning">The directory structure is to be preserved for the framework to work properly.<code>&lt;code&gt;</code> </aside>
+<aside class="warning">The directory structure is to be preserved for the framework to work properly. </aside>
 
 <aside class="success">Build documentation using <code>sh tangle.sh</code></aside>

@@ -8,6 +8,40 @@
 <p>We have language bindings in Shell, Fortran, and Python! You can view code in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
 
 <p>This documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. </p>
+<h1 id='progress-report'>Progress Report</h1><h2 id='tasks-completed'>Tasks Completed</h2>
+<ul>
+<li>Converted all fortran code into python except functions listed in TO-DO</li>
+<li>Distributed all subroutines into apt modules</li>
+<li>Create an easy to use UI for input(both FORTRAN and python)</li>
+<li>Hosted a prelimenary documentation of the python code. </li>
+<li>Implemented module wise documentation in slate framework</li>
+<li>One successful run of Degrad (using a few wrappers)</li>
+<li>A preliminary script to translate FORTRAN code</li>
+</ul>
+<h2 id='to-do'>TO-DO</h2>
+<ul>
+<li>Translate MONTEFX,MONTEFA and GASn (except n=1,2,12) into python</li>
+<li>Integrate UI for options to plot the data retrieved.</li>
+<li>Create a more detailed documentation</li>
+<li>Create more rigrous tests for all functions to facilitate documentation</li>
+</ul>
+<h2 id='how-to-use'>How to Use</h2>
+<ul>
+<li>The instructions are provided <a href="https://fireballpoint1.github.io/GasSimulator/?shell#using">here</a></li>
+</ul>
+<h2 id='code'>Code</h2>
+<ul>
+<li><a href="https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Scripts/Python/degrad">Link to Degrad modules</a></li>
+<li><a href="https://github.com/UTA-REST/MAGBOLTZdev/tree/master/Documentation">Link to Documentation</a></li>
+<li><a href="https://github.com/UTA-REST/MAGBOLTZdev/tree/master/UI">Link to UI</a></li>
+</ul>
+<h2 id='history'>History</h2>
+<ul>
+<li><a href="https://github.com/fireballpoint1/GasSimulator/commits/master">Link to my daily commits</a></li>
+<li><a href="https://github.com/UTA-REST/MAGBOLTZdev/pull/3">PR1 to main repo</a></li>
+</ul>
+<h2 id='documentation'>Documentation</h2>
+<p>The code documentation is available further in this page itself</p>
 <h1 id='using'>Using</h1>
 <p>Degrad is written in python3 and FORTRAN</p>
 
