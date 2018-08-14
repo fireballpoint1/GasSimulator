@@ -3,10 +3,14 @@
 <h3 id='module-structure'>Module Structure</h3>
 <p>The function module is written in markdown.<br>
 It consists of a brief pseudo code and the fortran as well as the python code for that module</p>
+
+<aside class="notice">
+All modules must end with a newline character.
+</aside>
 <h2 id='tangling'>Tangling</h2>
 <p><code>tangle.sh</code> is a bash script that builds a final index.html file which is then reflected in the documentation</p>
 
-<aside class="success">
+<aside class="notice">
 Remember — The sequence of files in `tangle.sh` matters
 </aside>
 <pre class="highlight shell"><code>rm ../index.html.md
