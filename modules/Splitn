@@ -1,0 +1,194 @@
+<h2 id='splitn'>SPLITN</h2>
+<table><thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>SPLIT1</td>
+<td>Modified opal beaty with energy dependant</td>
+</tr>
+<tr>
+<td></td>
+<td>splitting function. Model Assumes constant</td>
+</tr>
+<tr>
+<td></td>
+<td>splitting function between EI and 10 kEV.</td>
+</tr>
+<tr>
+<td></td>
+<td>Logarithmic chanfe with energy up to a</td>
+</tr>
+<tr>
+<td></td>
+<td>constant value at minimum ionising 1MEV</td>
+</tr>
+<tr>
+<td></td>
+<td>and above.</td>
+</tr>
+<tr>
+<td>SPLIT2</td>
+<td></td>
+</tr>
+<tr>
+<td>SPLIT3</td>
+<td>Possible energy splitting function</td>
+</tr>
+<tr>
+<td>SPLIT4</td>
+<td></td>
+</tr>
+<tr>
+<td>SPLIT5</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>I</td>
+<td></td>
+</tr>
+<tr>
+<td>E</td>
+<td></td>
+</tr>
+<tr>
+<td>EI</td>
+<td></td>
+</tr>
+<tr>
+<td>ESEC</td>
+<td></td>
+</tr>
+</tbody></table>
+<pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">SPLIT1</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONMOD</span><span class="p">/</span><span class="n">ESPLIT</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span><span class="n">IONMODEL</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">MODIFIED</span><span class="w"> </span><span class="n">OPAL</span><span class="w"> </span><span class="n">BEATY</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">DEPENDANT</span><span class="w"> </span><span class="n">SPLITTING</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">MODEL</span><span class="w"> </span><span class="n">ASSUMES</span><span class="w"> </span><span class="n">CONSTANT</span><span class="w"> </span><span class="n">SPLITTING</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w"> </span><span class="n">BETWEEN</span><span class="w"> </span><span class="n">EI</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">KEV</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">THEN</span><span class="w"> </span><span class="n">LOGARTHMIC</span><span class="w"> </span><span class="n">CHANGE</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">UP</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">CONSTANT</span><span class="w"> </span><span class="n">VALUE</span><span class="w"> </span><span class="n">AT</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">MINIMUM</span><span class="w"> </span><span class="n">IONISING</span><span class="w"> </span><span class="p">,</span><span class="mi">1</span><span class="w"> </span><span class="n">MEV</span><span class="w"> </span><span class="p">,</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">ABOVE</span><span class="w"> 
+      </span><span class="n">WPLLOW</span><span class="o">=</span><span class="n">ESPLIT</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">WPLHIGH</span><span class="o">=</span><span class="n">ESPLIT</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">E</span><span class="ow">.LE.</span><span class="mf">1.D4</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">WPL</span><span class="o">=</span><span class="n">WPLLOW</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w"> </span><span class="k">IF</span><span class="p">(</span><span class="n">E</span><span class="ow">.GE.</span><span class="mf">1.D6</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">WPL</span><span class="o">=</span><span class="n">WPLHIGH</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">1</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="nb">LOG</span><span class="w"> </span><span class="n">INTERPOLATE</span><span class="w"> </span><span class="n">AT</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">E</span><span class="w"> 
+       </span><span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">WPLHIGH</span><span class="o">-</span><span class="n">WPLLOW</span><span class="p">)</span><span class="o">*</span><span class="mf">0.21714724095</span><span class="w">
+       </span><span class="n">B</span><span class="o">=-</span><span class="p">(</span><span class="mf">9.21034037198</span><span class="o">*</span><span class="n">WPLHIGH</span><span class="mf">-13.815510558</span><span class="o">*</span><span class="n">WPLLOW</span><span class="p">)</span><span class="o">*</span><span class="mf">0.21714724095</span><span class="w">
+       </span><span class="n">WPL</span><span class="o">=</span><span class="n">A</span><span class="o">*</span><span class="n">DLOG</span><span class="p">(</span><span class="n">E</span><span class="p">)</span><span class="o">+</span><span class="n">B</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+    </span><span class="mi">1</span><span class="w"> </span><span class="n">R1</span><span class="o">=</span><span class="n">drand48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span><span class="w">
+      </span><span class="n">ESEC</span><span class="o">=</span><span class="n">WPL</span><span class="o">*</span><span class="nb">TAN</span><span class="p">(</span><span class="n">R1</span><span class="o">*</span><span class="nb">ATAN</span><span class="p">((</span><span class="n">E</span><span class="o">-</span><span class="n">EI</span><span class="p">)/(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">WPL</span><span class="p">)))</span><span class="w"> 
+      </span><span class="n">ESEC</span><span class="o">=</span><span class="n">WPL</span><span class="o">*</span><span class="p">(</span><span class="n">ESEC</span><span class="p">/</span><span class="n">WPL</span><span class="p">)</span><span class="o">**</span><span class="mf">0.9524</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w"> 
+      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">SPLIT2</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONMOD</span><span class="p">/</span><span class="n">ESPLIT</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span><span class="n">IONMODEL</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">POSSIBLE</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">SPLITTING</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w"> 
+      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">SPLIT3</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONMOD</span><span class="p">/</span><span class="n">ESPLIT</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span><span class="n">IONMODEL</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">POSSIBLE</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">SPLITTING</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w"> 
+      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">SPLIT4</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONMOD</span><span class="p">/</span><span class="n">ESPLIT</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span><span class="n">IONMODEL</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">POSSIBLE</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">SPLITTING</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w"> 
+      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">SPLIT5</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONMOD</span><span class="p">/</span><span class="n">ESPLIT</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span><span class="mi">20</span><span class="p">),</span><span class="n">IONMODEL</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">POSSIBLE</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">SPLITTING</span><span class="w"> </span><span class="k">FUNCTION</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w"> 
+
+</span></code></pre><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">SPLIT1</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="c"># COMMON/IONMOD/</span>
+    <span class="k">global</span> <span class="n">ESPLIT</span><span class="c">#(512,20)</span>
+    <span class="k">global</span> <span class="n">IONMODEL</span><span class="c">#(512)</span>
+    <span class="c"># MODIFIED OPAL BEATY WITH ENERGY DEP# endANT SPLITTING def</span>
+    <span class="c"># MODEL ASSUMES CONSTANT SPLITTING def BETWEEN EI AND 10 KEV</span>
+    <span class="c"># : LOGARTHMIC CHANGE WITH ENERGY UP TO A CONSTANT VALUE AT</span>
+    <span class="c"># MINIMUM IONISING ,1 MEV , AND ABOVE </span>
+    <span class="n">WPLLOW</span><span class="o">=</span><span class="n">ESPLIT</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">WPLHIGH</span><span class="o">=</span><span class="n">ESPLIT</span><span class="p">[</span><span class="n">I</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">E</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">4</span><span class="p">):</span>
+        <span class="n">WPL</span><span class="o">=</span><span class="n">WPLLOW</span>
+        <span class="k">pass</span>
+    <span class="k">elif</span><span class="p">(</span><span class="n">E</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="o">*</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span> <span class="p">:</span>
+        <span class="n">WPL</span><span class="o">=</span><span class="n">WPLHIGH</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c">#  LOG INTERPOLATE AT ENERGY E </span>
+        <span class="n">A</span><span class="o">=</span><span class="p">(</span><span class="n">WPLHIGH</span><span class="o">-</span><span class="n">WPLLOW</span><span class="p">)</span><span class="o">*</span><span class="mf">0.21714724095</span>
+        <span class="n">B</span><span class="o">=-</span><span class="p">(</span><span class="mf">9.21034037198</span><span class="o">*</span><span class="n">WPLHIGH</span><span class="o">-</span><span class="mf">13.815510558</span><span class="o">*</span><span class="n">WPLLOW</span><span class="p">)</span><span class="o">*</span><span class="mf">0.21714724095</span>
+        <span class="n">WPL</span><span class="o">=</span><span class="n">A</span><span class="o">*</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">E</span><span class="p">)</span><span class="o">+</span><span class="n">B</span>
+    <span class="c"># endif</span>
+    <span class="n">R1</span><span class="o">=</span><span class="n">DRAND48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span>
+    <span class="n">ESEC</span><span class="o">=</span><span class="n">WPL</span><span class="o">*</span><span class="n">TAN</span><span class="p">(</span><span class="n">R1</span><span class="o">*</span><span class="n">ATAN</span><span class="p">((</span><span class="n">E</span><span class="o">-</span><span class="n">EI</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">WPL</span><span class="p">)))</span> 
+    <span class="n">ESEC</span><span class="o">=</span><span class="n">WPL</span><span class="o">*</span><span class="p">(</span><span class="n">ESEC</span><span class="o">/</span><span class="n">WPL</span><span class="p">)</span><span class="o">**</span><span class="mf">0.9524</span>
+    <span class="k">return</span>
+    <span class="c"># end </span>
+<span class="k">def</span> <span class="nf">SPLIT2</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="c"># COMMON/IONMOD/</span>
+    <span class="k">global</span> <span class="n">ESPLIT</span><span class="c">#(512,20)</span>
+    <span class="k">global</span> <span class="n">IONMODEL</span><span class="c">#(512)</span>
+    <span class="c"># POSSIBLE ENERGY SPLITTING def</span>
+    <span class="k">return</span>
+    <span class="c"># end </span>
+<span class="k">def</span> <span class="nf">SPLIT3</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="c"># COMMON/IONMOD/</span>
+    <span class="k">global</span> <span class="n">ESPLIT</span><span class="c">#(512,20)</span>
+    <span class="k">global</span> <span class="n">IONMODEL</span><span class="c">#(512)</span>
+    <span class="c"># POSSIBLE ENERGY SPLITTING def</span>
+    <span class="k">return</span>
+    <span class="c"># end </span>
+<span class="k">def</span> <span class="nf">SPLIT4</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="c"># COMMON/IONMOD/</span>
+    <span class="k">global</span> <span class="n">ESPLIT</span><span class="c">#(512,20)</span>
+    <span class="k">global</span> <span class="n">IONMODEL</span><span class="c">#(512)</span>
+    <span class="c"># POSSIBLE ENERGY SPLITTING def</span>
+    <span class="k">return</span>
+    <span class="c"># end </span>
+<span class="k">def</span> <span class="nf">SPLIT5</span><span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">E</span><span class="p">,</span><span class="n">EI</span><span class="p">,</span><span class="n">ESEC</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)</span>
+    <span class="c"># COMMON/IONMOD/</span>
+    <span class="k">global</span> <span class="n">ESPLIT</span><span class="c">#(512,20)</span>
+    <span class="k">global</span> <span class="n">IONMODEL</span><span class="c">#(512)</span>
+    <span class="c"># POSSIBLE ENERGY SPLITTING def</span>
+    <span class="k">return</span>
+      <span class="c"># end </span>
+</code></pre>

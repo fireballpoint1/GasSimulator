@@ -17,6 +17,21 @@ cat Bremscasc.md >> ../index.html.md
 cat Controlb.md >> ../index.html.md
 cat Calcb.md >> ../index.html.md
 cat Cascadee.md >> ../index.html.md
+cat Controle.md >> ../index.html.md
+cat Calcbn.md >> ../index.html.md
+cat Csstfne.md >> ../index.html.md
+cat Compresse.md >> ../index.html.md
+cat Splitn.md >> ../index.html.md
+cat Montefe.md >> ../index.html.md
+cat Montefa.md >> ../index.html.md
+cat Montefb.md >> ../index.html.md
+cat Montefc.md >> ../index.html.md
+cat Csstfn.md >> ../index.html.md
+cat Calcn.md >> ../index.html.md
+cat Gasmixc.md >> ../index.html.md
+cat Cgasn.md >> ../index.html.md
+cat Gasn.md >> ../index.html.md
+
 
 
 cat Tail.md >> ../index.html.md

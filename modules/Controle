@@ -1,0 +1,514 @@
+<h2 id='controle'>CONTROLE()</h2>
+<p>Calculates Auger and fluorescence cascade for vacancy in <code>ICSHELL</code></p>
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>KGAS</td>
+<td></td>
+</tr>
+<tr>
+<td>LGAS</td>
+<td></td>
+</tr>
+<tr>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>Y</td>
+<td></td>
+</tr>
+<tr>
+<td>Z</td>
+<td></td>
+</tr>
+<tr>
+<td>T</td>
+<td></td>
+</tr>
+<tr>
+<td>EINIT</td>
+<td></td>
+</tr>
+<tr>
+<td>ISHELL</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id='pseudo-code'>Pseudo-Code</h3><pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">CONTROLE</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">EINIT</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="kt">CHARACTER</span><span class="o">*</span><span class="mi">6</span><span class="w"> </span><span class="n">SCR</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">SCR1</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COMP</span><span class="p">/</span><span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENCAS</span><span class="p">/</span><span class="n">ELEV</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">79</span><span class="p">),</span><span class="n">NSDEG</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">AA</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">BB</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">SCR</span><span class="p">,</span><span class="n">SCR1</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">MIXC</span><span class="p">/</span><span class="n">PRSH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">ESH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">AUG</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">RAD</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">PRSHBT</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">IZ</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">INIOCC</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">ISHLMX</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">AMZ</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">UPD</span><span class="p">/</span><span class="n">NOCC</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">AUGR</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">RADR</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCASE</span><span class="p">/</span><span class="n">IONSUM</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTORE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">EPHOTON</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRXE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRY</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRZ</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS1E</span><span class="p">/</span><span class="n">IONSUM1</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM1</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS2E</span><span class="p">/</span><span class="n">IONSUM2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS3E</span><span class="p">/</span><span class="n">IONSUM3</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM3</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS4E</span><span class="p">/</span><span class="n">IONSUM4</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM4</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS5E</span><span class="p">/</span><span class="n">IONSUM5</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM5</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+</span><span class="n">c</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">CALCULATES</span><span class="w"> </span><span class="n">AUGER</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">VACANCY</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">ICSHELL</span><span class="w">
+</span><span class="n">C</span><span class="w">
+      </span><span class="n">IFIRST</span><span class="o">=</span><span class="mi">1</span><span class="w">
+      </span><span class="n">ISECOND</span><span class="o">=</span><span class="mi">2</span><span class="w">
+      </span><span class="n">ICONPH</span><span class="o">=</span><span class="mi">1</span><span class="w">
+      </span><span class="n">NVAC</span><span class="o">=</span><span class="mi">1</span><span class="w">
+      </span><span class="n">X0</span><span class="o">=</span><span class="n">X</span><span class="w">
+      </span><span class="n">Y0</span><span class="o">=</span><span class="n">Y</span><span class="w">
+      </span><span class="n">Z0</span><span class="o">=</span><span class="n">Z</span><span class="w">
+      </span><span class="n">T0</span><span class="o">=</span><span class="n">T</span><span class="w">
+      </span><span class="n">IZERO</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONE</span><span class="o">=</span><span class="mi">1</span><span class="w">
+      </span><span class="n">ADIST</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+</span><span class="n">C</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+</span><span class="n">c</span><span class="w">     </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">991</span><span class="p">)</span><span class="w"> </span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">EINIT</span><span class="p">,</span><span class="n">ISHELL</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="mi">991</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' NVAC='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="s1">' KGAS='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="s1">' LGAS='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="s1">' EINIT='</span><span class="p">,</span><span class="l">D12.4</span><span class="p">,</span><span class="s1">' 
+C    /ISHELL='</span><span class="p">,</span><span class="l">I3</span><span class="p">)</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CALCE</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">EINIT</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">EVENT</span><span class="w"> 
+</span><span class="n">C</span><span class="w">     </span><span class="n">Z0</span><span class="o">=</span><span class="n">DIST</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CASSTOREE</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">X0</span><span class="p">,</span><span class="n">Y0</span><span class="p">,</span><span class="n">Z0</span><span class="p">,</span><span class="n">T0</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">IF</span><span class="w"> </span><span class="k">INCLUDE</span><span class="w"> </span><span class="n">PHOTOABSORPTION</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">FLUORESENCE</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ICONPH</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IFLSUM</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">COUNTER</span><span class="w">
+        </span><span class="n">L1</span><span class="o">=</span><span class="mi">0</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF1E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">91</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">AROUND</span><span class="w"> </span><span class="n">FIRST</span><span class="w"> </span><span class="n">GEN</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="n">IFL1</span><span class="o">=</span><span class="n">IFLSUM</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="k">DO</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="n">L1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL1</span><span class="w">
+       </span><span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTON</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L1</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">X1</span><span class="p">,</span><span class="n">Y1</span><span class="p">,</span><span class="n">Z1</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">FLUORESENCE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">EPH</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">ISHELL1</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">KGAS1</span><span class="w"> </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">LGAS1</span><span class="w"> 
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL1</span><span class="p">,</span><span class="n">KGAS1</span><span class="p">,</span><span class="n">LGAS1</span><span class="p">,</span><span class="n">DIST1</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">PHOTON</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ISHELL1</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+         </span><span class="n">IFLSUM</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">IFLSUM</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="mi">-1</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">9</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> 
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CALC1E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS1</span><span class="p">,</span><span class="n">LGAS1</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL1</span><span class="p">,</span><span class="n">L1</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF1E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="n">DIST1</span><span class="p">)</span><span class="w"> 
+    </span><span class="mi">9</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w"> 
+   </span><span class="mi">91</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">SECOND</span><span class="w"> </span><span class="n">GENERATION</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IFLSUM1</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">COUNTER</span><span class="w">
+        </span><span class="n">L2</span><span class="o">=</span><span class="mi">0</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF2E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">81</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">AROUND</span><span class="w"> </span><span class="n">SECOND</span><span class="w"> </span><span class="n">GEN</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="n">IFL2</span><span class="o">=</span><span class="n">IFLSUM1</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="k">DO</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="n">L2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL2</span><span class="w">
+       </span><span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG1</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L2</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">X2</span><span class="p">,</span><span class="n">Y2</span><span class="p">,</span><span class="n">Z2</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">FLUORESENCE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">EPH</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">ISHELL2</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">KGAS2</span><span class="w"> </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">LGAS2</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL2</span><span class="p">,</span><span class="n">KGAS2</span><span class="p">,</span><span class="n">LGAS2</span><span class="p">,</span><span class="n">DIST2</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">PHOTON</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ISHELL2</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">IFLSUM1</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">IFLSUM1</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="mi">-1</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">8</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> 
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CALC2E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS2</span><span class="p">,</span><span class="n">LGAS2</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL2</span><span class="p">,</span><span class="n">L2</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF2E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="n">DIST2</span><span class="p">)</span><span class="w">               
+    </span><span class="mi">8</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">    
+   </span><span class="mi">81</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">THIRD</span><span class="w"> </span><span class="n">GENERATION</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IFLSUM2</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">COUNTER</span><span class="w">
+        </span><span class="n">L3</span><span class="o">=</span><span class="mi">0</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF3E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">71</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">AROUND</span><span class="w"> </span><span class="n">THIRD</span><span class="w"> </span><span class="n">GEN</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="n">IFL3</span><span class="o">=</span><span class="n">IFLSUM2</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="k">DO</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="n">L3</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL3</span><span class="w">
+       </span><span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG2</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L3</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">X3</span><span class="p">,</span><span class="n">Y3</span><span class="p">,</span><span class="n">Z3</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">FLUORESENCE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">EPH</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">ISHELL3</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">KGAS3</span><span class="w"> </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">LGAS3</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL3</span><span class="p">,</span><span class="n">KGAS3</span><span class="p">,</span><span class="n">LGAS3</span><span class="p">,</span><span class="n">DIST3</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">PHOTON</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ISHELL3</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">IFLSUM2</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">IFLSUM2</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="mi">-1</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">7</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> 
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CALC3E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS3</span><span class="p">,</span><span class="n">LGAS3</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL3</span><span class="p">,</span><span class="n">L3</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF3E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">DIST3</span><span class="p">)</span><span class="w">               
+    </span><span class="mi">7</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w"> 
+   </span><span class="mi">71</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">     
+</span><span class="n">C</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">FOURTH</span><span class="w"> </span><span class="n">GENERATION</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IFLSUM3</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">COUNTER</span><span class="w">
+        </span><span class="n">L4</span><span class="o">=</span><span class="mi">0</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF4E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L4</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">61</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">AROUND</span><span class="w"> </span><span class="n">FOURTH</span><span class="w"> </span><span class="n">GEN</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="n">IFL4</span><span class="o">=</span><span class="n">IFLSUM3</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="k">DO</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="n">L4</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL4</span><span class="w">
+       </span><span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG3</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L4</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">X4</span><span class="p">,</span><span class="n">Y4</span><span class="p">,</span><span class="n">Z4</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">FLUORESENCE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">EPH</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">ISHELL4</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">KGAS4</span><span class="w"> </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">LGAS4</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL4</span><span class="p">,</span><span class="n">KGAS4</span><span class="p">,</span><span class="n">LGAS4</span><span class="p">,</span><span class="n">DIST4</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">PHOTON</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ISHELL4</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="n">IFLSUM3</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">IFLSUM3</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="mi">-1</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">6</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> 
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CALC4E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS4</span><span class="p">,</span><span class="n">LGAS4</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL4</span><span class="p">,</span><span class="n">L4</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF4E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L4</span><span class="p">,</span><span class="n">DIST4</span><span class="p">)</span><span class="w">                    
+    </span><span class="mi">6</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">  
+   </span><span class="mi">61</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">     
+</span><span class="n">C</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">FIFTH</span><span class="w"> </span><span class="n">GENERATION</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IFLSUM4</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">COUNTER</span><span class="w">
+        </span><span class="n">L5</span><span class="o">=</span><span class="mi">0</span><span class="w">
+        </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF5E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L5</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">51</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">AROUND</span><span class="w"> </span><span class="n">FIFTH</span><span class="w"> </span><span class="n">GEN</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+       </span><span class="n">IFL5</span><span class="o">=</span><span class="n">IFLSUM5</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="k">DO</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="n">L5</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL5</span><span class="w">
+       </span><span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG4</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L5</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">X5</span><span class="p">,</span><span class="n">Y5</span><span class="p">,</span><span class="n">Z5</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">FLUORESENCE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">EPH</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">ISHELL5</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">KGAS5</span><span class="w"> </span><span class="n">COMPONENT</span><span class="w"> </span><span class="n">LGAS5</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL5</span><span class="p">,</span><span class="n">KGAS5</span><span class="p">,</span><span class="n">LGAS5</span><span class="p">,</span><span class="n">DIST5</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">PHOTON</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">ISHELL5</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+         </span><span class="n">IFLSUM5</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">IFLSUM</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="mi">-1</span><span class="w">
+        </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">5</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">GAS</span><span class="w"> 
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CALC5E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS5</span><span class="p">,</span><span class="n">LGAS5</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL5</span><span class="p">,</span><span class="n">L5</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">CSSTF5E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L5</span><span class="p">,</span><span class="n">DIST5</span><span class="p">)</span><span class="w">               
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IFLSUM5</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="ow">.GE.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">89</span><span class="p">)</span><span class="w"> </span><span class="n">IFLSUM5</span><span class="w">
+   </span><span class="mi">89</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' WARNING SIXTH GENERATION EXISTS IFLSUM5='</span><span class="p">,</span><span class="l">I3</span><span class="p">)</span><span class="w">
+    </span><span class="mi">5</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">
+   </span><span class="mi">51</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+   </span><span class="mi">10</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w"> 
+      </span><span class="k">END</span><span class="w">
+
+</span></code></pre><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">CONTROLE</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">T</span><span class="p">,</span><span class="n">EINIT</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8(A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8(I-N)</span>
+    <span class="c">#CHARACTER*6 SCR(17),SCR1(17)</span>
+    <span class="c"># COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG</span>
+    <span class="c"># COMMON/GENCAS/ELEV[17,79],NSDEG(17),AA[17],BB[17],SCR,SCR1</span>
+    <span class="c"># COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),RAD[6,3,17,17],PRSHBT(6,3,17),IZ[6,3],INIOCC(6,3,17),ISHLMX(6,3),AMZ[6,3]</span>
+    <span class="c"># COMMON/UPD/NOCC(6,3,17),AUGR(6,3,17,17,17),RADR(6,3,17,17)</span>
+    <span class="c"># COMMON/CALCASE/IONSUM(10),IFLSUM(10),ESTORE(10,28),EPHOTON(10,28),DRXE(10,28),DRYE(10,28),DRZE(10,28),DRX(10,28),DRY(10,28),DRZ[10,28]</span>
+    <span class="c"># COMMON/CALCAS1E/IONSUM1(10),IFLSUM1(10),ESTOR1(10,28),EPHOTG1(10,28),DRXE1(10,28),DRYE1(10,28),DRZE1(10,28),DRX1(10,28),DRY1(10,28),DRZ1(10,28)</span>
+    <span class="c"># COMMON/CALCAS2E/IONSUM2(10),IFLSUM2(10),ESTOR2(10,28),EPHOTG2(10,28),DRXE2(10,28),DRYE2(10,28),DRZE2(10,28),DRX2(10,28),DRY2(10,28),DRZ2(10,28)</span>
+    <span class="c"># COMMON/CALCAS3E/IONSUM3(10),IFLSUM3(10),ESTOR3(10,28),EPHOTG3(10,28),DRXE3(10,28),DRYE3(10,28),DRZE3(10,28),DRX3(10,28),DRY3(10,28),DRZ3(10,28)</span>
+    <span class="c"># COMMON/CALCAS4E/IONSUM4(10),IFLSUM4(10),ESTOR4(10,28),EPHOTG4(10,28),DRXE4(10,28),DRYE4(10,28),DRZE4(10,28),DRX4(10,28),DRY4(10,28),DRZ4(10,28)</span>
+    <span class="c"># COMMON/CALCAS5E/IONSUM5(10),IFLSUM5(10),ESTOR5(10,28),EPHOTG5(10,28),DRXE5(10,28),DRYE5(10,28),DRZE5(10,28),DRX5(10,28),DRY5(10,28),DRZ5(10,28)</span>
+    <span class="c">#COMMON/COMP/</span>
+    <span class="k">global</span> <span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span>
+    <span class="c">#COMMON/GENCAS/</span>
+    <span class="k">global</span> <span class="n">ELEV</span><span class="c">#(17,79)</span>
+    <span class="k">global</span> <span class="n">NSDEG</span><span class="c">#(17)</span>
+    <span class="k">global</span> <span class="n">AA</span><span class="c">#(17)</span>
+    <span class="k">global</span> <span class="n">BB</span><span class="c">#(17)</span>
+    <span class="k">global</span> <span class="n">SCR</span><span class="p">,</span><span class="n">SCR1</span>
+    <span class="c">#COMMON/MIXC/</span>
+    <span class="k">global</span> <span class="n">PRSH</span><span class="c">#(6,3,17,17)</span>
+    <span class="k">global</span> <span class="n">ESH</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">AUG</span><span class="c">#(6,3,17,17,17)</span>
+    <span class="k">global</span> <span class="n">RAD</span><span class="c">#(6,3,17,17)</span>
+    <span class="k">global</span> <span class="n">PRSHBT</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">IZ</span><span class="c">#(6,3)</span>
+    <span class="k">global</span> <span class="n">INIOCC</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">ISHLMX</span><span class="c">#(6,3)</span>
+    <span class="k">global</span> <span class="n">AMZ</span><span class="c">#(6,3)</span>
+    <span class="c">#COMMON/UPD/</span>
+    <span class="k">global</span> <span class="n">NOCC</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">AUGR</span><span class="c">#(6,3,17,17,17)</span>
+    <span class="k">global</span> <span class="n">RADR</span><span class="c">#(6,3,17,17)</span>
+    <span class="c">#COMMON/CALCASE/</span>
+    <span class="k">global</span> <span class="n">IONSUM</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTORE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTON</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS1E/</span>
+    <span class="k">global</span> <span class="n">IONSUM1</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM1</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ1</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS2E/</span>
+    <span class="k">global</span> <span class="n">IONSUM2</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM2</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ2</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS3E/</span>
+    <span class="k">global</span> <span class="n">IONSUM3</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM3</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ3</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS4E/</span>
+    <span class="k">global</span> <span class="n">IONSUM4</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM4</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ4</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS5E/</span>
+    <span class="k">global</span> <span class="n">IONSUM5</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM5</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ5</span><span class="c">#(10,28)</span>
+
+    <span class="c">#</span>
+    <span class="c">#</span>
+    <span class="c">#  CALCULATES AUGER AND FLUORESCENCE CASCADE FOR VACANCY IN ICSHELL</span>
+    <span class="c">#</span>
+    <span class="n">IFIRST</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">ISECOND</span><span class="o">=</span><span class="mi">2</span>
+    <span class="n">ICONPH</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">NVAC</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">X0</span><span class="o">=</span><span class="n">X</span>
+    <span class="n">Y0</span><span class="o">=</span><span class="n">Y</span>
+    <span class="n">Z0</span><span class="o">=</span><span class="n">Z</span>
+    <span class="n">T0</span><span class="o">=</span><span class="n">T</span>
+    <span class="n">IZERO</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">IONE</span><span class="o">=</span><span class="mi">1</span>
+    <span class="n">ADIST</span><span class="o">=</span><span class="mf">0.0</span>
+    <span class="c"># </span>
+    <span class="c"># CALCULATE CASCADE EVENT</span>
+    <span class="c">#     WRITE(6,991) NVAC,KGAS,LGAS,EINIT,ISHELL</span>
+    <span class="c"># 991 print(' NVAC=',I3,' KGAS=',I3,' LGAS=',I3,' EINIT=','%.4f' % ,' </span>
+    <span class="c">#    /ISHELL=',I3)</span>
+    <span class="n">CALCE</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">EINIT</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">)</span>
+    <span class="c"># STORE EVENT </span>
+    <span class="c">#     Z0=DIST</span>
+    <span class="n">CASSTOREE</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">X0</span><span class="p">,</span><span class="n">Y0</span><span class="p">,</span><span class="n">Z0</span><span class="p">,</span><span class="n">T0</span><span class="p">)</span>
+    <span class="c"># IF INCLUDE PHOTOABSORPTION OF FLUORESENCE : </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">ICONPH</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">IFLSUM</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">==</span> <span class="mi">0</span><span class="p">):</span> 
+            <span class="c"># ZERO COUNTER</span>
+            <span class="n">L1</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">CSSTF1E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span>
+            <span class="k">pass</span>
+            <span class="c"># endif</span>
+            <span class="c"># LOOP AROUND FIRST GEN FLUORESCENCE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IFL1</span><span class="o">=</span><span class="n">IFLSUM</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">L1</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL1</span><span class="p">):</span>
+                <span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTON</span><span class="p">[</span><span class="n">NVAC</span><span class="p">][</span><span class="n">L1</span><span class="p">]</span>
+                <span class="c">#</span>
+                <span class="c"># CALC ABSORPTION POSITION X1,Y1,Z1 FOR FLUORESENCE PHOTON OF ENERGY EPH</span>
+                <span class="c"># WITH ABSORPTION IN SHELL ISHELL1 IN GAS KGAS1 COMPONENT LGAS1 </span>
+                <span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL1</span><span class="p">,</span><span class="n">KGAS1</span><span class="p">,</span><span class="n">LGAS1</span><span class="p">,</span><span class="n">DIST1</span><span class="p">)</span>
+                <span class="c"># LOW ENERGY PHOTON</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ISHELL1</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">IFLSUM</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">IFLSUM</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="k">pass</span>
+                    <span class="c"># endif</span>
+                    <span class="c">#</span>
+                    <span class="c"># CALCULATE CASCADE IN GAS </span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CALC1E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS1</span><span class="p">,</span><span class="n">LGAS1</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL1</span><span class="p">,</span><span class="n">L1</span><span class="p">)</span>
+                    <span class="c"># STORE EVENT</span>
+                    <span class="n">CSSTF1E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L1</span><span class="p">,</span><span class="n">DIST1</span><span class="p">)</span> 
+        <span class="c">#</span>
+        <span class="c"># SECOND GENERATION FLUORESCENCE</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">IFLSUM1</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c"># ZERO COUNTER</span>
+            <span class="n">L2</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">CSSTF2E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span>
+            <span class="k">pass</span>
+            <span class="c"># endif </span>
+            <span class="c"># LOOP AROUND SECOND GEN FLUORESCENCE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IFL2</span><span class="o">=</span><span class="n">IFLSUM1</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">L2</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL2</span><span class="p">):</span>
+                <span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG1</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L2</span><span class="p">)</span>
+                <span class="c">#</span>
+                <span class="c"># CALC ABSORPTION POSITION X2,Y2,Z2 FOR FLUORESENCE PHOTON OF ENERGY EPH</span>
+                <span class="c"># WITH ABSORPTION IN SHELL ISHELL2 IN GAS KGAS2 COMPONENT LGAS2</span>
+                <span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL2</span><span class="p">,</span><span class="n">KGAS2</span><span class="p">,</span><span class="n">LGAS2</span><span class="p">,</span><span class="n">DIST2</span><span class="p">)</span>
+                <span class="c"># LOW ENERGY PHOTON</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ISHELL2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">IFLSUM1</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">IFLSUM1</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="k">pass</span>
+                    <span class="c"># endif</span>
+                    <span class="c">#</span>
+                    <span class="c"># CALCULATE CASCADE IN GAS </span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CALC2E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS2</span><span class="p">,</span><span class="n">LGAS2</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL2</span><span class="p">,</span><span class="n">L2</span><span class="p">)</span>
+                    <span class="c"># STORE EVENT</span>
+                    <span class="n">CSSTF2E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L2</span><span class="p">,</span><span class="n">DIST2</span><span class="p">)</span>               
+        <span class="c"># </span>
+        <span class="c"># THIRD GENERATION FLUORESCENCE</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">IFLSUM2</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c"># ZERO COUNTER</span>
+            <span class="n">L3</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">CSSTF3E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span>
+            <span class="k">pass</span>
+            <span class="c"># endif</span>
+            <span class="c"># LOOP AROUND THIRD GEN FLUORESCENCE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IFL3</span><span class="o">=</span><span class="n">IFLSUM2</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">L3</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL3</span><span class="p">):</span>
+                <span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG2</span><span class="p">[</span><span class="n">NVAC</span><span class="p">][</span><span class="n">L3</span><span class="p">]</span>
+                <span class="c">#</span>
+                <span class="c"># CALC ABSORPTION POSITION X3,Y3,Z3 FOR FLUORESENCE PHOTON OF ENERGY EPH</span>
+                <span class="c"># WITH ABSORPTION IN SHELL ISHELL3 IN GAS KGAS3 COMPONENT LGAS3</span>
+                <span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL3</span><span class="p">,</span><span class="n">KGAS3</span><span class="p">,</span><span class="n">LGAS3</span><span class="p">,</span><span class="n">DIST3</span><span class="p">)</span>
+                <span class="c"># LOW ENERGY PHOTON</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ISHELL3</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">IFLSUM2</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">IFLSUM2</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="k">pass</span>
+                    <span class="c"># endif</span>
+                    <span class="c">#</span>
+                    <span class="c"># CALCULATE CASCADE IN GAS </span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CALC3E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS3</span><span class="p">,</span><span class="n">LGAS3</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL3</span><span class="p">,</span><span class="n">L3</span><span class="p">)</span>
+                    <span class="c"># STORE EVENT</span>
+                    <span class="n">CSSTF3E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L3</span><span class="p">,</span><span class="n">DIST3</span><span class="p">)</span>               
+        <span class="c"># </span>
+        <span class="c"># FOURTH GENERATION FLUORESCENCE</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">IFLSUM3</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c"># ZERO COUNTER</span>
+            <span class="n">L4</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">CSSTF4E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L4</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span>
+            <span class="k">pass</span>
+            <span class="c"># endif</span>
+            <span class="c"># LOOP AROUND FOURTH GEN FLUORESCENCE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IFL4</span><span class="o">=</span><span class="n">IFLSUM3</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">L4</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL4</span><span class="p">):</span>
+                <span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG3</span><span class="p">[</span><span class="n">NVAC</span><span class="p">][</span><span class="n">L4</span><span class="p">]</span>
+                <span class="c">#</span>
+                <span class="c"># CALC ABSORPTION POSITION X4,Y4,Z4 FOR FLUORESENCE PHOTON OF ENERGY EPH</span>
+                <span class="c"># WITH ABSORPTION IN SHELL ISHELL4 IN GAS KGAS4 COMPONENT LGAS4</span>
+                <span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL4</span><span class="p">,</span><span class="n">KGAS4</span><span class="p">,</span><span class="n">LGAS4</span><span class="p">,</span><span class="n">DIST4</span><span class="p">)</span>
+                <span class="c"># LOW ENERGY PHOTON</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ISHELL4</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">IFLSUM3</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">IFLSUM3</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="k">pass</span>
+                    <span class="c"># endif</span>
+                    <span class="c">#</span>
+                    <span class="c"># CALCULATE CASCADE IN GAS </span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CALC4E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS4</span><span class="p">,</span><span class="n">LGAS4</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL4</span><span class="p">,</span><span class="n">L4</span><span class="p">)</span>
+                    <span class="c"># STORE EVENT</span>
+                    <span class="n">CSSTF4E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L4</span><span class="p">,</span><span class="n">DIST4</span><span class="p">)</span>                    
+        <span class="c"># </span>
+        <span class="c"># FIFTH GENERATION FLUORESCENCE</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">IFLSUM4</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="c"># ZERO COUNTER</span>
+            <span class="n">L5</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">CSSTF5E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L5</span><span class="p">,</span><span class="n">ADIST</span><span class="p">)</span>
+            <span class="k">pass</span>
+            <span class="c"># endif</span>
+            <span class="c"># LOOP AROUND FIFTH GEN FLUORESCENCE</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">IFL5</span><span class="o">=</span><span class="n">IFLSUM5</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">L5</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">IFL5</span><span class="p">):</span>
+                <span class="n">EPH</span><span class="o">=</span><span class="n">EPHOTG4</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L5</span><span class="p">)</span>
+                <span class="c">#</span>
+                <span class="c"># CALC ABSORPTION POSITION X5,Y5,Z5 FOR FLUORESENCE PHOTON OF ENERGY EPH</span>
+                <span class="c"># WITH ABSORPTION IN SHELL ISHELL5 IN GAS KGAS5 COMPONENT LGAS5</span>
+                <span class="n">ABSO</span><span class="p">(</span><span class="n">ISECOND</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL5</span><span class="p">,</span><span class="n">KGAS5</span><span class="p">,</span><span class="n">LGAS5</span><span class="p">,</span><span class="n">DIST5</span><span class="p">)</span>
+                <span class="c"># LOW ENERGY PHOTON</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ISHELL5</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="n">IFLSUM5</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">IFLSUM</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span>
+                    <span class="k">pass</span>
+                    <span class="c"># endif</span>
+                    <span class="c">#</span>
+                    <span class="c"># CALCULATE CASCADE IN GAS </span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">CALC5E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">KGAS5</span><span class="p">,</span><span class="n">LGAS5</span><span class="p">,</span><span class="n">EPH</span><span class="p">,</span><span class="n">ISHELL5</span><span class="p">,</span><span class="n">L5</span><span class="p">)</span>
+                    <span class="c"># STORE EVENT</span>
+                    <span class="n">CSSTF5E</span><span class="p">(</span><span class="n">NVAC</span><span class="p">,</span><span class="n">L5</span><span class="p">,</span><span class="n">DIST5</span><span class="p">)</span>               
+                    <span class="k">if</span><span class="p">(</span><span class="n">IFLSUM5</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">&gt;=</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s">' WARNING SIXTH GENERATION EXISTS IFLSUM5='</span><span class="p">,</span><span class="n">IFLSUM5</span><span class="p">)</span>
+    <span class="c"># endif</span>
+    <span class="k">return</span> 
+    <span class="c"># end</span>
+</code></pre>
