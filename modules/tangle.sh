@@ -9,6 +9,9 @@ cat Gasmix.md >> ../index.html.md
 cat Fldist.md >> ../index.html.md
 cat Abso.md >> ../index.html.md
 cat Stats2.md >> ../index.html.md
+cat Printer.md >> ../index.html.md
+cat Mipcalc.md >> ../index.html.md
+cat Csstfbn.md >> ../index.html.md
 
 
 cat Tail.md >> ../index.html.md

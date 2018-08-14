@@ -1,0 +1,506 @@
+<h2 id='printer'>PRINTER()</h2>
+<ul>
+<li>Called after <code>DENSITY</code>, <code>CASCDAT</code>, <code>MIXERC</code>, <code>MIXER</code> and <code>FLDIST</code> have been called. </li>
+<li>The first function printing to <code>STDOUT</code></li>
+<li>Gives a summary of the simulation</li>
+</ul>
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NONE</td>
+<td>-</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">PRINTER</span><span class="p">():</span>
+    <span class="c"># IMPLICIT #real*8 (A-H,O-Z) </span>
+    <span class="c"># IMPLICIT #integer*8 (I-N)   </span>
+    <span class="c">#integer*4 NSEED                                     </span>
+    <span class="c">#COMMON/INPT/</span>
+    <span class="k">global</span> <span class="n">NGAS</span><span class="p">,</span><span class="n">NSTEP</span><span class="p">,</span><span class="n">NANISO</span><span class="p">,</span><span class="n">EFINAL</span><span class="p">,</span><span class="n">ESTEP</span><span class="p">,</span><span class="n">AKT</span><span class="p">,</span><span class="n">ARY</span><span class="p">,</span><span class="n">TEMPC</span><span class="p">,</span><span class="n">TORR</span><span class="p">,</span><span class="n">IPEN</span>
+    <span class="c">#COMMON/INPT2/</span>
+    <span class="k">global</span> <span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">DETEFF</span><span class="p">,</span><span class="n">EXCWGHT</span>
+    <span class="c">#COMMON/INPT1/</span>
+    <span class="k">global</span> <span class="n">NDVEC</span>
+    <span class="c">#COMMON/COMP/</span>
+    <span class="k">global</span> <span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span> 
+    <span class="c">#COMMON/RATIO/</span>
+    <span class="k">global</span> <span class="n">AN1</span><span class="p">,</span><span class="n">AN2</span><span class="p">,</span><span class="n">AN3</span><span class="p">,</span><span class="n">AN4</span><span class="p">,</span><span class="n">AN5</span><span class="p">,</span><span class="n">AN6</span><span class="p">,</span><span class="n">AN</span>
+    <span class="k">global</span> <span class="n">FRAC</span><span class="c">#(6)              </span>
+    <span class="c">#COMMON/SETP/</span>
+    <span class="k">global</span> <span class="n">TMAX</span><span class="p">,</span><span class="n">SMALL</span><span class="p">,</span><span class="n">API</span><span class="p">,</span><span class="n">ESTART</span><span class="p">,</span><span class="n">THETA</span><span class="p">,</span><span class="n">PHI</span>
+    <span class="k">global</span> <span class="n">TCFMAX</span><span class="c">#(10),</span>
+    <span class="k">global</span> <span class="n">TCFMAX1</span><span class="p">,</span><span class="n">RSTART</span><span class="p">,</span><span class="n">EFIELD</span><span class="p">,</span><span class="n">ETHRM</span><span class="p">,</span><span class="n">ECUT</span><span class="p">,</span><span class="n">NEVENT</span><span class="p">,</span><span class="n">IMIP</span><span class="p">,</span><span class="n">IWRITE</span>                      
+    <span class="c">#COMMON/BFLD/</span>
+    <span class="k">global</span> <span class="n">EOVB</span><span class="p">,</span><span class="n">WB</span><span class="p">,</span><span class="n">BTHETA</span><span class="p">,</span><span class="n">BMAG</span>  
+    <span class="c">#COMMON/IONC/</span>
+    <span class="k">global</span> <span class="n">DOUBLE</span><span class="c">#(6,20000),</span>
+    <span class="k">global</span> <span class="n">CMINIXSC</span><span class="c">#(6),</span>
+    <span class="k">global</span> <span class="n">CMINEXSC</span><span class="c">#(6),</span>
+    <span class="k">global</span> <span class="n">ECLOSS</span><span class="c">#(6),</span>
+    <span class="k">global</span> <span class="n">WPLN</span><span class="c">#(6),</span>
+    <span class="k">global</span> <span class="n">ICOUNT</span><span class="p">,</span><span class="n">AVPFRAC</span><span class="c">#(3,6)</span>
+    <span class="c">#COMMON/LARGE/</span>
+    <span class="k">global</span> <span class="n">CF</span><span class="c">#(20000,512),</span>
+    <span class="k">global</span> <span class="n">EIN</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">TCF</span><span class="c">#(20000),</span>
+    <span class="k">global</span> <span class="n">IARRY</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">RGAS</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">IPN</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">WPL</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">IZBR</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">IPLAST</span><span class="p">,</span><span class="n">PENFRA</span><span class="c">#(3,512)   </span>
+    <span class="c">#COMMON/NAMES/</span>
+    <span class="k">global</span> <span class="n">NAMEG</span><span class="c">#(6)  </span>
+    <span class="c">#COMMON/KSEED/</span>
+    <span class="k">global</span> <span class="n">NSEED</span> 
+    <span class="c">#COMMON/ECASC/</span>
+    <span class="k">global</span> <span class="n">NEGAS</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">LEGAS</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">IESHELL</span><span class="c">#(512),</span>
+    <span class="k">global</span> <span class="n">IECASC</span>  
+    <span class="n">NGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NGAS</span>
+    <span class="n">NSTEP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NSTEP</span>
+    <span class="n">NANISO</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NANISO</span>
+    <span class="n">EFINAL</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EFINAL</span>
+    <span class="n">ESTEP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ESTEP</span>
+    <span class="n">AKT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AKT</span>
+    <span class="n">ARY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ARY</span>
+    <span class="n">TEMPC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TEMPC</span>
+    <span class="n">TORR</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TORR</span>
+    <span class="n">IPEN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IPEN</span>
+    <span class="n">KGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">KGAS</span>
+    <span class="n">LGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LGAS</span>
+    <span class="n">DETEFF</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">DETEFF</span>
+    <span class="n">EXCWGHT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EXCWGHT</span>
+    <span class="n">NDVEC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NDVEC</span>
+    <span class="n">LCMP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LCMP</span>
+    <span class="n">LCFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LCFLG</span>
+    <span class="n">LRAY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LRAY</span>
+    <span class="n">LRFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LRFLG</span>
+    <span class="n">LPAP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LPAP</span>
+    <span class="n">LPFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LPFLG</span>
+    <span class="n">LBRM</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LBRM</span>
+    <span class="n">LBFLG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LBFLG</span>
+    <span class="n">LPEFLG</span> <span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LPEFLG</span> 
+    <span class="n">AN1</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN1</span>
+    <span class="n">AN2</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN2</span>
+    <span class="n">AN3</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN3</span>
+    <span class="n">AN4</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN4</span>
+    <span class="n">AN5</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN5</span>
+    <span class="n">AN6</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN6</span>
+    <span class="n">AN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AN</span>
+    <span class="n">FRAC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">FRAC</span>
+    <span class="n">TMAX</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TMAX</span>
+    <span class="n">SMALL</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">SMALL</span>
+    <span class="n">API</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">API</span>
+    <span class="n">ESTART</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ESTART</span>
+    <span class="n">THETA</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">THETA</span>
+    <span class="n">PHI</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">PHI</span>
+    <span class="n">TCFMAX</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TCFMAX</span>
+
+    <span class="n">TCFMAX1</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TCFMAX1</span>
+    <span class="n">RSTART</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">RSTART</span>
+    <span class="n">EFIELD</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EFIELD</span>
+    <span class="n">ETHRM</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ETHRM</span>
+    <span class="n">ECUT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ECUT</span>
+    <span class="n">NEVENT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NEVENT</span>
+    <span class="n">IMIP</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IMIP</span>
+    <span class="n">IWRITE</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IWRITE</span>
+    <span class="n">EOVB</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EOVB</span>
+    <span class="n">WB</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">WB</span>
+    <span class="n">BTHETA</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">BTHETA</span>
+    <span class="n">BMAG</span>  <span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">BMAG</span>  
+    <span class="n">DOUBLE</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">DOUBLE</span>
+
+    <span class="n">CMINIXSC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">CMINIXSC</span>
+
+    <span class="n">CMINEXSC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">CMINEXSC</span>
+
+    <span class="n">ECLOSS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ECLOSS</span>
+
+    <span class="n">WPLN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">WPLN</span>
+
+    <span class="n">ICOUNT</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">ICOUNT</span>
+    <span class="n">AVPFRAC</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">AVPFRAC</span>
+    <span class="n">CF</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">CF</span>
+
+    <span class="n">EIN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">EIN</span>
+
+    <span class="n">TCF</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">TCF</span>
+
+    <span class="n">IARRY</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IARRY</span>
+
+    <span class="n">RGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">RGAS</span>
+
+    <span class="n">IPN</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IPN</span>
+
+    <span class="n">WPL</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">WPL</span>
+
+    <span class="n">IZBR</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IZBR</span>
+
+    <span class="n">IPLAST</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IPLAST</span>
+    <span class="n">PENFRA</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">PENFRA</span>
+    <span class="n">NAMEG</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NAMEG</span>
+    <span class="n">NSEED</span> <span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NSEED</span> 
+    <span class="n">NEGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">NEGAS</span>
+
+    <span class="n">LEGAS</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">LEGAS</span>
+
+    <span class="n">IESHELL</span><span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IESHELL</span>
+
+    <span class="n">IECASC</span>  <span class="o">=</span><span class="n">conf</span><span class="o">.</span><span class="n">IECASC</span>  
+    <span class="c"># NAMEG=numpy.zeros(25+1,dtype=str)</span>
+    <span class="c"># WRITE(6,1)     </span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">           DEGRAD VERSION 3.3  </span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'      -----------------------------</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>      
+    <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   MIP AND DE/DX SIMULATION'</span><span class="p">)</span>    <span class="c">#2</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   ELECTRON BEAM SIMULATION'</span><span class="p">)</span>    
+    <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">3</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   X-RAY SIMULATION'</span><span class="p">)</span>    <span class="c">#4</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">4</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   BETA DECAY SIMULATION'</span><span class="p">)</span>   <span class="c">#5</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   DOUBLE BETA DECAY SIMULATION'</span><span class="p">)</span>    <span class="c">#6</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'----------------------------------</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITHOUT COMPTON SCATTERING'</span><span class="p">)</span>   <span class="c">#7</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LCMP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITH COMPTON SCATTERING'</span><span class="p">)</span>  <span class="c">#8</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LRAY</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITHOUT RAYLEIGH SCATTERING'</span><span class="p">)</span>  <span class="c">#9</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LRAY</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITH RAYLEIGH SCATTERING'</span><span class="p">)</span> <span class="c">#11 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LPAP</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITHOUT PAIR PRODUCTION'</span><span class="p">)</span>  <span class="c">#12 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LPAP</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITH PAIR PRODUCTION'</span><span class="p">)</span> <span class="c">#13 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LBRM</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITHOUT BREMSSTRAHLUNG'</span><span class="p">)</span>   <span class="c">#14 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">LBRM</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>  
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITH BREMSSTRAHLUNG'</span><span class="p">)</span>  <span class="c">#15 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IECASC</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITH PARAMETERISED SHELL CASCADE'</span><span class="p">)</span> <span class="c">#16 </span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IECASC</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'   SIMULATION WITH COMPLETE SHELL CASCADE'</span><span class="p">)</span>  <span class="c">#17 </span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'----------------------------------</span><span class="se">\n\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'   MONTE CARLO SOLUTION FOR MIXTURE OF '</span><span class="p">,</span><span class="n">NGAS</span><span class="p">,</span><span class="s">' GASES.</span><span class="se">\n</span><span class="s">   DEGRADATION CALCULATION ALL TIMES IN PICOSECS, DISTANCE IN MICRONS</span><span class="se">\n</span><span class="s">   -----------------------------------------------------------------'</span><span class="p">)</span>
+    <span class="c"># WRITE(6,30) (NAMEG[J],FRAC[J], J=1,NGAS)     </span>
+    <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="mi">5</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">'  GASES  USED '</span><span class="p">,</span><span class="mi">15</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">' PERCENTAGE USED '</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="mi">6</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="n">NAMEG</span><span class="p">[</span><span class="n">J</span><span class="p">],</span><span class="mi">5</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">'</span><span class="si">%.4</span><span class="s">f'</span> <span class="o">%</span> <span class="n">FRAC</span><span class="p">[</span><span class="n">J</span><span class="p">],</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  '</span><span class="p">,</span><span class="s">'GAS TEMPERATURE ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.1</span><span class="s">f'</span> <span class="o">%</span> <span class="n">TEMPC</span><span class="p">,</span><span class="s">' DEGREES CENTIGRADE.'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  '</span><span class="p">,</span><span class="s">'GAS PRESSURE = '</span><span class="p">,</span><span class="s">'</span><span class="si">%.1</span><span class="s">f'</span> <span class="o">%</span> <span class="n">TORR</span><span class="p">,</span><span class="s">' TORR.'</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">NSEED</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c"># WRITE(6,51) NSEED</span>
+        <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">' RANDOM NUMBER SEED ='</span><span class="p">,</span><span class="n">NSEED</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">NSEED</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c"># WRITE(6,52) </span>
+        <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">' STANDARD RANDOM NUMBER SEED = 54217137'</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IPEN</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="c"># WRITE(6,55)</span>
+        <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  '</span><span class="p">,</span><span class="s">' PENNING IONISATION NOT ALLOWED'</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IPEN</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c"># WRITE(6,56)                              </span>
+        <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  '</span><span class="p">,</span><span class="s">' PENNING IONISATION ALLOWED'</span><span class="p">)</span>
+    <span class="c"># WRITE(6,60) EFINAL,NSTEP                                          </span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  '</span><span class="p">,</span><span class="s">'INTEGRATION FROM 0.0 TO '</span><span class="p">,</span><span class="s">'</span><span class="si">%.1</span><span class="s">f'</span> <span class="o">%</span> <span class="n">EFINAL</span><span class="p">,</span><span class="s">' EV.  IN '</span><span class="p">,</span><span class="n">NSTEP</span><span class="p">,</span><span class="s">' STEPS. '</span><span class="p">)</span> 
+    <span class="c"># WRITE(6,90) EFIELD,BMAG,BTHETA,WB                                 </span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  ELECTRIC FIELD ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.4</span><span class="s">f'</span> <span class="o">%</span> <span class="n">EFIELD</span><span class="p">,</span><span class="s">' VOLTS/CM.'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">''  MAGNETIC FIELD ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.4</span><span class="s">f'</span> <span class="o">%</span> <span class="n">BMAG</span><span class="p">,</span><span class="s">' KILOGAUSS.'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  ANGLE BETWEEN ELECTRIC AND MAGNETIC FIELD ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.3</span><span class="s">f'</span> <span class="o">%</span> <span class="n">BTHETA</span><span class="p">,</span><span class="s">' DEGREES.'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  CYCLOTRON FREQ. ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.3</span><span class="s">f'</span> <span class="o">%</span> <span class="n">WB</span><span class="p">,</span><span class="s">' RADIANS/PICOSECOND'</span><span class="p">)</span>
+    <span class="c"># WRITE(6,43)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">' USED ANISOTROPIC X-SECTIONS (OKHRIMOVSKYY ET AL) '</span><span class="p">)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">ICOUNT</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c"># WRITE(6,34) </span>
+        <span class="k">print</span><span class="p">(</span><span class="s">' USED COUNTING IONISATION X-SECTIONS'</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># WRITE(6,35)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">' USE GROSS IONISATION X-SECTIONS'</span><span class="p">)</span>
+    <span class="c"># endif</span>
+    <span class="c"># WRITE(6,91) ESTART,NEVENT,ETHRM </span>
+    <span class="c"># print(NEVENT,conf.NEVENT)</span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="o">*</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="s">'  INITIAL ELECTRON OR X-RAY ENERGY ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.1</span><span class="s">f'</span> <span class="o">%</span> <span class="n">ESTART</span><span class="p">,</span><span class="s">' EV.'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="mi">9</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">'NUMBER OF EVENTS ='</span><span class="p">,</span><span class="n">NEVENT</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="mi">4</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">'THERMALISATION ENERGY ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.2</span><span class="s">f'</span> <span class="o">%</span> <span class="n">ETHRM</span><span class="p">,</span><span class="s">' EV.'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="c"># WRITE(6,911) DETEFF,EXCWGHT</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">' PHOTON DETECTION EFFICIENCY USED IN FANO CALCULATION ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.3</span><span class="s">f'</span> <span class="o">%</span> <span class="n">DETEFF</span><span class="p">,</span><span class="s">' </span><span class="si">%</span><span class="s">'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span><span class="mi">7</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">'WEIGHT GIVEN TO EXCITATION IN FANO CALCULATION ='</span><span class="p">,</span><span class="s">'</span><span class="si">%.3</span><span class="s">f'</span> <span class="o">%</span> <span class="n">EXCWGHT</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span> 
+    <span class="c"># print(IMIP)</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">IMIP</span> <span class="o">==</span> <span class="mi">4</span> <span class="ow">or</span> <span class="n">IMIP</span> <span class="o">==</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">KGAS</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">KGAS</span> <span class="o">&gt;</span> <span class="n">NGAS</span><span class="p">):</span>
+            <span class="c"># WRITE(6,990) KGAS</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">' ERROR IN INPUT: BETA DECAY IDENTifIER KGAS='</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="s">'  PROGRAM STOPPED:'</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+        <span class="c"># endif</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">LGAS</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">LGAS</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="c"># WRITE(6,991) LGAS</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">' ERROR IN INPUT: BETA DECAY IDENTIFIER LGAS='</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="s">'  PROGRAM STOPPED:'</span><span class="p">)</span>
+            <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span> 
+        <span class="c"># endif</span>
+        <span class="c"># WRITE(6,88) KGAS,LGAS</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">  BETA DECAY IN GAS NO ='</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">  IF MOLECULE : BETA DECAY IN ATOMIC COMPONENT ='</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+    <span class="c"># endif</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">NDVEC</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="c"># WRITE(6,915)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'  BETA OR X-RAY IN RANDOM DIRECTION TO E-FIELD'</span><span class="p">)</span>
+        <span class="k">pass</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c"># endif</span>
+        <span class="k">if</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">THETA</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1.e-9</span> <span class="ow">and</span> <span class="n">IMIP</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="c"># WRITE(6,92)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'  BETA OR X-RAY PERP# endICULAR TO E-FIELD IN X-Y PLANE'</span><span class="p">)</span>  
+        <span class="k">if</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">THETA</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mf">1.e-9</span> <span class="ow">and</span> <span class="n">IMIP</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="c"># WRITE(6,922)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'  ELECTRON BEAM ALONG X DIRECTION'</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">THETA</span><span class="p">)</span><span class="o">==</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="c"># WRITE(6,93)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'  E-BEAM,BETA OR X-RAY ALONG Z-AXIS IN E-FIELD DIRECTION'</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">THETA</span><span class="p">)</span><span class="o">==</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">):</span>
+            <span class="c"># WRITE(6,94)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'  E-BEAM,BETA OR X-RAY ALONG Z-AXIS OPPOSITE TO E-FIELD DIRECTION'</span><span class="p">)</span>     
+    <span class="c"># 95  WRITE(6,96) TCFMAX1 </span>
+
+    <span class="k">print</span><span class="p">(</span><span class="s">"TCFMAX1"</span><span class="p">,</span><span class="n">TCFMAX1</span><span class="p">,</span><span class="nb">type</span><span class="p">(</span><span class="n">TCFMAX1</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s"> NULL COLLISION FREQUENCY = </span><span class="si">%.4</span><span class="s">f *(10**12/SEC)</span><span class="se">\n</span><span class="s">'</span><span class="o">%</span><span class="p">(</span><span class="n">TCFMAX1</span><span class="p">))</span>
+    <span class="c"># WRITE(6,111)  (TCF(L),L=500,9500,1000)</span>
+    <span class="k">for</span> <span class="n">L</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">9500</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">'  '</span><span class="p">,</span><span class="s">'REAL COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)'</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="s">' '</span><span class="p">,</span><span class="s">'</span><span class="si">%.3</span><span class="s">f'</span> <span class="o">%</span> <span class="n">TCF</span><span class="p">[</span><span class="n">L</span><span class="p">],</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">L</span><span class="o">==</span><span class="mi">4500</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">NGAS</span><span class="o">=</span><span class="n">NGAS</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NSTEP</span><span class="o">=</span><span class="n">NSTEP</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NANISO</span><span class="o">=</span><span class="n">NANISO</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EFINAL</span><span class="o">=</span><span class="n">EFINAL</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">ESTEP</span><span class="o">=</span><span class="n">ESTEP</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AKT</span><span class="o">=</span><span class="n">AKT</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">ARY</span><span class="o">=</span><span class="n">ARY</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">TEMPC</span><span class="o">=</span><span class="n">TEMPC</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">TORR</span><span class="o">=</span><span class="n">TORR</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">IPEN</span><span class="o">=</span><span class="n">IPEN</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">KGAS</span><span class="o">=</span><span class="n">KGAS</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LGAS</span><span class="o">=</span><span class="n">LGAS</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">DETEFF</span><span class="o">=</span><span class="n">DETEFF</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EXCWGHT</span><span class="o">=</span><span class="n">EXCWGHT</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NDVEC</span><span class="o">=</span><span class="n">NDVEC</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LCMP</span><span class="o">=</span><span class="n">LCMP</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LCFLG</span><span class="o">=</span><span class="n">LCFLG</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LRAY</span><span class="o">=</span><span class="n">LRAY</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LRFLG</span><span class="o">=</span><span class="n">LRFLG</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LPAP</span><span class="o">=</span><span class="n">LPAP</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LPFLG</span><span class="o">=</span><span class="n">LPFLG</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LBRM</span><span class="o">=</span><span class="n">LBRM</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LBFLG</span><span class="o">=</span><span class="n">LBFLG</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">LPEFLG</span> <span class="o">=</span><span class="n">LPEFLG</span> 
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN1</span><span class="o">=</span><span class="n">AN1</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN2</span><span class="o">=</span><span class="n">AN2</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN3</span><span class="o">=</span><span class="n">AN3</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN4</span><span class="o">=</span><span class="n">AN4</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN5</span><span class="o">=</span><span class="n">AN5</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN6</span><span class="o">=</span><span class="n">AN6</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AN</span><span class="o">=</span><span class="n">AN</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">FRAC</span><span class="o">=</span><span class="n">FRAC</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">TMAX</span><span class="o">=</span><span class="n">TMAX</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">SMALL</span><span class="o">=</span><span class="n">SMALL</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">API</span><span class="o">=</span><span class="n">API</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">ESTART</span><span class="o">=</span><span class="n">ESTART</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">THETA</span><span class="o">=</span><span class="n">THETA</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">PHI</span><span class="o">=</span><span class="n">PHI</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">TCFMAX</span><span class="o">=</span><span class="n">TCFMAX</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">TCFMAX1</span><span class="o">=</span><span class="n">TCFMAX1</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">RSTART</span><span class="o">=</span><span class="n">RSTART</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">EFIELD</span><span class="o">=</span><span class="n">EFIELD</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">ETHRM</span><span class="o">=</span><span class="n">ETHRM</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">ECUT</span><span class="o">=</span><span class="n">ECUT</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NEVENT</span><span class="o">=</span><span class="n">NEVENT</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">IMIP</span><span class="o">=</span><span class="n">IMIP</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">IWRITE</span><span class="o">=</span><span class="n">IWRITE</span>                      
+    <span class="n">conf</span><span class="o">.</span><span class="n">EOVB</span><span class="o">=</span><span class="n">EOVB</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">WB</span><span class="o">=</span><span class="n">WB</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">BTHETA</span><span class="o">=</span><span class="n">BTHETA</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">BMAG</span>  <span class="o">=</span><span class="n">BMAG</span>  
+    <span class="n">conf</span><span class="o">.</span><span class="n">DOUBLE</span><span class="o">=</span><span class="n">DOUBLE</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">CMINIXSC</span><span class="o">=</span><span class="n">CMINIXSC</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">CMINEXSC</span><span class="o">=</span><span class="n">CMINEXSC</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">ECLOSS</span><span class="o">=</span><span class="n">ECLOSS</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">WPLN</span><span class="o">=</span><span class="n">WPLN</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">ICOUNT</span><span class="o">=</span><span class="n">ICOUNT</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">AVPFRAC</span><span class="o">=</span><span class="n">AVPFRAC</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">CF</span><span class="o">=</span><span class="n">CF</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">EIN</span><span class="o">=</span><span class="n">EIN</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">TCF</span><span class="o">=</span><span class="n">TCF</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">IARRY</span><span class="o">=</span><span class="n">IARRY</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">RGAS</span><span class="o">=</span><span class="n">RGAS</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">IPN</span><span class="o">=</span><span class="n">IPN</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">WPL</span><span class="o">=</span><span class="n">WPL</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">IZBR</span><span class="o">=</span><span class="n">IZBR</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">IPLAST</span><span class="o">=</span><span class="n">IPLAST</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">PENFRA</span><span class="o">=</span><span class="n">PENFRA</span>
+    <span class="n">conf</span><span class="o">.</span><span class="n">NSEED</span> <span class="o">=</span><span class="n">NSEED</span> 
+    <span class="n">conf</span><span class="o">.</span><span class="n">NEGAS</span><span class="o">=</span><span class="n">NEGAS</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">LEGAS</span><span class="o">=</span><span class="n">LEGAS</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">IESHELL</span><span class="o">=</span><span class="n">IESHELL</span>
+
+    <span class="n">conf</span><span class="o">.</span><span class="n">IECASC</span>  <span class="o">=</span><span class="n">IECASC</span>  
+    <span class="k">return</span>                                                            
+    <span class="c"># end                                                               </span>
+</code></pre><pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">PRINTER</span><span class="w">                                              
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w"> 
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="w"> </span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">   
+      </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">4</span><span class="w"> </span><span class="n">NSEED</span><span class="w">                                     
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">INPT</span><span class="p">/</span><span class="n">NGAS</span><span class="p">,</span><span class="n">NSTEP</span><span class="p">,</span><span class="n">NANISO</span><span class="p">,</span><span class="n">EFINAL</span><span class="p">,</span><span class="n">ESTEP</span><span class="p">,</span><span class="n">AKT</span><span class="p">,</span><span class="n">ARY</span><span class="p">,</span><span class="n">TEMPC</span><span class="p">,</span><span class="n">TORR</span><span class="p">,</span><span class="n">IPEN</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">INPT2</span><span class="p">/</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">DETEFF</span><span class="p">,</span><span class="n">EXCWGHT</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">INPT1</span><span class="p">/</span><span class="n">NDVEC</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COMP</span><span class="p">/</span><span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span><span class="w"> 
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">RATIO</span><span class="p">/</span><span class="n">AN1</span><span class="p">,</span><span class="n">AN2</span><span class="p">,</span><span class="n">AN3</span><span class="p">,</span><span class="n">AN4</span><span class="p">,</span><span class="n">AN5</span><span class="p">,</span><span class="n">AN6</span><span class="p">,</span><span class="n">AN</span><span class="p">,</span><span class="n">FRAC</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">              
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">SETP</span><span class="p">/</span><span class="n">TMAX</span><span class="p">,</span><span class="n">SMALL</span><span class="p">,</span><span class="n">API</span><span class="p">,</span><span class="n">ESTART</span><span class="p">,</span><span class="n">THETA</span><span class="p">,</span><span class="n">PHI</span><span class="p">,</span><span class="n">TCFMAX</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">TCFMAX1</span><span class="p">,</span><span class="w">
+     </span><span class="p">/</span><span class="n">RSTART</span><span class="p">,</span><span class="n">EFIELD</span><span class="p">,</span><span class="n">ETHRM</span><span class="p">,</span><span class="n">ECUT</span><span class="p">,</span><span class="n">NDELTA</span><span class="p">,</span><span class="n">IMIP</span><span class="p">,</span><span class="n">IWRITE</span><span class="w">                      
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">BFLD</span><span class="p">/</span><span class="n">EOVB</span><span class="p">,</span><span class="n">WB</span><span class="p">,</span><span class="n">BTHETA</span><span class="p">,</span><span class="n">BMAG</span><span class="w">  
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">IONC</span><span class="p">/</span><span class="kt">DOUBLE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">20000</span><span class="p">),</span><span class="n">CMINIXSC</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="n">CMINEXSC</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="n">ECLOSS</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">WPLN</span><span class="p">(</span><span class="mi">6</span><span class="p">),</span><span class="n">ICOUNT</span><span class="p">,</span><span class="n">AVPFRAC</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">LARGE</span><span class="p">/</span><span class="n">CF</span><span class="p">(</span><span class="mi">20000</span><span class="p">,</span><span class="mi">512</span><span class="p">),</span><span class="n">EIN</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">TCF</span><span class="p">(</span><span class="mi">20000</span><span class="p">),</span><span class="n">IARRY</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="w">    
+     </span><span class="p">/</span><span class="n">RGAS</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">IPN</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">WPL</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">IZBR</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">IPLAST</span><span class="p">,</span><span class="n">PENFRA</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">512</span><span class="p">)</span><span class="w">   
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">NAMES</span><span class="p">/</span><span class="n">NAMEG</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span><span class="w">  
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">KSEED</span><span class="p">/</span><span class="n">NSEED</span><span class="w"> 
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">ECASC</span><span class="p">/</span><span class="n">NEGAS</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">LEGAS</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">IESHELL</span><span class="p">(</span><span class="mi">512</span><span class="p">),</span><span class="n">IECASC</span><span class="w">  
+      </span><span class="kt">CHARACTER</span><span class="o">*</span><span class="mi">25</span><span class="w"> </span><span class="n">NAMEG</span><span class="w">                                  
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span><span class="w">     
+    </span><span class="mi">1</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2/</span><span class="p">,</span><span class="l">10X</span><span class="p">,</span><span class="s1">' DEGRAD VERSION 3.3  '</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">6X</span><span class="p">,</span><span class="w">
+     </span><span class="l">/</span><span class="s1">'-----------------------------'</span><span class="p">,</span><span class="l">2/</span><span class="p">)</span><span class="w">      
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">    
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="w">   
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w">       
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">245</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCMP</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LRAY</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LRAY</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LPAP</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LPAP</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">13</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LBRM</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">14</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LBRM</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IECASC</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">16</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IECASC</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">17</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">245</span><span class="p">)</span><span class="w"> 
+  </span><span class="mi">245</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">'----------------------------------'</span><span class="p">,</span><span class="l">2</span><span class="p">(</span><span class="l">/</span><span class="p">))</span><span class="w">
+    </span><span class="mi">2</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' MIP AND DE/DX SIMULATION'</span><span class="p">)</span><span class="w">
+    </span><span class="mi">3</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' ELECTRON BEAM SIMULATION'</span><span class="p">)</span><span class="w">
+    </span><span class="mi">4</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' X-RAY SIMULATION'</span><span class="p">)</span><span class="w">
+    </span><span class="mi">5</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' BETA DECAY SIMULATION'</span><span class="p">)</span><span class="w">
+    </span><span class="mi">6</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' DOUBLE BETA DECAY SIMULATION'</span><span class="p">)</span><span class="w">
+    </span><span class="mi">7</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITHOUT COMPTON SCATTERING'</span><span class="p">)</span><span class="w">  
+    </span><span class="mi">8</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITH COMPTON SCATTERING'</span><span class="p">)</span><span class="w">
+    </span><span class="mi">9</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITHOUT RAYLEIGH SCATTERING'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">11</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITH RAYLEIGH SCATTERING'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">12</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITHOUT PAIR PRODUCTION'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">13</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITH PAIR PRODUCTION'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">14</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITHOUT BREMSSTRAHLUNG'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">15</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITH BREMSSTRAHLUNG'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">16</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITH PARAMETERISED SHELL CASCADE'</span><span class="p">)</span><span class="w">
+   </span><span class="mi">17</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">' SIMULATION WITH COMPLETE SHELL CASCADE'</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="n">NGAS</span><span class="w">                                                  
+   </span><span class="mi">10</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">3X</span><span class="p">,</span><span class="s1">'MONTE CARLO SOLUTION FOR MIXTURE OF '</span><span class="p">,</span><span class="l">I2</span><span class="p">,</span><span class="s1">' GASES.'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">3X</span><span class="w">
+     </span><span class="l">/</span><span class="p">,</span><span class="s1">'DEGRADATION CALCULATION ALL TIMES IN PICOSECS, DISTANCE IN MICRO
+     /NS'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">3X</span><span class="p">,</span><span class="s1">'--------------------------------------------------------
+     /---------'</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">NAMEG</span><span class="p">(</span><span class="n">J</span><span class="p">),</span><span class="n">FRAC</span><span class="p">(</span><span class="n">J</span><span class="p">),</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NGAS</span><span class="p">)</span><span class="w">                          
+  </span><span class="mi">30</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">/</span><span class="p">,</span><span class="l">5X</span><span class="p">,</span><span class="s1">'  GASES  USED '</span><span class="p">,</span><span class="l">15X</span><span class="p">,</span><span class="s1">' PERCENTAGE USED '</span><span class="p">,</span><span class="l">2</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="l">6</span><span class="p">(</span><span class="l">6X</span><span class="p">,</span><span class="l">A25</span><span class="w">
+     </span><span class="l">/</span><span class="p">,</span><span class="l">5X</span><span class="p">,</span><span class="l">F9.4</span><span class="p">,</span><span class="l">/</span><span class="p">))</span><span class="w">                    
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="n">TEMPC</span><span class="p">,</span><span class="n">TORR</span><span class="w">                                            
+   </span><span class="mi">50</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">/</span><span class="p">,</span><span class="l">2X</span><span class="p">,</span><span class="s1">'GAS TEMPERATURE ='</span><span class="p">,</span><span class="l">F6.1</span><span class="p">,</span><span class="s1">' DEGREES CENTIGRADE.'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">2X</span><span class="p">,</span><span class="s1">'
+     /GAS PRESSURE = '</span><span class="p">,</span><span class="l">F7.1</span><span class="p">,</span><span class="s1">' TORR.'</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NSEED</span><span class="ow">.NE.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">51</span><span class="p">)</span><span class="w"> </span><span class="n">NSEED</span><span class="w">
+   </span><span class="mi">51</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="s1">' RANDOM NUMBER SEED ='</span><span class="p">,</span><span class="l">I10</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NSEED</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">52</span><span class="p">)</span><span class="w"> 
+   </span><span class="mi">52</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="s1">' STANDARD RANDOM NUMBER SEED = 54217137'</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IPEN</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">55</span><span class="p">)</span><span class="w">
+   </span><span class="mi">55</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="l">2X</span><span class="p">,</span><span class="s1">' PENNING IONISATION NOT ALLOWED'</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IPEN</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">56</span><span class="p">)</span><span class="w">                              
+   </span><span class="mi">56</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="l">2X</span><span class="p">,</span><span class="s1">' PENNING IONISATION ALLOWED'</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="n">EFINAL</span><span class="p">,</span><span class="n">NSTEP</span><span class="w">                                          
+  </span><span class="mi">60</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">1</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="l">2X</span><span class="p">,</span><span class="s1">'INTEGRATION FROM 0.0 TO '</span><span class="p">,</span><span class="l">F11.1</span><span class="p">,</span><span class="s1">' EV.  IN '</span><span class="p">,</span><span class="l">I5</span><span class="p">,</span><span class="s1">' S
+     /TEPS. '</span><span class="p">)</span><span class="w"> 
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">90</span><span class="p">)</span><span class="w"> </span><span class="n">EFIELD</span><span class="p">,</span><span class="n">BMAG</span><span class="p">,</span><span class="n">BTHETA</span><span class="p">,</span><span class="n">WB</span><span class="w">                                 
+  </span><span class="mi">90</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">1</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="s1">'  ELECTRIC FIELD ='</span><span class="p">,</span><span class="l">F12.4</span><span class="p">,</span><span class="s1">' VOLTS/CM.'</span><span class="p">,</span><span class="l">/</span><span class="s1">'  MAGNETIC F
+     /IELD ='</span><span class="p">,</span><span class="l">F11.4</span><span class="p">,</span><span class="s1">' KILOGAUSS.'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="s1">'  ANGLE BETWEEN ELECTRIC AND MAGNET
+     /IC FIELD ='</span><span class="p">,</span><span class="l">F10.3</span><span class="p">,</span><span class="s1">' DEGREES.'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="s1">'  CYCLOTRON FREQ. ='</span><span class="p">,</span><span class="l">E12.3</span><span class="p">,</span><span class="s1">' RADI
+     /ANS/PICOSECOND'</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">43</span><span class="p">)</span><span class="w">
+  </span><span class="mi">43</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">/</span><span class="p">,</span><span class="s1">' USED ANISOTROPIC X-SECTIONS (OKHRIMOVSKYY ET AL) '</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ICOUNT</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">34</span><span class="p">)</span><span class="w"> 
+  </span><span class="mi">34</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' USED COUNTING IONISATION X-SECTIONS'</span><span class="p">)</span><span class="w">
+      </span><span class="k">ELSE</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">35</span><span class="p">)</span><span class="w">
+  </span><span class="mi">35</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' USE GROSS IONISATION X-SECTIONS'</span><span class="p">)</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">91</span><span class="p">)</span><span class="w"> </span><span class="n">ESTART</span><span class="p">,</span><span class="n">NDELTA</span><span class="p">,</span><span class="n">ETHRM</span><span class="w"> 
+  </span><span class="mi">91</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">1</span><span class="p">(</span><span class="l">/</span><span class="p">),</span><span class="s1">'  INITIAL ELECTRON OR X-RAY ENERGY ='</span><span class="p">,</span><span class="l">F11.1</span><span class="p">,</span><span class="s1">' EV.'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="w">
+     </span><span class="l">/9X</span><span class="p">,</span><span class="s1">'NUMBER OF EVENTS ='</span><span class="p">,</span><span class="l">I9</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">4X</span><span class="p">,</span><span class="s1">'THERMALISATION ENERGY ='</span><span class="p">,</span><span class="l">F6.2</span><span class="p">,</span><span class="w">
+     </span><span class="l">/</span><span class="s1">' EV.'</span><span class="p">,</span><span class="l">/</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">911</span><span class="p">)</span><span class="w"> </span><span class="n">DETEFF</span><span class="p">,</span><span class="n">EXCWGHT</span><span class="w">
+  </span><span class="mi">911</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' PHOTON DETECTION EFFICIENCY USED IN FANO CALCULATION ='</span><span class="p">,</span><span class="w">
+     </span><span class="l">/F7.3</span><span class="p">,</span><span class="s1">' %'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">7X</span><span class="p">,</span><span class="s1">'WEIGHT GIVEN TO EXCITATION IN FANO CALCULATION ='</span><span class="p">,</span><span class="w">
+     </span><span class="l">/F7.3</span><span class="p">,</span><span class="l">/</span><span class="p">)</span><span class="w"> 
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mf">4.</span><span class="n">OR</span><span class="ow">.IMIP.</span><span class="n">EQ</span><span class="mf">.5</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">KGAS</span><span class="ow">.LE.</span><span class="mf">0.</span><span class="n">OR</span><span class="ow">.KGAS.</span><span class="n">GT</span><span class="err">.</span><span class="n">NGAS</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">990</span><span class="p">)</span><span class="w"> </span><span class="n">KGAS</span><span class="w">
+  </span><span class="mi">990</span><span class="w">   </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' ERROR IN INPUT: BETA DECAY IDENTIFIER KGAS='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="s1">'  PROG
+     /RAM STOPPED'</span><span class="p">)</span><span class="w">
+        </span><span class="k">STOP</span><span class="w">
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">LGAS</span><span class="ow">.LE.</span><span class="mf">0.</span><span class="n">OR</span><span class="ow">.LGAS.</span><span class="n">GT</span><span class="mf">.3</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+        </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">991</span><span class="p">)</span><span class="w"> </span><span class="n">LGAS</span><span class="w">
+  </span><span class="mi">991</span><span class="w">   </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' ERROR IN INPUT: BETA DECAY IDENTIFIER LGAS='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="s1">'  PROG
+     /RAM STOPPED'</span><span class="p">)</span><span class="w">
+        </span><span class="k">STOP</span><span class="w"> 
+       </span><span class="k">ENDIF</span><span class="w">
+       </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">88</span><span class="p">)</span><span class="w"> </span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="w">
+   </span><span class="mi">88</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">/</span><span class="p">,</span><span class="s1">'  BETA DECAY IN GAS NO ='</span><span class="p">,</span><span class="l">I2</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="s1">'  IF MOLECULE THEN BETA
+     / DECAY IN ATOMIC COMPONENT ='</span><span class="p">,</span><span class="l">I2</span><span class="p">,</span><span class="l">/</span><span class="p">)</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NDVEC</span><span class="ow">.EQ.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">915</span><span class="p">)</span><span class="w">
+  </span><span class="mi">915</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">'  BETA OR X-RAY IN RANDOM DIRECTION TO E-FIELD'</span><span class="p">)</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">95</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">DABS</span><span class="p">(</span><span class="n">DCOS</span><span class="p">(</span><span class="n">THETA</span><span class="p">))</span><span class="ow">.LT.</span><span class="mf">1.D-9</span><span class="ow">.AND.</span><span class="n">IMIP</span><span class="ow">.GT.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">92</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">DABS</span><span class="p">(</span><span class="n">DCOS</span><span class="p">(</span><span class="n">THETA</span><span class="p">))</span><span class="ow">.LT.</span><span class="mf">1.D-9</span><span class="ow">.AND.</span><span class="n">IMIP</span><span class="ow">.EQ.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">922</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">DCOS</span><span class="p">(</span><span class="n">THETA</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mf">1.0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">93</span><span class="p">)</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">DCOS</span><span class="p">(</span><span class="n">THETA</span><span class="p">)</span><span class="ow">.EQ.</span><span class="mf">-1.0</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">94</span><span class="p">)</span><span class="w">
+ </span><span class="mi">922</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">'  ELECTRON BEAM ALONG X DIRECTION'</span><span class="p">)</span><span class="w">
+  </span><span class="mi">92</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">'  BETA OR X-RAY PERPENDICULAR TO E-FIELD IN X-Y PLANE'</span><span class="p">)</span><span class="w">  
+  </span><span class="mi">93</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">'  E-BEAM,BETA OR X-RAY ALONG Z-AXIS IN E-FIELD DIRECTION'</span><span class="p">)</span><span class="w">
+  </span><span class="mi">94</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">'  E-BEAM,BETA OR X-RAY ALONG Z-AXIS OPPOSITE TO E-FIELD DI
+     /RECTION'</span><span class="p">)</span><span class="w">  
+      </span><span class="k">PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">TCFMAX1</span><span class="w"> 
+  </span><span class="mi">95</span><span class="w">  </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">96</span><span class="p">)</span><span class="w"> </span><span class="n">TCFMAX1</span><span class="w"> 
+  </span><span class="mi">96</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">/</span><span class="p">,</span><span class="l">2X</span><span class="p">,</span><span class="s1">'NULL COLLISION FREQUENCY ='</span><span class="p">,</span><span class="l">D10.3</span><span class="p">,</span><span class="s1">' *(10**12/SEC)'</span><span class="p">,</span><span class="l">/</span><span class="p">)</span><span class="w">
+      </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">111</span><span class="p">)</span><span class="w">  </span><span class="p">(</span><span class="n">TCF</span><span class="p">(</span><span class="n">L</span><span class="p">),</span><span class="n">L</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span><span class="mi">9500</span><span class="p">,</span><span class="mi">1000</span><span class="p">)</span><span class="w">                            
+  </span><span class="mi">111</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">2X</span><span class="p">,</span><span class="s1">'REAL COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY IN
+     /TERVALS (*10**12/SEC)'</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="l">2</span><span class="p">(</span><span class="l">5</span><span class="p">(</span><span class="l">3X</span><span class="p">,</span><span class="l">D10.3</span><span class="p">)</span><span class="l">/</span><span class="p">))</span><span class="w">                   
+      </span><span class="k">RETURN</span><span class="w">                                                            
+      </span><span class="k">END</span><span class="w">
+</span></code></pre>
