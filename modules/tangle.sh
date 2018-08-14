@@ -12,6 +12,11 @@ cat Stats2.md >> ../index.html.md
 cat Printer.md >> ../index.html.md
 cat Mipcalc.md >> ../index.html.md
 cat Csstfbn.md >> ../index.html.md
+cat Compress.md >> ../index.html.md
+cat Bremscasc.md >> ../index.html.md
+cat Controlb.md >> ../index.html.md
+cat Calcb.md >> ../index.html.md
+cat Cascadee.md >> ../index.html.md
 
 
 cat Tail.md >> ../index.html.md

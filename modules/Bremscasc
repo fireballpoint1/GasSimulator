@@ -1,0 +1,873 @@
+<h2 id='bremscasc'>BREMSCASC()</h2>
+<ul>
+<li>Bremsstrahlung Cascade tree:</li>
+<li>Set variables or initialize variables</li>
+<li>Create interation tree for PE compton Rayleigh and pair production.</li>
+<li>Store electron energy direction cosines and position with shell.</li>
+<li>Level and gas identity in <code>COUT</code> for each compton and PE event.</li>
+<li>Store pair production electron and positron data in <code>PPSTR</code></li>
+<li>Store final cascade results in <code>CASRSB</code></li>
+</ul>
+<h3 id='arguments'>Arguments</h3>
+<table><thead>
+<tr>
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>J11</td>
+<td></td>
+</tr>
+<tr>
+<td>EGAMMA</td>
+<td></td>
+</tr>
+<tr>
+<td>X0</td>
+<td></td>
+</tr>
+<tr>
+<td>Y0</td>
+<td></td>
+</tr>
+<tr>
+<td>Z0</td>
+<td></td>
+</tr>
+<tr>
+<td>T0</td>
+<td></td>
+</tr>
+<tr>
+<td>GDCX</td>
+<td></td>
+</tr>
+<tr>
+<td>GDCY</td>
+<td></td>
+</tr>
+<tr>
+<td>GDCZ</td>
+<td></td>
+</tr>
+<tr>
+<td>ILOW</td>
+<td></td>
+</tr>
+</tbody></table>
+<pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">BREMSCASC</span><span class="p">(</span><span class="n">J11</span><span class="p">,</span><span class="n">EGAMMA</span><span class="p">,</span><span class="n">X0</span><span class="p">,</span><span class="n">Y0</span><span class="p">,</span><span class="n">Z0</span><span class="p">,</span><span class="n">T0</span><span class="p">,</span><span class="n">GDCX</span><span class="p">,</span><span class="n">GDCY</span><span class="p">,</span><span class="n">GDCZ</span><span class="p">,</span><span class="n">ILOW</span><span class="p">):</span>
+    <span class="c"># IMPLICIT #real*8(A-H,O-Z)</span>
+    <span class="c"># IMPLICIT #integer*8(I-N)</span>
+    <span class="c">#CHARACTER*6 SCR(17),SCR1(17)</span>
+    <span class="c"># COMMON/COMP/LCMP,LCFLG,LRAY,LRFLG,LPAP,LPFLG,LBRM,LBFLG,LPEFLG</span>
+    <span class="c"># COMMON/COMPTOUT/EGAM,EELEC,THETAG,THETAE</span>
+    <span class="c"># COMMON/PRIM4/MSUM1,MCOMP1,MRAYL1,MPAIR1,MPHOT1,MVAC1</span>
+    <span class="c"># COMMON/GENCAS/ELEV[17,79],NSDEG(17),AA[17],BB[17],SCR,SCR1</span>
+    <span class="c"># COMMON/MIXC/PRSH(6,3,17,17),ESH(6,3,17),AUG(6,3,17,17,17),RAD[6,3,17,17],PRSHBT(6,3,17),IZ[6,3],INIOCC(6,3,17),ISHLMX(6,3),AMZ[6,3]</span>
+    <span class="c"># COMMON/UPD/NOCC(6,3,17),AUGR(6,3,17,17,17),RADR(6,3,17,17)</span>
+    <span class="c"># COMMON/CALCASB/IONSUM(10),IFLSUM(10),ESTORE(10,28),EPHOTON(10,28),DRXE(10,28),DRYE(10,28),DRZE(10,28),DRX(10,28),DRY(10,28),DRZ[10,28]</span>
+    <span class="c"># COMMON/CALCAS1B/IONSUM1(10),IFLSUM1(10),ESTOR1(10,28),EPHOTG1(10,28),DRXE1(10,28),DRYE1(10,28),DRZE1(10,28),DRX1(10,28),DRY1(10,28),DRZ1(10,28)</span>
+    <span class="c"># COMMON/CALCAS2B/IONSUM2(10),IFLSUM2(10),ESTOR2(10,28),EPHOTG2(10,28),DRXE2(10,28),DRYE2(10,28),DRZE2(10,28),DRX2(10,28),DRY2(10,28),DRZ2(10,28)</span>
+    <span class="c"># COMMON/CALCAS3B/IONSUM3(10),IFLSUM3(10),ESTOR3(10,28),EPHOTG3(10,28),DRXE3(10,28),DRYE3(10,28),DRZE3(10,28),DRX3(10,28),DRY3(10,28),DRZ3(10,28)</span>
+    <span class="c"># COMMON/CALCAS4B/IONSUM4(10),IFLSUM4(10),ESTOR4(10,28),EPHOTG4(10,28),DRXE4(10,28),DRYE4(10,28),DRZE4(10,28),DRX4(10,28),DRY4(10,28),DRZ4(10,28)</span>
+    <span class="c"># COMMON/CALCAS5B/IONSUM5(10),IFLSUM5(10),ESTOR5(10,28),EPHOTG5(10,28),DRXE5(10,28),DRYE5(10,28),DRZE5(10,28),DRX5(10,28),DRY5(10,28),DRZ5(10,28)</span>
+    <span class="c"># COMMON/RESB/IONSM(10),IFLSM(10),ESTOR(10,28),EPHOT(10,28),X10(10,28),Y10(10,28),Z10(10,28),DRX01(10,28),DRY01(10,28),DRZ01(10,28)</span>
+    <span class="c"># COMMON/GENB1/IONF1(10),ESTF1(10,28),X11(10,28),Y11(10,28),Z11(10,28),DRX11(10,28),DRY11(10,28),DRZ11(10,28)</span>
+    <span class="c"># COMMON/GENB2/IONF2(10),ESTF2(10,28),X21(10,28),Y21(10,28),Z21(10,28),DRX21(10,28),DRY21(10,28),DRZ21(10,28)</span>
+    <span class="c"># COMMON/GENB3/IONF3(10),ESTF3(10,15),X31(10,15),Y31(10,15),Z31(10,15),DRX31(10,15),DRY31(10,15),DRZ31(10,15)</span>
+    <span class="c"># COMMON/GENB4/IONF4(10),ESTF4(10,12),X41(10,12),Y41(10,12),Z41(10,12),DRX41(10,12),DRY41(10,12),DRZ41(10,12)</span>
+    <span class="c"># COMMON/GENB5/IONF5(10),ESTF5(10,5),X51(10,5),Y51(10,5),Z51(10,5),DRX51(10,5),DRY51(10,5),DRZ51(10,5)</span>
+    <span class="c"># COMMON/COUTE/ECMP(10),ECDRX(10),ECDRY(10),ECDRZ[10],XCPOS(10),YCPOS(10),ZCPOS(10),KCGAS(10),LCGAS(10),ICSHELL(10)</span>
+    <span class="c"># COMMON/COUTTB/TT(10),TTP</span>
+    <span class="c"># COMMON/PPSTRB/NPTP,EPPST[2],XPP[2],YPP[2],ZPP[2],DRXPP[2],DRYPP[2],DRZPP[2]</span>
+    <span class="c"># COMMON/COMP/</span>
+    <span class="k">global</span> <span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span>
+    <span class="c">#COMMON/COMPTOUT/</span>
+    <span class="k">global</span> <span class="n">EGAM</span><span class="p">,</span><span class="n">EELEC</span><span class="p">,</span><span class="n">THETAG</span><span class="p">,</span><span class="n">THETAE</span>
+    <span class="c">#COMMON/PRIM4/</span>
+    <span class="k">global</span> <span class="n">MSUM1</span><span class="p">,</span><span class="n">MCOMP1</span><span class="p">,</span><span class="n">MRAYL1</span><span class="p">,</span><span class="n">MPAIR1</span><span class="p">,</span><span class="n">MPHOT1</span><span class="p">,</span><span class="n">MVAC1</span>
+    <span class="c">#COMMON/GENCAS/</span>
+    <span class="k">global</span> <span class="n">ELEV</span><span class="c">#(17,79)</span>
+    <span class="k">global</span> <span class="n">NSDEG</span><span class="c">#(17)</span>
+    <span class="k">global</span> <span class="n">AA</span><span class="c">#(17)</span>
+    <span class="k">global</span> <span class="n">BB</span><span class="c">#(17)</span>
+    <span class="k">global</span> <span class="n">SCR</span><span class="p">,</span><span class="n">SCR1</span>
+    <span class="c">#COMMON/MIXC/</span>
+    <span class="k">global</span> <span class="n">PRSH</span><span class="c">#(6,3,17,17)</span>
+    <span class="k">global</span> <span class="n">ESH</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">AUG</span><span class="c">#(6,3,17,17,17)</span>
+    <span class="k">global</span> <span class="n">RAD</span><span class="c">#(6,3,17,17)</span>
+    <span class="k">global</span> <span class="n">PRSHBT</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">IZ</span><span class="c">#(6,3)</span>
+    <span class="k">global</span> <span class="n">INIOCC</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">ISHLMX</span><span class="c">#(6,3)</span>
+    <span class="k">global</span> <span class="n">AMZ</span><span class="c">#(6,3)</span>
+    <span class="c">#COMMON/UPD/</span>
+    <span class="k">global</span> <span class="n">NOCC</span><span class="c">#(6,3,17)</span>
+    <span class="k">global</span> <span class="n">AUGR</span><span class="c">#(6,3,17,17,17)</span>
+    <span class="k">global</span> <span class="n">RADR</span><span class="c">#(6,3,17,17)</span>
+    <span class="c">#COMMON/CALCASB/</span>
+    <span class="k">global</span> <span class="n">IONSUM</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTORE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTON</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS1B/</span>
+    <span class="k">global</span> <span class="n">IONSUM1</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM1</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ1</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS2B/</span>
+    <span class="k">global</span> <span class="n">IONSUM2</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM2</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ2</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS3B/</span>
+    <span class="k">global</span> <span class="n">IONSUM3</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM3</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY3</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ3</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS4B/</span>
+    <span class="k">global</span> <span class="n">IONSUM4</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM4</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY4</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ4</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/CALCAS5B/</span>
+    <span class="k">global</span> <span class="n">IONSUM5</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSUM5</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOTG5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRXE5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRYE5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZE5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY5</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ5</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/RESB/</span>
+    <span class="k">global</span> <span class="n">IONSM</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">IFLSM</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTOR</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">EPHOT</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">X10</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">Y10</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">Z10</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX01</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY01</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ01</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/GENB1/</span>
+    <span class="k">global</span> <span class="n">IONF1</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTF1</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">X11</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">Y11</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">Z11</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX11</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY11</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ11</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/GENB2/</span>
+    <span class="k">global</span> <span class="n">IONF2</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTF2</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">X21</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">Y21</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">Z21</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRX21</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRY21</span><span class="c">#(10,28)</span>
+    <span class="k">global</span> <span class="n">DRZ21</span><span class="c">#(10,28)</span>
+    <span class="c">#COMMON/GENB3/</span>
+    <span class="k">global</span> <span class="n">IONF3</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTF3</span><span class="c">#(10,15)</span>
+    <span class="k">global</span> <span class="n">X31</span><span class="c">#(10,15)</span>
+    <span class="k">global</span> <span class="n">Y31</span><span class="c">#(10,15)</span>
+    <span class="k">global</span> <span class="n">Z31</span><span class="c">#(10,15)</span>
+    <span class="k">global</span> <span class="n">DRX31</span><span class="c">#(10,15)</span>
+    <span class="k">global</span> <span class="n">DRY31</span><span class="c">#(10,15)</span>
+    <span class="k">global</span> <span class="n">DRZ31</span><span class="c">#(10,15)</span>
+    <span class="c">#COMMON/GENB4/</span>
+    <span class="k">global</span> <span class="n">IONF4</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTF4</span><span class="c">#(10,12)</span>
+    <span class="k">global</span> <span class="n">X41</span><span class="c">#(10,12)</span>
+    <span class="k">global</span> <span class="n">Y41</span><span class="c">#(10,12)</span>
+    <span class="k">global</span> <span class="n">Z41</span><span class="c">#(10,12)</span>
+    <span class="k">global</span> <span class="n">DRX41</span><span class="c">#(10,12)</span>
+    <span class="k">global</span> <span class="n">DRY41</span><span class="c">#(10,12)</span>
+    <span class="k">global</span> <span class="n">DRZ41</span><span class="c">#(10,12)</span>
+    <span class="c">#COMMON/GENB5/</span>
+    <span class="k">global</span> <span class="n">IONF5</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ESTF5</span><span class="c">#(10,5)</span>
+    <span class="k">global</span> <span class="n">X51</span><span class="c">#(10,5)</span>
+    <span class="k">global</span> <span class="n">Y51</span><span class="c">#(10,5)</span>
+    <span class="k">global</span> <span class="n">Z51</span><span class="c">#(10,5)</span>
+    <span class="k">global</span> <span class="n">DRX51</span><span class="c">#(10,5)</span>
+    <span class="k">global</span> <span class="n">DRY51</span><span class="c">#(10,5)</span>
+    <span class="k">global</span> <span class="n">DRZ51</span><span class="c">#(10,5)</span>
+    <span class="c">#COMMON/COUTE/</span>
+    <span class="k">global</span> <span class="n">ECMP</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ECDRX</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ECDRY</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ECDRZ</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">XCPOS</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">YCPOS</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ZCPOS</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">KCGAS</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">LCGAS</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">ICSHELL</span><span class="c">#(10)</span>
+    <span class="c">#COMMON/COUTTB/</span>
+    <span class="k">global</span> <span class="n">TT</span><span class="c">#(10)</span>
+    <span class="k">global</span> <span class="n">TTP</span>
+    <span class="c">#COMMON/PPSTRB/</span>
+    <span class="k">global</span> <span class="n">NPTP</span>
+    <span class="k">global</span> <span class="n">EPPST</span><span class="c">#(2)</span>
+    <span class="k">global</span> <span class="n">XPP</span><span class="c">#(2)</span>
+    <span class="k">global</span> <span class="n">YPP</span><span class="c">#(2)</span>
+    <span class="k">global</span> <span class="n">ZPP</span><span class="c">#(2)</span>
+    <span class="k">global</span> <span class="n">DRXPP</span><span class="c">#(2)</span>
+    <span class="k">global</span> <span class="n">DRYPP</span><span class="c">#(2)</span>
+    <span class="k">global</span> <span class="n">DRZPP</span><span class="c">#(2)</span>
+    <span class="c">#----------------------------------------------------------------------</span>
+    <span class="c"># BREMSSTRAHLUNG CASCADE TREE:</span>
+    <span class="c">#   SET OR ZERO SOME VARIABLES </span>
+    <span class="c">#   CREATE INTERACTION TREE FOR PE COMPTON RAYLEIGH AND PAIR PRODUCTION</span>
+    <span class="c">#   STORE ELECTRON ENERGY DIRECTION COSINES AND POSITION WITH SHELL</span>
+    <span class="c">#   LEVEL AND GAS IDENTITY IN COMMON/COUT/ FOR EACH COMPTON AND PE EVENT</span>
+    <span class="c">#   STORE PAIR PRODUCTION ELECTRON AND POSITRON DATA IN COMMON/PPSTR/</span>
+    <span class="c">#   STORE FINAL CASCADE RESULTS IN COMMON/CASRSB/</span>
+    <span class="c">#----------------------------------------------------------------------</span>
+    <span class="n">API</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">arccos</span><span class="p">(</span><span class="o">-</span><span class="mf">1.00</span><span class="p">)</span>
+    <span class="n">TWOPI</span><span class="o">=</span><span class="mf">2.00</span><span class="o">*</span><span class="n">API</span>
+    <span class="n">IDBG</span><span class="o">=</span><span class="mi">0</span>
+    <span class="c">#     IF(J11 == 2) IDBG=1</span>
+    <span class="k">def</span> <span class="nf">GOTO5</span><span class="p">():</span>
+        <span class="n">ILOW</span><span class="o">=</span><span class="mi">0</span>
+        <span class="c"># USE VELOCITY IN METRES/PICOSECONDS</span>
+        <span class="n">VV</span><span class="o">=</span><span class="mf">2.99792458E-4</span> 
+        <span class="c">#  </span>
+        <span class="n">LFIX</span><span class="o">=</span><span class="mi">0</span>
+        <span class="c"># ALLOW FLUORESCENCE CALCULATION</span>
+        <span class="k">def</span> <span class="nf">GOTO123</span><span class="p">():</span>
+            <span class="n">ICONPH</span><span class="o">=</span><span class="mi">1</span>
+            <span class="c">#  PHOTON ORIGIN</span>
+            <span class="n">X</span><span class="o">=</span><span class="n">X0</span>
+            <span class="n">Y</span><span class="o">=</span><span class="n">Y0</span>
+            <span class="n">Z</span><span class="o">=</span><span class="n">Z0</span>
+            <span class="n">TSUM</span><span class="o">=</span><span class="n">T0</span>
+            <span class="c">#  LOAD INITIAL DIRECTION COSINES BEFORE INTERACTION </span>
+            <span class="n">DRXS</span><span class="o">=</span><span class="n">GDCX</span>
+            <span class="n">DRYS</span><span class="o">=</span><span class="n">GDCY</span>
+            <span class="n">DRZS</span><span class="o">=</span><span class="n">GDCZ</span>
+            <span class="c">#   INITIAL ENERGY</span>
+            <span class="n">ENERGY</span><span class="o">=</span><span class="n">EGAMMA</span>
+            <span class="c">#</span>
+            <span class="c"># ZERO SOME ARRAYS</span>
+            <span class="n">EPPST</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="mf">0.00</span>
+            <span class="n">EPPST</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="mf">0.00</span>
+            <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="p">):</span>
+                    <span class="n">EPHOTON</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">EPHOTG1</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">EPHOTG2</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">EPHOTG3</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">EPHOTG4</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">EPHOTG5</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTORE</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTOR1</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTOR2</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTOR3</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTOR4</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTOR5</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTOR</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTF1</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                    <span class="n">ESTF2</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">15</span><span class="p">):</span>
+                    <span class="n">ESTF3</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">):</span>
+                    <span class="n">ESTF4</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="k">for</span> <span class="n">J</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">):</span>
+                    <span class="n">ESTF5</span><span class="p">[</span><span class="n">K</span><span class="p">][</span><span class="n">J</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+                <span class="n">IFLSUM</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IFLSUM1</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IFLSUM2</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IFLSUM3</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IFLSUM4</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IFLSUM5</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSUM</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSUM1</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSUM2</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSUM3</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSUM4</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSUM5</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONSM</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONF1</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONF2</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONF3</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONF4</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">IONF5</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">KCGAS</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">LCGAS</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">ICSHELL</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mi">0</span>
+                <span class="n">ECMP</span><span class="p">[</span><span class="n">K</span><span class="p">]</span><span class="o">=</span><span class="mf">0.0</span>
+            <span class="n">NCOMP</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">NRAYL</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">NPAIR</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">NPHOT</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">NVAC</span><span class="o">=</span><span class="mi">0</span>
+            <span class="n">NPTP</span><span class="o">=</span><span class="mi">0</span>
+            <span class="c">#    </span>
+            <span class="n">IFIRST</span><span class="o">=</span><span class="mi">1</span>
+            <span class="n">ISECOND</span><span class="o">=</span><span class="mi">2</span>
+            <span class="k">def</span> <span class="nf">GOTO2</span><span class="p">():</span> 
+                <span class="n">NTOTI</span><span class="o">=</span><span class="n">NCOMP</span><span class="o">+</span><span class="n">NRAYL</span><span class="o">+</span><span class="n">NPAIR</span><span class="o">+</span><span class="n">NPHOT</span>
+                <span class="c"># PHOTONS</span>
+                <span class="n">ABSO</span><span class="p">(</span><span class="n">IFIRST</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">DIST</span><span class="p">)</span>
+                <span class="c">#     IF(IDBG == 1) :</span>
+                <span class="c">#     WRITE(6,888) ENERGY,ISHELL,J11</span>
+                <span class="c"># 888 print(' AFTER ABSO ENERGY=',D12.5,' ISHELL=',I3,' EVENT NO=',I4)</span>
+                <span class="c">#     # endIF</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">ISHELL</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="c"># BREMSSTRAHLUNG GAMMA TOO LOW IN ENERGY TO IONISE</span>
+                    <span class="n">ILOW</span><span class="o">=</span><span class="mi">1</span>
+                    <span class="k">return</span>
+                <span class="c"># endif</span>
+                <span class="c">#  </span>
+                <span class="c">#  CREATE INTERACTION TREE</span>
+                <span class="n">flag</span><span class="o">=</span><span class="mi">0</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">LPEFLG</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">flag</span><span class="o">=</span><span class="mi">100</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">LCFLG</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="n">flag</span><span class="o">=</span><span class="mi">10</span>         <span class="c">###############################</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">LRFLG</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>   <span class="c">##                           ##</span>
+                    <span class="n">flag</span><span class="o">=</span><span class="mi">20</span>         <span class="c">## Made significant changes  ##</span>
+                <span class="k">elif</span><span class="p">(</span><span class="n">LPFLG</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>   <span class="c">##                           ##</span>
+                    <span class="n">flag</span><span class="o">=</span><span class="mi">30</span>         <span class="c">###############################</span>
+                <span class="c"># COMPTON SCATTERING</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="o">==</span><span class="mi">10</span> <span class="ow">or</span> <span class="n">flag</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span> 
+                    <span class="n">COMPTON</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">)</span>
+                    <span class="n">NCOMP</span><span class="o">=</span><span class="n">NCOMP</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="n">NVAC</span><span class="o">=</span><span class="n">NVAC</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">NVAC</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">):</span>
+                        <span class="c"># MAXIMUM OF 10 PRIMARY INTERACTIONS</span>
+                        <span class="c">#      NJHIGH=NJHIGH+1</span>
+                        <span class="n">GOTO123</span><span class="p">()</span>
+                    <span class="c"># endif</span>
+                    <span class="c"># RANDOMISE ANGLE PHI</span>
+                    <span class="n">R3</span><span class="o">=</span><span class="n">DRAND48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span>
+                    <span class="n">PHI</span><span class="o">=</span><span class="n">TWOPI</span><span class="o">*</span><span class="n">R3</span>
+                    <span class="c"># CALCULATE COMPTON ELECTRON DIRECTION COSINES USING THETAE AND PHI</span>
+                    <span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THETAE</span><span class="p">,</span><span class="n">PHI</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span>
+                    <span class="c"># FOR COMPTON EFFECT STORE ELECTRON DIRECTION COSINES</span>
+                    <span class="n">ECDRX</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">DRXX</span>
+                    <span class="n">ECDRY</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">DRYY</span>
+                    <span class="n">ECDRZ</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">DRZZ</span>
+                    <span class="c"># CALCULATE WHICH SHELL HAS VACANCY FROM COMPTON EVENT</span>
+                    <span class="n">CVAC</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">EELEC</span><span class="p">,</span><span class="n">KSHELL</span><span class="p">,</span><span class="n">KBAD</span><span class="p">)</span>
+                    <span class="c"># REJECT EVENT WITHOUT SUFFICIENT ENERGY TO IONISE SHELLS</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">KBAD</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="n">GOTO123</span><span class="p">()</span>
+                    <span class="c"># STORE ELECTRON ENERGY SHELL VACANCY ISHELL KGAS LGAS POSITION </span>
+                    <span class="n">ECMP</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">EELEC</span>
+                    <span class="n">ICSHELL</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">KSHELL</span>
+                    <span class="n">KCGAS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">KGAS</span>
+                    <span class="n">LCGAS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">LGAS</span>
+                    <span class="c"># INTERACTION POSITIONS</span>
+                    <span class="n">XCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span>
+                    <span class="n">YCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span>
+                    <span class="n">ZCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span>
+                    <span class="n">TT</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="o">/</span><span class="n">VV</span> 
+                    <span class="c"># UPDATE PHOTON STARTING ENERGY POSITION AND ANGLES</span>
+                    <span class="n">ENERGY</span><span class="o">=</span><span class="n">EGAM</span>
+                    <span class="n">X</span><span class="o">=</span><span class="n">XCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+                    <span class="n">Y</span><span class="o">=</span><span class="n">YCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+                    <span class="n">Z</span><span class="o">=</span><span class="n">ZCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span>
+                    <span class="n">PHIG</span><span class="o">=</span><span class="n">PHI</span><span class="o">+</span><span class="n">API</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">PHIG</span> <span class="o">&gt;=</span> <span class="n">TWOPI</span><span class="p">):</span>
+                        <span class="n">PHIG</span><span class="o">=</span><span class="n">PHI</span><span class="o">-</span><span class="n">API</span>
+                    <span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THETAG</span><span class="p">,</span><span class="n">PHIG</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span>
+                    <span class="c"># NEW DIRECTION COSINES</span>
+                    <span class="n">DRXS</span><span class="o">=</span><span class="n">DRXX</span>
+                    <span class="n">DRYS</span><span class="o">=</span><span class="n">DRYY</span>
+                    <span class="n">DRZS</span><span class="o">=</span><span class="n">DRZZ</span>
+                    <span class="c"># LOOP BACK </span>
+                    <span class="n">GOTO2</span><span class="p">()</span>
+
+                <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="o">==</span><span class="mi">20</span> <span class="ow">or</span> <span class="n">flag</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                    <span class="c"># RAYLEIGH SCATTERING</span>
+                    <span class="n">RAYLEIGH</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">THETAR</span><span class="p">)</span>
+                    <span class="n">NRAYL</span><span class="o">=</span><span class="n">NRAYL</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="c">#  CALCULATE ENERGY LOSS IN RAYLEIGH SCATTERING</span>
+                    <span class="n">RAYLOS</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">THETAR</span><span class="p">,</span><span class="n">ELRAY</span><span class="p">)</span>
+                    <span class="c">#     IF(IDBG == 1) WRITE(6,776) ENERGY,ELRAY</span>
+                    <span class="c"># 776 print(' AFTER RAYLOS ENERGY=','%.4f' % ,' ELRAY=','%.4f' % )</span>
+                    <span class="c"># UPDATE X-RAY STARTING ENERGY POSITION AND ANGLES</span>
+                    <span class="n">ENERGY</span><span class="o">=</span><span class="n">ENERGY</span><span class="o">-</span><span class="n">ELRAY</span>
+                    <span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span>
+                    <span class="n">Y</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span>
+                    <span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span>
+                    <span class="n">TSUM</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="o">/</span><span class="n">VV</span>
+                    <span class="c"># RANDOMISE ANGLE PHI</span>
+                    <span class="n">R3</span><span class="o">=</span><span class="n">DRAND48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span>
+                    <span class="n">PHIR</span><span class="o">=</span><span class="n">TWOPI</span><span class="o">*</span><span class="n">R3</span>
+                    <span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THETAR</span><span class="p">,</span><span class="n">PHIR</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span>
+                    <span class="n">DRXS</span><span class="o">=</span><span class="n">DRXX</span>
+                    <span class="n">DRYS</span><span class="o">=</span><span class="n">DRYY</span>
+                    <span class="n">DRZS</span><span class="o">=</span><span class="n">DRZZ</span>
+                    <span class="c"># LOOP BACK</span>
+                    <span class="n">GOTO2</span><span class="p">()</span>
+
+                <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="o">==</span><span class="mi">30</span> <span class="ow">or</span> <span class="n">flag</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span> 
+                    <span class="c"># PAIR PRODUCTION</span>
+                    <span class="n">PAIR</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">E1</span><span class="p">,</span><span class="n">E2</span><span class="p">,</span><span class="n">THET1</span><span class="p">,</span><span class="n">PHI1</span><span class="p">,</span><span class="n">THET2</span><span class="p">,</span><span class="n">PHI2</span><span class="p">)</span>
+                    <span class="n">NPAIR</span><span class="o">=</span><span class="n">NPAIR</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">NPAIR</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">):</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s">' ERROR NPAIR GT 2 ='</span><span class="p">,</span><span class="n">NPAIR</span><span class="p">,</span><span class="s">' IN BREMSCASC EVENT NO ='</span><span class="p">,</span><span class="n">J11</span><span class="p">)</span>
+                        <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+                    <span class="c"># endif</span>
+                    <span class="n">NPTP</span><span class="o">=</span><span class="n">NPAIR</span>
+                    <span class="c"># STORE ELECTRON AND POSITRON ENERGY POSITION AND ANGLES</span>
+                    <span class="n">EPPST</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">E1</span>
+                    <span class="n">EPPST</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">E2</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">NVAC</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+                        <span class="c"># FIRST INTERACTION IS PAIR PRODUCTION</span>
+                        <span class="n">XPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">X</span>
+                        <span class="n">YPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">Y</span>
+                        <span class="n">ZPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">Z</span>
+                        <span class="n">XPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">X</span>
+                        <span class="n">YPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">Y</span>
+                        <span class="n">ZPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">Z</span>
+                        <span class="n">TTP</span><span class="o">=</span><span class="n">TSUM</span>
+                        <span class="k">pass</span>
+                    <span class="c"># endif</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">XPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span>
+                        <span class="n">YPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span>
+                        <span class="n">ZPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span>
+                        <span class="n">XPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">XPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">YPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">YPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">ZPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">ZPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">TTP</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="o">/</span><span class="n">VV</span>
+                    <span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THET1</span><span class="p">,</span><span class="n">PHI1</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span>
+                    <span class="n">DRXPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">DRXX</span>
+                    <span class="n">DRYPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">DRYY</span>
+                    <span class="n">DRZPP</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="n">DRZZ</span>
+                    <span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THET2</span><span class="p">,</span><span class="n">PHI2</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span>
+                    <span class="n">DRXPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">DRXX</span>
+                    <span class="n">DRYPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">DRYY</span>
+                    <span class="n">DRZPP</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="n">DRZZ</span>
+                    <span class="n">flag</span><span class="o">=</span><span class="mi">200</span>
+                    <span class="c"># PHOTOELECTRIC ABSORPTION</span>
+                    <span class="c">#  STORE ENERGY ISHELL KGAS</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="o">==</span><span class="mi">100</span> <span class="ow">or</span> <span class="n">flag</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span> 
+                    <span class="n">NVAC</span><span class="o">=</span><span class="n">NVAC</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">NVAC</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">):</span>
+                        <span class="c"># ONLY ALLOW MAXIMUM OF 10 PRIMARY INTERACTIONS</span>
+                        <span class="n">GOTO123</span><span class="p">()</span>
+                        <span class="n">sys</span><span class="o">.</span><span class="nb">exit</span><span class="p">()</span>
+                    <span class="c"># endif</span>
+
+                    <span class="n">NPHOT</span><span class="o">=</span><span class="n">NPHOT</span><span class="o">+</span><span class="mi">1</span>
+                    <span class="c"># ECMP= TOTAL ENERGY= EGAMMA = ELECTRON KINETIC ENERGY+ VACANCY ENERGY</span>
+                    <span class="n">ECMP</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">ENERGY</span>
+                    <span class="n">ICSHELL</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">ISHELL</span>
+                    <span class="n">XCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span>
+                    <span class="n">YCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span>
+                    <span class="n">ZCPOS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span>
+                    <span class="n">TT</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="o">/</span><span class="n">VV</span>
+                    <span class="n">KCGAS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">KGAS</span>
+                    <span class="n">LCGAS</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">LGAS</span>
+                    <span class="c"># FOR PE EFFECT STORE PHOTON INCIDENT ANGLE</span>
+                    <span class="n">ECDRX</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">DRXS</span>
+                    <span class="n">ECDRY</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">DRYS</span>
+                    <span class="n">ECDRZ</span><span class="p">[</span><span class="n">NVAC</span><span class="p">]</span><span class="o">=</span><span class="n">DRZS</span>
+                <span class="c"># LOOP OVER SHELL VACANCIES</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">flag</span><span class="o">==</span><span class="mi">200</span> <span class="ow">or</span> <span class="n">flag</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+                    <span class="c"># STORE NUMBER AND TYPE OF PRIMARY INTERACTIONS</span>
+                    <span class="n">MSUM1</span><span class="o">=</span><span class="n">NTOTI</span>
+                    <span class="n">MCOMP1</span><span class="o">=</span><span class="n">NCOMP</span>
+                    <span class="n">MRAYL1</span><span class="o">=</span><span class="n">NRAYL</span>
+                    <span class="n">MPAIR1</span><span class="o">=</span><span class="n">NPAIR</span>
+                    <span class="n">MPHOT1</span><span class="o">=</span><span class="n">NPHOT</span>
+                    <span class="n">MVAC1</span><span class="o">=</span><span class="n">NVAC</span>
+                    <span class="c"># LOOP OVER SHELL INTERACTIONS</span>
+                    <span class="c">#     IF(IDBG == 1) :</span>
+                    <span class="c">#     WRITE(6,54) NVAC</span>
+                    <span class="c">#  54 print(' NVAC=',I3)</span>
+                    <span class="c">#    for 6 in range(M1=1,NVAC):</span>
+                    <span class="c">#     WRITE(6,55) M1, (ESTORE(M1,K1),K1=1,28)</span>
+                    <span class="c">#  55 print(' M1=',I3,/,' ESTORE(M1,K)=',4(7'%.4f' % ,/))</span>
+                    <span class="c">#  56 CONTINUE</span>
+                    <span class="c">#    for 8 in range(M1=1,NVAC):</span>
+                    <span class="c">#     WRITE(6,57) (EPHOTON(M1,K1),K1=1,28)</span>
+                    <span class="c">#  57 print(' EPHOTON=',4(7'%.4f' % ,/))</span>
+                    <span class="c">#  58 CONTINUE </span>
+                    <span class="c">#     # endIF</span>
+                    <span class="k">for</span> <span class="n">K</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">NVAC</span><span class="p">):</span>
+                        <span class="n">CONTROLB</span><span class="p">(</span><span class="n">IDBG</span><span class="p">,</span><span class="n">K</span><span class="p">)</span>
+                    <span class="c">#  COMPRESS AUGER AND FLUORESCENCE DATA INTO BLOCKS</span>
+                    <span class="n">COMPRESS</span><span class="p">(</span><span class="n">IDBG</span><span class="p">,</span><span class="n">ENSUM</span><span class="p">)</span>
+                    <span class="c"># CATCH DROPPED KSHELL FLUORESCENCE</span>
+                    <span class="k">if</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">ENSUM</span><span class="o">-</span><span class="n">EGAMMA</span><span class="p">)</span><span class="o">&gt;</span> <span class="mf">2200.</span><span class="p">)</span> <span class="p">:</span>
+                        <span class="n">DIF</span><span class="o">=</span><span class="n">ENSUM</span><span class="o">-</span><span class="n">EGAMMA</span>
+                    <span class="k">if</span><span class="p">(</span><span class="n">IDBG</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s"> Dif='</span><span class="p">,</span><span class="s">'</span><span class="si">%.6</span><span class="s">f'</span> <span class="o">%</span> <span class="n">DIF</span><span class="p">,</span><span class="s">' J11='</span><span class="p">,</span><span class="n">J11</span><span class="p">,</span><span class="s">'</span><span class="se">\n</span><span class="s">'</span><span class="p">)</span> 
+                        <span class="n">GOTO5</span><span class="p">()</span>
+                    <span class="c"># endif</span>
+                    <span class="c"># ADD PAIR DATA AND LOAD INTO COMMON/CASRSB/</span>
+                    <span class="n">CASRESB</span><span class="p">()</span>
+            <span class="n">GOTO2</span><span class="p">()</span>
+        <span class="n">GOTO123</span><span class="p">()</span>
+    <span class="n">GOTO5</span><span class="p">()</span>
+    <span class="k">return</span>
+    <span class="c"># end</span>
+</code></pre><pre class="highlight fortran tab-fortran"><code><span class="w">      </span><span class="k">SUBROUTINE</span><span class="w"> </span><span class="n">BREMSCASC</span><span class="p">(</span><span class="n">J11</span><span class="p">,</span><span class="n">EGAMMA</span><span class="p">,</span><span class="n">X0</span><span class="p">,</span><span class="n">Y0</span><span class="p">,</span><span class="n">Z0</span><span class="p">,</span><span class="n">T0</span><span class="p">,</span><span class="n">GDCX</span><span class="p">,</span><span class="n">GDCY</span><span class="p">,</span><span class="n">GDCZ</span><span class="p">,</span><span class="n">ILOW</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">REAL</span><span class="o">*</span><span class="mi">8</span><span class="p">(</span><span class="n">A</span><span class="o">-</span><span class="n">H</span><span class="p">,</span><span class="n">O</span><span class="o">-</span><span class="n">Z</span><span class="p">)</span><span class="w">
+      </span><span class="k">IMPLICIT</span><span class="w"> </span><span class="kt">INTEGER</span><span class="o">*</span><span class="mi">8</span><span class="p">(</span><span class="n">I</span><span class="o">-</span><span class="n">N</span><span class="p">)</span><span class="w">
+      </span><span class="kt">CHARACTER</span><span class="o">*</span><span class="mi">6</span><span class="w"> </span><span class="n">SCR</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">SCR1</span><span class="p">(</span><span class="mi">17</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COMP</span><span class="p">/</span><span class="n">LCMP</span><span class="p">,</span><span class="n">LCFLG</span><span class="p">,</span><span class="n">LRAY</span><span class="p">,</span><span class="n">LRFLG</span><span class="p">,</span><span class="n">LPAP</span><span class="p">,</span><span class="n">LPFLG</span><span class="p">,</span><span class="n">LBRM</span><span class="p">,</span><span class="n">LBFLG</span><span class="p">,</span><span class="n">LPEFLG</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COMPTOUT</span><span class="p">/</span><span class="n">EGAM</span><span class="p">,</span><span class="n">EELEC</span><span class="p">,</span><span class="n">THETAG</span><span class="p">,</span><span class="n">THETAE</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">PRIM4</span><span class="p">/</span><span class="n">MSUM1</span><span class="p">,</span><span class="n">MCOMP1</span><span class="p">,</span><span class="n">MRAYL1</span><span class="p">,</span><span class="n">MPAIR1</span><span class="p">,</span><span class="n">MPHOT1</span><span class="p">,</span><span class="n">MVAC1</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENCAS</span><span class="p">/</span><span class="n">ELEV</span><span class="p">(</span><span class="mi">17</span><span class="p">,</span><span class="mi">79</span><span class="p">),</span><span class="n">NSDEG</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">AA</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">BB</span><span class="p">(</span><span class="mi">17</span><span class="p">),</span><span class="n">SCR</span><span class="p">,</span><span class="n">SCR1</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">MIXC</span><span class="p">/</span><span class="n">PRSH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">ESH</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">AUG</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">RAD</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">PRSHBT</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">IZ</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="n">INIOCC</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">ISHLMX</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">AMZ</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">UPD</span><span class="p">/</span><span class="n">NOCC</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">AUGR</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">),</span><span class="n">RADR</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">17</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCASB</span><span class="p">/</span><span class="n">IONSUM</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTORE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">EPHOTON</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRXE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRY</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRZ</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS1B</span><span class="p">/</span><span class="n">IONSUM1</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM1</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS2B</span><span class="p">/</span><span class="n">IONSUM2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS3B</span><span class="p">/</span><span class="n">IONSUM3</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM3</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS4B</span><span class="p">/</span><span class="n">IONSUM4</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM4</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CALCAS5B</span><span class="p">/</span><span class="n">IONSUM5</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSUM5</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">EPHOTG5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRXE5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRYE5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZE5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRY5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">RESB</span><span class="p">/</span><span class="n">IONSM</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">IFLSM</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTOR</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">EPHOT</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">X10</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">Y10</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">Z10</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX01</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRY01</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRZ01</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENB1</span><span class="p">/</span><span class="n">IONF1</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTF1</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">X11</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">Y11</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">Z11</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX11</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRY11</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ11</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENB2</span><span class="p">/</span><span class="n">IONF2</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTF2</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">X21</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">Y21</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">Z21</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRX21</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRY21</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span><span class="n">DRZ21</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENB3</span><span class="p">/</span><span class="n">IONF3</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTF3</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="n">X31</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="n">Y31</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">Z31</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="n">DRX31</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="n">DRY31</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">),</span><span class="n">DRZ31</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENB4</span><span class="p">/</span><span class="n">IONF4</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTF4</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">X41</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">Y41</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">Z41</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">DRX41</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">DRY41</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">),</span><span class="n">DRZ41</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">GENB5</span><span class="p">/</span><span class="n">IONF5</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ESTF5</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">X51</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">Y51</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">Z51</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">DRX51</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">DRY51</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span><span class="n">DRZ51</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COUTE</span><span class="p">/</span><span class="n">ECMP</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ECDRX</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ECDRY</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ECDRZ</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">XCPOS</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">YCPOS</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ZCPOS</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">KCGAS</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">LCGAS</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">ICSHELL</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COUTTB</span><span class="p">/</span><span class="n">TT</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span><span class="n">TTP</span><span class="w">
+      </span><span class="k">COMMON</span><span class="p">/</span><span class="n">PPSTRB</span><span class="p">/</span><span class="n">NPTP</span><span class="p">,</span><span class="n">EPPST</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">XPP</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">YPP</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">ZPP</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w">
+     </span><span class="p">/</span><span class="n">DRXPP</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">DRYPP</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="n">DRZPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="o">----------------------------------------------------------------------</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">BREMSSTRAHLUNG</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="n">TREE</span><span class="p">:</span><span class="w">
+</span><span class="n">C</span><span class="w">   </span><span class="n">SET</span><span class="w"> </span><span class="n">OR</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">SOME</span><span class="w"> </span><span class="n">VARIABLES</span><span class="w"> 
+</span><span class="n">C</span><span class="w">   </span><span class="n">CREATE</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> </span><span class="n">TREE</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w">
+</span><span class="n">C</span><span class="w">   </span><span class="n">STORE</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">DIRECTION</span><span class="w"> </span><span class="n">COSINES</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">WITH</span><span class="w"> </span><span class="n">SHELL</span><span class="w">
+</span><span class="n">C</span><span class="w">   </span><span class="n">LEVEL</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">GAS</span><span class="w"> </span><span class="n">IDENTITY</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">COMMON</span><span class="p">/</span><span class="n">COUT</span><span class="p">/</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">EACH</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+</span><span class="n">C</span><span class="w">   </span><span class="n">STORE</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">POSITRON</span><span class="w"> </span><span class="k">DATA</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">COMMON</span><span class="p">/</span><span class="n">PPSTR</span><span class="p">/</span><span class="w">
+</span><span class="n">C</span><span class="w">   </span><span class="n">STORE</span><span class="w"> </span><span class="n">FINAL</span><span class="w"> </span><span class="n">CASCADE</span><span class="w"> </span><span class="n">RESULTS</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CASRSB</span><span class="p">/</span><span class="w">
+</span><span class="n">C</span><span class="o">----------------------------------------------------------------------</span><span class="w">
+      </span><span class="n">API</span><span class="o">=</span><span class="n">DACOS</span><span class="p">(</span><span class="mf">-1.0D0</span><span class="p">)</span><span class="w">
+      </span><span class="n">TWOPI</span><span class="o">=</span><span class="mf">2.0D0</span><span class="o">*</span><span class="n">API</span><span class="w">
+      </span><span class="n">IDBG</span><span class="o">=</span><span class="mi">0</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">IF</span><span class="p">(</span><span class="n">J11</span><span class="ow">.EQ.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="n">IDBG</span><span class="o">=</span><span class="mi">1</span><span class="w">
+   </span><span class="mi">5</span><span class="w">  </span><span class="n">ILOW</span><span class="o">=</span><span class="mi">0</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">USE</span><span class="w"> </span><span class="n">VELOCITY</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">METRES</span><span class="p">/</span><span class="n">PICOSECONDS</span><span class="w">
+      </span><span class="n">VV</span><span class="o">=</span><span class="mf">2.99792458D-4</span><span class="w"> 
+</span><span class="n">C</span><span class="w">  
+      </span><span class="n">LFIX</span><span class="o">=</span><span class="mi">0</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ALLOW</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> </span><span class="n">CALCULATION</span><span class="w">
+  </span><span class="mi">123</span><span class="w"> </span><span class="n">ICONPH</span><span class="o">=</span><span class="mi">1</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">ORIGIN</span><span class="w">
+      </span><span class="n">X</span><span class="o">=</span><span class="n">X0</span><span class="w">
+      </span><span class="n">Y</span><span class="o">=</span><span class="n">Y0</span><span class="w">
+      </span><span class="n">Z</span><span class="o">=</span><span class="n">Z0</span><span class="w">
+      </span><span class="n">TSUM</span><span class="o">=</span><span class="n">T0</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">LOAD</span><span class="w"> </span><span class="n">INITIAL</span><span class="w"> </span><span class="n">DIRECTION</span><span class="w"> </span><span class="n">COSINES</span><span class="w"> </span><span class="n">BEFORE</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> 
+      </span><span class="n">DRXS</span><span class="o">=</span><span class="n">GDCX</span><span class="w">
+      </span><span class="n">DRYS</span><span class="o">=</span><span class="n">GDCY</span><span class="w">
+      </span><span class="n">DRZS</span><span class="o">=</span><span class="n">GDCZ</span><span class="w">
+</span><span class="n">C</span><span class="w">   </span><span class="n">INITIAL</span><span class="w"> </span><span class="n">ENERGY</span><span class="w">
+      </span><span class="n">ENERGY</span><span class="o">=</span><span class="n">EGAMMA</span><span class="w">
+</span><span class="n">C</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ZERO</span><span class="w"> </span><span class="n">SOME</span><span class="w"> </span><span class="n">ARRAYS</span><span class="w">
+      </span><span class="n">EPPST</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0D0</span><span class="w">
+      </span><span class="n">EPPST</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0D0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">11</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">10</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="w">
+      </span><span class="n">EPHOTON</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">EPHOTG1</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">EPHOTG2</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">EPHOTG3</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">EPHOTG4</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">EPHOTG5</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTORE</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTOR1</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTOR2</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTOR3</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTOR4</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTOR5</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTOR</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTF1</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">ESTF2</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+   </span><span class="mi">1</span><span class="w">  </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">120</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">15</span><span class="w">
+  </span><span class="mi">120</span><span class="w"> </span><span class="n">ESTF3</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">121</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="w">
+  </span><span class="mi">121</span><span class="w"> </span><span class="n">ESTF4</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">122</span><span class="w"> </span><span class="n">J</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="w">
+  </span><span class="mi">122</span><span class="w"> </span><span class="n">ESTF5</span><span class="p">(</span><span class="n">K</span><span class="p">,</span><span class="n">J</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+      </span><span class="n">IFLSUM</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IFLSUM1</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IFLSUM2</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IFLSUM3</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IFLSUM4</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IFLSUM5</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSUM</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSUM1</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSUM2</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSUM3</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSUM4</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSUM5</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONSM</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONF1</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONF2</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONF3</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONF4</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">IONF5</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">KCGAS</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">LCGAS</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">ICSHELL</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">ECMP</span><span class="p">(</span><span class="n">K</span><span class="p">)</span><span class="o">=</span><span class="mf">0.0</span><span class="w">
+   </span><span class="mi">11</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+      </span><span class="n">NCOMP</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">NRAYL</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">NPAIR</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">NPHOT</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">NVAC</span><span class="o">=</span><span class="mi">0</span><span class="w">
+      </span><span class="n">NPTP</span><span class="o">=</span><span class="mi">0</span><span class="w">
+</span><span class="n">C</span><span class="w">    
+      </span><span class="n">IFIRST</span><span class="o">=</span><span class="mi">1</span><span class="w">
+      </span><span class="n">ISECOND</span><span class="o">=</span><span class="mi">2</span><span class="w">
+    </span><span class="mi">2</span><span class="w"> </span><span class="n">NTOTI</span><span class="o">=</span><span class="n">NCOMP</span><span class="o">+</span><span class="n">NRAYL</span><span class="o">+</span><span class="n">NPAIR</span><span class="o">+</span><span class="n">NPHOT</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">PHOTONS</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">ABSO</span><span class="p">(</span><span class="n">IFIRST</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">,</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">DIST</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">IF</span><span class="p">(</span><span class="n">IDBG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">888</span><span class="p">)</span><span class="w"> </span><span class="n">ENERGY</span><span class="p">,</span><span class="n">ISHELL</span><span class="p">,</span><span class="n">J11</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="mi">888</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' AFTER ABSO ENERGY='</span><span class="p">,</span><span class="l">D12.5</span><span class="p">,</span><span class="s1">' ISHELL='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="s1">' EVENT NO='</span><span class="p">,</span><span class="l">I4</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">ISHELL</span><span class="ow">.EQ.</span><span class="mi">-1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">BREMSSTRAHLUNG</span><span class="w"> </span><span class="n">GAMMA</span><span class="w"> </span><span class="n">TOO</span><span class="w"> </span><span class="n">LOW</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">IONISE</span><span class="w">
+       </span><span class="n">ILOW</span><span class="o">=</span><span class="mi">1</span><span class="w">
+       </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w">  
+</span><span class="n">C</span><span class="w">  </span><span class="n">CREATE</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> </span><span class="n">TREE</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LPEFLG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">100</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LCFLG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">10</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LRFLG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">20</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">LPFLG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">30</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">SCATTERING</span><span class="w">
+   </span><span class="mi">10</span><span class="w"> </span><span class="k">CALL</span><span class="w"> </span><span class="n">COMPTON</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">)</span><span class="w">
+      </span><span class="n">NCOMP</span><span class="o">=</span><span class="n">NCOMP</span><span class="mi">+1</span><span class="w">
+      </span><span class="n">NVAC</span><span class="o">=</span><span class="n">NVAC</span><span class="mi">+1</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NVAC</span><span class="ow">.GT.</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">MAXIMUM</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">PRIMARY</span><span class="w"> </span><span class="n">INTERACTIONS</span><span class="w">
+</span><span class="n">C</span><span class="w">      </span><span class="n">NJHIGH</span><span class="o">=</span><span class="n">NJHIGH</span><span class="mi">+1</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">123</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">c</span><span class="w"> </span><span class="n">RANDOMISE</span><span class="w"> </span><span class="n">ANGLE</span><span class="w"> </span><span class="n">PHI</span><span class="w">
+      </span><span class="n">R3</span><span class="o">=</span><span class="n">drand48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span><span class="w">
+      </span><span class="n">PHI</span><span class="o">=</span><span class="n">TWOPI</span><span class="o">*</span><span class="n">R3</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">DIRECTION</span><span class="w"> </span><span class="n">COSINES</span><span class="w"> </span><span class="n">USING</span><span class="w"> </span><span class="n">THETAE</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">PHI</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THETAE</span><span class="p">,</span><span class="n">PHI</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">EFFECT</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">DIRECTION</span><span class="w"> </span><span class="n">COSINES</span><span class="w">
+      </span><span class="n">ECDRX</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">DRXX</span><span class="w">
+      </span><span class="n">ECDRY</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">DRYY</span><span class="w">
+      </span><span class="n">ECDRZ</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">DRZZ</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">WHICH</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">HAS</span><span class="w"> </span><span class="n">VACANCY</span><span class="w"> </span><span class="n">FROM</span><span class="w"> </span><span class="n">COMPTON</span><span class="w"> </span><span class="n">EVENT</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CVAC</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">EELEC</span><span class="p">,</span><span class="n">KSHELL</span><span class="p">,</span><span class="n">KBAD</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">REJECT</span><span class="w"> </span><span class="n">EVENT</span><span class="w"> </span><span class="n">WITHOUT</span><span class="w"> </span><span class="n">SUFFICIENT</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="n">IONISE</span><span class="w"> </span><span class="n">SHELLS</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">KBAD</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">123</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">VACANCY</span><span class="w"> </span><span class="n">ISHELL</span><span class="w"> </span><span class="n">KGAS</span><span class="w"> </span><span class="n">LGAS</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> 
+      </span><span class="n">ECMP</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">EELEC</span><span class="w">
+      </span><span class="n">ICSHELL</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">KSHELL</span><span class="w">
+      </span><span class="n">KCGAS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">KGAS</span><span class="w">
+      </span><span class="n">LCGAS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">LGAS</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> </span><span class="n">POSITIONS</span><span class="w">
+      </span><span class="n">XCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span><span class="w">
+      </span><span class="n">YCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span><span class="w">
+      </span><span class="n">ZCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span><span class="w">
+      </span><span class="n">TT</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="p">/</span><span class="n">VV</span><span class="w"> 
+</span><span class="n">C</span><span class="w"> </span><span class="n">UPDATE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">STARTING</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">ANGLES</span><span class="w">
+       </span><span class="n">ENERGY</span><span class="o">=</span><span class="n">EGAM</span><span class="w">
+       </span><span class="n">X</span><span class="o">=</span><span class="n">XCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="n">Y</span><span class="o">=</span><span class="n">YCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="n">Z</span><span class="o">=</span><span class="n">ZCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="w">
+       </span><span class="n">PHIG</span><span class="o">=</span><span class="n">PHI</span><span class="o">+</span><span class="n">API</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">PHIG</span><span class="ow">.GE.</span><span class="n">TWOPI</span><span class="p">)</span><span class="w"> </span><span class="n">PHIG</span><span class="o">=</span><span class="n">PHI</span><span class="o">-</span><span class="n">API</span><span class="w">
+       </span><span class="k">CALL</span><span class="w"> </span><span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THETAG</span><span class="p">,</span><span class="n">PHIG</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">NEW</span><span class="w"> </span><span class="n">DIRECTION</span><span class="w"> </span><span class="n">COSINES</span><span class="w">
+       </span><span class="n">DRXS</span><span class="o">=</span><span class="n">DRXX</span><span class="w">
+       </span><span class="n">DRYS</span><span class="o">=</span><span class="n">DRYY</span><span class="w">
+       </span><span class="n">DRZS</span><span class="o">=</span><span class="n">DRZZ</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">BACK</span><span class="w"> 
+      </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">SCATTERING</span><span class="w">
+   </span><span class="mi">20</span><span class="w"> </span><span class="k">CALL</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">THETAR</span><span class="p">)</span><span class="w">
+      </span><span class="n">NRAYL</span><span class="o">=</span><span class="n">NRAYL</span><span class="mi">+1</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">CALCULATE</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">LOSS</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="n">RAYLEIGH</span><span class="w"> </span><span class="n">SCATTERING</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">RAYLOS</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">THETAR</span><span class="p">,</span><span class="n">ELRAY</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">IF</span><span class="p">(</span><span class="n">IDBG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">776</span><span class="p">)</span><span class="w"> </span><span class="n">ENERGY</span><span class="p">,</span><span class="n">ELRAY</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="mi">776</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' AFTER RAYLOS ENERGY='</span><span class="p">,</span><span class="l">D12.4</span><span class="p">,</span><span class="s1">' ELRAY='</span><span class="p">,</span><span class="l">D12.4</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">UPDATE</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">RAY</span><span class="w"> </span><span class="n">STARTING</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">ANGLES</span><span class="w">
+      </span><span class="n">ENERGY</span><span class="o">=</span><span class="n">ENERGY</span><span class="o">-</span><span class="n">ELRAY</span><span class="w">
+      </span><span class="n">X</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span><span class="w">
+      </span><span class="n">Y</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span><span class="w">
+      </span><span class="n">Z</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span><span class="w">
+      </span><span class="n">TSUM</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="p">/</span><span class="n">VV</span><span class="w">
+</span><span class="n">c</span><span class="w"> </span><span class="n">RANDOMISE</span><span class="w"> </span><span class="n">ANGLE</span><span class="w"> </span><span class="n">PHI</span><span class="w">
+      </span><span class="n">R3</span><span class="o">=</span><span class="n">drand48</span><span class="p">(</span><span class="n">RDUM</span><span class="p">)</span><span class="w">
+      </span><span class="n">PHIR</span><span class="o">=</span><span class="n">TWOPI</span><span class="o">*</span><span class="n">R3</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THETAR</span><span class="p">,</span><span class="n">PHIR</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span><span class="w">
+      </span><span class="n">DRXS</span><span class="o">=</span><span class="n">DRXX</span><span class="w">
+      </span><span class="n">DRYS</span><span class="o">=</span><span class="n">DRYY</span><span class="w">
+      </span><span class="n">DRZS</span><span class="o">=</span><span class="n">DRZZ</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">BACK</span><span class="w">
+      </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">2</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w">
+   </span><span class="mi">30</span><span class="w"> </span><span class="k">CALL</span><span class="w"> </span><span class="n">PAIR</span><span class="p">(</span><span class="n">KGAS</span><span class="p">,</span><span class="n">LGAS</span><span class="p">,</span><span class="n">ENERGY</span><span class="p">,</span><span class="n">E1</span><span class="p">,</span><span class="n">E2</span><span class="p">,</span><span class="n">THET1</span><span class="p">,</span><span class="n">PHI1</span><span class="p">,</span><span class="n">THET2</span><span class="p">,</span><span class="n">PHI2</span><span class="p">)</span><span class="w">
+      </span><span class="n">NPAIR</span><span class="o">=</span><span class="n">NPAIR</span><span class="mi">+1</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NPAIR</span><span class="ow">.GT.</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">991</span><span class="p">)</span><span class="w"> </span><span class="n">NPAIR</span><span class="p">,</span><span class="n">J11</span><span class="w">
+  </span><span class="mi">991</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' ERROR NPAIR GT 2 ='</span><span class="p">,</span><span class="l">I6</span><span class="p">,</span><span class="s1">' IN BREMSCASC EVENT NO ='</span><span class="p">,</span><span class="l">I6</span><span class="p">)</span><span class="w">
+       </span><span class="k">STOP</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="n">NPTP</span><span class="o">=</span><span class="n">NPAIR</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">POSITRON</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">POSITION</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">ANGLES</span><span class="w">
+      </span><span class="n">EPPST</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">E1</span><span class="w">
+      </span><span class="n">EPPST</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">E2</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NVAC</span><span class="ow">.EQ.</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">FIRST</span><span class="w"> </span><span class="n">INTERACTION</span><span class="w"> </span><span class="n">IS</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="n">PRODUCTION</span><span class="w">
+       </span><span class="n">XPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">X</span><span class="w">
+       </span><span class="n">YPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">Y</span><span class="w">
+       </span><span class="n">ZPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">Z</span><span class="w">
+       </span><span class="n">XPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">X</span><span class="w">
+       </span><span class="n">YPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">Y</span><span class="w">
+       </span><span class="n">ZPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">Z</span><span class="w">
+       </span><span class="n">TTP</span><span class="o">=</span><span class="n">TSUM</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">40</span><span class="w">       
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="n">XPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span><span class="w">
+      </span><span class="n">YPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span><span class="w">
+      </span><span class="n">ZPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span><span class="w">
+      </span><span class="n">XPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">XPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">YPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">YPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">ZPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">ZPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w">
+      </span><span class="n">TTP</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="p">/</span><span class="n">VV</span><span class="w">
+   </span><span class="mi">40</span><span class="w"> </span><span class="k">CALL</span><span class="w"> </span><span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THET1</span><span class="p">,</span><span class="n">PHI1</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span><span class="w">
+      </span><span class="n">DRXPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">DRXX</span><span class="w">
+      </span><span class="n">DRYPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">DRYY</span><span class="w">
+      </span><span class="n">DRZPP</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="n">DRZZ</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">DRCOS</span><span class="p">(</span><span class="n">DRXS</span><span class="p">,</span><span class="n">DRYS</span><span class="p">,</span><span class="n">DRZS</span><span class="p">,</span><span class="n">THET2</span><span class="p">,</span><span class="n">PHI2</span><span class="p">,</span><span class="n">DRXX</span><span class="p">,</span><span class="n">DRYY</span><span class="p">,</span><span class="n">DRZZ</span><span class="p">)</span><span class="w">
+      </span><span class="n">DRXPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">DRXX</span><span class="w">
+      </span><span class="n">DRYPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">DRYY</span><span class="w">
+      </span><span class="n">DRZPP</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">=</span><span class="n">DRZZ</span><span class="w">
+      </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">200</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">PHOTOELECTRIC</span><span class="w"> </span><span class="n">ABSORPTION</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">STORE</span><span class="w"> </span><span class="n">ENERGY</span><span class="w"> </span><span class="n">ISHELL</span><span class="w"> </span><span class="n">KGAS</span><span class="w">
+  </span><span class="mi">100</span><span class="w"> </span><span class="n">NVAC</span><span class="o">=</span><span class="n">NVAC</span><span class="mi">+1</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">NVAC</span><span class="ow">.GT.</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="k">ONLY</span><span class="w"> </span><span class="n">ALLOW</span><span class="w"> </span><span class="n">MAXIMUM</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="n">PRIMARY</span><span class="w"> </span><span class="n">INTERACTIONS</span><span class="w">
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">123</span><span class="w">
+      </span><span class="k">STOP</span><span class="w">
+      </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="n">NPHOT</span><span class="o">=</span><span class="n">NPHOT</span><span class="mi">+1</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ECMP</span><span class="o">=</span><span class="w"> </span><span class="n">TOTAL</span><span class="w"> </span><span class="n">ENERGY</span><span class="o">=</span><span class="w"> </span><span class="n">EGAMMA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ELECTRON</span><span class="w"> </span><span class="n">KINETIC</span><span class="w"> </span><span class="n">ENERGY</span><span class="o">+</span><span class="w"> </span><span class="n">VACANCY</span><span class="w"> </span><span class="n">ENERGY</span><span class="w">
+      </span><span class="n">ECMP</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">ENERGY</span><span class="w">
+      </span><span class="n">ICSHELL</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">ISHELL</span><span class="w">
+      </span><span class="n">XCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">X</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRXS</span><span class="w">
+      </span><span class="n">YCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">Y</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRYS</span><span class="w">
+      </span><span class="n">ZCPOS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">Z</span><span class="o">+</span><span class="n">DIST</span><span class="o">*</span><span class="n">DRZS</span><span class="w">
+      </span><span class="n">TT</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">TSUM</span><span class="o">+</span><span class="n">DIST</span><span class="p">/</span><span class="n">VV</span><span class="w">
+      </span><span class="n">KCGAS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">KGAS</span><span class="w">
+      </span><span class="n">LCGAS</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">LGAS</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">FOR</span><span class="w"> </span><span class="n">PE</span><span class="w"> </span><span class="n">EFFECT</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">PHOTON</span><span class="w"> </span><span class="n">INCIDENT</span><span class="w"> </span><span class="n">ANGLE</span><span class="w">
+      </span><span class="n">ECDRX</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">DRXS</span><span class="w">
+      </span><span class="n">ECDRY</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">DRYS</span><span class="w">
+      </span><span class="n">ECDRZ</span><span class="p">(</span><span class="n">NVAC</span><span class="p">)</span><span class="o">=</span><span class="n">DRZS</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">VACANCIES</span><span class="w">
+  </span><span class="mi">200</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">STORE</span><span class="w"> </span><span class="n">NUMBER</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="k">TYPE</span><span class="w"> </span><span class="n">OF</span><span class="w"> </span><span class="n">PRIMARY</span><span class="w"> </span><span class="n">INTERACTIONS</span><span class="w">
+      </span><span class="n">MSUM1</span><span class="o">=</span><span class="n">NTOTI</span><span class="w">
+      </span><span class="n">MCOMP1</span><span class="o">=</span><span class="n">NCOMP</span><span class="w">
+      </span><span class="n">MRAYL1</span><span class="o">=</span><span class="n">NRAYL</span><span class="w">
+      </span><span class="n">MPAIR1</span><span class="o">=</span><span class="n">NPAIR</span><span class="w">
+      </span><span class="n">MPHOT1</span><span class="o">=</span><span class="n">NPHOT</span><span class="w">
+      </span><span class="n">MVAC1</span><span class="o">=</span><span class="n">NVAC</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">LOOP</span><span class="w"> </span><span class="n">OVER</span><span class="w"> </span><span class="n">SHELL</span><span class="w"> </span><span class="n">INTERACTIONS</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">IF</span><span class="p">(</span><span class="n">IDBG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">54</span><span class="p">)</span><span class="w"> </span><span class="n">NVAC</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="mi">54</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' NVAC='</span><span class="p">,</span><span class="l">I3</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">DO</span><span class="w"> </span><span class="mi">56</span><span class="w"> </span><span class="n">M1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NVAC</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">55</span><span class="p">)</span><span class="w"> </span><span class="n">M1</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">ESTORE</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span><span class="n">K1</span><span class="p">),</span><span class="n">K1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="mi">55</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' M1='</span><span class="p">,</span><span class="l">I3</span><span class="p">,</span><span class="l">/</span><span class="p">,</span><span class="s1">' ESTORE(M1,K)='</span><span class="p">,</span><span class="l">4</span><span class="p">(</span><span class="l">7D12.4</span><span class="p">,</span><span class="l">/</span><span class="p">))</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="mi">56</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">DO</span><span class="w"> </span><span class="mi">58</span><span class="w"> </span><span class="n">M1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NVAC</span><span class="w">
+</span><span class="n">C</span><span class="w">     </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">EPHOTON</span><span class="p">(</span><span class="n">M1</span><span class="p">,</span><span class="n">K1</span><span class="p">),</span><span class="n">K1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="mi">57</span><span class="w"> </span><span class="k">FORMAT</span><span class="p">(</span><span class="s1">' EPHOTON='</span><span class="p">,</span><span class="l">4</span><span class="p">(</span><span class="l">7D12.4</span><span class="p">,</span><span class="l">/</span><span class="p">))</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="mi">58</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w"> 
+</span><span class="n">C</span><span class="w">     </span><span class="k">ENDIF</span><span class="w">
+      </span><span class="k">DO</span><span class="w"> </span><span class="mi">900</span><span class="w"> </span><span class="n">K</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">NVAC</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CONTROLB</span><span class="p">(</span><span class="n">IDBG</span><span class="p">,</span><span class="n">K</span><span class="p">)</span><span class="w">
+  </span><span class="mi">900</span><span class="w"> </span><span class="k">CONTINUE</span><span class="w">
+</span><span class="n">C</span><span class="w">  </span><span class="n">COMPRESS</span><span class="w"> </span><span class="n">AUGER</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w"> </span><span class="k">DATA</span><span class="w"> </span><span class="n">INTO</span><span class="w"> </span><span class="n">BLOCKS</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">COMPRESS</span><span class="p">(</span><span class="n">IDBG</span><span class="p">,</span><span class="n">ENSUM</span><span class="p">)</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">CATCH</span><span class="w"> </span><span class="n">DROPPED</span><span class="w"> </span><span class="n">KSHELL</span><span class="w"> </span><span class="n">FLUORESCENCE</span><span class="w">
+      </span><span class="k">IF</span><span class="p">(</span><span class="n">DABS</span><span class="p">(</span><span class="n">ENSUM</span><span class="o">-</span><span class="n">EGAMMA</span><span class="p">)</span><span class="ow">.GT.</span><span class="mf">2200.</span><span class="p">)</span><span class="w"> </span><span class="k">THEN</span><span class="w">
+       </span><span class="n">DIF</span><span class="o">=</span><span class="n">ENSUM</span><span class="o">-</span><span class="n">EGAMMA</span><span class="w">
+       </span><span class="k">IF</span><span class="p">(</span><span class="n">IDBG</span><span class="ow">.EQ.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">WRITE</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">945</span><span class="p">)</span><span class="w"> </span><span class="n">DIF</span><span class="p">,</span><span class="n">J11</span><span class="w">
+  </span><span class="mi">945</span><span class="w">  </span><span class="k">FORMAT</span><span class="p">(</span><span class="l">/</span><span class="p">,</span><span class="s1">' DIF='</span><span class="p">,</span><span class="l">D14.6</span><span class="p">,</span><span class="s1">' J11='</span><span class="p">,</span><span class="l">I5</span><span class="p">,</span><span class="l">/</span><span class="p">)</span><span class="w"> 
+       </span><span class="k">GO</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="mi">5</span><span class="w">  
+      </span><span class="k">ENDIF</span><span class="w">
+</span><span class="n">C</span><span class="w"> </span><span class="n">ADD</span><span class="w"> </span><span class="n">PAIR</span><span class="w"> </span><span class="k">DATA</span><span class="w"> </span><span class="n">AND</span><span class="w"> </span><span class="n">LOAD</span><span class="w"> </span><span class="n">INTO</span><span class="w"> </span><span class="k">COMMON</span><span class="p">/</span><span class="n">CASRSB</span><span class="p">/</span><span class="w">
+      </span><span class="k">CALL</span><span class="w"> </span><span class="n">CASRESB</span><span class="w">
+      </span><span class="k">RETURN</span><span class="w">
+      </span><span class="k">END</span><span class="w">
+
+</span></code></pre>
