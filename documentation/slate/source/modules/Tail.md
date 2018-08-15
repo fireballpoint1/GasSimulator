@@ -8,11 +8,15 @@ All the modules are documented in separate markdown files in the modules directo
 The function module is written in markdown.<br>
 It consists of a brief pseudo code and the fortran as well as the python code for that module
 
+<aside class="notice">
+All modules must end with a newline character.
+</aside>
+
 ## Tangling
 
 `tangle.sh` is a bash script that builds a final index.html file which is then reflected in the documentation
 
-<aside class="success">
+<aside class="notice">
 Remember — The sequence of files in `tangle.sh` matters
 </aside>
 

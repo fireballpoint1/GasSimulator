@@ -913,6 +913,7 @@ def MIXER():
 	#---------------------------------------------------------------  
 	def GOTO530(NP): 
 		print("inside 530")
+		complete=0
 		if(EFINAL < E6[4]):
 			# GO TO 540                  
 			pass
@@ -1027,11 +1028,13 @@ def MIXER():
 		# 560 CONTINUE     
 		# 
 		globals().update(locals())
-		GOTO600(NP)                                                                       
+		GOTO600(NP)       
+		return 1                                                                
 	def GOTO600(NP):    
-		print("inside 600")                                                     
-		print("mixer 914 ",sum(EFL))
-		time.sleep(1)
+		print("inside 600")     
+		complete=0                                                
+		# print("mixer 914 ",sum(EFL))
+		# time.sleep(1)
 		IPLAST=NP  
 		# ----------------------------------------------------------------      
 		#   CAN INCREASE ARRAY SIZE UP TO 1740 if MORE COMPLEX MIXTURES USED.
@@ -1138,147 +1141,14 @@ def MIXER():
 				    CFN[IE][IL]=CFN[IE][IL]+CFN[IE][IL-1]
 				# FIX ROUNDING ERRORS AT HIGHEST VALUE
 				CFN[IE][NPLAST]=1.00 
-		#699
-		#700
- 		#     WRITE(6,841) (INDEX[J],J, J=1,IPLAST)
-		# 841 print(2X,' INDEX=',I3,' J=',I3)                   
-		#  SET ANISOTROPIC FLAG if ANISOTROPIC SCATTERING DATA IS DETECTED
-		KELSUM=0 #2479
-		#########                  RESET INDENTATION                ###########################
-		for J in range(1,6+1):
-			KELSUM=KELSUM+KEL1[J]+KEL2[J]+KEL3[J]+KEL4[J]+KEL5[J]+KEL6[J]
-		for J in range(1,250+1):
-			KELSUM=KELSUM+KIN1[J]+KIN2[J]+KIN3[J]+KIN4[J]+KIN5[J]+KIN6[J]
-		if(KELSUM > 0):
-			NISO=1  
-		#     if(NISO == 1) WRITE(6,7765) NISO
-		#7765 print(3X,' ANISOTROPIC SCATTERING DETECTED NISO=',I5)         
-		# -------------------------------------------------------------------   
-		#   CALCULATE NULL COLLISION FREQUENCY                                  
-		# -------------------------------------------------------------------   
-		BP=EFIELD*EFIELD*CONST1           #2490                               
-		F2=EFIELD*CONST3                                                  
-		ELOW=TMAX*(TMAX*BP-F2*math.sqrt(0.50*EFINAL))/ESTEP-1.00            
-		ELOW=min(ELOW,SMALL)
-		EHI=TMAX*(TMAX*BP+F2*math.sqrt(0.50*EFINAL))/ESTEP+1.00
-		if(EHI > 20000.0):
-			EHI=20000.0
-		JONE=1
-		JLARGE=20000  
-		for I in range(1,10+1):
-				JLOW=20000-2000*(11-I)+1+int(ELOW)                               
-				JHI=20000-2000*(10-I)+int(EHI)
-				JLOW=max(JLOW,JONE)
-				JHI=min(JHI,JLARGE)
-		for J in range(JLOW,JHI+1):
-			if(TCF[J]>= TCFMAX[I]):
-				TCFMAX[I]=TCF[J]                          
-		#---------------------------------------------------------------------
-		# FIND MAXIMUM COLLISION FREQUENCY
-		#     TLIM=TCFMAX[1]
-		#     DO 835 I=1,10
-		# 835 if(TLIM < TCFMAX[I]) TLIM=TCFMAX[I]
-		#     TCFMAX1=TLIM  
-		TLIM=0.0
-		for I in range(1,20000+1):	
-			if(TLIM < TCF[I]):
-				print(TLIM,TCF[I])
-				# time.sleep(1)
-				TLIM=TCF[I]
-		TCFMAX1=TLIM  
-		print("Mixer 3281 TCFMAX1=", TCFMAX1)                                                  
-		# -------------------------------------------------------------------   
-		#   CROSS SECTION DATA FOR INTEGRALS IN  OUTPUT               
-		# --------------------------------------------------------------------- 
-		for I in range(1,NSTEP+1):      #900                                         
-			QTOT[I]=AN1*Q1[1][I]+AN2*Q2[1][I]+AN3*Q3[1][I]+AN4*Q4[1][I]+AN5*Q5[1][I]+AN6*Q6[1][I]     
-			QEL[I]=AN1*Q1[2][I]+AN2*Q2[2][I]+AN3*Q3[2][I]+AN4*Q4[2][I]+AN5*Q5[2][I]+AN6*Q6[2][I]             
-		#                                                                       
-		QION[1][I]=Q1[3][I]*AN1   
-		if(NION1 > 1):
-			for KION in range(1,NION1+1):
-				#811
-				QION[1][I]=QION1[KION][I]*AN1
-		# endif                                           
-		QION[2][I]=Q2[3][I]*AN2                                             
-		if(NION2 > 1):
-			for KION in range(1,NION2+1):
-			    #812
-				QION[2][I]=QION2[KION][I]*AN2
-		# endif                                           
-		QION[3][I]=Q3[3][I]*AN3                                             
-		if(NION3 > 1):
-			for KION in range(1,NION3+1):
-				QION[3][I]=QION3[KION][I]*AN3
-		# endif                                           
-		QION[4][I]=Q4[3][I]*AN4
-		if(NION4 > 1):
-			for KION in range(1,NION4+1):
-				QION[4][I]=QION4[KION][I]*AN4
-		# endif                                           
-		QION[5][I]=Q5[3][I]*AN5
-		if(NION5 > 1):
-			for KION in range(1,NION5+1):
-				QION[5][I]=QION5[KION][I]*AN5
-		# endif                                           
-		QION[6][I]=Q6[3][I]*AN6                                             
-		if(NION6 > 1):
-			for KION in range(1,NION6+1):
-				QION[6][I]=QION6[KION][I]*AN6
-		# endif                                           
-		QATT[1][I]=Q1[4][I]*AN1                                             
-		QATT[2][I]=Q2[4][I]*AN2                                             
-		QATT[3][I]=Q3[4][I]*AN3                                             
-		QATT[4][I]=Q4[4][I]*AN4
-		QATT[5][I]=Q5[4][I]*AN5
-		QATT[6][I]=Q6[4][I]*AN6                                             
-		#                                                                       
-		QREL[I]=0.00                                                     
-		QSATT[I]=0.00                                                   
-		QSUM[I]=0.00                                                     
-		for J in range(1,NGAS+1):
-			QSUM[I]=QSUM[I]+QION[J][I]+QATT[J][I]                               
-			QSATT[I]=QSATT[I]+QATT[J][I]                                       
-			QREL[I]=QREL[I]+QION[J][I]-QATT[J][I]                               
-		#                                                                       
-		if(NIN1 == 0):
-			pass
-		else:
-			for J in range(1,NIN1+1):
-				QSUM[I]=QSUM[I]+QIN1[J][I]*AN1                                     
-		if(NIN2 == 0):
-			pass                                           
-		else:
-			for J in range(1,NIN2+1):
-				QSUM[I]=QSUM[I]+QIN2[J][I]*AN2                                     
-		if(NIN3 == 0):
-			pass                                           
-		else:
-			for J in range(1,NIN3+1):
-				QSUM[I]=QSUM[I]+QIN3[J][I]*AN3                                     
-		if(NIN4 == 0):
-			pass                                           
-		else:
-			for J in range(1,NIN4+1):
-				QSUM[I]=QSUM[I]+QIN4[J][I]*AN4                                     
-		if(NIN5 == 0):
-			pass 
-		else:
-			for J in range(1,NIN5+1):
-					QSUM[I]=QSUM[I]+QIN5[J][I]*AN5
-		if(NIN6 == 0):
-			pass
-		else:
-			for J in range(1,NIN6+1):
-				QSUM[I]=QSUM[I]+QIN6[J][I]*AN6                                     
-		##
+		
 		globals().update(locals())
 		##
 		                                                                     
 		return 1
 	def GOTO430(NP):
 		print("MIXER inside 430")
-		
+		complete=0
 		
 		if(EFINAL < E5[4]):
 			pass
@@ -1390,7 +1260,9 @@ def MIXER():
 		# 460 
 		if(NGAS == 5):
 			globals().update(locals())
-			GOTO600(NP)
+			complete=GOTO600(NP)
+			if(complete):
+				return 1
 		NP=NP+1
 		IDG6=NP      
 		NEGAS[NP]=6
@@ -1439,11 +1311,15 @@ def MIXER():
 		# 462 
 		if(EFINAL < E6[3]):
 			globals().update(locals())
-			GOTO530(NP)      
+			complete=GOTO530(NP)      
+			if(complete):
+				return 1
 		if(NION6 > 1):
 			globals().update(locals())
 			# GO TO 470                               
-			GOTO470(NP)
+			complete=GOTO470(NP)
+			if(complete):
+				return 1
 		else:
 			NP=NP+1 
 			IDG6=NP 
@@ -1502,7 +1378,9 @@ def MIXER():
 			
 			if(IE > 1):
 				globals().update(locals())
-				GOTO530(NP)
+				complete=GOTO530(NP)
+				if(complete):
+					return 1
 			RGAS[NP]=RGAS6                                                    
 			EIN[NP]=E6[3]/RGAS6 
 			IPN[NP]=1             
@@ -1514,7 +1392,9 @@ def MIXER():
 			PENFRA[2][NP]=0.0
 			PENFRA[3][NP]=0.0    
 			globals().update(locals())
-			GOTO530(NP)
+			complete=GOTO530(NP)
+			if(complete):
+				return 1
 		# 470 
 		for KION in range(1,NION6+1):
 			NP=NP+1
@@ -1570,9 +1450,10 @@ def MIXER():
 		globals().update(locals())
 		
 		GOTO530(NP)
+		return 1
 	def GOTO340(NP):
 		print("MIXER inside 340")
-		
+		complete=0
 		if(NIN4 == 0):
 			pass
 		else:
@@ -1628,7 +1509,9 @@ def MIXER():
 		#                                           
 		if(NGAS == 4):
 			globals().update(locals())
-			GOTO600(NP)
+			complete=GOTO600(NP)
+			if(complete):
+				return 1
 		NP=NP+1
 		IDG5=NP      
 		NEGAS[NP]=5
@@ -1676,7 +1559,9 @@ def MIXER():
 			WPLN[5]=E5[6]  #1897
 		if(EFINAL < E5[3]):
 			globals().update(locals())
-			GOTO430(NP)  #yet to be 
+			complete=GOTO430(NP) 
+			if(complete):
+				return 1
 		if(NION5 > 1):
 				# GO TO 370             #yet to be                       
 				pass
@@ -1738,7 +1623,9 @@ def MIXER():
 			EFL[NP]=EFL5[1]
 			if(IE > 1):
 				globals().update(locals())
-				GOTO430(NP)    #yet to be                                
+				complete=GOTO430(NP)    #yet to be                                
+				if(complete):
+					return 1
 			RGAS[NP]=RGAS5                                                    
 			EIN[NP]=E5[3]/RGAS5 
 			IPN[NP]=1
@@ -1753,7 +1640,9 @@ def MIXER():
 			for K in range(1,20+1):
 				ESPLIT[NP][K]=ESPLIT5[IONMODL5][K] 
 			globals().update(locals())
-			GOTO430(NP)       #yet to be
+			complete=GOTO430(NP)       #yet to be
+			if(complete):
+				return 1
 		# 370 
 		for KION in range(1,NION5+1):
 			NP=NP+1
@@ -1810,12 +1699,15 @@ def MIXER():
 		globals().update(locals())
 		
 		GOTO430(NP)
+		return 1
 	def GOTO330(NP): 
 		print("MIXER inside 330")
-		
+		complete=0
 		if(EFINAL < E4[4]):
 			globals().update(locals())
-			GOTO340(NP)          
+			complete=GOTO340(NP)          
+			if(complete):
+				return 1
 		if(NATT4 > 1):
 			pass
 		else:
@@ -1827,7 +1719,9 @@ def MIXER():
 			ANGCT[IE][NP]=1.0
 			if(IE > 1):
 				globals().update(locals())
-				GOTO340(NP)  
+				complete=GOTO340(NP)          
+				if(complete):
+					return 1 
 			NEGAS[NP]=4
 			LEGAS[NP]=0
 			IESHELL[NP]=0      
@@ -1843,7 +1737,9 @@ def MIXER():
 			PENFRA[2][NP]=0.0
 			PENFRA[3][NP]=0.0
 			globals().update(locals())        
-			GOTO340(NP)
+			complete=GOTO340(NP)          
+			if(complete):
+				return 1
 		#581 
 		for JJ in range(1,NATT4+1):
 			NP=NP+1
@@ -1872,11 +1768,70 @@ def MIXER():
 		globals().update(locals())
 		
 		GOTO340(NP)
+		return 1
+	def GOTO270(NP):
+		for KION in range(1,NION4+1):
+			NP=NP+1
+			IDG4=NP
+			# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
+			CF[IE][NP]=QION4[KION][IE]*VAN4*BET[IE]
+			FCION[IE]=FCION[IE]+CF[IE][NP]
+			PSCT[IE][NP]=0.5
+			ANGCT[IE][NP]=1.0
+			INDEX[NP]=0  
+			NEGAS[NP]=4
+			LEGAS[NP]=LEGAS4[KION]
+			IESHELL[NP]=IESHEL4[KION]
+			#
+			if(KEL4[3]== 1):
+				PSCT1=PEQION4[KION][IE]
+				globals.update(locals())
+				ANGCUT(PSCT1,ANGC,PSCT2)
+				ANGCT[IE][NP]=ANGC
+				PSCT[IE][NP]=PSCT2
+				INDEX[NP]=1
+			# endif
+			if(KEL4[3]== 2):
+				PSCT[IE][NP]=PEQION4[KION][IE]
+				INDEX[NP]=2
+			# endif
+			# 
+			WPL[NP]=EB4[KION]
+			NC0[NP]=NC04[KION]
+			EC0[NP]=EC04[KION]
+			NG1[NP]=NG14[KION]
+			EG1[NP]=EG14[KION]
+			NG2[NP]=NG24[KION]
+			EG2[NP]=EG24[KION]
+			WKLM[NP]=WK4[KION]
+			EFL[NP]=EFL4[KION]
+			if(IE > 1):
+				pass
+			else:
+				RGAS[NP]=RGAS4                                                    
+				EIN[NP]=EION4[KION]/RGAS4
+				# 
+				IPN[NP]=1
+				L=17                                                        
+				IARRY[NP]=L
+				IZBR[NP]=0
+				DSCRPT[NP]=SCRP4[2+KION]
+				PENFRA[1][NP]=0.0  
+				PENFRA[2][NP]=0.0 
+				PENFRA[3][NP]=0.0  
+				IONMODEL[NP]=IONMODL4
+				for K in range(1,20+1):
+					ESPLIT[NP][K]=ESPLIT4[IONMODL4][K] 
+		globals().update(locals())
+		GOTO330(NP)
+		return 1
 	def GOTO260(NP):
 		print("MIXER inside 260")
-		
+		complete=0
 		if(NGAS == 3):
-			GOTO600(NP)
+			complete=GOTO600(NP)
+			if(complete):
+				return 1
 		NP=NP+1
 		IDG4=NP      
 		NEGAS[NP]=4
@@ -1924,10 +1879,14 @@ def MIXER():
 			WPLN[4]=E4[6]
 		if(EFINAL < E4[3]):
 			globals().update(locals())
-			GOTO330(NP)
+			complete=GOTO330(NP)
+			if(complete):
+				return 1
 		if(NION4 > 1):
 			globals().update(locals())
-			GOTO270(NP)                                   
+			complete=GOTO270(NP)                                   
+			if(complete):
+				return 1
 		NP=NP+1
 		IDG4=NP  
 		# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
@@ -1985,7 +1944,9 @@ def MIXER():
 		EFL[NP]=EFL4[1]
 		if(IE > 1):
 			globals().update(locals())
-			GOTO330(NP)
+			complete=GOTO330(NP)
+			if(complete):
+				return 1
 		RGAS[NP]=RGAS4                                                    
 		EIN[NP]=E4[3]/RGAS4 
 		IPN[NP]=1  
@@ -2000,64 +1961,16 @@ def MIXER():
 		for K in range(1,20+1):
 			ESPLIT[NP][K]=ESPLIT4[IONMODL4][K] 
 		globals().update(locals())
-		GOTO330(NP)
+		complete=GOTO330(NP)
+		if(complete):
+			return 1
 		globals().update(locals())
-		def GOTO270(NP):
-			for KION in range(1,NION4+1):
-				NP=NP+1
-				IDG4=NP
-				# CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
-				CF[IE][NP]=QION4[KION][IE]*VAN4*BET[IE]
-				FCION[IE]=FCION[IE]+CF[IE][NP]
-				PSCT[IE][NP]=0.5
-				ANGCT[IE][NP]=1.0
-				INDEX[NP]=0  
-				NEGAS[NP]=4
-				LEGAS[NP]=LEGAS4[KION]
-				IESHELL[NP]=IESHEL4[KION]
-				#
-				if(KEL4[3]== 1):
-					PSCT1=PEQION4[KION][IE]
-					ANGCUT(PSCT1,ANGC,PSCT2)
-					ANGCT[IE][NP]=ANGC
-					PSCT[IE][NP]=PSCT2
-					INDEX[NP]=1
-				# endif
-				if(KEL4[3]== 2):
-					PSCT[IE][NP]=PEQION4[KION][IE]
-					INDEX[NP]=2
-				# endif
-				# 
-				WPL[NP]=EB4[KION]
-				NC0[NP]=NC04[KION]
-				EC0[NP]=EC04[KION]
-				NG1[NP]=NG14[KION]
-				EG1[NP]=EG14[KION]
-				NG2[NP]=NG24[KION]
-				EG2[NP]=EG24[KION]
-				WKLM[NP]=WK4[KION]
-				EFL[NP]=EFL4[KION]
-				if(IE > 1):
-					pass
-				else:
-					RGAS[NP]=RGAS4                                                    
-					EIN[NP]=EION4[KION]/RGAS4
-					# 
-					IPN[NP]=1
-					L=17                                                        
-					IARRY[NP]=L
-					IZBR[NP]=0
-					DSCRPT[NP]=SCRP4[2+KION]
-					PENFRA[1][NP]=0.0  
-					PENFRA[2][NP]=0.0 
-					PENFRA[3][NP]=0.0  
-					IONMODEL[NP]=IONMODL4
-					for K in range(1,20+1):
-						ESPLIT[NP][K]=ESPLIT4[IONMODL4][K] 
-			globals().update(locals())
-			GOTO330(NP)
+		GOTO270(NP)
+		return 1
+		
 	def GOTO230(NP):
 		print("MIXER inside 230")
+		complete=0
 		if(EFINAL < E3[4]):
 			pass
 		else:
@@ -2118,7 +2031,9 @@ def MIXER():
 		# 240 
 		if(NIN3 == 0):
 			globals().update(locals())
-			GOTO260(NP)
+			complete=GOTO260(NP)
+			if(complete):
+				return 1
 		for J in range(1,NIN3+1):
 			NP=NP+1
 			IDG3=NP      
@@ -2168,9 +2083,15 @@ def MIXER():
 				# endif
 				if(J == NIN3):
 					CMINEXSC[3]=CMINEXSC[3]*AVPFRAC[1][3]  
-		globals().update(locals()) 
+		#     
+		globals().update(locals())             
+		
+		complete=GOTO260(NP)			
+		if(complete):
+			return 1
 	def GOTO130(NP):
 		print("MIXER inside 130")
+		complete=0
 		if(EFINAL < E2[4]):
 			pass
 		else: 
@@ -2391,9 +2312,9 @@ def MIXER():
 			EG2[NP]=EG23[1]
 			WKLM[NP]=WK3[1]
 			EFL[NP]=EFL3[1]
-			if(sum(EFL)+sum(EFL3)>0):
-				print("mixer 914 ",sum(EFL),sum(EFL3))
-				time.sleep(30)
+			# if(sum(EFL)+sum(EFL3)>0):
+			# 	print("mixer 914 ",sum(EFL),sum(EFL3))
+			# 	time.sleep(30)
 			if(IE > 1):
 				globals().update(locals())
 				complete=GOTO230(NP)
@@ -2474,15 +2395,10 @@ def MIXER():
 		complete=GOTO230(NP)
 		if(complete):
 			return 1
-		#     
-		globals().update(locals())             
-		
-		complete=GOTO260(NP)			
-		if(complete):
-			return 1
 	def GOTO40(NP):
 		print("MIXER inside 40")
 		globals().update(locals())
+		complete=0
 		if(NIN1 == 0):
 			pass
 		else:                                           
@@ -2719,11 +2635,10 @@ def MIXER():
 		globals().update(locals())
 		GOTO130(NP)
 		return 1
-		"mixer goto40 came back after 130"
 	def GOTO30(NP):
 			print("MIXER inside 30")
 			globals().update(locals())
-			print("Mixer 2492 EFINAL,E1[4]= ",EFINAL,E1[4],NATT1)
+			# print("Mixer 2492 EFINAL,E1[4]= ",EFINAL,E1[4],NATT1)
 			if(EFINAL < E1[4]):
 				complete=GOTO40(NP)
 				if(complete):
@@ -2789,7 +2704,7 @@ def MIXER():
 			##
 			                                                                     
 			return 1                                                        
-	print("Mixer shit")
+	print("Mixer starts here")
 	for IE in range(1,20000+1):
 		FCION[IE]=0.00
 		FCATT[IE]=0.00
@@ -2841,7 +2756,9 @@ def MIXER():
 			ECLOSS[1]=E1[3]
 			WPLN[1]=E1[6]
 		if(EFINAL < E1[3]):
-			GOTO30(NP)  
+			complete=GOTO30(NP)  
+			if(complete):
+				continue
 		if(NION1 > 1):
 			pass  
 		else:
@@ -2899,7 +2816,9 @@ def MIXER():
 			WKLM[NP]=WK1[1]
 			EFL[NP]=EFL1[1]
 			if(IE > 1):
-				GOTO30(NP)  
+				complete=GOTO30(NP)  
+				if(complete):
+					continue
 			RGAS[NP]=RGAS1                                                    
 			EIN[NP]=E1[3]/RGAS1
 			IPN[NP]=1 
@@ -2913,7 +2832,9 @@ def MIXER():
 			IONMODEL[NP]=IONMODL1
 			for K in range(1,20+1):
 				ESPLIT[NP][K]=ESPLIT1[IONMODL1][K]
-			GOTO30(NP)  
+			complete=GOTO30(NP)  
+			if(complete):
+				continue
 		for KION in range(1,NION1+1):
 			NP=NP+1
 			IDG1=NP
@@ -2966,7 +2887,147 @@ def MIXER():
 				for K in range(1,20+1):
 					ESPLIT[NP][K]=ESPLIT1[IONMODL1][K]    
 			globals().update(locals())
-		GOTO30(NP)
+		complete=GOTO30(NP)
+		if(complete):
+			continue
 		update_globals()
-		return 
+		# return 
 		# end 
+	#699
+	#700
+	#     WRITE(6,841) (INDEX[J],J, J=1,IPLAST)
+	# 841 print(2X,' INDEX=',I3,' J=',I3)                   
+	#  SET ANISOTROPIC FLAG if ANISOTROPIC SCATTERING DATA IS DETECTED
+	KELSUM=0 #2479
+	#########                  RESET INDENTATION                ###########################
+	for J in range(1,6+1):
+		KELSUM=KELSUM+KEL1[J]+KEL2[J]+KEL3[J]+KEL4[J]+KEL5[J]+KEL6[J]
+	for J in range(1,250+1):
+		KELSUM=KELSUM+KIN1[J]+KIN2[J]+KIN3[J]+KIN4[J]+KIN5[J]+KIN6[J]
+	if(KELSUM > 0):
+		NISO=1  
+	#     if(NISO == 1) WRITE(6,7765) NISO
+	#7765 print(3X,' ANISOTROPIC SCATTERING DETECTED NISO=',I5)         
+	# -------------------------------------------------------------------   
+	#   CALCULATE NULL COLLISION FREQUENCY                                  
+	# -------------------------------------------------------------------   
+	BP=EFIELD*EFIELD*CONST1           #2490                               
+	F2=EFIELD*CONST3                                                  
+	ELOW=TMAX*(TMAX*BP-F2*math.sqrt(0.50*EFINAL))/ESTEP-1.00            
+	ELOW=min(ELOW,SMALL)
+	EHI=TMAX*(TMAX*BP+F2*math.sqrt(0.50*EFINAL))/ESTEP+1.00
+	if(EHI > 20000.0):
+		EHI=20000.0
+	JONE=1
+	JLARGE=20000  
+	for I in range(1,10+1):
+			JLOW=20000-2000*(11-I)+1+int(ELOW)                               
+			JHI=20000-2000*(10-I)+int(EHI)
+			JLOW=max(JLOW,JONE)
+			JHI=min(JHI,JLARGE)
+	for J in range(JLOW,JHI+1):
+		if(TCF[J]>= TCFMAX[I]):
+			TCFMAX[I]=TCF[J]                          
+	#---------------------------------------------------------------------
+	# FIND MAXIMUM COLLISION FREQUENCY
+	#     TLIM=TCFMAX[1]
+	#     DO 835 I=1,10
+	# 835 if(TLIM < TCFMAX[I]) TLIM=TCFMAX[I]
+	#     TCFMAX1=TLIM  
+	TLIM=0.0
+	for I in range(1,20000+1):	
+		if(TLIM < TCF[I]):
+			# print(TLIM,TCF[I])
+			# time.sleep(1)
+			TLIM=TCF[I]
+		globals().update(locals())
+	TCFMAX1=TLIM  
+	print("Mixer 2945 TCFMAX1=", TCFMAX1)     
+	time.sleep(0.5)                                             
+	# -------------------------------------------------------------------   
+	#   CROSS SECTION DATA FOR INTEGRALS IN  OUTPUT               
+	# --------------------------------------------------------------------- 
+	for I in range(1,NSTEP+1):      #900                                         
+		QTOT[I]=AN1*Q1[1][I]+AN2*Q2[1][I]+AN3*Q3[1][I]+AN4*Q4[1][I]+AN5*Q5[1][I]+AN6*Q6[1][I]     
+		QEL[I]=AN1*Q1[2][I]+AN2*Q2[2][I]+AN3*Q3[2][I]+AN4*Q4[2][I]+AN5*Q5[2][I]+AN6*Q6[2][I]             
+		#                                                                       
+		QION[1][I]=Q1[3][I]*AN1   
+		if(NION1 > 1):
+			for KION in range(1,NION1+1):
+				#811
+				QION[1][I]=QION1[KION][I]*AN1
+		# endif                                           
+		QION[2][I]=Q2[3][I]*AN2                                             
+		if(NION2 > 1):
+			for KION in range(1,NION2+1):
+			    #812
+				QION[2][I]=QION2[KION][I]*AN2
+		# endif                                           
+		QION[3][I]=Q3[3][I]*AN3                                             
+		if(NION3 > 1):
+			for KION in range(1,NION3+1):
+				QION[3][I]=QION3[KION][I]*AN3
+		# endif                                           
+		QION[4][I]=Q4[3][I]*AN4
+		if(NION4 > 1):
+			for KION in range(1,NION4+1):
+				QION[4][I]=QION4[KION][I]*AN4
+		# endif                                           
+		QION[5][I]=Q5[3][I]*AN5
+		if(NION5 > 1):
+			for KION in range(1,NION5+1):
+				QION[5][I]=QION5[KION][I]*AN5
+		# endif                                           
+		QION[6][I]=Q6[3][I]*AN6                                             
+		if(NION6 > 1):
+			for KION in range(1,NION6+1):
+				QION[6][I]=QION6[KION][I]*AN6
+		# endif                                           
+		QATT[1][I]=Q1[4][I]*AN1                                             
+		QATT[2][I]=Q2[4][I]*AN2                                             
+		QATT[3][I]=Q3[4][I]*AN3                                             
+		QATT[4][I]=Q4[4][I]*AN4
+		QATT[5][I]=Q5[4][I]*AN5
+		QATT[6][I]=Q6[4][I]*AN6                                             
+		#                                                                       
+		QREL[I]=0.00                                                     
+		QSATT[I]=0.00                                                   
+		QSUM[I]=0.00                                                     
+		for J in range(1,NGAS+1):
+			QSUM[I]=QSUM[I]+QION[J][I]+QATT[J][I]                               
+			QSATT[I]=QSATT[I]+QATT[J][I]                                       
+			QREL[I]=QREL[I]+QION[J][I]-QATT[J][I]                               
+		#                                                                       
+		if(NIN1 == 0):
+			pass
+		else:
+			for J in range(1,NIN1+1):
+				QSUM[I]=QSUM[I]+QIN1[J][I]*AN1                                     
+		if(NIN2 == 0):
+			pass                                           
+		else:
+			for J in range(1,NIN2+1):
+				QSUM[I]=QSUM[I]+QIN2[J][I]*AN2                                     
+		if(NIN3 == 0):
+			pass                                           
+		else:
+			for J in range(1,NIN3+1):
+				QSUM[I]=QSUM[I]+QIN3[J][I]*AN3                                     
+		if(NIN4 == 0):
+			pass                                           
+		else:
+			for J in range(1,NIN4+1):
+				QSUM[I]=QSUM[I]+QIN4[J][I]*AN4                                     
+		if(NIN5 == 0):
+			pass 
+		else:
+			for J in range(1,NIN5+1):
+					QSUM[I]=QSUM[I]+QIN5[J][I]*AN5
+		if(NIN6 == 0):
+			pass
+		else:
+			for J in range(1,NIN6+1):
+				QSUM[I]=QSUM[I]+QIN6[J][I]*AN6                                     
+	##
+
+	return

@@ -27,7 +27,7 @@ def FLDIST():
 	# CALCULATE FLUORESCENCE AVERAGE ABSORPTION DISTANCE AND LOAD INTO ARRAY
 	for I in range(1,512+1):
 		EPH=EFL[I]
-		print("EPF=",EPH)
+		# print("EPF=",EPH)
 		if(EPH == 0.0):
 			continue
 		JF=3
