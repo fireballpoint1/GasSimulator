@@ -246,11 +246,12 @@ def PRINTER():
 	print("TCFMAX1",TCFMAX1,type(TCFMAX1))
 	print('\n NULL COLLISION FREQUENCY = %.4f *(10**12/SEC)\n'%(TCFMAX1))
 	# WRITE(6,111)  (TCF(L),L=500,9500,1000)
+	print('  ','REAL COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)','\n')
 	for L in range(500,9500+1,1000):
-		print('  ','REAL COLLISION FREQUENCY AT 10 EQUALLY SPACED ENERGY INTERVALS (*10**12/SEC)','\n')
-		print(3*' ','%.3f' % TCF[L],'\t')
+		print(3*' ','%.3f' % TCF[L],'\t', end='')
 		if L==4500:
 			print('\n')
+	print('\n')
 
 	conf.NGAS=NGAS
 	conf.NSTEP=NSTEP

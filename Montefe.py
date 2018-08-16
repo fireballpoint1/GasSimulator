@@ -170,7 +170,7 @@ def MONTEFE():
       EFIELD=conf.EFIELD
       ETHRM=conf.ETHRM
       ECUT=conf.ECUT
-      NDELTA=conf.NDELTA
+      NDELTA=conf.NEVENT
       IMIP=conf.IMIP
       IWRITE=conf.IWRITE                    
       CF=conf.CF
@@ -382,7 +382,8 @@ def MONTEFE():
       NEOVFL=0
       J1=0
       # START OF PRIMARY EVENT LOOP 
-      for J11 in range(1,NDELTA+1):
+      print("NDELTA= ",NDELTA,conf.NEVENT)
+      for J11 in range(1,int(NDELTA)+1):
             J1=J1+1
             NPRIME=J1
             NGEXC1=0
@@ -414,6 +415,7 @@ def MONTEFE():
             TLAST=0.00
             ST=0.00
             TDASH=0.00
+            
             if(IMIP == 2):
                   pass
             else:

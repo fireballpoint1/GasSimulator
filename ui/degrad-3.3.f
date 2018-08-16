@@ -833,6 +833,7 @@ C---------------------------------------------------------------
       FCATT(IE)=0.0D0
 C
       NP=1 
+      ! PRINT *,"836 NP= ",NP
       IDG1=1
       NEGAS(NP)=1  
       LEGAS(NP)=0
@@ -841,6 +842,7 @@ C
       PSCT(IE,NP)=0.5D0
       ANGCT(IE,NP)=1.0D0    
       INDEX(NP)=0 
+      
 C   ELASTIC ANG  
       IF(KEL1(2).EQ.1) THEN
        PSCT1=PEQEL1(2,IE)
@@ -885,6 +887,7 @@ C
    12 IF(EFINAL.LT.E1(3)) GO TO 30
       IF(NION1.GT.1) GO TO 20  
       NP=NP+1
+      ! PRINT *,"890 NP= ",NP
       IDG1=NP
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       IF(ICOUNT.EQ.1) THEN
@@ -954,6 +957,7 @@ C
       GO TO 30
    20 DO 25 KION=1,NION1
       NP=NP+1
+      ! PRINT *,"960 NP= ",NP
       IDG1=NP
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       CF(IE,NP)=QION1(KION,IE)*VAN1*BET(IE)
@@ -1002,11 +1006,11 @@ C
       DO 24 K=1,20
    24 ESPLIT(NP,K)=ESPLIT1(IONMODL1,K) 
    25 CONTINUE   
-   30 PRINT *,"MIXER inside 30"
-      ! CALL SLEEP(1)
+   30 print *,"inside 30"
       IF(EFINAL.LT.E1(4)) GO TO 40   
       IF(NATT1.GT.1) GO TO 551                                   
       NP=NP+1
+      ! PRINT *,"1013 NP= ",NP
       IDG1=NP                                                           
       CF(IE,NP)=Q1(4,IE)*VAN1*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP) 
@@ -1030,6 +1034,7 @@ C
       GO TO 40
   551 DO 552 JJ=1,NATT1 
       NP=NP+1
+      ! PRINT *,"1037 NP= ",NP
       IDG1=NP
       CF(IE,NP)=QATT1(JJ,IE)*VAN1*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -1051,7 +1056,7 @@ C
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
   552 CONTINUE
-   40 PRINT *,"inside 40"
+   40 print *,"mixer"
       IF(NIN1.EQ.0) GO TO 60                                           
       DO 50 J=1,NIN1
       NP=NP+1
@@ -1100,6 +1105,7 @@ C
 C                                                    
    60 IF(NGAS.EQ.1) GO TO 600
       NP=NP+1
+      ! PRINT *,"1108 NP= ",NP
       IDG2=NP  
       NEGAS(NP)=2
       LEGAS(NP)=0
@@ -1145,6 +1151,7 @@ C
    62 IF(EFINAL.LT.E2(3)) GO TO 130  
       IF(NION2.GT.1) GO TO 70                                   
       NP=NP+1
+      ! PRINT *,"1154 NP= ",NP
       IDG2=NP
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       IF(ICOUNT.EQ.1) THEN
@@ -1214,6 +1221,7 @@ C
       GO TO 130                                       
    70 DO 80 KION=1,NION2
       NP=NP+1
+      ! PRINT *,"1224 NP= ",NP
       IDG2=NP
       CF(IE,NP)=QION2(KION,IE)*VAN2*BET(IE)
       FCION(IE)=FCION(IE)+CF(IE,NP)
@@ -1261,10 +1269,11 @@ C
       DO 79 K=1,20
    79 ESPLIT(NP,K)=ESPLIT2(IONMODL2,K) 
    80 CONTINUE                                  
-  130 PRINT *,"inside 130"
+  130 print *,"inside 130"
   	  IF(EFINAL.LT.E2(4)) GO TO 140    
       IF(NATT2.GT.1) GO TO 561       
       NP=NP+1
+      ! PRINT *,"1276 NP= ",NP
       IDG2=NP                                                           
       CF(IE,NP)=Q2(4,IE)*VAN2*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)  
@@ -1291,6 +1300,7 @@ C
   	  ! PRINT *,"came here line 1290"
   	  ! PAUSE 1
       NP=NP+1
+      ! PRINT *,"1303 NP= ",NP
       IDG2=NP
       CF(IE,NP)=QATT2(JJ,IE)*VAN2*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -1316,6 +1326,7 @@ C
   140 IF(NIN2.EQ.0) GO TO 160                                           
       DO 150 J=1,NIN2
       NP=NP+1
+      ! PRINT *,"1329 NP= ",NP
       IDG2=NP    
       NEGAS(NP)=2
       LEGAS(NP)=0
@@ -1361,6 +1372,7 @@ C
 C                                                   
   160 IF(NGAS.EQ.2) GO TO 600
       NP=NP+1
+      ! PRINT *,"1375 NP= ",NP
       IDG3=NP              
       NEGAS(NP)=3
       LEGAS(NP)=0
@@ -1405,6 +1417,7 @@ C
   162 IF(EFINAL.LT.E3(3)) GO TO 230 
       IF(NION3.GT.1) GO TO 170                                    
       NP=NP+1
+      ! PRINT *,"1420 NP= ",NP
       IDG3=NP
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       IF(ICOUNT.EQ.1) THEN
@@ -1474,6 +1487,7 @@ C
       GO TO 230  
   170 DO 180 KION=1,NION3                                         
       NP=NP+1
+      ! PRINT *,"1490 NP= ",NP
       IDG3=NP
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       CF(IE,NP)=QION3(KION,IE)*VAN3*BET(IE)
@@ -1522,10 +1536,11 @@ C
       DO 179 K=1,20
   179 ESPLIT(NP,K)=ESPLIT3(IONMODL3,K) 
   180 CONTINUE                                        
-  230 PRINT *,"inside 230"
-  	  IF(EFINAL.LT.E3(4)) GO TO 240      
+  230 print *,"inside 230"
+      IF(EFINAL.LT.E3(4)) GO TO 240      
       IF(NATT3.GT.1) GO TO 571                               
       NP=NP+1
+      ! PRINT *,"1543 NP= ",NP
       IDG3=NP                                                           
       CF(IE,NP)=Q3(4,IE)*VAN3*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -1550,6 +1565,7 @@ C
   571 CONTINUE
       DO 572 JJ=1,NATT3
       NP=NP+1
+      ! PRINT *,"1568 NP= ",NP
       IDG3=NP
       CF(IE,NP)=QATT3(JJ,IE)*VAN3*BET(IE)  
       FCATT(IE)=FCATT(IE)+CF(IE,NP)      
@@ -1574,6 +1590,7 @@ C
   240 IF(NIN3.EQ.0) GO TO 260                                           
       DO 250 J=1,NIN3 
       NP=NP+1
+      ! PRINT *,"1593 NP= ",NP
       IDG3=NP      
       NEGAS(NP)=3
       LEGAS(NP)=0
@@ -1617,9 +1634,10 @@ C
       IF(J.EQ.NIN3) CMINEXSC(3)=CMINEXSC(3)*AVPFRAC(1,3)   
   250 CONTINUE             
 C                  
-  260 PRINT *,"inside 260"
+  260 print *,"inside 260"
       IF(NGAS.EQ.3) GO TO 600  
       NP=NP+1
+      ! PRINT *,"1640 NP= ",NP
       IDG4=NP      
       NEGAS(NP)=4
       LEGAS(NP)=0
@@ -1664,6 +1682,7 @@ C
   262 IF(EFINAL.LT.E4(3)) GO TO 330  
       IF(NION4.GT.1) GO TO 270                                   
       NP=NP+1
+      ! PRINT *,"1685 NP= ",NP
       IDG4=NP  
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       IF(ICOUNT.EQ.1) THEN
@@ -1731,8 +1750,10 @@ C
       DO 269 K=1,20
   269 ESPLIT(NP,K)=ESPLIT4(IONMODL4,K) 
       GO TO 330
-  270 DO 280 KION=1,NION4                                       
+  270 print *,"inside 270"
+      DO 280 KION=1,NION4                                       
       NP=NP+1
+      ! PRINT *,"1756 NP= ",NP
       IDG4=NP
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       CF(IE,NP)=QION4(KION,IE)*VAN4*BET(IE)
@@ -1781,10 +1802,11 @@ C
       DO 279 K=1,20
   279 ESPLIT(NP,K)=ESPLIT4(IONMODL4,K) 
   280 CONTINUE                                       
-  330 PRINT *,"Inside 330"
+  330 print *,"inside 330"
       IF(EFINAL.LT.E4(4)) GO TO 340          
       IF(NATT4.GT.1) GO TO 581                           
       NP=NP+1
+      ! PRINT *,"1809 NP= ",NP
       IDG4=NP                                                           
       CF(IE,NP)=Q4(4,IE)*VAN4*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -1808,6 +1830,7 @@ C
       GO TO 340
   581 DO 582 JJ=1,NATT4
       NP=NP+1
+      ! PRINT *,"1833 NP= ",NP
       IDG4=NP
       CF(IE,NP)=QATT4(JJ,IE)*VAN4*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP) 
@@ -1829,10 +1852,11 @@ C
       PENFRA(2,NP)=0.0
       PENFRA(3,NP)=0.0
   582 CONTINUE                                    
-  340 PRINT *,"inside 340"
+  340 print *,"inside 340"
       IF(NIN4.EQ.0) GO TO 360                                           
       DO 350 J=1,NIN4 
       NP=NP+1
+      ! PRINT *,"1859 NP= ",NP
       IDG4=NP
       NEGAS(NP)=4
       LEGAS(NP)=0
@@ -1878,6 +1902,7 @@ C
 C                                           
   360 IF(NGAS.EQ.4) GO TO 600  
       NP=NP+1
+      ! PRINT *,"1905 NP= ",NP
       IDG5=NP      
       NEGAS(NP)=5
       LEGAS(NP)=0
@@ -1922,6 +1947,7 @@ C
   362 IF(EFINAL.LT.E5(3)) GO TO 430  
       IF(NION5.GT.1) GO TO 370                                   
       NP=NP+1
+      ! PRINT *,"1950 NP= ",NP
       IDG5=NP  
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       IF(ICOUNT.EQ.1) THEN
@@ -1991,6 +2017,7 @@ C
       GO TO 430       
   370 DO 380 KION=1,NION5                                   
       NP=NP+1
+      ! PRINT *,"2020 NP= ",NP
       IDG5=NP  
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       CF(IE,NP)=QION5(KION,IE)*VAN5*BET(IE)
@@ -2039,10 +2066,11 @@ C
       DO 379 K=1,20
   379 ESPLIT(NP,K)=ESPLIT5(IONMODL5,K) 
   380 CONTINUE
-  430 PRINT *,"inside 430"
+  430 print *,"inside 430"
       IF(EFINAL.LT.E5(4)) GO TO 440                 
       IF(NATT5.GT.1) GO TO 591                    
       NP=NP+1
+      ! PRINT *,"2073 NP= ",NP
       IDG5=NP                                                           
       CF(IE,NP)=Q5(4,IE)*VAN5*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -2066,6 +2094,7 @@ C
       GO TO 440
   591 DO 592 JJ=1,NATT5
       NP=NP+1
+      ! PRINT *,"2096 NP= ",NP
       IDG5=NP
       CF(IE,NP)=QATT5(JJ,IE)*VAN5*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -2090,6 +2119,7 @@ C
   440 IF(NIN5.EQ.0) GO TO 460                                           
       DO 450 J=1,NIN5 
       NP=NP+1
+      ! PRINT *,"2122 NP= ",NP
       IDG5=NP      
       NEGAS(NP)=5
       LEGAS(NP)=0
@@ -2135,6 +2165,7 @@ C
 C                                           
   460 IF(NGAS.EQ.5) GO TO 600  
       NP=NP+1
+      ! PRINT *,"2168 NP= ",NP
       IDG6=NP      
       NEGAS(NP)=6
       LEGAS(NP)=0
@@ -2179,6 +2210,7 @@ C
   462 IF(EFINAL.LT.E6(3)) GO TO 530      
       IF(NION6.GT.1) GO TO 470                               
       NP=NP+1 
+      ! PRINT *,"2213 NP= ",NP
       IDG6=NP 
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       IF(ICOUNT.EQ.1) THEN
@@ -2245,6 +2277,7 @@ C
       GO TO 530  
   470 DO 480 KION=1,NION6    
       NP=NP+1
+      ! PRINT *,"2280 NP= ",NP
       IDG6=NP  
 C CHOOSE BETWEEN COUNTING AND GROSS IONISATION X-SECTION
       CF(IE,NP)=QION6(KION,IE)*VAN6*BET(IE)
@@ -2292,10 +2325,11 @@ C
       DO 479 K=1,20
   479 ESPLIT(NP,K)=ESPLIT6(IONMODL6,K) 
   480 CONTINUE                                 
-  530 PRINT *,"inside 530"
+  530 print *,"inside 530"
       IF(EFINAL.LT.E6(4)) GO TO 540                  
       IF(NATT6.GT.1) GO TO 590                   
       NP=NP+1
+      ! PRINT *,"2332 NP= ",NP
       IDG6=NP                                                           
       CF(IE,NP)=Q6(4,IE)*VAN6*BET(IE) 
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -2319,6 +2353,7 @@ C
       GO TO 540
   590 DO 602 JJ=1,NATT6
       NP=NP+1
+      ! PRINT *,"2356 NP= ",NP
       IDG6=NP
       CF(IE,NP)=QATT6(JJ,IE)*VAN6*BET(IE)
       FCATT(IE)=FCATT(IE)+CF(IE,NP)
@@ -2346,6 +2381,7 @@ C
   540 IF(NIN6.EQ.0) GO TO 560                                           
       DO 550 J=1,NIN6 
       NP=NP+1
+      ! PRINT *,"2384 NP= ",NP
       IDG6=NP      
       NEGAS(NP)=6
       LEGAS(NP)=0
@@ -2390,8 +2426,9 @@ C
   550 CONTINUE                                                     
   560 CONTINUE     
 C                                                                       
-  600 CONTINUE
-      PRINT *,"inside 600"                                                          
+  600 print *,"inside 600"
+      CONTINUE
+      ! PRINT *,"inside 600"                                                          
       IPLAST=NP  
 C ----------------------------------------------------------------      
 C   CAN INCREASE ARRAY SIZE UP TO 1740 IF MORE COMPLEX MIXTURES USED.
@@ -2404,9 +2441,10 @@ C ------------------------------------------------------------------
 C --------------------------------------------------------------------  
 C     CALCULATION OF TOTAL COLLISION FREQUENCY                          
 C --------------------------------------------------------------------- 
-      TCF(IE)=0.0D0                                                     
+      TCF(IE)=0.0D0   
+      PRINT *,"2398 IPLAST= ",IPLAST                                                  
       DO 610 IL=1,IPLAST        
-      ! PRINT *,"mixer 2395",IE,TCF[IE],CF[IE][IL]
+      ! PRINT *,"mixer 2399",IE,TCF(IE),CF(IE,IL)
       ! CALL SLEEP(1)                                        
       TCF(IE)=TCF(IE)+CF(IE,IL)
       IF(CF(IE,IL).LT.0.0D0) WRITE(6,776) CF(IE,IL),IE,IL,IARRY(IL),EIN
@@ -2434,11 +2472,13 @@ C     TCF(IE)=TCF(IE)*EROOT(IE)
       TCF(IE)=TCF(IE)*1.0D-10   
 C CALCULATION OF NULL COLLISION FREQUENCIES
       NP=0
+      ! PRINT *,"2475 NP= ",NP
       NPLAST=0
       IF((NUL1+NUL2+NUL3+NUL4+NUL5+NUL6).EQ.0) GO TO 699
       IF(NUL1.GT.0) THEN
        DO 631 J=1,NUL1
        NP=NP+1
+       ! PRINT *,"2481 NP= ",NP
        SCLENUL(NP)=SCLN1(J)
        DSCRPTN(NP)=SCRPN1(J)
   631  CFN(IE,NP)=QNUL1(J,IE)*VAN1*SCLENUL(NP)*BET(IE)
@@ -2446,6 +2486,7 @@ C CALCULATION OF NULL COLLISION FREQUENCIES
       IF(NUL2.GT.0) THEN
        DO 632 J=1,NUL2
        NP=NP+1
+       ! PRINT *,"2489 NP= ",NP
        SCLENUL(NP)=SCLN2(J)
        DSCRPTN(NP)=SCRPN2(J)
   632  CFN(IE,NP)=QNUL2(J,IE)*VAN2*SCLENUL(NP)*BET(IE)
@@ -2453,6 +2494,7 @@ C CALCULATION OF NULL COLLISION FREQUENCIES
       IF(NUL3.GT.0) THEN
        DO 633 J=1,NUL3
        NP=NP+1
+       ! PRINT *,"2497 NP= ",NP
        SCLENUL(NP)=SCLN3(J)
        DSCRPTN(NP)=SCRPN3(J)
   633  CFN(IE,NP)=QNUL3(J,IE)*VAN3*SCLENUL(NP)*BET(IE)
@@ -2460,6 +2502,7 @@ C CALCULATION OF NULL COLLISION FREQUENCIES
       IF(NUL4.GT.0) THEN
        DO 634 J=1,NUL4
        NP=NP+1
+       ! PRINT *,"2505 NP= ",NP
        SCLENUL(NP)=SCLN4(J)
        DSCRPTN(NP)=SCRPN4(J)
   634  CFN(IE,NP)=QNUL4(J,IE)*VAN4*SCLENUL(NP)*BET(IE)
@@ -2467,6 +2510,7 @@ C CALCULATION OF NULL COLLISION FREQUENCIES
       IF(NUL5.GT.0) THEN
        DO 635 J=1,NUL5
        NP=NP+1
+       ! PRINT *,"2513 NP= ",NP
        SCLENUL(NP)=SCLN5(J)
        DSCRPTN(NP)=SCRPN5(J)
   635  CFN(IE,NP)=QNUL5(J,IE)*VAN5*SCLENUL(NP)*BET(IE)
@@ -2474,6 +2518,7 @@ C CALCULATION OF NULL COLLISION FREQUENCIES
       IF(NUL6.GT.0) THEN
        DO 636 J=1,NUL6
        NP=NP+1
+       ! PRINT *,"2521 NP= ",NP
        SCLENUL(NP)=SCLN6(J)
        DSCRPTN(NP)=SCRPN6(J)
   636  CFN(IE,NP)=QNUL6(J,IE)*VAN6*SCLENUL(NP)*BET(IE)
@@ -2501,6 +2546,9 @@ C SUM NULL COLLISIONS
 C FIX ROUNDING ERRORS AT HIGHEST VALUE
       CFN(IE,NPLAST)=1.0D0 
   699 CONTINUE
+      ! print *,"2507 line NP= ",NP
+      ! call sleep(5)
+      ! PAUSE 1
   700 CONTINUE 
 C     WRITE(6,841) (INDEX(J),J, J=1,IPLAST)
 C 841 FORMAT(2X,' INDEX=',I3,' J=',I3)                   
@@ -2543,7 +2591,7 @@ C     TCFMAX1=TLIM
       DO 835 I=1,20000
       
       IF(TLIM.LT.TCF(I))THEN
-      ! PRINT *,TLIM,TCF(I)
+      ! PRINT *,I,TLIM,TCF(I)
       TLIM=TCF(I)
       ! CALL SLEEP(2)
       ENDIF
@@ -28619,6 +28667,8 @@ C GET NEW IONISATION ELECTRON FROM STORE
 C  MAIN LOOP END    
   210 CONTINUE
 C RESET NUMBER OF EVENTS FOR BAD EVENTS
+	  PRINT *,IBADTOT
+	  PAUSE 1
       IF(IMIP.GT.2) NDELTA=NDELTA-IBADTOT
 C
       WRITE(6,887) EMAX,NEOVFL
@@ -28781,6 +28831,8 @@ C     VTOT=CONST9*DSQRT(E1)
       IF(IMIP.EQ.2) GO TO 1
       IF(IMIP.GT.2) THEN
 C READIN FIRST ELECTRON FROM BETA DECAY OR XRAY UNTHERMALISED CLUSTERS
+	   PRINT *,"calling casres============================"
+	   PAUSE 1
        CALL CASRES(J11,IBADTOT,IBAD1)
 C  SKIP IF BAD EVENT
        IF(IBAD1.EQ.1) THEN
@@ -33406,7 +33458,9 @@ C BETA DECAY
        TT(NVAC,I)=0.0
        GO TO 200
       ENDIF
-    2 NTOTI=NCOMP+NRAYL+NPAIR+NPHOT
+    2 print *,"came to 2"
+      call sleep(4)
+      NTOTI=NCOMP+NRAYL+NPAIR+NPHOT
 C PHOTONS
       IF(ICON.EQ.1) CALL ABSO(IFIRST,ENERGY,ISHELL,KGAS,LGAS,DIST)
 C  
@@ -33562,6 +33616,8 @@ C FOR PE EFFECT STORE PHOTON INCIDENT ANGLE
 C LOOP OVER SHELL VACANCIES
   200 CONTINUE
 C STORE NUMBER AND TYPE OF PRIMARY INTERACTIONS
+	  PRINT *,NTOTI
+	  PAUSE 1
       MSUM(I)=NTOTI
       MCOMP(I)=NCOMP
       MRAYL(I)=NRAYL
