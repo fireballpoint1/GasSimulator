@@ -14,6 +14,8 @@ from Control0 import *
 from Fldist import *
 from Montefe import *
 from Stats2 import *
+from Outputc import *
+from Montefc import *
 import sys
 def DEGRADE():
 	# IMPLICIT #real*8 (A-H,O-Z)

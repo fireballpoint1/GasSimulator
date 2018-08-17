@@ -199,7 +199,7 @@ def STATS2():
 		print(2*'\n',' WARNING EXCITATION DETECTION EFFICIENCY WAS ZERO NOW  SET TO 1.0 % ',2*'\n')
 		DETFRAC=0.01
 	# endif
-	for I in range(1,NDELTA+1):
+	for I in range(1,int(NDELTA)+1):
 		flag5=0
 		NCLUS=NCL[I]
 		NEXC=NCLEXC[I]

@@ -179,8 +179,8 @@ def MIXERC():
 			conf.XCP[1][J][M]=XC1[J][M]
 			conf.YRY[1][J][M]=YR1[J][M]
 			conf.YCP[1][J][M]=YC1[J][M]
-			print("mixerc ", type(J),type(M))
-			print("mixerc  ",type(conf.YPP[1][J][M]),type(YPP1[J][M]))
+			# print("mixerc ", type(J),type(M))
+			# print("mixerc  ",type(conf.YPP[1][J][M]),type(YPP1[J][M]))
 			conf.YPP[1][J][M]=YPP1[J][M]
 	for J in range(1,3+1):
 		for K in range(1,45+1):

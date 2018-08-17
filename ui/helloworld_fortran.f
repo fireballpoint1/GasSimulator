@@ -13,4 +13,6 @@
       DO 2 L=1,17
       Print *,A(1,2,L)
     2 CONTINUE
+      print *,"doing the write now"
+      WRITE(50,*) (INIOC(IPR),PRBSH(IPR,IPR),INIOC(IPR),IPR=1,5)
       End Program Hello

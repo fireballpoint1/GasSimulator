@@ -2,7 +2,10 @@ from Control import *
 import conf
 import numpy
 def CONTROL0(NEVENT,EINIT,ICON):
+	global THETAS
+	global PHIS
 	def get_globals():
+		global THETAS,PHIS
 		KGAS=conf.KGAS
 		LGAS=conf.LGAS
 		DETEFF=conf.DETEFF
@@ -133,7 +136,9 @@ def CONTROL0(NEVENT,EINIT,ICON):
 		PHIS=conf.PHIS
 		globals().update(locals())
 	get_globals()
+	print("THETAS",THETAS)
 	def update_globals():
+		global THETAS,PHIS
 		conf.KGAS=KGAS
 		conf.LGAS=LGAS
 		conf.DETEFF=DETEFF

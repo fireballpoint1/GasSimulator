@@ -2,6 +2,7 @@ import conf
 import numpy
 import sys
 from Calcn import *
+from Casstore import *
 def CONTROL(I,NVAC,ICON):
 	# IMPLICIT #real*8(A-H,O-Z)
 	# IMPLICIT #integer*8(I-N)
