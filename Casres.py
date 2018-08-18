@@ -1,8 +1,10 @@
+import time 
 import Inthrm1
 import conf
 import sys
 import numpy
 import random 
+import casrs
 def CASRES(NEVENT,IBADTT1,IBAD1):
 	# IMPLICIT #real*8 (A-H,O-Z)
 	# IMPLICIT #integer*8 (I-N)
@@ -31,17 +33,17 @@ def CASRES(NEVENT,IBADTT1,IBAD1):
 
 		TT=conf.TT
 		TTP=conf.TTP
-		E=conf.E
-		X=conf.X
-		Y=conf.Y
-		Z=conf.Z
-		DRX=conf.DRX
-		DRY=conf.DRY
-		DRZ=conf.DRZ
-		T=conf.T
-		NFLGF=conf.NFLGF
-		NFLGPP=conf.NFLGPP
-		IEVENT=conf.IEVENT
+		E=casrs.E
+		X=casrs.X
+		Y=casrs.Y
+		Z=casrs.Z
+		DRX=casrs.DRX
+		DRY=casrs.DRY
+		DRZ=casrs.DRZ
+		T=casrs.T
+		NFLGF=casrs.NFLGF
+		NFLGPP=casrs.NFLGPP
+		IEVENT=casrs.IEVENT
 		globals().update(locals())
 	get_globals()
 	def update_globals():
@@ -69,17 +71,17 @@ def CASRES(NEVENT,IBADTT1,IBAD1):
 
 		conf.TT=TT
 		conf.TTP=TTP
-		conf.E=E
-		conf.X=X
-		conf.Y=Y
-		conf.Z=Z
-		conf.DRX=DRX
-		conf.DRY=DRY
-		conf.DRZ=DRZ
-		conf.T=T
-		conf.NFLGF=NFLGF
-		conf.NFLGPP=NFLGPP
-		conf.IEVENT=IEVENT
+		casrs.E=E
+		casrs.X=X
+		casrs.Y=Y
+		casrs.Z=Z
+		casrs.DRX=DRX
+		casrs.DRY=DRY
+		casrs.DRZ=DRZ
+		casrs.T=T
+		casrs.NFLGF=NFLGF
+		casrs.NFLGPP=NFLGPP
+		casrs.IEVENT=IEVENT
 
 	# LOADS AUGER CASCADE ELECTRON POSITIONS,ANGLES AND ENERGY FOR EACH
 	# EVENT INTO THE COMMON BLOCK/CASRS/
@@ -139,5 +141,7 @@ def CASRES(NEVENT,IBADTT1,IBAD1):
 		sys.exit()
 	# endif
 	update_globals()
+	print("inside casres E=",E.shape)
+	time.sleep(10)
 	return
 	# end

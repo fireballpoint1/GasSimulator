@@ -30340,6 +30340,7 @@ C -------------------------------------------------------------------
 C VARYING ENERGY STEPS
       IF(EFINAL.LE.140000.) THEN
         ESTEP1=(EFINAL-16000.0)/DFLOAT(4000)
+
       ELSE
         ESTEP1=20.0
         ESTEP2=(EFINAL-92000.0)/DFLOAT(4000)
@@ -30384,10 +30385,10 @@ C CALCULATE MAXIMUM COLLISION FREQUENCY
       TEMP(J)=TCFN(J)+TCF(J) 
       IF(TLIM.LT.TEMP(J)) TLIM=TEMP(J) 
   111 CONTINUE
+  	  print *,"TLIM=",TLIM
       NEOVFL=0
       J1=0
 C START OF PRIMARY EVENT LOOP
-	  print *,"montefc NDELTA=",NDELTA
       DO 210 J11=1,NDELTA
       J1=J1+1
       NPRIME=J1
@@ -30406,6 +30407,7 @@ C  ONLY ALLOW CASE WHERE DELTA IS ALONG E-FIELD DIRECTION
        STOP
       ENDIF
 C FIX DELTA TO E - FIELD DIRECTION
+	  ! print *,"ECAS==",ECAS(1)
       PHI1=0.0D0
       THETA1=(API/2.0)-RTHETA
       DCZ1=DCOS(THETA1)                                                 
@@ -30439,12 +30441,16 @@ C     VTOT=CONST9*DSQRT(E1)
       TLAST=0.0D0
       ST=0.0D0
       TDASH=0.0D0  
+      print *,"ECAS==",ECAS(1)
+C ECAS[1]=0
       IF(IMIP.EQ.2) GO TO 1
       IF(IMIP.GT.2) THEN
 C READIN FIRST ELECTRON FROM BETA DECAY OR X-RAY UNTHERMALISED CLUSTERS
 		! print *,"IBAD1=",IBAD1
 		! pause 1
        CALL CASRES(J11,IBADTOT,IBAD1)
+      print *,"ECAS at 30452",ECAS(1),ECAS(2),ECAS(3),ECAS(4),ECAS(5),ECAS(6),ECAS(7)
+
 C  SKIP BAD EVENT
        IF(IBAD1.EQ.1) THEN
         J1=J1-1
@@ -30462,6 +30468,7 @@ C READ IN FIRST ELECTRON FROM MIP INTERACTION
       ST=TT1(1)
       TS(1)=TT1(1)
       E1=ECAS(1)
+      print *,"30465 E1 is ",E1
       DCZ1=DRZS(1)
       DCY1=DRYS(1)
       DCX1=DRXS(1)
@@ -30508,6 +30515,7 @@ C     WBT=WB*T
 C     DZ=(CZ1*SINWT+(EOVBR-CY1)*(1.0D0-COSWT))/WB
       DX=CX1*T+F1*T*T/GAM12
 C     DX=CX1*T+F1*T*T
+	  print *,"E1,DZ,EFZ100,DX,EFX100=",E1,DZ,EFZ100,DX,EFX100
       E=E1+DZ*EFZ100+DX*EFX100
       GAM2=(EMS+E)/EMS
       BET2=DSQRT(1.0D0-1.0D0/(GAM2+GAM2))
@@ -30515,7 +30523,7 @@ C     DX=CX1*T+F1*T*T
        E=0.001D0
       ENDIF                                                   
 C INSERT NEW ALGORITHM TO FIND IE FOR VARYING ENERGY STEP          
-
+	  print *,"E,ESTEP=",E,ESTEP
       IF(IMIP.EQ.1) THEN                                     
        IE=DINT(E/ESTEP)+1                                               
       ELSE

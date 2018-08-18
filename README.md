@@ -4,8 +4,13 @@ The aim of this repo is to build a tool and a semi-automated algorithm, to conve
 
 ## RECENT <br>
 broken into rough modules:<br>
+Globals in : <br>
+* conf.py
+* casrs.py
+* Inthrm1.py
+
 Structure :
-* degrad1.py + Setup.py + Density.py + Mixerc.py + Mixer.py + Cascdat.py + Gasmix.py + Fldist.py + Abso.py + Stats2.py + Printer.py + Mipcalc.py + Control0.py + Control.py + Shake.py + Casstoree.py + Casstore.py + Outputc.py + Casres.py + CsstfbN.py + Compress.py + Bremscasc.py + Controlb.py + Calcb.py + Cascadee.py + Controle.py + CalcbN.py + csstfNe.py + Compresse.py + Splitn.py + Montefc.py + Montefx.py + csstfN.py + Calcn.py + Gasmixc.py + cgasn.py + gasn.py 
+* degrad1.py + Setup.py + Density.py + Mixerc.py + Mixer.py + Cascdat.py + Gasmix.py + Fldist.py + Abso.py + Stats.py +Stats2.py + Printer.py + Mipcalc.py + Control0.py + Control.py + Shake.py + Casstoree.py + Casstore.py + Outputc.py + Casres.py + CsstfbN.py + Compress.py + Bremscasc.py + Controlb.py + Calcb.py + Cascadee.py + Controle.py + CalcbN.py + csstfNe.py + Compresse.py + Splitn.py + Montefc.py + Montefx.py + csstfN.py + Calcn.py + Gasmixc.py + cgasn.py + gasn.py 
 <br>
 Added f2py interface example code in testing directory. Code file -> ftype .
 Terminal Screenshot -> Screenshot <br>
@@ -23,9 +28,10 @@ magboltz.py is the lastest conversion <br>
 8.remove datatype declarations<br>
 
 ### TODO
-* correct XPE and YPE type arrays of CGAS12
-* Usage guide in the wiki for fortran 
-* mail steve  - DONE
+* Make globals by namespace
+* document the technique to replicate logic in python
+* use a new documentation framework because slate is taking time to load
+* re-write tests
 * formulate graphs to be plotted
 
 

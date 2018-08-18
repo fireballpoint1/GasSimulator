@@ -1,6 +1,7 @@
 import math
 import conf
 import numpy
+import casrs
 from Casres import *
 from Stats import *
 def MONTEFC():
@@ -118,17 +119,17 @@ def MONTEFC():
 		ANGCT=conf.ANGCT
 		INDEX=conf.INDEX
 		NISO=conf.NISO
-		ECAS=conf.ECAS
-		XCAS=conf.XCAS
-		YCAS=conf.YCAS
-		ZCAS=conf.ZCAS
-		DRXS=conf.DRXS
-		DRYS=conf.DRYS
-		DRZS=conf.DRZS
-		TT1=conf.TT1
-		NFLGF=conf.NFLGF
-		NFLGPP=conf.NFLGPP
-		IEVNTL     =conf.IEVNTL     
+		ECAS=casrs.E
+		XCAS=casrs.X
+		YCAS=casrs.Y
+		ZCAS=casrs.Z
+		DRXS=casrs.DRX
+		DRYS=casrs.DRY
+		DRZS=casrs.DRZ
+		TT1=casrs.T
+		NFLGF=casrs.NFLGF
+		NFLGPP=casrs.NFLGPP
+		IEVNTL     =casrs.IEVENT    
 		LCMP=conf.LCMP
 		LCFLG=conf.LCFLG
 		LRAY=conf.LRAY
@@ -298,17 +299,17 @@ def MONTEFC():
 		conf.ANGCT=ANGCT
 		conf.INDEX=INDEX
 		conf.NISO=NISO
-		conf.ECAS=ECAS
-		conf.XCAS=XCAS
-		conf.YCAS=YCAS
-		conf.ZCAS=ZCAS
-		conf.DRXS=DRXS
-		conf.DRYS=DRYS
-		conf.DRZS=DRZS
-		conf.TT1=TT1
-		conf.NFLGF=NFLGF
-		conf.NFLGPP=NFLGPP
-		conf.IEVNTL     =IEVNTL     
+		casrs.E=ECAS
+		casrs.X=XCAS
+		casrs.Y=YCAS
+		casrs.Z=ZCAS
+		casrs.DRX=DRXS
+		casrs.DRY=DRYS
+		casrs.DRZ=DRZS
+		casrs.T=TT1
+		casrs.NFLGF=NFLGF
+		casrs.NFLGPP=NFLGPP
+		casrs.IEVENT=IEVNTL     
 		conf.LCMP=LCMP
 		conf.LCFLG=LCFLG
 		conf.LRAY=LRAY
@@ -439,10 +440,10 @@ def MONTEFC():
 		if(TLIM < TEMP[J]):
 			TLIM=TEMP[J] 
 	# 111 CONTINUE
+	print("TLIM=",TLIM)
 	NEOVFL=0
 	J1=0
 	# START OF PRIMARY EVENT LOOP
-	print("MONTEFC NDELTA=",NDELTA)
 	for J11 in range(1,int(NDELTA)+1):
 		J1=J1+1
 		NPRIME=J1
@@ -494,14 +495,15 @@ def MONTEFC():
 		TLAST=0.00
 		ST=0.00
 		TDASH=0.00  
+		print("ECAS shape",ECAS.shape)
 		if(IMIP == 2):
 			# GO TO 1
 			pass
 		else:
 			if(IMIP > 2):
 				# READIN FIRST ELECTRON FROM BETA DECAY OR X-RAY UNTHERMALISED CLUSTERS
+				# need to find what return value is changing ECAS[1] and ECAS[2] here
 				CASRES(J11,IBADTOT,IBAD1)
-				print("J11,IBADTOT,IBAD1=",J11,IBADTOT,IBAD1)
 				#  SKIP BAD EVENT
 				if(IBAD1 == 1):
 					J1=J1-1
@@ -510,6 +512,7 @@ def MONTEFC():
 				# endif
 			elif(IMIP == 1) :
 				# READ IN FIRST ELECTRON FROM MIP INTERACTION
+
 				CASREM(J11) #it is a function call
 				EST1=ECAS[1]
 				EST2=EST1
@@ -520,6 +523,7 @@ def MONTEFC():
 			ST=TT1[1]
 			TS[1]=TT1[1]
 			E1=ECAS[1]
+			# print("30465 E1 is ",E1)
 			DCZ1=DRZS[1]
 			DCY1=DRYS[1]
 			DCX1=DRXS[1]
@@ -570,6 +574,7 @@ def MONTEFC():
 			#     DZ=(CZ1*SINWT+(EOVBR-CY1)*(1.00-COSWT))/WB
 			DX=CX1*T+F1*T*T/GAM12
 			#     DX=CX1*T+F1*T*T
+			print("E1,DZ,EFZ100,DX,EFX100=",E1,DZ,EFZ100,DX,EFX100)
 			E=E1+DZ*EFZ100+DX*EFX100
 			GAM2=(EMS+E)/EMS
 			BET2=math.sqrt(1.00-1.00/(GAM2+GAM2))
@@ -577,6 +582,7 @@ def MONTEFC():
 				E=0.0010
 			# endif                                                   
 			# INSERT NEW ALGORITHM TO FIND IE FOR VARYING ENERGY STEP   
+			print("E,ESTEP=",E,ESTEP)
 			if(IMIP == 1):
 				IE=int(E/ESTEP)+1                                               
 			else:
